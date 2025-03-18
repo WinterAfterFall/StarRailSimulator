@@ -85,6 +85,8 @@ vector<TriggerByAction_Func> When_attack_List;
 vector<TriggerByAction_Func> Buff_List;
 
 vector<TriggerByStats> Stats_Adjust_List;
+vector<TriggerHealing> Healing_List;
+vector<TriggerChangeHP> ChangeHP_List;
 
 vector<TriggerBySomeAlly_Func> Toughness_break_List;
 vector<TriggerBySomeAlly_Func> Apply_debuff_List;

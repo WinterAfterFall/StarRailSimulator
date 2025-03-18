@@ -8,5 +8,6 @@
 #include "Combat.h"
 #include "Debuff_Stats.h"
 #include "Energy.h" 
+#include "ChangeHP.h"
 
 #endif

@@ -55,6 +55,8 @@ class TriggerByYourSelf_Func;
 class TriggerByAction_Func;
 class TriggerByStats;
 class TriggerBySomeAlly_Func;
+class TriggerHealing;
+class TriggerChangeHP;
 class TriggerByEnemyHit;
 class TriggerDot_Func;
 class TriggerEnergy_Increase_Func;
@@ -228,8 +230,15 @@ void Cal_effect_hit_rate(Ally* ptr, double Base_chance);
 void Cal_Speed_Needed(Ally* ptr, double Speed_Need);
 
 
-//calculate_Heal.h
-double calculateHeal(Heal_data* Healptr );
+//Calculate_Heal.h
+double calculateHeal(Heal_data* Healptr ,Heal_data::HealRatio healRatio,Sub_Unit *target);
+
+//Calculate_Stats_Heal.h
+double Cal_Atk_multiplier(Heal_data* ptr);
+double Cal_Hp_multiplier(Heal_data* ptr);
+double Cal_Def_multiplier(Heal_data* ptr);
+double Cal_HealBonus_multiplier(Heal_data* ptr,Sub_Unit *target);
+
 /*------Event------*/
 
 //Event
@@ -240,6 +249,7 @@ void allEventBeforeAttack(Combat_data& data_);
 void allEventAfterAttack(Combat_data& data_);
 void allEventWhenAttack(Combat_data& data_);
 void allEventHeal(Heal_data* Healptr );
+void allEventChangeHP(Sub_Unit *Healer,Sub_Unit *target,double Value);
 void allEventWhenToughnessBreak(Combat_data& data_, Enemy* target);
 void allEventWhenEnemyHit(double energy, Enemy* target);
 void allEventWhenEnergyIncrease(Ally* target, double Energy);

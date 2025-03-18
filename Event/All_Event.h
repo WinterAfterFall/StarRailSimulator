@@ -94,7 +94,14 @@ void allEventWhenAttack(Combat_data &data_){
     }
 }
 void allEventHeal(Heal_data* Healptr ){
-    
+    for(TriggerHealing &e : Healing_List){
+        e.Call(e.ptr,Healptr);
+    }
+}
+void allEventChangeHP(Sub_Unit *Healer,Sub_Unit *target,double Value){
+    for(TriggerChangeHP &e : ChangeHP_List){
+        e.Call(e.ptr,Healer,target,Value);
+    }
 }
 void allEventWhenToughnessBreak(Combat_data &data_,Enemy *target){
     for(TriggerBySomeAlly_Func &e : Toughness_break_List){

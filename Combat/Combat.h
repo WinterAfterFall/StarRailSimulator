@@ -125,10 +125,7 @@ void Attack(Combat_data &data_){
     }
 }
 void Heal(Heal_data* Healptr){
-    double totalHeal = 0;
-    totalHeal = calculateHeal(Healptr);
-    allEventHeal(Healptr);
-    
+    Healing(Healptr);
 }
 void Skill_point(Sub_Unit *ptr,int p){
     
