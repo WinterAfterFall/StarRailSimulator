@@ -193,6 +193,9 @@ public:
     int Total_debuff = 0;
     unordered_map<string,int> Debuff;
     unordered_map<string,int> Debuff_time_count;
+    double ATK = 718;
+    double atkPercent = 0;
+
     string Target_type = "";//*
     int Bleed = 0,Bleeder = 0;
     int Burn = 0,Burner = 0;
