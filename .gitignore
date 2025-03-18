@@ -1,0 +1,14 @@
+# Ignore VS Code settings
+.vscode/
+
+# Ignore all .exe files
+*.exe
+
+# (Optional) If you want to ignore a specific file inside .vscode, specify it
+.vscode/launch.json
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/c_cpp_properties.json
+
+# c++ file
+.test/

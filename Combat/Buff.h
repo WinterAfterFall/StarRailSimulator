@@ -1,0 +1,126 @@
+#ifndef BUFF_H
+#define BUFF_H
+#include "../Print.h"
+using namespace std;
+#define endl '\n'
+#define F first
+#define S second
+#define DMG_CAL 12
+
+
+
+
+//check if it is ally unit
+Sub_Unit* isSubUnitCheck(){
+    return dynamic_cast<Sub_Unit*>(turn->ptr_to_unit);
+}
+Enemy* isEnemyCheck(){
+    return dynamic_cast<Enemy*>(turn->ptr_to_unit);
+}
+Sub_Unit* isSubUnitCheck(Action_value_stats *ptr){
+    return dynamic_cast<Sub_Unit*>(ptr->ptr_to_unit);
+}
+Enemy* isEnemyCheck(Action_value_stats *ptr){
+    return dynamic_cast<Enemy*>(ptr->ptr_to_unit);
+}
+//Set base
+
+//normal buff/debuff
+// 
+Sub_Unit* chooseSubUnitBuff(Sub_Unit *ptr){
+    return Ally_unit[ptr->allyTargetNum]->Sub_Unit_ptr[ptr->Sub_Unit_num].get();
+}
+Ally* chooseCharacterBuff(Sub_Unit *ptr){
+    return Ally_unit[ptr->allyTargetNum].get();
+}
+Enemy* chooseEnemyTarget(Sub_Unit *ptr){
+    return Enemy_unit[ptr->Enemy_target_num].get();
+}
+
+void StatsAdjust(Sub_Unit *ptr,string statsType){
+    if(statsType == "Atk%"||statsType == "Flat_Atk")AtkAdjust(ptr);
+    if(statsType == "Hp%"||statsType == "Flat_Hp")HpAdjust(ptr);
+    if(statsType == "Def%"||statsType == "Flat_Def")DefAdjust(ptr);
+
+    if(!AdjustCheck)allEventAdjustStats(ptr,statsType);
+}
+void AtkAdjust(Sub_Unit *ptr){
+    ptr->totalATK = calculateAtkOnStats(ptr);
+}
+void HpAdjust(Sub_Unit *ptr){
+    double temp = calculateHpOnStats(ptr);
+    if(ptr->currentHP==0){
+        ptr->totalHP = temp;
+        return;
+    }
+    if(temp<ptr->currentHP){
+        ptr->currentHP = (ptr->currentHP > temp) ? temp : ptr->currentHP;
+    }else{
+        ptr->currentHP += (temp-ptr->totalHP);
+    }
+    ptr->totalHP = temp;
+    
+}
+void DefAdjust(Sub_Unit *ptr){
+    ptr->totalDEF= calculateDefOnStats(ptr);
+    
+}
+//normal extend buff / debuff
+void Extend_Buff_single_target(Sub_Unit *ptr,string Buff_name,int Turn_extend){
+    ptr->Buff_countdown[Buff_name] = ptr->Atv_stats->turn_cnt+Turn_extend;
+}
+void Extend_Buff_single_with_all_memo(Ally *ptr,string Buff_name,int Turn_extend){
+    for(int i=0;i<ptr->Sub_Unit_ptr.size();i++){
+        ptr->Sub_Unit_ptr[i]->Buff_countdown[Buff_name] = ptr->Sub_Unit_ptr[i]->Atv_stats->turn_cnt+Turn_extend;
+    }
+}
+void Extend_Buff_All_Ally(string Buff_name,int Turn_extend){
+    for(int i=1;i<=Total_ally;i++){
+        for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
+            Ally_unit[i]->Sub_Unit_ptr[j]->Buff_countdown[Buff_name] = Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->turn_cnt + Turn_extend;
+        }
+    }
+}
+void Extend_Buff_All_Ally_Excluding_Buffer(string Buff_name,int Turn_extend,string Buffer_name){
+    for(int i=1;i<=Total_ally;i++){
+        if(Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Char_Name==Buffer_name)continue;
+
+        for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
+            Ally_unit[i]->Sub_Unit_ptr[j]->Buff_countdown[Buff_name] = Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->turn_cnt + Turn_extend;
+        }
+    }
+}
+void Extend_Debuff_single_target(Enemy *ptr,string Debuff_name,int Turn_extend){
+    ptr->Debuff_time_count[Debuff_name] = ptr->Atv_stats->turn_cnt+Turn_extend;
+}
+void Extend_Debuff_All_Enemy(string Debuff_name,int Turn_extend){
+    for(int i=1;i<=Total_enemy;i++){
+        Enemy_unit[i]->Debuff_time_count[Debuff_name] = Enemy_unit[i]->Atv_stats->turn_cnt + Turn_extend;
+    }
+}
+
+bool Buff_end(Sub_Unit *ptr,string Buff_name){
+    if(ptr->Atv_stats->turn_cnt==ptr->Buff_countdown[Buff_name]&&turn->Char_Name==ptr->Atv_stats->Char_Name){
+        return true;
+    }
+    return false;
+}
+bool Debuff_end(Enemy *ptr,string Debuff_name){
+    if(ptr->Atv_stats->turn_cnt==ptr->Debuff_time_count[Debuff_name]&&turn->Char_Name==ptr->Atv_stats->Char_Name){
+        return true;
+    }
+    return false;
+}
+bool Buff_check(Sub_Unit *ptr,string Buff_name){
+    if(ptr->Buff_check[Buff_name]==1){
+        return true;
+    }
+    return false;
+}
+bool Debuff_check(Enemy *ptr,string Debuff_name){
+    if(ptr->Debuff[Debuff_name]==1){
+        return true;
+    }
+    return false;
+}
+#endif
