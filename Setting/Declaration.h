@@ -178,6 +178,12 @@ void Superbreak_trigger(Combat_data& data_, double Superbreak_ratio);
 void Dot_trigger(double Dot_ratio, Enemy* target, std::string Dot_type);
 void Toughness_break(Combat_data &data_, Enemy* target);
 
+//ChangeHP.h
+
+void Healing(Heal_data* Healptr);
+void IncreaseCurrentHP(Sub_Unit *ptr,double Value);
+void IncreaseHP(Sub_Unit *Healer,Sub_Unit *target,double Value);
+
 /*------Calculate------*/
 
 //Calculate_damage
@@ -232,6 +238,8 @@ void Cal_Speed_Needed(Ally* ptr, double Speed_Need);
 
 //Calculate_Heal.h
 double calculateHeal(Heal_data* Healptr ,Heal_data::HealRatio healRatio,Sub_Unit *target);
+double calculateHealFromLostHP(Sub_Unit *target,double percent);
+double calculateHealFromTotalHP(Sub_Unit *target,double percent);
 
 //Calculate_Stats_Heal.h
 double Cal_Atk_multiplier(Heal_data* ptr);

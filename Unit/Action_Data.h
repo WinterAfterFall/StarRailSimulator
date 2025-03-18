@@ -42,8 +42,15 @@ class Heal_data{
     HealRatio main;
     HealRatio adjacent;
     HealRatio other;
+    double healFromTotalHP = 0;
+    double healFromLostHP = 0;
+    double fixHeal = 0;
+
     Combat_data *Combat_dataPtr = nullptr;
-    void setHealer(Sub_Unit* ptr){
+    void setHealer(Sub_Unit* ptr,double fixHeal,double healFromTotalHP,double healFromLostHP){
+        this->fixHeal = fixHeal;
+        this->healFromTotalHP = healFromTotalHP;
+        this->healFromLostHP = healFromLostHP;
         this->Healer = ptr;
     }
 
