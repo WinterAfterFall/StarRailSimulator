@@ -61,7 +61,7 @@ namespace Tribbie{
 
 
 
-        Ally_unit[num]->SetRelic(1,0,0,0);
+        Ally_unit[num]->SetRelic(0,0,0,1);
         // Ally_unit[num]->Speed_tune_value =133.4;
         
 

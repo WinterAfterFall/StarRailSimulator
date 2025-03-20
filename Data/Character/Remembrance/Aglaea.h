@@ -67,10 +67,7 @@ namespace Aglaea{
 
 
 
-
-        Ally_unit[num]->Element_Orb = 1;
-        Ally_unit[num]->Er_Rope = 1;
-        Ally_unit[num]->Speed_Boot = 1;
+        Ally_unit[num]->SetRelic(0,1,1,1);
         Ally_unit[num]->Speed_tune_value = 135;
         Aglaea_num = num;
 

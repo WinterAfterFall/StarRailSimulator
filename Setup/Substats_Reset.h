@@ -11,32 +11,32 @@ void Set_Stats(Ally *ptr){
             
         }else if(ptr->Substats[i].first=="Hp%"){ 
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),"Hp%","None","None",3.888*ptr->Substats[i].second);
+            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),"Hp%","None",3.888*ptr->Substats[i].second);
             }
         }
         if(ptr->Substats[i].first=="Crit_rate"){
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),"Crit_rate","None","None",2.9*ptr->Substats[i].second);
+            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),"Crit_rate","None",2.9*ptr->Substats[i].second);
             }
 
         }else if(ptr->Substats[i].first=="Crit_dam"){
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),"Crit_dam","None","None",5.8*ptr->Substats[i].second);
+            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),"Crit_dam","None",5.8*ptr->Substats[i].second);
             }
             
         }else if(ptr->Substats[i].first=="Atk%"){
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),"Atk%","None","None",3.888*ptr->Substats[i].second);
+            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),"Atk%","None",3.888*ptr->Substats[i].second);
             }
             
         }else if(ptr->Substats[i].first=="Def%"){
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),"Def%","None","None",4.86*ptr->Substats[i].second);
+            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),"Def%","None",4.86*ptr->Substats[i].second);
             }
             
         }else if(ptr->Substats[i].first=="Break_effect"){
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),"Break_effect","None","None",5.8*ptr->Substats[i].second);
+            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),"Break_effect","None",5.8*ptr->Substats[i].second);
             }
         }
     }

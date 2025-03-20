@@ -30,6 +30,7 @@ void Increase_energy(Ally *ptr,double Energy_percent,double Flat_energy){
     return;
 }
 bool ultUseCheck(Ally *ptr){
+
     if(ptr->Ult_cost<=ptr->Current_energy){
         ptr->Current_energy = ptr->Current_energy - ptr->Ult_cost;
         Increase_energy(ptr,5);

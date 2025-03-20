@@ -16,9 +16,6 @@ void Print(){
     cout<<"Atv = "<<Current_atv<<" ";
     cout<<""<<turn->Char_Name<<" ";
     cout<<turn->turn_cnt<<" ";
-    // cout<<""<<Ally_unit[2]->Sub_Unit_ptr[0]->Atv_stats->Max_atv<<" ";
-    // cout<<""<<Ally_unit[2]->Sub_Unit_ptr[0]->Atv_stats->Speed_percent<<" ";
-    cout<<""<<Ally_unit[3]->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"]<<" ";
 
     //Ally_unit[2]->Char_func.Print_Func(Ally_unit[2].get());
 
