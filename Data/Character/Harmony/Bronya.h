@@ -13,7 +13,6 @@ namespace Bronya{
     void Before_turn(Ally *ptr);
     void After_turn(Ally *ptr);
     void After_attack(Ally *ptr,Combat_data &data_);
-    void Buff(Ally *ptr,Combat_data &data_);
     void Ult_func(Ally *ptr);
     void Tune_stats(Ally *ptr);    
     void Start_game(Ally *ptr);
@@ -50,7 +49,6 @@ namespace Bronya{
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY,Ally_unit[num].get(),Before_turn));
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY,Ally_unit[num].get(),When_Combat));
         After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,Ally_unit[num].get(),After_attack));
-        Buff_List.push_back(TriggerByAction_Func(PRIORITY_BUFF,Ally_unit[num].get(),Buff));
 
 
 

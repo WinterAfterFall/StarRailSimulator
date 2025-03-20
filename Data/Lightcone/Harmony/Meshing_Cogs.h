@@ -22,10 +22,14 @@ namespace Harmony_Lightcone{
         }
         ));
         
-        Enemy_hit_List.push_back(TriggerByEnemyHit(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr,Enemy *target){
+        Enemy_hit_List.push_back(TriggerByEnemyHit(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr,Enemy *Attacker,vector<Sub_Unit*> target){
             
+            for(Sub_Unit* e: target){
+                if(e->Atv_stats->Unit_num==ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num){
+                    Increase_energy(ptr,8);
+                }
+            }
             
-            Increase_energy(ptr,8);
             
             
         }

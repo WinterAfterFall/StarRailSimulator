@@ -44,7 +44,7 @@ typedef unordered_map<string,Common_stats> Common_stats_type;
 typedef unordered_map<string,Common_stats_type> Common_stats_each_element;
 //Action_Data
 class Heal_data;
-class Heal_data::HealRatio;
+class HealRatio;
 class PointerWithValue;
 class Ratio_data;
 class Hit_spilt;
@@ -201,6 +201,10 @@ double Cal_TotalPercentToughnessBrokenTime(Enemy* target, double Total_atv);
 double Cal_Total_Toughness_Reduce(Combat_data& data_, Enemy* target, double Base_Toughness_reduce);
 void Cal_ToughnessMultiplierAverage();
 
+//CalDmgReceive.h
+double calculateDmgReceive(Enemy *Attacker,Sub_Unit *ptr,double ratio);
+double calEnemyATK(Enemy *enemy);
+double calAllyDefMultiplier(Sub_Unit *ptr);
 //Calculate_Stats
 double calculateAtkOnStats(Sub_Unit* ptr);
 double calculateHpOnStats(Sub_Unit* ptr);
@@ -239,7 +243,7 @@ void Cal_Speed_Needed(Ally* ptr, double Speed_Need);
 
 
 //Calculate_Heal.h
-double calculateHeal(Heal_data* Healptr ,Heal_data::HealRatio healRatio,Sub_Unit *target);
+double calculateHeal(Heal_data* Healptr ,HealRatio healRatio,Sub_Unit *target);
 double calculateHealFromLostHP(Sub_Unit *target,double percent);
 double calculateHealFromTotalHP(Sub_Unit *target,double percent);
 

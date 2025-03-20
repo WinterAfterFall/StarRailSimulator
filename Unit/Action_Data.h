@@ -23,21 +23,22 @@ class PointerWithValue{
         return l.value > r.value;  // Higher priority first
     }
 };
+class HealRatio{
+    public :
+    double ATK = 0;
+    double HP = 0;
+    double DEF = 0;
+    void setRatio(double Atk,double Hp,double Def){
+        this->ATK = Atk;
+        this->HP = Hp;
+        this->DEF = Def;
+
+    }
+
+};
 class Heal_data{
     public :
-    class HealRatio{
-        public :
-        double ATK = 0;
-        double HP = 0;
-        double DEF = 0;
-        void setRatio(double Atk,double Hp,double Def){
-            this->ATK = Atk;
-            this->HP = Hp;
-            this->DEF = Def;
-
-        }
-
-    };
+    
     Sub_Unit* Healer = nullptr; //
     HealRatio main;
     HealRatio adjacent;

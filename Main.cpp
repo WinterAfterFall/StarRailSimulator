@@ -33,7 +33,7 @@ void SetValue(){
     SuperBreak_Formula_check_mode = 0;  
     Break_Formula_check_mode = 0;
 
-    Normal_Damage_Formula_check_mode = 1;
+    Normal_Damage_Formula_check_mode = 0;
     Normal_Damage_check_mode = 0;
     Additional_Damage_Formula_check_mode = 0;
     Additional_Damage_check_mode = 0;
@@ -92,7 +92,7 @@ int main(){
 
 
 
-    Setup_enemy(1,158,15,160,"Main");
+    Setup_enemy(1,158,15,160,300.0,3,"Main");
     // Setup_enemy(2,158,10,160,"Adjacent");
     // Setup_enemy(3,130,0,90,"Adjacent");
 
