@@ -22,18 +22,7 @@ void findPermutations(vector<int>& combination, int index, int remainingSum, int
 
 int main() { 
     int x, y;
-    cout << "Enter the number of units (x): ";
-    cin >> x;
-    cout << "Enter the target sum (y): ";
-    cin >> y;
-
-    if (x <= 0 || y < 0) {
-        cout << "Invalid input. x should be positive and y should be non-negative." << endl;
-        return 1;
-    }
-
-    vector<int> combination(x); // Stores the current permutation
-    findPermutations(combination, 0, y, x, y);
+    cout << "c \t c";
 
     return 0;
 }

@@ -187,16 +187,24 @@ public:
 // Enemy class, derived from Unit
 class Enemy : public Unit {
 public:
-    bool Toughness_status = 1;
-    double Max_toughness;   //*
-    double Current_toughness;
+    
+      //*
+   
     int Total_debuff = 0;
     unordered_map<string,int> Debuff;
     unordered_map<string,int> Debuff_time_count;
+
     double ATK = 718;
     double atkPercent = 0;
-
+    double Energy_gen;
+    double Max_toughness; 
+    double Current_toughness;
+    bool Toughness_status = 1;
     string Target_type = "";//*
+    int attackCooldown = 3; 
+    int attackStartAtTurn = 2;
+    double skillRatio = 0;
+
     int Bleed = 0,Bleeder = 0;
     int Burn = 0,Burner = 0;
     int Shock = 0,Shocker = 0;
@@ -206,7 +214,7 @@ public:
     int Entanglement= 0,Entanglement_stack = 0;
     int Imprisonment = 0;
     unordered_map<string,bool> Weakness_type;
-    double Energy_gen;
+    
     double Total_toughness_broken_time =0;
     double when_toughness_broken;
  

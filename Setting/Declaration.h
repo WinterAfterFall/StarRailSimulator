@@ -183,6 +183,8 @@ void Toughness_break(Combat_data &data_, Enemy* target);
 void Healing(Heal_data* Healptr);
 void IncreaseCurrentHP(Sub_Unit *ptr,double Value);
 void IncreaseHP(Sub_Unit *Healer,Sub_Unit *target,double Value);
+void DecreaseCurrentHP(Sub_Unit *ptr,double Value);
+void DecreaseHP(Sub_Unit *target,double Value,double percentFromTotalHP,double percentFromCurrentHP);
 
 /*------Calculate------*/
 
@@ -259,7 +261,7 @@ void allEventWhenAttack(Combat_data& data_);
 void allEventHeal(Heal_data* Healptr );
 void allEventChangeHP(Sub_Unit *Healer,Sub_Unit *target,double Value);
 void allEventWhenToughnessBreak(Combat_data& data_, Enemy* target);
-void allEventWhenEnemyHit(double energy, Enemy* target);
+void allEventWhenEnemyHit(Enemy* Attacker,vector<Sub_Unit*> vec);
 void allEventWhenEnergyIncrease(Ally* target, double Energy);
 void allEventSkillPoint(Sub_Unit* ptr, int p);
 void allEventAttackHitCount(Combat_data& data_, int Hit_cnt, int Total_Hit_cnt);
@@ -279,6 +281,8 @@ void Start_wave(int WAVE);
 //SetEnemy
 void Enemy_func(Unit* ptr);
 void Setup_enemy(int num, double speed, double energy, double Toughness, std::string type);
+void EnemyHit(Enemy *Attacker);
+void EnemyHit(Enemy *Attacker,vector<Sub_Unit*> target);
 
 //Stats_Reset
 void Basic_reset();

@@ -103,8 +103,8 @@ void Reset(){
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
         Ally_unit[i]->Sub_Unit_ptr[j]->totalATK = calculateAtkOnStats(Ally_unit[i]->Sub_Unit_ptr[0].get());
-        Ally_unit[i]->Sub_Unit_ptr[j]->totalHP = calculateHpOnStats(Ally_unit[i]->Sub_Unit_ptr[0].get());
-        Ally_unit[i]->Sub_Unit_ptr[j]->totalDEF = calculateDefOnStats(Ally_unit[i]->Sub_Unit_ptr[0].get());
+        Ally_unit[i]->Sub_Unit_ptr[j]->totalHP = calculateHpOnStats(Ally_unit[i]->Sub_Unit_ptr[j].get());
+        Ally_unit[i]->Sub_Unit_ptr[j]->totalDEF = calculateDefOnStats(Ally_unit[i]->Sub_Unit_ptr[j].get());
         }
         Ally_unit[i]->Sub_Unit_ptr[0]->currentHP = Ally_unit[i]->Sub_Unit_ptr[0]->totalHP;
     }

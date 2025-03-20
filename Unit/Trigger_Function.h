@@ -61,8 +61,8 @@ class TriggerChangeHP : public TriggerFunc{
 };
 class TriggerByEnemyHit : public TriggerFunc{
     public:
-    function<void(Ally *ptr,Enemy *target)> Call;
-    TriggerByEnemyHit(int priority ,Ally* ptr,function<void(Ally *ptr,Enemy *target)> Call) 
+    function<void(Ally *ptr,Enemy *Attacker,vector<Sub_Unit*> target)> Call;
+    TriggerByEnemyHit(int priority ,Ally* ptr,function<void(Ally *ptr,Enemy *Attacker,vector<Sub_Unit*> target)> Call) 
     : TriggerFunc(priority,ptr) ,Call(Call){}
 };
 

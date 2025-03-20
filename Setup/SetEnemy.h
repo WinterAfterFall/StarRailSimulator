@@ -2,25 +2,17 @@
 #define Setup_Enemy_H
 #include "../Print.h"
 void Enemy_func(Unit *ptr){
-    auto target = dynamic_cast<Enemy*>(ptr);
-    if(target){
-    if(target->Toughness_status==0){
-        target->Toughness_status = 1;
-        target->Current_toughness =  target->Max_toughness;
-        target->Total_toughness_broken_time+=(Current_atv - target->when_toughness_broken);
+    auto enemyPtr = dynamic_cast<Enemy*>(ptr);
+    if(enemyPtr->Toughness_status==0){
+        enemyPtr->Toughness_status = 1;
+        enemyPtr->Current_toughness =  enemyPtr->Max_toughness;
+        enemyPtr->Total_toughness_broken_time+=(Current_atv - enemyPtr->when_toughness_broken);
     }
-    }
-    ++target->Debuff["Attack_cnt"];
-    if(target->Debuff["Attack_cnt"]%3==2){
+    
+    ++enemyPtr->Debuff["attackCooldown"];
+    if(enemyPtr->Debuff["attackCooldown"]%enemyPtr->attackCooldown==enemyPtr->attackStartAtTurn);
 
-        
-        if(target){
-        allEventWhenEnemyHit(target->Energy_gen,target);
-        }else{
-            cout<<"error from Enemy_func";
-            exit(0);
-        }
-    }
+    EnemyHit(enemyPtr);
 }
 void Setup_enemy(int num,double speed,double energy,double Toughness,string type){
     if(num ==0){
@@ -52,5 +44,24 @@ void Setup_enemy(int num,double speed,double energy,double Toughness,string type
         Enemy_unit[num]->Atv_stats->Side = "Enemy";
         Enemy_unit[num]->Atv_stats->ptr_to_unit = Enemy_unit[num].get();
 }
+void EnemyHit(Enemy *Attacker){
+    vector<Sub_Unit*> vec;
+    for(int i=1;i<=Total_ally;i++){
+        for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
+            if(Ally_unit[i]->Sub_Unit_ptr[j]->currentHP==0)continue;
+            vec.push_back(Ally_unit[i]->Sub_Unit_ptr[j].get());
+        }
+    }
+    EnemyHit(Attacker,vec);
+}
+void EnemyHit(Enemy *Attacker,vector<Sub_Unit*> target){
+    double damageDeal;
+    allEventWhenEnemyHit(Attacker,target);
+    
+    for(Sub_Unit* e : target){
+        damageDeal = calculateDmgReceive(Attacker,e,Attacker->skillRatio);
+    }
 
+    
+}
 #endif
