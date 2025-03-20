@@ -280,7 +280,7 @@ void Start_wave(int WAVE);
 
 //SetEnemy
 void Enemy_func(Unit* ptr);
-void Setup_enemy(int num, double speed, double energy, double Toughness, std::string type);
+void Setup_enemy(int num,double speed,double energy,double Toughness,double skillRatio,int attackCooldown,string type);
 void EnemyHit(Enemy *Attacker);
 void EnemyHit(Enemy *Attacker,vector<Sub_Unit*> target);
 

@@ -8,13 +8,15 @@ void Enemy_func(Unit *ptr){
         enemyPtr->Current_toughness =  enemyPtr->Max_toughness;
         enemyPtr->Total_toughness_broken_time+=(Current_atv - enemyPtr->when_toughness_broken);
     }
-    
+    if(enemyPtr->attackCooldown==0)return;
     ++enemyPtr->Debuff["attackCooldown"];
-    if(enemyPtr->Debuff["attackCooldown"]%enemyPtr->attackCooldown==enemyPtr->attackStartAtTurn);
+    if(enemyPtr->Debuff["attackCooldown"]%enemyPtr->attackCooldown==enemyPtr->attackStartAtTurn){
+        EnemyHit(enemyPtr);
+    }
 
-    EnemyHit(enemyPtr);
+    
 }
-void Setup_enemy(int num,double speed,double energy,double Toughness,string type){
+void Setup_enemy(int num,double speed,double energy,double Toughness,double skillRatio,int attackCooldown,string type){
     if(num ==0){
         cout<<"setup enemy error";
         exit(0);
@@ -25,9 +27,8 @@ void Setup_enemy(int num,double speed,double energy,double Toughness,string type
         Enemy_unit[num]->Energy_gen = energy;
         Enemy_unit[num]->Max_toughness = Toughness;
         Enemy_unit[num]->Target_type = type;
-        if(type == "Main"){
-            Main_Enemy_num = num;
-        }
+        Enemy_unit[num]->skillRatio = skillRatio;
+        Enemy_unit[num]->attackCooldown = attackCooldown;
 
         Enemy_unit[num]->Turn_func = Enemy_func;
 
@@ -57,7 +58,7 @@ void EnemyHit(Enemy *Attacker){
 void EnemyHit(Enemy *Attacker,vector<Sub_Unit*> target){
     double damageDeal;
     allEventWhenEnemyHit(Attacker,target);
-    
+
     for(Sub_Unit* e : target){
         damageDeal = calculateDmgReceive(Attacker,e,Attacker->skillRatio);
     }
