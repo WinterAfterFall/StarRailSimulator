@@ -17,7 +17,9 @@ void Print(){
     cout<<""<<turn->Char_Name<<" ";
     cout<<turn->turn_cnt<<" ";
 
-    //Ally_unit[2]->Char_func.Print_Func(Ally_unit[2].get());
+    cout<<Ally_unit[1]->Sub_Unit_ptr[0]->currentHP<<" ";
+    cout<<Ally_unit[1]->Sub_Unit_ptr[0]->totalHP<<" ";
+
 
 
     //cout<<sp<<" ";

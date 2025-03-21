@@ -10,9 +10,6 @@ using std::vector;
 
 #include"Library.h"
 
-
-
-
 #include "./Data/Character/All_Character.h"
 #include "./Data/Lightcone/All_Lighcone.h"
 #include "./Data/Planar/All_Planar.h"
@@ -33,7 +30,7 @@ void SetValue(){
     SuperBreak_Formula_check_mode = 0;  
     Break_Formula_check_mode = 0;
     
-    Normal_Damage_Formula_check_mode = 3;
+    Normal_Damage_Formula_check_mode = 0;
     Normal_Damage_check_mode = 0;
     Additional_Damage_Formula_check_mode = 0;
     Additional_Damage_check_mode = 0;
@@ -74,7 +71,7 @@ int main(){
     Gallagher::Setup(4,6,Abundance_Lightcone::Multiplication,Relic::Iron_Cavalry,Planar::Lushaka);
 
 
-    Char_Command::Set_Reroll_check(Ally_unit[1].get(),0);
+    Char_Command::Set_Reroll_check(Ally_unit[1].get(),1);
     Char_Command::Set_Reroll_check(Ally_unit[2].get(),0);
     Char_Command::Set_Reroll_check(Ally_unit[3].get(),0);
     // Char_Command::Set_Reroll_check(Ally_unit[4].get(),0);

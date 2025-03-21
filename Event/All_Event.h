@@ -113,9 +113,7 @@ void allEventWhenEnemyHit(Enemy* Attacker,vector<Sub_Unit*> vec){
     for(TriggerByEnemyHit &e : Enemy_hit_List){
         e.Call(e.ptr,Attacker,vec);
     }
-    for(Sub_Unit* e : vec){
-        Increase_energy(e->ptr_to_unit,Attacker->Energy_gen);
-    }
+    
     
 }
 void allEventWhenEnergyIncrease(Ally *target,double Energy){
