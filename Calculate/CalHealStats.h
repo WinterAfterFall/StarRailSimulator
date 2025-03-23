@@ -70,4 +70,13 @@ double Cal_HealBonus_multiplier(Heal_data& healData,Sub_Unit *target){
     return mtpr/100;
     
 }
+double Cal_HealBonus_multiplier(Sub_Unit *Healer,Sub_Unit *target){
+    double mtpr = 100;
+    mtpr += Healer->Stats_type["HealingBonus"]["None"];
+    if(Healer->Atv_stats->Unit_Name!=target->Atv_stats->Unit_Name){
+        mtpr += target->Stats_type["HealingBonus"]["None"];
+    }
+    return mtpr/100;
+    
+}
 #endif

@@ -17,6 +17,8 @@ namespace Luocha{
     void Ult_func(Ally *ptr);//*
     void After_turn(Ally *ptr);
     void Start_game(Ally *ptr);
+    void When_attack(Ally *ptr,Combat_data &data_);
+
     
     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally_unit[num] = make_unique<Ally>();
@@ -46,6 +48,8 @@ namespace Luocha{
         Reset_List.push_back({PRIORITY_IMMEDIATELY,Ally_unit[num].get(),Reset});
         After_turn_List.push_back({PRIORITY_IMMEDIATELY,Ally_unit[num].get(),After_turn});
         Start_game_List.push_back({PRIORITY_IMMEDIATELY,Ally_unit[num].get(),Start_game});
+        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,Ally_unit[num].get(),When_attack));
+
     }
     void Reset(Ally *ptr){
         ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] +=28;
@@ -76,6 +80,10 @@ namespace Luocha{
     void Talent(Ally *ptr){
         Increase_energy(ptr,30);
         ++ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"];
+        Heal_data healData = Heal_data();
+        healData.setHealer(ptr->Sub_Unit_ptr[0].get());
+        healData.main.setRatio(60,0,0,800,0,0);
+        Healing(healData);
         Abyss_Flower(ptr);
         
     }
@@ -130,6 +138,17 @@ namespace Luocha{
         if(ptr->Technique==1){
             ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"]=2;
             Abyss_Flower(ptr);
+        }
+    }
+    void When_attack(Ally *ptr,Combat_data &data_){
+        if(ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"]>=2){
+            HealRatio healRatio = HealRatio();
+            HealRatio healRatioMain = HealRatio();
+            
+            healRatioMain.setRatio(18,0,0,240,0,0);
+            healRatio.setRatio(7,0,0,93,0,0);
+
+            Healing(healRatioMain,healRatio,ptr->Sub_Unit_ptr[0].get(),data_.Attacker);
         }
     }
 

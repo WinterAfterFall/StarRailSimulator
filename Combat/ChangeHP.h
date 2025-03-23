@@ -29,10 +29,30 @@ void Healing(Heal_data& Healptr){
         pq.pop();
     }
 }
-void Healing(Heal_data& Healptr,Sub_Unit *target){
-    double totalHeal = calculateHeal(Healptr,Healptr.main,target);
-    IncreaseHP(Healptr.Healer,target,totalHeal);
+void Healing(HealRatio& Healptr,Sub_Unit *Healer,Sub_Unit *target){
+    double totalHeal = calculateHeal(Healptr,Healer,target);
+    IncreaseHP(Healer,target,totalHeal);
 
+}
+void Healing(HealRatio& healRatio,Sub_Unit *Healer){
+    for(int i=1;i<=Total_ally;i++){
+        for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
+            double totalHeal = calculateHeal(healRatio,Healer,Ally_unit[i]->Sub_Unit_ptr[i].get());
+            IncreaseHP(Healer,Ally_unit[i]->Sub_Unit_ptr[i].get(),totalHeal);
+        }
+    }
+}
+void Healing(HealRatio& healRatioMain,HealRatio& healRatio,Sub_Unit *Healer,Sub_Unit *target){
+
+    for(int i=1;i<=Total_ally;i++){
+        for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
+            double totalHeal = (target->Atv_stats->Unit_Name == Ally_unit[i]->Sub_Unit_ptr[i]->Atv_stats->Unit_Name) ? 
+            calculateHeal(healRatioMain,Healer,Ally_unit[i]->Sub_Unit_ptr[i].get())
+            :
+            calculateHeal(healRatio,Healer,Ally_unit[i]->Sub_Unit_ptr[i].get());
+            IncreaseHP(Healer,Ally_unit[i]->Sub_Unit_ptr[i].get(),totalHeal);
+        }
+    }
 }
 void IncreaseCurrentHP(Sub_Unit *ptr,double Value){
     ptr->currentHP = (ptr->currentHP + Value > ptr->totalHP) ? ptr->totalHP : ptr->currentHP + Value;
@@ -43,7 +63,7 @@ void IncreaseHP(Sub_Unit *Healer,Sub_Unit *target,double Value){
 }
 
 void DecreaseCurrentHP(Sub_Unit *ptr,double Value){
-    ptr->currentHP = (ptr->currentHP - Value < 0) ? 1 : ptr->currentHP - Value;
+    ptr->currentHP = (ptr->currentHP - Value < 1) ? 1 : ptr->currentHP - Value;
 }
 void DecreaseHP(Sub_Unit *target,double Value,double percentFromTotalHP,double percentFromCurrentHP){
     double Total = Value;

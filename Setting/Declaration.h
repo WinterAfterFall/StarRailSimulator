@@ -7,6 +7,7 @@
 #define S second
 #define DMG_CAL 12
 
+#define PRIORITY_HEAL 101
 #define PRIORITY_IMMEDIATELY 100
 #define PRIORITY_BUFF 3
 #define PRIORITY_DEBUFF 2
@@ -187,7 +188,9 @@ void Toughness_break(Combat_data &data_, Enemy* target);
 //ChangeHP.h
 
 void Healing(Heal_data& Healptr);
-void Healing(Heal_data& Healptr,Sub_Unit *target);
+void Healing(HealRatio& Healptr,Sub_Unit *Healer,Sub_Unit *target);
+void Healing(HealRatio& healRatio,Sub_Unit *Healer);
+void Healing(HealRatio& healRatioMain,HealRatio& healRatio,Sub_Unit *Healer,Sub_Unit *target);
 void IncreaseCurrentHP(Sub_Unit *ptr,double Value);
 void IncreaseHP(Sub_Unit *Healer,Sub_Unit *target,double Value);
 void DecreaseCurrentHP(Sub_Unit *ptr,double Value);
@@ -251,6 +254,7 @@ void Cal_Speed_Needed(Ally* ptr, double Speed_Need);
 
 //Calculate_Heal.h
 double calculateHeal(Heal_data& Healptr ,HealRatio healRatio,Sub_Unit *target);
+double calculateHeal(HealRatio healRatio,Sub_Unit *Healer,Sub_Unit *target);
 double calculateHealFromLostHP(Sub_Unit *target,double percent);
 double calculateHealFromTotalHP(Sub_Unit *target,double percent);
 
@@ -259,6 +263,7 @@ double Cal_Atk_multiplier(Heal_data& ptr);
 double Cal_Hp_multiplier(Heal_data& ptr);
 double Cal_Def_multiplier(Heal_data& ptr);
 double Cal_HealBonus_multiplier(Heal_data& ptr,Sub_Unit *target);
+double Cal_HealBonus_multiplier(Sub_Unit *Healer,Sub_Unit *target);
 
 /*------Event------*/
 

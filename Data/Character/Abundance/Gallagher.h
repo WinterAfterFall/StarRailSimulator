@@ -53,7 +53,7 @@ namespace Gallagher{
         Tune_stats_List.push_back({PRIORITY_IMMEDIATELY,Ally_unit[num].get(),Tune_stats});
         Start_game_List.push_back({PRIORITY_IMMEDIATELY,Ally_unit[num].get(),Start_game});
         When_Combat_List.push_back({PRIORITY_IMMEDIATELY,Ally_unit[num].get(),When_Combat});
-        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,Ally_unit[num].get(),When_attack));
+        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_HEAL,Ally_unit[num].get(),When_attack));
 
 
         //substats
@@ -221,7 +221,7 @@ namespace Gallagher{
         }else{
             for(Enemy* e:data_.Target_Attack){
                 if(Debuff_check(e,"Besotted")){
-                    Healing(healData,data_.Attacker);
+                    Healing(healData.main,ptr->Sub_Unit_ptr[0].get(),data_.Attacker);
                 }
             }
         }
