@@ -28,11 +28,16 @@ class HealRatio{
     double ATK = 0;
     double HP = 0;
     double DEF = 0;
-    void setRatio(double Atk,double Hp,double Def){
+    double healFromTotalHP = 0;
+    double healFromLostHP = 0;
+    double fixHeal = 0;
+    void setRatio(double Atk,double Hp,double Def,double fixHeal,double healFromTotalHP,double healFromLostHP){
         this->ATK = Atk;
         this->HP = Hp;
         this->DEF = Def;
-
+        this->fixHeal = fixHeal;
+        this->healFromTotalHP = healFromTotalHP;
+        this->healFromLostHP = healFromLostHP;
     }
 
 };
@@ -43,15 +48,8 @@ class Heal_data{
     HealRatio main;
     HealRatio adjacent;
     HealRatio other;
-    double healFromTotalHP = 0;
-    double healFromLostHP = 0;
-    double fixHeal = 0;
-
     Combat_data *Combat_dataPtr = nullptr;
-    void setHealer(Sub_Unit* ptr,double fixHeal,double healFromTotalHP,double healFromLostHP){
-        this->fixHeal = fixHeal;
-        this->healFromTotalHP = healFromTotalHP;
-        this->healFromLostHP = healFromLostHP;
+    void setHealer(Sub_Unit* ptr){   
         this->Healer = ptr;
     }
 
@@ -251,6 +249,9 @@ class Combat_data{
     void createHealRatio(){
         this->healPtr = make_shared<Heal_data>();
         this->healPtr->Combat_dataPtr = this;
+    }
+    void resetTurn(){
+        this->Turn_reset = true;
     }
     void Entanglement_set(Sub_Unit* ptr){
         Attacker = ptr;

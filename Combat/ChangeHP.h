@@ -2,7 +2,7 @@
 #define CHANGEHP_H
 #include "../Print.h"
 
-void Healing(Heal_data* Healptr){
+void Healing(Heal_data& Healptr){
     priority_queue<PointerWithValue, vector<PointerWithValue>, decltype(&PointerWithValue::Greater_cmp)> pq(&PointerWithValue::Less_cmp);
 
     for(int i=1;i<=Total_ally;i++){
@@ -10,9 +10,9 @@ void Healing(Heal_data* Healptr){
             pq.push(PointerWithValue(Ally_unit[i]->Sub_Unit_ptr[j].get(),calculateHPLost(Ally_unit[i]->Sub_Unit_ptr[j].get())));
             if(pq.size()>3){
                 double totalHeal = 0;
-                if(Healptr->other.ATK==0&&Healptr->other.HP==0&&Healptr->other.DEF==0){
-                    totalHeal = calculateHeal(Healptr,Healptr->other,pq.top().ptr);
-                    IncreaseHP(Healptr->Healer,pq.top().ptr,totalHeal);
+                if(Healptr.other.ATK!=0||Healptr.other.HP!=0||Healptr.other.DEF!=0||Healptr.other.fixHeal!=0||Healptr.other.healFromTotalHP!=0||Healptr.other.healFromLostHP!=0){
+                    totalHeal = calculateHeal(Healptr,Healptr.other,pq.top().ptr);
+                    IncreaseHP(Healptr.Healer,pq.top().ptr,totalHeal);
                 }
                 pq.pop();
             }
@@ -21,13 +21,18 @@ void Healing(Heal_data* Healptr){
     while(!pq.empty()){
         double totalHeal = 0;
         if(pq.size()==1){
-            totalHeal = calculateHeal(Healptr,Healptr->main,pq.top().ptr);
+            totalHeal = calculateHeal(Healptr,Healptr.main,pq.top().ptr);
         }else{
-            totalHeal = calculateHeal(Healptr,Healptr->adjacent,pq.top().ptr);
+            totalHeal = calculateHeal(Healptr,Healptr.adjacent,pq.top().ptr);
         }
-        IncreaseHP(Healptr->Healer,pq.top().ptr,totalHeal);
+        IncreaseHP(Healptr.Healer,pq.top().ptr,totalHeal);
         pq.pop();
     }
+}
+void Healing(Heal_data& Healptr,Sub_Unit *target){
+    double totalHeal = calculateHeal(Healptr,Healptr.main,target);
+    IncreaseHP(Healptr.Healer,target,totalHeal);
+
 }
 void IncreaseCurrentHP(Sub_Unit *ptr,double Value){
     ptr->currentHP = (ptr->currentHP + Value > ptr->totalHP) ? ptr->totalHP : ptr->currentHP + Value;

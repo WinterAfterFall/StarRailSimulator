@@ -13,8 +13,12 @@
 #define PRIORITY_ACTTACK 0
 #define PRIORITY_ACTION -1
 
-#define TYPE_TEMP "Temporary"
+#define STATSTYPE_HP_PERCENT "Hp%"
+#define STATSTYPE_RES "Res"
 
+
+#define TYPE_TEMP "Temporary"
+#define TYPE_BASIC_ATTACK "Basic_Attack"
 
 using std::cout ;
 using std::vector;
@@ -173,7 +177,7 @@ void Stack_Debuff_All_Enemy(Sub_Unit* ptr, string stats_type, string Attack_type
 void Take_action();
 void Deal_damage();
 void Attack(Combat_data& data_);
-void Heal(Heal_data* Healptr);
+void Heal(Heal_data& Healptr);
 void Skill_point(Sub_Unit *ptr,int p);
 void Apply_debuff(Sub_Unit *ptr,Enemy* target);
 void Superbreak_trigger(Combat_data& data_, double Superbreak_ratio);
@@ -182,7 +186,8 @@ void Toughness_break(Combat_data &data_, Enemy* target);
 
 //ChangeHP.h
 
-void Healing(Heal_data* Healptr);
+void Healing(Heal_data& Healptr);
+void Healing(Heal_data& Healptr,Sub_Unit *target);
 void IncreaseCurrentHP(Sub_Unit *ptr,double Value);
 void IncreaseHP(Sub_Unit *Healer,Sub_Unit *target,double Value);
 void DecreaseCurrentHP(Sub_Unit *ptr,double Value);
@@ -245,15 +250,15 @@ void Cal_Speed_Needed(Ally* ptr, double Speed_Need);
 
 
 //Calculate_Heal.h
-double calculateHeal(Heal_data* Healptr ,HealRatio healRatio,Sub_Unit *target);
+double calculateHeal(Heal_data& Healptr ,HealRatio healRatio,Sub_Unit *target);
 double calculateHealFromLostHP(Sub_Unit *target,double percent);
 double calculateHealFromTotalHP(Sub_Unit *target,double percent);
 
 //Calculate_Stats_Heal.h
-double Cal_Atk_multiplier(Heal_data* ptr);
-double Cal_Hp_multiplier(Heal_data* ptr);
-double Cal_Def_multiplier(Heal_data* ptr);
-double Cal_HealBonus_multiplier(Heal_data* ptr,Sub_Unit *target);
+double Cal_Atk_multiplier(Heal_data& ptr);
+double Cal_Hp_multiplier(Heal_data& ptr);
+double Cal_Def_multiplier(Heal_data& ptr);
+double Cal_HealBonus_multiplier(Heal_data& ptr,Sub_Unit *target);
 
 /*------Event------*/
 
@@ -264,7 +269,7 @@ void allEventBuff(Combat_data& data_);
 void allEventBeforeAttack(Combat_data& data_);
 void allEventAfterAttack(Combat_data& data_);
 void allEventWhenAttack(Combat_data& data_);
-void allEventHeal(Heal_data* Healptr );
+void allEventHeal(Heal_data& Healptr );
 void allEventChangeHP(Sub_Unit *Healer,Sub_Unit *target,double Value);
 void allEventWhenToughnessBreak(Combat_data& data_, Enemy* target);
 void allEventWhenEnemyHit(Enemy* Attacker,vector<Sub_Unit*> vec);

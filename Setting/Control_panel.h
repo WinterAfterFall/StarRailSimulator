@@ -57,6 +57,7 @@ double Current_atv =0;
 
 bool Ult_After_Turn = 0;
 bool After_Turn_Check = 0;
+bool actionBarUse = 0;
 int Sp_Safety = 1;
 bool Turn_Skip=0;
 int Turn_priority = 0;

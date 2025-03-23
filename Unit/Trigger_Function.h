@@ -49,8 +49,8 @@ class TriggerBySomeAlly_Func : public TriggerFunc{
 
 class TriggerHealing : public TriggerFunc{
     public:
-    function<void(Ally *ptr,Heal_data* Healptr)> Call;
-    TriggerHealing(int priority ,Ally* ptr,function<void(Ally *ptr,Heal_data* Healptr)> Call) 
+    function<void(Ally *ptr,Heal_data& Healptr)> Call;
+    TriggerHealing(int priority ,Ally* ptr,function<void(Ally *ptr,Heal_data& Healptr)> Call) 
     : TriggerFunc(priority,ptr) ,Call(Call){}
 };
 class TriggerChangeHP : public TriggerFunc{

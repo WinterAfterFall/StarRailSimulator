@@ -17,8 +17,8 @@ void Print(){
     cout<<""<<turn->Char_Name<<" ";
     cout<<turn->turn_cnt<<" ";
 
-    cout<<Ally_unit[1]->Sub_Unit_ptr[0]->currentHP<<" ";
-    cout<<Ally_unit[1]->Sub_Unit_ptr[0]->totalHP<<" ";
+    cout<<Ally_unit[2]->Sub_Unit_ptr[0]->currentHP<<" ";
+    cout<<Ally_unit[2]->Sub_Unit_ptr[0]->totalHP<<" ";
 
 
 

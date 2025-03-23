@@ -93,7 +93,7 @@ void allEventWhenAttack(Combat_data &data_){
         e.Call(e.ptr,data_);
     }
 }
-void allEventHeal(Heal_data* Healptr ){
+void allEventHeal(Heal_data& Healptr ){
     for(TriggerHealing &e : Healing_List){
         e.Call(e.ptr,Healptr);
     }

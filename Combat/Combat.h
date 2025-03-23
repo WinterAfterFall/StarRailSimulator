@@ -38,6 +38,7 @@ void Take_action(){
 }
 
 void Deal_damage(){
+    actionBarUse = true;
     while(!Action_bar.empty()){
         Combat_data temp = Action_bar.front();
         
@@ -73,12 +74,13 @@ void Deal_damage(){
             
             
         }
-        if(temp.healPtr)Heal(temp.healPtr.get());
+        if(temp.healPtr)Heal(*(temp.healPtr.get()));
         Action_bar.pop();
     }
     if(turn!=nullptr&&turn->Side=="Enemy"){
         atv_reset(turn);
     }
+    actionBarUse = false;
 }
 void Attack(Combat_data &data_){
     int Total_hit = 0;
@@ -124,7 +126,7 @@ void Attack(Combat_data &data_){
         }
     }
 }
-void Heal(Heal_data* Healptr){
+void Heal(Heal_data& Healptr){
     Healing(Healptr);
 }
 void Skill_point(Sub_Unit *ptr,int p){

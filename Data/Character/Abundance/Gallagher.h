@@ -18,6 +18,10 @@ namespace Gallagher{
     void Tune_stats(Ally *ptr);
     void After_turn(Ally *ptr);
     void Start_game(Ally *ptr);
+    void When_Combat(Ally *ptr);
+    void When_attack(Ally *ptr,Combat_data &data_);
+
+
     
     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally_unit[num] = make_unique<Ally>();
@@ -48,6 +52,9 @@ namespace Gallagher{
         After_turn_List.push_back({PRIORITY_IMMEDIATELY,Ally_unit[num].get(),After_turn});
         Tune_stats_List.push_back({PRIORITY_IMMEDIATELY,Ally_unit[num].get(),Tune_stats});
         Start_game_List.push_back({PRIORITY_IMMEDIATELY,Ally_unit[num].get(),Start_game});
+        When_Combat_List.push_back({PRIORITY_IMMEDIATELY,Ally_unit[num].get(),When_Combat});
+        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,Ally_unit[num].get(),When_attack));
+
 
         //substats
         Ally_unit[num]->Total_substats=20;
@@ -60,7 +67,8 @@ namespace Gallagher{
     }
     void Reset(Ally *ptr){
         ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"]+=13.3;
-        ptr->Sub_Unit_ptr[0]->Stats_type["hp%"]["None"]+=18;
+        ptr->Sub_Unit_ptr[0]->Stats_type[STATSTYPE_HP_PERCENT]["None"]+=18;
+        ptr->Sub_Unit_ptr[0]->Stats_type[STATSTYPE_RES]["None"]+=18;
 
         //relic
         // bonus heal +35.7
@@ -118,7 +126,7 @@ namespace Gallagher{
         }
         Apply_debuff(ptr->Sub_Unit_ptr[0].get(),Enemy_unit[Main_Enemy_num].get());
         Extend_Debuff_single_target(Enemy_unit[Main_Enemy_num].get(),"Nectar_Blitz",2);
-        ptr->Sub_Unit_ptr[0]->Buff_check["Gallagher_enchance_basic_atk"] =0;
+        
         Combat_data data_ = Combat_data();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target");
         data_.Add_Target_Main();
@@ -137,8 +145,11 @@ namespace Gallagher{
         Combat_data data_ = Combat_data();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Heal");
         data_.Add_Buff_Single_Target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
-        data_.Turn_reset = 1;
+        data_.resetTurn();
         data_.Buff_type.push_back("Heal");
+        data_.createHealRatio();
+        data_.healPtr->setHealer(ptr->Sub_Unit_ptr[0].get());
+        data_.healPtr->main.setRatio(0,0,0,1768,0,0);
         Action_bar.push(data_);
     }
     void Ult_func(Ally *ptr){
@@ -179,6 +190,40 @@ namespace Gallagher{
     void Start_game(Ally *ptr){
         if(ptr->Eidolon>=1){
             Increase_energy(ptr,20);
+        }
+    }
+    void When_Combat(Ally *ptr){
+        Combat_data data_ = Combat_data();
+        data_.Technique_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
+        data_.Damage_spilt.Main.push_back({50,0,0,20});
+        data_.Damage_spilt.Adjacent.push_back({50,0,0,20});
+        data_.Damage_spilt.Other.push_back({50,0,0,20});
+        Action_bar.push(data_);
+        Extend_Debuff_All_Enemy("Besotted",2);
+        Debuff_All_Enemy_Apply_ver(ptr->Sub_Unit_ptr[0].get(),"Vul","Break_dmg",13.2,"Besotted");
+        if(!actionBarUse)Deal_damage();
+    }
+    void When_attack(Ally *ptr,Combat_data &data_){
+        Heal_data healData = Heal_data();
+        healData.setHealer(ptr->Sub_Unit_ptr[0].get());
+        healData.main.setRatio(0,0,0,707,0,0);
+
+        if(data_.Action_type.second==TYPE_BASIC_ATTACK&&data_.Attacker->Atv_stats->Unit_Name=="Gallagher"&&data_.Attacker->Buff_check["Gallagher_enchance_basic_atk"]==1){
+            ptr->Sub_Unit_ptr[0]->Buff_check["Gallagher_enchance_basic_atk"] =0;
+            
+            for(Enemy* e:data_.Target_Attack){
+                if(Debuff_check(e,"Besotted")){
+                    healData.adjacent.setRatio(0,0,0,707,0,0);
+                    healData.other.setRatio(0,0,0,707,0,0);
+                    Healing(healData);
+                }
+            }
+        }else{
+            for(Enemy* e:data_.Target_Attack){
+                if(Debuff_check(e,"Besotted")){
+                    Healing(healData,data_.Attacker);
+                }
+            }
         }
     }
 }

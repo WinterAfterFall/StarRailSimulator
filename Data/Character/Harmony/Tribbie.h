@@ -208,7 +208,7 @@ namespace Tribbie{
             Action_bar.push(data_2);
             
             }
-            if(Action_bar.empty())Deal_damage();      
+            if(!actionBarUse)Deal_damage();      
     }
     void Before_turn(Ally *ptr){
         
@@ -282,7 +282,7 @@ namespace Tribbie{
             data_2.Damage_spilt.Adjacent.push_back({0,18,0,5});
             data_2.Damage_spilt.Other.push_back({0,18,0,5});
             Action_bar.push(data_2);
-            if(Action_bar.empty())Deal_damage();
+            if(!actionBarUse)Deal_damage();
         }
         
     }
