@@ -12,6 +12,10 @@ void Enemy_func(Unit *ptr){
     ++enemyPtr->Debuff["attackCooldown"];
     if(enemyPtr->Debuff["attackCooldown"]%enemyPtr->attackCooldown==enemyPtr->attackStartAtTurn){
         EnemyHit(enemyPtr);
+    }else if(enemyPtr->target){
+        vector<Sub_Unit*> vec;
+        vec.push_back(enemyPtr->target);
+        EnemyHit(enemyPtr,vec);
     }
 
     
@@ -45,27 +49,5 @@ void Setup_enemy(int num,double speed,double energy,double Toughness,double skil
         Enemy_unit[num]->Atv_stats->Side = "Enemy";
         Enemy_unit[num]->Atv_stats->ptr_to_unit = Enemy_unit[num].get();
 }
-void EnemyHit(Enemy *Attacker){
-    vector<Sub_Unit*> vec;
-    for(int i=1;i<=Total_ally;i++){
-        for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
-            if(Ally_unit[i]->Sub_Unit_ptr[j]->currentHP==0)continue;
-            vec.push_back(Ally_unit[i]->Sub_Unit_ptr[j].get());
-        }
-    }
-    EnemyHit(Attacker,vec);
-}
-void EnemyHit(Enemy *Attacker,vector<Sub_Unit*> target){
-    double damageDeal;
-    allEventWhenEnemyHit(Attacker,target);
-    for(Sub_Unit* e : target){
-        Increase_energy(e->ptr_to_unit,Attacker->Energy_gen);
-    }
-    for(Sub_Unit* e : target){
-        damageDeal = calculateDmgReceive(Attacker,e,Attacker->skillRatio);
-        DecreaseHP(e,damageDeal,0,0);
-    }
 
-    
-}
 #endif

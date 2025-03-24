@@ -18,79 +18,80 @@ double calculateAtkOnStats(Sub_Unit *ptr){
     double ans = ptr->Base_atk;
     ans*= (100+ptr->Stats_type["Atk%"]["None"])/100.0;
     ans+= ptr->Stats_type["Flat_Atk"]["None"];
-    return ans;
+    return (ans < 0) ? 0 : ans;
 }
 double calculateHpOnStats(Sub_Unit *ptr){
     double ans = ptr->Base_hp;
     ans*= (100+ptr->Stats_type["Hp%"]["None"])/100.0;
     ans+= ptr->Stats_type["Flat_Hp"]["None"];
-    return ans;
+    return (ans < 0) ? 0 : ans;
 }
 double calculateDefOnStats(Sub_Unit *ptr){
     double ans = ptr->Base_def;
     ans*= (100+ptr->Stats_type["Def%"]["None"])/100.0;
     ans+= ptr->Stats_type["Flat_Def"]["None"];
-    return ans;
+    return (ans < 0) ? 0 : ans;
 }
 double calculateSpeedOnStats(Sub_Unit *ptr){
     double ans = ptr->Atv_stats->Base_speed;
     ans*= (100 + ptr->Atv_stats->Speed_percent)/100.0;
     ans+= ptr->Atv_stats->Flat_Speed;
-    return ans;
+    return (ans < 0) ? 0 : ans;
 }
 double calculateCritrateOnStats(Sub_Unit *ptr){
     double ans = ptr->Stats_type["Crit_rate"]["None"];
-    return ans;
+    return (ans < 0) ? 0 : ans;
 }
 double calculateCritdamOnStats(Sub_Unit *ptr){
     double ans = ptr->Stats_type["Crit_dam"]["None"];
-    return ans;
+    return (ans < 0) ? 0 : ans;
 }
 double calculateBreakEffectOnStats(Sub_Unit *ptr){
     double ans = ptr->Stats_type["Break_effect"]["None"];
-    return ans;
+    return (ans < 0) ? 0 : ans;
 }
 
 double calculateHPLost(Sub_Unit *ptr){
     double ans = ptr->totalHP - ptr->currentHP;
-    return ans;
+    return (ans < 0) ? 0 : ans;
 }
 
 double calculateAtkForBuff(Sub_Unit *ptr,double ratio){
     double ans = ptr->Base_atk;
     ans*= (100+ptr->Stats_type["Atk%"]["None"]-ptr->Stats_type["Atk%"][TYPE_TEMP])/100.0;
     ans+= ptr->Stats_type["Flat_Atk"]["None"]-ptr->Stats_type["Flat_Atk"][TYPE_TEMP];
-    return ans*ratio/100.0;
+    return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 double calculateHpForBuff(Sub_Unit *ptr,double ratio){
     double ans = ptr->Base_hp;
     ans*= (100+ptr->Stats_type["Hp%"]["None"]-ptr->Stats_type["Hp%"][TYPE_TEMP])/100.0;
     ans+= ptr->Stats_type["Flat_Hp"]["None"]-ptr->Stats_type["Flat_Hp"][TYPE_TEMP];
-    return ans*ratio/100.0;
+    return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 double calculateDefForBuff(Sub_Unit *ptr,double ratio){
     double ans = ptr->Base_def;
     ans*= (100+ptr->Stats_type["Def%"]["None"]-ptr->Stats_type["Def%"][TYPE_TEMP])/100.0;
     ans+= ptr->Stats_type["Flat_Def"]["None"]-ptr->Stats_type["Flat_Def"][TYPE_TEMP];
-    return ans*ratio/100.0;
+    return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 double calculateSpeedForBuff(Sub_Unit *ptr,double ratio){
     double ans = ptr->Atv_stats->Base_speed;
     ans*= (100 + ptr->Atv_stats->Speed_percent - ptr->Stats_type["Speed%"][TYPE_TEMP])/100.0;
     ans+= ptr->Atv_stats->Flat_Speed - ptr->Stats_type["Flat_Speed"][TYPE_TEMP];
-    return ans*ratio/100.0;
+    return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
+
 }
 double calculateCritrateForBuff(Sub_Unit *ptr,double ratio){
     double ans = ptr->Stats_type["Crit_rate"]["None"]-ptr->Stats_type["Crit_rate"][TYPE_TEMP];
-    return ans*ratio/100.0;
+    return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 double calculateCritdamForBuff(Sub_Unit *ptr,double ratio){
     double ans = ptr->Stats_type["Crit_dam"]["None"]-ptr->Stats_type["Crit_dam"][TYPE_TEMP];
-    return ans*ratio/100.0;
+    return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 double calculateBreakEffectForBuff(Sub_Unit *ptr,double ratio){
     double ans = ptr->Stats_type["Break_effect"]["None"]-ptr->Stats_type["Break_effect"][TYPE_TEMP];
-    return ans*ratio/100.0;
+    return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 
 double Cal_Atk_multiplier(Combat_data &data_,Enemy *target){
@@ -111,7 +112,7 @@ double Cal_Atk_multiplier(Combat_data &data_,Enemy *target){
     
 
     ans = (ans * Atk_percent_mtpr/100) + Flat_atk_mtpr;
-    return ans;
+    return (ans < 0) ? 0 : ans;
 }
 double Cal_Hp_multiplier(Combat_data &data_,Enemy *target){
     double ans = data_.Attacker->Base_hp;
@@ -130,7 +131,7 @@ double Cal_Hp_multiplier(Combat_data &data_,Enemy *target){
     
 
     ans = (ans * Hp_percent_mtpr/100) + Flat_hp_mtpr;
-    return ans;
+    return (ans < 0) ? 0 : ans;
 }
 
 double Cal_Def_multiplier(Combat_data &data_,Enemy *target){
@@ -151,18 +152,18 @@ double Cal_Def_multiplier(Combat_data &data_,Enemy *target){
     
 
     ans = (ans * Def_percent_mtpr/100) + Flat_def_mtpr;
-    return ans;
+    return (ans < 0) ? 0 : ans;
 }
 double Cal_Bonus_dmg_multiplier(Combat_data &data_,Enemy *target){
-    double Bonus_dmg_mtpr =100;
+    double Bonus_dmg_mtpr = 100;
     
-    Bonus_dmg_mtpr += data_.Attacker->Stats_type["Dmg%"]["None"] + target->Stats_type["Dmg%"]["None"] + data_.Attacker->Stats_each_element["Dmg%"][data_.Damage_element]["None"] +target->Stats_each_element["Dmg%"][data_.Damage_element]["None"] ;
+    Bonus_dmg_mtpr += data_.Attacker->Stats_type["Dmg%"]["None"] + target->Stats_type["Dmg%"]["None"] + data_.Attacker->Stats_each_element["Dmg%"][data_.Damage_element]["None"] + target->Stats_each_element["Dmg%"][data_.Damage_element]["None"];
 
-    for(int i=0,sz=data_.Skill_Type.size();i<sz;i++){
-            Bonus_dmg_mtpr += data_.Attacker->Stats_type["Dmg%"][data_.Skill_Type[i]] + data_.Attacker->Stats_each_element["Dmg%"][data_.Damage_element][data_.Skill_Type[i]] ;
-            Bonus_dmg_mtpr += target->Stats_type["Dmg%"][data_.Skill_Type[i]]+target->Stats_each_element["Dmg%"][data_.Damage_element][data_.Skill_Type[i]];
+    for(int i = 0, sz = data_.Skill_Type.size(); i < sz; i++){
+        Bonus_dmg_mtpr += data_.Attacker->Stats_type["Dmg%"][data_.Skill_Type[i]] + data_.Attacker->Stats_each_element["Dmg%"][data_.Damage_element][data_.Skill_Type[i]];
+        Bonus_dmg_mtpr += target->Stats_type["Dmg%"][data_.Skill_Type[i]] + target->Stats_each_element["Dmg%"][data_.Damage_element][data_.Skill_Type[i]];
     }
-    return Bonus_dmg_mtpr/100;
+    return (Bonus_dmg_mtpr / 100 < 0) ? 0 : Bonus_dmg_mtpr / 100;
 }
 double Cal_Crit_multiplier(Combat_data &data_,Enemy *target){
     double Crit_rate_mtpr;
@@ -182,29 +183,26 @@ double Cal_Crit_multiplier(Combat_data &data_,Enemy *target){
     return (1+(Crit_rate_mtpr/100 * Crit_dam_mtpr/100));
 
 }
-double Cal_Crit_rate_multiplier(Combat_data &data_,Enemy *target){
+double Cal_Crit_rate_multiplier(Combat_data &data_,Enemy *target) {
     double Crit_rate_mtpr;
 
     Crit_rate_mtpr = data_.Attacker->Stats_type["Crit_rate"]["None"] + target->Stats_type["Crit_rate"]["None"];
-    for(int i=0,sz=data_.Skill_Type.size();i<sz;i++){
-            Crit_rate_mtpr += data_.Attacker->Stats_type["Crit_rate"][data_.Skill_Type[i]] + target->Stats_type["Crit_rate"][data_.Skill_Type[i]];
+    for (int i = 0, sz = data_.Skill_Type.size(); i < sz; i++) {
+        Crit_rate_mtpr += data_.Attacker->Stats_type["Crit_rate"][data_.Skill_Type[i]] + target->Stats_type["Crit_rate"][data_.Skill_Type[i]];
     }
-    
 
-    return Crit_rate_mtpr;
-
+    return (Crit_rate_mtpr < 0) ? 0 : Crit_rate_mtpr;
 }
-double Cal_Crit_dam_multiplier(Combat_data &data_,Enemy *target){
+
+double Cal_Crit_dam_multiplier(Combat_data &data_,Enemy *target) {
     double Crit_dam_mtpr;
 
     Crit_dam_mtpr = data_.Attacker->Stats_type["Crit_dam"]["None"] + target->Stats_type["Crit_dam"]["None"];
-    for(int i=0,sz=data_.Skill_Type.size();i<sz;i++){
-            Crit_dam_mtpr += data_.Attacker->Stats_type["Crit_dam"][data_.Skill_Type[i]] + target->Stats_type["Crit_dam"][data_.Skill_Type[i]];
+    for (int i = 0, sz = data_.Skill_Type.size(); i < sz; i++) {
+        Crit_dam_mtpr += data_.Attacker->Stats_type["Crit_dam"][data_.Skill_Type[i]] + target->Stats_type["Crit_dam"][data_.Skill_Type[i]];
     }
-    
 
-    
-    return Crit_dam_mtpr;
+    return (Crit_dam_mtpr < 0) ? 0 : Crit_dam_mtpr;
 }
 double Cal_Def_shred_multiplier(Combat_data &data_,Enemy *target){
     double Def_shred_mtpr;
@@ -222,38 +220,33 @@ double Cal_Def_shred_multiplier(Combat_data &data_,Enemy *target){
     return 100/(100 + 115*(1-1*Def_shred_mtpr/100));
 }
 double Cal_Respen_multiplier(Combat_data &data_,Enemy *target){
-    double Respen_mtpr =100;
+    double Respen_mtpr = 100;
     
-    Respen_mtpr += data_.Attacker->Stats_type["Respen"]["None"] + target->Stats_type["Respen"]["None"] + data_.Attacker->Stats_each_element["Respem"][data_.Damage_element]["None"] +target->Stats_each_element["Respem"][data_.Damage_element]["None"] ;
+    Respen_mtpr += data_.Attacker->Stats_type["Respen"]["None"] + target->Stats_type["Respen"]["None"] + data_.Attacker->Stats_each_element["Respem"][data_.Damage_element]["None"] + target->Stats_each_element["Respem"][data_.Damage_element]["None"];
 
-    for(int i=0,sz=data_.Skill_Type.size();i<sz;i++){
-            Respen_mtpr += data_.Attacker->Stats_type["Respen"][data_.Skill_Type[i]] + data_.Attacker->Stats_each_element["Respem"][data_.Damage_element][data_.Skill_Type[i]] ;
-            Respen_mtpr += target->Stats_type["Respen"][data_.Skill_Type[i]]+target->Stats_each_element["Respem"][data_.Damage_element][data_.Skill_Type[i]];
+    for(int i = 0, sz = data_.Skill_Type.size(); i < sz; i++){
+        Respen_mtpr += data_.Attacker->Stats_type["Respen"][data_.Skill_Type[i]] + data_.Attacker->Stats_each_element["Respem"][data_.Damage_element][data_.Skill_Type[i]];
+        Respen_mtpr += target->Stats_type["Respen"][data_.Skill_Type[i]] + target->Stats_each_element["Respem"][data_.Damage_element][data_.Skill_Type[i]];
     }
-    return Respen_mtpr/100;
+    return (Respen_mtpr / 100 < 0) ? 0 : Respen_mtpr / 100;
 }
 double Cal_Vul_multiplier(Combat_data &data_,Enemy *target){
     double Vul_mtpr = 100;
     
     Vul_mtpr += data_.Attacker->Stats_type["Vul"]["None"] + target->Stats_type["Vul"]["None"];
-    for(int i=0,sz=data_.Skill_Type.size();i<sz;i++){
-            Vul_mtpr += data_.Attacker->Stats_type["Vul"][data_.Skill_Type[i]] + target->Stats_type["Vul"][data_.Skill_Type[i]];
-
-        }
-    
-    
-    return Vul_mtpr/100;
+    for(int i = 0, sz = data_.Skill_Type.size(); i < sz; i++){
+        Vul_mtpr += data_.Attacker->Stats_type["Vul"][data_.Skill_Type[i]] + target->Stats_type["Vul"][data_.Skill_Type[i]];
+    }
+    return (Vul_mtpr / 100 < 0) ? 0 : Vul_mtpr / 100;
 }
 double Cal_BreakEffect_multiplier(Combat_data &data_,Enemy *target){
     double BreakEffect_mtpr = 100;
   
     BreakEffect_mtpr += data_.Attacker->Stats_type["Break_effect"]["None"] + target->Stats_type["Break_effect"]["None"];
-    for(int i=0,sz=data_.Skill_Type.size();i<sz;i++){
-            BreakEffect_mtpr += data_.Attacker->Stats_type["Break_effect"][data_.Skill_Type[i]] + target->Stats_type["Break_effect"][data_.Skill_Type[i]];
-        }
-
-    
-    return BreakEffect_mtpr/100;
+    for(int i = 0, sz = data_.Skill_Type.size(); i < sz; i++){
+        BreakEffect_mtpr += data_.Attacker->Stats_type["Break_effect"][data_.Skill_Type[i]] + target->Stats_type["Break_effect"][data_.Skill_Type[i]];
+    }
+    return (BreakEffect_mtpr / 100 < 0) ? 0 : BreakEffect_mtpr / 100;
 }
 double Cal_Toughness_multiplier(Combat_data &data_,Enemy *target){
     if((data_.Action_type.second!="Break_dmg"&&Avg_damage_Mode)||target->Toughness_status==0){
@@ -264,21 +257,17 @@ double Cal_Toughness_multiplier(Combat_data &data_,Enemy *target){
 }
 double Cal_Superbreak_DamageIncrease_multiplier(Combat_data &data_,Enemy *target){
     double Spb_dmg_mtpr = 100;
-       Spb_dmg_mtpr += data_.Attacker->Stats_type["Superbreak_DamageIncrease"]["None"] + target->Stats_type["Superbreak_DamageIncrease"]["None"];
-    
-    
-    return Spb_dmg_mtpr/100;
+    Spb_dmg_mtpr += data_.Attacker->Stats_type["Superbreak_DamageIncrease"]["None"] + target->Stats_type["Superbreak_DamageIncrease"]["None"];
+    return (Spb_dmg_mtpr / 100 < 0) ? 0 : Spb_dmg_mtpr / 100;
 }
 double Cal_Mitigation_multiplier(Combat_data &data_,Enemy *target){
     double Mitigation_mtpr = 100;
 
     Mitigation_mtpr += data_.Attacker->Stats_type["Mitigation"]["None"] + target->Stats_type["Mitigation"]["None"];
-    for(int i=0,sz=data_.Skill_Type.size();i<sz;i++){
-            Mitigation_mtpr += data_.Attacker->Stats_type["Mitigation"][data_.Skill_Type[i]] + target->Stats_type["Mitigation"][data_.Skill_Type[i]];
-        }
-    
-    
-    return Mitigation_mtpr/100;
+    for(int i = 0, sz = data_.Skill_Type.size(); i < sz; i++){
+        Mitigation_mtpr += data_.Attacker->Stats_type["Mitigation"][data_.Skill_Type[i]] + target->Stats_type["Mitigation"][data_.Skill_Type[i]];
+    }
+    return (Mitigation_mtpr / 100 < 0) ? 0 : Mitigation_mtpr / 100;
 }
 
 void Cal_effect_hit_rate(Ally *ptr,double Base_chance){

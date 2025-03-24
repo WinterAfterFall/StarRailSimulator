@@ -16,7 +16,7 @@ double calEnemyATK(Enemy *enemy){
     return Atk;
 }
 double calAllyDefMultiplier(Sub_Unit *ptr){
-    double Def = ptr->totalDEF;
+    double Def = (ptr->totalDEF>0) ? ptr->totalDEF : 0;
     Def = (1.0 - (Def)/(Def+1000));
     return Def;
 }

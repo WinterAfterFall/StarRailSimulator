@@ -196,6 +196,9 @@ void IncreaseHP(Sub_Unit *Healer,Sub_Unit *target,double Value);
 void DecreaseCurrentHP(Sub_Unit *ptr,double Value);
 void DecreaseHP(Sub_Unit *target,double Value,double percentFromTotalHP,double percentFromCurrentHP);
 
+//EnemyCombat.h
+void EnemyHit(Enemy *Attacker);
+void EnemyHit(Enemy *Attacker,vector<Sub_Unit*> target);
 /*------Calculate------*/
 
 //Calculate_damage
@@ -297,8 +300,7 @@ void Start_wave(int WAVE);
 //SetEnemy
 void Enemy_func(Unit* ptr);
 void Setup_enemy(int num,double speed,double energy,double Toughness,double skillRatio,int attackCooldown,string type);
-void EnemyHit(Enemy *Attacker);
-void EnemyHit(Enemy *Attacker,vector<Sub_Unit*> target);
+
 
 //Stats_Reset
 void Basic_reset();

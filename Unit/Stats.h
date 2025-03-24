@@ -205,6 +205,8 @@ public:
     int attackStartAtTurn = 2;
     double skillRatio = 0;
 
+    Sub_Unit *target = nullptr;
+
     int Bleed = 0,Bleeder = 0;
     int Burn = 0,Burner = 0;
     int Shock = 0,Shocker = 0;

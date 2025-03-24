@@ -9,5 +9,6 @@
 #include "Debuff_Stats.h"
 #include "Energy.h" 
 #include "ChangeHP.h"
+#include "EnemyCombat.h"
 
 #endif
