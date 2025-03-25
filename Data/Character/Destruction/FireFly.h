@@ -183,13 +183,13 @@ namespace FireFly{
                     
                     
             ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] += ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"];
-            ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"][TYPE_TEMP] += ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"];
+            ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"][AT_TEMP] += ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"];
     }
     void Stats_Adjust(Ally *ptr,Sub_Unit *target, string StatsType){
         if(target->Atv_stats->Unit_Name!="FireFly")return;
         if(StatsType=="Atk%"|| StatsType == "Flat_Atk"){
             ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] -= ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"];
-            ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"][TYPE_TEMP] -= ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"];
+            ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"][AT_TEMP] -= ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"];
             
             
             ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"] =floor(((ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"]/100*ptr->Sub_Unit_ptr[0]->Base_atk+ptr->Sub_Unit_ptr[0]->Base_atk)+ptr->Sub_Unit_ptr[0]->Stats_type["Flat_Atk"]["None"]-1800)/100)*0.8;
@@ -197,7 +197,7 @@ namespace FireFly{
                     
                     
             ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] += ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"];
-            ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"][TYPE_TEMP] += ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"];
+            ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"][AT_TEMP] += ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"];
                             
         }
         

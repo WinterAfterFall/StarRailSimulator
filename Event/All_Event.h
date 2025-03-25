@@ -93,14 +93,14 @@ void allEventWhenAttack(Combat_data &data_){
         e.Call(e.ptr,data_);
     }
 }
-void allEventHeal(Heal_data& Healptr ){
+void allEventHeal(Sub_Unit *Healer,Sub_Unit *target,double Value){
     for(TriggerHealing &e : Healing_List){
-        e.Call(e.ptr,Healptr);
+        e.Call(e.ptr,Healer,target,Value);
     }
 }
-void allEventChangeHP(Sub_Unit *Healer,Sub_Unit *target,double Value){
-    for(TriggerChangeHP &e : ChangeHP_List){
-        e.Call(e.ptr,Healer,target,Value);
+void allEventChangeHP(Unit *Trigger,Sub_Unit *target,double Value){
+    for(TriggerDecreaseHP &e : DecreaseHP_List){
+        e.Call(e.ptr,Trigger,target,Value);
     }
 }
 void allEventWhenToughnessBreak(Combat_data &data_,Enemy *target){

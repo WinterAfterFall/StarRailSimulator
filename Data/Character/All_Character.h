@@ -120,13 +120,13 @@ void Set_Other_buff(Ally *ptr,bool Bool){
 /*
     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
     void Reset(Ally *ptr);
-    void Setup_Memo(Ally *ptr);
     void Basic_Atk(Ally *ptr);
     void Enchance_Basic_Atk(Ally *ptr);
     void Skill(Ally *ptr);
     void Enchance_Skill(Ally *ptr);
-    void When_Combat(Ally *ptr);
+    void Setup_Memo(Ally *ptr);
     void Tune_stats(Ally *ptr);
+    void When_Combat(Ally *ptr);
     void Start_game(Ally *ptr);
     void Start_wave(Ally *ptr);
     void Before_turn(Ally *ptr);
@@ -143,8 +143,10 @@ void Set_Other_buff(Ally *ptr,bool Bool){
     void Hit(Ally *ptr,Combat_data &data_,int Hit_cnt,int Total_Hit_cnt);
     void Enemy_Death(Ally *ptr,Enemy *target,Sub_Unit *Killer);
     void When_Energy_Increase(Ally *ptr,Ally *target,double Energy);
+    void WhenHealing(Ally *ptr,Heal_data& Healptr);
+    void WhenHpChange(Ally *ptr,Sub_Unit *Healer,Sub_Unit *target,double Value);
     void Stats_Adjust(Ally *ptr,Sub_Unit *target, string StatsType);
-    void void Stats_Adjust(Ally *ptr,Sub_Unit *target, string StatsType){
+    void Stats_Adjust(Ally *ptr,Sub_Unit *target, string StatsType){
         if(StatsType=="Crit_dam"){
             //before TYPE_TEMP
 

@@ -163,7 +163,7 @@ namespace Sunday{
             ptr->Sub_Unit_ptr[0]->Buff_check["Ode_to_Caress_and_Cicatrix"] = 1;
 
             Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum].get(),"Crit_dam","None",ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"]);
-            Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum].get(),"Crit_dam",TYPE_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"]);
+            Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum].get(),"Crit_dam",AT_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"]);
             }
         Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Ode_to_Caress_and_Cicatrix",3);
         Deal_damage();
@@ -174,14 +174,14 @@ namespace Sunday{
         if(StatsType=="Crit_dam"){
             //before TYPE_TEMP
             Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum].get(),"Crit_dam","None",-ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"]);
-            Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum].get(),"Crit_dam",TYPE_TEMP,-ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"]);
+            Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum].get(),"Crit_dam",AT_TEMP,-ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"]);
             
             //adjust
             ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"] = calculateCritdamForBuff(ptr->Sub_Unit_ptr[0].get(),30)+12;
 
             //after
             Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum].get(),"Crit_dam","None",ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"]);
-            Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum].get(),"Crit_dam",TYPE_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"]);
+            Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum].get(),"Crit_dam",AT_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"]);
             
             
             return;
@@ -191,7 +191,7 @@ namespace Sunday{
         
         if(Buff_end(ptr->Sub_Unit_ptr[0].get(),"Ode_to_Caress_and_Cicatrix")){
             Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum].get(),"Crit_dam","None",-ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"]);
-            Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum].get(),"Crit_dam",TYPE_TEMP,-ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"]);
+            Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum].get(),"Crit_dam",AT_TEMP,-ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"]);
 
             if(ptr->Eidolon>=2){
             Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum].get(),"Dmg%","None",-30);

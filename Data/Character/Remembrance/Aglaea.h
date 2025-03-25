@@ -206,10 +206,10 @@ namespace Aglaea{
             atv_reset(ptr->Countdown_ptr[0]->Atv_stats.get());
             
             Buff_single_with_all_memo(ptr,"Flat_Atk","None",-ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
-            Buff_single_with_all_memo(ptr,"Flat_Atk",TYPE_TEMP,-ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
+            Buff_single_with_all_memo(ptr,"Flat_Atk",AT_TEMP,-ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
             ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"] = calculateSpeedForBuff(ptr->Sub_Unit_ptr[0].get(),360) + calculateSpeedForBuff(ptr->Sub_Unit_ptr[1].get(),720);
             Buff_single_with_all_memo(ptr,"Flat_Atk","None",ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
-            Buff_single_with_all_memo(ptr,"Flat_Atk",TYPE_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
+            Buff_single_with_all_memo(ptr,"Flat_Atk",AT_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
 
             Action_bar.push(data_);
             if(ptr->Print)cout<<"---------------------------------------------------- Aglaea Ult START at "<<Current_atv<<endl;
@@ -253,7 +253,7 @@ namespace Aglaea{
         atv_reset(Allyptr->Countdown_ptr[0]->Atv_stats.get());
         
         Buff_single_with_all_memo(Allyptr,"Flat_Atk","None",-Allyptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
-        Buff_single_with_all_memo(Allyptr,"Flat_Atk",TYPE_TEMP,-Allyptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
+        Buff_single_with_all_memo(Allyptr,"Flat_Atk",AT_TEMP,-Allyptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
 
         Allyptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"] = 0;
         Allyptr->Sub_Unit_ptr[1]->currentHP = 0;
@@ -305,7 +305,7 @@ namespace Aglaea{
         if(StatsType=="Speed"){
             //before TYPE_TEMP
             Buff_single_with_all_memo(ptr,"Flat_Atk","None",-ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
-            Buff_single_with_all_memo(ptr,"Flat_Atk",TYPE_TEMP,-ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
+            Buff_single_with_all_memo(ptr,"Flat_Atk",AT_TEMP,-ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
             
 
             //adjust
@@ -313,7 +313,7 @@ namespace Aglaea{
             
             //after
             Buff_single_with_all_memo(ptr,"Flat_Atk","None",ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
-            Buff_single_with_all_memo(ptr,"Flat_Atk",TYPE_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
+            Buff_single_with_all_memo(ptr,"Flat_Atk",AT_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
             
             
             return;

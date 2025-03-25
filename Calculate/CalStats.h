@@ -58,39 +58,39 @@ double calculateHPLost(Sub_Unit *ptr){
 
 double calculateAtkForBuff(Sub_Unit *ptr,double ratio){
     double ans = ptr->Base_atk;
-    ans*= (100+ptr->Stats_type["Atk%"]["None"]-ptr->Stats_type["Atk%"][TYPE_TEMP])/100.0;
-    ans+= ptr->Stats_type["Flat_Atk"]["None"]-ptr->Stats_type["Flat_Atk"][TYPE_TEMP];
+    ans*= (100+ptr->Stats_type["Atk%"]["None"]-ptr->Stats_type["Atk%"][AT_TEMP])/100.0;
+    ans+= ptr->Stats_type["Flat_Atk"]["None"]-ptr->Stats_type["Flat_Atk"][AT_TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 double calculateHpForBuff(Sub_Unit *ptr,double ratio){
     double ans = ptr->Base_hp;
-    ans*= (100+ptr->Stats_type["Hp%"]["None"]-ptr->Stats_type["Hp%"][TYPE_TEMP])/100.0;
-    ans+= ptr->Stats_type["Flat_Hp"]["None"]-ptr->Stats_type["Flat_Hp"][TYPE_TEMP];
+    ans*= (100+ptr->Stats_type["Hp%"]["None"]-ptr->Stats_type["Hp%"][AT_TEMP])/100.0;
+    ans+= ptr->Stats_type["Flat_Hp"]["None"]-ptr->Stats_type["Flat_Hp"][AT_TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 double calculateDefForBuff(Sub_Unit *ptr,double ratio){
     double ans = ptr->Base_def;
-    ans*= (100+ptr->Stats_type["Def%"]["None"]-ptr->Stats_type["Def%"][TYPE_TEMP])/100.0;
-    ans+= ptr->Stats_type["Flat_Def"]["None"]-ptr->Stats_type["Flat_Def"][TYPE_TEMP];
+    ans*= (100+ptr->Stats_type["Def%"]["None"]-ptr->Stats_type["Def%"][AT_TEMP])/100.0;
+    ans+= ptr->Stats_type["Flat_Def"]["None"]-ptr->Stats_type["Flat_Def"][AT_TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 double calculateSpeedForBuff(Sub_Unit *ptr,double ratio){
     double ans = ptr->Atv_stats->Base_speed;
-    ans*= (100 + ptr->Atv_stats->Speed_percent - ptr->Stats_type["Speed%"][TYPE_TEMP])/100.0;
-    ans+= ptr->Atv_stats->Flat_Speed - ptr->Stats_type["Flat_Speed"][TYPE_TEMP];
+    ans*= (100 + ptr->Atv_stats->Speed_percent - ptr->Stats_type["Speed%"][AT_TEMP])/100.0;
+    ans+= ptr->Atv_stats->Flat_Speed - ptr->Stats_type["Flat_Speed"][AT_TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 
 }
 double calculateCritrateForBuff(Sub_Unit *ptr,double ratio){
-    double ans = ptr->Stats_type["Crit_rate"]["None"]-ptr->Stats_type["Crit_rate"][TYPE_TEMP];
+    double ans = ptr->Stats_type["Crit_rate"]["None"]-ptr->Stats_type["Crit_rate"][AT_TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 double calculateCritdamForBuff(Sub_Unit *ptr,double ratio){
-    double ans = ptr->Stats_type["Crit_dam"]["None"]-ptr->Stats_type["Crit_dam"][TYPE_TEMP];
+    double ans = ptr->Stats_type["Crit_dam"]["None"]-ptr->Stats_type["Crit_dam"][AT_TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 double calculateBreakEffectForBuff(Sub_Unit *ptr,double ratio){
-    double ans = ptr->Stats_type["Break_effect"]["None"]-ptr->Stats_type["Break_effect"][TYPE_TEMP];
+    double ans = ptr->Stats_type["Break_effect"]["None"]-ptr->Stats_type["Break_effect"][AT_TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 

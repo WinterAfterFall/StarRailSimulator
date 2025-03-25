@@ -67,8 +67,8 @@ namespace Gallagher{
     }
     void Reset(Ally *ptr){
         ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"]+=13.3;
-        ptr->Sub_Unit_ptr[0]->Stats_type[STATSTYPE_HP_PERCENT]["None"]+=18;
-        ptr->Sub_Unit_ptr[0]->Stats_type[STATSTYPE_RES]["None"]+=18;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_PERCENT]["None"]+=18;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES]["None"]+=18;
 
         //relic
         // bonus heal +35.7
@@ -208,7 +208,7 @@ namespace Gallagher{
         healData.setHealer(ptr->Sub_Unit_ptr[0].get());
         healData.main.setRatio(0,0,0,707,0,0);
 
-        if(data_.Action_type.second==TYPE_BASIC_ATTACK&&data_.Attacker->Atv_stats->Unit_Name=="Gallagher"&&data_.Attacker->Buff_check["Gallagher_enchance_basic_atk"]==1){
+        if(data_.Action_type.second==AT_BASIC_ATK&&data_.Attacker->Atv_stats->Unit_Name=="Gallagher"&&data_.Attacker->Buff_check["Gallagher_enchance_basic_atk"]==1){
             ptr->Sub_Unit_ptr[0]->Buff_check["Gallagher_enchance_basic_atk"] =0;
             
             for(Enemy* e:data_.Target_Attack){

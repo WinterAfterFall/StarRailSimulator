@@ -87,7 +87,7 @@ class Combat_data{
     vector<string> Skill_Type;//  None Basic_Attack Skill Ultimate  Dot  Fua  Summon  Break_dmg  Super_break Additional
     string Damage_element = "";//Physical Fire Ice Lightning Wind Quantum Imaginary
 
-    string Target_Type = "";// Aoe Single_target Bounce
+    string traceType = "";// Aoe Single_target Bounce
     shared_ptr<Heal_data> healPtr;
 
     void Add_Buff_Single_Target(Sub_Unit* ptr){
@@ -137,7 +137,7 @@ class Combat_data{
         Action_type.second = "Basic_Attack";
         Skill_Type.push_back("Basic_Attack");
         Damage_element = ptr->Element_type[0];
-        Target_Type = target_type;
+        traceType = target_type;
     }
     void Basic_Attack_set(Sub_Unit* ptr,string target_type,string buff_type){
         Attacker = ptr;
@@ -147,7 +147,7 @@ class Combat_data{
         Skill_Type.push_back("Basic_Attack");
         Buff_type.push_back(buff_type);
         Damage_element = ptr->Element_type[0];
-        Target_Type = target_type;
+        traceType = target_type;
     }
     void Skill_set(Sub_Unit* ptr,string target_type){
         Attacker = ptr;
@@ -156,7 +156,7 @@ class Combat_data{
         Action_type.second = "Skill";
         Skill_Type.push_back("Skill");
         Damage_element = ptr->Element_type[0];
-        Target_Type = target_type;
+        traceType = target_type;
     }
     void Skill_set(Sub_Unit* ptr,string target_type,string buff_type){
         Attacker = ptr;
@@ -166,7 +166,7 @@ class Combat_data{
         Skill_Type.push_back("Skill");
         Buff_type.push_back(buff_type);
         Damage_element = ptr->Element_type[0];
-        Target_Type = target_type;
+        traceType = target_type;
     }
     void Ultimate_set(Sub_Unit* ptr,string target_type){
         Attacker = ptr;
@@ -175,7 +175,7 @@ class Combat_data{
         Action_type.second = "Ultimate";
         Skill_Type.push_back("Ultimate");
         Damage_element = ptr->Element_type[0];
-        Target_Type = target_type;
+        traceType = target_type;
     }
     void Ultimate_set(Sub_Unit* ptr,string target_type,string buff_type){
         Attacker = ptr;
@@ -185,7 +185,7 @@ class Combat_data{
         Skill_Type.push_back("Ultimate");
         Buff_type.push_back(buff_type);
         Damage_element = ptr->Element_type[0];
-        Target_Type = target_type;
+        traceType = target_type;
     }
     void Fua_set(Sub_Unit* ptr,string target_type){
         Attacker = ptr;
@@ -194,7 +194,7 @@ class Combat_data{
         Action_type.second = "Fua";
         Skill_Type.push_back("Fua");
         Damage_element = ptr->Element_type[0];
-        Target_Type = target_type;
+        traceType = target_type;
     }
     void Fua_set(Sub_Unit* ptr,string target_type,string buff_type){
         Attacker = ptr;
@@ -204,7 +204,7 @@ class Combat_data{
         Skill_Type.push_back("Fua");
         Buff_type.push_back(buff_type);
         Damage_element = ptr->Element_type[0];
-        Target_Type = target_type;
+        traceType = target_type;
     }
     void Additional_set(Sub_Unit* ptr,string target_type){
         Attacker = ptr;
@@ -213,7 +213,7 @@ class Combat_data{
         Action_type.second = "Additional";
         Skill_Type.push_back("Additional");
         Damage_element = ptr->Element_type[0];
-        Target_Type = target_type;
+        traceType = target_type;
     }
     void Dot_set(Sub_Unit* ptr,string target_type){
         Attacker = ptr;
@@ -225,7 +225,7 @@ class Combat_data{
         Skill_Type.push_back("Dot");
         Damage_element = ptr->Element_type[0];
         
-        Target_Type = target_type;
+        traceType = target_type;
     }
     void Technique_set(Sub_Unit* ptr,string target_type){
         Attacker = ptr;
@@ -234,7 +234,7 @@ class Combat_data{
         Action_type.second = "Technique";
         Skill_Type.push_back("Technique");
         Damage_element = ptr->Element_type[0];
-        Target_Type = target_type;
+        traceType = target_type;
     }
     void Technique_set(Sub_Unit* ptr,string target_type,string buff_type){
         Attacker = ptr;
@@ -244,7 +244,7 @@ class Combat_data{
         Skill_Type.push_back("Technique");
         Buff_type.push_back(buff_type);
         Damage_element = ptr->Element_type[0];
-        Target_Type = target_type;
+        traceType = target_type;
     }
     void createHealRatio(){
         this->healPtr = make_shared<Heal_data>();
@@ -261,7 +261,7 @@ class Combat_data{
 
         Action_type.first = "Attack";
         Action_type.second = "Entanglement";
-        Target_Type = "Single_target";
+        traceType = "Single_target";
     }
     void Freeze_set(Sub_Unit* ptr){
         Attacker = ptr;
@@ -271,7 +271,7 @@ class Combat_data{
 
         Action_type.first = "Attack";
         Action_type.second = "Freeze";
-        Target_Type = "Single_target";
+        traceType = "Single_target";
     }
     void SuperBreak_set(Sub_Unit* ptr,string target_type){
         Attacker = ptr;
@@ -281,7 +281,7 @@ class Combat_data{
         Damage_element = ptr->Element_type[0];
         Action_type.first = "Attack";
         Action_type.second = "Super_break";
-        Target_Type =target_type;
+        traceType =target_type;
     }
     void Break_dmg_set(Sub_Unit* ptr){
         Attacker = ptr;
@@ -290,7 +290,7 @@ class Combat_data{
         Damage_element = ptr->Element_type[0];
         Action_type.first = "Attack";
         Action_type.second = "Break_dmg";
-        Target_Type ="Single_target";
+        traceType ="Single_target";
     }
 };
 

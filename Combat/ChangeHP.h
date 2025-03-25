@@ -59,18 +59,18 @@ void IncreaseCurrentHP(Sub_Unit *ptr,double Value){
 }
 void IncreaseHP(Sub_Unit *Healer,Sub_Unit *target,double Value){
     IncreaseCurrentHP(target,Value);
-    allEventChangeHP(Healer,target,Value);
+    allEventHeal(Healer,target,Value);
 }
 
 void DecreaseCurrentHP(Sub_Unit *ptr,double Value){
     ptr->currentHP = (ptr->currentHP - Value < 1) ? 1 : ptr->currentHP - Value;
 }
-void DecreaseHP(Sub_Unit *target,double Value,double percentFromTotalHP,double percentFromCurrentHP){
+void DecreaseHP(Sub_Unit *target,Unit *Trigger,double Value,double percentFromTotalHP,double percentFromCurrentHP){
     double Total = Value;
     if(target->currentHP<=0)return;
     Total += (percentFromTotalHP/100.0*target->totalHP);
     Total += (percentFromCurrentHP/100.0*target->currentHP);
     DecreaseCurrentHP(target,Total);
-    allEventChangeHP(target,target,-Total);
+    allEventChangeHP(Trigger,target,-Total);
 }
 #endif

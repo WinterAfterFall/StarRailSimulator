@@ -180,7 +180,7 @@ namespace Tribbie{
                     ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]+=calculateHpForBuff(Ally_unit[i]->Sub_Unit_ptr[0].get(),9);  
                 }
                 Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Flat_Hp","None",ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]);
-                Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Flat_Hp",TYPE_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]);
+                Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Flat_Hp",AT_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]);
                 
                 //Eidolon 1
                 if(ptr->Eidolon>=1){
@@ -219,7 +219,7 @@ namespace Tribbie{
                 Buff_All_Ally("True_Damage","None",-24);
             }
             Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Flat_Hp","None",-ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]);
-            Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Flat_Hp",TYPE_TEMP,-ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]);
+            Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Flat_Hp",AT_TEMP,-ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]);
 
             ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"] = 0;
             if(ptr->Print)cout<<"---------------------------------------------------- Tribbie Ult END at "<<Current_atv<<endl;
@@ -235,7 +235,7 @@ namespace Tribbie{
         if(StatsType=="Hp%"|| StatsType == "Flat_Hp"){
             //before TYPE_TEMP
             Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Flat_Hp","None",-ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]);
-            Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Flat_Hp",TYPE_TEMP,-ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]);
+            Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Flat_Hp",AT_TEMP,-ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]);
 
             //adjust
             ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"] = 0;
@@ -245,7 +245,7 @@ namespace Tribbie{
                     
             //after
             Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Flat_Hp","None",ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]);
-            Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Flat_Hp",TYPE_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]);
+            Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Flat_Hp",AT_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]);
                             
             
             return;

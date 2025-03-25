@@ -82,7 +82,7 @@ namespace Robin{
                 atv_reset(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
                 atv_reset(ptr->Countdown_ptr[0]->Atv_stats.get());
                 Buff_All_Ally("Flat_Atk","None",-ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
-                Buff_All_Ally("Flat_Atk",TYPE_TEMP,-ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
+                Buff_All_Ally("Flat_Atk",AT_TEMP,-ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
                 Buff_All_Ally("Crit_dam","Fua",-25);
                 if(ptr->Eidolon>=1){
                         Buff_All_Ally("Respen","None",-24);
@@ -208,7 +208,7 @@ namespace Robin{
             ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"] = calculateAtkForBuff(ptr->Sub_Unit_ptr[0].get(),22.8) +200;
 
             Buff_All_Ally("Flat_Atk","None",ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
-            Buff_All_Ally("Flat_Atk",TYPE_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
+            Buff_All_Ally("Flat_Atk",AT_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
 
             Buff_All_Ally("Crit_dam","Fua",25);
             if(ptr->Eidolon>=1){
@@ -238,11 +238,11 @@ namespace Robin{
         if( ptr->Countdown_ptr[0]->Atv_stats->Base_speed != 90)return;
         if(StatsType=="Atk%"|| StatsType == "Flat_Atk"){
             Buff_All_Ally("Flat_Atk","None",-ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
-            Buff_All_Ally("Flat_Atk",TYPE_TEMP,-ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
+            Buff_All_Ally("Flat_Atk",AT_TEMP,-ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
             
             ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"] = calculateAtkForBuff(ptr->Sub_Unit_ptr[0].get(),22.8) +200;                    
             Buff_All_Ally("Flat_Atk","None",ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);  
-            Buff_All_Ally("Flat_Atk",TYPE_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);   
+            Buff_All_Ally("Flat_Atk",AT_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);   
         return;
 
         

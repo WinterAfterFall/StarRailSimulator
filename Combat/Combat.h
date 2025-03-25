@@ -143,7 +143,7 @@ void Apply_debuff(Sub_Unit *ptr,Enemy* target){
 }
 void Superbreak_trigger(Combat_data &data_, double Superbreak_ratio){
     Combat_data data_2 = Combat_data();
-    data_2.SuperBreak_set(data_.Attacker,data_.Target_Type);
+    data_2.SuperBreak_set(data_.Attacker,data_.traceType);
     
     for(int i=1;i<=Total_enemy;i++){
         double toughness_reduce=0;
@@ -183,7 +183,7 @@ void Dot_trigger(double Dot_ratio,Enemy *target,string Dot_type){
     
     data_.Action_type.first = "Attack";
     data_.Action_type.second = "Dot";
-    data_.Target_Type = "Single_target";
+    data_.traceType = "Single_target";
     
     if(target->Bleed > 0&&(Dot_type=="None"||"Physical")){
         data_.Attacker=Ally_unit[target->Bleeder]->Sub_Unit_ptr[0].get();

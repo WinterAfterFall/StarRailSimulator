@@ -14,12 +14,26 @@
 #define PRIORITY_ACTTACK 0
 #define PRIORITY_ACTION -1
 
-#define STATSTYPE_HP_PERCENT "Hp%"
-#define STATSTYPE_RES "Res"
+#define ST_HP_PERCENT "Hp%"
+#define ST_FLAT_HP "Flat_HP"
+#define ST_ATK_PERCENT "Atk%"
+#define ST_FLAT_ATK "Flat_Atk"
+#define ST_DEF_PERCENT "Def%"
+#define ST_FLAT_DEF "Flat_Def"
+#define ST_DMG_PERCENT "Dmg%"
+#define ST_CRIT_RATE "Crit_rate"
+#define ST_CRIT_DAM "Crit_dam"
+#define ST_BREAK_EFFECT "Break_effect"
+#define ST_DEF_SHRED "Def_shred"
+#define ST_RESPEN "Respen"
+#define ST_VUL "Vul"
+#define ST_RES "Res"
 
 
-#define TYPE_TEMP "Temporary"
-#define TYPE_BASIC_ATTACK "Basic_Attack"
+#define AT_TEMP "Temporary"
+#define AT_NONE "None"
+#define AT_BASIC_ATK "Basic_Attack"
+
 
 using std::cout ;
 using std::vector;
@@ -61,7 +75,7 @@ class TriggerByAction_Func;
 class TriggerByStats;
 class TriggerBySomeAlly_Func;
 class TriggerHealing;
-class TriggerChangeHP;
+class TriggerDecreaseHP;
 class TriggerByEnemyHit;
 class TriggerDot_Func;
 class TriggerEnergy_Increase_Func;
@@ -143,7 +157,7 @@ Enemy* isEnemyCheck(Action_value_stats *ptr);
 Sub_Unit* chooseSubUnitBuff(Sub_Unit* ptr);
 Ally* chooseCharacterBuff(Sub_Unit* ptr);
 Enemy* chooseEnemyTarget(Sub_Unit* ptr);
-void StatsAdjust(Sub_Unit *ptr,string statsType);
+void StatsAdjust(Sub_Unit *ptr,string ST);
 void AtkAdjust(Sub_Unit *ptr);
 void HpAdjust(Sub_Unit *ptr);
 void DefAdjust(Sub_Unit *ptr);
@@ -194,7 +208,7 @@ void Healing(HealRatio& healRatioMain,HealRatio& healRatio,Sub_Unit *Healer,Sub_
 void IncreaseCurrentHP(Sub_Unit *ptr,double Value);
 void IncreaseHP(Sub_Unit *Healer,Sub_Unit *target,double Value);
 void DecreaseCurrentHP(Sub_Unit *ptr,double Value);
-void DecreaseHP(Sub_Unit *target,double Value,double percentFromTotalHP,double percentFromCurrentHP);
+void DecreaseHP(Sub_Unit *target,Unit *Trigger,double Value,double percentFromTotalHP,double percentFromCurrentHP);
 
 //EnemyCombat.h
 void EnemyHit(Enemy *Attacker);
@@ -277,14 +291,14 @@ void allEventBuff(Combat_data& data_);
 void allEventBeforeAttack(Combat_data& data_);
 void allEventAfterAttack(Combat_data& data_);
 void allEventWhenAttack(Combat_data& data_);
-void allEventHeal(Heal_data& Healptr );
-void allEventChangeHP(Sub_Unit *Healer,Sub_Unit *target,double Value);
+void allEventHeal(Sub_Unit *Healer,Sub_Unit *target,double Value);
+void allEventChangeHP(Unit *Trigger,Sub_Unit *target,double Value);
 void allEventWhenToughnessBreak(Combat_data& data_, Enemy* target);
 void allEventWhenEnemyHit(Enemy* Attacker,vector<Sub_Unit*> vec);
 void allEventWhenEnergyIncrease(Ally* target, double Energy);
 void allEventSkillPoint(Sub_Unit* ptr, int p);
 void allEventAttackHitCount(Combat_data& data_, int Hit_cnt, int Total_Hit_cnt);
-void allEventAdjustStats(Sub_Unit *ptr,string statsType);
+void allEventAdjustStats(Sub_Unit *ptr,string ST);
 void allEventApplyDebuff(Sub_Unit* ptr, Enemy* target);
 void allEventWhenEnemyDeath(Sub_Unit* Killer, Enemy* target);
 

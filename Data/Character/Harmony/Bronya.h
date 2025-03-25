@@ -157,10 +157,10 @@ namespace Bronya{
             for(auto e:data_.Target_Buff){
                 Extend_Buff_single_target(e,"Bronya_Ult",2);
                 Buff_single_target(e,"Crit_dam","None",-e->Buff_note["Bronya_Ult"]);
-                Buff_single_target(e,"Crit_dam",TYPE_TEMP,-e->Buff_note["Bronya_Ult"]);
+                Buff_single_target(e,"Crit_dam",AT_TEMP,-e->Buff_note["Bronya_Ult"]);
                 e->Buff_note["Bronya_Ult"] = calculateCritdamForBuff(ptr->Sub_Unit_ptr[0].get(),16)+20;
                 Buff_single_target(e,"Crit_dam","None",e->Buff_note["Bronya_Ult"]);
-                Buff_single_target(e,"Crit_dam",TYPE_TEMP,e->Buff_note["Bronya_Ult"]);
+                Buff_single_target(e,"Crit_dam",AT_TEMP,e->Buff_note["Bronya_Ult"]);
                 if(e->Buff_check["Bronya_Ult"])continue;
                 e->Buff_check["Bronya_Ult"] = 1;
                 Buff_single_target(e,"Atk%","None",55);
@@ -219,7 +219,7 @@ namespace Bronya{
         if(Buff_end(tempstats,"Bronya_Ult")){
             Buff_single_target(tempstats,"Atk%","None",-55);
             Buff_single_target(tempstats,"Crit_dam","None",-tempstats->Buff_note["Bronya_Ult"]);
-            Buff_single_target(tempstats,"Crit_dam",TYPE_TEMP,-tempstats->Buff_note["Bronya_Ult"]);
+            Buff_single_target(tempstats,"Crit_dam",AT_TEMP,-tempstats->Buff_note["Bronya_Ult"]);
             tempstats->Buff_note["Bronya_Ult"] = 0;
             tempstats->Buff_check["Bronya_Ult"] = 0;
         }
