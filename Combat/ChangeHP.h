@@ -49,11 +49,11 @@ void Healing(HealRatio& healRatioMain,HealRatio& healRatio,Sub_Unit *Healer,Sub_
 
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
-            double totalHeal = (target->Atv_stats->Unit_Name == Ally_unit[i]->Sub_Unit_ptr[i]->Atv_stats->Unit_Name) ? 
-            calculateHeal(healRatioMain,Healer,Ally_unit[i]->Sub_Unit_ptr[i].get())
+            double totalHeal = (target->Atv_stats->Unit_Name == Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->Unit_Name) ? 
+            calculateHeal(healRatioMain,Healer,Ally_unit[i]->Sub_Unit_ptr[j].get())
             :
-            calculateHeal(healRatio,Healer,Ally_unit[i]->Sub_Unit_ptr[i].get());
-            IncreaseHP(Healer,Ally_unit[i]->Sub_Unit_ptr[i].get(),totalHeal);
+            calculateHeal(healRatio,Healer,Ally_unit[i]->Sub_Unit_ptr[j].get());
+            IncreaseHP(Healer,Ally_unit[i]->Sub_Unit_ptr[j].get(),totalHeal);
         }
     }
 }
@@ -70,6 +70,9 @@ void DecreaseCurrentHP(Sub_Unit *ptr,double Value){
 }
 void DecreaseHP(Sub_Unit *target,Unit *Trigger,double Value,double percentFromTotalHP,double percentFromCurrentHP){
     double Total = Value;
+    if(isEnemyCheck(Trigger)&&target->isSameUnit("Mydei")){
+        cout<<Trigger->Atv_stats->Unit_num<<" "<< Value<<endl;
+    }
     if(target->currentHP<=0)return;
     Total += (percentFromTotalHP/100.0*target->totalHP);
     Total += (percentFromCurrentHP/100.0*target->currentHP);

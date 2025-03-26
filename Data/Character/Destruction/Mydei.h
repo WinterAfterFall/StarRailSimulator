@@ -159,12 +159,12 @@ namespace Mydei{
         if(ptr->Eidolon>=1){
             data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
             data_.Add_Target_Other();
-            data_.Damage_spilt.Main.push_back({0,140*1.3,0,15});
-            data_.Damage_spilt.Main.push_back({0,140*1.3,0,15});
-            data_.Damage_spilt.Adjacent.push_back({0,140*1.3,0,10});
-            data_.Damage_spilt.Adjacent.push_back({0,140*1.3,0,10});
-            data_.Damage_spilt.Other.push_back({0,140*1.3,0,10});
-            data_.Damage_spilt.Other.push_back({0,140*1.3,0,10});
+            data_.Damage_spilt.Main.push_back({0,155*1.3,0,15});
+            data_.Damage_spilt.Main.push_back({0,155*1.3,0,15});
+            data_.Damage_spilt.Adjacent.push_back({0,155*1.3,0,10});
+            data_.Damage_spilt.Adjacent.push_back({0,155*1.3,0,10});
+            data_.Damage_spilt.Other.push_back({0,155*1.3,0,10});
+            data_.Damage_spilt.Other.push_back({0,155*1.3,0,10});
         }else{
             data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Blast");
             data_.Add_Target_Adjacent();
@@ -311,8 +311,8 @@ namespace Mydei{
             HealRatio healratio = HealRatio();
             healratio.setRatio(0,0,0,0,25,0);
             Healing(healratio,ptr->Sub_Unit_ptr[0].get(),ptr->Sub_Unit_ptr[0].get());
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_FLAT_DEF][AT_NONE]-=10000;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_FLAT_DEF][AT_TEMP]-=10000;
+            Buff_single_target(ptr->Sub_Unit_ptr[0].get(),ST_FLAT_DEF,AT_TEMP,-10000);
+            Buff_single_target(ptr->Sub_Unit_ptr[0].get(),ST_FLAT_DEF,AT_NONE,-10000);
             if(ptr->Eidolon>=2)Buff_single_target(ptr->Sub_Unit_ptr[0].get(),ST_DEF_SHRED,AT_NONE,15);
             if(ptr->Eidolon>=4)Buff_single_target(ptr->Sub_Unit_ptr[0].get(),ST_CRIT_DAM,AT_NONE,30);
             allEventAdjustStats(ptr->Sub_Unit_ptr[0].get(),"Hp%");
@@ -325,6 +325,7 @@ namespace Mydei{
         }else{
             if(ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Charge_point"]>=150){
                 ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Charge_point"]-=150;
+                ptr->Sub_Unit_ptr[0]->Buff_note["count"]++;
                 KingSlayer(ptr);
             }
         }

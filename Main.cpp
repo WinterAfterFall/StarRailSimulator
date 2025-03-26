@@ -21,7 +21,7 @@ void SetValue(){
     Driver_Type = "Double_turn"; //Swap_pull Always_pull Double_turn None
     Sp_status ="Positive"; //Positive Negative       
     //set unit
-    Total_enemy =5;
+    Total_enemy =3;
     
     Wave[0] = 700;
     Wave[0]+=0.01;
@@ -31,7 +31,7 @@ void SetValue(){
     Break_Formula_check_mode = 0;
     
     Normal_Damage_Formula_check_mode = 0;
-    Normal_Damage_check_mode = 0;
+    Normal_Damage_check_mode = 1;
     Additional_Damage_Formula_check_mode = 0;
     Additional_Damage_check_mode = 0;
     // golden ratio
@@ -70,6 +70,7 @@ int main(){
 
     //Sustain
     Gallagher::Setup(4,6,Abundance_Lightcone::Multiplication,Relic::Iron_Cavalry,Planar::Broken_Keel);
+    // Luocha::Setup(4,0,Abundance_Lightcone::Multiplication,Relic::Double_Atk,Planar::Broken_Keel);
 
 
     // Char_Command::Set_Reroll_check(Ally_unit[1].get(),0);
@@ -98,8 +99,8 @@ int main(){
 
     
     
-    Setup_enemy(4,130,0,90,0.0,0,"Other");
-    Setup_enemy(5,120,0,90,0.0,0,"Other");
+    // Setup_enemy(4,130,0,90,0.0,0,"Other");
+    // Setup_enemy(5,120,0,90,0.0,0,"Other");
 
     Setup();
     
