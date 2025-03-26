@@ -50,7 +50,9 @@ unordered_map<std::string, bool> Enemy_weak = {
         {"Physical", 1},
         {"Imaginary", 1}
     };
+    
 Action_value_stats* turn = nullptr;
+queue<Combat_data> Action_bar;
 
 double Level_multiplier = 3767.5533;
 double Current_atv =0;
@@ -58,17 +60,20 @@ double Current_atv =0;
 bool Ult_After_Turn = 0;
 bool After_Turn_Check = 0;
 bool actionBarUse = 0;
-int Sp_Safety = 1;
+bool AdjustCheck = 0;
 bool Turn_Skip=0;
+
+
+int Sp_Safety = 1;
 int Turn_priority = 0;
-int ult_priority = 0;
 double Enemy_effect_res =40;
+
 bool Calculate_All_possible_mode =0;
+
 int Robin_num = 0; 
 int Aglaea_num = 0; 
 double HP = 1200,ATK =476 ,DEF =397 ;
-bool AdjustCheck = 0;
-queue<Combat_data> Action_bar;
+
 //-------- Trigger Function --------//
 vector<TriggerByYourSelf_Func> Reset_List;
 vector<TriggerByYourSelf_Func> Setup_Memo_List;
