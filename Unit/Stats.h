@@ -91,7 +91,7 @@ public:
 
     ~Sub_Unit() {}
     bool isSameAlly(Sub_Unit *ptr){
-        if(this->Atv_stats->Char_Name== ptr->Atv_stats->Unit_Name)return true;
+        if(this->Atv_stats->Char_Name== ptr->Atv_stats->Char_Name)return true;
         return false;
     
     }
@@ -100,11 +100,14 @@ public:
         return false;
 
     
-    }bool isSameUnit(string name){
+    }
+    bool isSameAlly(string name){
+        if(this->Atv_stats->Char_Name == name)return true;
+        return false;
+    }
+    bool isSameUnit(string name){
         if(this->Atv_stats->Unit_Name == name)return true;
         return false;
-
-    
     }
 };
 // Enemy stats
