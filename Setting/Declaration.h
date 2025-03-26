@@ -74,6 +74,8 @@ class TriggerFunc;
 class TriggerByYourSelf_Func;
 class TriggerByAction_Func;
 class TriggerByStats;
+class TriggerAllyDeath;
+class TriggerEnemyDeath;
 class TriggerBySomeAlly_Func;
 class TriggerHealing;
 class TriggerDecreaseHP;

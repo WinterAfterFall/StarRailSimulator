@@ -40,6 +40,20 @@ class TriggerByStats : public TriggerFunc{
     : TriggerFunc(priority,ptr) ,Call(Call){}
 };
 
+class TriggerAllyDeath : public TriggerFunc{
+    public:
+    function<void(Ally *ptr,Sub_Unit* Target)> Call;
+    TriggerAllyDeath(int priority ,Ally* ptr,function<void(Ally *ptr,Sub_Unit* target)> Call) 
+    : TriggerFunc(priority,ptr) ,Call(Call){}
+};
+
+class TriggerEnemyDeath : public TriggerFunc{
+    public:
+    function<void(Ally *ptr,Enemy* Target)> Call;
+    TriggerEnemyDeath(int priority ,Ally* ptr,function<void(Ally *ptr,Enemy* target)> Call) 
+    : TriggerFunc(priority,ptr) ,Call(Call){}
+};
+
 class TriggerBySomeAlly_Func : public TriggerFunc{
     public:
     function<void(Ally *ptr,Enemy *target,Sub_Unit *Trigger)> Call;

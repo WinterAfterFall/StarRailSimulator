@@ -145,6 +145,8 @@ void Set_Other_buff(Ally *ptr,bool Bool){
     void When_Energy_Increase(Ally *ptr,Ally *target,double Energy);
     void WhenHeal(Ally *ptr,Sub_Unit *Healer,Sub_Unit *target,double Value);
     void WhenDecreaseHP(Ally *ptr,Unit *Trigger,Sub_Unit *target,double Value);
+    void WhenAllyDeath(Ally *ptr,Sub_Unit *target);
+    void WhenEnemyDeath(Ally *ptr,Enemy *target);
     void Stats_Adjust(Ally *ptr,Sub_Unit *target, string StatsType);
     void Stats_Adjust(Ally *ptr,Sub_Unit *target, string StatsType){
         if(StatsType=="Crit_dam"){

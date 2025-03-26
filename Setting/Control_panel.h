@@ -88,10 +88,13 @@ vector<TriggerByAction_Func> Buff_List;
 vector<TriggerByStats> Stats_Adjust_List;
 vector<TriggerHealing> Healing_List;
 vector<TriggerDecreaseHP> HPDecrease_List;
+vector<TriggerEnemyDeath> EnemyDeath_List;
+vector<TriggerAllyDeath> AllyDeath_List;
 
 vector<TriggerBySomeAlly_Func> Toughness_break_List;
 vector<TriggerBySomeAlly_Func> Apply_debuff_List;
 vector<TriggerBySomeAlly_Func> Enemy_Death_List;
+
 vector<TriggerByEnemyHit> Enemy_hit_List;
 vector<TriggerDot_Func> Dot_List;
 vector<TriggerEnergy_Increase_Func> When_Energy_Increase_List;
