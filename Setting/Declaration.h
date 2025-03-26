@@ -28,6 +28,7 @@
 #define ST_RESPEN "Respen"
 #define ST_VUL "Vul"
 #define ST_RES "Res"
+#define ST_HEALING "HealingBonus"
 
 
 #define AT_TEMP "Temporary"
@@ -153,6 +154,8 @@ Sub_Unit* isSubUnitCheck();
 Enemy* isEnemyCheck();
 Sub_Unit* isSubUnitCheck(Action_value_stats *ptr);
 Enemy* isEnemyCheck(Action_value_stats *ptr);
+Sub_Unit* isSubUnitCheck(Unit *ptr);
+Enemy* isEnemyCheck(Unit *ptr);
 
 Sub_Unit* chooseSubUnitBuff(Sub_Unit* ptr);
 Ally* chooseCharacterBuff(Sub_Unit* ptr);

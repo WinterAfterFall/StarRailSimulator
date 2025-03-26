@@ -23,6 +23,12 @@ Sub_Unit* isSubUnitCheck(Action_value_stats *ptr){
 Enemy* isEnemyCheck(Action_value_stats *ptr){
     return dynamic_cast<Enemy*>(ptr->ptr_to_unit);
 }
+Sub_Unit* isSubUnitCheck(Unit *ptr){
+    return dynamic_cast<Sub_Unit*>(ptr);
+}
+Enemy* isEnemyCheck(Unit *ptr){
+    return dynamic_cast<Enemy*>(ptr);
+}
 //Set base
 
 //normal buff/debuff

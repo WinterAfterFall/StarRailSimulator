@@ -99,7 +99,7 @@ void allEventHeal(Sub_Unit *Healer,Sub_Unit *target,double Value){
     }
 }
 void allEventChangeHP(Unit *Trigger,Sub_Unit *target,double Value){
-    for(TriggerDecreaseHP &e : DecreaseHP_List){
+    for(TriggerDecreaseHP &e : HPDecrease_List){
         e.Call(e.ptr,Trigger,target,Value);
     }
 }

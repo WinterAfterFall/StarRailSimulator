@@ -137,14 +137,14 @@ void Set_Other_buff(Ally *ptr,bool Bool){
     void Buff(Ally *ptr,Combat_data &data_);
     void Dot(Enemy* target,Ally *ptr,double Dot_ratio,string Dot_type);
     void Toughness_break(Ally *ptr,Enemy *target,Sub_Unit *Breaker);
-    void Enemy_hit(Ally *ptr,Enemy *target);
+    void Enemy_hit(Ally *ptr,Enemy *Attacker,vector<Sub_Unit*> target);
     void Apply_debuff(Ally *ptr,Enemy* target,Sub_Unit *Applier);
     void Skill_point(Ally *ptr,Sub_Unit *SP_maker,int SP);
     void Hit(Ally *ptr,Combat_data &data_,int Hit_cnt,int Total_Hit_cnt);
     void Enemy_Death(Ally *ptr,Enemy *target,Sub_Unit *Killer);
     void When_Energy_Increase(Ally *ptr,Ally *target,double Energy);
-    void WhenHealing(Ally *ptr,Heal_data& Healptr);
-    void WhenHpChange(Ally *ptr,Sub_Unit *Healer,Sub_Unit *target,double Value);
+    void WhenHeal(Ally *ptr,Sub_Unit *Healer,Sub_Unit *target,double Value);
+    void WhenDecreaseHP(Ally *ptr,Unit *Trigger,Sub_Unit *target,double Value);
     void Stats_Adjust(Ally *ptr,Sub_Unit *target, string StatsType);
     void Stats_Adjust(Ally *ptr,Sub_Unit *target, string StatsType){
         if(StatsType=="Crit_dam"){

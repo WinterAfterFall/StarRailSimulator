@@ -29,11 +29,13 @@ void Healing(Heal_data& Healptr){
         pq.pop();
     }
 }
+//heal เดี่ยว
 void Healing(HealRatio& Healptr,Sub_Unit *Healer,Sub_Unit *target){
     double totalHeal = calculateHeal(Healptr,Healer,target);
     IncreaseHP(Healer,target,totalHeal);
 
 }
+//heal ทั้งทีมแบบเท่าเที่ยม
 void Healing(HealRatio& healRatio,Sub_Unit *Healer){
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
@@ -42,6 +44,7 @@ void Healing(HealRatio& healRatio,Sub_Unit *Healer){
         }
     }
 }
+//heal ทั้งทีมแบบฮีลคนนึงเยอะสุด
 void Healing(HealRatio& healRatioMain,HealRatio& healRatio,Sub_Unit *Healer,Sub_Unit *target){
 
     for(int i=1;i<=Total_ally;i++){
