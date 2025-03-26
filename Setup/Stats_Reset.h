@@ -82,6 +82,7 @@ void Basic_reset(){
             Enemy_unit[i]->Toughness_status=1;
             Enemy_unit[i]->Current_toughness=Enemy_unit[i]->Max_toughness;
             Enemy_unit[i]->Total_debuff=0;
+            Enemy_unit[i]->target=nullptr;
             for(auto &e: Enemy_unit[i]->Debuff){
                 e.second = 0;
             }

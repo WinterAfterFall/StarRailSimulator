@@ -56,7 +56,7 @@ void Cal_Damage(Combat_data &data_,Enemy *target,Ratio_data Skill_mtpr){
     
     Ally_unit[data_.Attacker->Atv_stats->Unit_num]->Normal_Damage[target->Atv_stats->Unit_num] +=Total_dmg*data_.Attacker->Stats_type["True_Damage"]["None"]/100;
     if(Normal_Damage_check_mode==data_.Attacker->Atv_stats->Unit_num){
-        cout<<data_.Attacker->Atv_stats->Char_Name<<" "<<data_.Action_type.second<<" "<<(long long)Total_dmg*data_.Attacker->Stats_type["True_Damage"]["None"]/100<<" to Enemy"<<target->Atv_stats->Unit_num<<endl;
+        cout<<data_.Attacker->Atv_stats->Char_Name<<" "<<data_.Action_type.second<<" "<<(long long)Total_dmg*data_.Attacker->Stats_type["True_Damage"]["None"]/100<<" to Enemy"<<target->Atv_stats->Unit_num<<" "<<data_.Attacker->Stats_type["True_Damage"]["None"]<<endl;
     }
     if(Memo_check){
         data_.Skill_Type.pop_back();

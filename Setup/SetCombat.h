@@ -10,9 +10,10 @@
 #define K_const 10000
 //Defination
 void Setup(){
-    if(Driver_Type!="None"&&(Driver_num==0||Driver_num>Total_ally)){
-        cout<<"Driver issue faq u bitch eiei";
-        exit(0);
+    if(Driver_Type=="None"&&(Driver_num!=0)){
+        Driver_num = 0;
+    }else if(Driver_Type!="None"&&(Driver_num==0)){
+        Driver_num = 2;
     }
     sort(Reset_List.begin(), Reset_List.end(), TriggerFunc::Trigger_cmp);
     sort(Setup_Memo_List.begin(), Setup_Memo_List.end(), TriggerFunc::Trigger_cmp);

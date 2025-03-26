@@ -10,6 +10,14 @@
 #include".\The_Hunt\All_The_Hunt_char.h"
 namespace Char_Command{
 
+void printUltStart(string name){
+    cout<<"-------------------------------------------------------"<<name<<" Ult Start at "<<Current_atv<<endl;
+
+}
+void printUltEnd(string name){
+    cout<<"-------------------------------------------------------"<<name<<" Ult End at "<<Current_atv<<endl;
+
+}
 void Set_LightCone(double HPtemp ,double ATKtemp,double DEFtemp){
     HP = HPtemp;
     ATK = ATKtemp;

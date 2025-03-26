@@ -74,6 +74,6 @@ void DecreaseHP(Sub_Unit *target,Unit *Trigger,double Value,double percentFromTo
     Total += (percentFromTotalHP/100.0*target->totalHP);
     Total += (percentFromCurrentHP/100.0*target->currentHP);
     DecreaseCurrentHP(target,Total);
-    allEventChangeHP(Trigger,target,-Total);
+    allEventChangeHP(Trigger,target,Total);
 }
 #endif

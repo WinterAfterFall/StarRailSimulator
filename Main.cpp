@@ -17,11 +17,11 @@ using std::vector;
 bool first_time=1;
 bool Calculate_All_Substats_mode = 0;
 void SetValue(){
-    Driver_num = 0;
-    Driver_Type = "None"; //Swap_pull Always_pull Double_turn None
+    Driver_num = 2;
+    Driver_Type = "Double_turn"; //Swap_pull Always_pull Double_turn None
     Sp_status ="Positive"; //Positive Negative       
     //set unit
-    Total_enemy =1;
+    Total_enemy =5;
     
     Wave[0] = 700;
     Wave[0]+=0.01;
@@ -45,22 +45,23 @@ int main(){
     
     SetValue();
     //The_Herta::Setup(1,0,Erudition_Lightcone::The_Herta_LC,Relic::Scholar,Planar::Izumo);
-    Aglaea::Setup(1,0,Remembrance_Lightcone::SweatNowCryLess,Relic::Hero_Wreath,Planar::The_Wondrous_BananAmusement_Park);
+    // Aglaea::Setup(1,0,Remembrance_Lightcone::SweatNowCryLess,Relic::Hero_Wreath,Planar::The_Wondrous_BananAmusement_Park);
     // Jingyuan::Setup_Jingyuan(1,2,Erudition_Lightcone::Before_Dawn,Relic::Grand_Duke,Planar::The_Wondrous_BananAmusement_Park);
-    
+    Mydei::Setup(1,2,Destruction_Lightcone::Mydei_LC,Relic::Scholar,Planar::Bone_Collection);
+
     //Driver
-    Bronya::Setup(2,0,Harmony_Lightcone::But_the_Battle_Isnt_Over,Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
-    // Sunday::Setup(2,0,Harmony_Lightcone::A_Grounded_Ascent,Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
+    // Bronya::Setup(2,0,Harmony_Lightcone::But_the_Battle_Isnt_Over,Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
+    Sunday::Setup(2,0,Harmony_Lightcone::But_the_Battle_Isnt_Over,Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
 
     //Sub dps
     // Jade::Setup(2,0,Erudition_Lightcone::Cosmos_Fell,Relic::Grand_Duke,Planar::Izumo);
     //Serval::Setup(2,6,Harmony_Lightcone::Meshing_Cogs,Relic::Double_Speed,Planar::Lushaka);
     
     //Support
-    Tribbie::Setup(3,0,Harmony_Lightcone::DDD,Relic::Poet_Dill,Planar::Lushaka);
-    // Robin::Setup(3,0,Harmony_Lightcone::For_Tomorrow_Journey,Relic::Double_Atk,Planar::Lushaka);
-    // RMC::Setup(3,6,Remembrance_Lightcone::Victory_In_Blink,Relic::Double_Speed,Planar::Lushaka);
-    //Ruan_Mei::Setup(3,0,Harmony_Lightcone::Memories_of_the_Past,Relic::Iron_Cavalry,Planar::Broken_Keel);
+    Tribbie::Setup(3,0,Harmony_Lightcone::DDD,Relic::Poet_Dill,Planar::Broken_Keel);
+    // Robin::Setup(3,0,Harmony_Lightcone::For_Tomorrow_Journey,Relic::Double_Atk,Planar::Broken_Keel);
+    // RMC::Setup(3,6,Remembrance_Lightcone::Victory_In_Blink,Relic::Double_Speed,Planar::Broken_Keel);
+    // Ruan_Mei::Setup(3,0,Harmony_Lightcone::Memories_of_the_Past,Relic::Iron_Cavalry,Planar::Broken_Keel);
     //Tingyun::Setup(3,6,Harmony_Lightcone::DDD,Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
     
     //Debuffer
@@ -68,17 +69,14 @@ int main(){
 
 
     //Sustain
-    Gallagher::Setup(4,6,Abundance_Lightcone::Multiplication,Relic::Iron_Cavalry,Planar::Lushaka);
+    Gallagher::Setup(4,6,Abundance_Lightcone::Multiplication,Relic::Iron_Cavalry,Planar::Broken_Keel);
 
 
-    Char_Command::Set_Reroll_check(Ally_unit[1].get(),1);
-    Char_Command::Set_Reroll_check(Ally_unit[2].get(),0);
-    Char_Command::Set_Reroll_check(Ally_unit[3].get(),0);
+    // Char_Command::Set_Reroll_check(Ally_unit[1].get(),0);
+    // Char_Command::Set_Reroll_check(Ally_unit[2].get(),0);
+    // Char_Command::Set_Reroll_check(Ally_unit[3].get(),0);
     // Char_Command::Set_Reroll_check(Ally_unit[4].get(),0);
 
-    // Char_Command::Set_Substats(Ally_unit[1].get(),0,18);
-    // Char_Command::Set_Substats(Ally_unit[1].get(),1,2);
-    // Char_Command::Set_Substats(Ally_unit[1].get(),2,0);
 
     Char_Command::Timing_print(Ally_unit[1].get());
     Char_Command::Timing_print(Ally_unit[2].get());
@@ -86,12 +84,12 @@ int main(){
     Char_Command::Timing_print(Ally_unit[4].get());
 
 
-
+    Char_Command::Set_Technique(Ally_unit[4].get(),0);
 
 
     Setup_enemy(1,158,15,160,300.0,3,"Main");
-    // Setup_enemy(2,158,10,160,"Adjacent");
-    // Setup_enemy(3,130,0,90,"Adjacent");
+    Setup_enemy(2,158,10,160,300.0,3,"Adjacent");
+    Setup_enemy(3,158,0,160,200.0,0,"Adjacent");
 
     //Setup_enemy(1,600,0,30,"Main");
     //Setup_enemy(2,600,0,30,"Adjacent");
@@ -100,8 +98,8 @@ int main(){
 
     
     
-    // Setup_enemy(4,130,0,90,"Other");
-    // Setup_enemy(5,130,0,30,"Other");
+    Setup_enemy(4,130,0,90,0.0,0,"Other");
+    Setup_enemy(5,120,0,90,0.0,0,"Other");
 
     Setup();
     

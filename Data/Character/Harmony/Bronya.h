@@ -193,11 +193,11 @@ namespace Bronya{
             ptr->Sub_Unit_ptr[0]->Buff_check["Bronya_E4"] =0;
         }
         if(ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num!=Driver_num)return;
-        if( (Aglaea_num!=0&&Ally_unit[Aglaea_num]->Countdown_ptr[0]->Atv_stats->Base_speed>0)||Ally_unit[Aglaea_num]->Sub_Unit_ptr[1]->Atv_stats->Base_speed<=0){
-            Char_Command::Set_Target_Buff(ptr->Sub_Unit_ptr[0].get(),Aglaea_num,0);
-        }else{
-            Char_Command::Set_Target_Buff(ptr->Sub_Unit_ptr[0].get(),Aglaea_num,1);
-        }
+        // if( (Aglaea_num!=0&&Ally_unit[Aglaea_num]->Countdown_ptr[0]->Atv_stats->Base_speed>0)||Ally_unit[Aglaea_num]->Sub_Unit_ptr[1]->Atv_stats->Base_speed<=0){
+        //     Char_Command::Set_Target_Buff(ptr->Sub_Unit_ptr[0].get(),Aglaea_num,0);
+        // }else{
+        //     Char_Command::Set_Target_Buff(ptr->Sub_Unit_ptr[0].get(),Aglaea_num,1);
+        // }
     }
     void After_turn(Ally *ptr){
         Sub_Unit *tempstats = dynamic_cast<Sub_Unit*>(turn->ptr_to_unit);

@@ -263,14 +263,12 @@ namespace RMC{
         if(target->Atv_stats->Unit_Name!="RMC")return;
         if(StatsType=="Crit_dam"){
             //before
-            Buff_All_Ally("Crit_dam","None",-ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]);
-            Buff_All_Ally("Crit_dam",AT_TEMP,-ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]);
             
             //adjust
-            ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]= calculateCritdamForBuff(ptr->Sub_Unit_ptr[1].get(),13.2)+26.4;
+            ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]= (calculateCritdamForBuff(ptr->Sub_Unit_ptr[1].get(),13.2)+26.4) - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"];
             //after
-            Buff_All_Ally("Crit_dam","None",-ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]);
-            Buff_All_Ally("Crit_dam",AT_TEMP,-ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]);
+            Buff_All_Ally("Crit_dam",AT_TEMP,ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]);
+            Buff_All_Ally("Crit_dam","None",ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]);
             
             
             return;

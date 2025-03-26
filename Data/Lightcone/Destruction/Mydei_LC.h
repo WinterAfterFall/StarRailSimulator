@@ -33,6 +33,7 @@ namespace Destruction_Lightcone{
         After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr,Combat_data &data_){
             if(!data_.Attacker->isSameUnit(ptr->Sub_Unit_ptr[0].get()))return;
             Buff_single_target(ptr->Sub_Unit_ptr[0].get(),ST_DMG_PERCENT,AT_NONE,-30*ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_LC_Mark"]);
+            ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_LC_Mark"] = 0;
         }));
     }
 }

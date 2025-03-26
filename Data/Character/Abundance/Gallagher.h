@@ -71,7 +71,7 @@ namespace Gallagher{
         ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES]["None"]+=18;
 
         //relic
-        // bonus heal +35.7
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING]["None"]+=85.7;
         ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed+=25;
         ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"]+=43.2;
         ptr->Energy_recharge+=19.4;
@@ -146,7 +146,6 @@ namespace Gallagher{
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Heal");
         data_.Add_Buff_Single_Target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
         data_.resetTurn();
-        data_.Buff_type.push_back("Heal");
         data_.createHealRatio();
         data_.healPtr->setHealer(ptr->Sub_Unit_ptr[0].get());
         data_.healPtr->main.setRatio(0,0,0,1768,0,0);
@@ -193,15 +192,18 @@ namespace Gallagher{
         }
     }
     void When_Combat(Ally *ptr){
-        Combat_data data_ = Combat_data();
-        data_.Technique_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
-        data_.Damage_spilt.Main.push_back({50,0,0,20});
-        data_.Damage_spilt.Adjacent.push_back({50,0,0,20});
-        data_.Damage_spilt.Other.push_back({50,0,0,20});
-        Action_bar.push(data_);
-        Extend_Debuff_All_Enemy("Besotted",2);
-        Debuff_All_Enemy_Apply_ver(ptr->Sub_Unit_ptr[0].get(),"Vul","Break_dmg",13.2,"Besotted");
-        if(!actionBarUse)Deal_damage();
+        if(ptr->Technique){
+            Combat_data data_ = Combat_data();
+            data_.Technique_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
+            data_.Damage_spilt.Main.push_back({50,0,0,20});
+            data_.Damage_spilt.Adjacent.push_back({50,0,0,20});
+            data_.Damage_spilt.Other.push_back({50,0,0,20});
+            Action_bar.push(data_);
+            Extend_Debuff_All_Enemy("Besotted",2);
+            Debuff_All_Enemy_Apply_ver(ptr->Sub_Unit_ptr[0].get(),"Vul","Break_dmg",13.2,"Besotted");
+            if(!actionBarUse)Deal_damage();
+        }
+        
     }
     void When_attack(Ally *ptr,Combat_data &data_){
         Heal_data healData = Heal_data();

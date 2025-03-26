@@ -8,9 +8,10 @@ void Enemy_func(Unit *ptr){
         enemyPtr->Current_toughness =  enemyPtr->Max_toughness;
         enemyPtr->Total_toughness_broken_time+=(Current_atv - enemyPtr->when_toughness_broken);
     }
-    if(enemyPtr->attackCooldown==0)return;
+    if(enemyPtr->skillRatio==0)return;
     ++enemyPtr->Debuff["attackCooldown"];
-    if(enemyPtr->Debuff["attackCooldown"]%enemyPtr->attackCooldown==enemyPtr->attackStartAtTurn){
+    
+    if(enemyPtr->attackCooldown!=0&&enemyPtr->Debuff["attackCooldown"]%enemyPtr->attackCooldown==enemyPtr->attackStartAtTurn){
         EnemyHit(enemyPtr);
     }else if(enemyPtr->target){
         vector<Sub_Unit*> vec;

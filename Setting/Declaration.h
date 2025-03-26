@@ -15,7 +15,7 @@
 #define PRIORITY_ACTION -1
 
 #define ST_HP_PERCENT "Hp%"
-#define ST_FLAT_HP "Flat_HP"
+#define ST_FLAT_HP "Flat_Hp"
 #define ST_ATK_PERCENT "Atk%"
 #define ST_FLAT_ATK "Flat_Atk"
 #define ST_DEF_PERCENT "Def%"
@@ -350,6 +350,8 @@ namespace Char_Command{
 void Timing_print(Ally *ptr);
 bool Using_Skill(Ally *ptr);
 //bool Enemy_got_hit(Enemy *ptr,Combat_data &data_);
+void printUltStart(string name);
+void printUltEnd(string name);
 void Set_Substats(Ally *ptr,int sub);
 void Set_Substats(Ally *ptr,int index,int sub);
 void Switch_Substats(Ally *ptr,string temp1,string temp2);

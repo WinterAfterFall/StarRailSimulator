@@ -17,8 +17,12 @@ void Print(){
     cout<<""<<turn->Char_Name<<" ";
     cout<<turn->turn_cnt<<" ";
 
-    cout<<Ally_unit[2]->Sub_Unit_ptr[0]->currentHP<<" ";
-    cout<<Ally_unit[2]->Sub_Unit_ptr[0]->totalHP<<" ";
+    cout<<Ally_unit[1]->Sub_Unit_ptr[0]->currentHP<<" ";
+    cout<<Ally_unit[1]->Sub_Unit_ptr[0]->totalHP<<" ";
+    cout<<"Talent :"<<Ally_unit[1]->Sub_Unit_ptr[0]->Buff_check["Mydei_Vendetta"]<<" ";
+    cout<<"A6 :"<<Ally_unit[1]->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"]<<" ";
+    cout<<"Talent hp :"<<Ally_unit[1]->Sub_Unit_ptr[0]->Buff_note["Mydei_Talent"]<<" ";
+    cout<<"Mydei_Charge_point :"<<Ally_unit[1]->Sub_Unit_ptr[0]->Buff_note["Mydei_Charge_point"]<<" ";
 
 
 
