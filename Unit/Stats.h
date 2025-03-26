@@ -31,6 +31,16 @@ public:
     string Unit_Name;//ชื่อเจ้าของเทิร์น
 
     Unit* ptr_to_unit = nullptr; //* // This will be set to point back to the unit (Ally or Enemy)
+
+    bool isSameAlly(string name){
+        if(this->Char_Name == name)return true;
+        return false;
+    }
+    bool isSameUnit(string name){
+        if(this->Unit_Name == name)return true;
+        return false;
+    }
+
 };
 // Base Unit class
 class Unit {
