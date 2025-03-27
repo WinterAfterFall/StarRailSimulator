@@ -58,14 +58,11 @@ double Cal_Def_multiplier(Heal_data& healData) {
 
 double Cal_HealBonus_multiplier(Heal_data& healData, Sub_Unit* target) {
     double mtpr = 100;
-    mtpr += healData.Healer->Stats_type["HealingBonus"]["None"] + target->Stats_type["HealingBonus"]["None"];
+    mtpr += healData.Healer->Stats_type["HealingBonus"]["None"];
     if (healData.Combat_dataPtr) {
         for (int i = 0, sz = healData.Combat_dataPtr->Skill_Type.size(); i < sz; i++) {
-            mtpr += healData.Healer->Stats_type["HealingBonus"][healData.Combat_dataPtr->Skill_Type[i]] + target->Stats_type["HealingBonus"][healData.Combat_dataPtr->Skill_Type[i]];
+            mtpr += healData.Healer->Stats_type["HealingBonus"][healData.Combat_dataPtr->Skill_Type[i]];
         }
-    }
-    if (healData.Healer->Atv_stats->Unit_Name == target->Atv_stats->Unit_Name) {
-        mtpr = (mtpr + 100) / 2;
     }
     return mtpr / 100 < 0 ? 0 : mtpr / 100;
 }
@@ -73,9 +70,6 @@ double Cal_HealBonus_multiplier(Heal_data& healData, Sub_Unit* target) {
 double Cal_HealBonus_multiplier(Sub_Unit* Healer, Sub_Unit* target) {
     double mtpr = 100;
     mtpr += Healer->Stats_type["HealingBonus"]["None"];
-    if (Healer->Atv_stats->Unit_Name != target->Atv_stats->Unit_Name) {
-        mtpr += target->Stats_type["HealingBonus"]["None"];
-    }
     return mtpr / 100 < 0 ? 0 : mtpr / 100;
 }
 

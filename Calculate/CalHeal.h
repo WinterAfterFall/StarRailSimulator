@@ -11,6 +11,9 @@ double calculateHeal(Heal_data& Healptr, HealRatio healRatio, Sub_Unit *target) 
     TotalHeal += calculateHealFromTotalHP(target, healRatio.healFromTotalHP);
     TotalHeal += healRatio.fixHeal;
     TotalHeal *= Cal_HealBonus_multiplier(Healptr, target);
+    // if(target->isSameAlly("Mydei")){
+    //     cout<<TotalHeal<<endl;
+    // }
     return TotalHeal < 0 ? 0 : TotalHeal;
 }
 
@@ -23,6 +26,9 @@ double calculateHeal(HealRatio healRatio, Sub_Unit *Healer, Sub_Unit *target) {
     TotalHeal += calculateHealFromTotalHP(target, healRatio.healFromTotalHP);
     TotalHeal += healRatio.fixHeal;
     TotalHeal *= Cal_HealBonus_multiplier(Healer, target);
+    // if(target->isSameAlly("Mydei")){
+    //     cout<<TotalHeal<<endl;
+    // }
     return TotalHeal < 0 ? 0 : TotalHeal;
 }
 

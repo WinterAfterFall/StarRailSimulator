@@ -169,6 +169,7 @@ namespace Gallagher{
         data_.Damage_spilt.Adjacent.push_back({165,0,0,20});
         data_.Damage_spilt.Other.push_back({165,0,0,20});
         Action_bar.push(data_);
+        if(ptr->Print)Char_Command::printUltStart(ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name);
         Deal_damage();
         
 

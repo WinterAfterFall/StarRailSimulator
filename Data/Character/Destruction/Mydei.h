@@ -28,8 +28,8 @@ namespace Mydei{
     void Skill(Ally *ptr);
     void Enchance_Skill(Ally *ptr);
     void KingSlayer(Ally *ptr);
-    void ChargePoint(Ally *ptr,int point);
-    int CalculateChargePoint(Sub_Unit *ptr,double Value);
+    void ChargePoint(Ally *ptr,double point);
+    double CalculateChargePoint(Sub_Unit *ptr,double Value);
     
     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally_unit[num] = make_unique<Ally>();
@@ -98,7 +98,7 @@ namespace Mydei{
             ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"]+=43.2;
         }
         if(ptr->Element_Orb){
-            ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Lightning"]["None"]+=38.8;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Imaginary"]["None"]+=38.8;
         }else{
             ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"]+=43.2;
         }
@@ -159,12 +159,12 @@ namespace Mydei{
         if(ptr->Eidolon>=1){
             data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
             data_.Add_Target_Other();
-            data_.Damage_spilt.Main.push_back({0,155*1.3,0,15});
-            data_.Damage_spilt.Main.push_back({0,155*1.3,0,15});
-            data_.Damage_spilt.Adjacent.push_back({0,155*1.3,0,10});
-            data_.Damage_spilt.Adjacent.push_back({0,155*1.3,0,10});
-            data_.Damage_spilt.Other.push_back({0,155*1.3,0,10});
-            data_.Damage_spilt.Other.push_back({0,155*1.3,0,10});
+            data_.Damage_spilt.Main.push_back({0,155,0,15});
+            data_.Damage_spilt.Main.push_back({0,155,0,15});
+            data_.Damage_spilt.Adjacent.push_back({0,155,0,10});
+            data_.Damage_spilt.Adjacent.push_back({0,155,0,10});
+            data_.Damage_spilt.Other.push_back({0,155,0,10});
+            data_.Damage_spilt.Other.push_back({0,155,0,10});
         }else{
             data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Blast");
             data_.Add_Target_Adjacent();
@@ -299,10 +299,10 @@ namespace Mydei{
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),100);
         }
     }
-    int CalculateChargePoint(Sub_Unit *ptr,double Value){
-        return floor(Value/ptr->totalHP*100.0);
+    double CalculateChargePoint(Sub_Unit *ptr,double Value){
+        return (Value/ptr->totalHP*100.0);
     }
-    void ChargePoint(Ally *ptr,int point){
+    void ChargePoint(Ally *ptr,double point){
         ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Charge_point"]+=point;
         if(ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Charge_point"]>=100&&ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_Vendetta"]==false){
             ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_Vendetta"]=true;

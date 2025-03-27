@@ -70,9 +70,9 @@ void DecreaseCurrentHP(Sub_Unit *ptr,double Value){
 }
 void DecreaseHP(Sub_Unit *target,Unit *Trigger,double Value,double percentFromTotalHP,double percentFromCurrentHP){
     double Total = Value;
-    if(isEnemyCheck(Trigger)&&target->isSameUnit("Mydei")){
-        cout<<Trigger->Atv_stats->Unit_num<<" "<< Value<<endl;
-    }
+    // if(isEnemyCheck(Trigger)&&target->isSameUnit("Mydei")){
+    //     cout<<Trigger->Atv_stats->Unit_num<<" "<< Value<<endl;
+    // }
     if(target->currentHP<=0)return;
     Total += (percentFromTotalHP/100.0*target->totalHP);
     Total += (percentFromCurrentHP/100.0*target->currentHP);

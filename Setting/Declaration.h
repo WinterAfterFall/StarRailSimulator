@@ -97,7 +97,9 @@ void SetSummonStats(Ally* ptr, double BaseSpeed, std::string Name);
 
 //Energy
 void Increase_energy(Ally* ptr, double Energy);
+void Increase_energy(Sub_Unit *ptr, double Energy);
 void Increase_energy(Ally* ptr, double Energy_percent, double Flat_energy);
+void Increase_energy(Sub_Unit *ptr, double Energy_percent, double Flat_energy);
 bool ultUseCheck(Ally* ptr);
 void allUltimateCheck();
 

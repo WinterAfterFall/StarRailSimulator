@@ -31,7 +31,7 @@ void SetValue(){
     Break_Formula_check_mode = 0;
     
     Normal_Damage_Formula_check_mode = 0;
-    Normal_Damage_check_mode = 1;
+    Normal_Damage_check_mode = 0;
     Additional_Damage_Formula_check_mode = 0;
     Additional_Damage_check_mode = 0;
     // golden ratio
@@ -41,13 +41,12 @@ void SetValue(){
     Enemy_unit.resize(Total_enemy+1);
 }
 int main(){
-
     
     SetValue();
     //The_Herta::Setup(1,0,Erudition_Lightcone::The_Herta_LC,Relic::Scholar,Planar::Izumo);
     // Aglaea::Setup(1,0,Remembrance_Lightcone::SweatNowCryLess,Relic::Hero_Wreath,Planar::The_Wondrous_BananAmusement_Park);
     // Jingyuan::Setup_Jingyuan(1,2,Erudition_Lightcone::Before_Dawn,Relic::Grand_Duke,Planar::The_Wondrous_BananAmusement_Park);
-    Mydei::Setup(1,2,Destruction_Lightcone::Mydei_LC,Relic::Scholar,Planar::Bone_Collection);
+    Mydei::Setup(1,0,Destruction_Lightcone::Ninja_Record,Relic::Scholar,Planar::Bone_Collection);
 
     //Driver
     // Bronya::Setup(2,0,Harmony_Lightcone::But_the_Battle_Isnt_Over,Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
@@ -58,19 +57,19 @@ int main(){
     //Serval::Setup(2,6,Harmony_Lightcone::Meshing_Cogs,Relic::Double_Speed,Planar::Lushaka);
     
     //Support
-    Tribbie::Setup(3,0,Harmony_Lightcone::DDD,Relic::Poet_Dill,Planar::Broken_Keel);
+    // Tribbie::Setup(3,0,Harmony_Lightcone::DDD,Relic::Poet_Dill,Planar::Broken_Keel);
     // Robin::Setup(3,0,Harmony_Lightcone::For_Tomorrow_Journey,Relic::Double_Atk,Planar::Broken_Keel);
     // RMC::Setup(3,6,Remembrance_Lightcone::Victory_In_Blink,Relic::Double_Speed,Planar::Broken_Keel);
     // Ruan_Mei::Setup(3,0,Harmony_Lightcone::Memories_of_the_Past,Relic::Iron_Cavalry,Planar::Broken_Keel);
     //Tingyun::Setup(3,6,Harmony_Lightcone::DDD,Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
     
     //Debuffer
-    // Pela::Setup(3,6,Nihility_Lightcone::Before_the_Tutorial,Relic::Double_Speed,Planar::Broken_Keel);
+    Pela::Setup(3,6,Nihility_Lightcone::Before_the_Tutorial,Relic::Double_Speed,Planar::Broken_Keel);
 
 
     //Sustain
-    Gallagher::Setup(4,6,Abundance_Lightcone::Multiplication,Relic::Iron_Cavalry,Planar::Broken_Keel);
-    // Luocha::Setup(4,0,Abundance_Lightcone::Multiplication,Relic::Double_Atk,Planar::Broken_Keel);
+    // Gallagher::Setup(4,6,Abundance_Lightcone::Multiplication,Relic::Iron_Cavalry,Planar::Broken_Keel);
+    Luocha::Setup(4,0,Abundance_Lightcone::Multiplication,Relic::Double_Atk,Planar::Broken_Keel);
 
 
     // Char_Command::Set_Reroll_check(Ally_unit[1].get(),0);
