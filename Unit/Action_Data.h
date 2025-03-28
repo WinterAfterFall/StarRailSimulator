@@ -23,6 +23,17 @@ class PointerWithValue{
         return l.value > r.value;  // Higher priority first
     }
 };
+class AttackSource{
+    public : 
+    Sub_Unit* attacker = nullptr;
+    Sub_Unit* source = nullptr;
+    int changeWhen = 0;
+    AttackSource(int changeWhen , Sub_Unit* attacker)
+        : attacker(attacker), source(attacker), changeWhen(changeWhen) {}
+    AttackSource(int changeWhen , Sub_Unit* attacker, Sub_Unit* source)
+        : attacker(attacker), source(source), changeWhen(changeWhen) {}
+
+};
 class HealRatio{
     public :
     double ATK = 0;
@@ -71,14 +82,14 @@ class Hit_spilt{
 class ActionData{
     public:
     bool Turn_reset = 0;
-    function<void(Ally *ptr)> actionFunction;
+    function<void(ActionData &data_)> actionFunction;
     double Dont_care_weakness =0;
     Sub_Unit* Attacker = nullptr; 
+    Sub_Unit* source = nullptr; 
     vector<Sub_Unit*> Target_Buff;
     vector<Enemy*> Target_Attack;
-
     Hit_spilt Damage_spilt;
-    vector<pair<int,Sub_Unit*>> Joint;
+    vector<AttackSource> Joint;
     int Attack_trigger = 1; 
     vector<Sub_Unit*> All_Attacker;//
 
@@ -90,6 +101,8 @@ class ActionData{
 
     string traceType = "";// Aoe Single_target Bounce
     shared_ptr<Heal_data> healPtr;
+
+    string Name = "";
 
     void Add_Buff_Single_Target(Sub_Unit* ptr){
         Target_Buff.push_back(ptr);
@@ -133,6 +146,7 @@ class ActionData{
     }
     void Basic_Attack_set(Sub_Unit* ptr,string target_type){
         Attacker = ptr;
+        source = ptr; 
         All_Attacker.push_back(ptr);
         Action_type.first = "Attack";
         Action_type.second = "Basic_Attack";
@@ -142,6 +156,7 @@ class ActionData{
     }
     void Basic_Attack_set(Sub_Unit* ptr,string target_type,string buff_type){
         Attacker = ptr;
+        source = ptr; 
         All_Attacker.push_back(ptr);
         Action_type.first = "Buff";
         Action_type.second = "Basic_Attack";
@@ -152,6 +167,7 @@ class ActionData{
     }
     void Skill_set(Sub_Unit* ptr,string target_type){
         Attacker = ptr;
+        source = ptr; 
         All_Attacker.push_back(ptr);
         Action_type.first = "Attack";
         Action_type.second = "Skill";
@@ -161,6 +177,7 @@ class ActionData{
     }
     void Skill_set(Sub_Unit* ptr,string target_type,string buff_type){
         Attacker = ptr;
+        source = ptr; 
         All_Attacker.push_back(ptr);
         Action_type.first = "Buff";
         Action_type.second = "Skill";
@@ -171,6 +188,7 @@ class ActionData{
     }
     void Ultimate_set(Sub_Unit* ptr,string target_type){
         Attacker = ptr;
+        source = ptr; 
         All_Attacker.push_back(ptr);
         Action_type.first = "Attack";
         Action_type.second = "Ultimate";
@@ -180,6 +198,7 @@ class ActionData{
     }
     void Ultimate_set(Sub_Unit* ptr,string target_type,string buff_type){
         Attacker = ptr;
+        source = ptr; 
         All_Attacker.push_back(ptr);
         Action_type.first = "Buff";
         Action_type.second = "Ultimate";
@@ -190,6 +209,7 @@ class ActionData{
     }
     void Fua_set(Sub_Unit* ptr,string target_type){
         Attacker = ptr;
+        source = ptr; 
         All_Attacker.push_back(ptr);
         Action_type.first = "Attack";
         Action_type.second = "Fua";
@@ -199,6 +219,7 @@ class ActionData{
     }
     void Fua_set(Sub_Unit* ptr,string target_type,string buff_type){
         Attacker = ptr;
+        source = ptr; 
         All_Attacker.push_back(ptr);
         Action_type.first = "Buff";
         Action_type.second = "Fua";
@@ -209,6 +230,7 @@ class ActionData{
     }
     void Additional_set(Sub_Unit* ptr,string target_type){
         Attacker = ptr;
+        source = ptr; 
         All_Attacker.push_back(ptr);
         Action_type.first = "Attack";
         Action_type.second = "Additional";
@@ -218,6 +240,7 @@ class ActionData{
     }
     void Dot_set(Sub_Unit* ptr,string target_type){
         Attacker = ptr;
+        source = ptr; 
         All_Attacker.push_back(ptr);
         
         Action_type.first = "Attack";
@@ -230,6 +253,7 @@ class ActionData{
     }
     void Technique_set(Sub_Unit* ptr,string target_type){
         Attacker = ptr;
+        source = ptr; 
         All_Attacker.push_back(ptr);
         Action_type.first = "Attack";
         Action_type.second = "Technique";
@@ -239,6 +263,7 @@ class ActionData{
     }
     void Technique_set(Sub_Unit* ptr,string target_type,string buff_type){
         Attacker = ptr;
+        source = ptr; 
         All_Attacker.push_back(ptr);
         Action_type.first = "Buff";
         Action_type.second = "Technique";
@@ -256,6 +281,7 @@ class ActionData{
     }
     void Entanglement_set(Sub_Unit* ptr){
         Attacker = ptr;
+        source = ptr; 
         All_Attacker.push_back(ptr);
         Skill_Type.push_back("Entanglement");
         Damage_element = "Quantum";
@@ -266,6 +292,7 @@ class ActionData{
     }
     void Freeze_set(Sub_Unit* ptr){
         Attacker = ptr;
+        source = ptr; 
         All_Attacker.push_back(ptr);
         Skill_Type.push_back("Freeze");
         Damage_element = "Ice";
@@ -276,6 +303,7 @@ class ActionData{
     }
     void SuperBreak_set(Sub_Unit* ptr,string target_type){
         Attacker = ptr;
+        source = ptr; 
         All_Attacker.push_back(ptr);
         Skill_Type.push_back("Break_dmg");
         Skill_Type.push_back("Super_break");
@@ -286,6 +314,7 @@ class ActionData{
     }
     void Break_dmg_set(Sub_Unit* ptr){
         Attacker = ptr;
+        source = ptr; 
         All_Attacker.push_back(ptr);
         Skill_Type.push_back("Break_dmg");
         Damage_element = ptr->Element_type[0];

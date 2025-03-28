@@ -46,11 +46,11 @@ void Deal_damage(){
             
             allEventBeforeAttack(temp);
             
-            Attack(temp);
+            if(temp.actionFunction)temp.actionFunction(temp);
+            else Attack(temp);
             
-            if(temp.Turn_reset ==1){
-                atv_reset(turn);
-            }
+            if(temp.Turn_reset)atv_reset(turn);
+            
             
             for(int i=0;i<temp.Attack_trigger;i++){
                 temp.Attacker = temp.All_Attacker[i];
@@ -90,8 +90,9 @@ void Attack(ActionData &data_){
     
 
     for(int i=0, sz1 = data_.Damage_spilt.Main.size(),sz2 = data_.Damage_spilt.Adjacent.size(),sz3 = data_.Damage_spilt.Other.size();i<sz1;i++){
-        if(temp!=data_.Joint.size()&&data_.Joint[temp].first==i){
-            data_.Attacker = data_.Joint[temp].second;
+        if(temp!=data_.Joint.size()&&data_.Joint[temp].changeWhen==i){
+            data_.Attacker = data_.Joint[temp].attacker;
+            data_.source = data_.Joint[temp].source;
             Current_Attack_Name = data_.Attacker->Atv_stats->Char_Name;
             ++temp;
         }

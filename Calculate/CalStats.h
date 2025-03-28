@@ -95,18 +95,18 @@ double calculateBreakEffectForBuff(Sub_Unit *ptr,double ratio){
 }
 
 double Cal_Atk_multiplier(ActionData &data_,Enemy *target){
-    double ans = data_.Attacker->Base_atk;
+    double ans = data_.source->Base_atk;
     double Atk_percent_mtpr = 100;
     double Flat_atk_mtpr = 0;
     
-    Atk_percent_mtpr += data_.Attacker->Stats_type["Atk%"]["None"] + target->Stats_type["Atk%"]["None"];
-    Flat_atk_mtpr += data_.Attacker->Stats_type["Flat_Atk"]["None"] + target->Stats_type["Flat_Atk"]["None"];
+    Atk_percent_mtpr += data_.source->Stats_type["Atk%"]["None"] + target->Stats_type["Atk%"]["None"];
+    Flat_atk_mtpr += data_.source->Stats_type["Flat_Atk"]["None"] + target->Stats_type["Flat_Atk"]["None"];
 
     for(int i=0,sz=data_.Skill_Type.size();i<sz;i++){
-            Atk_percent_mtpr+= data_.Attacker->Stats_type["Atk%"][data_.Skill_Type[i]];
+            Atk_percent_mtpr+= data_.source->Stats_type["Atk%"][data_.Skill_Type[i]];
             Atk_percent_mtpr+= target->Stats_type["Atk%"][data_.Skill_Type[i]];
 
-            Flat_atk_mtpr += data_.Attacker->Stats_type["Flat_Atk"][data_.Skill_Type[i]];
+            Flat_atk_mtpr += data_.source->Stats_type["Flat_Atk"][data_.Skill_Type[i]];
             Flat_atk_mtpr += target->Stats_type["Flat_Atk"][data_.Skill_Type[i]];
     }
     
@@ -115,17 +115,17 @@ double Cal_Atk_multiplier(ActionData &data_,Enemy *target){
     return (ans < 0) ? 0 : ans;
 }
 double Cal_Hp_multiplier(ActionData &data_,Enemy *target){
-    double ans = data_.Attacker->Base_hp;
+    double ans = data_.source->Base_hp;
     double Hp_percent_mtpr = 100;
     double Flat_hp_mtpr = 0;
-    Hp_percent_mtpr += data_.Attacker->Stats_type["Hp%"]["None"] + target->Stats_type["Hp%"]["None"];
-    Flat_hp_mtpr += data_.Attacker->Stats_type["Flat_Hp"]["None"] + target->Stats_type["Flat_Hp"]["None"];
+    Hp_percent_mtpr += data_.source->Stats_type["Hp%"]["None"] + target->Stats_type["Hp%"]["None"];
+    Flat_hp_mtpr += data_.source->Stats_type["Flat_Hp"]["None"] + target->Stats_type["Flat_Hp"]["None"];
 
     for(int i=0,sz=data_.Skill_Type.size();i<sz;i++){
-            Hp_percent_mtpr+= data_.Attacker->Stats_type["Hp%"][data_.Skill_Type[i]];
+            Hp_percent_mtpr+= data_.source->Stats_type["Hp%"][data_.Skill_Type[i]];
             Hp_percent_mtpr+= target->Stats_type["Hp%"][data_.Skill_Type[i]];
 
-            Flat_hp_mtpr += data_.Attacker->Stats_type["Flat_Hp"][data_.Skill_Type[i]];
+            Flat_hp_mtpr += data_.source->Stats_type["Flat_Hp"][data_.Skill_Type[i]];
             Flat_hp_mtpr += target->Stats_type["Flat_Hp"][data_.Skill_Type[i]];
     }
     
@@ -135,18 +135,18 @@ double Cal_Hp_multiplier(ActionData &data_,Enemy *target){
 }
 
 double Cal_Def_multiplier(ActionData &data_,Enemy *target){
-    double ans = data_.Attacker->Base_def;
+    double ans = data_.source->Base_def;
     double Def_percent_mtpr = 100;
     double Flat_def_mtpr = 0;
 
-    Def_percent_mtpr += data_.Attacker->Stats_type["Def%"]["None"] + target->Stats_type["Def%"]["None"];
-    Flat_def_mtpr += data_.Attacker->Stats_type["Flat_Def"]["None"] + target->Stats_type["Flat_Def"]["None"];
+    Def_percent_mtpr += data_.source->Stats_type["Def%"]["None"] + target->Stats_type["Def%"]["None"];
+    Flat_def_mtpr += data_.source->Stats_type["Flat_Def"]["None"] + target->Stats_type["Flat_Def"]["None"];
 
     for(int i=0,sz=data_.Skill_Type.size();i<sz;i++){
-            Def_percent_mtpr+= data_.Attacker->Stats_type["Def%"][data_.Skill_Type[i]];
+            Def_percent_mtpr+= data_.source->Stats_type["Def%"][data_.Skill_Type[i]];
             Def_percent_mtpr+= target->Stats_type["Def%"][data_.Skill_Type[i]];
 
-            Flat_def_mtpr += data_.Attacker->Stats_type["Flat_Def"][data_.Skill_Type[i]];
+            Flat_def_mtpr += data_.source->Stats_type["Flat_Def"][data_.Skill_Type[i]];
             Flat_def_mtpr += target->Stats_type["Flat_Def"][data_.Skill_Type[i]];
     }
     

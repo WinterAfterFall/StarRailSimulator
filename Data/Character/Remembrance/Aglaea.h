@@ -153,7 +153,7 @@ namespace Aglaea{
         data_.Damage_spilt.Adjacent.push_back({90,0,0,5});
         data_.All_Attacker.push_back(ptr->Sub_Unit_ptr[1].get());
         data_.Attack_trigger++;
-        data_.Joint.push_back({1,ptr->Sub_Unit_ptr[1].get()});
+        data_.Joint.push_back(AttackSource(1,ptr->Sub_Unit_ptr[1].get()));
 
         Action_bar.push(data_);
     }
