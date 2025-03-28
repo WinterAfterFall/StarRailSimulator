@@ -52,7 +52,7 @@ unordered_map<std::string, bool> Enemy_weak = {
     };
     
 Action_value_stats* turn = nullptr;
-queue<Combat_data> Action_bar;
+queue<ActionData> Action_bar;
 
 double Level_multiplier = 3767.5533;
 double Current_atv =0;

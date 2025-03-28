@@ -15,7 +15,7 @@ namespace Rappa{
     void Skill_func(Ally *ptr);
     void Ult_func(Ally *ptr);//*
     void After_turn(Ally *ptr);
-    void After_attack(Ally *ptr, Combat_data &data_);
+    void After_attack(Ally *ptr, ActionData &data_);
     void Start_game(Ally *ptr);
     void Tune_stats(Ally *ptr);
     void Toughness_break_func(Ally *ptr,Enemy *target,Sub_Unit *Breaker);
@@ -92,7 +92,7 @@ namespace Rappa{
     }
     void Enchance_Basic_Atk(Ally *ptr){
         Increase_energy(ptr,20);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Blast");
         data_.Add_Target_Other();
         data_.Turn_reset = 1;
@@ -121,7 +121,7 @@ namespace Rappa{
     void Skill_func(Ally *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         Increase_energy(ptr,30);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
         data_.Add_Target_Other();
         data_.Turn_reset = 1;
@@ -146,7 +146,7 @@ namespace Rappa{
             ptr->Sub_Unit_ptr[0]->Stats_type["Def_shred"]["None"]+=15;
         }
 
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff");
         data_.Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
         Action_bar.push(data_);
@@ -154,7 +154,7 @@ namespace Rappa{
         
         //extra turn
         Increase_energy(ptr,20);
-        data_ = Combat_data();
+        data_ = ActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Blast");
         data_.Add_Target_Other();
         data_.Damage_spilt.Main.push_back({100,0,0,10});
@@ -203,12 +203,12 @@ namespace Rappa{
         }
         }
     }
-    void After_attack(Ally *ptr, Combat_data &data_){
+    void After_attack(Ally *ptr, ActionData &data_){
         if(data_.Attacker->Atv_stats->Char_Name=="Rappa"){
             if(ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"]==1){
                 Superbreak_trigger(data_,60);
 
-                Combat_data data_ = Combat_data();
+                ActionData data_ = ActionData();
                 data_.Break_dmg_set(ptr->Sub_Unit_ptr[0].get());
                 double temp = ptr->Sub_Unit_ptr[0]->Buff_note["Rappa_Talent"];
 
@@ -223,7 +223,7 @@ namespace Rappa{
         if(ptr->Technique==1){
             Increase_energy(ptr,10);
             for(int i=1;i<=Total_enemy;i++){
-                Combat_data data_ = Combat_data();
+                ActionData data_ = ActionData();
                 double temp;
                 data_.Break_dmg_set(ptr->Sub_Unit_ptr[0].get());
                 
@@ -235,7 +235,7 @@ namespace Rappa{
                     temp = 1.8;
                     Cal_Break_damage( data_,Enemy_unit[i].get(),temp);
                 }
-                data_ = Combat_data();
+                data_ = ActionData();
                 data_.Technique_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
                 data_.Add_Target_Other();
                 Cal_Toughness_reduction(data_,Enemy_unit[i].get(),30);

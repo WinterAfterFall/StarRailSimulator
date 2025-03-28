@@ -17,7 +17,7 @@ namespace Remembrance_Lightcone{
         }
         ));
 
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, Combat_data &data_){
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, ActionData &data_){
             
             if(data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_.Action_type.second=="Ultimate"){
                 Buff_single_with_all_memo_each(ptr,"Dmg%","Basic_Attack",40,"Geniuses_Greetings");
@@ -27,7 +27,7 @@ namespace Remembrance_Lightcone{
         }
         ));
 
-        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, Combat_data &data_){
+        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, ActionData &data_){
             
             if(data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_.Action_type.second=="Ultimate"){
                 Buff_single_with_all_memo_each(ptr,"Dmg%","Basic_Attack",40,"Geniuses_Greetings");

@@ -48,7 +48,7 @@ class Heal_data{
     HealRatio main;
     HealRatio adjacent;
     HealRatio other;
-    Combat_data *Combat_dataPtr = nullptr;
+    ActionData *Combat_dataPtr = nullptr;
     void setHealer(Sub_Unit* ptr){   
         this->Healer = ptr;
     }
@@ -68,11 +68,12 @@ class Hit_spilt{
     vector<Ratio_data> Adjacent;
     vector<Ratio_data> Other;
 };
-class Combat_data{
+class ActionData{
     public:
     bool Turn_reset = 0;
+    function<void(Ally *ptr)> actionFunction;
     double Dont_care_weakness =0;
-    Sub_Unit* Attacker = nullptr; //
+    Sub_Unit* Attacker = nullptr; 
     vector<Sub_Unit*> Target_Buff;
     vector<Enemy*> Target_Attack;
 
@@ -83,7 +84,7 @@ class Combat_data{
 
     pair<string,string> Action_type;//Attack Buff//Skill Basic_Attack Ultimate
 
-    vector<string> Buff_type;//Buff Heal Shield 
+    vector<string> Buff_type;//Buff Shield 
     vector<string> Skill_Type;//  None Basic_Attack Skill Ultimate  Dot  Fua  Summon  Break_dmg  Super_break Additional
     string Damage_element = "";//Physical Fire Ice Lightning Wind Quantum Imaginary
 

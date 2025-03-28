@@ -12,7 +12,7 @@ namespace Harmony_Lightcone{
         SetBaseStats(ptr->Sub_Unit_ptr[0].get(),953,423,397);
         ptr->Light_cone.Name = "Memories_of_the_Past";
 
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, Combat_data &data_){
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, ActionData &data_){
             
             if(data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name){
                 Increase_energy(ptr,8);

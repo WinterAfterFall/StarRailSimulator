@@ -14,7 +14,7 @@ namespace FireFly{
     void Enchance_Skill_func(Ally *ptr);
     void Ult_func(Ally *ptr);//*
     void Stats_Adjust(Ally *ptr,Sub_Unit *target, string StatsType);
-    void After_attack(Ally *ptr, Combat_data &data_);
+    void After_attack(Ally *ptr, ActionData &data_);
     void Toughness_break(Ally *ptr,Enemy *target,Sub_Unit *Breaker);
     void Tune_stats(Ally *ptr);
     void Start_wave(Ally *ptr);
@@ -124,7 +124,7 @@ namespace FireFly{
     void Skill_func(Ally *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         Increase_energy(ptr,60,0);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target");
         data_.Add_Target_Main();
         data_.Turn_reset = 1;
@@ -139,7 +139,7 @@ namespace FireFly{
         }else{
            Skill_point(ptr->Sub_Unit_ptr[0].get(),-1); 
         }
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         double skill_dmg = 0;
         if(ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"]>=360){
             skill_dmg = 272;
@@ -205,7 +205,7 @@ namespace FireFly{
         
 
     }
-    void After_attack(Ally *ptr, Combat_data &data_){
+    void After_attack(Ally *ptr, ActionData &data_){
         if(ptr->Eidolon>=2&&ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"]>0&&ptr->Countdown_ptr[0]->Atv_stats->Base_speed==70){
             ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"]--;
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),100);
@@ -231,7 +231,7 @@ namespace FireFly{
     }
     void Start_wave(Ally *ptr){
         if(ptr->Technique==1){
-        Combat_data data_ =Combat_data();
+        ActionData data_ =ActionData();
         data_.Technique_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
         data_.Add_Target_Other();
         data_.Damage_spilt.Main.push_back({200,0,0,20});

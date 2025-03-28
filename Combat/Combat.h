@@ -40,7 +40,7 @@ void Take_action(){
 void Deal_damage(){
     actionBarUse = true;
     while(!Action_bar.empty()){
-        Combat_data temp = Action_bar.front();
+        ActionData temp = Action_bar.front();
         
         if(temp.Action_type.first =="Attack"){
             
@@ -82,7 +82,7 @@ void Deal_damage(){
     }
     actionBarUse = false;
 }
-void Attack(Combat_data &data_){
+void Attack(ActionData &data_){
     int Total_hit = 0;
     int temp = 0;
     unordered_map<string,int> Total_hit_each;
@@ -141,8 +141,8 @@ void Skill_point(Sub_Unit *ptr,int p){
 void Apply_debuff(Sub_Unit *ptr,Enemy* target){
     allEventApplyDebuff(ptr,target);
 }
-void Superbreak_trigger(Combat_data &data_, double Superbreak_ratio){
-    Combat_data data_2 = Combat_data();
+void Superbreak_trigger(ActionData &data_, double Superbreak_ratio){
+    ActionData data_2 = ActionData();
     data_2.SuperBreak_set(data_.Attacker,data_.traceType);
     
     for(int i=1;i<=Total_enemy;i++){
@@ -178,7 +178,7 @@ void Superbreak_trigger(Combat_data &data_, double Superbreak_ratio){
     }
 }
 void Dot_trigger(double Dot_ratio,Enemy *target,string Dot_type){
-    Combat_data data_;
+    ActionData data_;
     data_.Skill_Type.push_back("Dot");
     
     data_.Action_type.first = "Attack";
@@ -218,7 +218,7 @@ void Dot_trigger(double Dot_ratio,Enemy *target,string Dot_type){
     }
     
 }
-void Toughness_break(Combat_data &data_,Enemy* target){
+void Toughness_break(ActionData &data_,Enemy* target){
     Sub_Unit *temp1;
     string temp2;
     if(Force_break!=0){
@@ -228,7 +228,7 @@ void Toughness_break(Combat_data &data_,Enemy* target){
         data_.Damage_element = Ally_unit[Force_break]->Sub_Unit_ptr[0]->Element_type[0];
     }
     double Constant = 0;
-    Combat_data data_2 = Combat_data();
+    ActionData data_2 = ActionData();
     data_2.Break_dmg_set(data_.Attacker);
     ++target->Total_debuff;
     allEventApplyDebuff(data_.Attacker,target);

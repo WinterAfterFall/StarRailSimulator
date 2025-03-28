@@ -18,7 +18,7 @@ namespace Harmony_Lightcone{
             }
         ));
 
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, Combat_data &data_){
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, ActionData &data_){
             
             if(data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_.Action_type.second=="Skill"){
                 ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff"] =1;
@@ -34,7 +34,7 @@ namespace Harmony_Lightcone{
         }
         ));
 
-        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, Combat_data &data_){
+        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, ActionData &data_){
             
             if(data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_.Action_type.second=="Skill"){
                 ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff"] =1;

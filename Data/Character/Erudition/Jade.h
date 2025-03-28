@@ -16,11 +16,11 @@ namespace Jade{
 
     void Ult_func(Ally *ptr);
     void Tune_stats(Ally *ptr);
-    void When_attack(Ally *ptr,Combat_data &data_);
+    void When_attack(Ally *ptr,ActionData &data_);
     void Start_game(Ally *ptr);
     void Before_turn(Ally *ptr);
-    void Before_attack(Ally *ptr,Combat_data &data_);
-    void After_attack(Ally *ptr,Combat_data &data_);
+    void Before_attack(Ally *ptr,ActionData &data_);
+    void After_attack(Ally *ptr,ActionData &data_);
     void Enemy_Death(Ally *ptr,Enemy *target,Sub_Unit *Killer);
 
 
@@ -102,7 +102,7 @@ namespace Jade{
     void Basic_Atk(Ally *ptr){
         Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),20);
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Blast");
         data_.Add_Target_Adjacent();
         data_.Turn_reset=true;
@@ -114,7 +114,7 @@ namespace Jade{
     void Skill(Ally *ptr){
         Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff");
         data_.Add_Buff_Single_Target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
         data_.Turn_reset=true;
@@ -126,7 +126,7 @@ namespace Jade{
 
     void Ult_func(Ally *ptr){
         if(!ultUseCheck(ptr))return;
-            Combat_data data_ = Combat_data();
+            ActionData data_ = ActionData();
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
             data_.Add_Target_Other();
             data_.Damage_spilt.Main.push_back({240,0,0,20});
@@ -138,7 +138,7 @@ namespace Jade{
         }
             
         
-    void When_attack(Ally *ptr,Combat_data &data_){
+    void When_attack(Ally *ptr,ActionData &data_){
         if(data_.Attacker->Atv_stats->Unit_Name=="Jade"&&data_.Action_type.second == "Fua"){
             Jade_Talent(ptr,5);
             return;
@@ -166,7 +166,7 @@ namespace Jade{
         }
     }
     void Fua(Ally *ptr){
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Fua_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
         data_.Add_Target_Other();
         data_.Damage_spilt.Main.push_back({18,0,0,10});
@@ -190,7 +190,7 @@ namespace Jade{
         
     }
     void Fua_Enchance(Ally *ptr){
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Fua_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
         data_.Add_Target_Other();
         data_.Damage_spilt.Main.push_back({20,0,0,10});
@@ -231,12 +231,12 @@ namespace Jade{
             ptr->Sub_Unit_ptr[0]->Buff_check["Jade_Skill"]=0;
         }
     }
-    void Before_attack(Ally *ptr,Combat_data &data_){
+    void Before_attack(Ally *ptr,ActionData &data_){
         if(ptr->Eidolon>=1&&data_.Attacker->Atv_stats->Unit_Name=="Jade"&&data_.Action_type.second == "Fua"){
             Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Dmg%","None",32);
         }
     }
-    void After_attack(Ally *ptr,Combat_data &data_){
+    void After_attack(Ally *ptr,ActionData &data_){
         if(ptr->Eidolon>=1&&data_.Attacker->Atv_stats->Unit_Name=="Jade"&&data_.Action_type.second == "Fua"){
             Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Dmg%","None",-32);
         }
@@ -246,7 +246,7 @@ namespace Jade{
         Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),50);
         if(ptr->Technique==1){
             Jade_Talent(ptr,15);
-            Combat_data data_ =Combat_data();
+            ActionData data_ =ActionData();
             data_.Technique_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
             data_.Add_Target_Other();
             data_.Damage_spilt.Main.push_back({50,0,0,0});

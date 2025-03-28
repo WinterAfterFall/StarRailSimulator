@@ -15,7 +15,7 @@ namespace Relic{
         }
         ));
 
-        Hit_Count_List.push_back(TriggerHit_Count_func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr,Combat_data &data_,int Hit_cnt,int Total_Hit_cnt){
+        Hit_Count_List.push_back(TriggerHit_Count_func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr,ActionData &data_,int Hit_cnt,int Total_Hit_cnt){
             bool check=0;
             if(data_.Attacker->Atv_stats->Unit_Name!=ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name)return;
             for(auto e:data_.Skill_Type){

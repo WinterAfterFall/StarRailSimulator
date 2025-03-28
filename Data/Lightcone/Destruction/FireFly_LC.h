@@ -19,7 +19,7 @@ namespace Destruction_Lightcone{
             
             }
         ));
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr,Combat_data &data_){
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr,ActionData &data_){
             if(data_.Attacker->Atv_stats->Unit_num!=ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num&&data_.Attacker->Atv_stats->Side!="Ally")return;
             int sz2 = data_.Damage_spilt.Adjacent.size();
             int sz3 = data_.Damage_spilt.Other.size();

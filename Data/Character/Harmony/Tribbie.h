@@ -16,7 +16,7 @@ namespace Tribbie{
     void Tune_stats(Ally *ptr);    
     void Start_game(Ally *ptr);
     void Print_Stats(Ally *ptr);
-    void When_attack(Ally *ptr,Combat_data &data_);
+    void When_attack(Ally *ptr,ActionData &data_);
     void Stats_Adjust(Ally *ptr,Sub_Unit *target, string StatsType);
     
 
@@ -132,7 +132,7 @@ namespace Tribbie{
     void Basic_Atk(Ally *ptr){
         Increase_energy(ptr,20);
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Blast");
         data_.Add_Target_Adjacent();
         data_.Turn_reset=true;
@@ -145,7 +145,7 @@ namespace Tribbie{
     void Skill(Ally *ptr){
         Increase_energy(ptr,30);
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Aoe","Buff");
         data_.Add_Buff_All_Ally();
         data_.Turn_reset=true;
@@ -164,7 +164,7 @@ namespace Tribbie{
         if(ptr->Light_cone.Name=="Eagle_Beaked_Helmet"&&ptr->Sub_Unit_ptr[0]->Atv_stats->atv<=0)return;
 
         if(!ultUseCheck(ptr))return;
-            Combat_data data_ = Combat_data();
+            ActionData data_ = ActionData();
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
             data_.Add_Target_Other();
             data_.Damage_spilt.Main.push_back({0,30,0,20});
@@ -197,7 +197,7 @@ namespace Tribbie{
             Action_bar.push(data_);
             if(ptr->Print)cout<<"---------------------------------------------------- Tribbie Ult at "<<Current_atv<<endl;
             if(ptr->Eidolon>=6){
-            Combat_data data_2 = Combat_data();
+            ActionData data_2 = ActionData();
             data_2.Fua_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
             data_2.Add_Target_Other();
             Increase_energy(ptr,5);
@@ -252,7 +252,7 @@ namespace Tribbie{
         }
     }
 
-    void When_attack(Ally *ptr,Combat_data &data_){
+    void When_attack(Ally *ptr,ActionData &data_){
         
         int temp = data_.Target_Attack.size();
         if(data_.Attacker->Atv_stats->Char_Name=="Tribbie"&&data_.Action_type.second=="Fua"){
@@ -261,7 +261,7 @@ namespace Tribbie{
         }
         Increase_energy(ptr,(1.5)*temp);
         if(Buff_check(ptr->Sub_Unit_ptr[0].get(),"Tribbie_Zone")){
-            Combat_data data_1 = Combat_data();
+            ActionData data_1 = ActionData();
             data_1.Additional_set(ptr->Sub_Unit_ptr[0].get(),"Single_target");
             if(ptr->Eidolon>=2){
                 Cal_Additional_damage(data_1,chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()),{0,(14.4)*(temp+1),0,0});
@@ -273,7 +273,7 @@ namespace Tribbie{
         }
         if(data_.Action_type.second=="Ultimate"&&Buff_check(data_.Attacker,"Tribbie_ult_launch")==0&&data_.Attacker->Atv_stats->Char_Name!="Tribbie"&&data_.Attacker->Atv_stats->Side=="Ally"){
             data_.Attacker->Buff_check["Tribbie_ult_launch"]=1;
-            Combat_data data_2 = Combat_data();
+            ActionData data_2 = ActionData();
             data_2.Fua_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
             data_2.Add_Target_Other();
             Increase_energy(ptr,5);

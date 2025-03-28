@@ -108,7 +108,7 @@ namespace Template_name{
     void Basic_Atk(Ally *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         Increase_energy(ptr,30,0);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         Action_bar.push(data_);
 
 
@@ -116,7 +116,7 @@ namespace Template_name{
     void Skill(Ally *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         Increase_energy(ptr,30,0);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         Action_bar.push(data_);
 
 

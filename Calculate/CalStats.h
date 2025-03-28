@@ -94,7 +94,7 @@ double calculateBreakEffectForBuff(Sub_Unit *ptr,double ratio){
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 
-double Cal_Atk_multiplier(Combat_data &data_,Enemy *target){
+double Cal_Atk_multiplier(ActionData &data_,Enemy *target){
     double ans = data_.Attacker->Base_atk;
     double Atk_percent_mtpr = 100;
     double Flat_atk_mtpr = 0;
@@ -114,7 +114,7 @@ double Cal_Atk_multiplier(Combat_data &data_,Enemy *target){
     ans = (ans * Atk_percent_mtpr/100) + Flat_atk_mtpr;
     return (ans < 0) ? 0 : ans;
 }
-double Cal_Hp_multiplier(Combat_data &data_,Enemy *target){
+double Cal_Hp_multiplier(ActionData &data_,Enemy *target){
     double ans = data_.Attacker->Base_hp;
     double Hp_percent_mtpr = 100;
     double Flat_hp_mtpr = 0;
@@ -134,7 +134,7 @@ double Cal_Hp_multiplier(Combat_data &data_,Enemy *target){
     return (ans < 0) ? 0 : ans;
 }
 
-double Cal_Def_multiplier(Combat_data &data_,Enemy *target){
+double Cal_Def_multiplier(ActionData &data_,Enemy *target){
     double ans = data_.Attacker->Base_def;
     double Def_percent_mtpr = 100;
     double Flat_def_mtpr = 0;
@@ -154,7 +154,7 @@ double Cal_Def_multiplier(Combat_data &data_,Enemy *target){
     ans = (ans * Def_percent_mtpr/100) + Flat_def_mtpr;
     return (ans < 0) ? 0 : ans;
 }
-double Cal_Bonus_dmg_multiplier(Combat_data &data_,Enemy *target){
+double Cal_Bonus_dmg_multiplier(ActionData &data_,Enemy *target){
     double Bonus_dmg_mtpr = 100;
     
     Bonus_dmg_mtpr += data_.Attacker->Stats_type["Dmg%"]["None"] + target->Stats_type["Dmg%"]["None"] + data_.Attacker->Stats_each_element["Dmg%"][data_.Damage_element]["None"] + target->Stats_each_element["Dmg%"][data_.Damage_element]["None"];
@@ -165,7 +165,7 @@ double Cal_Bonus_dmg_multiplier(Combat_data &data_,Enemy *target){
     }
     return (Bonus_dmg_mtpr / 100 < 0) ? 0 : Bonus_dmg_mtpr / 100;
 }
-double Cal_Crit_multiplier(Combat_data &data_,Enemy *target){
+double Cal_Crit_multiplier(ActionData &data_,Enemy *target){
     double Crit_rate_mtpr;
     double Crit_dam_mtpr;
 
@@ -183,7 +183,7 @@ double Cal_Crit_multiplier(Combat_data &data_,Enemy *target){
     return (1+(Crit_rate_mtpr/100 * Crit_dam_mtpr/100));
 
 }
-double Cal_Crit_rate_multiplier(Combat_data &data_,Enemy *target) {
+double Cal_Crit_rate_multiplier(ActionData &data_,Enemy *target) {
     double Crit_rate_mtpr;
 
     Crit_rate_mtpr = data_.Attacker->Stats_type["Crit_rate"]["None"] + target->Stats_type["Crit_rate"]["None"];
@@ -194,7 +194,7 @@ double Cal_Crit_rate_multiplier(Combat_data &data_,Enemy *target) {
     return (Crit_rate_mtpr < 0) ? 0 : Crit_rate_mtpr;
 }
 
-double Cal_Crit_dam_multiplier(Combat_data &data_,Enemy *target) {
+double Cal_Crit_dam_multiplier(ActionData &data_,Enemy *target) {
     double Crit_dam_mtpr;
 
     Crit_dam_mtpr = data_.Attacker->Stats_type["Crit_dam"]["None"] + target->Stats_type["Crit_dam"]["None"];
@@ -204,7 +204,7 @@ double Cal_Crit_dam_multiplier(Combat_data &data_,Enemy *target) {
 
     return (Crit_dam_mtpr < 0) ? 0 : Crit_dam_mtpr;
 }
-double Cal_Def_shred_multiplier(Combat_data &data_,Enemy *target){
+double Cal_Def_shred_multiplier(ActionData &data_,Enemy *target){
     double Def_shred_mtpr;
     
     Def_shred_mtpr = data_.Attacker->Stats_type["Def_shred"]["None"] + target->Stats_type["Def_shred"]["None"];
@@ -219,7 +219,7 @@ double Cal_Def_shred_multiplier(Combat_data &data_,Enemy *target){
     }
     return 100/(100 + 115*(1-1*Def_shred_mtpr/100));
 }
-double Cal_Respen_multiplier(Combat_data &data_,Enemy *target){
+double Cal_Respen_multiplier(ActionData &data_,Enemy *target){
     double Respen_mtpr = 100;
     
     Respen_mtpr += data_.Attacker->Stats_type["Respen"]["None"] + target->Stats_type["Respen"]["None"] + data_.Attacker->Stats_each_element["Respem"][data_.Damage_element]["None"] + target->Stats_each_element["Respem"][data_.Damage_element]["None"];
@@ -230,7 +230,7 @@ double Cal_Respen_multiplier(Combat_data &data_,Enemy *target){
     }
     return (Respen_mtpr / 100 < 0) ? 0 : Respen_mtpr / 100;
 }
-double Cal_Vul_multiplier(Combat_data &data_,Enemy *target){
+double Cal_Vul_multiplier(ActionData &data_,Enemy *target){
     double Vul_mtpr = 100;
     
     Vul_mtpr += data_.Attacker->Stats_type["Vul"]["None"] + target->Stats_type["Vul"]["None"];
@@ -239,7 +239,7 @@ double Cal_Vul_multiplier(Combat_data &data_,Enemy *target){
     }
     return (Vul_mtpr / 100 < 0) ? 0 : Vul_mtpr / 100;
 }
-double Cal_BreakEffect_multiplier(Combat_data &data_,Enemy *target){
+double Cal_BreakEffect_multiplier(ActionData &data_,Enemy *target){
     double BreakEffect_mtpr = 100;
   
     BreakEffect_mtpr += data_.Attacker->Stats_type["Break_effect"]["None"] + target->Stats_type["Break_effect"]["None"];
@@ -248,19 +248,19 @@ double Cal_BreakEffect_multiplier(Combat_data &data_,Enemy *target){
     }
     return (BreakEffect_mtpr / 100 < 0) ? 0 : BreakEffect_mtpr / 100;
 }
-double Cal_Toughness_multiplier(Combat_data &data_,Enemy *target){
+double Cal_Toughness_multiplier(ActionData &data_,Enemy *target){
     if((data_.Action_type.second!="Break_dmg"&&Avg_damage_Mode)||target->Toughness_status==0){
         return 1;
     }else{
         return 0.9;
     }
 }
-double Cal_Superbreak_DamageIncrease_multiplier(Combat_data &data_,Enemy *target){
+double Cal_Superbreak_DamageIncrease_multiplier(ActionData &data_,Enemy *target){
     double Spb_dmg_mtpr = 100;
     Spb_dmg_mtpr += data_.Attacker->Stats_type["Superbreak_DamageIncrease"]["None"] + target->Stats_type["Superbreak_DamageIncrease"]["None"];
     return (Spb_dmg_mtpr / 100 < 0) ? 0 : Spb_dmg_mtpr / 100;
 }
-double Cal_Mitigation_multiplier(Combat_data &data_,Enemy *target){
+double Cal_Mitigation_multiplier(ActionData &data_,Enemy *target){
     double Mitigation_mtpr = 100;
 
     Mitigation_mtpr += data_.Attacker->Stats_type["Mitigation"]["None"] + target->Stats_type["Mitigation"]["None"];

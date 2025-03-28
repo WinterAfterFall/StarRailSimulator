@@ -14,7 +14,7 @@ namespace Relic{
             ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Wind"]["None"]+=10;
         }
         ));
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, Combat_data &data_){
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, ActionData &data_){
             
             if(data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_.Action_type.second=="Ultimate"){
                 Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),25);
@@ -23,7 +23,7 @@ namespace Relic{
         }
         ));
 
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, Combat_data &data_){
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, ActionData &data_){
             
             if(data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_.Action_type.second=="Ultimate"){
                 Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),25);

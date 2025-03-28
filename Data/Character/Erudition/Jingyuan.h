@@ -115,7 +115,7 @@ namespace Jingyuan{
             if(ally_ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]>=6){
                 ally_ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["Summon"]+=25;
             }
-            Combat_data temp = Combat_data();
+            ActionData temp = ActionData();
             temp.Fua_set(ally_ptr->Sub_Unit_ptr[0].get(),"Bounce");
             temp.Add_Target_Adjacent();
             temp.Skill_Type.push_back("Summon");
@@ -171,7 +171,7 @@ namespace Jingyuan{
     void Basic_Atk(Ally *ptr){
         Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),20);
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target");
         data_.Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
         data_.Turn_reset=true;
@@ -182,7 +182,7 @@ namespace Jingyuan{
     void Skill(Ally *ptr){
         Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
         data_.Add_Target_Other();
         data_.Turn_reset=true;
@@ -215,7 +215,7 @@ namespace Jingyuan{
 
     void Ult_func(Ally *ptr){
         if(((turn->Char_Name!="Jingyuan"||Ult_After_Turn==1)&&Robin_temp(ptr)) || !ultUseCheck(ptr))return;
-            Combat_data data_ = Combat_data();
+            ActionData data_ = ActionData();
             if(ptr->Print)cout<<"--------------------------------------------------- Jingyuan Ult"<<endl;
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
             data_.Add_Target_Other();

@@ -19,7 +19,7 @@ namespace Ruan_Mei{
     void After_turn(Ally *ptr);
     void Start_game(Ally *ptr);
     void Toughness_break(Ally *ptr,Enemy *target,Sub_Unit *Breaker);
-    void After_attack(Ally *ptr, Combat_data &data_);
+    void After_attack(Ally *ptr, ActionData &data_);
 
     
     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
@@ -108,7 +108,7 @@ namespace Ruan_Mei{
     void Basic_Atk(Ally *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         Increase_energy(ptr,20);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target");
         data_.Add_Target_Main();
         data_.Turn_reset = 1;
@@ -123,7 +123,7 @@ namespace Ruan_Mei{
         ptr->Sub_Unit_ptr[0]->Buff_check["Mei_Skill"] = 1;
         Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Mei_Skill",3);
 
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff");
         data_.Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
         data_.Turn_reset = 1;
@@ -143,7 +143,7 @@ namespace Ruan_Mei{
         Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"RuanMei_Ult",2);
 
         
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),"Aoe","Buff");
         data_.Add_Buff_All_Ally();
         Action_bar.push(data_);
@@ -173,7 +173,7 @@ namespace Ruan_Mei{
                 Enemy_unit[turn->Unit_num]->Debuff["RuanMei_Ult_bloom"]=0;
                 Enemy_unit[turn->Unit_num]->Total_debuff--;
                 Action_forward(Enemy_unit[turn->Unit_num]->Atv_stats.get(),-10-(0.2*(ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"])));
-                Combat_data data_ = Combat_data();
+                ActionData data_ = ActionData();
                 data_.Break_dmg_set(ptr->Sub_Unit_ptr[0].get());
                 double temp;
                 temp = 0.5;
@@ -181,7 +181,7 @@ namespace Ruan_Mei{
             }
         }
     }
-    void After_attack(Ally *ptr, Combat_data &data_){
+    void After_attack(Ally *ptr, ActionData &data_){
         if(Buff_check(ptr->Sub_Unit_ptr[0].get(),"RuanMei_Ult")){
         int sz2 = data_.Damage_spilt.Adjacent.size();
         int sz3 = data_.Damage_spilt.Other.size();
@@ -213,7 +213,7 @@ namespace Ruan_Mei{
         }
     }
     void Toughness_break(Ally *ptr,Enemy *target,Sub_Unit *Breaker){
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         double temp;
         data_.Break_dmg_set(ptr->Sub_Unit_ptr[0].get());
         temp = 1.2;
@@ -241,7 +241,7 @@ namespace Ruan_Mei{
         ptr->Sub_Unit_ptr[0]->Buff_check["Mei_Skill"] = 1;
         Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Mei_Skill",3);
 
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff");
         data_.Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
         Action_bar.push(data_);

@@ -12,7 +12,7 @@ namespace Bronya{
     void Turn_func(Unit *ptr);
     void Before_turn(Ally *ptr);
     void After_turn(Ally *ptr);
-    void After_attack(Ally *ptr,Combat_data &data_);
+    void After_attack(Ally *ptr,ActionData &data_);
     void Ult_func(Ally *ptr);
     void Tune_stats(Ally *ptr);    
     void Start_game(Ally *ptr);
@@ -114,7 +114,7 @@ namespace Bronya{
     void Skill(Ally *ptr){
         Increase_energy(ptr,30);
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff");
         data_.Add_Buff_Single_Target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
         data_.Turn_reset=true;
@@ -151,7 +151,7 @@ namespace Bronya{
 
     void Ult_func(Ally *ptr){
         if(!ultUseCheck(ptr))return;
-            Combat_data data_ = Combat_data();
+            ActionData data_ = ActionData();
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),"Aoe","Buff");
             data_.Add_Buff_All_Ally();
             for(auto e:data_.Target_Buff){
@@ -174,12 +174,12 @@ namespace Bronya{
 
             Deal_damage();        
     }
-    void After_attack(Ally *ptr,Combat_data &data_){
+    void After_attack(Ally *ptr,ActionData &data_){
         if(data_.Action_type.second=="Basic_Attack"&&data_.Attacker->Atv_stats->Char_Name=="Bronya"){
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),30);
         }
         if(ptr->Eidolon>=4&&data_.Action_type.second=="Basic_Attack"&&data_.Attacker->Atv_stats->Char_Name!="Bronya"&&ptr->Sub_Unit_ptr[0]->Buff_check["Bronya_E4"]==0){
-            Combat_data data_temp = Combat_data();
+            ActionData data_temp = ActionData();
             data_temp.Fua_set(ptr->Sub_Unit_ptr[0].get(),"Single_target");
             data_temp.Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
             data_temp.Damage_spilt.Main.push_back({80,0,0,10});

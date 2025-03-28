@@ -12,7 +12,7 @@ namespace Harmony_Lightcone{
         SetBaseStats(ptr->Sub_Unit_ptr[0].get(),953,635,463);
         ptr->Light_cone.Name = "Robin_LC";
         
-        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, Combat_data &data_){
+        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, ActionData &data_){
             if(ptr->Sub_Unit_ptr[0]->Stack["Cantillation"]<5){
                 ptr->Sub_Unit_ptr[0]->Stack["Cantillation"]++;
                 ptr->Energy_recharge+=3;
@@ -20,7 +20,7 @@ namespace Harmony_Lightcone{
         }
         ));
 
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, Combat_data &data_){
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, ActionData &data_){
             
             if(data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_.Action_type.second=="Ultimate"){
                 ptr->Energy_recharge-=ptr->Sub_Unit_ptr[0]->Stack["Cantillation"]*3;
@@ -37,7 +37,7 @@ namespace Harmony_Lightcone{
         }
         ));
 
-        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, Combat_data &data_){
+        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, ActionData &data_){
             
             if(data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_.Action_type.second=="Ultimate"){
                 ptr->Energy_recharge-=ptr->Sub_Unit_ptr[0]->Stack["Cantillation"]*3;

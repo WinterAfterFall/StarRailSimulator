@@ -21,7 +21,7 @@ namespace Harmony_MC{
     void When_Combat(Ally *ptr);
     void Start_game(Ally *ptr);
     void Toughness_break_func(Ally *ptr,Enemy *target,Sub_Unit *Breaker);
-    void After_attack(Ally *ptr, Combat_data &data_);
+    void After_attack(Ally *ptr, ActionData &data_);
 
     
     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
@@ -105,7 +105,7 @@ namespace Harmony_MC{
         }
         ptr->Sub_Unit_ptr[0]->Buff_check["Harmony_MC_ult"]=1;
         Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Harmony_MC_ult",3);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),"Aoe","Buff");
         data_.Add_Buff_All_Ally();
         Action_bar.push(data_);
@@ -114,7 +114,7 @@ namespace Harmony_MC{
     void Basic_Atk(Ally *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         Increase_energy(ptr,20);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target");
         data_.Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
         data_.Turn_reset = 1;
@@ -129,7 +129,7 @@ namespace Harmony_MC{
         }
         
         Increase_energy(ptr,30);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Bounce");
         data_.Add_Target_Adjacent();
         data_.Turn_reset = 1;
@@ -218,7 +218,7 @@ namespace Harmony_MC{
 
         
     }
-    void After_attack(Ally *ptr, Combat_data &data_){
+    void After_attack(Ally *ptr, ActionData &data_){
         
 
         if(ptr->Sub_Unit_ptr[0]->Buff_check["Harmony_MC_ult"]==1){

@@ -16,7 +16,7 @@ namespace Tingyun{
     void Ult_func(Ally *ptr);//*
     void Before_turn(Ally *ptr);
     void After_turn(Ally *ptr);
-    void When_Attack(Ally *ptr, Combat_data &data_);
+    void When_Attack(Ally *ptr, ActionData &data_);
     void Start_game(Ally *ptr);
     
     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
@@ -84,7 +84,7 @@ namespace Tingyun{
         }
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         Increase_energy(ptr,30);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff");
         data_.Add_Buff_Single_Target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
         data_.Turn_reset = 1;
@@ -96,7 +96,7 @@ namespace Tingyun{
         Extend_Buff_single_target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()),"Benediction",3);
     }
     void Basic_Atk(Ally *ptr){
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         Increase_energy(ptr,20);
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target");
@@ -110,7 +110,7 @@ namespace Tingyun{
         if(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum]->Max_energy - Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum]->Current_energy<=30)return ;
 
         if(!ultUseCheck(ptr))return;
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff");
         data_.Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
         Action_bar.push(data_);
@@ -163,17 +163,17 @@ namespace Tingyun{
             tempUnit->Buff_check["Rejoicing_Clouds"] = 0;
         }
     }
-    void When_Attack(Ally *ptr, Combat_data &data_){
+    void When_Attack(Ally *ptr, ActionData &data_){
         Sub_Unit* tempUnit = data_.Attacker;
         if(!tempUnit)return;
         if(Buff_check(tempUnit,"Benediction")){
         if(data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name){
-                Combat_data temp = Combat_data();
+                ActionData temp = ActionData();
                 temp.Additional_set(ptr->Sub_Unit_ptr[0].get(),"Single_target");
                 Cal_Additional_damage(temp,Enemy_unit[Main_Enemy_num].get(),{66,0,0,0});
                 
         }else if(data_.Attacker->Atv_stats->Unit_Name == Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum]->Sub_Unit_ptr[ptr->Sub_Unit_ptr[0]->Sub_Unit_num]->Atv_stats->Unit_Name){
-                Combat_data temp = Combat_data();
+                ActionData temp = ActionData();
                 temp.Additional_set(tempUnit,"Single_target");
         
                 if(ptr->Eidolon>=4){

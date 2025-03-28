@@ -14,7 +14,7 @@ namespace The_Herta{
     void Ult_func(Ally *ptr);
     void Tune_stats(Ally *ptr);
     void Start_game(Ally *ptr);
-    void After_attack(Ally *ptr,Combat_data &data_);
+    void After_attack(Ally *ptr,ActionData &data_);
     void After_turn(Ally *ptr);
     void Enemy_Death(Ally *ptr,Enemy *target,Sub_Unit *Killer);
     void When_Combat(Ally *ptr);
@@ -165,7 +165,7 @@ namespace The_Herta{
     void Basic_Atk(Ally *ptr){
         Increase_energy(ptr,20);
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target");
         data_.Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
         data_.Turn_reset=true;
@@ -176,7 +176,7 @@ namespace The_Herta{
         
         Increase_energy(ptr,30);
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Blast");
         data_.Add_Target_Other();
         data_.Damage_spilt.Main.push_back({70,0,0,5});
@@ -200,7 +200,7 @@ namespace The_Herta{
     void Enchance_Skill(Ally *ptr){
         Increase_energy(ptr,30);
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
         data_.Add_Target_Other();
         data_.Turn_reset=true;
@@ -256,7 +256,7 @@ namespace The_Herta{
         
         if((ptr->Sub_Unit_ptr[0]->Atv_stats->atv < ptr->Sub_Unit_ptr[0]->Atv_stats->Max_atv*0.3))return;
         if(!ultUseCheck(ptr))return;
-            Combat_data data_ = Combat_data();
+            ActionData data_ = ActionData();
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
             data_.Add_Target_Other();
             double Increase_mtpr = ptr->Sub_Unit_ptr[0]->Stack["The_Herta_A6"];
@@ -336,7 +336,7 @@ namespace The_Herta{
         }
         
     }
-    void After_attack(Ally *ptr,Combat_data &data_){
+    void After_attack(Ally *ptr,ActionData &data_){
         if(data_.Action_type.second=="Skill"&&ptr->Sub_Unit_ptr[0]->Buff_check["Ther_Herta_A2"]){
             ptr->Sub_Unit_ptr[0]->Buff_check["Ther_Herta_A2"] = 0;
             Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Dmg%","None",-50);

@@ -19,7 +19,7 @@ namespace Gallagher{
     void After_turn(Ally *ptr);
     void Start_game(Ally *ptr);
     void When_Combat(Ally *ptr);
-    void When_attack(Ally *ptr,Combat_data &data_);
+    void When_attack(Ally *ptr,ActionData &data_);
 
 
     
@@ -108,7 +108,7 @@ namespace Gallagher{
     void Basic_Atk(Ally *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         Increase_energy(ptr,20);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target");
         data_.Add_Target_Main();
         data_.Turn_reset = 1;
@@ -127,7 +127,7 @@ namespace Gallagher{
         Apply_debuff(ptr->Sub_Unit_ptr[0].get(),Enemy_unit[Main_Enemy_num].get());
         Extend_Debuff_single_target(Enemy_unit[Main_Enemy_num].get(),"Nectar_Blitz",2);
         
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target");
         data_.Add_Target_Main();
         data_.Turn_reset = 1;
@@ -142,7 +142,7 @@ namespace Gallagher{
 
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         Increase_energy(ptr,30);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Heal");
         data_.Add_Buff_Single_Target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
         data_.resetTurn();
@@ -162,7 +162,7 @@ namespace Gallagher{
             Extend_Debuff_All_Enemy("Besotted",2);
         }
 
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
         data_.Add_Target_Other();
         data_.Damage_spilt.Main.push_back({165,0,0,20});
@@ -194,7 +194,7 @@ namespace Gallagher{
     }
     void When_Combat(Ally *ptr){
         if(ptr->Technique){
-            Combat_data data_ = Combat_data();
+            ActionData data_ = ActionData();
             data_.Technique_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
             data_.Damage_spilt.Main.push_back({50,0,0,20});
             data_.Damage_spilt.Adjacent.push_back({50,0,0,20});
@@ -206,7 +206,7 @@ namespace Gallagher{
         }
         
     }
-    void When_attack(Ally *ptr,Combat_data &data_){
+    void When_attack(Ally *ptr,ActionData &data_){
         Heal_data healData = Heal_data();
         healData.setHealer(ptr->Sub_Unit_ptr[0].get());
         healData.main.setRatio(0,0,0,707,0,0);

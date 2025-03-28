@@ -14,7 +14,7 @@ namespace Pela{
     void Basic_Atk(Ally *ptr);
     void Ult_func(Ally *ptr);//*
     void After_turn(Ally *ptr);
-    void After_attack(Ally *ptr, Combat_data &data_);
+    void After_attack(Ally *ptr, ActionData &data_);
     void Start_game(Ally *ptr);
     void Tune_stats(Ally *ptr);
     void When_Combat(Ally *ptr);
@@ -90,7 +90,7 @@ namespace Pela{
     void Basic_Atk(Ally *ptr){
         Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),20);
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target");
         data_.Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
         data_.Turn_reset=true;
@@ -105,7 +105,7 @@ namespace Pela{
             if(i==Total_enemy)return;
         }
         if(!ultUseCheck(ptr))return;
-        Combat_data data_;
+        ActionData data_;
         data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
         data_.Add_Target_Other();
         data_.Turn_reset=true;
@@ -132,7 +132,7 @@ namespace Pela{
             }
         }
     }
-    void After_attack(Ally *ptr, Combat_data &data_){
+    void After_attack(Ally *ptr, ActionData &data_){
         if(data_.Attacker->Atv_stats->Char_Name!="Pela")return;
 
         for(auto e:data_.Target_Attack){
@@ -142,7 +142,7 @@ namespace Pela{
         }
         
         if(ptr->Eidolon>=6){
-            Combat_data temp = Combat_data();
+            ActionData temp = ActionData();
             temp.Additional_set(ptr->Sub_Unit_ptr[0].get(),"Single_target");
             for(auto e:data_.Target_Attack){
             Cal_Additional_damage(temp,e,{40,0,0,0});

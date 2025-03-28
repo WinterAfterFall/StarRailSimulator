@@ -18,7 +18,7 @@ namespace Serval{
     void Tune_stats(Ally *ptr);
     void Dot(Enemy* target,Ally *ptr,double Dot_ratio,string Dot_type);
     void After_turn(Ally *ptr);
-    void When_attack(Ally *ptr,Combat_data &data_);
+    void When_attack(Ally *ptr,ActionData &data_);
     void Enemy_Death_func(Ally *ptr,Enemy *target,Sub_Unit *Killer);
     void Start_game(Ally *ptr);
 
@@ -95,7 +95,7 @@ namespace Serval{
     void Basic_Atk(Ally *ptr){
         Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),20);
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target");
         data_.Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
         if(Total_enemy>=2){
@@ -114,7 +114,7 @@ namespace Serval{
     void Skill(Ally *ptr){
         Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Blast");
         data_.Add_Target_Adjacent();
         data_.Turn_reset=true;
@@ -136,7 +136,7 @@ namespace Serval{
 
     void Ult_func(Ally *ptr){
         if(!ultUseCheck(ptr))return;
-            Combat_data data_ = Combat_data();
+            ActionData data_ = ActionData();
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
             data_.Add_Target_Other();
             data_.Damage_spilt.Main.push_back({194,0,0,20});
@@ -159,7 +159,7 @@ namespace Serval{
     void Dot(Enemy* target,Ally *ptr,double Dot_ratio,string Dot_type){
         if(Dot_type!="None"&&Dot_type!="Lightning")return;
         if(!Debuff_check(target,"Serval_Shock"))return;
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Dot_set(ptr->Sub_Unit_ptr[0].get(),"Single_target");
         data_.Damage_spilt.Main.push_back({114,0,0,0});
         Cal_Dot_damage(data_,target,Dot_ratio);
@@ -182,9 +182,9 @@ namespace Serval{
             }
         }
     }
-    void When_attack(Ally *ptr,Combat_data &data_){
+    void When_attack(Ally *ptr,ActionData &data_){
         if(data_.Attacker->Atv_stats->Unit_Name!="Serval")return;
-        Combat_data data_temp = Combat_data();
+        ActionData data_temp = ActionData();
         data_temp.Additional_set(ptr->Sub_Unit_ptr[0].get(),"Single_target");
         for(int i=1;i<=Total_enemy;i++){
             if(Debuff_check(Enemy_unit[i].get(),"Serval_Shock")){

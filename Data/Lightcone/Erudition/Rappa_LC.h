@@ -21,7 +21,7 @@ namespace Erudition_Lightcone{
         }
         ));
 
-        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, Combat_data &data_){
+        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, ActionData &data_){
             if(data_.Action_type.second=="Ultimate"){
                 ptr->Sub_Unit_ptr[0]->Buff_check["Ration"]=1;
                 ptr->Sub_Unit_ptr[0]->Stack["Ration"]=0;
@@ -31,7 +31,7 @@ namespace Erudition_Lightcone{
         }
         ));
 
-        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, Combat_data &data_){
+        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, ActionData &data_){
             if(data_.Action_type.second=="Ultimate"){
                 ptr->Sub_Unit_ptr[0]->Buff_check["Ration"]=1;
                 ptr->Sub_Unit_ptr[0]->Stack["Ration"]=0;
@@ -39,7 +39,7 @@ namespace Erudition_Lightcone{
         }
         ));
 
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, Combat_data &data_){
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, ActionData &data_){
             if(data_.Action_type.second=="Basic_Attack"&&ptr->Sub_Unit_ptr[0]->Buff_check["Ration"]==1){
                 ptr->Sub_Unit_ptr[0]->Stack["Ration"]++;
                 if(ptr->Sub_Unit_ptr[0]->Stack["Ration"]==2){

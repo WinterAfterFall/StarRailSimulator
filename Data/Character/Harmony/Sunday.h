@@ -16,7 +16,7 @@ namespace Sunday{
     void After_turn(Ally *ptr);
     void Start_game(Ally *ptr);
     void Ult_func(Ally *ptr);//*
-    void Buff_func(Ally *ptr, Combat_data &data_);
+    void Buff_func(Ally *ptr, ActionData &data_);
     void Tune_stats(Ally *ptr);
     void Stats_Adjust(Ally *ptr,Sub_Unit *target, string StatsType);
     
@@ -90,14 +90,14 @@ namespace Sunday{
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         Increase_energy(ptr,30);
 
-        Combat_data temp = Combat_data();
+        ActionData temp = ActionData();
         temp.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff");
         temp.Add_Buff_Single_Target(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()));
         temp.Turn_reset=true;
         Action_bar.push(temp);
         Buff_single_with_all_memo_each(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum].get(),"Crit_rate","None",20,"The_Sorrowing_Body");
         if(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum]->Summon_ptr.size()!=0||Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum]->Sub_Unit_ptr.size()>1){
-        Buff_single_with_all_memo_each(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum].get(),"Dmg%","None",50,"Benison_of_Paper_and_Rites");
+        Buff_single_with_all_memo_each(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum].get(),"Dmg%","None",80,"Benison_of_Paper_and_Rites");
         }else{
         Buff_single_with_all_memo_each(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum].get(),"Dmg%","None",30,"Benison_of_Paper_and_Rites");
         }
@@ -138,7 +138,7 @@ namespace Sunday{
         if(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum]->Max_energy>=200&&Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum]->Max_energy - Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum]->Current_energy<Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum]->Max_energy*0.2&&(Buff_check(ptr->Sub_Unit_ptr[0].get(),"Ode_to_Caress_and_Cicatrix")))return ;
         if(!ultUseCheck(ptr))return;
         if(ptr->Print)cout<<"-------------------------------------------------- Sunday ult at "<<Current_atv<<endl;
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),"Buff","Single_target");
         data_.Add_Buff_Single_Target(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()));
         Action_bar.push(data_);
@@ -208,7 +208,7 @@ namespace Sunday{
         if(!Temp_stats)return;
         if(Buff_end(Temp_stats,"Benison_of_Paper_and_Rites")){
             if(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum]->Summon_ptr.size()!=0||Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum]->Sub_Unit_ptr.size()>1){
-            Buff_single_target(Temp_stats,"Dmg%","None",-50);
+            Buff_single_target(Temp_stats,"Dmg%","None",-80);
             }else{
             Buff_single_target(Temp_stats,"Dmg%","None",-30);
             }
@@ -238,7 +238,7 @@ namespace Sunday{
     void Start_game(Ally *ptr){
         Increase_energy(ptr,25);
     }
-    void Buff_func(Ally *ptr, Combat_data &data_){
+    void Buff_func(Ally *ptr, ActionData &data_){
         
         if(Buff_check(ptr->Sub_Unit_ptr[0].get(),"Ode_to_Caress_and_Cicatrix")&&data_.Action_type.second=="Skill"&&turn->Char_Name=="Sunday"){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);

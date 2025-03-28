@@ -15,7 +15,7 @@ namespace Robin{
     void Ult_func(Ally *ptr);
     void Before_turn(Ally *ptr);
     void When_Combat(Ally *ptr);
-    void When_attack(Ally *ptr,Combat_data &data_);
+    void When_attack(Ally *ptr,ActionData &data_);
     void Start_game(Ally *ptr);
     void Start_wave(Ally *ptr);
     void Stats_Adjust(Ally *ptr,Sub_Unit *target, string StatsType);
@@ -135,7 +135,7 @@ namespace Robin{
     void Skill(Ally *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         Increase_energy(ptr,35);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff");
         data_.Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
         data_.Turn_reset = 1;
@@ -147,7 +147,7 @@ namespace Robin{
     void Basic_Atk(Ally *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         Increase_energy(ptr,20);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target");
         data_.Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
         data_.Turn_reset = 1;
@@ -220,7 +220,7 @@ namespace Robin{
             }
         
         All_Action_forward(100);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),"Aoe","Buff");
         data_.Add_Buff_All_Ally();
         Action_bar.push(data_);
@@ -256,14 +256,14 @@ namespace Robin{
         }
         
     }
-    void When_attack(Ally *ptr,Combat_data &data_){
+    void When_attack(Ally *ptr,ActionData &data_){
         Increase_energy(ptr,2);
         if(ptr->Eidolon>=2){
             Increase_energy(ptr,1);
         }
         if( ptr->Countdown_ptr[0]->Atv_stats->Base_speed == 90){
 
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         double x1=0,x2=0;
         data_.Additional_set(ptr->Sub_Unit_ptr[0].get(),"Single_target");
 

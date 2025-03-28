@@ -17,7 +17,7 @@ namespace Luocha{
     void Ult_func(Ally *ptr);//*
     void After_turn(Ally *ptr);
     void Start_game(Ally *ptr);
-    void When_attack(Ally *ptr,Combat_data &data_);
+    void When_attack(Ally *ptr,ActionData &data_);
 
     
     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
@@ -98,7 +98,7 @@ namespace Luocha{
     void Basic_Atk(Ally *ptr){
         Increase_energy(ptr,20);
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target");
         data_.Add_Target_Main();
         data_.Turn_reset = 1;
@@ -113,7 +113,7 @@ namespace Luocha{
     void Ult_func(Ally *ptr){
         if(ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"]>=2)return;
         if(!ultUseCheck(ptr))return;
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
         data_.Add_Target_Other();
         data_.Damage_spilt.Main.push_back({200,0,0,20});
@@ -140,7 +140,7 @@ namespace Luocha{
             Abyss_Flower(ptr);
         }
     }
-    void When_attack(Ally *ptr,Combat_data &data_){
+    void When_attack(Ally *ptr,ActionData &data_){
         if(ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"]>=2){
             HealRatio healRatio = HealRatio();
             HealRatio healRatioMain = HealRatio();

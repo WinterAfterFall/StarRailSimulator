@@ -24,7 +24,7 @@ namespace Erudition_Lightcone{
         }
         ));
 
-        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, Combat_data &data_){
+        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, ActionData &data_){
             if(data_.Action_type.second=="Ultimate"&&data_.Attacker->Atv_stats->Unit_Name==ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name){
                 if(!Buff_check(ptr->Sub_Unit_ptr[0].get(),"The_Herta_LC_buff")){
                     ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Skill"]+=60;
@@ -40,7 +40,7 @@ namespace Erudition_Lightcone{
         }
         ));
 
-        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, Combat_data &data_){
+        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, ActionData &data_){
             if(data_.Action_type.second=="Ultimate"&&data_.Attacker->Atv_stats->Unit_Name==ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name){
                 if(!Buff_check(ptr->Sub_Unit_ptr[0].get(),"The_Herta_LC_buff")){
                     ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Skill"]+=60;

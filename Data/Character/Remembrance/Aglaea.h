@@ -11,9 +11,9 @@ namespace Aglaea{
     void Reset(Ally *ptr);
     void Turn_func(Unit *ptr);
      
-    void Before_attack(Ally *ptr,Combat_data &data_);
-    void When_attack(Ally *ptr,Combat_data &data_);
-    void Buff(Ally *ptr,Combat_data &data_);
+    void Before_attack(Ally *ptr,ActionData &data_);
+    void When_attack(Ally *ptr,ActionData &data_);
+    void Buff(Ally *ptr,ActionData &data_);
     void Ult_func(Ally *ptr);
     void Tune_stats(Ally *ptr);    
     void Setup_Memo(Ally *ptr);
@@ -142,7 +142,7 @@ namespace Aglaea{
     void Enchance_Basic_Atk(Ally *ptr){
         Increase_energy(ptr,20);
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Blast");
         data_.Add_Target_Adjacent();
         data_.Turn_reset=true;
@@ -160,7 +160,7 @@ namespace Aglaea{
     void Basic_Atk(Ally *ptr){
         Increase_energy(ptr,20);
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target");
         data_.Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
         data_.Turn_reset=true;
@@ -170,7 +170,7 @@ namespace Aglaea{
     void Skill(Ally *ptr){
         Increase_energy(ptr,30);
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff");
         data_.Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
         data_.Turn_reset=true;
@@ -196,7 +196,7 @@ namespace Aglaea{
         if(ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed==-1){
             Summon(ptr);
         }
-            Combat_data data_ = Combat_data();
+            ActionData data_ = ActionData();
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff");
             data_.Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
             if(ptr->Countdown_ptr[0]->Atv_stats->Base_speed==-1)Speed_Buff(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),15*ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"],0);
@@ -227,7 +227,7 @@ namespace Aglaea{
     void Memo_Skill(Ally *ptr){
 
         Increase_energy(ptr,10);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
 
         data_.Skill_set(ptr->Sub_Unit_ptr[1].get(),"Blast");
         data_.Add_Target_Adjacent();
@@ -271,7 +271,7 @@ namespace Aglaea{
 
         if(Allyptr->Print)cout<<"---------------------------------------------------- Aglaea Ult END at "<<Current_atv<<endl;
     }
-    void When_attack(Ally *ptr,Combat_data &data_){
+    void When_attack(Ally *ptr,ActionData &data_){
         
         if(data_.Attacker->Atv_stats->Unit_Name=="Garmentmaker"){
             if(data_.Attacker->Stack["Brewed_by_Tears"]<6){
@@ -290,7 +290,7 @@ namespace Aglaea{
                     Debuff_single_target(Enemy_unit[Main_Enemy_num].get(),"Vul","None",15);
                 }
             }
-            Combat_data data_Additional = Combat_data();
+            ActionData data_Additional = ActionData();
             data_Additional.Additional_set(data_.Attacker,"Single_target");
             Cal_Additional_damage(data_Additional,Enemy_unit[Main_Enemy_num].get(),{30,0,0,0});
             if(ptr->Eidolon>=1){
@@ -320,14 +320,14 @@ namespace Aglaea{
         }
     }
     
-    void Buff(Ally *ptr,Combat_data &data_){
+    void Buff(Ally *ptr,ActionData &data_){
         if(ptr->Eidolon>=2&&(data_.Attacker->Atv_stats->Unit_Name=="Aglaea"||data_.Attacker->Atv_stats->Unit_Name=="Garmentmaker")){
             Stack_Buff_single_with_all_memo(ptr,"Def_shred","None",14,1,3,"Aglaea_E2");
         }
         
     }
     
-    void Before_attack(Ally *ptr,Combat_data &data_){
+    void Before_attack(Ally *ptr,ActionData &data_){
         if(ptr->Eidolon>=2){
             if(data_.Attacker->Atv_stats->Unit_Name=="Aglaea"||data_.Attacker->Atv_stats->Unit_Name=="Garmentmaker"){
                 Stack_Buff_single_with_all_memo(ptr,"Def_shred","None",14,1,3,"Aglaea_E2");
@@ -344,7 +344,7 @@ namespace Aglaea{
     void Start_game(Ally *ptr){
         if(ptr->Technique==1){
         
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Technique_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
         data_.Add_Target_Other();
         data_.Damage_spilt.Main.push_back({100,0,0,20});

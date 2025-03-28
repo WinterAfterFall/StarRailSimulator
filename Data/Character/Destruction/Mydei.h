@@ -18,7 +18,8 @@ namespace Mydei{
     void WhenHeal(Ally *ptr,Sub_Unit *Healer,Sub_Unit *target,double Value);
     void Enemy_hit(Ally *ptr,Enemy *Attacker,vector<Sub_Unit*> target);
     void Before_turn(Ally *ptr);
-    void After_attack(Ally *ptr,Combat_data &data_);
+    void Before_attack(Ally *ptr,ActionData &data_);
+    void After_attack(Ally *ptr,ActionData &data_);
 
     void Print(Ally *ptr);
     
@@ -63,6 +64,7 @@ namespace Mydei{
         Healing_List.push_back(TriggerHealing(PRIORITY_ACTTACK,Ally_unit[num].get(),WhenHeal));
         Enemy_hit_List.push_back(TriggerByEnemyHit(PRIORITY_ACTTACK,Ally_unit[num].get(),Enemy_hit));
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK,Ally_unit[num].get(),Before_turn));
+        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK,Ally_unit[num].get(),Before_attack));
         After_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK,Ally_unit[num].get(),After_attack));
         
 
@@ -126,14 +128,14 @@ namespace Mydei{
     void Basic_Atk(Ally *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         Increase_energy(ptr,30,0);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         Action_bar.push(data_);
         //none complete
 
     }
     void Skill(Ally *ptr){
         Increase_energy(ptr,30,0);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Blast");
         data_.Add_Target_Adjacent();
         data_.resetTurn();
@@ -144,7 +146,7 @@ namespace Mydei{
     }
     void Enchance_Skill(Ally *ptr){
         Increase_energy(ptr,30,0);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Blast");
         data_.Add_Target_Adjacent();
         data_.resetTurn();
@@ -155,7 +157,7 @@ namespace Mydei{
     }
     void KingSlayer(Ally *ptr){
         Increase_energy(ptr,10,0);
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         if(ptr->Eidolon>=1){
             data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
             data_.Add_Target_Other();
@@ -179,7 +181,7 @@ namespace Mydei{
     }
     void Ult_func(Ally *ptr){
         if(!ultUseCheck(ptr))return;
-        Combat_data data_ = Combat_data();
+        ActionData data_ = ActionData();
         data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),"Blast");   
         data_.Add_Target_Adjacent();
         for(Enemy* e :data_.Target_Attack){
@@ -196,6 +198,14 @@ namespace Mydei{
         if(!actionBarUse)Deal_damage();
     }
     void Start_game(Ally *ptr){
+
+        ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] = (floor((ptr->Sub_Unit_ptr[0]->totalHP-4000)/100) <= 40) ? floor((ptr->Sub_Unit_ptr[0]->totalHP-4000)/100) : 40;
+        if(ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"]<0) ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] = 0;
+                    
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_CRIT_RATE][AT_NONE] += ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"]*1.2;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_CRIT_RATE][AT_TEMP] += ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"]*1.2;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING][AT_NONE] += ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"]*0.75;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING][AT_TEMP] += ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"]*0.75;
         if(ptr->Eidolon>=6){
             ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_Vendetta"]=true;
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),100);
@@ -207,9 +217,10 @@ namespace Mydei{
             if(ptr->Eidolon>=2)Buff_single_target(ptr->Sub_Unit_ptr[0].get(),ST_DEF_SHRED,AT_NONE,15);
             if(ptr->Eidolon>=4)Buff_single_target(ptr->Sub_Unit_ptr[0].get(),ST_CRIT_DAM,AT_NONE,30);
         }
+
         allEventAdjustStats(ptr->Sub_Unit_ptr[0].get(),"Hp%");
         if(ptr->Technique){
-            Combat_data data_ = Combat_data();
+            ActionData data_ = ActionData();
             data_.Technique_set(ptr->Sub_Unit_ptr[0].get(),"Aoe");
             data_.Add_Target_Other();
             data_.Damage_spilt.Main.push_back({0,80,0,0});
@@ -233,24 +244,7 @@ namespace Mydei{
                 
                 Buff_single_target(ptr->Sub_Unit_ptr[0].get(),ST_FLAT_HP,AT_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Talent"]);
                 Buff_single_target(ptr->Sub_Unit_ptr[0].get(),ST_FLAT_HP,AT_NONE,ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Talent"]);
-            }
-
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CRIT_RATE][AT_NONE] -= ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"]*1.2;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CRIT_RATE][AT_TEMP] -= ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"]*1.2;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING][AT_NONE] -= ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"]*0.75;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING][AT_TEMP] -= ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"]*0.75;
-            
-            
-            ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] = (floor((ptr->Sub_Unit_ptr[0]->totalHP-4000)/100) <= 40) ? floor((ptr->Sub_Unit_ptr[0]->totalHP-4000)/100) : 40;
-            if(ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"]<0) ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] = 0;
-                    
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CRIT_RATE][AT_NONE] += ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"]*1.2;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CRIT_RATE][AT_TEMP] += ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"]*1.2;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING][AT_NONE] += ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"]*0.75;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING][AT_TEMP] += ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"]*0.75;
-
-            
-                            
+            }     
         }
     }
     void WhenDecreaseHP(Ally *ptr,Unit *Trigger,Sub_Unit *target,double Value){
@@ -266,6 +260,7 @@ namespace Mydei{
         if(ptr->Eidolon<2)return;
         Value = (Value + ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_E2"] <= target->totalHP) ? Value : target->totalHP - ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_E2"];
         ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_E2"] += Value;
+        cout<<CalculateChargePoint(ptr->Sub_Unit_ptr[0].get(),Value*0.4)<<endl;
         ChargePoint(ptr,CalculateChargePoint(ptr->Sub_Unit_ptr[0].get(),Value*0.4));
         
 
@@ -293,16 +288,25 @@ namespace Mydei{
     void Before_turn(Ally *ptr){
         ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_E2"] = 0;
     }
-    void After_attack(Ally *ptr,Combat_data &data_){
+    void Before_attack(Ally *ptr,ActionData &data_){
+        if(data_.Attacker->isSameUnit("Mydei")&&data_.Damage_spilt.Main.size()>1){
+            ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_cannot_charge"] = 1;
+        }
+    }
+    void After_attack(Ally *ptr,ActionData &data_){
         if(ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_action"]){
             ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_action"] = 0;
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),100);
+        }
+        if(ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_cannot_charge"] ==1){
+            ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_cannot_charge"] = 0;
         }
     }
     double CalculateChargePoint(Sub_Unit *ptr,double Value){
         return (Value/ptr->totalHP*100.0);
     }
     void ChargePoint(Ally *ptr,double point){
+        if(ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_cannot_charge"])return;
         ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Charge_point"]+=point;
         if(ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Charge_point"]>=100&&ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_Vendetta"]==false){
             ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_Vendetta"]=true;

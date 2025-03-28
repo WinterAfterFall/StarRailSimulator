@@ -12,7 +12,7 @@ namespace Nihility_Lightcone{
         SetBaseStats(ptr->Sub_Unit_ptr[0].get(),953,476,331);
         ptr->Light_cone.Name = "Resolution";
 
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, Combat_data &data_){
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, ActionData &data_){
             if(data_.Attacker->Atv_stats->Unit_Name != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name)return;
             for(auto e:data_.Target_Attack){
                 if(e->Debuff["Ensnared"]==1)continue;

@@ -70,7 +70,7 @@ class HealRatio;
 class PointerWithValue;
 class Ratio_data;
 class Hit_spilt;
-class Combat_data;
+class ActionData;
 //Trigger_Function
 class TriggerFunc;
 class TriggerByYourSelf_Func;
@@ -200,13 +200,13 @@ void Stack_Debuff_All_Enemy(Sub_Unit* ptr, string stats_type, string Attack_type
 //Combat
 void Take_action();
 void Deal_damage();
-void Attack(Combat_data& data_);
+void Attack(ActionData& data_);
 void Heal(Heal_data& Healptr);
 void Skill_point(Sub_Unit *ptr,int p);
 void Apply_debuff(Sub_Unit *ptr,Enemy* target);
-void Superbreak_trigger(Combat_data& data_, double Superbreak_ratio);
+void Superbreak_trigger(ActionData& data_, double Superbreak_ratio);
 void Dot_trigger(double Dot_ratio, Enemy* target, std::string Dot_type);
-void Toughness_break(Combat_data &data_, Enemy* target);
+void Toughness_break(ActionData &data_, Enemy* target);
 
 //ChangeHP.h
 
@@ -225,16 +225,16 @@ void EnemyHit(Enemy *Attacker,vector<Sub_Unit*> target);
 /*------Calculate------*/
 
 //Calculate_damage
-void Cal_Damage(Combat_data& data_, Enemy* target, Ratio_data Skill_mtpr);
-void Cal_Toughness_reduction(Combat_data& data_, Enemy* target, double Toughness_reduce);
-void Cal_Break_damage(Combat_data& data_, Enemy* target, double& Constant);
-void Cal_Freeze_damage(Combat_data& data_, Enemy* target);
-void Cal_Dot_damage(Combat_data& data_, Enemy* target, double Dot_ratio);
-void Cal_Dot_Toughness_break_damage(Combat_data& data_, Enemy* target, double Dot_ratio);
-void Cal_Superbreak_damage(Combat_data& data_, Enemy* target, double Superbreak_ratio);
-void Cal_Additional_damage(Combat_data& data_, Enemy* target, Ratio_data Skill_mtpr);
+void Cal_Damage(ActionData& data_, Enemy* target, Ratio_data Skill_mtpr);
+void Cal_Toughness_reduction(ActionData& data_, Enemy* target, double Toughness_reduce);
+void Cal_Break_damage(ActionData& data_, Enemy* target, double& Constant);
+void Cal_Freeze_damage(ActionData& data_, Enemy* target);
+void Cal_Dot_damage(ActionData& data_, Enemy* target, double Dot_ratio);
+void Cal_Dot_Toughness_break_damage(ActionData& data_, Enemy* target, double Dot_ratio);
+void Cal_Superbreak_damage(ActionData& data_, Enemy* target, double Superbreak_ratio);
+void Cal_Additional_damage(ActionData& data_, Enemy* target, Ratio_data Skill_mtpr);
 double Cal_TotalPercentToughnessBrokenTime(Enemy* target, double Total_atv);
-double Cal_Total_Toughness_Reduce(Combat_data& data_, Enemy* target, double Base_Toughness_reduce);
+double Cal_Total_Toughness_Reduce(ActionData& data_, Enemy* target, double Base_Toughness_reduce);
 void Cal_ToughnessMultiplierAverage();
 
 //CalDmgReceive.h
@@ -259,20 +259,20 @@ double calculateCritrateForBuff(Sub_Unit* ptr, double ratio);
 double calculateCritdamForBuff(Sub_Unit* ptr, double ratio);
 double calculateBreakEffectForBuff(Sub_Unit* ptr, double ratio);
 
-double Cal_Atk_multiplier(Combat_data& data_, Enemy* target);
-double Cal_Hp_multiplier(Combat_data& data_, Enemy* target);
-double Cal_Def_multiplier(Combat_data& data_, Enemy* target);
-double Cal_Bonus_dmg_multiplier(Combat_data& data_, Enemy* target);
-double Cal_Crit_multiplier(Combat_data& data_, Enemy* target);
-double Cal_Crit_rate_multiplier(Combat_data& data_, Enemy* target);
-double Cal_Crit_dam_multiplier(Combat_data& data_, Enemy* target);
-double Cal_Def_shred_multiplier(Combat_data& data_, Enemy* target);
-double Cal_Respen_multiplier(Combat_data& data_, Enemy* target);
-double Cal_Vul_multiplier(Combat_data& data_, Enemy* target);
-double Cal_BreakEffect_multiplier(Combat_data& data_, Enemy* target);
-double Cal_Toughness_multiplier(Combat_data& data_, Enemy* target);
-double Cal_Superbreak_DamageIncrease_multiplier(Combat_data& data_, Enemy* target);
-double Cal_Mitigation_multiplier(Combat_data& data_, Enemy* target);
+double Cal_Atk_multiplier(ActionData& data_, Enemy* target);
+double Cal_Hp_multiplier(ActionData& data_, Enemy* target);
+double Cal_Def_multiplier(ActionData& data_, Enemy* target);
+double Cal_Bonus_dmg_multiplier(ActionData& data_, Enemy* target);
+double Cal_Crit_multiplier(ActionData& data_, Enemy* target);
+double Cal_Crit_rate_multiplier(ActionData& data_, Enemy* target);
+double Cal_Crit_dam_multiplier(ActionData& data_, Enemy* target);
+double Cal_Def_shred_multiplier(ActionData& data_, Enemy* target);
+double Cal_Respen_multiplier(ActionData& data_, Enemy* target);
+double Cal_Vul_multiplier(ActionData& data_, Enemy* target);
+double Cal_BreakEffect_multiplier(ActionData& data_, Enemy* target);
+double Cal_Toughness_multiplier(ActionData& data_, Enemy* target);
+double Cal_Superbreak_DamageIncrease_multiplier(ActionData& data_, Enemy* target);
+double Cal_Mitigation_multiplier(ActionData& data_, Enemy* target);
 
 void Cal_effect_hit_rate(Ally* ptr, double Base_chance);
 void Cal_Speed_Needed(Ally* ptr, double Speed_Need);
@@ -296,17 +296,17 @@ double Cal_HealBonus_multiplier(Sub_Unit *Healer,Sub_Unit *target);
 //Event
 void allEventBeforeTurn();
 void allEventAfterTurn();
-void allEventBuff(Combat_data& data_);
-void allEventBeforeAttack(Combat_data& data_);
-void allEventAfterAttack(Combat_data& data_);
-void allEventWhenAttack(Combat_data& data_);
+void allEventBuff(ActionData& data_);
+void allEventBeforeAttack(ActionData& data_);
+void allEventAfterAttack(ActionData& data_);
+void allEventWhenAttack(ActionData& data_);
 void allEventHeal(Sub_Unit *Healer,Sub_Unit *target,double Value);
 void allEventChangeHP(Unit *Trigger,Sub_Unit *target,double Value);
-void allEventWhenToughnessBreak(Combat_data& data_, Enemy* target);
+void allEventWhenToughnessBreak(ActionData& data_, Enemy* target);
 void allEventWhenEnemyHit(Enemy* Attacker,vector<Sub_Unit*> vec);
 void allEventWhenEnergyIncrease(Ally* target, double Energy);
 void allEventSkillPoint(Sub_Unit* ptr, int p);
-void allEventAttackHitCount(Combat_data& data_, int Hit_cnt, int Total_Hit_cnt);
+void allEventAttackHitCount(ActionData& data_, int Hit_cnt, int Total_Hit_cnt);
 void allEventAdjustStats(Sub_Unit *ptr,string ST);
 void allEventApplyDebuff(Sub_Unit* ptr, Enemy* target);
 void allEventWhenEnemyDeath(Sub_Unit* Killer, Enemy* target);

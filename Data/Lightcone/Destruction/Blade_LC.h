@@ -37,7 +37,7 @@ namespace Destruction_Lightcone{
             }
             
         }));
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr,Combat_data &data_){
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr,ActionData &data_){
             if(!data_.Attacker->isSameUnit(ptr->Sub_Unit_ptr[0].get()))return;
             if(Buff_check(ptr->Sub_Unit_ptr[0].get(),"Blade_LC_Mark")){
                 Buff_single_target(ptr->Sub_Unit_ptr[0].get(),ST_DMG_PERCENT,AT_NONE,-24);

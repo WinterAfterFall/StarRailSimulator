@@ -17,7 +17,7 @@ namespace Remembrance_Lightcone{
         }
         ));
 
-        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, Combat_data &data_){
+        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, ActionData &data_){
             if(data_.Attacker->Atv_stats->Side == "Memosprite"&&data_.Attacker->ptr_to_unit->Sub_Unit_ptr[0]->Atv_stats->Char_Name==ptr->Sub_Unit_ptr[0]->Atv_stats->Char_Name){
                 
                 Buff_All_Ally_Each_Ally("Dmg%","None",16,"Victory_Blink");

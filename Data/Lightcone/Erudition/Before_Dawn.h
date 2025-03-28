@@ -16,7 +16,7 @@ namespace Erudition_Lightcone{
         }
         ));
 
-        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr,Combat_data &data_){
+        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr,ActionData &data_){
             if(data_.Attacker->Atv_stats->Unit_Name==ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name&&ptr->Sub_Unit_ptr[0]->Stack["Somnus_Corpus"]==1){
                 for(auto e:data_.Skill_Type){
                 if(e =="Fua"){
@@ -27,7 +27,7 @@ namespace Erudition_Lightcone{
             }
         }
         ));
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr,Combat_data &data_){
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr,ActionData &data_){
             if(data_.Attacker->Atv_stats->Unit_Name!=ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name)return;
             for(auto e:data_.Skill_Type){
                 if(e =="Skill"||e =="Ultimate"){
