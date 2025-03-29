@@ -18,6 +18,10 @@ void printUltEnd(string name){
     cout<<"-------------------------------------------------------"<<name<<" Ult End at "<<Current_atv<<endl;
 
 }
+void printText(string text){
+    cout<<"------------------------------------------------------- "<<text<<" at "<<Current_atv<<endl;
+
+}
 void Set_LightCone(double HPtemp ,double ATKtemp,double DEFtemp){
     HP = HPtemp;
     ATK = ATKtemp;

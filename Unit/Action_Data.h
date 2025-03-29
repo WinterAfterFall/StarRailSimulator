@@ -82,6 +82,7 @@ class Hit_spilt{
 class ActionData{
     public:
     bool Turn_reset = 0;
+    bool toughnessAvgCalculate = 1;
     function<void(ActionData &data_)> actionFunction;
     double Dont_care_weakness =0;
     Sub_Unit* Attacker = nullptr; 
@@ -102,7 +103,7 @@ class ActionData{
     string traceType = "";// Aoe Single_target Bounce
     shared_ptr<Heal_data> healPtr;
 
-    string Name = "";
+    string actionName = "";
 
     void Add_Buff_Single_Target(Sub_Unit* ptr){
         Target_Buff.push_back(ptr);
@@ -144,19 +145,20 @@ class ActionData{
             
         }
     }
-    void Basic_Attack_set(Sub_Unit* ptr,string target_type){
+    void Basic_Attack_set(Sub_Unit* ptr, string target_type, string name) {
         Attacker = ptr;
-        source = ptr; 
+        source = ptr;
         All_Attacker.push_back(ptr);
         Action_type.first = "Attack";
         Action_type.second = "Basic_Attack";
         Skill_Type.push_back("Basic_Attack");
         Damage_element = ptr->Element_type[0];
         traceType = target_type;
+        actionName = name;
     }
-    void Basic_Attack_set(Sub_Unit* ptr,string target_type,string buff_type){
+    void Basic_Attack_set(Sub_Unit* ptr, string target_type, string buff_type, string name) {
         Attacker = ptr;
-        source = ptr; 
+        source = ptr;
         All_Attacker.push_back(ptr);
         Action_type.first = "Buff";
         Action_type.second = "Basic_Attack";
@@ -164,20 +166,22 @@ class ActionData{
         Buff_type.push_back(buff_type);
         Damage_element = ptr->Element_type[0];
         traceType = target_type;
+        actionName = name;
     }
-    void Skill_set(Sub_Unit* ptr,string target_type){
+    void Skill_set(Sub_Unit* ptr, string target_type, string name) {
         Attacker = ptr;
-        source = ptr; 
+        source = ptr;
         All_Attacker.push_back(ptr);
         Action_type.first = "Attack";
         Action_type.second = "Skill";
         Skill_Type.push_back("Skill");
         Damage_element = ptr->Element_type[0];
         traceType = target_type;
+        actionName = name;
     }
-    void Skill_set(Sub_Unit* ptr,string target_type,string buff_type){
+    void Skill_set(Sub_Unit* ptr, string target_type, string buff_type, string name) {
         Attacker = ptr;
-        source = ptr; 
+        source = ptr;
         All_Attacker.push_back(ptr);
         Action_type.first = "Buff";
         Action_type.second = "Skill";
@@ -185,20 +189,22 @@ class ActionData{
         Buff_type.push_back(buff_type);
         Damage_element = ptr->Element_type[0];
         traceType = target_type;
+        actionName = name;
     }
-    void Ultimate_set(Sub_Unit* ptr,string target_type){
+    void Ultimate_set(Sub_Unit* ptr, string target_type, string name) {
         Attacker = ptr;
-        source = ptr; 
+        source = ptr;
         All_Attacker.push_back(ptr);
         Action_type.first = "Attack";
         Action_type.second = "Ultimate";
         Skill_Type.push_back("Ultimate");
         Damage_element = ptr->Element_type[0];
         traceType = target_type;
+        actionName = name;
     }
-    void Ultimate_set(Sub_Unit* ptr,string target_type,string buff_type){
+    void Ultimate_set(Sub_Unit* ptr, string target_type, string buff_type, string name) {
         Attacker = ptr;
-        source = ptr; 
+        source = ptr;
         All_Attacker.push_back(ptr);
         Action_type.first = "Buff";
         Action_type.second = "Ultimate";
@@ -206,20 +212,22 @@ class ActionData{
         Buff_type.push_back(buff_type);
         Damage_element = ptr->Element_type[0];
         traceType = target_type;
+        actionName = name;
     }
-    void Fua_set(Sub_Unit* ptr,string target_type){
+    void Fua_set(Sub_Unit* ptr, string target_type, string name) {
         Attacker = ptr;
-        source = ptr; 
+        source = ptr;
         All_Attacker.push_back(ptr);
         Action_type.first = "Attack";
         Action_type.second = "Fua";
         Skill_Type.push_back("Fua");
         Damage_element = ptr->Element_type[0];
         traceType = target_type;
+        actionName = name;
     }
-    void Fua_set(Sub_Unit* ptr,string target_type,string buff_type){
+    void Fua_set(Sub_Unit* ptr, string target_type, string buff_type, string name) {
         Attacker = ptr;
-        source = ptr; 
+        source = ptr;
         All_Attacker.push_back(ptr);
         Action_type.first = "Buff";
         Action_type.second = "Fua";
@@ -227,43 +235,46 @@ class ActionData{
         Buff_type.push_back(buff_type);
         Damage_element = ptr->Element_type[0];
         traceType = target_type;
+        actionName = name;
     }
-    void Additional_set(Sub_Unit* ptr,string target_type){
+    void Additional_set(Sub_Unit* ptr, string target_type, string name) {
         Attacker = ptr;
-        source = ptr; 
+        source = ptr;
         All_Attacker.push_back(ptr);
         Action_type.first = "Attack";
         Action_type.second = "Additional";
         Skill_Type.push_back("Additional");
         Damage_element = ptr->Element_type[0];
         traceType = target_type;
+        actionName = name;
     }
-    void Dot_set(Sub_Unit* ptr,string target_type){
+    void Dot_set(Sub_Unit* ptr, string target_type, string name) {
         Attacker = ptr;
-        source = ptr; 
+        source = ptr;
         All_Attacker.push_back(ptr);
-        
         Action_type.first = "Attack";
         Action_type.second = "Dot";
-
         Skill_Type.push_back("Dot");
         Damage_element = ptr->Element_type[0];
-        
         traceType = target_type;
+        actionName = name;
     }
-    void Technique_set(Sub_Unit* ptr,string target_type){
+    void Technique_set(Sub_Unit* ptr, string target_type, string name) {
         Attacker = ptr;
-        source = ptr; 
+        source = ptr;
+        toughnessAvgCalculate = 0;
         All_Attacker.push_back(ptr);
         Action_type.first = "Attack";
         Action_type.second = "Technique";
         Skill_Type.push_back("Technique");
         Damage_element = ptr->Element_type[0];
         traceType = target_type;
+        actionName = name;
     }
-    void Technique_set(Sub_Unit* ptr,string target_type,string buff_type){
+    void Technique_set(Sub_Unit* ptr, string target_type, string buff_type, string name) {
         Attacker = ptr;
-        source = ptr; 
+        source = ptr;
+        toughnessAvgCalculate = 0;
         All_Attacker.push_back(ptr);
         Action_type.first = "Buff";
         Action_type.second = "Technique";
@@ -271,6 +282,7 @@ class ActionData{
         Buff_type.push_back(buff_type);
         Damage_element = ptr->Element_type[0];
         traceType = target_type;
+        actionName = name;
     }
     void createHealRatio(){
         this->healPtr = make_shared<Heal_data>();
@@ -279,9 +291,13 @@ class ActionData{
     void resetTurn(){
         this->Turn_reset = true;
     }
+    void setToughnessAvgCalculate(bool arg){
+        this->toughnessAvgCalculate = arg;
+    }
     void Entanglement_set(Sub_Unit* ptr){
         Attacker = ptr;
         source = ptr; 
+        toughnessAvgCalculate = 0;
         All_Attacker.push_back(ptr);
         Skill_Type.push_back("Entanglement");
         Damage_element = "Quantum";
@@ -293,6 +309,7 @@ class ActionData{
     void Freeze_set(Sub_Unit* ptr){
         Attacker = ptr;
         source = ptr; 
+        toughnessAvgCalculate = 0;
         All_Attacker.push_back(ptr);
         Skill_Type.push_back("Freeze");
         Damage_element = "Ice";
@@ -301,9 +318,10 @@ class ActionData{
         Action_type.second = "Freeze";
         traceType = "Single_target";
     }
-    void SuperBreak_set(Sub_Unit* ptr,string target_type){
+    void SuperBreak_set(Sub_Unit* ptr,string target_type){\
         Attacker = ptr;
-        source = ptr; 
+        source = ptr;
+        toughnessAvgCalculate = 0;
         All_Attacker.push_back(ptr);
         Skill_Type.push_back("Break_dmg");
         Skill_Type.push_back("Super_break");
@@ -315,6 +333,7 @@ class ActionData{
     void Break_dmg_set(Sub_Unit* ptr){
         Attacker = ptr;
         source = ptr; 
+        toughnessAvgCalculate = 0;
         All_Attacker.push_back(ptr);
         Skill_Type.push_back("Break_dmg");
         Damage_element = ptr->Element_type[0];

@@ -96,18 +96,18 @@ void Reset(){
     Countdown_reset();
     
     for(TriggerByYourSelf_Func &e : Reset_List){
-        e.Call(e.ptr);
+        e.Call();
     }
     
     Memosprite_reset();
     for(TriggerByYourSelf_Func &e : Setup_Memo_List){
-        e.Call(e.ptr);
+        e.Call();
     }
     for(TriggerByYourSelf_Func &e : When_Combat_List){
-        e.Call(e.ptr);
+        e.Call();
     }
     for(TriggerByYourSelf_Func &e : Tune_stats_List){
-        e.Call(e.ptr);
+        e.Call();
     }
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
@@ -123,7 +123,7 @@ void Reset(){
 void Start_game(){
     All_atv_reset();
     for(TriggerByYourSelf_Func &e : Start_game_List){
-        e.Call(e.ptr);
+        e.Call();
     }
 }
 void EndWave(double Total_atv){
@@ -153,7 +153,7 @@ void Start_wave(int WAVE){
         Enemy_unit[i]->Total_toughness_broken_time = 0;
     }
     for(TriggerByYourSelf_Func &e : Start_wave_List){
-        e.Call(e.ptr);
+        e.Call();
     }
     
 }

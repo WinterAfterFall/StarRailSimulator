@@ -50,7 +50,9 @@ void Increase_energy(Sub_Unit *ptr,double Energy_percent,double Flat_energy){
     return;
 }
 bool ultUseCheck(Ally *ptr){
-
+    for(function<bool()> &e : ptr->ultCondition){
+        if(!e())return false;
+    }
     if(ptr->Ult_cost<=ptr->Current_energy){
         ptr->Current_energy = ptr->Current_energy - ptr->Ult_cost;
         Increase_energy(ptr,5);
@@ -60,7 +62,7 @@ bool ultUseCheck(Ally *ptr){
 }
 void allUltimateCheck(){
     for(TriggerByYourSelf_Func &e : Ultimate_List){
-        e.Call(e.ptr);
+        e.Call();
     }
 }
 #endif

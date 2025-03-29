@@ -20,7 +20,7 @@ void Take_action(){
     Print();
     if(Turn_Skip==0){
         
-        turn->ptr_to_unit->Turn_func(turn->ptr_to_unit);  
+        turn->ptr_to_unit->Turn_func();  
         Deal_damage();
         
         
@@ -66,10 +66,9 @@ void Deal_damage(){
 
         }else if(temp.Action_type.first =="Buff"){
             
-            if(temp.Turn_reset ==1){
-                atv_reset(turn);
-            }
+            if(temp.Turn_reset)atv_reset(turn);
             
+            if(temp.actionFunction)temp.actionFunction(temp);
             allEventBuff(temp);
             
             
@@ -215,7 +214,7 @@ void Dot_trigger(double Dot_ratio,Enemy *target,string Dot_type){
         Cal_Dot_Toughness_break_damage(data_,target,Dot_ratio*1*target->Wind_shear_stack);
     }
     for(TriggerDot_Func &e : Dot_List){
-        e.Call(target,e.ptr,Dot_ratio,Dot_type);
+        e.Call(target,Dot_ratio,Dot_type);
     }
     
 }

@@ -46,7 +46,7 @@ public:
 class Unit {
 public:
     unique_ptr<Action_value_stats> Atv_stats;  // Moved Atv_stats here to be shared by both Ally and Enemy
-    function<void(Unit *ptr)> Turn_func ;
+    function<void()> Turn_func ;
     Common_stats_each_element Stats_each_element;//Ice Quantum
     Common_stats_type Stats_type;// Atk% Flat_Atk Def% Dmg% Crit_rate Crit_dam Def_shred Respen Vul Break_effect Weakness_Break_Efficiency HealingBonus 
     // Constructor to initialize Atv_stats and set ptr_to_unit to 'this'
@@ -179,6 +179,7 @@ public:
     int Technique = 1;
     double Sub_effect_hit_rate_use = 0;
     double Sub_Speed_use = 0;
+    vector<function<bool()>> ultCondition;
 
     bool Print =0;
     bool Wait_Other_Buff = 0;
@@ -187,13 +188,6 @@ public:
     bool Element_Orb = 1;
     bool Body_CritDam = 0;
     double Speed_tune_value = 0;
-
-    function<bool(Ally *ptr)> Ult_Condition = [](Ally *ptr){
-        return false;
-    };
-    function<bool(Ally *ptr)> Skill_Condition = [](Ally *ptr){
-        return false;
-    };
 
     // Constructor now calls the base class constructor to initialize Atv_stats and set ptr_to_unit
     Ally() {  // Call Unit constructor to initialize Atv_stats and set ptr_to_unit
