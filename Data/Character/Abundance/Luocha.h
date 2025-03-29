@@ -40,6 +40,7 @@ namespace Luocha{
             data_.Damage_spilt.Adjacent.push_back({200, 0, 0, 20});
             data_.Damage_spilt.Other.push_back({200, 0, 0, 20});
             data_.actionFunction = [ptr](ActionData &data_) {
+                Attack(data_);
                 ++ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"];
                 Abyss_Flower(ptr);
             };
@@ -127,6 +128,7 @@ namespace Luocha{
         data_.actionFunction = [ptr](ActionData &data_){
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
+            Attack(data_);
             if(ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt%2==1){
                 Talent(ptr);
             }

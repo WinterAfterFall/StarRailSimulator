@@ -26,7 +26,7 @@ namespace Harmony_MC{
     
     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally_unit[num] = make_unique<Ally>();
-
+        
         Ally_unit[num]->Sub_Unit_ptr[0]->Base_hp = 1087;
         Ally_unit[num]->Sub_Unit_ptr[0]->Base_atk = 446;
         Ally_unit[num]->Sub_Unit_ptr[0]->Base_def = 679;

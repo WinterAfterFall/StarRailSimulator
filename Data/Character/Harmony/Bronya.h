@@ -60,8 +60,7 @@ namespace Bronya{
             };
             
             Action_bar.push(data_);
-            
-            Deal_damage();
+            if(!actionBarUse)Deal_damage();
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){

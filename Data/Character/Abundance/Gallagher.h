@@ -9,17 +9,10 @@
 
 namespace Gallagher{
     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
-    void Reset(Ally *ptr);
-    void Turn_func(Unit *ptr);
     void Basic_Atk(Ally *ptr);
     void Enchance_Basic_Atk(Ally *ptr);
     void Skill_func(Ally *ptr);
-    void Ult_func(Ally *ptr);//*
-    void Tune_stats(Ally *ptr);
-    void After_turn(Ally *ptr);
-    void Start_game(Ally *ptr);
-    void When_Combat(Ally *ptr);
-    void When_attack(Ally *ptr,ActionData &data_);
+
 
 
     
