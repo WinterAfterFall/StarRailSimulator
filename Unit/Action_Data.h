@@ -305,6 +305,8 @@ class ActionData{
         Action_type.first = "Attack";
         Action_type.second = "Entanglement";
         traceType = "Single_target";
+        actionName = "Entanglement";
+
     }
     void Freeze_set(Sub_Unit* ptr){
         Attacker = ptr;
@@ -317,8 +319,10 @@ class ActionData{
         Action_type.first = "Attack";
         Action_type.second = "Freeze";
         traceType = "Single_target";
+        actionName = "Freeze";
+
     }
-    void SuperBreak_set(Sub_Unit* ptr,string target_type){\
+    void SuperBreak_set(Sub_Unit* ptr,string target_type){
         Attacker = ptr;
         source = ptr;
         toughnessAvgCalculate = 0;
@@ -329,8 +333,10 @@ class ActionData{
         Action_type.first = "Attack";
         Action_type.second = "Super_break";
         traceType =target_type;
+        actionName = "SuperBreak";
+
     }
-    void Break_dmg_set(Sub_Unit* ptr){
+    void Break_dmg_set(Sub_Unit* ptr,string name){
         Attacker = ptr;
         source = ptr; 
         toughnessAvgCalculate = 0;
@@ -340,6 +346,8 @@ class ActionData{
         Action_type.first = "Attack";
         Action_type.second = "Break_dmg";
         traceType ="Single_target";
+        actionName = name;
+
     }
 };
 

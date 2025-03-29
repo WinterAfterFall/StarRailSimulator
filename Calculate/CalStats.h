@@ -249,7 +249,7 @@ double Cal_BreakEffect_multiplier(ActionData &data_,Enemy *target){
     return (BreakEffect_mtpr / 100 < 0) ? 0 : BreakEffect_mtpr / 100;
 }
 double Cal_Toughness_multiplier(ActionData &data_,Enemy *target){
-    if((data_.Action_type.second!="Break_dmg"&&Avg_damage_Mode)||target->Toughness_status==0){
+    if(data_.toughnessAvgCalculate||target->Toughness_status==0){
         return 1;
     }else{
         return 0.9;
