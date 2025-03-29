@@ -8,7 +8,6 @@
 
 namespace FireFly{
     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
-    void Turn_func(Unit *ptr);
     void Skill_func(Ally *ptr);
     void Enchance_Skill_func(Ally *ptr);
 
@@ -119,7 +118,7 @@ namespace FireFly{
         Start_wave_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
             if (ptr->Technique == 1) {
             ActionData data_ = ActionData();
-            data_.Technique_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","Meteoric Incineration");
+            data_.Technique_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","FireFly Technique");
             data_.Add_Target_Other();
             data_.Damage_spilt.Main.push_back({200, 0, 0, 20});
             data_.Damage_spilt.Adjacent.push_back({200, 0, 0, 20});
@@ -187,6 +186,7 @@ namespace FireFly{
         data_.actionFunction = [ptr](ActionData &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,60,0);
+            Attack(data_);
         };
         Action_bar.push(data_);
 
@@ -217,6 +217,7 @@ namespace FireFly{
             data_.Damage_spilt.Adjacent.push_back({0.15*skill_dmg*0.5,0,0,2.25});
             data_.Damage_spilt.Adjacent.push_back({0.15*skill_dmg*0.5,0,0,2.25});
             data_.Damage_spilt.Adjacent.push_back({0.2*skill_dmg,0,0,6});
+            Attack(data_);
 
         };
         Action_bar.push(data_);
