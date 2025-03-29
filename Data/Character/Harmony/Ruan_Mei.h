@@ -24,21 +24,9 @@ namespace Ruan_Mei{
     
     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally_unit[num] = make_unique<Ally>();
-
-        Ally_unit[num]->Sub_Unit_ptr[0]->Base_hp = 1087;
-        Ally_unit[num]->Sub_Unit_ptr[0]->Base_atk = 660;
-        Ally_unit[num]->Sub_Unit_ptr[0]->Base_def = 485;
-        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Base_speed = 104;
-        Ally_unit[num]->Max_energy = 130;
-        Ally_unit[num]->Ult_cost = 130;
-        Ally_unit[num]->Eidolon = E;
-        Ally_unit[num]->Sub_Unit_ptr[0]->Element_type.push_back("Ice");
-        Ally_unit[num]->Path.push_back("Harmony");
-        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Unit_num = num;
-        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Char_Name = "Ruan_Mei";
-        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Unit_Name = "Ruan_Mei";
-        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Side = "Ally";
-        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->ptr_to_unit = Ally_unit[num]->Sub_Unit_ptr[0].get();
+        Ally *ptr = Ally_unit[num].get();
+        SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 1087, 660, 485);
+        SetBasicStats(Ally_unit[num].get(), 104, 130, 130, E, "Ice", "Harmony", num, "Ruan_Mei", "Ally");
 
         //func
         LC(Ally_unit[num].get());

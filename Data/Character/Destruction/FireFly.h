@@ -15,20 +15,8 @@ namespace FireFly{
     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally_unit[num] = make_unique<Ally>();
         Ally *ptr = Ally_unit[num].get();
-        Ally_unit[num]->Sub_Unit_ptr[0]->Base_hp = 815;
-        Ally_unit[num]->Sub_Unit_ptr[0]->Base_atk = 524;
-        Ally_unit[num]->Sub_Unit_ptr[0]->Base_def = 776;
-        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Base_speed = 104;
-        Ally_unit[num]->Max_energy = 240;
-        Ally_unit[num]->Ult_cost = 240;
-        Ally_unit[num]->Eidolon = E;
-        Ally_unit[num]->Sub_Unit_ptr[0]->Element_type.push_back("Fire");
-        Ally_unit[num]->Path.push_back("Destruction");
-        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Unit_num = num;
-        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Char_Name = "FireFly";
-        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Unit_Name = "FireFly";
-        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Side = "Ally";
-        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->ptr_to_unit = Ally_unit[num]->Sub_Unit_ptr[0].get();
+        SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 815, 524, 776);
+        SetBasicStats(Ally_unit[num].get(), 104, 240, 240, E, "Fire", "Destruction", num, "FireFly", "Ally");
 
         //func
         LC(Ally_unit[num].get());
@@ -125,7 +113,7 @@ namespace FireFly{
             data_.Damage_spilt.Other.push_back({200, 0, 0, 20});
 
             Action_bar.push(data_);
-            Deal_damage();
+            if(!actionBarUse)Deal_damage();
             }
         }));
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
@@ -153,14 +141,7 @@ namespace FireFly{
         
 
         //countdown
-        Ally_unit[num]->Countdown_ptr.resize(1);
-        Ally_unit[num]->Countdown_ptr[0] =  make_unique<Unit>();
-        Ally_unit[num]->Countdown_ptr[0]->Atv_stats->Base_speed = -1;
-        Ally_unit[num]->Countdown_ptr[0]->Atv_stats->Unit_num = num;
-        Ally_unit[num]->Countdown_ptr[0]->Atv_stats->Char_Name = "Combustion_state";
-        Ally_unit[num]->Countdown_ptr[0]->Atv_stats->Unit_Name = "Combustion_state";
-        Ally_unit[num]->Countdown_ptr[0]->Atv_stats->Side = "Countdown";
-        Ally_unit[num]->Countdown_ptr[0]->Atv_stats->ptr_to_unit = Ally_unit[num]->Countdown_ptr[0].get();
+        SetCountdownStats(Ally_unit[num].get(), "Combustion_state");
         Ally_unit[num]->Countdown_ptr[0]->Turn_func = [ptr](){
 
 

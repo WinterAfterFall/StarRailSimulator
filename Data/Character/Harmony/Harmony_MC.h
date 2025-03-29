@@ -48,7 +48,7 @@ namespace Harmony_MC{
             };
 
             Action_bar.push(data_);
-            Deal_damage();
+            if(!actionBarUse)Deal_damage();
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
@@ -147,6 +147,7 @@ void Basic_Atk(Ally *ptr){
         data_.actionFunction = [ptr](ActionData &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
+            Attack(data_);
         };
         Action_bar.push(data_);
     }
@@ -177,6 +178,7 @@ void Basic_Atk(Ally *ptr){
         data_.actionFunction = [ptr](ActionData &data_){
             if(ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt!=1)Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);     
             Increase_energy(ptr,30);
+            Attack(data_);
         };
         
         Action_bar.push(data_);

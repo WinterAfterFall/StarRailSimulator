@@ -119,6 +119,9 @@ public:
         if(this->Atv_stats->Unit_Name == name)return true;
         return false;
     }
+    void setBuffCheck(string buffName,bool Bool){
+        this->Buff_check[buffName]=Bool;
+    }
 };
 // Enemy stats
 // Ally class, derived from Unit

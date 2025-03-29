@@ -9,16 +9,7 @@
 
 namespace Robin{
     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
-    void Reset(Ally *ptr);
     
-    void Turn_func(Unit *ptr);
-    void Ult_func(Ally *ptr);
-    void Before_turn(Ally *ptr);
-    void When_Combat(Ally *ptr);
-    void When_attack(Ally *ptr,ActionData &data_);
-    void Start_game(Ally *ptr);
-    void Start_wave(Ally *ptr);
-    void Stats_Adjust(Ally *ptr,Sub_Unit *target, string StatsType);
     //temp
     void Basic_Atk(Ally *ptr);
     void Skill(Ally *ptr);
@@ -28,52 +19,156 @@ namespace Robin{
 
     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally_unit[num] = make_unique<Ally>();
-
-        Ally_unit[num]->Sub_Unit_ptr[0]->Base_hp = 1280;
-        Ally_unit[num]->Sub_Unit_ptr[0]->Base_atk = 640;
-        Ally_unit[num]->Sub_Unit_ptr[0]->Base_def = 485;
-        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Base_speed = 102;
-        Ally_unit[num]->Max_energy = 160;
-        Ally_unit[num]->Ult_cost = 160;
-        Ally_unit[num]->Eidolon = E;
-        Ally_unit[num]->Sub_Unit_ptr[0]->Element_type.push_back("Physical");
-        Ally_unit[num]->Path.push_back("Harmony");
-        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Unit_num = num;
-        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Char_Name = "Robin";
-        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Unit_Name = "Robin";
-        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Side = "Ally";
-        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->ptr_to_unit = Ally_unit[num]->Sub_Unit_ptr[0].get();
+        Ally *ptr = Ally_unit[num].get();
+        SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 1280, 640, 485);
+        SetBasicStats(Ally_unit[num].get(), 102, 160, 160, E, "Physical", "Harmony", num, "Robin", "Ally");
         Robin_num = num;
 
         //func
         LC(Ally_unit[num].get());
         Relic(Ally_unit[num].get());
         Planar(Ally_unit[num].get());
+        Ally_unit[num]->Sub_Unit_ptr[0]->Turn_func = [ptr,allyptr = ptr->Sub_Unit_ptr[0].get()]() {
+            if (!Buff_check(allyptr, "Pinion'sAria")) {
+            Skill(ptr);
+            } else {
+            Basic_Atk(ptr);
+            }
+        };
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr](){
+            if(Driver_Type=="Double_turn"){
+                if(Double_Turn(ptr))return;
+            }else if(Driver_Type=="Swap_pull"){
+                //if(Ally_unit[Driver_num]->Atv_stats->atv <= Ally_unit[Main_dps_num]->Atv_stats->atv &&Ally_unit[Main_dps_num]->Sub_Unit_ptr[0]->Summon_ptr==nullptr)return;
+            }else if(Driver_Type=="Always_pull"){
+                // if(Ally_unit[Driver_num]->Atv_stats->Name=="Hanabi"){
+                //     if(Ally_unit[Driver_num]->Atv_stats->atv <= Ally_unit[Main_dps_num]->Atv_stats->atv )return;
+                // }
+                // if(Ally_unit[Driver_num]->Atv_stats->Name=="Sunday"){
+                //     if(Ally_unit[Main_dps_num]->Sub_Unit_ptr[0]->Summon_ptr==nullptr){
+                //         if(Ally_unit[Driver_num]->Atv_stats->atv <= Ally_unit[Main_dps_num]->Atv_stats->atv )return;
+                //     }else{
+                //     if(Ally_unit[Main_dps_num]->Atv_stats->turn_cnt <2||Ally_unit[Main_dps_num]->Sub_Unit_ptr[0]->Summon_ptr->Atv_stats->atv==0)return;
+                //     if(Ally_unit[Driver_num]->Atv_stats->atv <=Ally_unit[Driver_num]->Atv_stats->Max_atv*0.5 )return;
+                //     }
+                // }
+            }else{
+                if(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats->atv < chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats->Max_atv*0.5 )return;
+            }
+            if(Ult_Condition(ptr))return;
+            if(ptr->Countdown_ptr[0]->Atv_stats->Base_speed != 90 && ptr->Sub_Unit_ptr[0]->Buff_countdown["Pinion'sAria"] > ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt && ultUseCheck(ptr)){
+                
+                ActionData data_ = ActionData();
+                data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff");
+                data_.Add_Buff_All_Ally();
+                data_.actionFunction = [ptr](ActionData &data_){
+                    ptr->Countdown_ptr[0]->Atv_stats->Base_speed = 90;
+                    ptr->Sub_Unit_ptr[0]->Atv_stats->Base_speed = -1;
+                    Update_Max_atv(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
+                    Update_Max_atv(ptr->Countdown_ptr[0]->Atv_stats.get());
+                    atv_reset(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
+                    atv_reset(ptr->Countdown_ptr[0]->Atv_stats.get());
 
-        Ally_unit[num]->Sub_Unit_ptr[0]->Turn_func = Turn_func;
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF,Ally_unit[num].get(),Ult_func));
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY,Ally_unit[num].get(),Reset));
-        Start_wave_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY,Ally_unit[num].get(),Start_wave));
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY,Ally_unit[num].get(),Start_game));
-        When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY,Ally_unit[num].get(),When_Combat));
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF,Ally_unit[num].get(),Before_turn));
-        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK,Ally_unit[num].get(),When_attack));
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTTACK,Ally_unit[num].get(),Stats_Adjust));
+                    ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"] = calculateAtkForBuff(ptr->Sub_Unit_ptr[0].get(), 22.8) + 200;
+                    Buff_All_Ally("Flat_Atk", AT_TEMP, ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
+                    Buff_All_Ally("Flat_Atk", "None", ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
+
+                    Buff_All_Ally("Crit_dam", "Fua", 25);
+                    if(ptr->Eidolon >= 1)Buff_All_Ally("Respen", "None", 24);
+                    if(ptr->Eidolon >= 2)Speed_Buff_All_Ally_Exclude_Buffer(16, 0, "Robin");
+                    
+                    All_Action_forward(100);
+                };
+                Action_bar.push(data_);
+                if(ptr->Print)Char_Command::printUltStart("Robin");
+
+                if(!actionBarUse)Deal_damage();
+            }
+            return;
+        }));
+
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
+            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 28;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"]["None"] += 18;
+            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 5;
+
+            // relic
+            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
+            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
+            ptr->Energy_recharge += 19.4;
+
+            // substats
+            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 54.432; // 14
+            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 13.8; // 5
+
+            ptr->Countdown_ptr[0]->Atv_stats->Base_speed = -1;
+            ptr->Sub_Unit_ptr[0]->Atv_stats->Base_speed = 102;
+            return;
+        }));
+
+        Start_wave_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
+            if(ptr->Technique == 1){
+                Increase_energy(ptr, 5);
+            }
+        }));
+
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
+            Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 25);
+        }));
+
+        When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
+            Buff_All_Ally("Crit_dam", "None", 20);
+        }));
+
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr](){
+            if(Buff_end(ptr->Sub_Unit_ptr[0].get(), "Pinion'sAria")){
+                Buff_All_Ally("Dmg%", "None", -50);
+                ptr->Sub_Unit_ptr[0]->Buff_check["Pinion'sAria"] = 0;
+            }
+        }));
+
+        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr](ActionData &data_){
+            Increase_energy(ptr, 2);
+            if(ptr->Eidolon >= 2){
+                Increase_energy(ptr, 1);
+            }
+            if(ptr->Countdown_ptr[0]->Atv_stats->Base_speed == 90){
+                ActionData data_ = ActionData();
+                double x1 = 0, x2 = 0;
+                data_.Additional_set(ptr->Sub_Unit_ptr[0].get(), "Single_target","Robin Additional");
+
+                ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"] += 100;
+                x1 = ptr->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"];
+                x2 = Enemy_unit[Main_Enemy_num]->Stats_type["Crit_dam"]["None"];
+                ptr->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"] = 150;
+                Enemy_unit[Main_Enemy_num]->Stats_type["Crit_dam"]["None"] = 0;
+
+                Cal_Additional_damage(data_, Enemy_unit[Main_Enemy_num].get(), {120, 0, 0, 0});
+
+                ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"] -= 100;
+                ptr->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"] = x1;
+                Enemy_unit[Main_Enemy_num]->Stats_type["Crit_dam"]["None"] = x2;
+            }
+        }));
+
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTTACK, [ptr](Sub_Unit *target, string StatsType){
+            if(target->Atv_stats->Unit_Name != "Robin")return;
+            if(ptr->Countdown_ptr[0]->Atv_stats->Base_speed != 90)return;
+            if(StatsType == "Atk%" || StatsType == "Flat_Atk"){
+                Buff_All_Ally("Flat_Atk", AT_TEMP, -ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
+                Buff_All_Ally("Flat_Atk", "None", -ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
+
+                ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"] = calculateAtkForBuff(ptr->Sub_Unit_ptr[0].get(), 22.8) + 200;
+                Buff_All_Ally("Flat_Atk", AT_TEMP, ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
+                Buff_All_Ally("Flat_Atk", "None", ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
+            }
+        }));
 
 
-        //countdown
-        Ally_unit[num]->Countdown_ptr.resize(1);
-        Ally_unit[num]->Countdown_ptr[0] =  make_unique<Unit>();
-        Ally_unit[num]->Countdown_ptr[0]->Atv_stats->Base_speed = -1;
-        Ally_unit[num]->Countdown_ptr[0]->Atv_stats->Unit_num = num;
-        Ally_unit[num]->Countdown_ptr[0]->Atv_stats->Char_Name = "Concerto_state";
-        Ally_unit[num]->Countdown_ptr[0]->Atv_stats->Unit_Name = "Concerto_state";
-        Ally_unit[num]->Countdown_ptr[0]->Atv_stats->Side = "Countdown";
-        Ally_unit[num]->Countdown_ptr[0]->Atv_stats->ptr_to_unit = Ally_unit[num]->Countdown_ptr[0].get();
-        Ally_unit[num]->Countdown_ptr[0]->Turn_func = [](Unit *x){
-
-            auto ptr = Ally_unit[x->Atv_stats->Unit_num].get();
-
+        // countdown
+        SetCountdownStats(Ally_unit[num].get(), "Concerto_state");
+        Ally_unit[num]->Countdown_ptr[0]->Turn_func = [ptr](){
             if( ptr->Countdown_ptr[0]->Atv_stats->Base_speed == 90){
                 ptr->Countdown_ptr[0]->Atv_stats->Base_speed = -1;
                 ptr->Sub_Unit_ptr[0]->Atv_stats->Base_speed = 102;
@@ -81,8 +176,8 @@ namespace Robin{
                 Update_Max_atv(ptr->Countdown_ptr[0]->Atv_stats.get());
                 atv_reset(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
                 atv_reset(ptr->Countdown_ptr[0]->Atv_stats.get());
+                Buff_All_Ally("Flat_Atk",AT_TEMP,-ptr-> Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
                 Buff_All_Ally("Flat_Atk","None",-ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
-                Buff_All_Ally("Flat_Atk",AT_TEMP,-ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
                 Buff_All_Ally("Crit_dam","Fua",-25);
                 if(ptr->Eidolon>=1){
                         Buff_All_Ally("Respen","None",-24);
@@ -100,58 +195,38 @@ namespace Robin{
         
         
     }
-    void Reset(Ally *ptr){
-        ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"]+=28;
-        ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"]["None"]+=18;
-        ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed+=5;
-        
 
-        //relic
-        ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"]+=43.2;
-        ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed+=25;
-        ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"]+=43.2;
-        ptr->Energy_recharge+=19.4;
 
-        //substats
-        ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"]+=54.432; //14
-        ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed+=13.8; //5
-
-        ptr->Countdown_ptr[0]->Atv_stats->Base_speed = -1;
-        ptr->Sub_Unit_ptr[0]->Atv_stats->Base_speed = 102;
-        return;
-    }
-    void When_Combat(Ally *ptr){
-        Buff_All_Ally("Crit_dam","None",20);
-    }
-    void Turn_func(Unit *ptr){
-        auto ally_ptr = dynamic_cast<Sub_Unit*>(ptr);
-        if(!Buff_check(ally_ptr,"Pinion'sAria")){
-            Skill(ally_ptr->ptr_to_unit);           
-        }else{
-            
-            Basic_Atk(ally_ptr->ptr_to_unit);
-        }
-    }
     void Skill(Ally *ptr){
-        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
-        Increase_energy(ptr,35);
+        
         ActionData data_ = ActionData();
-        data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff");
+        data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Robin Skill");
         data_.Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
         data_.Turn_reset = 1;
-        Buff_All_Ally("Dmg%","None",50);
-        ptr->Sub_Unit_ptr[0]->Buff_check["Pinion'sAria"] = 1;
-        Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Pinion'sAria",3);
+        data_.actionFunction = [ptr](ActionData &data_){
+            Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
+            Increase_energy(ptr,35);
+            Buff_All_Ally("Dmg%","None",50);
+            ptr->Sub_Unit_ptr[0]->setBuffCheck("Pinion'sAria",true);
+            Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Pinion'sAria",3);
+        };
+
+
+        
         Action_bar.push(data_);
     }
     void Basic_Atk(Ally *ptr){
-        Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
-        Increase_energy(ptr,20);
+        
         ActionData data_ = ActionData();
-        data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target");
+        data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Robin BasicAttack");
         data_.Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
         data_.Turn_reset = 1;
         data_.Damage_spilt.Main.push_back({100,0,0,10});
+        data_.actionFunction = [ptr](ActionData &data_){
+            Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
+            Increase_energy(ptr,20);
+            Attack(data_);
+        };
         Action_bar.push(data_);
     }
     bool Double_Turn(Ally *ptr){
@@ -173,124 +248,8 @@ namespace Robin{
         }
         return false;
     }
-    void Ult_func(Ally *ptr){
-        //return;
-        if(Driver_Type=="Double_turn"){
-            if(Double_Turn(ptr))return;
-        }else if(Driver_Type=="Swap_pull"){
-            //if(Ally_unit[Driver_num]->Atv_stats->atv <= Ally_unit[Main_dps_num]->Atv_stats->atv &&Ally_unit[Main_dps_num]->Sub_Unit_ptr[0]->Summon_ptr==nullptr)return;
-            
-        }else if(Driver_Type=="Always_pull"){
-            // if(Ally_unit[Driver_num]->Atv_stats->Name=="Hanabi"){
-            //     if(Ally_unit[Driver_num]->Atv_stats->atv <= Ally_unit[Main_dps_num]->Atv_stats->atv )return;
-            // }
-            // if(Ally_unit[Driver_num]->Atv_stats->Name=="Sunday"){
-            //     if(Ally_unit[Main_dps_num]->Sub_Unit_ptr[0]->Summon_ptr==nullptr){
-            //         if(Ally_unit[Driver_num]->Atv_stats->atv <= Ally_unit[Main_dps_num]->Atv_stats->atv )return;
-            //     }else{
-            //     if(Ally_unit[Main_dps_num]->Atv_stats->turn_cnt <2||Ally_unit[Main_dps_num]->Sub_Unit_ptr[0]->Summon_ptr->Atv_stats->atv==0)return;
-            //     if(Ally_unit[Driver_num]->Atv_stats->atv <=Ally_unit[Driver_num]->Atv_stats->Max_atv*0.5 )return;
-            //     }
-                
-            // }
-        }else{
-            if(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats->atv < chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats->Max_atv*0.5 )return;
-        }
-        if(Ult_Condition(ptr))return;
-        if( ptr->Countdown_ptr[0]->Atv_stats->Base_speed != 90&&ptr->Sub_Unit_ptr[0]->Buff_countdown["Pinion'sAria"]>ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt&&ultUseCheck(ptr)){
-            ptr->Countdown_ptr[0]->Atv_stats->Base_speed = 90;
-            
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Base_speed = -1;
-            Update_Max_atv(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
-            Update_Max_atv(ptr->Countdown_ptr[0]->Atv_stats.get());
-            atv_reset(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
-            atv_reset(ptr->Countdown_ptr[0]->Atv_stats.get());
-            ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"] = calculateAtkForBuff(ptr->Sub_Unit_ptr[0].get(),22.8) +200;
-
-            Buff_All_Ally("Flat_Atk","None",ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
-            Buff_All_Ally("Flat_Atk",AT_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
-
-            Buff_All_Ally("Crit_dam","Fua",25);
-            if(ptr->Eidolon>=1){
-                    Buff_All_Ally("Respen","None",24);
-                }
-
-            if(ptr->Eidolon>=2){
-                Speed_Buff_All_Ally_Exclude_Buffer(16,0,"Robin");
-            }
-        
-        All_Action_forward(100);
-        ActionData data_ = ActionData();
-        data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),"Aoe","Buff");
-        data_.Add_Buff_All_Ally();
-        Action_bar.push(data_);
-        if(ptr->Print){
-            cout<<"---------------------------------------------------------Robin Ult at "<<Current_atv<<endl;
-            
-        }
-        
-        Deal_damage();
-        }
-        return;
-    }
-    void Stats_Adjust(Ally *ptr,Sub_Unit *target, string StatsType){
-        if(target->Atv_stats->Unit_Name!="Robin")return;
-        if( ptr->Countdown_ptr[0]->Atv_stats->Base_speed != 90)return;
-        if(StatsType=="Atk%"|| StatsType == "Flat_Atk"){
-            Buff_All_Ally("Flat_Atk","None",-ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
-            Buff_All_Ally("Flat_Atk",AT_TEMP,-ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
-            
-            ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"] = calculateAtkForBuff(ptr->Sub_Unit_ptr[0].get(),22.8) +200;                    
-            Buff_All_Ally("Flat_Atk","None",ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);  
-            Buff_All_Ally("Flat_Atk",AT_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);   
-        return;
-
-        
-        
-    }
-}
-    void Before_turn(Ally *ptr){
-        if(Buff_end(ptr->Sub_Unit_ptr[0].get(),"Pinion'sAria")){
-            Buff_All_Ally("Dmg%","None",-50);
-            ptr->Sub_Unit_ptr[0]->Buff_check["Pinion'sAria"] = 0;
-        }
-        
-    }
-    void When_attack(Ally *ptr,ActionData &data_){
-        Increase_energy(ptr,2);
-        if(ptr->Eidolon>=2){
-            Increase_energy(ptr,1);
-        }
-        if( ptr->Countdown_ptr[0]->Atv_stats->Base_speed == 90){
-
-        ActionData data_ = ActionData();
-        double x1=0,x2=0;
-        data_.Additional_set(ptr->Sub_Unit_ptr[0].get(),"Single_target");
-
-        ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"]+=100;
-        x1 = ptr->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"];
-        x2 = Enemy_unit[Main_Enemy_num]->Stats_type["Crit_dam"]["None"];
-        ptr->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"] = 150;
-        Enemy_unit[Main_Enemy_num]->Stats_type["Crit_dam"]["None"]= 0;
-        
-        Cal_Additional_damage(data_,Enemy_unit[Main_Enemy_num].get(),{120,0,0,0});
-        
-        ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"]-=100;
-        ptr->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"] = x1;
-        Enemy_unit[Main_Enemy_num]->Stats_type["Crit_dam"]["None"] = x2;
 
 
-        }
-    }
-    void Start_wave(Ally *ptr){
-        if(ptr->Technique==1){
-            Increase_energy(ptr,5);
-        }
-    }
-    void Start_game(Ally *ptr){
-        Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),25);
-    }
-    
 }
     
 #endif
