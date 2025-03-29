@@ -65,6 +65,7 @@ namespace Gallagher{
                 } else {
                     Extend_Debuff_All_Enemy("Besotted", 2);
                 }
+                Attack(data_);
             };
             Action_bar.push(data_);
             if (ptr->Print) Char_Command::printUltStart(ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name);
@@ -176,6 +177,7 @@ namespace Gallagher{
         data_.actionFunction = [ptr](ActionData &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
+            Attack(data_);
         };
         Action_bar.push(data_);
     }
@@ -200,6 +202,7 @@ namespace Gallagher{
             }
             Apply_debuff(ptr->Sub_Unit_ptr[0].get(),Enemy_unit[Main_Enemy_num].get());
             Extend_Debuff_single_target(Enemy_unit[Main_Enemy_num].get(),"Nectar_Blitz",2);
+            Attack(data_);
         };
         Action_bar.push(data_);
         
