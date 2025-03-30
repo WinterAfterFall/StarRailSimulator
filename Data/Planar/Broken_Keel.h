@@ -10,11 +10,13 @@ namespace Planar{
     void Broken_Keel(Ally *ptr);
     void Broken_Keel(Ally *ptr){
         ptr->Planar.Name="Broken_Keel";
-        
-        When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr){
-            Buff_All_Ally("Crit_dam","None",10);
-        }
-        ));
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES]["None"] += 10;
+        }));
+
+        When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+            Buff_All_Ally("Crit_dam", "None", 10);
+        }));
     }
 }
 #endif

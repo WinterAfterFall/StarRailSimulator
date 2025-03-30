@@ -51,8 +51,9 @@ void Basic_reset(){
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"] += 50+5.8*2;
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] += 5.8*2;
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Effect_hit_rate"]["None"] += 3.888*2;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["True_Damage"]["None"] += 100;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["True_Damage"]["None"] += 0;
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["HealingBonus"]["None"] += 0;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_RES]["None"] += 4.32*2;
             Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 2.3*2;
     }
 

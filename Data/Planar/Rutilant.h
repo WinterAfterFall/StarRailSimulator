@@ -11,15 +11,14 @@ namespace Planar{
     void Rutilant(Ally *ptr){
         
         ptr->Planar.Name = "Rutilant";
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr){
-            ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"]+=8;
-        }
-        ));
-        When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr){
-            ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Skill"]+=20;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Basic_Attack"]+=20;
-        }
-        ));
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+            ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"] += 8;
+        }));
+
+        When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+            ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Skill"] += 20;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Basic_Attack"] += 20;
+        }));
         
        
     }
