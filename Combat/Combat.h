@@ -48,27 +48,19 @@ void Deal_damage(){
             
             if(temp.actionFunction)temp.actionFunction(temp);
             else Attack(temp);
-            
-            
-            
-            
+
             for(int i=0;i<temp.Attack_trigger;i++){
                 temp.Attacker = temp.All_Attacker[i];
                 allEventWhenAttack(temp);
             }
+            
             temp.Attacker = temp.All_Attacker[0];
             allEventAfterAttack(temp);  
-            
-            
-              
-            
-
 
         }else if(temp.Action_type.first =="Buff"){
-            
-            if(temp.Turn_reset)atv_reset(turn);
-            
+
             if(temp.actionFunction)temp.actionFunction(temp);
+            if(temp.Turn_reset)atv_reset(turn);
             allEventBuff(temp);
             
             

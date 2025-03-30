@@ -116,8 +116,12 @@ namespace Gallagher{
                 data_.Damage_spilt.Adjacent.push_back({50, 0, 0, 20});
                 data_.Damage_spilt.Other.push_back({50, 0, 0, 20});
                 Action_bar.push(data_);
-                Extend_Debuff_All_Enemy("Besotted", 2);
-                Debuff_All_Enemy_Apply_ver(ptr->Sub_Unit_ptr[0].get(), "Vul", "Break_dmg", 13.2, "Besotted");
+                data_.actionFunction = [ptr](ActionData &data_){
+                    Extend_Debuff_All_Enemy("Besotted", 2);
+                    Debuff_All_Enemy_Apply_ver(ptr->Sub_Unit_ptr[0].get(), "Vul", "Break_dmg", 13.2, "Besotted");
+                    Attack(data_);
+                };
+                
                 if (!actionBarUse) Deal_damage();
             }
         }});
