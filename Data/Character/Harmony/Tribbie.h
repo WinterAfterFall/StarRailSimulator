@@ -260,7 +260,7 @@ namespace Tribbie{
     void Skill(Ally *ptr){
         
         ActionData data_ = ActionData();
-        data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Aoe","Buff");
+        data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Aoe","Buff","Tribbie Skill");
         data_.Add_Buff_All_Ally();
         data_.Turn_reset=true;
         data_.actionFunction =[ptr](ActionData &data_){

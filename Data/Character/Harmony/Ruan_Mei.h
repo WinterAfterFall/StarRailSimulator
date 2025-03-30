@@ -41,7 +41,7 @@ namespace Ruan_Mei{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr](){
             if(!ultUseCheck(ptr)) return;
             ActionData data_ = ActionData();
-            data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff"),"RuanMei Ult";
+            data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff","RuanMei Ult");
             data_.Add_Buff_All_Ally();
             data_.actionFunction = [ptr](ActionData &data_){
                 if(ptr->Print)Char_Command::printUltStart("Ruan Mei");

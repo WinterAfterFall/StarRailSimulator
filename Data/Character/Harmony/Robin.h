@@ -59,7 +59,7 @@ namespace Robin{
             if(ptr->Countdown_ptr[0]->Atv_stats->Base_speed != 90 && ptr->Sub_Unit_ptr[0]->Buff_countdown["Pinion'sAria"] > ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt && ultUseCheck(ptr)){
                 
                 ActionData data_ = ActionData();
-                data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff");
+                data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff","Robin Ultimate");
                 data_.Add_Buff_All_Ally();
                 data_.actionFunction = [ptr](ActionData &data_){
                     ptr->Countdown_ptr[0]->Atv_stats->Base_speed = 90;
