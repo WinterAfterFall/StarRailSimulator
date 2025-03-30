@@ -148,15 +148,11 @@ public:
     Func_class Planar;//*
     int Eidolon;//*
 
-    vector<double> Normal_Damage;//*
-    vector<double> Dot_damage;//*
-    vector<double> Break_damage;//*
-    vector<double> Superbreak_damage;//*
-    vector<double> Max_Damage;//*
-    vector<double> Max_Dot_damage;//*
-    vector<double> Max_Break_damage;//*
-    vector<double> Max_Superbreak_damage;//*
-
+    double totalRealTimeDamage =  0;
+    double totalAvgDamage =  0;
+    double totalDamage = 0;
+    double maxDamage = 0;
+    
     vector<double> Average_damage_instance;
     double Average_Damage = 0;
     double Max_Average_Damage = 0;
