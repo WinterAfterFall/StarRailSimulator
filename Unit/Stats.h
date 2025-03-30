@@ -80,6 +80,7 @@ public:
     double totalDEF;
 
     double currentHP;
+    double currentSheild;
     
     unordered_map<string,int> Stack;
     unordered_map<string,double> Buff_note;
