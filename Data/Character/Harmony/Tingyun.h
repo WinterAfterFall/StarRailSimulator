@@ -11,7 +11,8 @@ namespace Tingyun{
     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
     void Basic_Atk(Ally *ptr);
     void Skill(Ally *ptr);
-    
+
+
     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally_unit[num] = make_unique<Ally>();
         Ally *ptr = Ally_unit[num].get();
