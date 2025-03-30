@@ -209,6 +209,16 @@ public:
         this->Element_Orb = Element_Orb;
         this->Speed_Boot = Speed_Boot;
     }
+    void setTotalSubstats(int Value,bool check){
+        this->Total_substats=Value;
+        this->Separate_sub=Value;
+        this->Substats[0].second = Value;
+        this->Reroll_check = check;
+        this->Max_damage_Substats.resize(this->Substats.size());
+    }
+    void pushSubstats(string StatsType){
+        this->Substats.push_back({StatsType,0});
+    }
 };
 
 // Enemy class, derived from Unit

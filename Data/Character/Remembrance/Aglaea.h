@@ -29,7 +29,7 @@ namespace Aglaea{
         Ally_unit[num]->Reroll_check=1;
 
         Ally_unit[num]->Substats.push_back({"Crit_dam",20});
-         Ally_unit[num]->Substats.push_back({"Crit_rate",0});
+        Ally_unit[num]->Substats.push_back({"Crit_rate",0});
         Ally_unit[num]->Substats.push_back({"Atk%",0});
        
 
@@ -339,6 +339,7 @@ namespace Aglaea{
         data_.Damage_spilt.Adjacent.push_back({66,0,0,5});
         data_.actionFunction = [ptr](ActionData &data_){
             Increase_energy(ptr,10);
+            Attack(data_);
         };
         Action_bar.push(data_);
     }
