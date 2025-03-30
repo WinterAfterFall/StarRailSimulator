@@ -9,12 +9,10 @@ namespace Erudition_Lightcone{
         SetBaseStats(ptr->Sub_Unit_ptr[0].get(),953,476,331);
         ptr->Light_cone.Name = "Cosmos_Fell";
 
-        When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr){
-            ptr->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"]+=40;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"]+=24;
-
-        }
-        ));
+        When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+            ptr->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"] += 40;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 24;
+        }));
         
         
     }
