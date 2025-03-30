@@ -42,6 +42,16 @@ void Basic_reset(){
             for(auto &e:Ally_unit[i]->Sub_Unit_ptr[0]->Buff_check){
                 e.second = 0;
             }
+            for(std::pair<const std::string, Sub_Unit *> &e : Ally_unit[i]->Sub_Unit_ptr[0]->buffTarget){
+                e.second = nullptr;
+            }
+            for(std::pair<const std::string, double> &e :Ally_unit[i]->Sub_Unit_ptr[0]->damageAvgNote){
+                e.second = 0;
+            }
+            for(std::pair<const std::string, double> &e :Ally_unit[i]->Sub_Unit_ptr[0]->damageRealTimeNote){
+                e.second = 0;
+            }
+            
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 3.888*2;
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Flat_Atk"]["None"] += 352.8+38;
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Hp%"]["None"] += 3.888*2;
@@ -166,6 +176,15 @@ void Memosprite_reset(){
                 e.second = 0;
             }
             for(auto &e:Ally_unit[i]->Sub_Unit_ptr[j]->Buff_check){
+                e.second = 0;
+            }
+            for(std::pair<const std::string, Sub_Unit *> &e : Ally_unit[i]->Sub_Unit_ptr[j]->buffTarget){
+                e.second = nullptr;
+            }
+            for(std::pair<const std::string, double> &e : Ally_unit[i]->Sub_Unit_ptr[j]->damageAvgNote){
+                e.second = 0;
+            }
+            for(std::pair<const std::string, double> &e : Ally_unit[i]->Sub_Unit_ptr[j]->damageRealTimeNote){
                 e.second = 0;
             }
             

@@ -21,6 +21,7 @@ void Cal_Damage(ActionData &data_,Enemy *target,Ratio_data Skill_mtpr){
     if(Memo_check){
         data_.Skill_Type.push_back("Summon");
     }
+    
     if(Normal_Damage_Formula_check_mode&&data_.Attacker->Atv_stats->Unit_num==Normal_Damage_Formula_check_mode){
         cout<<data_.Attacker->Atv_stats->Char_Name<<" :"<<endl;
         cout<<data_.Attacker->Base_atk<<" ";

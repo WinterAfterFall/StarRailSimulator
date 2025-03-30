@@ -62,6 +62,7 @@ bool After_Turn_Check = 0;
 bool actionBarUse = 0;
 bool AdjustCheck = 0;
 bool Turn_Skip=0;
+string domain = "None";
 
 
 int Sp_Safety = 1;

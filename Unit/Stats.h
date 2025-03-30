@@ -86,6 +86,14 @@ public:
     unordered_map<string,double> Buff_note;
     unordered_map<string,int> Buff_countdown;
     unordered_map<string,bool> Buff_check;
+    unordered_map<string,Sub_Unit*> buffTarget;
+    unordered_map<string,double> damageAvgNote;
+    unordered_map<string,double> damageRealTimeNote;
+
+    //Max Damage
+    unordered_map<string,double> maxDamageAvgNote;
+    unordered_map<string,double> maxDamageRealTimeNote;
+
     
     vector<string> Element_type ;//*
     
