@@ -30,6 +30,7 @@
 #define ST_RES "Res"
 #define ST_EHR "ehr"
 #define ST_HEALING "HealingBonus"
+#define ST_SHEILD "SheildBonus"
 
 
 #define AT_TEMP "Temporary"
