@@ -12,23 +12,20 @@ namespace Nihility_Lightcone{
 
         SetBaseStats(ptr->Sub_Unit_ptr[0].get(),953,476,331);
         ptr->Light_cone.Name = "Before_the_Tutorial";
-        
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr){
-            ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"]["None"]+=40;
 
-        }
-        ));
-        
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,ptr,[](Ally *ptr, ActionData &data_){
-            if(data_.Attacker->Atv_stats->Unit_Name != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name)return;
-            for(auto e:data_.Target_Attack){
-                if(e->Stats_type["Def"]["None"]>0){
-                    Increase_energy(ptr,8);
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+            ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"]["None"] += 40;
+        }));
+
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](ActionData &data_) {
+            if (data_.Attacker->Atv_stats->Unit_Name != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) return;
+            for (auto e : data_.Target_Attack) {
+                if (e->Stats_type["Def"]["None"] > 0) {
+                    Increase_energy(ptr, 8);
                     return;
                 }
             }
-        }
-        ));
+        }));
 
 
 
