@@ -12,12 +12,6 @@ namespace Sunday{
     void Skill(Ally *ptr);
 
     bool ult_condition(Ally *ptr);
-    
-
-
-
-    
-
     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally_unit[num] = make_unique<Ally>();
         Ally *ptr = Ally_unit[num].get();
