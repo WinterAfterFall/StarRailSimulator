@@ -11,11 +11,11 @@
 namespace Char_Command{
 
 void printUltStart(string name){
-    cout<<"-------------------------------------------------------"<<name<<" Ult Start at "<<Current_atv<<endl;
+    cout<<"------------------------------------------------------- "<<name<<" Ult Start at "<<Current_atv<<endl;
 
 }
 void printUltEnd(string name){
-    cout<<"-------------------------------------------------------"<<name<<" Ult End at "<<Current_atv<<endl;
+    cout<<"------------------------------------------------------- "<<name<<" Ult End at "<<Current_atv<<endl;
 
 }
 void printText(string text){
