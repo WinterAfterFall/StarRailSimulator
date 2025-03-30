@@ -49,7 +49,7 @@ void Deal_damage(){
             if(temp.actionFunction)temp.actionFunction(temp);
             else Attack(temp);
             
-            if(temp.Turn_reset)atv_reset(turn);
+            
             
             
             for(int i=0;i<temp.Attack_trigger;i++){
@@ -125,6 +125,7 @@ void Attack(ActionData &data_){
             }    
         }
     }
+    if(data_.Turn_reset)atv_reset(turn);
 }
 void Heal(Heal_data& Healptr){
     Healing(Healptr);
@@ -229,7 +230,7 @@ void Toughness_break(ActionData &data_,Enemy* target){
     }
     double Constant = 0;
     ActionData data_2 = ActionData();
-    data_2.Break_dmg_set(data_.Attacker);
+    data_2.Break_dmg_set(data_.Attacker,"Break");
     ++target->Total_debuff;
     allEventApplyDebuff(data_.Attacker,target);
     

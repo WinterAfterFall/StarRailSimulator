@@ -8,36 +8,14 @@
 
 namespace Jingyuan{
     void Setup_Jingyuan(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
-    void Reset(Ally *ptr);
-    void Turn_func(Unit *ptr);
     void Basic_Atk(Ally *ptr);
     void Skill(Ally *ptr);
-    void After_turn(Ally *ptr);
-    void Start_game(Ally *ptr);
-    void Ult_func(Ally *ptr);//*
 
     bool Temp_Turn_Condition(Unit *ptr);
     bool Robin_temp(Ally *ptr);
     bool Temp_ult_Condition(Ally *ptr);
 
-    /*
-    void Setup_Jingyuan(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
-    void Reset(Ally *ptr);
-    void Turn_func(Unit *ptr);
-    void Before_turn(Ally *ptr);
-    void After_turn(Ally *ptr);
-    void Before_attack(Ally *ptr, Combat_data &data_);
-    void After_attack(Ally *ptr, Combat_data &data_);
-    void Buff_func(Ally *ptr, Combat_data &data_);
-    void Dot_func(Enemy *target, Ally *ptr, double Dot_ratio);
-    void Toughness_break_func(Ally *ptr, Enemy *target, int num);
-    void Enemy_hit_func(Ally *ptr, Enemy *target);
-    void Start_game(Ally *ptr);
-    void Start_wave(Ally *ptr);
-    void Apply_debuff_func(Ally *ptr, Enemy *target, int total_debuff);
-    void Hit_func(Ally *ptr, int Hit_cnt);
-    void Ult_func(Ally *ptr);//*
-    */
+
 
     void Setup_Jingyuan(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally_unit[num] = make_unique<Ally>();

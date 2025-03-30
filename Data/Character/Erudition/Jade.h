@@ -53,6 +53,7 @@ namespace Jade{
         Relic(Ally_unit[num].get());
         Planar(Ally_unit[num].get());
         Ally_unit[num]->Sub_Unit_ptr[0]->Turn_func = Turn_func;
+        
         Ultimate_List.push_back({PRIORITY_ACTTACK,Ally_unit[num].get(),Ult_func});
         Reset_List.push_back({PRIORITY_IMMEDIATELY,Ally_unit[num].get(),Reset});
         Tune_stats_List.push_back({PRIORITY_IMMEDIATELY,Ally_unit[num].get(),Tune_stats});
