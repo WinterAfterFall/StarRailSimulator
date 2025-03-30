@@ -63,6 +63,12 @@ namespace Mydei{
             data_.actionFunction = [ptr](ActionData &data_) {
                 for (Enemy* e : data_.Target_Attack) {
                     e->target = ptr->Sub_Unit_ptr[0].get();
+                    Apply_debuff(ptr->Sub_Unit_ptr[0].get(), e);
+                    if(e->Debuff["Mydei_Taunt"]==0){
+                        e->Debuff["Mydei_Taunt"] = 1;
+                        e->Total_debuff++;
+                    }
+                    
                 }
 
                 HealRatio healratio = HealRatio();

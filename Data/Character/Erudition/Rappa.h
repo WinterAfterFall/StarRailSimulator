@@ -9,16 +9,9 @@
 
 namespace Rappa{
     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
-    void Reset(Ally *ptr);
-    void Turn_func(Unit *ptr);
     void Enchance_Basic_Atk(Ally *ptr);
     void Skill_func(Ally *ptr);
-    void Ult_func(Ally *ptr);//*
-    void After_turn(Ally *ptr);
-    void After_attack(Ally *ptr, ActionData &data_);
-    void Start_game(Ally *ptr);
-    void Tune_stats(Ally *ptr);
-    void Toughness_break_func(Ally *ptr,Enemy *target,Sub_Unit *Breaker);
+
     
     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally_unit[num] = make_unique<Ally>();

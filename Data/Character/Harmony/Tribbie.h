@@ -70,8 +70,8 @@ namespace Tribbie{
             data_.Damage_spilt.Other.push_back({0, 30, 0, 20});
             data_.actionFunction = [ptr](ActionData &data_){
                 if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Tribbie_Zone")) {
-                    Buff_All_Ally("Vul", "None", 30);
-                    ptr->Sub_Unit_ptr[0]->Buff_check["Tribbie_Zone"] = 1;
+                        ptr->Sub_Unit_ptr[0]->Buff_check["Tribbie_Zone"] = 1;
+                        Debuff_All_Enemy_Apply_ver(ptr->Sub_Unit_ptr[0].get(),ST_VUL,AT_NONE,30,"Tribbie_Zone");
     
                     // A4 Trace
                     ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"] = 0;
@@ -154,8 +154,12 @@ namespace Tribbie{
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (Buff_end(ptr->Sub_Unit_ptr[0].get(), "Tribbie_Zone")) {
-                Buff_All_Ally("Vul", "None", -30);
                 ptr->Sub_Unit_ptr[0]->Buff_check["Tribbie_Zone"] = 0;
+                for(int i=1;i<=Total_enemy;i++){
+                    Enemy_unit[i]->Debuff["Tribbie_Zone"] = 0;
+                    Enemy_unit[i]->Total_debuff--;
+                    Debuff_single_target(Enemy_unit[i].get(),ST_VUL,AT_NONE,30);
+                }
                 if (ptr->Eidolon >= 1) {
                     Buff_All_Ally("True_Damage", "None", -24);
                 }

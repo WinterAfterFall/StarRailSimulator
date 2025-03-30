@@ -283,13 +283,18 @@ namespace Aglaea{
             }
             
         }
-        if(data_.Action_type.second!="Technique"&&data_.Attacker->Atv_stats->Unit_num==ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num){
+        if(data_.Attacker->isSameUnit("Aglaea")){
+            Apply_debuff(ptr->Sub_Unit_ptr[0].get(),Enemy_unit[Main_Enemy_num].get());
             if(Enemy_unit[Main_Enemy_num]->Debuff["Seam_Stitch"]==0){
                 Enemy_unit[Main_Enemy_num]->Debuff["Seam_Stitch"]=1;
+                Enemy_unit[Main_Enemy_num]->Total_debuff++;
                 if(ptr->Eidolon>=1){
                     Debuff_single_target(Enemy_unit[Main_Enemy_num].get(),"Vul","None",15);
                 }
             }
+        }
+        if(data_.Attacker->Atv_stats->Unit_num==ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num){
+            
             ActionData data_Additional = ActionData();
             data_Additional.Additional_set(data_.Attacker,"Single_target");
             Cal_Additional_damage(data_Additional,Enemy_unit[Main_Enemy_num].get(),{30,0,0,0});

@@ -28,6 +28,7 @@
 #define ST_RESPEN "Respen"
 #define ST_VUL "Vul"
 #define ST_RES "Res"
+#define ST_EHR "ehr"
 #define ST_HEALING "HealingBonus"
 
 

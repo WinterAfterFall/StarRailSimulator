@@ -8,19 +8,10 @@
 
 namespace Serval{
     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
-    void Reset(Ally *ptr);
-    void Turn_func(Unit *ptr);
-
     void Basic_Atk(Ally *ptr);
     void Skill(Ally *ptr);
 
-    void Ult_func(Ally *ptr);
-    void Tune_stats(Ally *ptr);
-    void Dot(Enemy* target,Ally *ptr,double Dot_ratio,string Dot_type);
-    void After_turn(Ally *ptr);
-    void When_attack(Ally *ptr,ActionData &data_);
-    void Enemy_Death_func(Ally *ptr,Enemy *target,Sub_Unit *Killer);
-    void Start_game(Ally *ptr);
+
 
 
 
