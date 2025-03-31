@@ -103,24 +103,11 @@ bool Permutation_Substats(Ally *ptr){
     if(0 == ptr->Reroll_check)return false;
     int index = 0;
         
-        for(int i=1;i<=Total_enemy;i++){    
-            ptr->Normal_Damage[i] = 0;
-        }
-        for(int i=1;i<=Total_enemy;i++){
-            ptr->Break_damage[i] = 0;
-        }
-        for(int i=1;i<=Total_enemy;i++){
-            ptr->Dot_damage[i] = 0;
-        }
-        for(int i=1;i<=Total_enemy;i++){
-            ptr->Superbreak_damage[i] = 0;
-        }
         for(int i=0;i<ptr->Substats.size();i++){
             index+= ptr->Substats[i].second*pow(ptr->Total_substats+1,i);
         }
         ptr->Damage_data[index] = ptr->Average_Damage;
-        ptr->Average_Damage = 0;
-        ptr->averageDamageInstance.clear();
+         
     if(ptr->Substats[ptr->Substats.size()-1].second==ptr->Current_substats){
         if(Calculate_All_possible_mode){
             ptr->Current_substats--;

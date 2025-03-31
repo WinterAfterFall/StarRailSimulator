@@ -55,16 +55,25 @@ void Cal_DamageSummary(){
     int sum;
     for(int i = 1; i<=Total_enemy ; i++ ){
         Enemy_unit[i]->toughnessAvgMultiplier = Cal_AvgToughnessMultiplier(Enemy_unit[i].get(),Current_atv);
+        for(unordered_map<string,double> &e :Enemy_unit[i]->damageRealTimeNote){
+            for(std::pair<const std::string, double> &f : e){
+                f.second *= 0;
+            }
+        }
     }
     for(int i=1;i<=Total_ally;i++){
         sum = 0;
-        for(auto e:Ally_unit[i]->averageDamageInstance){
+        for(auto &e:Ally_unit[i]->averageDamageInstance){
             sum += e;
         }
         Ally_unit[i]->Average_Damage = sum/Ally_unit[i]->averageDamageInstance.size();  
         Ally_unit[i]->totalDamage = Ally_unit[i]->totalRealTimeDamage;
         for(int j = 1; j<=Total_enemy ; j++ ){
             Ally_unit[i]->totalDamage += Ally_unit[i]->totalAvgToughnessDamage[j]*Enemy_unit[j]->toughnessAvgMultiplier;
+            for(std::pair<const std::string, double> &e :Enemy_unit[j]->damageAvgNote[]){
+                Ally_unit[i]->damageRealTimeNote 
+            }
+
         }
     }
 }

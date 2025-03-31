@@ -114,6 +114,7 @@ void Calculate_All_Substats(){
             if(Ally_unit[1]->StatsType_Compare_MAX_MIN.second>100*e.second/Ally_unit[1]->Damage_data[index])Ally_unit[1]->StatsType_Compare_MAX_MIN.second = 100*e.second/Ally_unit[1]->Damage_data[index];
             Ally_unit[1]->StatsType_Compare[Ally_unit[1]->Substats[i].first].second++;
         }
+        
         if(Calculate_All_possible_mode){
         for(int i=0;i<Ally_unit[1]->Substats.size();i++){
             if(Ally_unit[1]->Substats[i].second==0)continue;

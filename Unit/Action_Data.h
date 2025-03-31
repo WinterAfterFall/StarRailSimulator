@@ -295,6 +295,9 @@ class ActionData{
     void setToughnessAvgCalculate(bool arg){
         this->toughnessAvgCalculate = arg;
     }
+    void setDamageNote(bool arg){
+        this->damageNote = arg;
+    }
     void Entanglement_set(Sub_Unit* ptr){
         Attacker = ptr;
         source = ptr; 
