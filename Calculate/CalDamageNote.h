@@ -65,7 +65,6 @@ void Cal_DamageSummary(){
         sum = 0;
         for(auto &e:Ally_unit[i]->averageDamageInstance){
             sum += e;
-            cout<<e<<" ";
         }
         Ally_unit[i]->Average_Damage = sum/Ally_unit[i]->averageDamageInstance.size();  
         Ally_unit[i]->totalDamage = Ally_unit[i]->totalRealTimeDamage;

@@ -44,19 +44,11 @@ void Set_Stats(Ally *ptr){
 bool Reroll_substats(Ally *ptr){
     
     if(0 == ptr->Reroll_check) return false;
-    // cout<<ptr->Current_sub_choose<<endl;
-    // cout<<ptr->Current_spilt<<endl;
-    // cout<<ptr->Total_damage<<endl;
-
-    if(ptr->Substats.size()==1)ptr->Reroll_check = 0;
-
-    if(ptr->spiltPoint==0){
-        changeMaxDamage(ptr);
-        ptr->spiltPoint = 1;
-        return 1;
-    }
-    
     changeMaxDamage(ptr);
+    if(ptr->Substats.size()==1){
+        ptr->Reroll_check = 0;
+        return false;
+    }
 
     if(ptr->Current_sub_choose+1==ptr->spiltPoint){
         

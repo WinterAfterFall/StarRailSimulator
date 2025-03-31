@@ -171,7 +171,7 @@ public:
     int Current_substats = Total_substats;
 
     int SeparateRatio = 20;
-    int spiltPoint = 0;
+    int spiltPoint = 1;
     int Current_sub_choose =0;
     unordered_map<int,double> Damage_data;
     unordered_map<string,pair<double,int>> StatsType_Compare;
