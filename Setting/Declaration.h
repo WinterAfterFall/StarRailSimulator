@@ -235,9 +235,8 @@ void Cal_Dot_damage(ActionData& data_, Enemy* target, double Dot_ratio);
 void Cal_Dot_Toughness_break_damage(ActionData& data_, Enemy* target, double Dot_ratio);
 void Cal_Superbreak_damage(ActionData& data_, Enemy* target, double Superbreak_ratio);
 void Cal_Additional_damage(ActionData& data_, Enemy* target, Ratio_data Skill_mtpr);
-double Cal_TotalPercentToughnessBrokenTime(Enemy* target, double Total_atv);
 double Cal_Total_Toughness_Reduce(ActionData& data_, Enemy* target, double Base_Toughness_reduce);
-void Cal_ToughnessMultiplierAverage();
+
 
 //CalDmgReceive.h
 double calculateDmgReceive(Enemy *Attacker,Sub_Unit *ptr,double ratio);
@@ -293,6 +292,13 @@ double Cal_Def_multiplier(Heal_data& ptr);
 double Cal_HealBonus_multiplier(Heal_data& ptr,Sub_Unit *target);
 double Cal_HealBonus_multiplier(Sub_Unit *Healer,Sub_Unit *target);
 
+//CalDamageNote.h
+bool changeMaxDamage(Ally *ptr);
+bool changeMaxDamage(Enemy *ptr);
+void Cal_AverageDamage(Ally *ptr);
+double Cal_AvgToughnessMultiplier(Enemy* target, double Total_atv);
+void Cal_DamageSummary();
+
 /*------Event------*/
 
 //Event
@@ -337,6 +343,7 @@ void Countdown_reset();
 void Set_Stats(Ally* ptr);
 bool Reroll_substats(Ally* ptr);
 bool Permutation_Substats(Ally* ptr);
+
 
 /*  None 
     Basic_Attack

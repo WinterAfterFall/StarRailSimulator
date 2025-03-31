@@ -156,11 +156,13 @@ int main(){
             }
             
             Take_action();
-            Cal_ToughnessMultiplierAverage();
+            
         }
     }
+    
 
     Print_damage();
+    
     if(Calculate_All_Substats_mode){
         for(int i=1;i<=Total_ally;i++){
             if(Permutation_Substats(Ally_unit[i].get())){

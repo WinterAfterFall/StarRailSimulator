@@ -43,64 +43,21 @@ void Set_Stats(Ally *ptr){
 }
 bool Reroll_substats(Ally *ptr){
     
-    if(0 == ptr->Reroll_check){
-        double Temp_mx=0;
-        ptr->Average_Damage = 0;
-        ptr->Average_damage_instance.clear();
-        
-        for(int i=1;i<=Total_enemy;i++){    
-            Temp_mx+=ptr->Normal_Damage[i];
-            ptr->Normal_Damage[i] = 0;
-        }
-        for(int i=1;i<=Total_enemy;i++){
-            Temp_mx+=ptr->Break_damage[i];
-            ptr->Break_damage[i] = 0;
-        }
-        for(int i=1;i<=Total_enemy;i++){
-            Temp_mx+=ptr->Dot_damage[i];
-            ptr->Dot_damage[i] = 0;
-        }
-        for(int i=1;i<=Total_enemy;i++){
-            Temp_mx+=ptr->Superbreak_damage[i];
-            ptr->Superbreak_damage[i] = 0;
-        }
-        return 0;
-    }
+    if(0 == ptr->Reroll_check)return;
     // cout<<ptr->Current_sub_choose<<endl;
     // cout<<ptr->Current_spilt<<endl;
     // cout<<ptr->Total_damage<<endl;
 
+    if(ptr->Substats.size()==1)ptr->Reroll_check = 0;
 
     if(ptr->Current_spilt==0){
+        changeMaxDamage(ptr);
         ptr->Current_spilt = 1;
         return 1;
     }
     
-    if(ptr->Total_damage > ptr->Max){
-        ptr->Max = ptr->Total_damage;
-        ptr->Max_Average_Damage = ptr->Average_Damage;
-        for(int i=0,sz = ptr->Max_damage_Substats.size();i<sz;i++){
-            ptr->Max_damage_Substats[i] = ptr->Substats[i].second;
-            ptr->Stop_reroll = 0;
-        }
-    }
-    ptr->Total_damage = 0;
-    ptr->Average_Damage = 0;
-    ptr->Average_damage_instance.clear();
-    
-    for(int i=1;i<=Total_enemy;i++){
-        ptr->Normal_Damage[i] = 0;
-    }
-    for(int i=1;i<=Total_enemy;i++){
-        ptr->Break_damage[i] = 0;
-    }
-    for(int i=1;i<=Total_enemy;i++){
-        ptr->Dot_damage[i] = 0;
-    }
-    for(int i=1;i<=Total_enemy;i++){
-        ptr->Superbreak_damage[i] = 0;
-    }
-    
+    changeMaxDamage(ptr);
+
     if(ptr->Current_sub_choose+1==ptr->Current_spilt){
         
         if(1 == ptr->Stop_reroll||ptr->Separate_sub==0){
@@ -163,7 +120,7 @@ bool Permutation_Substats(Ally *ptr){
         }
         ptr->Damage_data[index] = ptr->Average_Damage;
         ptr->Average_Damage = 0;
-        ptr->Average_damage_instance.clear();
+        ptr->averageDamageInstance.clear();
     if(ptr->Substats[ptr->Substats.size()-1].second==ptr->Current_substats){
         if(Calculate_All_possible_mode){
             ptr->Current_substats--;

@@ -43,78 +43,27 @@ void Print(){
     cout<<endl;
 }
 void Print_damage(){
-    double Temp_sum = 0;
-    for(int i=1;i<=Total_ally;i++){
-        Temp_sum = 0;
-        for(auto e:Ally_unit[i]->Average_damage_instance){
-            Temp_sum += e;
-        }
-        Ally_unit[i]->Average_Damage = Temp_sum/Ally_unit[i]->Average_damage_instance.size();
-    }
-    long long sum=0;
+    double total = 0;
+    double avg = 0;
     for(int j=1;j<=Total_ally;j++){
-    double temp = 0;
-    cout<<Ally_unit[j]->Sub_Unit_ptr[0]->Atv_stats->Char_Name<<endl;
-    
-    //cout<<Ally_unit[j]->stats->Normal_Damage[1]<<" ";
-    // for(int i=1;i<=Total_enemy;i++){
-    //     temp+=Ally_unit[j]->stats->Total_Damage[i];
-        
-    // }
-    // cout<<static_cast<long long>(temp)<<" ";
-    // for(int i=1;i<=Total_enemy;i++){
-    //     temp+=Ally_unit[j]->stats->Total_Break_damage[i];
-        
-    // }
-    // cout<<static_cast<long long>(temp)<<" ";
-    // for(int i=1;i<=Total_enemy;i++){
-    //     temp+=Ally_unit[j]->stats->Total_Dot_damage[i];
-        
-    // }
-    // cout<<static_cast<long long>(temp)<<" ";
-    // for(int i=1;i<=Total_enemy;i++){
-    //     temp+=Ally_unit[j]->stats->Total_Superbreak_damage[i];
-        
-    // }
+
     cout<<"Total Damage : ";
-    if(Ally_unit[j]->Max==0){
-        cout<<static_cast<long long>(Ally_unit[j]->Total_damage)<<" ";
-    }else{
-        cout<<static_cast<long long>(Ally_unit[j]->Max)<<" ";
-    }
+    cout<<static_cast<long long>(Ally_unit[j]->totalDamage)<<" ";
+    total += Ally_unit[j]->totalDamage;
+
     
     cout<<"Avg Damage : ";
-    if(Ally_unit[j]->Max_Average_Damage==0){
-        cout<<static_cast<long long>(Ally_unit[j]->Average_Damage)<<endl;
-        sum+=static_cast<long long>(Ally_unit[j]->Average_Damage);
-
-    }else{
-        cout<<static_cast<long long>(Ally_unit[j]->Max_Average_Damage)<<endl;
-        sum+=static_cast<long long>(Ally_unit[j]->Max_Average_Damage);
-    }
-    
-    
-
+    cout<<static_cast<long long>(Ally_unit[j]->Average_Damage)<<endl;
+    avg+=Ally_unit[j]->Average_Damage;
 
     cout<<"Substats : ";
-    if(Ally_unit[j]->Max_damage_Substats.size()==0){
-        for(auto e:Ally_unit[j]->Substats){
-        cout<<e.second<<" ";
-    }
-    }else{
-        for(auto e:Ally_unit[j]->Max_damage_Substats){
-        cout<<e<<" ";
-    }
-    }
+    for(auto e:Ally_unit[j]->Substats)cout<<e.second<<" ";
     
     cout<<"Total Turn : ";
     cout<<Ally_unit[j]->Sub_Unit_ptr[0]->Atv_stats->turn_cnt<<" ";
     cout<<endl;
     }
-    cout<<sum;
-    // cout<<static_cast<long long>(Ally_unit[1]->Normal_Damage[1])<<endl;
-    // cout<<static_cast<long long>(Ally_unit[1]->Normal_Damage[2])<<endl;
-    // cout<<static_cast<long long>(Ally_unit[1]->Normal_Damage[3])<<endl;
+    cout<<"Total Damage : "<<static_cast<long long>(total)<<" "<<static_cast<long long>(avg)<<endl;
 }
 void Print_All_Substats(){
     for(auto e:Ally_unit[1]->StatsType_Compare){

@@ -26,7 +26,7 @@ namespace RMC{
         
 
         ptr->pushSubstats("Crit_dam");
-        ptr->setTotalSubstats(20,0);
+        ptr->setTotalSubstats(20);
 
         //func
         LC(Ally_unit[num].get());

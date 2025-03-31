@@ -203,15 +203,7 @@ void Cal_Additional_damage(ActionData &data_,Enemy *target,Ratio_data Skill_mtpr
         cout<<data_.Attacker->Atv_stats->Char_Name<<" "<<data_.Action_type.second<<" "<<(long long)Total_dmg*data_.Attacker->Stats_type["True_Damage"]["None"]/100<<" to Enemy"<<target->Atv_stats->Unit_num<<endl;
     }
 }
-double Cal_TotalPercentToughnessBrokenTime(Enemy *target,double Total_atv){
-    double temp=0;
-    if(target->Toughness_status==0){
-        temp = (1*(target->Total_toughness_broken_time+(Total_atv - target->when_toughness_broken)) + 0.9*(Total_atv-(target->Total_toughness_broken_time+(Total_atv - target->when_toughness_broken))))/Total_atv; 
-    }else{
-        temp = (1*(target->Total_toughness_broken_time) + 0.9*(Total_atv-target->Total_toughness_broken_time))/Total_atv; 
-    }
-    return temp;
-}
+
 double Cal_Total_Toughness_Reduce(ActionData &data_,Enemy *target,double Base_Toughness_reduce){
     double ans = Base_Toughness_reduce;
     double Toughness_reduction_mtpr =100;
@@ -232,27 +224,6 @@ double Cal_Total_Toughness_Reduce(ActionData &data_,Enemy *target,double Base_To
     ans *= ((Weakness_Break_Efficiency_mtpr)/100);
     return ans;
 }
-void Cal_ToughnessMultiplierAverage(){
-    double temp[5] = {0,0,0,0,0};
-    if(turn->turn_cnt<2)return;
-    if(turn->Unit_num!=Main_dps_num)return;
-    for(int i=1;i<=Total_enemy;i++){ 
-        for(int j=1;j<=Total_ally;j++){
-            temp[j]+=((Ally_unit[j]->Dot_damage[i]* Cal_TotalPercentToughnessBrokenTime(Enemy_unit[i].get(),Current_atv)+Ally_unit[j]->Normal_Damage[i] * Cal_TotalPercentToughnessBrokenTime(Enemy_unit[i].get(),Current_atv)+Ally_unit[j]->Superbreak_damage[i] +Ally_unit[j]->Break_damage[i]))/Current_atv;            
-        }
-    }
 
-    for(int i=1;i<=Total_ally;i++){
-        if(Current_atv<Ally_unit[i]->Last_note+20){
-            Ally_unit[i]->Average_damage_instance[Ally_unit[i]->Average_damage_instance.size()-1] = temp[i];
-        }else{
-            Ally_unit[i]->Last_note = Current_atv;
-            Ally_unit[i]->Average_damage_instance.push_back(temp[i]);
-        }
-       
-        
-    }
-    //cout<<"Size = "<<Ally_unit[1]->Average_damage_instance.size()<<" "<<Ally_unit[1]->Average_damage_instance[Ally_unit[1]->Average_damage_instance.size()-1]<<endl;
-}
 
 #endif

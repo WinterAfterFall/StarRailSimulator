@@ -83,6 +83,7 @@ class ActionData{
     public:
     bool Turn_reset = 0;
     bool toughnessAvgCalculate = 1;
+    bool damageNote = 1;
     function<void(ActionData &data_)> actionFunction;
     double Dont_care_weakness =0;
     Sub_Unit* Attacker = nullptr; 

@@ -66,8 +66,10 @@ void Deal_damage(){
             
         }
         if(temp.healPtr)Heal(*(temp.healPtr.get()));
+        if(temp.damageNote)Cal_AverageDamage(temp.Attacker->ptr_to_unit);
         Action_bar.pop();
     }
+    
     if(turn!=nullptr&&turn->Side=="Enemy"){
         atv_reset(turn);
     }

@@ -87,12 +87,7 @@ public:
     unordered_map<string,int> Buff_countdown;
     unordered_map<string,bool> Buff_check;
     unordered_map<string,Sub_Unit*> buffTarget;
-    unordered_map<string,double> damageAvgNote;
-    unordered_map<string,double> damageRealTimeNote;
 
-    //Max Damage
-    unordered_map<string,double> maxDamageAvgNote;
-    unordered_map<string,double> maxDamageRealTimeNote;
 
     
     vector<string> Element_type ;//*
@@ -147,22 +142,28 @@ public:
     Func_class Relic;//*
     Func_class Planar;//*
     int Eidolon;//*
-
+    //total Damage
     double totalRealTimeDamage =  0;
-    double totalAvgDamage =  0;
+    vector<double> totalAvgToughnessDamage ;
     double totalDamage = 0;
-    double maxDamage = 0;
     
-    vector<double> Average_damage_instance;
+    unordered_map<string,double> damageAvgNote;
+    unordered_map<string,double> damageRealTimeNote;
+
+    vector<double> averageDamageInstance;
     double Average_Damage = 0;
-    double Max_Average_Damage = 0;
     double Last_note = 0;
 
-    double Total_damage;
-    double Max = 0;
+    //Max Damage
+    double maxDamage = 0;
+    unordered_map<string,double> maxDamageAvgNote;
+    unordered_map<string,double> maxDamageRealTimeNote;
+    double Max_Average_Damage = 0;
+    
+
     vector<pair<string,int>> Substats;//*
     vector<int> Max_damage_Substats;//*
-    bool Reroll_check=0;
+    bool Reroll_check=1;
     bool Stop_reroll=1;
     int Total_substats = 20;
     int Current_substats = Total_substats;
@@ -206,23 +207,25 @@ public:
     }
 
     ~Ally() {}
-
+    int getNum(){
+        return this->Sub_Unit_ptr[0]->Atv_stats->Unit_num;
+    }
     void SetRelic(bool Body_CritDam,bool Speed_Boot,bool Element_Orb,bool Er_Rope){
         this->Er_Rope = Er_Rope;
         this->Body_CritDam = Body_CritDam;
         this->Element_Orb = Element_Orb;
         this->Speed_Boot = Speed_Boot;
     }
-    void setTotalSubstats(int Value,bool check){
+    void setTotalSubstats(int Value){
         this->Total_substats=Value;
         this->Separate_sub=Value;
         this->Substats[0].second = Value;
-        this->Reroll_check = check;
         this->Max_damage_Substats.resize(this->Substats.size());
     }
     void pushSubstats(string StatsType){
         this->Substats.push_back({StatsType,0});
     }
+    
 };
 
 // Enemy class, derived from Unit
@@ -235,12 +238,20 @@ public:
     unordered_map<string,int> Debuff;
     unordered_map<string,int> Debuff_time_count;
 
+    vector<unordered_map<string,double>> damageAvgNote;
+    vector<unordered_map<string,double>> damageRealTimeNote;
+
+    //Max Damage
+    vector<unordered_map<string,double>> maxDamageAvgNote;
+    vector<unordered_map<string,double>> maxDamageRealTimeNote;
+
     double ATK = 718;
     double atkPercent = 0;
     double Energy_gen;
     double Max_toughness; 
     double Current_toughness;
     bool Toughness_status = 1;
+    double toughnessAvgMultiplier = 0;
     string Target_type = "";//*
     int attackCooldown = 3; 
     int attackStartAtTurn = 2;

@@ -46,6 +46,7 @@ void Setup(){
     sort(Skill_point_List.begin(), Skill_point_List.end(), TriggerFunc::Trigger_cmp);
     sort(Hit_Count_List.begin(), Hit_Count_List.end(), TriggerFunc::Trigger_cmp);
     
+    
     for(int i=1;i<=Total_ally;i++){
         // Ally_unit[i]->Atk_flat["None"] = 0;
         // Ally_unit[i]->Atk_percent["None"] = 0;
@@ -71,16 +72,7 @@ void Setup(){
         Ally_unit[i]->TotalSubstats_Compare_MAX_MIN.second = 1e9;
 
 
-        Ally_unit[i]->Normal_Damage.resize(Total_enemy+1);
-        Ally_unit[i]->Dot_damage.resize(Total_enemy+1);
-        Ally_unit[i]->Break_damage.resize(Total_enemy+1);
-        Ally_unit[i]->Superbreak_damage.resize(Total_enemy+1);
-        
-        cout<<endl;
-        Ally_unit[i]->Max_Damage.resize(Total_enemy+1);
-        Ally_unit[i]->Max_Dot_damage.resize(Total_enemy+1);
-        Ally_unit[i]->Max_Break_damage.resize(Total_enemy+1);
-        Ally_unit[i]->Max_Superbreak_damage.resize(Total_enemy+1);
+        Ally_unit[i]->totalAvgToughnessDamage.resize(Total_enemy+1);
 
 
 
@@ -127,22 +119,6 @@ void Start_game(){
     }
 }
 void EndWave(double Total_atv){
-    
-    double temp = 0;
-    for(int i=1;i<=Total_enemy;i++){
-        
-        for(int j=1;j<=Total_ally;j++){
-            Ally_unit[j]->Normal_Damage[i] *= Cal_TotalPercentToughnessBrokenTime(Enemy_unit[i].get(),Total_atv);
-            Ally_unit[j]->Dot_damage[i]*= Cal_TotalPercentToughnessBrokenTime(Enemy_unit[i].get(),Total_atv);
-            Ally_unit[j]->Total_damage+=(Ally_unit[j]->Dot_damage[i]+Ally_unit[j]->Normal_Damage[i]+Ally_unit[j]->Superbreak_damage[i] +Ally_unit[j]->Break_damage[i]);
-            Ally_unit[j]->Last_note = 0;
-            
-        }
-        
-    }
-
-    cout<<endl;
-    
 }
 void Start_wave(int WAVE){
     if(WAVE!=0)All_atv_reset();
