@@ -1,6 +1,6 @@
 #ifndef DAMAGE_NOTE_H
 #define DAMAGE_NOTE_H
-#include "../Print.h"
+#include "../Unit/Trigger_Function.h"
 
 bool changeMaxDamage(Ally *ptr){
     if(ptr->maxDamage < ptr->totalDamage){
@@ -55,9 +55,9 @@ void Cal_DamageSummary(){
     int sum;
     for(int i = 1; i<=Total_enemy ; i++ ){
         Enemy_unit[i]->toughnessAvgMultiplier = Cal_AvgToughnessMultiplier(Enemy_unit[i].get(),Current_atv);
-        for(unordered_map<string,double> &e :Enemy_unit[i]->damageRealTimeNote){
+        for(unordered_map<string,double> &e :Enemy_unit[i]->damageAvgNote){
             for(std::pair<const std::string, double> &f : e){
-                f.second *= 0 ;
+                f.second *= Enemy_unit[i]->toughnessAvgMultiplier;
             }
         }
     }
@@ -68,13 +68,27 @@ void Cal_DamageSummary(){
         }
         Ally_unit[i]->Average_Damage = sum/Ally_unit[i]->averageDamageInstance.size();  
         Ally_unit[i]->totalDamage = Ally_unit[i]->totalRealTimeDamage;
+
         for(int j = 1; j<=Total_enemy ; j++ ){
             Ally_unit[i]->totalDamage += Ally_unit[i]->totalAvgToughnessDamage[j]*Enemy_unit[j]->toughnessAvgMultiplier;
-            for(std::pair<const std::string, double> &e :Enemy_unit[j]->damageAvgNote[]){
-                Ally_unit[i]->damageRealTimeNote 
+            for(std::pair<const std::string, double> &e :Enemy_unit[j]->damageRealTimeNote[i]){
+                Ally_unit[i]->damageRealTimeNote[e.first]  += e.second;
+            }
+            for(std::pair<const std::string, double> &e :Enemy_unit[j]->damageAvgNote[i]){
+                Ally_unit[i]->damageAvgNote[e.first]  += e.second;
             }
 
         }
+    }
+}
+void Cal_DamageNote(ActionData &data_,Enemy *target,double damage){
+    Ally *ptr = data_.Attacker->ptr_to_unit;
+    if(data_.toughnessAvgCalculate){
+        ptr->totalAvgToughnessDamage[target->getNum()] += damage;
+        target->damageAvgNote[ptr->getNum()][data_.actionName] += damage;
+    }else{
+        ptr->totalRealTimeDamage += damage;
+        target->damageRealTimeNote[ptr->getNum()][data_.actionName] += damage;
     }
 }
 

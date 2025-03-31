@@ -29,6 +29,8 @@
 #define ST_VUL "Vul"
 #define ST_RES "Res"
 #define ST_EHR "ehr"
+#define ST_TRUE "True_Damage"
+#define ST_TOTAL_TRUE "True_Damage_From_Total"
 #define ST_HEALING "HealingBonus"
 #define ST_SHEILD "SheildBonus"
 
@@ -294,10 +296,10 @@ double Cal_HealBonus_multiplier(Sub_Unit *Healer,Sub_Unit *target);
 
 //CalDamageNote.h
 bool changeMaxDamage(Ally *ptr);
-bool changeMaxDamage(Enemy *ptr);
 void Cal_AverageDamage(Ally *ptr);
 double Cal_AvgToughnessMultiplier(Enemy* target, double Total_atv);
 void Cal_DamageSummary();
+void Cal_DamageNote(ActionData &data_,Enemy *target,double damage);
 
 /*------Event------*/
 

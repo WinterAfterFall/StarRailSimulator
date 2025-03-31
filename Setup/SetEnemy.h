@@ -1,6 +1,6 @@
 #ifndef Setup_Enemy_H
 #define Setup_Enemy_H
-#include "../Print.h"
+#include "../Unit/Trigger_Function.h"
 
 void Setup_enemy(int num, double speed, double energy, double Toughness, double skillRatio, int attackCooldown, string type) {
     if (num == 0) {

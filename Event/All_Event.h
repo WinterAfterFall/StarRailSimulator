@@ -1,6 +1,6 @@
 #ifndef Event_H
 #define Event_H
-#include "../Print.h"
+#include "../Unit/Trigger_Function.h"
 void allEventBeforeTurn(){
     ActionData temp = ActionData();
     if(turn->Side=="Enemy"){

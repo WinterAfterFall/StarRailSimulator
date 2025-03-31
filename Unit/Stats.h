@@ -56,7 +56,9 @@ public:
     }
        
     //double Mitigation = 0;
-    
+    int getNum(){
+        return this->Atv_stats->Unit_num;
+    }
     
     virtual ~Unit() {}  // Virtual destructor to ensure proper cleanup of derived classes
 };

@@ -1,7 +1,7 @@
 #ifndef Setup_H
 #define Setup_H
 #include<bits/stdc++.h>
-#include "../Print.h"
+#include "../Unit/Trigger_Function.h"
 
 #define endl '\n'
 #define F first

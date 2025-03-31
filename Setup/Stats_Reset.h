@@ -1,6 +1,6 @@
 #ifndef Setup_Stats_H
 #define Setup_Stats_H
-#include "../Print.h"
+#include "../Unit/Trigger_Function.h"
 
 void Basic_reset(){
     

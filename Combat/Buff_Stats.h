@@ -1,6 +1,6 @@
 #ifndef BUFF_STATS_H
 #define BUFF_STATS_H
-#include "../Print.h"
+#include "../Unit/Trigger_Function.h"
 using namespace std;
 #define endl '\n'
 #define F first

@@ -1,6 +1,6 @@
 #ifndef Cal_Stats_HEAL_H
 #define Cal_Stats_HEAL_H
-#include "../Print.h"
+#include "../Unit/Trigger_Function.h"
 
 double Cal_Atk_multiplier(Heal_data& healData) {
     double ans = healData.Healer->Base_atk;

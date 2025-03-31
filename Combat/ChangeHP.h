@@ -1,6 +1,6 @@
 #ifndef CHANGEHP_H
 #define CHANGEHP_H
-#include "../Print.h"
+#include "../Unit/Trigger_Function.h"
 
 void Healing(Heal_data& Healptr){
     priority_queue<PointerWithValue, vector<PointerWithValue>, decltype(&PointerWithValue::Greater_cmp)> pq(&PointerWithValue::Less_cmp);

@@ -1,7 +1,7 @@
 #ifndef Cal_damage_H
 #define Cal_damage_H
 #include<bits/stdc++.h>
-#include "../Print.h"
+#include "../Unit/Trigger_Function.h"
 
 #define endl '\n'
 #define F first
@@ -12,15 +12,6 @@
 
 void Cal_Damage(ActionData &data_,Enemy *target,Ratio_data Skill_mtpr){
     double Total_dmg = 0;
-    bool Memo_check=1;
-    if(data_.Attacker->Atv_stats->Side=="Memosprite"){
-        for(auto e:data_.Skill_Type){
-        if(e=="Summon")Memo_check=0;
-    }
-    }
-    if(Memo_check){
-        data_.Skill_Type.push_back("Summon");
-    }
     
     if(Normal_Damage_Formula_check_mode&&data_.Attacker->Atv_stats->Unit_num==Normal_Damage_Formula_check_mode){
         cout<<data_.Attacker->Atv_stats->Char_Name<<" :"<<endl;
@@ -55,34 +46,16 @@ void Cal_Damage(ActionData &data_,Enemy *target,Ratio_data Skill_mtpr){
     Total_dmg = Total_dmg*Cal_Toughness_multiplier(data_,target);
     
     
-    Ally_unit[data_.Attacker->Atv_stats->Unit_num]->Normal_Damage[target->Atv_stats->Unit_num] +=Total_dmg*data_.Attacker->Stats_type["True_Damage"]["None"]/100;
+
+    Cal_DamageNote(data_,target,Total_dmg);
+    Cal_TrueDamage(data_,target,Total_dmg);
     if(Normal_Damage_check_mode==data_.Attacker->Atv_stats->Unit_num){
         cout<<data_.Attacker->Atv_stats->Char_Name<<" "<<data_.Action_type.second<<" "<<(long long)Total_dmg*data_.Attacker->Stats_type["True_Damage"]["None"]/100<<" to Enemy"<<target->Atv_stats->Unit_num<<endl;
     }
-    if(Memo_check){
-        data_.Skill_Type.pop_back();
-    }
 
 }
 
-void Cal_Toughness_reduction(ActionData &data_,Enemy* target,double Toughness_reduce){
-    if(target->Weakness_type[data_.Damage_element]==0&& 0 == data_.Dont_care_weakness&&target->Current_toughness>0)return ;
-    if(target->Weakness_type[data_.Damage_element]==0&& 0 != data_.Dont_care_weakness&&target->Current_toughness>0){
-        Toughness_reduce*=(data_.Dont_care_weakness/100);
-        target->Current_toughness-=Cal_Total_Toughness_Reduce(data_,target,Toughness_reduce);
-        if(target->Current_toughness<=0){
-            target->Current_toughness*=(100/data_.Dont_care_weakness);
-        }
-    }else{
-        target->Current_toughness-=Cal_Total_Toughness_Reduce(data_,target,Toughness_reduce);
-    }
-    
-    if(target->Current_toughness<=0&&target->Toughness_status==1){
-        
-        Toughness_break(data_,target);
-        target->when_toughness_broken = Current_atv;
-    }
-}
+
 
 void Cal_Break_damage(ActionData &data_,Enemy *target,double &Constant){
     double Total_dmg = Constant *Level_multiplier;
@@ -104,7 +77,8 @@ void Cal_Break_damage(ActionData &data_,Enemy *target,double &Constant){
     Total_dmg = Total_dmg*Cal_Vul_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Mitigation_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Toughness_multiplier(data_,target);
-    Ally_unit[data_.Attacker->Atv_stats->Unit_num]->Break_damage[target->Atv_stats->Unit_num] +=Total_dmg*data_.Attacker->Stats_type["True_Damage"]["None"]/100;
+    Cal_DamageNote(data_,target,Total_dmg);
+    Cal_TrueDamage(data_,target,Total_dmg);
     
 }
 void Cal_Freeze_damage(ActionData &data_,Enemy *target){
@@ -116,8 +90,9 @@ void Cal_Freeze_damage(ActionData &data_,Enemy *target){
     Total_dmg = Total_dmg*Cal_Vul_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Mitigation_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Toughness_multiplier(data_,target);
-    Ally_unit[data_.Attacker->Atv_stats->Unit_num]->Break_damage[target->Atv_stats->Unit_num] +=Total_dmg*data_.Attacker->Stats_type["True_Damage"]["None"]/100;
-    
+    Cal_DamageNote(data_,target,Total_dmg);
+    Cal_TrueDamage(data_,target,Total_dmg);
+
 }
 
 void Cal_Dot_damage(ActionData &data_,Enemy *target,double Dot_ratio){
@@ -131,7 +106,8 @@ void Cal_Dot_damage(ActionData &data_,Enemy *target,double Dot_ratio){
     Total_dmg = Total_dmg*Cal_Vul_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Toughness_multiplier(data_,target);
     
-    Ally_unit[data_.Attacker->Atv_stats->Unit_num]->Dot_damage[target->Atv_stats->Unit_num] +=Total_dmg*Dot_ratio/100*data_.Attacker->Stats_type["True_Damage"]["None"]/100;
+    Cal_DamageNote(data_,target,Total_dmg);
+    Cal_TrueDamage(data_,target,Total_dmg);   
 }
 void Cal_Dot_Toughness_break_damage(ActionData &data_,Enemy *target,double Dot_ratio){
     double Total_dmg = Level_multiplier*Dot_ratio/100;
@@ -142,7 +118,8 @@ void Cal_Dot_Toughness_break_damage(ActionData &data_,Enemy *target,double Dot_r
     Total_dmg = Total_dmg*Cal_Vul_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Mitigation_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Toughness_multiplier(data_,target);
-    Ally_unit[data_.Attacker->Atv_stats->Unit_num]->Break_damage[target->Atv_stats->Unit_num] +=Total_dmg*data_.Attacker->Stats_type["True_Damage"]["None"]/100;
+    Cal_DamageNote(data_,target,Total_dmg);
+    Cal_TrueDamage(data_,target,Total_dmg);
 }
 void Cal_Superbreak_damage(ActionData &data_,Enemy *target,double Superbreak_ratio){
     double Total_dmg = Level_multiplier*Superbreak_ratio/100;
@@ -162,7 +139,8 @@ void Cal_Superbreak_damage(ActionData &data_,Enemy *target,double Superbreak_rat
     Total_dmg = Total_dmg*Cal_Respen_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Vul_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Mitigation_multiplier(data_,target);
-    Ally_unit[data_.Attacker->Atv_stats->Unit_num]->Superbreak_damage[target->Atv_stats->Unit_num] +=Total_dmg*data_.Attacker->Stats_type["True_Damage"]["None"]/100;
+    Cal_DamageNote(data_,target,Total_dmg);
+    Cal_TrueDamage(data_,target,Total_dmg);
 }
 void Cal_Additional_damage(ActionData &data_,Enemy *target,Ratio_data Skill_mtpr){
     double Total_dmg = 0;
@@ -198,9 +176,39 @@ void Cal_Additional_damage(ActionData &data_,Enemy *target,Ratio_data Skill_mtpr
     Total_dmg = Total_dmg*Cal_Mitigation_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Toughness_multiplier(data_,target);
     
-    Ally_unit[data_.Attacker->Atv_stats->Unit_num]->Normal_Damage[target->Atv_stats->Unit_num] +=Total_dmg*data_.Attacker->Stats_type["True_Damage"]["None"]/100;
+    Cal_DamageNote(data_,target,Total_dmg);
+    Cal_TrueDamage(data_,target,Total_dmg);
+
     if(Additional_Damage_check_mode==data_.Attacker->Atv_stats->Unit_num){
         cout<<data_.Attacker->Atv_stats->Char_Name<<" "<<data_.Action_type.second<<" "<<(long long)Total_dmg*data_.Attacker->Stats_type["True_Damage"]["None"]/100<<" to Enemy"<<target->Atv_stats->Unit_num<<endl;
+    }
+}
+void Cal_TrueDamage(ActionData &data_,Enemy *target,double Damage){
+    double totalTrueDamage = 0;
+  
+    totalTrueDamage += data_.Attacker->Stats_type[ST_TRUE]["None"] + target->Stats_type[ST_TRUE]["None"];
+    for(int i = 0, sz = data_.Skill_Type.size(); i < sz; i++){
+        totalTrueDamage += data_.Attacker->Stats_type[ST_TRUE][data_.Skill_Type[i]] + target->Stats_type[ST_TRUE][data_.Skill_Type[i]];
+    }
+    totalTrueDamage = (totalTrueDamage / 100 < 0) ? 0 : totalTrueDamage / 100;
+    Cal_DamageNote(data_,target,Damage*totalTrueDamage);
+}
+void Cal_Toughness_reduction(ActionData &data_,Enemy* target,double Toughness_reduce){
+    if(target->Weakness_type[data_.Damage_element]==0&& 0 == data_.Dont_care_weakness&&target->Current_toughness>0)return ;
+    if(target->Weakness_type[data_.Damage_element]==0&& 0 != data_.Dont_care_weakness&&target->Current_toughness>0){
+        Toughness_reduce*=(data_.Dont_care_weakness/100);
+        target->Current_toughness-=Cal_Total_Toughness_Reduce(data_,target,Toughness_reduce);
+        if(target->Current_toughness<=0){
+            target->Current_toughness*=(100/data_.Dont_care_weakness);
+        }
+    }else{
+        target->Current_toughness-=Cal_Total_Toughness_Reduce(data_,target,Toughness_reduce);
+    }
+    
+    if(target->Current_toughness<=0&&target->Toughness_status==1){
+        
+        Toughness_break(data_,target);
+        target->when_toughness_broken = Current_atv;
     }
 }
 

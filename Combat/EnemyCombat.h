@@ -1,7 +1,7 @@
 #ifndef ENEMY_COMBAT_H
 #define ENEMY_COMBAT_H
 
-#include "../Print.h"
+#include "../Unit/Trigger_Function.h"
 
 void EnemyHit(Enemy *Attacker){
     vector<Sub_Unit*> vec;
