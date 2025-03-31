@@ -8,7 +8,7 @@
 #define DMG_CAL 12
 using std::cout ;
 using std::vector;
-#include"./Unit/Trigger_Function.h"
+#include"../Unit/Trigger_Function.h"
 
 void Print_damage();
 void Print(){
@@ -47,6 +47,7 @@ void Print_damage(){
     double avg = 0;
     for(int j=1;j<=Total_ally;j++){
 
+    cout<<Ally_unit[j]->Sub_Unit_ptr[0]->Atv_stats->Char_Name<<endl;
     cout<<"Total Damage : ";
     cout<<static_cast<long long>(Ally_unit[j]->totalDamage)<<" ";
     total += Ally_unit[j]->totalDamage;

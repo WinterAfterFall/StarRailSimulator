@@ -182,7 +182,6 @@ namespace Mydei{
             if (ptr->Eidolon < 2) return;
             Value = (Value + ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_E2"] <= target->totalHP) ? Value : target->totalHP - ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_E2"];
             ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_E2"] += Value;
-            cout << CalculateChargePoint(ptr->Sub_Unit_ptr[0].get(), Value * 0.4) << endl;
             ChargePoint(ptr, CalculateChargePoint(ptr->Sub_Unit_ptr[0].get(), Value * 0.4));
         }));
 

@@ -4,7 +4,7 @@
 
 void Healing(Heal_data& Healptr){
     priority_queue<PointerWithValue, vector<PointerWithValue>, decltype(&PointerWithValue::Greater_cmp)> pq(&PointerWithValue::Less_cmp);
-
+    
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
             pq.push(PointerWithValue(Ally_unit[i]->Sub_Unit_ptr[j].get(),calculateHPLost(Ally_unit[i]->Sub_Unit_ptr[j].get())));
@@ -18,6 +18,7 @@ void Healing(Heal_data& Healptr){
             }
         }
     }
+    
     while(!pq.empty()){
         double totalHeal = 0;
         if(pq.size()==1){
@@ -28,6 +29,7 @@ void Healing(Heal_data& Healptr){
         IncreaseHP(Healptr.Healer,pq.top().ptr,totalHeal);
         pq.pop();
     }
+    
 }
 //heal เดี่ยว
 void Healing(HealRatio& Healptr,Sub_Unit *Healer,Sub_Unit *target){

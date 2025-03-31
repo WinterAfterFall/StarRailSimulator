@@ -218,6 +218,7 @@ namespace Gallagher{
         data_.actionFunction = [ptr](ActionData &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
+
         };
         Action_bar.push(data_);
     }

@@ -21,6 +21,7 @@ void Take_action(){
     if(Turn_Skip==0){
         
         turn->ptr_to_unit->Turn_func();  
+        
         Deal_damage();
         
         
@@ -40,33 +41,32 @@ void Take_action(){
 void Deal_damage(){
     actionBarUse = true;
     while(!Action_bar.empty()){
-        ActionData temp = Action_bar.front();
-        
-        if(temp.Action_type.first =="Attack"){
+        ActionData *temp = &Action_bar.front();
+        if(temp->Action_type.first == "Attack"){
             
-            allEventBeforeAttack(temp);
+            allEventBeforeAttack(*temp);
             
-            if(temp.actionFunction)temp.actionFunction(temp);
-            else Attack(temp);
-
-            for(int i=0;i<temp.Attack_trigger;i++){
-                temp.Attacker = temp.All_Attacker[i];
-                allEventWhenAttack(temp);
+            if(temp->actionFunction)temp->actionFunction(*temp);
+            else Attack(*temp);    
+            
+            for(int i = 0; i < temp->Attack_trigger; i++){
+                temp->Attacker = temp->All_Attacker[i];
+                allEventWhenAttack(*temp);
             }
             
-            temp.Attacker = temp.All_Attacker[0];
-            allEventAfterAttack(temp);  
+            temp->Attacker = temp->All_Attacker[0];
+            allEventAfterAttack(*temp);  
 
-        }else if(temp.Action_type.first =="Buff"){
-
-            if(temp.actionFunction)temp.actionFunction(temp);
-            if(temp.Turn_reset)atv_reset(turn);
-            allEventBuff(temp);
+        }else if(temp->Action_type.first == "Buff"){
+            if(temp->actionFunction)temp->actionFunction(*temp);
+            if(temp->Turn_reset)atv_reset(turn);
+            allEventBuff(*temp);
             
             
         }
-        if(temp.healPtr)Heal(*(temp.healPtr.get()));
-        if(temp.damageNote)Cal_AverageDamage(temp.Attacker->ptr_to_unit);
+        
+        if(temp->healPtr)Heal(*(temp->healPtr.get()));
+        if(temp->damageNote)Cal_AverageDamage(temp->Attacker->ptr_to_unit);
         Action_bar.pop();
     }
     

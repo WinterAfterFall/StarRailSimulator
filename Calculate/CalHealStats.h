@@ -9,13 +9,12 @@ double Cal_Atk_multiplier(Heal_data& healData) {
 
     Atk_percent_mtpr += healData.Healer->Stats_type["Atk%"]["None"];
     Flat_atk_mtpr += healData.Healer->Stats_type["Flat_Atk"]["None"];
-    if (healData.Combat_dataPtr) {
-        for (int i = 0, sz = healData.Combat_dataPtr->Skill_Type.size(); i < sz; i++) {
-            Atk_percent_mtpr += healData.Healer->Stats_type["Atk%"][healData.Combat_dataPtr->Skill_Type[i]];
-            Flat_atk_mtpr += healData.Healer->Stats_type["Flat_Atk"][healData.Combat_dataPtr->Skill_Type[i]];
-        }
-    }
-
+    // if (healData.Combat_dataPtr) {
+    //     for (int i = 0, sz = healData.Combat_dataPtr->Skill_Type.size(); i < sz; i++) {
+    //         Atk_percent_mtpr += healData.Healer->Stats_type["Atk%"][healData.Combat_dataPtr->Skill_Type[i]];
+    //         Flat_atk_mtpr += healData.Healer->Stats_type["Flat_Atk"][healData.Combat_dataPtr->Skill_Type[i]];
+    //     }
+    // }
     ans = (ans * Atk_percent_mtpr / 100) + Flat_atk_mtpr;
     return ans < 0 ? 0 : ans;
 }
@@ -27,12 +26,12 @@ double Cal_Hp_multiplier(Heal_data& healData) {
 
     Hp_percent_mtpr += healData.Healer->Stats_type["Hp%"]["None"];
     Flat_Hp_mtpr += healData.Healer->Stats_type["Flat_Hp"]["None"];
-    if (healData.Combat_dataPtr) {
-        for (int i = 0, sz = healData.Combat_dataPtr->Skill_Type.size(); i < sz; i++) {
-            Hp_percent_mtpr += healData.Healer->Stats_type["Hp%"][healData.Combat_dataPtr->Skill_Type[i]];
-            Flat_Hp_mtpr += healData.Healer->Stats_type["Flat_Hp"][healData.Combat_dataPtr->Skill_Type[i]];
-        }
-    }
+    // if (healData.Combat_dataPtr) {
+    //     for (int i = 0, sz = healData.Combat_dataPtr->Skill_Type.size(); i < sz; i++) {
+    //         Hp_percent_mtpr += healData.Healer->Stats_type["Hp%"][healData.Combat_dataPtr->Skill_Type[i]];
+    //         Flat_Hp_mtpr += healData.Healer->Stats_type["Flat_Hp"][healData.Combat_dataPtr->Skill_Type[i]];
+    //     }
+    // }
 
     ans = (ans * Hp_percent_mtpr / 100) + Flat_Hp_mtpr;
     return ans < 0 ? 0 : ans;
@@ -45,12 +44,12 @@ double Cal_Def_multiplier(Heal_data& healData) {
 
     Def_percent_mtpr += healData.Healer->Stats_type["Def%"]["None"];
     Flat_Def_mtpr += healData.Healer->Stats_type["Flat_Def"]["None"];
-    if (healData.Combat_dataPtr) {
-        for (int i = 0, sz = healData.Combat_dataPtr->Skill_Type.size(); i < sz; i++) {
-            Def_percent_mtpr += healData.Healer->Stats_type["Def%"][healData.Combat_dataPtr->Skill_Type[i]];
-            Flat_Def_mtpr += healData.Healer->Stats_type["Flat_Def"][healData.Combat_dataPtr->Skill_Type[i]];
-        }
-    }
+    // if (healData.Combat_dataPtr) {
+    //     for (int i = 0, sz = healData.Combat_dataPtr->Skill_Type.size(); i < sz; i++) {
+    //         Def_percent_mtpr += healData.Healer->Stats_type["Def%"][healData.Combat_dataPtr->Skill_Type[i]];
+    //         Flat_Def_mtpr += healData.Healer->Stats_type["Flat_Def"][healData.Combat_dataPtr->Skill_Type[i]];
+    //     }
+    // }
 
     ans = (ans * Def_percent_mtpr / 100) + Flat_Def_mtpr;
     return ans < 0 ? 0 : ans;
@@ -58,13 +57,14 @@ double Cal_Def_multiplier(Heal_data& healData) {
 
 double Cal_HealBonus_multiplier(Heal_data& healData, Sub_Unit* target) {
     double mtpr = 100;
+    
     mtpr += healData.Healer->Stats_type["HealingBonus"]["None"];
-    if (healData.Combat_dataPtr) {
-        for (int i = 0, sz = healData.Combat_dataPtr->Skill_Type.size(); i < sz; i++) {
-            mtpr += healData.Healer->Stats_type["HealingBonus"][healData.Combat_dataPtr->Skill_Type[i]];
-        }
-    }
-    return mtpr / 100 < 0 ? 0 : mtpr / 100;
+    // if (healData.Combat_dataPtr) {
+    //     for (int i = 0, sz = healData.Combat_dataPtr->Skill_Type.size(); i < sz; i++) {
+    //         mtpr += healData.Healer->Stats_type["HealingBonus"][healData.Combat_dataPtr->Skill_Type[i]];
+    //     }
+    // }
+    return (mtpr / 100 < 0) ? 0 : mtpr / 100;
 }
 
 double Cal_HealBonus_multiplier(Sub_Unit* Healer, Sub_Unit* target) {

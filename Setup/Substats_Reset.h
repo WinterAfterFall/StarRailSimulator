@@ -43,7 +43,7 @@ void Set_Stats(Ally *ptr){
 }
 bool Reroll_substats(Ally *ptr){
     
-    if(0 == ptr->Reroll_check)return;
+    if(0 == ptr->Reroll_check) return false;
     // cout<<ptr->Current_sub_choose<<endl;
     // cout<<ptr->Current_spilt<<endl;
     // cout<<ptr->Total_damage<<endl;

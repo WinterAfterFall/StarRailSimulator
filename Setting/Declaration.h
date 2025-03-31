@@ -237,6 +237,7 @@ void Cal_Dot_damage(ActionData& data_, Enemy* target, double Dot_ratio);
 void Cal_Dot_Toughness_break_damage(ActionData& data_, Enemy* target, double Dot_ratio);
 void Cal_Superbreak_damage(ActionData& data_, Enemy* target, double Superbreak_ratio);
 void Cal_Additional_damage(ActionData& data_, Enemy* target, Ratio_data Skill_mtpr);
+void Cal_TrueDamage(ActionData &data_,Enemy *target,double Damage);
 double Cal_Total_Toughness_Reduce(ActionData& data_, Enemy* target, double Base_Toughness_reduce);
 
 

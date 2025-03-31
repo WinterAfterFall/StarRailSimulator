@@ -5,6 +5,7 @@
 #include "CalHeal.h"
 #include "CalHealStats.h"
 #include "CalDmgReceive.h"
+#include "CalDamageNote.h"
 
 
 #endif

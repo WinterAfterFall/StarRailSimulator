@@ -90,7 +90,7 @@ int main(){
     Setup_enemy(1,158,15,160,300.0,3,"Main");
     Setup_enemy(2,158,10,160,300.0,3,"Adjacent");
     Setup_enemy(3,158,0,160,200.0,0,"Adjacent");
-
+    
     //Setup_enemy(1,600,0,30,"Main");
     //Setup_enemy(2,600,0,30,"Adjacent");
     // Setup_enemy(3,130,0,90,"Adjacent");
@@ -103,6 +103,7 @@ int main(){
 
     Setup();
     
+    
     while(1){
         cout<<" ---------------------------------------------------------- ";
         cout<<endl;
@@ -110,6 +111,7 @@ int main(){
         bool skip = 0;
         bool stats_incorrect = 0; 
         Reset();
+        
         if(!Calculate_All_Substats_mode){
             for(int i=1;i<=Total_ally;i++){
             while(1){
@@ -138,16 +140,13 @@ int main(){
         Start_game();
         cout<<endl;
         
-
     for(int i=0;i<Total_wave;i++){
         
         Current_atv=0;
         Start_wave(i);
         while(1){
             Turn_Skip=0;
-            
             Find_turn();
-            
             Atv_fix(turn->atv);
             
             if(Current_atv>Wave[i]){
