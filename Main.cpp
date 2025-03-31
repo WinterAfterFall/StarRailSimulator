@@ -23,7 +23,7 @@ void SetValue(){
     //set unit
     Total_enemy =3;
     
-    Wave[0] = 700;
+    Wave[0] = 300;
     Wave[0]+=0.01;
     Print_Atv = 0;
     Formula_check_mode = 0;
@@ -46,7 +46,7 @@ int main(){
     //The_Herta::Setup(1,0,Erudition_Lightcone::The_Herta_LC,Relic::Scholar,Planar::Izumo);
     // Aglaea::Setup(1,0,Remembrance_Lightcone::SweatNowCryLess,Relic::Hero_Wreath,Planar::The_Wondrous_BananAmusement_Park);
     // Jingyuan::Setup_Jingyuan(1,2,Erudition_Lightcone::Before_Dawn,Relic::Grand_Duke,Planar::The_Wondrous_BananAmusement_Park);
-    Mydei::Setup(1,2,Destruction_Lightcone::Mydei_LC,Relic::Scholar,Planar::Bone_Collection);
+    Mydei::Setup(1,0,Destruction_Lightcone::Mydei_LC,Relic::Scholar,Planar::Bone_Collection);
 
     //Driver
     // Bronya::Setup(2,0,Harmony_Lightcone::But_the_Battle_Isnt_Over,Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
@@ -159,7 +159,7 @@ int main(){
         }
     }
     
-
+    Cal_DamageSummary();
     Print_damage();
     
     if(Calculate_All_Substats_mode){

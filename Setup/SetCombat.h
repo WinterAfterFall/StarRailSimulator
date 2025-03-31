@@ -83,6 +83,7 @@ void Setup(){
 void Reset(){
     turn = nullptr;
     sp =3;
+    Current_atv = 0;
     Basic_reset();
     Summon_reset();
     Countdown_reset();

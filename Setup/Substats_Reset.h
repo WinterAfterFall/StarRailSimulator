@@ -50,45 +50,45 @@ bool Reroll_substats(Ally *ptr){
 
     if(ptr->Substats.size()==1)ptr->Reroll_check = 0;
 
-    if(ptr->Current_spilt==0){
+    if(ptr->spiltPoint==0){
         changeMaxDamage(ptr);
-        ptr->Current_spilt = 1;
+        ptr->spiltPoint = 1;
         return 1;
     }
     
     changeMaxDamage(ptr);
 
-    if(ptr->Current_sub_choose+1==ptr->Current_spilt){
+    if(ptr->Current_sub_choose+1==ptr->spiltPoint){
         
-        if(1 == ptr->Stop_reroll||ptr->Separate_sub==0){
-            ptr->Current_spilt++;
-            if(ptr->Current_spilt==ptr->Substats.size()){
+        if(1 == ptr->Stop_reroll||ptr->SeparateRatio==0){
+            ptr->spiltPoint++;
+            if(ptr->spiltPoint==ptr->Substats.size()){
                 ptr->Reroll_check=0;
                 for(int i=0,sz = ptr->Max_damage_Substats.size();i<sz;i++){
                     ptr->Substats[i].second = ptr->Max_damage_Substats[i];
                 }
                 return 0;
             }
-            ptr->Separate_sub = ptr->Total_substats-1;
+            ptr->SeparateRatio = ptr->Total_substats-1;
             ptr->Current_sub_choose = 0;
             ptr->Stop_reroll = 1;
 
             ptr->Substats[0].second = ptr->Max_damage_Substats[0]-1;
-            for(int i=1;i<ptr->Current_spilt;i++){
+            for(int i=1;i<ptr->spiltPoint;i++){
                 ptr->Substats[i].second = ptr->Max_damage_Substats[i];
             }
-            ptr->Substats[ptr->Current_spilt].second = ptr->Max_damage_Substats[ptr->Current_spilt]+1;
+            ptr->Substats[ptr->spiltPoint].second = ptr->Max_damage_Substats[ptr->spiltPoint]+1;
         
             
         }else{
-        --ptr->Separate_sub;
+        --ptr->SeparateRatio;
         ptr->Current_sub_choose = 0;
         ptr->Stop_reroll = 1;
         ptr->Substats[0].second = ptr->Max_damage_Substats[0]-1;
-        for(int i=1;i<ptr->Current_spilt;i++){
+        for(int i=1;i<ptr->spiltPoint;i++){
             ptr->Substats[i].second = ptr->Max_damage_Substats[i];
         }
-        ptr->Substats[ptr->Current_spilt].second = ptr->Max_damage_Substats[ptr->Current_spilt]+1;
+        ptr->Substats[ptr->spiltPoint].second = ptr->Max_damage_Substats[ptr->spiltPoint]+1;
         }
     }else{
         ptr->Substats[ptr->Current_sub_choose].second++;

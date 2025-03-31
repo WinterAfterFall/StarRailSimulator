@@ -33,7 +33,7 @@ namespace Tribbie{
         SetBasicStats(Ally_unit[num].get(),96,120,120,E,"Quantum","Harmony",num,"Tribbie","Ally");
         //substats
         Ally_unit[num]->Total_substats=20;
-        Ally_unit[num]->Separate_sub=20;
+        Ally_unit[num]->SeparateRatio=20;
         Ally_unit[num]->Reroll_check=1;
 
         Ally_unit[num]->Substats.push_back({"Crit_dam",20});
@@ -158,7 +158,7 @@ namespace Tribbie{
                 for(int i=1;i<=Total_enemy;i++){
                     Enemy_unit[i]->Debuff["Tribbie_Zone"] = 0;
                     Enemy_unit[i]->Total_debuff--;
-                    Debuff_single_target(Enemy_unit[i].get(),ST_VUL,AT_NONE,30);
+                    Debuff_single_target(Enemy_unit[i].get(),ST_VUL,AT_NONE,-30);
                 }
                 if (ptr->Eidolon >= 1) {
                     Buff_All_Ally("True_Damage", "None", -24);

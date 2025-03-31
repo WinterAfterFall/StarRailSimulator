@@ -59,7 +59,7 @@ void Basic_reset(){
             Ally_unit[i]->totalDamage = 0;
             Ally_unit[i]->Average_Damage = 0;
             Ally_unit[i]->averageDamageInstance.clear();
-            Ally_unit[i]->Last_note = 0;;
+            Ally_unit[i]->Last_note = 0;
             
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 3.888*2;
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Flat_Atk"]["None"] += 352.8+38;

@@ -30,7 +30,7 @@ void Set_LightCone(double HPtemp ,double ATKtemp,double DEFtemp){
 }
 void Set_Substats(Ally *ptr,int sub){
     ptr->Total_substats=sub;
-    ptr->Separate_sub=sub;
+    ptr->SeparateRatio=sub;
     ptr->Substats[0].second=sub;
 }
 void Set_Substats(Ally *ptr,int index,int sub){

@@ -157,7 +157,7 @@ public:
     double Last_note = 0;
 
     //Max Damage
-    double maxDamage = 0;
+    double maxDamage = -1e9;
     unordered_map<string,double> maxDamageAvgNote;
     unordered_map<string,double> maxDamageRealTimeNote;
     double Max_Average_Damage = 0;
@@ -170,8 +170,8 @@ public:
     int Total_substats = 20;
     int Current_substats = Total_substats;
 
-    int Separate_sub = 20;
-    int Current_spilt = 0;
+    int SeparateRatio = 20;
+    int spiltPoint = 0;
     int Current_sub_choose =0;
     unordered_map<int,double> Damage_data;
     unordered_map<string,pair<double,int>> StatsType_Compare;
@@ -220,7 +220,7 @@ public:
     }
     void setTotalSubstats(int Value){
         this->Total_substats=Value;
-        this->Separate_sub=Value;
+        this->SeparateRatio=Value;
         this->Substats[0].second = Value;
         this->Max_damage_Substats.resize(this->Substats.size());
     }

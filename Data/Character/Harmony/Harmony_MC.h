@@ -127,7 +127,7 @@ namespace Harmony_MC{
 
         //substats
         Ally_unit[num]->Total_substats=20;
-        Ally_unit[num]->Separate_sub=20;
+        Ally_unit[num]->SeparateRatio=20;
 
         Ally_unit[num]->Substats.push_back({"Break_effect",20});
 

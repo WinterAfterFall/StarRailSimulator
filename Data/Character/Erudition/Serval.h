@@ -26,7 +26,7 @@ namespace Serval{
 
         //substats
         Ally_unit[num]->Total_substats=20;
-        Ally_unit[num]->Separate_sub=20;
+        Ally_unit[num]->SeparateRatio=20;
         Ally_unit[num]->Reroll_check=1;
 
         Ally_unit[num]->Substats.push_back({"Crit_dam",20});

@@ -26,7 +26,7 @@ namespace Jingyuan{
 
         //substats
         Ally_unit[num]->Total_substats=15;
-        Ally_unit[num]->Separate_sub=15;
+        Ally_unit[num]->SeparateRatio=15;
         Ally_unit[num]->Reroll_check=1;
         Ally_unit[num]->Substats.push_back({"Crit_dam",15});
         Ally_unit[num]->Substats.push_back({"Crit_rate",0});

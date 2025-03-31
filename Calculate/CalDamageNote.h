@@ -3,6 +3,7 @@
 #include "../Unit/Trigger_Function.h"
 
 bool changeMaxDamage(Ally *ptr){
+    
     if(ptr->maxDamage < ptr->totalDamage){
         ptr->maxDamage = ptr->totalDamage;
         ptr->Max_Average_Damage = ptr->Average_Damage;
@@ -22,9 +23,9 @@ bool changeMaxDamage(Ally *ptr){
             }
         }
         for(int i=0,sz = ptr->Max_damage_Substats.size();i<sz;i++){
-            ptr->Max_damage_Substats[i] = ptr->Substats[i].second;
-            ptr->Stop_reroll = 0;
+            ptr->Max_damage_Substats[i] = ptr->Substats[i].second;    
         }
+        ptr->Stop_reroll = 0;
         return true;
     }
     return false;
@@ -34,12 +35,11 @@ void Cal_AverageDamage(Ally *ptr){
     double Temp = ptr->totalRealTimeDamage;
     for(int i=1;i<=Total_enemy;i++)
     Temp += ptr->totalAvgToughnessDamage[i]*Cal_AvgToughnessMultiplier(Enemy_unit[i].get(),Current_atv);
-    
-    if(Current_atv<ptr->Last_note+20){
-        ptr->averageDamageInstance[ptr->averageDamageInstance.size()-1] = Temp;
+    if(Current_atv < ptr->Last_note+20){
+        ptr->averageDamageInstance[ptr->averageDamageInstance.size()-1] = Temp/Current_atv;
     }else{
         ptr->Last_note = Current_atv;
-        ptr->averageDamageInstance.push_back(Temp);
+        ptr->averageDamageInstance.push_back(Temp/Current_atv);
     }    
 }
 double Cal_AvgToughnessMultiplier(Enemy *target,double Total_atv){
@@ -65,6 +65,7 @@ void Cal_DamageSummary(){
         sum = 0;
         for(auto &e:Ally_unit[i]->averageDamageInstance){
             sum += e;
+            cout<<e<<" ";
         }
         Ally_unit[i]->Average_Damage = sum/Ally_unit[i]->averageDamageInstance.size();  
         Ally_unit[i]->totalDamage = Ally_unit[i]->totalRealTimeDamage;
