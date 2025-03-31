@@ -57,7 +57,7 @@ void Cal_DamageSummary(){
         Enemy_unit[i]->toughnessAvgMultiplier = Cal_AvgToughnessMultiplier(Enemy_unit[i].get(),Current_atv);
         for(unordered_map<string,double> &e :Enemy_unit[i]->damageRealTimeNote){
             for(std::pair<const std::string, double> &f : e){
-                f.second *= 0;
+                f.second *= 0 ;
             }
         }
     }
