@@ -278,6 +278,7 @@ void Cal_effect_hit_rate(Ally *ptr,double Base_chance){
     if(temp<=0)return ;
     x = ceil(temp/3.888);
     ptr->Total_substats-=x;
+    ptr->currentTotalSubstats-=x;
     ptr->SeparateRatio-=x;
     ptr->Substats[0].second -=x;
     x = x * 3.888;
@@ -295,6 +296,7 @@ void Cal_Speed_Needed(Ally *ptr,double Speed_Need){
     if(temp<=0)return;
     x = ceil(temp/2.3);
     ptr->Total_substats-=x;
+    ptr->currentTotalSubstats-=x;
     ptr->SeparateRatio-=x;
     ptr->Substats[0].second -=x;
     x = x * 2.3;

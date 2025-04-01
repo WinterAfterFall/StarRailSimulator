@@ -34,15 +34,15 @@
 #define ST_HEALING "HealingBonus"
 #define ST_SHEILD "SheildBonus"
 
-
 #define AT_TEMP "Temporary"
 #define AT_NONE "None"
 #define AT_BASIC_ATK "Basic_Attack"
 #define AT_SKILL "Skill"
 #define AT_ULT "Ultimate"
 
-
-using std::cout ;
+using std::cout;
+using std::setprecision;
+using std::fixed;
 using std::vector;
 using std::string;
 using std::unordered_map;
@@ -54,6 +54,9 @@ using std::unique_ptr;
 using std::make_unique;
 using std::shared_ptr;
 using std::make_shared;
+using std::setw;
+using std::left;
+using std::right;
 
 
 

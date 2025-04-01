@@ -22,6 +22,7 @@ bool changeMaxDamage(Ally *ptr){
                 Enemy_unit[i]->maxDamageRealTimeNote[ptr->getNum()][e.first] = e.second;
             }
         }
+        
         for(int i=0,sz = ptr->Max_damage_Substats.size();i<sz;i++){
             ptr->Max_damage_Substats[i] = ptr->Substats[i].second;    
         }

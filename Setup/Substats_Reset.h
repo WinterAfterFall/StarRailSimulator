@@ -47,7 +47,7 @@ bool Reroll_substats(){
         again:
         if(rerollFunction(Ally_unit[i].get()))
         ans = false;
-        else break;
+        else continue;
         for(auto &e:Ally_unit[i]->Substats){
             if(e.second<0){
                 goto again;
@@ -122,10 +122,13 @@ bool AllCombinationReroll(Ally *ptr){
         }
         ptr->Damage_data[index] = ptr->Average_Damage;
          
-    if(ptr->Substats[ptr->Substats.size()-1].second==ptr->Current_substats){
+        if(ptr->Substats[ptr->Substats.size()-1].second==ptr->currentTotalSubstats){
         ptr->Reroll_check = 0;
+        for(int i=0,sz = ptr->Max_damage_Substats.size();i<sz;i++)
+        ptr->Substats[i].second = ptr->Max_damage_Substats[i];
         return false;
     }
+
     for(int i=0;i<ptr->Substats.size();i++){
         if(ptr->Substats[i].second!=0){
             ptr->Substats[0].second = ptr->Substats[i].second-1;
@@ -153,14 +156,14 @@ bool AllPossibleReroll(Ally *ptr){
         ptr->Damage_data[index] = ptr->Average_Damage;
     
     // When Reroll with all Combination it will decrease total substats
-    if(ptr->Substats[ptr->Substats.size()-1].second==ptr->Current_substats){
+    if(ptr->Substats[ptr->Substats.size()-1].second==ptr->currentTotalSubstats){
         
-        ptr->Current_substats--;
-        ptr->Substats[0].second = ptr->Current_substats; 
+        ptr->currentTotalSubstats--;
+        ptr->Substats[0].second = ptr->currentTotalSubstats; 
         for(int i=1;i<ptr->Substats.size();i++){
             ptr->Substats[i].second = 0; 
         }
-        if(ptr->Current_substats>=0)return true;
+        if(ptr->currentTotalSubstats>=0)return true;
         
         ptr->Reroll_check = 0;
         return false;

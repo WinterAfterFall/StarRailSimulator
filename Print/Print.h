@@ -137,34 +137,115 @@ void Calculate_All_Substats(){
 */
 void printSummaryResult(){
     cout<<"------------------------------------Summary------------------------------------"<<endl;
+    double teamDamage = 0;
+    double teamAvgDamage = 0;
     for(int i=1;i<=Total_ally;i++){
-        std::cout << "\033[1;32m" // Set text color to green
-              << Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Char_Name
-              << " :\033[0m" <<endl; // Reset text color
+        teamDamage += Ally_unit[i]->maxDamage;
+        teamAvgDamage += Ally_unit[i]->Max_Average_Damage;
+    }
+    for(int i=1;i<=Total_ally;i++){
+        cout<<left;
+        cout << "\033[1;4;38;5;45m" // Set text color to green
+        << Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Char_Name<<endl;
+
+        cout<< "\033[0m"<<"| ";
         for(std::unique_ptr<Sub_Unit> &e : Ally_unit[i]->Sub_Unit_ptr){
-            cout<<e->Atv_stats->Char_Name<<" Turn : "<<e->Atv_stats->turn_cnt<<" | ";
+            cout<<e->Atv_stats->Char_Name + " Turn : "<<e->Atv_stats->turn_cnt;
+            cout<< "\033[0m"<<" | ";
         }
         for(std::unique_ptr<Unit> &e : Ally_unit[i]->Summon_ptr){
-            cout<<e->Atv_stats->Char_Name<<" Turn : "<<e->Atv_stats->turn_cnt<<" | ";
+            cout<<e->Atv_stats->Char_Name + " Turn : "<<e->Atv_stats->turn_cnt;
+            cout<< "\033[0m"<<" | ";
         }
         cout<<endl;
-
-        cout<<"Substats =  ";
+        cout<<"Substats : | ";
         for(int j = 0;j<Ally_unit[i]->Max_damage_Substats.size();j++){
             cout<<Ally_unit[i]->Substats[j].first<<" : "<<Ally_unit[i]->Max_damage_Substats[j]<<" | ";
         }
+        
+        cout<<endl;
+        cout<<"\033[1;4;38;5;107m"<<"Damage :";
+        if(Ally_unit[i]->maxDamage==0){
+            cout<<"\033[1;24;38;5;1m";
+            cout<<" No damage Deal"<<endl<<endl;
+            continue;
+        }
         cout<<endl;
 
-        cout<<"Damage :"<<endl;
-        cout<<"Total : "<<Ally_unit[i]->maxDamage<<" | "<<" Average per ATV : "<<Ally_unit[i]->Max_Average_Damage<<endl;
+        cout<<"\033[1;4;38;5;2m"<<"Total : "<<setw(10)<<static_cast<long long>(Ally_unit[i]->maxDamage)<<" | "<<" Average per ATV : "<<setw(5)<<static_cast<long long>(Ally_unit[i]->Max_Average_Damage);
+        cout<<" | "<<setw(3)<<fixed<<setprecision(1)<<Ally_unit[i]->maxDamage/teamDamage*100.0<<"% of Team"<<endl;
+        
         for(std::pair<const std::string, double> &e : Ally_unit[i]->maxDamageAvgNote){
-            cout<<e.first<<" : "<<e.second<<" = "<<e.second/Ally_unit[i]->maxDamage*100.0<<endl;
+            cout<<left;
+            cout<<"\033[0;38;5;34m";
+            cout<<setw(25)<<e.first<<" : ";
+            cout<<right;
+
+            cout<<"\033[0;38;5;85m";
+            cout<<setw(10)<<static_cast<long long>(e.second);
+            cout<<" = "<<setw(5)<<fixed<<setprecision(1)<<e.second/Ally_unit[i]->maxDamage*100.0<<"% and ";
+            cout<<setw(5)<<fixed<<setprecision(1)<<e.second/teamDamage*100.0<<"% of Team"<<endl;
         }
         for(std::pair<const std::string, double> &e : Ally_unit[i]->maxDamageRealTimeNote){
-            cout<<e.first<<" : "<<e.second<<" = "<<e.second/Ally_unit[i]->maxDamage*100.0<<endl;
+            cout<<left;
+            cout<<"\033[0;38;5;34m";
+            cout<<setw(25)<<e.first<<" : ";
+            cout<<right;
+
+            cout<<"\033[0;38;5;85m";
+            cout<<setw(10)<<static_cast<long long>(e.second);
+            cout<<" = "<<setw(5)<<fixed<<setprecision(1)<<e.second/Ally_unit[i]->maxDamage*100.0<<"% and ";
+            cout<<setw(5)<<fixed<<setprecision(1)<<e.second/teamDamage*100.0<<"% of Team"<<endl;
+            
         }
+        cout<<left;
+        cout<<endl;
 
     }
+    cout<< "\033[0;38;5;9m"; // Reset text color
+    cout<<"------------------------------------Damage Enemy Recive ------------------------------------"<<endl;
+    for(int i=1;i<=Total_enemy;i++){
+        double totaldamage = 0;
+        for(Common_stats &e : Enemy_unit[i]->maxDamageAvgNote){
+            for(std::pair<const std::string, double> &f : e){
+                totaldamage += f.second;
+            }
+        }
+        for(Common_stats &e : Enemy_unit[i]->maxDamageRealTimeNote){
+            for(std::pair<const std::string, double> &f : e){
+                totaldamage += f.second;
+            }
+        }
+        cout<<endl<< "\033[1;4;38;5;9m"; // Reset text color
+        cout<<Enemy_unit[i]->Atv_stats->Char_Name<<" "<<Enemy_unit[i]->Atv_stats->Unit_num<<" "<<Enemy_unit[i]->Target_type<<endl;
+        for(Common_stats &e : Enemy_unit[i]->maxDamageAvgNote){
+            for(std::pair<const std::string, double> &f : e){
+                cout<<left;
+                cout<<"\033[0;38;5;34m";
+                cout<<setw(25)<<f.first<<" : ";
+                cout<<right;
+    
+                cout<<"\033[0;38;5;85m";
+                cout<<setw(10)<<static_cast<long long>(f.second);
+                cout<<" = "<<setw(5)<<fixed<<setprecision(1)<<f.second/totaldamage*100.0<<"%"<<endl;
+            }
+        }
+        for(Common_stats &e : Enemy_unit[i]->maxDamageRealTimeNote){
+            for(std::pair<const std::string, double> &f : e){
+                cout<<left;
+                cout<<"\033[0;38;5;34m";
+                cout<<setw(25)<<f.first<<" : ";
+                cout<<right;
 
+                cout<<"\033[0;38;5;85m";
+                cout<<setw(10)<<static_cast<long long>(f.second);
+                cout<<" = "<<setw(5)<<fixed<<setprecision(1)<<f.second/totaldamage*100.0<<"%"<<endl;
+            }
+        }
+        cout<<left;
+    }
+    cout<<"------------------------------------ Conclusion ------------------------------------"<<endl;
+    cout<<"\033[0m";
+    cout<<" total damage = "<<static_cast<long long>(teamDamage)<<" "<<static_cast<long long>(teamAvgDamage)<<endl;
 }
 #endif

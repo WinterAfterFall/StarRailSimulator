@@ -70,7 +70,7 @@ void Setup(){
         // Ally_unit[i]->Weakness_Break_Efficiency["None"] = 0;
         // Ally_unit[i]->Toughness_reduction["None"] = 0;
 
-        Ally_unit[i]->Current_substats=Ally_unit[i]->Total_substats;
+        Ally_unit[i]->currentTotalSubstats=Ally_unit[i]->Total_substats;
         Ally_unit[i]->StatsType_Compare_MAX_MIN.first = -1;
         Ally_unit[i]->StatsType_Compare_MAX_MIN.second = 1e9;
         Ally_unit[i]->TotalSubstats_Compare_MAX_MIN.first = -1;

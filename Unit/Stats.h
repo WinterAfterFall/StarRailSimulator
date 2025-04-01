@@ -168,7 +168,7 @@ public:
     bool Reroll_check=1;
     bool Stop_reroll=1;
     int Total_substats = 20;
-    int Current_substats = Total_substats;
+    int currentTotalSubstats;
 
     int SeparateRatio = 20;
     int spiltPoint = 1;
