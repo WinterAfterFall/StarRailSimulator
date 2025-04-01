@@ -10,7 +10,7 @@ using std::cout ;
 using std::vector;
 #include"../Unit/Trigger_Function.h"
 
-void Print_damage();
+void printRoundResult();
 void Print(){
     if(!Print_Atv)return;
     cout<<"Atv = "<<Current_atv<<" ";
@@ -42,7 +42,7 @@ void Print(){
     
     cout<<endl;
 }
-void Print_damage(){
+void printRoundResult(){
     double total = 0;
     double avg = 0;
     for(int j=1;j<=Total_ally;j++){
@@ -89,6 +89,7 @@ void Print_All_Substats(){
     //     cout<<"} "<<e.second<<endl;
     // }
 }
+/*
 void Calculate_All_Substats(){
     for(auto e:Ally_unit[1]->Damage_data){
         int index = e.first;
@@ -132,5 +133,38 @@ void Calculate_All_Substats(){
         }
         }
     }
+}
+*/
+void printSummaryResult(){
+    cout<<"------------------------------------Summary------------------------------------"<<endl;
+    for(int i=1;i<=Total_ally;i++){
+        std::cout << "\033[1;32m" // Set text color to green
+              << Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Char_Name
+              << " :\033[0m" <<endl; // Reset text color
+        for(std::unique_ptr<Sub_Unit> &e : Ally_unit[i]->Sub_Unit_ptr){
+            cout<<e->Atv_stats->Char_Name<<" Turn : "<<e->Atv_stats->turn_cnt<<" | ";
+        }
+        for(std::unique_ptr<Unit> &e : Ally_unit[i]->Summon_ptr){
+            cout<<e->Atv_stats->Char_Name<<" Turn : "<<e->Atv_stats->turn_cnt<<" | ";
+        }
+        cout<<endl;
+
+        cout<<"Substats =  ";
+        for(int j = 0;j<Ally_unit[i]->Max_damage_Substats.size();j++){
+            cout<<Ally_unit[i]->Substats[j].first<<" : "<<Ally_unit[i]->Max_damage_Substats[j]<<" | ";
+        }
+        cout<<endl;
+
+        cout<<"Damage :"<<endl;
+        cout<<"Total : "<<Ally_unit[i]->maxDamage<<" | "<<" Average per ATV : "<<Ally_unit[i]->Max_Average_Damage<<endl;
+        for(std::pair<const std::string, double> &e : Ally_unit[i]->maxDamageAvgNote){
+            cout<<e.first<<" : "<<e.second<<" = "<<e.second/Ally_unit[i]->maxDamage*100.0<<endl;
+        }
+        for(std::pair<const std::string, double> &e : Ally_unit[i]->maxDamageRealTimeNote){
+            cout<<e.first<<" : "<<e.second<<" = "<<e.second/Ally_unit[i]->maxDamage*100.0<<endl;
+        }
+
+    }
+
 }
 #endif

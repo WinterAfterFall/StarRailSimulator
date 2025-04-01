@@ -32,15 +32,10 @@ namespace Tribbie{
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1048,524,728);
         SetBasicStats(Ally_unit[num].get(),96,120,120,E,"Quantum","Harmony",num,"Tribbie","Ally");
         //substats
-        Ally_unit[num]->Total_substats=20;
-        Ally_unit[num]->SeparateRatio=20;
-        Ally_unit[num]->Reroll_check=1;
-
-        Ally_unit[num]->Substats.push_back({"Crit_dam",20});
-        Ally_unit[num]->Substats.push_back({"Crit_rate",0});
-        Ally_unit[num]->Substats.push_back({"Hp%",0});
-
-        Ally_unit[num]->Max_damage_Substats.resize(Ally_unit[num]->Substats.size());
+        ptr->pushSubstats("Crit_dam");
+        ptr->pushSubstats("Crit_rate");
+        ptr->pushSubstats("Hp%");
+        ptr->setTotalSubstats(20);
 
 
         //func

@@ -69,8 +69,8 @@ int Sp_Safety = 1;
 int Turn_priority = 0;
 double Enemy_effect_res =40;
 
-bool Calculate_All_possible_mode =0;
-
+string rerollSubstatsMode = "Standard"; //Standard AllCombination AllPossible
+function<bool(Ally *ptr)> rerollFunction;
 int Robin_num = 0; 
 int Aglaea_num = 0; 
 double HP = 1200,ATK =476 ,DEF =397 ;

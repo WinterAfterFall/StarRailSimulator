@@ -344,8 +344,10 @@ void Countdown_reset();
 
 //Substats_Reset
 void Set_Stats(Ally* ptr);
-bool Reroll_substats(Ally* ptr);
-bool Permutation_Substats(Ally* ptr);
+bool Reroll_substats();
+bool StandardReroll(Ally* ptr);
+bool AllCombinationReroll(Ally* ptr);
+bool AllPossibleReroll(Ally* ptr);
 
 
 /*  None 
@@ -360,7 +362,7 @@ bool Permutation_Substats(Ally* ptr);
 */
 //char func
 namespace Char_Command{
-    void Set_Technique(Ally *ptr,int tech);
+void Set_Technique(Ally *ptr,int tech);
 void Timing_print(Ally *ptr);
 bool Using_Skill(Ally *ptr);
 //bool Enemy_got_hit(Enemy *ptr,Combat_data &data_);

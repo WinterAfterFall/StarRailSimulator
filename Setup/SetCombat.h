@@ -46,6 +46,11 @@ void Setup(){
     sort(Skill_point_List.begin(), Skill_point_List.end(), TriggerFunc::Trigger_cmp);
     sort(Hit_Count_List.begin(), Hit_Count_List.end(), TriggerFunc::Trigger_cmp);
     
+    if(rerollSubstatsMode == "Standard")rerollFunction = StandardReroll;
+    else
+    if(rerollSubstatsMode == "AllCombination")rerollFunction = AllCombinationReroll;
+    else
+    if(rerollSubstatsMode == "AllPossible")rerollFunction = AllPossibleReroll;
     
     for(int i=1;i<=Total_ally;i++){
         // Ally_unit[i]->Atk_flat["None"] = 0;

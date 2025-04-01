@@ -18,6 +18,9 @@ namespace Sunday{
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 1242, 640, 533);
         SetBasicStats(Ally_unit[num].get(), 96, 130, 130, E, "Imaginary", "Harmony", num, "Sunday", "Ally");
 
+        ptr->pushSubstats("Crit_dam");
+        ptr->setTotalSubstats(20);
+        Ally_unit[num]->Speed_tune_value=133.4;
         //func
         LC(Ally_unit[num].get());
         Relic(Ally_unit[num].get());
@@ -156,10 +159,7 @@ namespace Sunday{
             }
         }));
 
-        Ally_unit[num]->Total_substats=20;
-        Ally_unit[num]->SeparateRatio=20;
-        Ally_unit[num]->Speed_tune_value=133.4;
-        Ally_unit[num]->Substats.push_back({"Crit_dam",20});
+
 
 
 

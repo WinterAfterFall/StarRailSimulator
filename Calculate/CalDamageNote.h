@@ -25,7 +25,7 @@ bool changeMaxDamage(Ally *ptr){
         for(int i=0,sz = ptr->Max_damage_Substats.size();i<sz;i++){
             ptr->Max_damage_Substats[i] = ptr->Substats[i].second;    
         }
-        ptr->Stop_reroll = 0;
+        
         return true;
     }
     return false;
@@ -50,6 +50,16 @@ double Cal_AvgToughnessMultiplier(Enemy *target,double Total_atv){
     temp = (1*(target->Total_toughness_broken_time) + 0.9*(Total_atv-target->Total_toughness_broken_time))/Total_atv; 
     
     return temp;
+}
+void Cal_DamageNote(ActionData &data_,Enemy *target,double damage){
+    Ally *ptr = data_.Attacker->ptr_to_unit;
+    if(data_.toughnessAvgCalculate){
+        ptr->totalAvgToughnessDamage[target->getNum()] += damage;
+        target->damageAvgNote[ptr->getNum()][data_.actionName] += damage;
+    }else{
+        ptr->totalRealTimeDamage += damage;
+        target->damageRealTimeNote[ptr->getNum()][data_.actionName] += damage;
+    }
 }
 void Cal_DamageSummary(){
     int sum;
@@ -81,15 +91,4 @@ void Cal_DamageSummary(){
         }
     }
 }
-void Cal_DamageNote(ActionData &data_,Enemy *target,double damage){
-    Ally *ptr = data_.Attacker->ptr_to_unit;
-    if(data_.toughnessAvgCalculate){
-        ptr->totalAvgToughnessDamage[target->getNum()] += damage;
-        target->damageAvgNote[ptr->getNum()][data_.actionName] += damage;
-    }else{
-        ptr->totalRealTimeDamage += damage;
-        target->damageRealTimeNote[ptr->getNum()][data_.actionName] += damage;
-    }
-}
-
 #endif

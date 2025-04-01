@@ -41,10 +41,27 @@ void Set_Stats(Ally *ptr){
         }
     }
 }
-bool Reroll_substats(Ally *ptr){
+bool Reroll_substats(){
+    bool ans = true;
+    for(int i=1; i<= Total_ally; i++){
+        again:
+        if(rerollFunction(Ally_unit[i].get()))
+        ans = false;
+        else break;
+        for(auto &e:Ally_unit[i]->Substats){
+            if(e.second<0){
+                goto again;
+            }
+        }
+        
+    }
+    return ans;
+    
+}
+bool StandardReroll(Ally *ptr){
     
     if(0 == ptr->Reroll_check) return false;
-    changeMaxDamage(ptr);
+    if(changeMaxDamage(ptr))ptr->Stop_reroll = 0;
     if(ptr->Substats.size()==1){
         ptr->Reroll_check = 0;
         return false;
@@ -91,27 +108,65 @@ bool Reroll_substats(Ally *ptr){
     return 1;
 
 }
-bool Permutation_Substats(Ally *ptr){
+bool AllCombinationReroll(Ally *ptr){
     if(0 == ptr->Reroll_check)return false;
+    changeMaxDamage(ptr);
+    if(ptr->Substats.size()<=1){
+        ptr->Reroll_check = 0;
+        return false;
+    }
     int index = 0;
-        
+    
         for(int i=0;i<ptr->Substats.size();i++){
             index+= ptr->Substats[i].second*pow(ptr->Total_substats+1,i);
         }
         ptr->Damage_data[index] = ptr->Average_Damage;
          
     if(ptr->Substats[ptr->Substats.size()-1].second==ptr->Current_substats){
-        if(Calculate_All_possible_mode){
-            ptr->Current_substats--;
-            ptr->Substats[0].second = ptr->Current_substats; 
-            for(int i=1;i<ptr->Substats.size();i++){
-                ptr->Substats[i].second = 0; 
-            }
-            if(ptr->Current_substats>=0)return true;
-        }
         ptr->Reroll_check = 0;
         return false;
     }
+    for(int i=0;i<ptr->Substats.size();i++){
+        if(ptr->Substats[i].second!=0){
+            ptr->Substats[0].second = ptr->Substats[i].second-1;
+            if(i!=0){
+              ptr->Substats[i].second = 0;  
+            }
+            ptr->Substats[i+1].second+=1;
+            return true;
+        }
+    }
+    return false;
+}
+bool AllPossibleReroll(Ally *ptr){
+    if(0 == ptr->Reroll_check)return false;
+    changeMaxDamage(ptr);
+    if(ptr->Substats.size()<=1){
+        ptr->Reroll_check = 0;
+        return false;
+    }
+    int index = 0;
+    
+        for(int i=0;i<ptr->Substats.size();i++){
+            index+= ptr->Substats[i].second*pow(ptr->Total_substats+1,i);
+        }
+        ptr->Damage_data[index] = ptr->Average_Damage;
+    
+    // When Reroll with all Combination it will decrease total substats
+    if(ptr->Substats[ptr->Substats.size()-1].second==ptr->Current_substats){
+        
+        ptr->Current_substats--;
+        ptr->Substats[0].second = ptr->Current_substats; 
+        for(int i=1;i<ptr->Substats.size();i++){
+            ptr->Substats[i].second = 0; 
+        }
+        if(ptr->Current_substats>=0)return true;
+        
+        ptr->Reroll_check = 0;
+        return false;
+    }
+    
+    //Reroll
     for(int i=0;i<ptr->Substats.size();i++){
         if(ptr->Substats[i].second!=0){
             ptr->Substats[0].second = ptr->Substats[i].second-1;

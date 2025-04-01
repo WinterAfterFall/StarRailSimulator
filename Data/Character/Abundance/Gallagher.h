@@ -22,6 +22,9 @@ namespace Gallagher{
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1305,529,441);
         SetBasicStats(Ally_unit[num].get(),98,110,110,E,"Fire","Abundance",num,"Gallagher","Ally");
 
+        //substats
+        ptr->pushSubstats("Break_effect");
+        ptr->setTotalSubstats(20);
 
         //func
         LC(Ally_unit[num].get());
@@ -152,12 +155,7 @@ namespace Gallagher{
 
 
         //substats
-        Ally_unit[num]->Total_substats=20;
-        Ally_unit[num]->SeparateRatio=20;
 
-        Ally_unit[num]->Substats.push_back({"Break_effect",20});
-
-        Ally_unit[num]->Max_damage_Substats.resize(Ally_unit[num]->Substats.size());
         
     }
 

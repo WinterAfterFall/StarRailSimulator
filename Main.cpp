@@ -14,8 +14,6 @@ using std::vector;
 #include "./Data/Lightcone/All_Lighcone.h"
 #include "./Data/Planar/All_Planar.h"
 #include"./Data/Relic/All_Relic.h"
-bool first_time=1;
-bool Calculate_All_Substats_mode = 0;
 void SetValue(){
     Driver_num = 2;
     Driver_Type = "Double_turn"; //Swap_pull Always_pull Double_turn None
@@ -35,8 +33,7 @@ void SetValue(){
     Additional_Damage_Formula_check_mode = 0;
     Additional_Damage_check_mode = 0;
     // golden ratio
-    Calculate_All_Substats_mode = 1;
-    Calculate_All_possible_mode = 0;
+    rerollSubstatsMode = "Standard" ; //Standard AllCombination AllPossible
 
     Enemy_unit.resize(Total_enemy+1);
 }
@@ -107,20 +104,13 @@ int main(){
     while(1){
         cout<<" ---------------------------------------------------------- ";
         cout<<endl;
-        bool endgame =1;
         bool skip = 0;
-        bool stats_incorrect = 0; 
         Reset();
-        
-        
         for(int i=1;i<=Total_ally;i++){
             Set_Stats(Ally_unit[i].get());
         }
         
-        
-        
-        Start_game();
-        cout<<endl;
+        Start_game();cout<<endl;
         
     for(int i=0;i<Total_wave;i++){
         
@@ -142,40 +132,15 @@ int main(){
     }
     
     Cal_DamageSummary();
-    Print_damage();
-    if(!Calculate_All_Substats_mode){
-        for(int i=1;i<=Total_ally;i++){
-        while(1){
-        stats_incorrect = 0; 
-        if(Reroll_substats(Ally_unit[i].get()))
-        endgame = 0;
-        else break;
-        for(auto &e:Ally_unit[i]->Substats){
-            if(e.second<0){
-                stats_incorrect = 1;
-                break;
-            }
-        }
-        if(stats_incorrect==0)break;
-        }
-    }
-    }
+    printRoundResult();
     
-    if(Calculate_All_Substats_mode){
-        for(int i=1;i<=Total_ally;i++){
-            if(Permutation_Substats(Ally_unit[i].get())){
-                endgame=0;
-            }
-        }
-            
+    if(Reroll_substats())break;
     }
-    if(endgame==1)break;
-    first_time = 0;
-    }
-    if(Calculate_All_Substats_mode){
-        Calculate_All_Substats();
-        Print_All_Substats();
-    }
+    printSummaryResult();
+    // if(Calculate_All_Substats_mode){
+    //     Calculate_All_Substats();
+    //     Print_All_Substats();
+    // }
     
     
     return 0;
