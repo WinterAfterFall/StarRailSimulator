@@ -133,7 +133,6 @@ int main(){
     
     Cal_DamageSummary();
     printRoundResult();
-    
     if(Reroll_substats())break;
     }
     printSummaryResult();

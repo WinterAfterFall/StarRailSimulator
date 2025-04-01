@@ -40,15 +40,8 @@ class TriggerByStats : public TriggerFunc{
 
 class TriggerAllyDeath : public TriggerFunc{
     public:
-    function<void(Sub_Unit* Target)> Call;
+    function<void(Sub_Unit* target)> Call;
     TriggerAllyDeath(int priority, function<void(Sub_Unit* target)> Call) 
-    : TriggerFunc(priority), Call(Call) {}
-};
-
-class TriggerEnemyDeath : public TriggerFunc{
-    public:
-    function<void(Enemy* Target)> Call;
-    TriggerEnemyDeath(int priority, function<void(Enemy* target)> Call) 
     : TriggerFunc(priority), Call(Call) {}
 };
 

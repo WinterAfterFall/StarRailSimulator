@@ -149,5 +149,10 @@ void allEventWhenEnemyDeath(Sub_Unit *Killer,Enemy *target){
         e.Call(target,Killer);
     }
 }
+void allEventWhenAllyDeath(Sub_Unit *Target){
+    for(TriggerAllyDeath &e : AllyDeath_List){
+        e.Call(Target);
+    }
+}
 
 #endif

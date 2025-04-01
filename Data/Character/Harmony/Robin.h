@@ -230,7 +230,7 @@ namespace Robin{
         Action_bar.push(data_);
     }
     bool Double_Turn(Ally *ptr){
-        Sub_Unit *target =Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum]->Sub_Unit_ptr[ptr->Sub_Unit_ptr[0]->Sub_Unit_num].get();
+        Sub_Unit *target =Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[ptr->Sub_Unit_ptr[0]->currentSubUnitTargetNum].get();
 
         if((Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv<Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->Max_atv*0.2 || target->Atv_stats->atv<target->Atv_stats->Max_atv*0.2))return 1;
         if((Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv < target->Atv_stats->atv))return 1;
@@ -240,11 +240,11 @@ namespace Robin{
     bool Ult_Condition(Ally *ptr){
         //if(Current_atv<150&&(Ally_unit[Main_dps_num]->Countdown_ptr[0]->Atv_stats->Base_speed==-1))return true;
             
-        for(int i=0;i<Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum]->Summon_ptr.size();i++){
-            if(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum]->Summon_ptr[i]->Atv_stats->atv==0)return true;
+        for(int i=0;i<Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Summon_ptr.size();i++){
+            if(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Summon_ptr[i]->Atv_stats->atv==0)return true;
         }
-        for(int i=0;i<Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum]->Sub_Unit_ptr.size();i++){
-            if(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum]->Sub_Unit_ptr[i]->Atv_stats->atv==0)return true;
+        for(int i=0;i<Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr.size();i++){
+            if(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[i]->Atv_stats->atv==0)return true;
         }
         return false;
     }

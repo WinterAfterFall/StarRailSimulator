@@ -34,10 +34,10 @@ Enemy* isEnemyCheck(Unit *ptr){
 //normal buff/debuff
 // 
 Sub_Unit* chooseSubUnitBuff(Sub_Unit *ptr){
-    return Ally_unit[ptr->allyTargetNum]->Sub_Unit_ptr[ptr->Sub_Unit_num].get();
+    return Ally_unit[ptr->currentAllyTargetNum]->Sub_Unit_ptr[ptr->currentSubUnitTargetNum].get();
 }
 Ally* chooseCharacterBuff(Sub_Unit *ptr){
-    return Ally_unit[ptr->allyTargetNum].get();
+    return Ally_unit[ptr->currentAllyTargetNum].get();
 }
 Enemy* chooseEnemyTarget(Sub_Unit *ptr){
     return Enemy_unit[ptr->Enemy_target_num].get();

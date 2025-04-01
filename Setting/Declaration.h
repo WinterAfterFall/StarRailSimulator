@@ -84,7 +84,6 @@ class TriggerByYourSelf_Func;
 class TriggerByAction_Func;
 class TriggerByStats;
 class TriggerAllyDeath;
-class TriggerEnemyDeath;
 class TriggerBySomeAlly_Func;
 class TriggerHealing;
 class TriggerDecreaseHP;
@@ -324,6 +323,7 @@ void allEventAttackHitCount(ActionData& data_, int Hit_cnt, int Total_Hit_cnt);
 void allEventAdjustStats(Sub_Unit *ptr,string ST);
 void allEventApplyDebuff(Sub_Unit* ptr, Enemy* target);
 void allEventWhenEnemyDeath(Sub_Unit* Killer, Enemy* target);
+void allEventWhenAllyDeath(Sub_Unit *Target);
 
 /*------Event------*/
 

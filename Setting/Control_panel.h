@@ -94,7 +94,6 @@ vector<TriggerByAction_Func> Buff_List;
 vector<TriggerByStats> Stats_Adjust_List;
 vector<TriggerHealing> Healing_List;
 vector<TriggerDecreaseHP> HPDecrease_List;
-vector<TriggerEnemyDeath> EnemyDeath_List;
 vector<TriggerAllyDeath> AllyDeath_List;
 
 vector<TriggerBySomeAlly_Func> Toughness_break_List;

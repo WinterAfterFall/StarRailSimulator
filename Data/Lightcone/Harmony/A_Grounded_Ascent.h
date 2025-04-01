@@ -13,7 +13,7 @@ namespace Harmony_Lightcone{
         SetBaseStats(ptr->Sub_Unit_ptr[0].get(),1164,476,529);
         ptr->Light_cone.Name = "A_Grounded_Ascent";
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            if (turn->Unit_num != ptr->Sub_Unit_ptr[0]->allyTargetNum) return;
+            if (turn->Unit_num != ptr->Sub_Unit_ptr[0]->currentAllyTargetNum) return;
             Sub_Unit *tempstats = dynamic_cast<Sub_Unit*>(turn->ptr_to_unit);
             if (!tempstats) return;
             if (Buff_end(tempstats, "Hymn")) {

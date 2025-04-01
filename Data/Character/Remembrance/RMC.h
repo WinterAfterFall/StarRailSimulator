@@ -128,12 +128,12 @@ namespace RMC{
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (Buff_end(chooseSubUnitBuff(ptr->Sub_Unit_ptr[1].get()), "Mem_Support")) {
-                if (Ally_unit[ptr->Sub_Unit_ptr[1]->allyTargetNum]->Max_energy >= 200)
-                Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[1]->allyTargetNum].get(), "True_Damage", "None", -50);
+                if (Ally_unit[ptr->Sub_Unit_ptr[1]->currentAllyTargetNum]->Max_energy >= 200)
+                Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[1]->currentAllyTargetNum].get(), "True_Damage", "None", -50);
                 else 
-                Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[1]->allyTargetNum].get(), "True_Damage", "None", -30 - 2 * floor((Ally_unit[ptr->Sub_Unit_ptr[1]->allyTargetNum]->Max_energy - 100) / 10));
+                Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[1]->currentAllyTargetNum].get(), "True_Damage", "None", -30 - 2 * floor((Ally_unit[ptr->Sub_Unit_ptr[1]->currentAllyTargetNum]->Max_energy - 100) / 10));
 
-                Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[1]->allyTargetNum].get(), "Crit_rate", "None", -10);
+                Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[1]->currentAllyTargetNum].get(), "Crit_rate", "None", -10);
                 chooseSubUnitBuff(ptr->Sub_Unit_ptr[1].get())->Buff_check["Mem_Support"] = 0;
             }
         }));

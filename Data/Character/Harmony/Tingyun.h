@@ -33,23 +33,23 @@ namespace Tingyun{
             }
         };
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
-            if (Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum]->Max_energy - Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum]->Current_energy <= 30) return;
+            if (Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Max_energy - Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Current_energy <= 30) return;
 
             if (!ultUseCheck(ptr)) return;
             ActionData data_ = ActionData();
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Buff","Tingyun Ultimate");
             data_.Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
             data_.actionFunction = [ptr](ActionData &data_){
-                Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum].get(), 0, (ptr->Eidolon >= 6) ? 60 : 50);
+                Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(), 0, (ptr->Eidolon >= 6) ? 60 : 50);
                 if (ptr->Eidolon >= 1) {
                     Speed_Buff(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats.get(), 20, 0);
                     Extend_Buff_single_target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()), "Windfall_of_Lucky_Springs", 1);
                 }
-                if (Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum]->Sub_Unit_ptr[0]->Buff_check["Rejoicing_Clouds"] == 0) {
+                if (Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[0]->Buff_check["Rejoicing_Clouds"] == 0) {
                     Buff_single_target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()), "Dmg%", "None", 56);
                     chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Buff_check["Rejoicing_Clouds"] = 1;
                 }
-                if (turn->Char_Name == Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum]->Sub_Unit_ptr[0]->Atv_stats->Char_Name && Ult_After_Turn == 0)
+                if (turn->Char_Name == Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[0]->Atv_stats->Char_Name && Ult_After_Turn == 0)
                 Extend_Buff_single_target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()), "Rejoicing_Clouds", 1);
                 else
                 Extend_Buff_single_target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()), "Rejoicing_Clouds", 2);
@@ -113,7 +113,7 @@ namespace Tingyun{
                     ActionData temp = ActionData();
                     temp.Additional_set(ptr->Sub_Unit_ptr[0].get(), "Single_target","Tingyun Talent");
                     Cal_Additional_damage(temp, Enemy_unit[Main_Enemy_num].get(), {66, 0, 0, 0});
-                } else if (data_.Attacker->Atv_stats->Unit_Name == Ally_unit[ptr->Sub_Unit_ptr[0]->allyTargetNum]->Sub_Unit_ptr[ptr->Sub_Unit_ptr[0]->Sub_Unit_num]->Atv_stats->Unit_Name) {
+                } else if (data_.Attacker->Atv_stats->Unit_Name == Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[ptr->Sub_Unit_ptr[0]->currentSubUnitTargetNum]->Atv_stats->Unit_Name) {
                     ActionData temp = ActionData();
                     temp.Additional_set(tempUnit, "Single_target","Tingyun Talent");
 

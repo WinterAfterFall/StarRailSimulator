@@ -95,8 +95,10 @@ public:
     vector<string> Element_type ;//*
     
     //string Target_Buff = "Ally";
-    int allyTargetNum = Main_dps_num;
-    int Sub_Unit_num = 0;
+    int defaultAllyTargetNum = Main_dps_num;
+    int defaultSubUnitTargetNum = 0;
+    int currentAllyTargetNum = Main_dps_num;
+    int currentSubUnitTargetNum = 0;
     int Enemy_target_num = Main_Enemy_num;
     Ally* ptr_to_unit = nullptr;
     //temp 

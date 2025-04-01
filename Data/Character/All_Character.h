@@ -68,11 +68,11 @@ void Switch_Substats_toFirst(Ally *ptr,string temp){
     return;
 }
 void Set_Target_Buff(Sub_Unit *ptr,int num,int subnum){
-    if(num!=0)ptr->allyTargetNum = num;
-    if(num!=0)ptr->Sub_Unit_num = subnum;
+    if(num!=0)ptr->currentAllyTargetNum = num;
+    if(num!=0)ptr->currentSubUnitTargetNum = subnum;
 }
 void Set_Target_Buff(Sub_Unit *ptr,int num){
-    if(num!=0)ptr->allyTargetNum = num;
+    if(num!=0)ptr->currentAllyTargetNum = num;
 }
 void Set_Technique(Ally *ptr,int tech){
     ptr->Technique = tech;

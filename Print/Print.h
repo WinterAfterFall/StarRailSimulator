@@ -136,6 +136,7 @@ void Calculate_All_Substats(){
 }
 */
 void printSummaryResult(){
+    cout<< "\033[0;38;5;117m";
     cout<<"------------------------------------Summary------------------------------------"<<endl;
     double teamDamage = 0;
     double teamAvgDamage = 0;
