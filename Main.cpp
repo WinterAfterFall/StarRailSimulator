@@ -21,14 +21,14 @@ void SetValue(){
     //set unit
     Total_enemy =3;
     
-    Wave[0] = 300;
+    Wave[0] = 700;
     Wave[0]+=0.01;
-    Print_Atv = 0;
+    Print_Atv = 1;
     Formula_check_mode = 0;
     SuperBreak_Formula_check_mode = 0;  
     Break_Formula_check_mode = 0;
     
-    Normal_Damage_Formula_check_mode = 1;
+    Normal_Damage_Formula_check_mode = 0;
     Normal_Damage_check_mode = 0;
     Additional_Damage_Formula_check_mode = 0;
     Additional_Damage_check_mode = 0;
@@ -76,10 +76,10 @@ int main(){
     // Char_Command::Set_Reroll_check(Ally_unit[4].get(),0);
 
 
-    // Char_Command::Timing_print(Ally_unit[1].get());
-    // Char_Command::Timing_print(Ally_unit[2].get());
-    // Char_Command::Timing_print(Ally_unit[3].get());
-    // Char_Command::Timing_print(Ally_unit[4].get());
+    Char_Command::Timing_print(Ally_unit[1].get());
+    Char_Command::Timing_print(Ally_unit[2].get());
+    Char_Command::Timing_print(Ally_unit[3].get());
+    Char_Command::Timing_print(Ally_unit[4].get());
 
 
     Char_Command::Set_Technique(Ally_unit[4].get(),0);

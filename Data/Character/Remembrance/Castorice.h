@@ -155,6 +155,7 @@ namespace Castorice{
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Summon","Castorice Ultimate");
             data_.Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
             data_.actionFunction = [ptr](ActionData &data_) {
+                if(ptr->Print)Char_Command::printUltStart("Castorice");
                 Debuff_All_Enemy_Apply_ver(ptr->getSubUnit(1),ST_RESPEN,AT_NONE,20,"Lost Netherland");
                 Buff_single_target(ptr->getSubUnit(1),ST_FLAT_HP,AT_NONE,34000);
                 ptr->getSubUnit(1)->currentHP = 34000;
@@ -336,8 +337,8 @@ namespace Castorice{
     }
     void Enchance_Skill(Ally *ptr){
         ActionData data_ = ActionData();
-        data_.Skill_set(ptr->getSubUnit(1),"Blast","Castorice Skill");
-        data_.Add_Target_Adjacent();
+        data_.Skill_set(ptr->getSubUnit(1),"Aoe","Castorice Enchance Skill");
+        data_.Add_Target_Other();
         data_.resetTurn();
         data_.Damage_spilt.Main.push_back({0,30,0,10});
         data_.Damage_spilt.Adjacent.push_back({0,30,0,10});
@@ -396,7 +397,7 @@ namespace Castorice{
             ptr->getSubUnit(1)->Atv_stats->Base_speed = -1;
             ptr->getSubUnit(1)->currentHP = 0;
             Buff_single_target(ptr->getSubUnit(1),ST_FLAT_HP,AT_NONE,-34000);
-
+            if(ptr->Print)Char_Command::printUltEnd("Castorice");
         };
         Action_bar.push(data_);
         if(!actionBarUse)Deal_damage();
