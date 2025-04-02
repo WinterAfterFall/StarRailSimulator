@@ -88,6 +88,8 @@ void Reset(){
     turn = nullptr;
     sp =3;
     Current_atv = 0;
+    healCount = 0;
+    decreaseHPCount = 0;
     Basic_reset();
     Summon_reset();
     Countdown_reset();

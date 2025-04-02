@@ -7,6 +7,7 @@ void Healing(Heal_data& Healptr){
     
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
+            if(Ally_unit[i]->Sub_Unit_ptr[j]->currentHP==0)continue;
             pq.push(PointerWithValue(Ally_unit[i]->Sub_Unit_ptr[j].get(),calculateHPLost(Ally_unit[i]->Sub_Unit_ptr[j].get())));
             if(pq.size()>3){
                 double totalHeal = 0;
@@ -41,8 +42,9 @@ void Healing(HealRatio& Healptr,Sub_Unit *Healer,Sub_Unit *target){
 void Healing(HealRatio& healRatio,Sub_Unit *Healer){
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
-            double totalHeal = calculateHeal(healRatio,Healer,Ally_unit[i]->Sub_Unit_ptr[i].get());
-            IncreaseHP(Healer,Ally_unit[i]->Sub_Unit_ptr[i].get(),totalHeal);
+            if(Ally_unit[i]->Sub_Unit_ptr[j]->currentHP==0)continue;
+            double totalHeal = calculateHeal(healRatio,Healer,Ally_unit[i]->Sub_Unit_ptr[j].get());
+            IncreaseHP(Healer,Ally_unit[i]->Sub_Unit_ptr[j].get(),totalHeal);
         }
     }
 }
@@ -51,6 +53,7 @@ void Healing(HealRatio& healRatioMain,HealRatio& healRatio,Sub_Unit *Healer,Sub_
 
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
+            if(Ally_unit[i]->Sub_Unit_ptr[j]->currentHP==0)continue;
             double totalHeal = (target->Atv_stats->Unit_Name == Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->Unit_Name) ? 
             calculateHeal(healRatioMain,Healer,Ally_unit[i]->Sub_Unit_ptr[j].get())
             :

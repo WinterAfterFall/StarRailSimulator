@@ -15,6 +15,7 @@ void EnemyHit(Enemy *Attacker){
 }
 void EnemyHit(Enemy *Attacker,vector<Sub_Unit*> target){
     double damageDeal;
+    decreaseHPCount++;
     allEventWhenEnemyHit(Attacker,target);
     for(Sub_Unit* e : target){
         Increase_energy(e->ptr_to_unit,Attacker->Energy_gen);

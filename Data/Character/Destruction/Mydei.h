@@ -244,6 +244,7 @@ namespace Mydei{
         data_.Damage_spilt.Adjacent.push_back({0,50,0,10});
         data_.actionFunction = [ptr](ActionData &data_){
             Increase_energy(ptr,30,0);
+            decreaseHPCount++;
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),ptr->Sub_Unit_ptr[0].get(),0,0,50);
             Attack(data_);
         };
@@ -260,6 +261,7 @@ namespace Mydei{
         data_.Damage_spilt.Adjacent.push_back({0,66,0,10});
         data_.actionFunction = [ptr](ActionData &data_){
             Increase_energy(ptr,30,0);
+            decreaseHPCount++;
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),ptr->Sub_Unit_ptr[0].get(),0,0,35);
             Attack(data_);
         };

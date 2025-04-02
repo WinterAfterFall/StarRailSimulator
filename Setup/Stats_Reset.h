@@ -31,6 +31,9 @@ void Basic_reset(){
             Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->priority = 0;
             Ally_unit[i]->Energy_recharge = 100;
             Ally_unit[i]->Current_energy = Ally_unit[i]->Max_energy/2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->currentAllyTargetNum = Ally_unit[i]->Sub_Unit_ptr[0]->defaultAllyTargetNum;
+            Ally_unit[i]->Sub_Unit_ptr[0]->currentSubUnitTargetNum = Ally_unit[i]->Sub_Unit_ptr[0]->defaultSubUnitTargetNum;
+            Ally_unit[i]->Sub_Unit_ptr[0]->currentSheild = 0;
             for(auto &e:Ally_unit[i]->Sub_Unit_ptr[0]->Stack){
                 e.second = 0;
             }
@@ -215,7 +218,9 @@ void Memosprite_reset(){
         Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->priority = 0;
         Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->Flat_Speed = Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed*(Ally_unit[i]->Sub_Unit_ptr[j]->Unit_Speed_Ratio/100);
         if(Ally_unit[i]->Sub_Unit_ptr[j]->Unit_Speed_Ratio!=0)Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->Speed_percent = Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Speed_percent;
-
+        Ally_unit[i]->Sub_Unit_ptr[j]->currentAllyTargetNum = Ally_unit[i]->Sub_Unit_ptr[j]->defaultAllyTargetNum;
+        Ally_unit[i]->Sub_Unit_ptr[j]->currentSubUnitTargetNum = Ally_unit[i]->Sub_Unit_ptr[j]->defaultSubUnitTargetNum;
+        Ally_unit[i]->Sub_Unit_ptr[j]->currentSheild = 0;
 
         }
         

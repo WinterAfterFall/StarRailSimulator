@@ -28,7 +28,7 @@ void SetValue(){
     SuperBreak_Formula_check_mode = 0;  
     Break_Formula_check_mode = 0;
     
-    Normal_Damage_Formula_check_mode = 0;
+    Normal_Damage_Formula_check_mode = 1;
     Normal_Damage_check_mode = 0;
     Additional_Damage_Formula_check_mode = 0;
     Additional_Damage_check_mode = 0;
@@ -43,11 +43,12 @@ int main(){
     //The_Herta::Setup(1,0,Erudition_Lightcone::The_Herta_LC,Relic::Scholar,Planar::Izumo);
     // Aglaea::Setup(1,0,Remembrance_Lightcone::SweatNowCryLess,Relic::Hero_Wreath,Planar::The_Wondrous_BananAmusement_Park);
     // Jingyuan::Setup_Jingyuan(1,2,Erudition_Lightcone::Before_Dawn,Relic::Grand_Duke,Planar::The_Wondrous_BananAmusement_Park);
-    Mydei::Setup(1,0,Destruction_Lightcone::Mydei_LC,Relic::Scholar,Planar::Bone_Collection);
+    // Mydei::Setup(1,0,Destruction_Lightcone::Mydei_LC,Relic::Scholar,Planar::Bone_Collection);
+    Castorice::Setup(1,0,Remembrance_Lightcone::SweatNowCryLess,Relic::Poet_Dill,Planar::Bone_Collection);
 
     //Driver
     // Bronya::Setup(2,0,Harmony_Lightcone::But_the_Battle_Isnt_Over,Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
-    Sunday::Setup(2,0,Harmony_Lightcone::But_the_Battle_Isnt_Over,Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
+    // Sunday::Setup(2,0,Harmony_Lightcone::But_the_Battle_Isnt_Over,Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
 
     //Sub dps
     // Jade::Setup(2,0,Erudition_Lightcone::Cosmos_Fell,Relic::Grand_Duke,Planar::Izumo);
@@ -56,7 +57,7 @@ int main(){
     //Support
     Tribbie::Setup(3,0,Harmony_Lightcone::DDD,Relic::Poet_Dill,Planar::Broken_Keel);
     // Robin::Setup(3,0,Harmony_Lightcone::For_Tomorrow_Journey,Relic::Double_Atk,Planar::Broken_Keel);
-    // RMC::Setup(3,6,Remembrance_Lightcone::Victory_In_Blink,Relic::Double_Speed,Planar::Broken_Keel);
+    RMC::Setup(2,6,Remembrance_Lightcone::Victory_In_Blink,Relic::Double_Speed,Planar::Broken_Keel);
     // Ruan_Mei::Setup(3,0,Harmony_Lightcone::Memories_of_the_Past,Relic::Iron_Cavalry,Planar::Broken_Keel);
     //Tingyun::Setup(3,6,Harmony_Lightcone::DDD,Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
     
