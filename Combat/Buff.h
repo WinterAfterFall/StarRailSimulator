@@ -10,25 +10,6 @@ using namespace std;
 
 
 
-//check if it is ally unit
-Sub_Unit* isSubUnitCheck(){
-    return dynamic_cast<Sub_Unit*>(turn->ptr_to_unit);
-}
-Enemy* isEnemyCheck(){
-    return dynamic_cast<Enemy*>(turn->ptr_to_unit);
-}
-Sub_Unit* isSubUnitCheck(Action_value_stats *ptr){
-    return dynamic_cast<Sub_Unit*>(ptr->ptr_to_unit);
-}
-Enemy* isEnemyCheck(Action_value_stats *ptr){
-    return dynamic_cast<Enemy*>(ptr->ptr_to_unit);
-}
-Sub_Unit* isSubUnitCheck(Unit *ptr){
-    return dynamic_cast<Sub_Unit*>(ptr);
-}
-Enemy* isEnemyCheck(Unit *ptr){
-    return dynamic_cast<Enemy*>(ptr);
-}
 //Set base
 
 //normal buff/debuff

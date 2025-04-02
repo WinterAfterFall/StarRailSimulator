@@ -162,12 +162,6 @@ void Stack_Buff_All_Ally_Excluding_Buffer(string stats_type, string Attack_type,
 
 
 //Buff.h
-Sub_Unit* isSubUnitCheck();
-Enemy* isEnemyCheck();
-Sub_Unit* isSubUnitCheck(Action_value_stats *ptr);
-Enemy* isEnemyCheck(Action_value_stats *ptr);
-Sub_Unit* isSubUnitCheck(Unit *ptr);
-Enemy* isEnemyCheck(Unit *ptr);
 
 Sub_Unit* chooseSubUnitBuff(Sub_Unit* ptr);
 Ally* chooseCharacterBuff(Sub_Unit* ptr);

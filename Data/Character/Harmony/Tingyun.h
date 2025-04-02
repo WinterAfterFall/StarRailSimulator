@@ -81,7 +81,7 @@ namespace Tingyun{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
-            Sub_Unit* tempUnit = isSubUnitCheck();
+            Sub_Unit* tempUnit = turn->isSubUnitCheck();
             if (!tempUnit) return;
             if (turn->Char_Name == "Tingyun") {
                 if (Buff_end(ptr->Sub_Unit_ptr[0].get(), "Nourished_Joviality")) {

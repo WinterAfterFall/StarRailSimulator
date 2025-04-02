@@ -18,7 +18,7 @@ namespace Sunday{
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 1242, 640, 533);
         SetBasicStats(Ally_unit[num].get(), 96, 130, 130, E, "Imaginary", "Harmony", num, "Sunday", "Ally");
 
-        ptr->pushSubstats("Crit_dam");
+        ptr->pushSubstats(ST_CRIT_DAM);
         ptr->setTotalSubstats(20);
         Ally_unit[num]->Speed_tune_value=133.4;
         //func
@@ -31,11 +31,11 @@ namespace Sunday{
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
             if (ult_condition(ptr)) return;
-            if (Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Max_energy <= 200 &&
-                Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Max_energy - Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Current_energy < 30 &&
+            if (chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy <= 200 &&
+                chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy - chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Current_energy < 30 &&
                 Buff_check(ptr->Sub_Unit_ptr[0].get(), "Ode_to_Caress_and_Cicatrix")) return;
-            if (Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Max_energy >= 200 &&
-                Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Max_energy - Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Current_energy < Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Max_energy * 0.2 &&
+            if (chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy >= 200 &&
+                chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy - chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Current_energy < chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy * 0.2 &&
                 Buff_check(ptr->Sub_Unit_ptr[0].get(), "Ode_to_Caress_and_Cicatrix")) return;
             if (!ultUseCheck(ptr)) return;
             
@@ -50,20 +50,35 @@ namespace Sunday{
                         Skill_point(ptr->Sub_Unit_ptr[0].get(), 2);
                     }
                 }
-                if (Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Max_energy > 200)
-                Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(), 20, 0);
+                if (chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy > 200)
+                Increase_energy(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()), 20, 0);
                 else
-                Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(), 0, 40);
-                
-                if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Ode_to_Caress_and_Cicatrix")) {
-                    if (ptr->Eidolon >= 2) 
-                    Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(), "Dmg%", "None", 30);
-                    
-                    ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"] = calculateCritdamForBuff(ptr->Sub_Unit_ptr[0].get(), 30) + 12;
-                    ptr->Sub_Unit_ptr[0]->Buff_check["Ode_to_Caress_and_Cicatrix"] = 1;
-    
-                    Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(), "Crit_dam", AT_TEMP, ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"]);
-                    Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(), "Crit_dam", "None", ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"]);
+                Increase_energy(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()), 0, 40);
+
+                if (Buff_check(ptr->Sub_Unit_ptr[0].get(), "Ode_to_Caress_and_Cicatrix"))
+                {
+                    if(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")){
+                        for(unique_ptr<Sub_Unit> &e : ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->Sub_Unit_ptr){
+                            if(e->getBuffCheck("Ode_to_Caress_and_Cicatrix")){
+                                Buff_single_target(e.get(),ST_CRIT_DAM, AT_TEMP, -ptr->getSubUnit()->getBuffNote("Ode_to_Caress_and_Cicatrix"));
+                                Buff_single_target(e.get(),ST_CRIT_DAM, AT_NONE, -ptr->getSubUnit()->getBuffNote("Ode_to_Caress_and_Cicatrix"));
+                                if (ptr->Eidolon >= 2)
+                                Buff_single_target(e.get(), "Dmg%", AT_NONE, -30);
+                                e->setBuffCheck("Ode_to_Caress_and_Cicatrix",false);
+                            }
+                        }
+                    }
+                }
+                ptr->Sub_Unit_ptr[0]->Buff_check["Ode_to_Caress_and_Cicatrix"] = 1;
+                ptr->setBuffAllyTarget("Ode_to_Caress_and_Cicatrix",chooseCharacterBuff(ptr->getSubUnit()));
+                ptr->getSubUnit()->setBuffNote("Ode_to_Caress_and_Cicatrix",calculateCritdamForBuff(ptr->Sub_Unit_ptr[0].get(), 30) + 12);
+                for(unique_ptr<Sub_Unit> &e : ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->Sub_Unit_ptr){
+                    if(e->currentHP==0)continue;
+                    e->setBuffCheck("Ode_to_Caress_and_Cicatrix",true);
+                    Buff_single_target(e.get(),ST_CRIT_DAM, AT_TEMP, ptr->getSubUnit()->getBuffNote("Ode_to_Caress_and_Cicatrix"));
+                    Buff_single_target(e.get(),ST_CRIT_DAM, AT_NONE, ptr->getSubUnit()->getBuffNote("Ode_to_Caress_and_Cicatrix"));
+                    if (ptr->Eidolon >= 2)
+                    Buff_single_target(e.get(), "Dmg%", AT_NONE, 30);
                 }
                 Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Ode_to_Caress_and_Cicatrix", 3);
             };
@@ -73,13 +88,13 @@ namespace Sunday{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"] += 37.3;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Def%"]["None"] += 12.5;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CRIT_DAM][AT_NONE] += 37.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Def%"][AT_NONE] += 12.5;
 
             // relic
-            ptr->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"] += 64.8;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CRIT_DAM][AT_NONE] += 64.8;
             ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"]["None"] += 43.2;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"][AT_NONE] += 43.2;
             ptr->Energy_recharge += 19.4;
 
             // substats
@@ -92,47 +107,49 @@ namespace Sunday{
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
             if (Buff_end(ptr->Sub_Unit_ptr[0].get(), "Ode_to_Caress_and_Cicatrix")) {
-                Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(), "Crit_dam", "None", -ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"]);
-                Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(), "Crit_dam", AT_TEMP, -ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"]);
-
-                if (ptr->Eidolon >= 2) {
-                    Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(), "Dmg%", "None", -30);
-                }
                 ptr->Sub_Unit_ptr[0]->Buff_check["Ode_to_Caress_and_Cicatrix"] = 0;
-                if (ptr->Print) cout << "-------------------------------------------------- Sunday ult end at " << Current_atv << endl;
+                if(!ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"))return;
+                for(unique_ptr<Sub_Unit> &e : ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->Sub_Unit_ptr){
+                    if(e->getBuffCheck("Ode_to_Caress_and_Cicatrix")){
+                        Buff_single_target(e.get(),ST_CRIT_DAM, AT_TEMP, -ptr->getSubUnit()->getBuffNote("Ode_to_Caress_and_Cicatrix"));
+                        Buff_single_target(e.get(),ST_CRIT_DAM, AT_NONE, -ptr->getSubUnit()->getBuffNote("Ode_to_Caress_and_Cicatrix"));
+                        if (ptr->Eidolon >= 2)
+                        Buff_single_target(e.get(), "Dmg%", AT_NONE, -30);
+                        e->setBuffCheck("Ode_to_Caress_and_Cicatrix",false);
+                    }
+                }
+                ptr->setBuffAllyTarget("Ode_to_Caress_and_Cicatrix",nullptr);
+                if (ptr->Print)Char_Command::printUltEnd("Sunday");
             }
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
-            if (turn->Side != "Ally" && turn->Side != "Memosprite") return;
-            if (turn->Unit_num != ptr->Sub_Unit_ptr[0]->currentAllyTargetNum) return;
-            Sub_Unit *Temp_stats = dynamic_cast<Sub_Unit *>(turn->ptr_to_unit);
-            if (!Temp_stats) return;
+            Sub_Unit *Temp_stats = turn->isSubUnitCheck();
+            if (!Temp_stats||Temp_stats->getNum()!=ptr->getSubUnit()->currentAllyTargetNum) return;
             if (Buff_end(Temp_stats, "Benison_of_Paper_and_Rites")) {
-                if (Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Summon_ptr.size() != 0 || Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr.size() > 1) {
-                    Buff_single_target(Temp_stats, "Dmg%", "None", -80);
+                if (Temp_stats->ptr_to_unit->isAllyHaveSummon()) {
+                    Buff_single_target(Temp_stats, "Dmg%", AT_NONE, -80);
                 } else {
-                    Buff_single_target(Temp_stats, "Dmg%", "None", -30);
+                    Buff_single_target(Temp_stats, "Dmg%", AT_NONE, -30);
                 }
                 Temp_stats->Buff_check["Benison_of_Paper_and_Rites"] = 0;
                 if (ptr->Eidolon >= 1) {
                     if (turn->Side == "Memosprite") {
-                        Buff_single_target(Temp_stats, "Def_shred", "None", -40);
+                        Buff_single_target(Temp_stats, "Def_shred", AT_NONE, -40);
                     } else {
-                        Buff_single_target(Temp_stats, "Def_shred", "None", -16);
+                        Buff_single_target(Temp_stats, "Def_shred", AT_NONE, -16);
                         Buff_single_target(Temp_stats, "Def_shred", "Summon", -24);
                     }
                     Temp_stats->Buff_check["Sunday_E1"] = 0;
                 }
             }
             if (Buff_end(Temp_stats, "The_Sorrowing_Body")) {
-                Buff_single_target(Temp_stats, "Crit_rate", "None", -20);
+                Buff_single_target(Temp_stats, "Crit_rate", AT_NONE, -20);
                 Temp_stats->Buff_check["The_Sorrowing_Body"] = 0;
             }
-
-            if (Buff_end(Temp_stats, "The_Glorious_Mysteries")) {
-                Buff_single_target(Temp_stats, "Dmg%", "None", -50);
-            }
+            if (Buff_end(Temp_stats, "The_Glorious_Mysteries"))
+            Buff_single_target(Temp_stats, "Dmg%", AT_NONE, -50);
+            
         }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
@@ -140,7 +157,7 @@ namespace Sunday{
         }));
 
         Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](ActionData &data_) {
-            if (Buff_check(ptr->Sub_Unit_ptr[0].get(), "Ode_to_Caress_and_Cicatrix") && data_.Action_type.second == "Skill" && turn->Char_Name == "Sunday") {
+            if (chooseCharacterBuff(ptr->getSubUnit())->getBuffCheck("Ode_to_Caress_and_Cicatrix") && data_.actionName=="Sunday Skill") {
                 Skill_point(ptr->Sub_Unit_ptr[0].get(), 1);
             }
         }));
@@ -148,18 +165,25 @@ namespace Sunday{
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](Sub_Unit *target, string StatsType) {
             if (target->Atv_stats->Unit_Name != "Sunday") return;
             if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Ode_to_Caress_and_Cicatrix")) return;
-            if (StatsType == "Crit_dam") {
-                Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(), "Crit_dam", "None", -ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"]);
-                Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(), "Crit_dam", AT_TEMP, -ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"]);
+            if (StatsType != ST_CRIT_DAM) return;   
 
-                ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"] = calculateCritdamForBuff(ptr->Sub_Unit_ptr[0].get(), 30) + 12;
-
-                Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(), "Crit_dam", "None", ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"]);
-                Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(), "Crit_dam", AT_TEMP, ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"]);
+            ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"] = calculateCritdamForBuff(ptr->Sub_Unit_ptr[0].get(), 30) + 12 - ptr->getBuffNote("Ode_to_Caress_and_Cicatrix");
+            for(unique_ptr<Sub_Unit> &e : chooseCharacterBuff(ptr->getSubUnit())->Sub_Unit_ptr ){
+                if(!e->getBuffCheck("Ode_to_Caress_and_Cicatrix"))continue;
+                Buff_single_target(e.get(), ST_CRIT_DAM, AT_TEMP, ptr->getBuffNote("Ode_to_Caress_and_Cicatrix"));
+                Buff_single_target(e.get(), ST_CRIT_DAM, AT_NONE, ptr->getBuffNote("Ode_to_Caress_and_Cicatrix"));
             }
+            
         }));
 
         AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY,[ptr](Sub_Unit* target){
+            if(target->getBuffCheck("Ode_to_Caress_and_Cicatrix")){
+                Buff_single_target(target,ST_CRIT_DAM, AT_TEMP, -ptr->getSubUnit()->getBuffNote("Ode_to_Caress_and_Cicatrix"));
+                Buff_single_target(target,ST_CRIT_DAM, AT_NONE, -ptr->getSubUnit()->getBuffNote("Ode_to_Caress_and_Cicatrix"));
+                if (ptr->Eidolon >= 2)
+                Buff_single_target(target, "Dmg%", AT_NONE, -30);
+                target->setBuffCheck("Ode_to_Caress_and_Cicatrix",false);
+            }
         }));
 
 
@@ -170,9 +194,6 @@ namespace Sunday{
 
     
     void Skill(Ally *ptr){
-        
-        
-
         ActionData temp = ActionData();
         temp.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Sunday Skill");
         temp.Add_Buff_Single_Target(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()));
@@ -180,40 +201,41 @@ namespace Sunday{
         temp.actionFunction = [ptr](ActionData &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
-            Buff_single_with_all_memo_each(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(),"Crit_rate","None",20,"The_Sorrowing_Body");
-            if(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Summon_ptr.size()!=0||Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr.size()>1){
-            Buff_single_with_all_memo_each(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(),"Dmg%","None",80,"Benison_of_Paper_and_Rites");
-            }else{
-            Buff_single_with_all_memo_each(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(),"Dmg%","None",30,"Benison_of_Paper_and_Rites");
-            }
+            Buff_single_with_all_memo_each(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()),ST_CRIT_RATE,AT_NONE,20,"The_Sorrowing_Body");
+            if(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->isAllyHaveSummon())
+            Buff_single_with_all_memo_each(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()),ST_DMG_PERCENT,AT_NONE,80,"Benison_of_Paper_and_Rites");
+            else
+            Buff_single_with_all_memo_each(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()),ST_DMG_PERCENT,AT_NONE,30,"Benison_of_Paper_and_Rites");
+            
             
             if(ptr->Eidolon>=1){
-                if(!Buff_check(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[0].get(),"Sunday_E1")){
-                    Buff_single_target(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[0].get(),"Def_shred","None",16);
-                    Buff_single_target(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[0].get(),"Def_shred","Summon",24);
-                    Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[0]->Buff_check["Sunday_E1"]=1;
+                if(!Buff_check(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Sub_Unit_ptr[0].get(),"Sunday_E1")){
+                    Buff_single_target(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Sub_Unit_ptr[0].get(),"Def_shred",AT_NONE,16);
+                    Buff_single_target(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Sub_Unit_ptr[0].get(),"Def_shred","Summon",24);
+                    chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Sub_Unit_ptr[0]->Buff_check["Sunday_E1"]=1;
                 }
-                Buff_single_with_all_memo_each(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(),"Def_shred","None",40,"Sunday_E1");
+                Buff_single_with_all_memo_each(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()),"Def_shred",AT_NONE,40,"Sunday_E1");
             }
             
-            if(ptr->Technique==1&&ptr->Sub_Unit_ptr[0]->Buff_check["Technique_use"]==0){
-                Buff_single_with_all_memo_each(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(),"Dmg%","None",50,"The_Glorious_Mysteries");
+            if(ptr->Technique==1&&!Buff_check(ptr->getSubUnit(),"Technique_use")){
+                Buff_single_with_all_memo_each(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()),ST_DMG_PERCENT,AT_NONE,50,"The_Glorious_Mysteries");
+                ptr->getSubUnit()->setBuffCheck("Technique_use",1);
                 ptr->Sub_Unit_ptr[0]->Buff_check["Technique_use"]=1;
-                Extend_Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(),"The_Glorious_Mysteries",2);
+                Extend_Buff_single_with_all_memo(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()),"The_Glorious_Mysteries",2);
             }
             
-            Extend_Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(),"The_Sorrowing_Body",3);
-            Extend_Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(),"Benison_of_Paper_and_Rites",2);
+            Extend_Buff_single_with_all_memo(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()),"The_Sorrowing_Body",3);
+            Extend_Buff_single_with_all_memo(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()),"Benison_of_Paper_and_Rites",2);
             
             
-            
-            for(int i=0;i<Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr.size();i++){
-                Action_forward(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[i]->Atv_stats.get(),100);
+            //Action Forward
+            for(std::unique_ptr<Unit> &e : chooseCharacterBuff(ptr->getSubUnit())->Summon_ptr){
+                Action_forward(e->Atv_stats.get(),100);
             }
-            for(int i=0;i<Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Summon_ptr.size();i++){
-                Action_forward(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Summon_ptr[i]->Atv_stats.get(),100);
+            for(int i=1 ;i<chooseCharacterBuff(ptr->getSubUnit())->Sub_Unit_ptr.size();i++){
+                Action_forward(chooseCharacterBuff(ptr->getSubUnit())->getSubUnit(i)->Atv_stats.get(),100);
             }
-            Action_forward(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[0]->Atv_stats.get(),100);
+            Action_forward(chooseCharacterBuff(ptr->getSubUnit())->getSubUnit()->Atv_stats.get(),100);
         };
         Action_bar.push(temp);
         
