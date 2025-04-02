@@ -14,6 +14,19 @@ using namespace std;
 
 //normal buff/debuff
 // 
+Sub_Unit* Action_value_stats::isSubUnitCheck(){
+    return dynamic_cast<Sub_Unit*>(this->ptr_to_unit);
+}
+Enemy* Action_value_stats::isEnemyCheck(){
+    return dynamic_cast<Enemy*>(this->ptr_to_unit);
+}
+Sub_Unit* Unit::isSubUnitCheck() {
+    return dynamic_cast<Sub_Unit*>(this);
+}
+Enemy* Unit::isEnemyCheck(){
+    return dynamic_cast<Enemy*>(this);
+}
+
 Sub_Unit* chooseSubUnitBuff(Sub_Unit *ptr){
     return Ally_unit[ptr->currentAllyTargetNum]->Sub_Unit_ptr[ptr->currentSubUnitTargetNum].get();
 }

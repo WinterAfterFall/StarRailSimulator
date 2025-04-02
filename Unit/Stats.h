@@ -40,12 +40,8 @@ public:
         if(this->Unit_Name == name)return true;
         return false;
     }
-    Sub_Unit* isSubUnitCheck(){
-        return dynamic_cast<Sub_Unit*>(this->ptr_to_unit);
-    }
-    Enemy* isEnemyCheck(){
-        return dynamic_cast<Enemy*>(this->ptr_to_unit);
-    }
+    Sub_Unit* isSubUnitCheck();
+    Enemy* isEnemyCheck();
 
 };
 // Base Unit class
@@ -65,12 +61,8 @@ public:
     int getNum(){
         return this->Atv_stats->Unit_num;
     }
-    Sub_Unit* isSubUnitCheck(){
-        return dynamic_cast<Sub_Unit*>(this);
-    }
-    Enemy* isEnemyCheck(){
-        return dynamic_cast<Enemy*>(this);
-    }
+    Sub_Unit* isSubUnitCheck();
+    Enemy* isEnemyCheck();
     
     virtual ~Unit() {}  // Virtual destructor to ensure proper cleanup of derived classes
 };

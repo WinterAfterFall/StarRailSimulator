@@ -33,7 +33,6 @@ void Setup(){
     sort(Stats_Adjust_List.begin(), Stats_Adjust_List.end(), TriggerFunc::Trigger_cmp);
     sort(Healing_List.begin(), Healing_List.end(), TriggerFunc::Trigger_cmp);
     sort(HPDecrease_List.begin(), HPDecrease_List.end(), TriggerFunc::Trigger_cmp);
-    sort(EnemyDeath_List.begin(), EnemyDeath_List.end(), TriggerFunc::Trigger_cmp);
     sort(AllyDeath_List.begin(), AllyDeath_List.end(), TriggerFunc::Trigger_cmp);
     
     sort(Toughness_break_List.begin(), Toughness_break_List.end(), TriggerFunc::Trigger_cmp);
