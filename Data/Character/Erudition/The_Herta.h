@@ -86,7 +86,7 @@ namespace The_Herta{
                 }
                 Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Ult_The_Herta_Buff", 3);
                 
-                if (ptr->Print)Char_Command::printUltStart("The Herta");
+                if (ptr->Print)CharCmd::printUltStart("The Herta");
                 Attack(data_);
 
                 Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
@@ -209,7 +209,7 @@ namespace The_Herta{
     }
     bool Enchance_Skill_Condition(Ally *ptr){
         if(ptr->Eidolon>=2&&Driver_Type=="Double_turn"&&Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->Max_atv < ptr->Sub_Unit_ptr[0]->Atv_stats->Max_atv&&ptr->Sub_Unit_ptr[0]->Atv_stats->Max_atv*0.65<Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv){
-            if(ptr->Current_energy>=190&&(Char_Command::Using_Skill(ptr)||ptr->Current_energy<200)){
+            if(ptr->Current_energy>=190&&(CharCmd::Using_Skill(ptr)||ptr->Current_energy<200)){
                 if(ptr->Sub_Unit_ptr[0]->Buff_note["The_Herta_Skill_Enchance"]>0){
                     Enchance_Skill(ptr);
                 }else{
@@ -226,7 +226,7 @@ namespace The_Herta{
             
         }
         if(ptr->Sub_Unit_ptr[0]->Buff_note["The_Herta_Skill_Enchance"]>0){
-            if(Char_Command::Using_Skill(ptr)&&Stack_Herta_Check(ptr)){
+            if(CharCmd::Using_Skill(ptr)&&Stack_Herta_Check(ptr)){
                 Enchance_Skill(ptr);
             }else{
                 Basic_Atk(ptr);

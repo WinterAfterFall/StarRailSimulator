@@ -30,20 +30,21 @@ namespace Sunday{
         };
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
-            if (ult_condition(ptr)) return;
-            if (chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy <= 200 &&
-                chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy - chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Current_energy < 30 &&
-                Buff_check(ptr->Sub_Unit_ptr[0].get(), "Ode_to_Caress_and_Cicatrix")) return;
-            if (chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy >= 200 &&
-                chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy - chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Current_energy < chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy * 0.2 &&
-                Buff_check(ptr->Sub_Unit_ptr[0].get(), "Ode_to_Caress_and_Cicatrix")) return;
+            if(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy!=0){
+                if (chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy <= 200 &&
+                    chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy - chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Current_energy < 30 &&
+                    Buff_check(ptr->Sub_Unit_ptr[0].get(), "Ode_to_Caress_and_Cicatrix")) return;
+                if (chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy >= 200 &&
+                    chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy - chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Current_energy < chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy * 0.2 &&
+                    Buff_check(ptr->Sub_Unit_ptr[0].get(), "Ode_to_Caress_and_Cicatrix")) return;
+            }
             if (!ultUseCheck(ptr)) return;
             
             ActionData data_ = ActionData();
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Buff", "Single_target","Sunday Ultimate");
             data_.Add_Buff_Single_Target(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()));
             data_.actionFunction = [ptr](ActionData &data_){
-                if (ptr->Print)Char_Command::printUltStart("Sunday");
+                if (ptr->Print)CharCmd::printUltStart("Sunday");
                 if (ptr->Eidolon >= 2) {
                     if (ptr->Sub_Unit_ptr[0]->Buff_check["Ult_first_time"] == 0) {
                         ptr->Sub_Unit_ptr[0]->Buff_check["Ult_first_time"] = 1;
@@ -128,7 +129,7 @@ namespace Sunday{
                     }
                 }
                 ptr->setBuffAllyTarget("Ode_to_Caress_and_Cicatrix",nullptr);
-                if (ptr->Print)Char_Command::printUltEnd("Sunday");
+                if (ptr->Print)CharCmd::printUltEnd("Sunday");
             }
         }));
 

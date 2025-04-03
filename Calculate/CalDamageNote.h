@@ -61,6 +61,8 @@ void Cal_DamageNote(ActionData &data_,Enemy *target,double damage){
         ptr->totalRealTimeDamage += damage;
         target->damageRealTimeNote[ptr->getNum()][data_.actionName] += damage;
     }
+    if(Normal_Damage_check_mode==data_.Attacker->getNum())
+    cout<<data_.Attacker->Atv_stats->Unit_Name<<" "<<data_.actionName<<" "<<damage<<endl;
 }
 void Cal_DamageSummary(){
     int sum;

@@ -74,7 +74,7 @@ namespace FireFly{
 
             Update_Max_atv(ptr->Countdown_ptr[0]->Atv_stats.get());
             atv_reset(ptr->Countdown_ptr[0]->Atv_stats.get());
-            if (ptr->Print)Char_Command::printUltStart("FireFly");
+            if (ptr->Print)CharCmd::printUltStart("FireFly");
             }
         ));
         

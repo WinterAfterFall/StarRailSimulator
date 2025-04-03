@@ -84,4 +84,11 @@ void DecreaseHP(Sub_Unit *target,Unit *Trigger,double Value,double percentFromTo
     DecreaseCurrentHP(target,Total);
     allEventChangeHP(Trigger,target,Total);
 }
+void Sub_Unit::Death(){
+    this->currentHP = 0;
+    this->Atv_stats->Base_speed=-1;
+    Update_Max_atv(this->Atv_stats.get());
+    atv_reset(this->Atv_stats.get());
+    allEventWhenAllyDeath(this);
+}
 #endif

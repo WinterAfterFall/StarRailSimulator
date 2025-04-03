@@ -23,6 +23,9 @@ namespace Robin{
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 1280, 640, 485);
         SetBasicStats(Ally_unit[num].get(), 102, 160, 160, E, "Physical", "Harmony", num, "Robin", "Ally");
         Robin_num = num;
+        ptr->pushSubstats(ST_ATK_PERCENT);
+        ptr->setTotalSubstats(15);
+        Ally_unit[num]->Speed_tune_value=120;
 
         //func
         LC(Ally_unit[num].get());
@@ -80,7 +83,7 @@ namespace Robin{
                     All_Action_forward(100);
                 };
                 Action_bar.push(data_);
-                if(ptr->Print)Char_Command::printUltStart("Robin");
+                if(ptr->Print)CharCmd::printUltStart("Robin");
 
                 if(!actionBarUse)Deal_damage();
             }
@@ -99,7 +102,6 @@ namespace Robin{
             ptr->Energy_recharge += 19.4;
 
             // substats
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 54.432; // 14
             ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 13.8; // 5
 
             ptr->Countdown_ptr[0]->Atv_stats->Base_speed = -1;

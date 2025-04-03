@@ -32,6 +32,14 @@ namespace Remembrance_Lightcone{
                 tempstats->Buff_check["Victory_Blink"] = 0;
             }
         }));
+
+        AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr](Sub_Unit* target) {
+            if(target->getBuffCheck("Victory_Blink")){
+                target->setBuffCheck("Victory_Blink",0);
+                target->setBuffCountdown("Victory_Blink",0);
+                target->Stats_type["Dmg%"]["None"] -= 16;
+            }
+        }));
     }
     
 }

@@ -78,7 +78,7 @@ namespace Aglaea{
                                                                 ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"];
                 Buff_single_with_all_memo(ptr, "Flat_Atk", AT_TEMP, ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
                 Buff_single_with_all_memo(ptr, "Flat_Atk", "None", ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
-                if (ptr->Print) Char_Command::printUltStart("Aglaea");
+                if (ptr->Print) CharCmd::printUltStart("Aglaea");
             };
             Action_bar.push(data_);
             if (!actionBarUse) Deal_damage();
@@ -256,7 +256,7 @@ namespace Aglaea{
             ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"] = 1;
             Increase_energy(ptr,20);
     
-            if(ptr->Print)Char_Command::printUltEnd("Aglaea");
+            if(ptr->Print)CharCmd::printUltEnd("Aglaea");
         };
 
 

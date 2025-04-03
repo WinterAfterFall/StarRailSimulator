@@ -56,7 +56,7 @@ namespace Bronya{
                     Sub_Unit *temp = dynamic_cast<Sub_Unit*>(turn->ptr_to_unit);
                     Extend_Buff_single_target(temp,"Bronya_Ult",1);
                 }
-                if(ptr->Print)Char_Command::printUltStart("Bronya");
+                if(ptr->Print)CharCmd::printUltStart("Bronya");
             };
             
             Action_bar.push(data_);

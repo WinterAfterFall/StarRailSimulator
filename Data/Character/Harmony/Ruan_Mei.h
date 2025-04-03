@@ -44,7 +44,7 @@ namespace Ruan_Mei{
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff","RuanMei Ult");
             data_.Add_Buff_All_Ally();
             data_.actionFunction = [ptr](ActionData &data_){
-                if(ptr->Print)Char_Command::printUltStart("Ruan Mei");
+                if(ptr->Print)CharCmd::printUltStart("Ruan Mei");
                 if(!Buff_check(ptr->Sub_Unit_ptr[0].get(), "RuanMei_Ult")){
                     Buff_All_Ally("Respen", "None", 25);
                     if(ptr->Eidolon >= 1){

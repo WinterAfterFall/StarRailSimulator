@@ -52,7 +52,7 @@ namespace RMC{
             data_.actionFunction = [ptr](ActionData &data_) {
                 Increase_Charge(ptr, 40);
                 Buff_single_target(ptr->Sub_Unit_ptr[1].get(), "Crit_rate", "None", 100);
-                if (ptr->Print) Char_Command::printUltStart("RMC");
+                if (ptr->Print) CharCmd::printUltStart("RMC");
                 Attack(data_);
                 Buff_single_target(ptr->Sub_Unit_ptr[1].get(), "Crit_rate", "None", -100);
             };
@@ -273,7 +273,7 @@ namespace RMC{
         
         data_.actionFunction = [ptr](ActionData &data_){
             Increase_energy(ptr,10);
-            if(ptr->Print)Char_Command::printUltStart("Mem");
+            if(ptr->Print)CharCmd::printUltStart("Mem");
             if(!Buff_check(chooseSubUnitBuff(ptr->Sub_Unit_ptr[1].get()),"Mem_Support")){
                 if(chooseCharacterBuff(ptr->Sub_Unit_ptr[1].get())->Max_energy == 0)
                 Buff_single_with_all_memo(chooseCharacterBuff(ptr->Sub_Unit_ptr[1].get()),"True_Damage","None",30+6);

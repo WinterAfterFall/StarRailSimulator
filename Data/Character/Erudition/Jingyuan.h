@@ -58,7 +58,7 @@ namespace Jingyuan{
             data_.Damage_spilt.Other.push_back({200, 0, 0, 20});
             data_.actionFunction = [ptr](ActionData &data_){
                 Attack(data_);
-                if (ptr->Print)Char_Command::printUltStart("Jingyuan");
+                if (ptr->Print)CharCmd::printUltStart("Jingyuan");
                 ptr->Sub_Unit_ptr[0]->Stack["LL_stack"] += 3;
                 if (ptr->Sub_Unit_ptr[0]->Stack["LL_stack"] >= 10) {
                     ptr->Summon_ptr[0]->Atv_stats->Flat_Speed = 70;

@@ -8,7 +8,7 @@
 #include".\Preservation\All_Preservation_char.h"
 #include".\Remembrance\All_Remembrance_char.h"
 #include".\The_Hunt\All_The_Hunt_char.h"
-namespace Char_Command{
+namespace CharCmd{
 
 void printUltStart(string name){
     cout<<"------------------------------------------------------- "<<name<<" Ult Start at "<<Current_atv<<endl;

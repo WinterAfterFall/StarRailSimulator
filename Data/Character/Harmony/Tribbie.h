@@ -88,7 +88,7 @@ namespace Tribbie{
                 Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Tribbie_Zone", 2);
                 Attack(data_);
                 
-                if (ptr->Print)Char_Command::printUltStart("Tribbie");
+                if (ptr->Print)CharCmd::printUltStart("Tribbie");
                 if (ptr->Eidolon >= 6) {
                     ActionData data_2 = ActionData();
                     data_2.Fua_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","Tribbie Fua");

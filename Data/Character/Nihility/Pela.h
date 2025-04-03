@@ -18,15 +18,12 @@ namespace Pela{
         SetBasicStats(Ally_unit[num].get(),105,110,110,E,"Ice","Nihility",num,"Pela","Ally");
 
         //substats
-        Ally_unit[num]->Total_substats=20;
-        Ally_unit[num]->SeparateRatio=20;
-        Ally_unit[num]->Reroll_check=1;
+        ptr->pushSubstats(ST_CRIT_DAM);
+        ptr->pushSubstats(ST_CRIT_RATE);
+        ptr->pushSubstats(ST_ATK_PERCENT);
+        ptr->setTotalSubstats(20);
+        Ally_unit[num]->Speed_tune_value=160;
 
-        Ally_unit[num]->Substats.push_back({"Crit_dam",20});
-        Ally_unit[num]->Substats.push_back({"Crit_rate",0});
-        Ally_unit[num]->Substats.push_back({"Atk%",0});
-
-        Ally_unit[num]->Max_damage_Substats.resize(Ally_unit[num]->Substats.size());
 
 
 
@@ -74,9 +71,12 @@ namespace Pela{
 
             // substats
             ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"]["None"] += ptr->Sub_effect_hit_rate_use;
+            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += ptr->Sub_Speed_use;
+
         }));
 
         Tune_stats_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+            Cal_Speed_Needed(ptr, ptr->Speed_tune_value);
             Cal_effect_hit_rate(ptr, 100);
         }));
 
@@ -123,18 +123,6 @@ namespace Pela{
                 }
             }
         }));
-
-
-
-        //substats
-        Ally_unit[num]->Total_substats=20;
-        Ally_unit[num]->SeparateRatio=20;
-
-        Ally_unit[num]->Substats.push_back({"Speed",20});
-
-        Ally_unit[num]->Max_damage_Substats.resize(Ally_unit[num]->Substats.size());
-
-
     }
 
 

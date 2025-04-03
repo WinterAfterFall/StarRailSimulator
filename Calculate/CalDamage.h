@@ -49,9 +49,6 @@ void Cal_Damage(ActionData &data_,Enemy *target,Ratio_data Skill_mtpr){
 
     Cal_DamageNote(data_,target,Total_dmg);
     Cal_TrueDamage(data_,target,Total_dmg);
-    if(Normal_Damage_check_mode==data_.Attacker->Atv_stats->Unit_num){
-        cout<<data_.Attacker->Atv_stats->Char_Name<<" "<<data_.Action_type.second<<" "<<(long long)Total_dmg*data_.Attacker->Stats_type["True_Damage"]["None"]/100<<" to Enemy"<<target->Atv_stats->Unit_num<<endl;
-    }
 
 }
 

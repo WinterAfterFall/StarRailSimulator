@@ -64,7 +64,7 @@ namespace Gallagher{
                 Attack(data_);
             };
             Action_bar.push(data_);
-            if (ptr->Print) Char_Command::printUltStart(ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name);
+            if (ptr->Print) CharCmd::printUltStart(ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name);
             if(!actionBarUse)Deal_damage();
         }});
 

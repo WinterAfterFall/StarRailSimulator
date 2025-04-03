@@ -39,7 +39,7 @@ namespace Rappa{
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Buff", "Rappa Ultimate");
             data_.Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
             data_.actionFunction = [ptr](ActionData &data_){
-                if (ptr->Print)Char_Command::printUltStart("Rappa");
+                if (ptr->Print)CharCmd::printUltStart("Rappa");
                 ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"] = 1;
                 ptr->Sub_Unit_ptr[0]->Stack["Rappa_Ult"] = 2;
                 ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] += 30;

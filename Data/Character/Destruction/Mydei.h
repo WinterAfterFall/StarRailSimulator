@@ -70,7 +70,7 @@ namespace Mydei{
                 Healing(healratio, ptr->Sub_Unit_ptr[0].get(), ptr->Sub_Unit_ptr[0].get());
                 ChargePoint(ptr, 20);
                 Attack(data_);
-                if(ptr->Print) Char_Command::printUltStart("Mydei");
+                if(ptr->Print) CharCmd::printUltStart("Mydei");
             };
             
             

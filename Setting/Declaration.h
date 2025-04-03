@@ -358,7 +358,7 @@ bool AllPossibleReroll(Ally* ptr);
     Super_break 
 */
 //char func
-namespace Char_Command{
+namespace CharCmd{
 void Set_Technique(Ally *ptr,int tech);
 void Timing_print(Ally *ptr);
 bool Using_Skill(Ally *ptr);

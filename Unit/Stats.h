@@ -172,6 +172,10 @@ public:
     Ally* getBuffAllyTarget(string buffName) {
         return this->buffAllyTarget[buffName];
     }
+
+    /*--------------------Declaration--------------------*/
+    //ChangeHP
+    void Death();
 };
 // Enemy stats
 // Ally class, derived from Unit
