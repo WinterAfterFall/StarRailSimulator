@@ -17,10 +17,10 @@ void Print(){
     cout<<""<<turn->Char_Name<<" ";
     cout<<turn->turn_cnt<<" ";
     cout<<Ally_unit[1]->getSubUnit()->Buff_note["Newbud"]<<" ";
-    cout<<Ally_unit[1]->getSubUnit(1)->currentHP<<" ";
-    cout<<Ally_unit[1]->getSubUnit(1)->totalHP<<" ";
-    cout<<Ally_unit[1]->getSubUnit(1)->Atv_stats->Max_atv<<" ";
-    cout<<Ally_unit[1]->getSubUnit(1)->Atv_stats->atv<<" ";
+    // cout<<Ally_unit[1]->getSubUnit(1)->currentHP<<" ";
+    // cout<<Ally_unit[1]->getSubUnit(1)->totalHP<<" ";
+    // cout<<Ally_unit[1]->getSubUnit(1)->Atv_stats->Max_atv<<" ";
+    // cout<<Ally_unit[1]->getSubUnit(1)->Atv_stats->atv<<" ";
 
     
     //cout<<sp<<" ";

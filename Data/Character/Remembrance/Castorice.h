@@ -323,7 +323,7 @@ namespace Castorice{
     }
     void Skill(Ally *ptr){
         ActionData data_ = ActionData();
-        data_.Skill_set(ptr->getSubUnit(1),"Blast","Castorice Skill");
+        data_.Skill_set(ptr->getSubUnit(),"Blast","Castorice Skill");
         data_.Add_Target_Adjacent();
         data_.resetTurn();
         data_.Damage_spilt.Main.push_back({0,50,0,20});
@@ -342,7 +342,7 @@ namespace Castorice{
     }
     void Enchance_Skill(Ally *ptr){
         ActionData data_ = ActionData();
-        data_.Skill_set(ptr->getSubUnit(1),"Aoe","Castorice Enchance Skill");
+        data_.Skill_set(ptr->getSubUnit(),"Aoe","Castorice Enchance Skill");
         data_.Add_Target_Other();
         data_.resetTurn();
         data_.Damage_spilt.Main.push_back({0,30,0,10});
@@ -371,6 +371,7 @@ namespace Castorice{
         data_.Skill_set(ptr->getSubUnit(1),"Aoe","Wings Sweep the Ruins");
         data_.Add_Target_Other();
         data_.Skill_Type.push_back("Summon");
+        data_.source = ptr->getSubUnit();
         data_.Damage_spilt.Main.push_back({0,40,0,5});
         data_.Damage_spilt.Main.push_back({0,40,0,5});
         if(Total_enemy==1){

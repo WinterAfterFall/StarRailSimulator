@@ -28,7 +28,7 @@ void SetValue(){
     SuperBreak_Formula_check_mode = 0;  
     Break_Formula_check_mode = 0;
     
-    Normal_Damage_Formula_check_mode = 0;
+    Normal_Damage_Formula_check_mode = 1;
     Normal_Damage_check_mode = 0;
     Additional_Damage_Formula_check_mode = 0;
     Additional_Damage_check_mode = 0;
