@@ -89,6 +89,12 @@ void allEventAfterAttack(ActionData &data_){
     }
 }
 void allEventWhenAttack(ActionData &data_){
+    for(Enemy* &e : data_.Target_Attack){
+        if(e->Entanglement != 0){
+            e->Entanglement_stack++;
+        }
+    }
+    
     for(TriggerByAction_Func &e : When_attack_List){
         e.Call(data_);
     }
