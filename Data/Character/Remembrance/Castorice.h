@@ -55,6 +55,7 @@ namespace Castorice{
             data_.Damage_spilt.Adjacent.push_back({0,24,0,10});
             data_.Damage_spilt.Other.push_back({0,24,0,10});
             data_.actionFunction = [ptr](ActionData &data_){
+
                 while(ptr->getSubUnit(1)->currentHP>8500){
                     if(ptr->getSubUnit(1)->Stack["Breath Scorches the Shadow"]==0){
                         data_.Damage_spilt.Main[0].Hp_ratio = 24;
@@ -157,9 +158,11 @@ namespace Castorice{
             data_.actionFunction = [ptr](ActionData &data_) {
                 if(ptr->Print)Char_Command::printUltStart("Castorice");
                 Debuff_All_Enemy_Apply_ver(ptr->getSubUnit(1),ST_RESPEN,AT_NONE,20,"Lost Netherland");
-                Buff_single_target(ptr->getSubUnit(1),ST_FLAT_HP,AT_NONE,34000);
                 ptr->getSubUnit(1)->currentHP = 34000;
+                Buff_single_target(ptr->getSubUnit(1),ST_FLAT_HP,AT_NONE,34000);
                 ptr->getSubUnit(1)->Atv_stats->Base_speed = 165;
+                Update_Max_atv(ptr->getSubUnit(1)->Atv_stats.get());
+                atv_reset(ptr->getSubUnit(1)->Atv_stats.get());
                 Action_forward(ptr->getSubUnit(1)->Atv_stats.get(),100);
                 Extend_Buff_single_target(ptr->getSubUnit(1),"NetherwingLifeSpan",3);
                 Buff_All_Ally_Each_Ally(ST_DMG_PERCENT,AT_NONE,10,"Roar Rumbles the Realm");
@@ -184,9 +187,11 @@ namespace Castorice{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if(ptr->Technique==1){
                 Debuff_All_Enemy_Apply_ver(ptr->getSubUnit(1),ST_RESPEN,AT_NONE,20,"Lost Netherland");
-                Buff_single_target(ptr->getSubUnit(1),ST_FLAT_HP,AT_NONE,34000);
                 ptr->getSubUnit(1)->currentHP = 17000;
+                Buff_single_target(ptr->getSubUnit(1),ST_FLAT_HP,AT_NONE,34000);
                 ptr->getSubUnit(1)->Atv_stats->Base_speed = 165;
+                Update_Max_atv(ptr->getSubUnit(1)->Atv_stats.get());
+                atv_reset(ptr->getSubUnit(1)->Atv_stats.get());
                 Action_forward(ptr->getSubUnit(1)->Atv_stats.get(),100);
                 Extend_Buff_single_target(ptr->getSubUnit(1),"NetherwingLifeSpan",3);
                 for(int i=1;i<=Total_ally;i++){
@@ -250,12 +255,12 @@ namespace Castorice{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
-            if(turn->isSameAlly("Netherwing")){
-                Buff_single_target(ptr->getSubUnit(1),ST_DMG_PERCENT,AT_NONE,30*ptr->getSubUnit(1)->getStack("Where The West Wind Dwells"));
-                ptr->getSubUnit(1)->Stack["Where The West Wind Dwells"] = 0;
-            }
             if(Buff_end(ptr->getSubUnit(1),"NetherwingLifeSpan")){
                 Kamikaze(ptr);
+            }
+            if(turn->isSameAlly("Netherwing")){
+                Buff_single_target(ptr->getSubUnit(1),ST_DMG_PERCENT,AT_NONE,-30*ptr->getSubUnit(1)->getStack("Where The West Wind Dwells"));
+                ptr->getSubUnit(1)->Stack["Where The West Wind Dwells"] = 0;
             }
             Sub_Unit *tempUnit = turn->isSubUnitCheck();
             if(tempUnit){
@@ -297,7 +302,7 @@ namespace Castorice{
         
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTION, [ptr](Sub_Unit* Target, string StatsType) {
             if(!Target->isSameUnit("Netherwing"))return;
-            if (StatsType != ST_FLAT_HP && StatsType != ST_HP_PERCENT)return;
+            if(StatsType != ST_FLAT_HP && StatsType != ST_HP_PERCENT)return;
             double temp;
             if(ptr->getSubUnit(1)->currentHP==0){
                 temp = -calculateHpOnStats(ptr->getSubUnit(1));
@@ -395,6 +400,8 @@ namespace Castorice{
                 Debuff_single_target(Enemy_unit[i].get(),ST_RESPEN,AT_NONE,-20);
             }
             ptr->getSubUnit(1)->Atv_stats->Base_speed = -1;
+            Update_Max_atv(ptr->getSubUnit(1)->Atv_stats.get());
+            atv_reset(ptr->getSubUnit(1)->Atv_stats.get());
             ptr->getSubUnit(1)->currentHP = 0;
             Buff_single_target(ptr->getSubUnit(1),ST_FLAT_HP,AT_NONE,-34000);
             if(ptr->Print)Char_Command::printUltEnd("Castorice");

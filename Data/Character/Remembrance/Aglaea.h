@@ -52,6 +52,7 @@ namespace Aglaea{
                 Basic_Atk(ptr);
             }
         };
+        
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
             if (ptr->Countdown_ptr[0]->Atv_stats->Base_speed != -1 && 
                 (ptr->Countdown_ptr[0]->Atv_stats->atv > ptr->Sub_Unit_ptr[0]->Atv_stats->atv && 
