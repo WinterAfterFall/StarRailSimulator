@@ -290,6 +290,7 @@ namespace Castorice{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
+            
             if(Buff_end(ptr->getSubUnit(1),"NetherwingLifeSpan")){
                 Kamikaze(ptr);
             }
@@ -448,7 +449,7 @@ namespace Castorice{
             Attack(data_);
             HealRatio healRatio = HealRatio();
             healRatio.setRatio(0,6,0,800,0,0);
-            Healing(healRatio,ptr->getSubUnit(1));
+            Healing(healRatio,ptr->getSubUnit(0));
             for(int i=1;i<=Total_enemy;i++){
                 Enemy_unit[i]->Debuff["Lost Netherland"]=0;
                 Enemy_unit[i]->Total_debuff--;

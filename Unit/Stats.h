@@ -204,7 +204,7 @@ public:
     double maxDamage = -1e9;
     unordered_map<string,double> maxDamageAvgNote;
     unordered_map<string,double> maxDamageRealTimeNote;
-    double Max_Average_Damage = 0;
+    double Max_Average_Damage = -1e9;
     
     //Temp
     unordered_map<string,double> Adjust;
