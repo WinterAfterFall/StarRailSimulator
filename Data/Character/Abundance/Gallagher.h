@@ -74,7 +74,7 @@ namespace Gallagher{
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES]["None"] += 18;
 
             // relic
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING]["None"] += 85.7;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING]["None"] += 34.57;
             ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
             ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
             ptr->Energy_recharge += 19.4;
@@ -112,6 +112,10 @@ namespace Gallagher{
         }});
 
         When_Combat_List.push_back({PRIORITY_IMMEDIATELY, [ptr]() {
+            double temp = calculateBreakEffectForBuff( ptr->getSubUnit(),50);
+            if(temp>75)temp = 75;
+            ptr->getSubUnit()->Buff_note["Novel Concoction"] = temp - ptr->getSubUnit()->Buff_note["Novel Concoction"];
+            Buff_single_target(ptr->getSubUnit(),ST_BREAK_EFFECT,AT_NONE,ptr->getSubUnit()->Buff_note["Novel Concoction"]);
             if (ptr->Technique) {
                 ActionData data_ = ActionData();
                 data_.Technique_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","gallagher Technique");
@@ -124,7 +128,6 @@ namespace Gallagher{
                     Debuff_All_Enemy_Apply_ver(ptr->Sub_Unit_ptr[0].get(), "Vul", "Break_dmg", 13.2, "Besotted");
                     Attack(data_);
                 };
-                
                 if (!actionBarUse) Deal_damage();
             }
         }});
@@ -152,7 +155,16 @@ namespace Gallagher{
                 }
             }
         }));
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_HEAL, [ptr](Sub_Unit* Target, string StatsType) {
+            if(StatsType!=ST_BREAK_EFFECT||!Target->isSameUnit("Gallagher"))return;
 
+            double temp = calculateBreakEffectForBuff( ptr->getSubUnit(),50);
+            if(temp>75)temp = 75;
+            ptr->getSubUnit()->Buff_note["Novel Concoction"] = temp - ptr->getSubUnit()->Buff_note["Novel Concoction"];
+            Buff_single_target(ptr->getSubUnit(),ST_BREAK_EFFECT,AT_NONE,ptr->getSubUnit()->Buff_note["Novel Concoction"]);
+        }));
+
+        
 
         //substats
 
