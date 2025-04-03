@@ -56,6 +56,7 @@ namespace Luocha{
 
             // relic
             ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING]["None"] += 34.57;
             ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
             ptr->Energy_recharge += 19.4;
 

@@ -67,7 +67,7 @@ int main(){
 
     //Sustain
     Gallagher::Setup(4,6,Abundance_Lightcone::Multiplication,Relic::Iron_Cavalry,Planar::Broken_Keel);
-    // Luocha::Setup(4,0,Abundance_Lightcone::Multiplication,Relic::Double_Atk,Planar::Broken_Keel);
+    Luocha::Setup(4,0,Abundance_Lightcone::Multiplication,Relic::Double_Atk,Planar::Broken_Keel);
 
 
     // Char_Command::Set_Reroll_check(Ally_unit[1].get(),0);
