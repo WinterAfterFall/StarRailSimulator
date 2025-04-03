@@ -4,7 +4,7 @@
 
 bool changeMaxDamage(Ally *ptr){
     
-    if(ptr->maxDamage < ptr->totalDamage){
+    if(ptr->Max_Average_Damage < ptr->Average_Damage){
         ptr->maxDamage = ptr->totalDamage;
         ptr->Max_Average_Damage = ptr->Average_Damage;
 

@@ -7,6 +7,6 @@ namespace Remembrance_Lightcone{
 #include"SweatNowCryLess.h"
 #include"Geniuses_Greetings.h"
 #include"Reminiscence.h"
-
+#include"Castorice_LC.h"
 
 #endif

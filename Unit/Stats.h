@@ -206,6 +206,8 @@ public:
     unordered_map<string,double> maxDamageRealTimeNote;
     double Max_Average_Damage = 0;
     
+    //Temp
+    unordered_map<string,double> Adjust;
 
     vector<pair<string,int>> Substats;//*
     vector<int> Max_damage_Substats;//*
@@ -300,6 +302,9 @@ public:
     void setBuffAllyTarget(string buffName, Ally* target) {
         this->Sub_Unit_ptr[0]->buffAllyTarget[buffName] = target;
     }
+    void setAdjust(string adjustName, double value) {
+        this->Adjust[adjustName] = value;
+    }
 
     //get
     int getStack(string buffName) {
@@ -319,6 +324,9 @@ public:
     }
     Ally* getBuffAllyTarget(string buffName) {
         return this->Sub_Unit_ptr[0]->buffAllyTarget[buffName];
+    }
+    double getAdjust(string adjustName) {
+        return this->Adjust[adjustName];
     }
 };
 

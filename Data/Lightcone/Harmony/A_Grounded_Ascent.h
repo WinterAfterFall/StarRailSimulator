@@ -22,6 +22,12 @@ namespace Harmony_Lightcone{
             }
         }));
 
+        AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr](Sub_Unit* target) {
+            target->setBuffCountdown("Hymn",0);
+            Buff_single_target(target, "Dmg%", "None", -(target->Stack["Hymn"] * 15));
+            target->Stack["Hymn"] = 0;
+        }));
+
         Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](ActionData &data_) {
             if (data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_.traceType == "Single_target") {
                 Increase_energy(ptr, 6);

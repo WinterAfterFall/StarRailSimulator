@@ -16,7 +16,10 @@ void Print(){
     cout<<"Atv = "<<Current_atv<<" ";
     cout<<""<<turn->Char_Name<<" ";
     cout<<turn->turn_cnt<<" ";
-    cout<<Ally_unit[1]->getSubUnit()->Buff_note["Newbud"]<<" ";
+    // cout<<Ally_unit[1]->getSubUnit()->Buff_note["Newbud"]<<" ";
+    // cout<<Ally_unit[1]->getSubUnit(1)->Stack["Where The West Wind Dwells"]<<" ";
+    // cout<<Ally_unit[1]->getSubUnit(1)->getStack("CastoriceTalentBuff")<<" ";
+    // cout<<Ally_unit[1]->getSubUnit(1)->getStack("Breath Scorches the Shadow")<<" ";
     // cout<<Ally_unit[1]->getSubUnit(1)->currentHP<<" ";
     // cout<<Ally_unit[1]->getSubUnit(1)->totalHP<<" ";
     // cout<<Ally_unit[1]->getSubUnit(1)->Atv_stats->Max_atv<<" ";
@@ -31,7 +34,9 @@ void Print(){
 
     
     
-    // cout<<Ally_unit[1]->Sub_Unit_ptr[0]->Atv_stats->Speed_percent<<" ";
+    cout<<Ally_unit[1]->Sub_Unit_ptr[0]->Atv_stats->Speed_percent<<" ";
+    cout<<Ally_unit[1]->Sub_Unit_ptr[0]->currentHP<<" ";
+    cout<<Ally_unit[1]->Sub_Unit_ptr[0]->totalHP<<" ";
     // cout<<Ally_unit[1]->Sub_Unit_ptr[1]->Atv_stats->Flat_speed<<" ";
     
     

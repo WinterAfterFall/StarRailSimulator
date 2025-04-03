@@ -50,12 +50,13 @@ namespace Castorice{
             data_.Add_Target_Other();
             data_.Skill_Type.push_back("Summon");
             data_.resetTurn();
+            if(ptr->Eidolon>=6)data_.Dont_care_weakness = 100;
             data_.source = ptr->getSubUnit();
             data_.Damage_spilt.Main.push_back({0,24,0,10});
             data_.Damage_spilt.Adjacent.push_back({0,24,0,10});
             data_.Damage_spilt.Other.push_back({0,24,0,10});
             data_.actionFunction = [ptr](ActionData &data_){
-
+                Increase_energy(ptr,0);
                 while(ptr->getSubUnit(1)->currentHP>8500){
                     if(ptr->getSubUnit(1)->Stack["Breath Scorches the Shadow"]==0){
                         data_.Damage_spilt.Main[0].Hp_ratio = 24;
@@ -74,9 +75,17 @@ namespace Castorice{
                         data_.Damage_spilt.Adjacent[0].Hp_ratio = 34;
                         data_.Damage_spilt.Other[0].Hp_ratio = 34;
                     }
+                    if(ptr->Eidolon>=1){
+                        data_.Damage_spilt.Main[0].Hp_ratio *= 1.239;
+                        data_.Damage_spilt.Adjacent[0].Hp_ratio *= 1.239;
+                        data_.Damage_spilt.Other[0].Hp_ratio *= 1.239;
+                    }
                     ptr->getSubUnit(1)->Stack["Breath Scorches the Shadow"]++;
                     Stack_Buff_single_target(ptr->getSubUnit(1),ST_DMG_PERCENT,AT_NONE,30,1,6,"Where The West Wind Dwells");
                     Attack(data_);
+                    if(ptr->getSubUnit(1)->getStack("Ardent Will")>0)
+                    ptr->getSubUnit(1)->Stack["Ardent Will"]--;
+                    else 
                     ptr->getSubUnit(1)->currentHP-=8500;
                 }
                 if(Buff_end(ptr->getSubUnit(1),"NetherwingLifeSpan")){
@@ -97,12 +106,16 @@ namespace Castorice{
                         data_.Damage_spilt.Adjacent[0].Hp_ratio = 34;
                         data_.Damage_spilt.Other[0].Hp_ratio = 34;
                     }
-                    ptr->getSubUnit(1)->Stack["Breath Scorches the Shadow"]++;
                     Stack_Buff_single_target(ptr->getSubUnit(1),ST_DMG_PERCENT,AT_NONE,30,1,6,"Where The West Wind Dwells");
                 }else{
                     data_.Damage_spilt.Main[0].Hp_ratio = 40;
                     data_.Damage_spilt.Adjacent[0].Hp_ratio = 40;
                     data_.Damage_spilt.Other[0].Hp_ratio = 40;
+                }
+                if(ptr->Eidolon>=1){
+                    data_.Damage_spilt.Main[0].Hp_ratio *= 1.239;
+                    data_.Damage_spilt.Adjacent[0].Hp_ratio *= 1.239;
+                    data_.Damage_spilt.Other[0].Hp_ratio *= 1.239;
                 }
 
                 Attack(data_);
@@ -158,6 +171,12 @@ namespace Castorice{
             data_.actionFunction = [ptr](ActionData &data_) {
                 if(ptr->Print)Char_Command::printUltStart("Castorice");
                 Debuff_All_Enemy_Apply_ver(ptr->getSubUnit(1),ST_RESPEN,AT_NONE,20,"Lost Netherland");
+                if(ptr->Eidolon>=2){
+                    ptr->getSubUnit(1)->setStack("Ardent Will",2);
+                    Action_forward(ptr->getSubUnit()->Atv_stats.get(),100);
+                    ptr->getSubUnit()->Buff_note["Newbud"] = 10200;
+                }
+
                 ptr->getSubUnit(1)->currentHP = 34000;
                 Buff_single_target(ptr->getSubUnit(1),ST_FLAT_HP,AT_NONE,34000);
                 ptr->getSubUnit(1)->Atv_stats->Base_speed = 165;
@@ -176,6 +195,15 @@ namespace Castorice{
             Cal_Speed_Needed(ptr, ptr->Speed_tune_value);
         }));
 
+        When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+            if(ptr->Eidolon>=4){
+                Buff_All_Ally(ST_HEALING,AT_NONE,20);
+            }
+            if(ptr->Eidolon>=6){
+                Buff_single_with_all_memo(ptr,ST_RESPEN,AT_NONE,20);
+            }
+        }));
+
         Setup_Memo_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed = -1;
             ptr->getSubUnit(1)->Atv_stats->Flat_Speed = 0;
@@ -187,15 +215,22 @@ namespace Castorice{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if(ptr->Technique==1){
                 Debuff_All_Enemy_Apply_ver(ptr->getSubUnit(1),ST_RESPEN,AT_NONE,20,"Lost Netherland");
+                if(ptr->Eidolon>=2){
+                    ptr->getSubUnit(1)->setStack("Ardent Will",2);
+                    Action_forward(ptr->getSubUnit()->Atv_stats.get(),100);
+                    ptr->getSubUnit()->Buff_note["Newbud"] = 10200;
+                }
+
                 ptr->getSubUnit(1)->currentHP = 17000;
                 Buff_single_target(ptr->getSubUnit(1),ST_FLAT_HP,AT_NONE,34000);
                 ptr->getSubUnit(1)->Atv_stats->Base_speed = 165;
                 Update_Max_atv(ptr->getSubUnit(1)->Atv_stats.get());
                 atv_reset(ptr->getSubUnit(1)->Atv_stats.get());
                 Action_forward(ptr->getSubUnit(1)->Atv_stats.get(),100);
+                turn = ptr->getSubUnit(1)->Atv_stats.get();
                 Extend_Buff_single_target(ptr->getSubUnit(1),"NetherwingLifeSpan",3);
+                decreaseHPCount++;
                 for(int i=1;i<=Total_ally;i++){
-                    decreaseHPCount++;
                     for(auto &e : Ally_unit[i]->Sub_Unit_ptr){
                         if(e->currentHP==0||e->isSameUnit("Netherwing"))continue;
                         DecreaseHP(e.get(),ptr->Sub_Unit_ptr[0].get(),0,0,40);
@@ -329,6 +364,7 @@ namespace Castorice{
         data_.Damage_spilt.Main.push_back({0,50,0,20});
         data_.Damage_spilt.Adjacent.push_back({0,30,0,10});
         data_.actionFunction = [ptr](ActionData &data_){
+            Increase_energy(ptr,0);
             decreaseHPCount++;
             for(int i=1;i<=Total_ally;i++){
                 for(auto &e : Ally_unit[i]->Sub_Unit_ptr){
@@ -355,12 +391,18 @@ namespace Castorice{
         data_.Attack_trigger++;
         data_.Joint.push_back(AttackSource(1,ptr->Sub_Unit_ptr[1].get(),ptr->Sub_Unit_ptr[0].get()));
         data_.actionFunction = [ptr](ActionData &data_){
+            Increase_energy(ptr,0);
+            decreaseHPCount++;
             for(int i=1;i<=Total_ally;i++){
-                decreaseHPCount++;
                 for(auto &e : Ally_unit[i]->Sub_Unit_ptr){
                     if(e->currentHP==0||e->isSameUnit("Netherwing"))continue;
                     DecreaseHP(e.get(),ptr->Sub_Unit_ptr[0].get(),0,0,40);
                 }
+            }
+            if(ptr->Eidolon>=1){
+                for(Ratio_data &e : data_.Damage_spilt.Main)e.Hp_ratio*= 1.239;
+                for(Ratio_data &e : data_.Damage_spilt.Adjacent)e.Hp_ratio*= 1.239;
+                for(Ratio_data &e : data_.Damage_spilt.Other)e.Hp_ratio*= 1.239;
             }
             Attack(data_);
         };
@@ -372,6 +414,7 @@ namespace Castorice{
         data_.Add_Target_Other();
         data_.Skill_Type.push_back("Summon");
         data_.source = ptr->getSubUnit();
+        if(ptr->Eidolon>=6)data_.Dont_care_weakness = 100;
         data_.Damage_spilt.Main.push_back({0,40,0,5});
         data_.Damage_spilt.Main.push_back({0,40,0,5});
         if(Total_enemy==1){
@@ -390,7 +433,18 @@ namespace Castorice{
             data_.Damage_spilt.Adjacent.push_back({0,40,0,5});
             data_.Damage_spilt.Adjacent.push_back({0,40,0,5});
         }
+        if(ptr->Eidolon>=1){
+            for(Ratio_data &e : data_.Damage_spilt.Main)e.Hp_ratio*= 1.239;
+            for(Ratio_data &e : data_.Damage_spilt.Adjacent)e.Hp_ratio*= 1.239;
+            for(Ratio_data &e : data_.Damage_spilt.Other)e.Hp_ratio*= 1.239;
+        }
+        if(ptr->Eidolon>=6){
+            data_.Damage_spilt.Main.push_back({0,40*1.239,0,5});
+            data_.Damage_spilt.Main.push_back({0,40*1.239,0,5});
+            data_.Damage_spilt.Main.push_back({0,40*1.239,0,5});
+        }
         data_.actionFunction = [ptr](ActionData &data_){
+            Increase_energy(ptr,0);
             Attack(data_);
             HealRatio healRatio = HealRatio();
             healRatio.setRatio(0,6,0,800,0,0);
@@ -405,6 +459,7 @@ namespace Castorice{
             atv_reset(ptr->getSubUnit(1)->Atv_stats.get());
             ptr->getSubUnit(1)->currentHP = 0;
             Buff_single_target(ptr->getSubUnit(1),ST_FLAT_HP,AT_NONE,-34000);
+            ptr->getSubUnit(1)->setStack("Breath Scorches the Shadow",0);
             if(ptr->Print)Char_Command::printUltEnd("Castorice");
         };
         Action_bar.push(data_);

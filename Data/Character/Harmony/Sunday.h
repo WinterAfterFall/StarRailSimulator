@@ -50,6 +50,12 @@ namespace Sunday{
                         Skill_point(ptr->Sub_Unit_ptr[0].get(), 2);
                     }
                 }
+
+                if(ptr->Eidolon>=6){
+                    Stack_Buff_single_with_all_memo(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()),ST_CRIT_RATE,AT_NONE,20,1,3,"The_Sorrowing_Body");
+                    Extend_Buff_single_with_all_memo(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()),"The_Sorrowing_Body",4);
+                }
+
                 if (chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy > 200)
                 Increase_energy(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()), 20, 0);
                 else
@@ -106,6 +112,9 @@ namespace Sunday{
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
+            if(turn->isSameUnit("Sunday")){
+                Increase_energy(ptr,8);
+            }
             if (Buff_end(ptr->Sub_Unit_ptr[0].get(), "Ode_to_Caress_and_Cicatrix")) {
                 ptr->Sub_Unit_ptr[0]->Buff_check["Ode_to_Caress_and_Cicatrix"] = 0;
                 if(!ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"))return;
@@ -144,11 +153,19 @@ namespace Sunday{
                 }
             }
             if (Buff_end(Temp_stats, "The_Sorrowing_Body")) {
-                Buff_single_target(Temp_stats, "Crit_rate", AT_NONE, -20);
-                Temp_stats->Buff_check["The_Sorrowing_Body"] = 0;
+                if(ptr->Eidolon>=6){
+                    Buff_single_target(Temp_stats, "Crit_rate", AT_NONE, -20*Temp_stats->Stack["The_Sorrowing_Body"]);
+                    Temp_stats->Stack["The_Sorrowing_Body"] = 0;
+                }else{
+                    Buff_single_target(Temp_stats, "Crit_rate", AT_NONE, -20);
+                    Temp_stats->Buff_check["The_Sorrowing_Body"] = 0;
+                }
+                
             }
-            if (Buff_end(Temp_stats, "The_Glorious_Mysteries"))
-            Buff_single_target(Temp_stats, "Dmg%", AT_NONE, -50);
+            if (Buff_end(Temp_stats, "The_Glorious_Mysteries")){
+                Buff_single_target(Temp_stats, "Dmg%", AT_NONE, -50);
+                Temp_stats->setBuffCheck("The_Glorious_Mysteries",0);
+            }
             
         }));
 
@@ -163,6 +180,13 @@ namespace Sunday{
         }));
 
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](Sub_Unit *target, string StatsType) {
+            if(ptr->Eidolon>=6&&target->getStack("The_Sorrowing_Body")>0&&StatsType == ST_CRIT_RATE){
+                double temp = (calculateCritrateForBuff(target,100) - 100)*2;
+                if(temp<0)temp=0;
+                target->Buff_note["The_Sorrowing_Body"] = temp - target->Buff_note["The_Sorrowing_Body"];
+                Buff_single_target(target, ST_CRIT_DAM, AT_TEMP, target->getBuffNote("The_Sorrowing_Body"));
+                Buff_single_target(target, ST_CRIT_DAM, AT_NONE, target->getBuffNote("The_Sorrowing_Body"));
+            }
             if (target->Atv_stats->Unit_Name != "Sunday") return;
             if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Ode_to_Caress_and_Cicatrix")) return;
             if (StatsType != ST_CRIT_DAM) return;   
@@ -184,6 +208,41 @@ namespace Sunday{
                 Buff_single_target(target, "Dmg%", AT_NONE, -30);
                 target->setBuffCheck("Ode_to_Caress_and_Cicatrix",false);
             }
+            if (target->getBuffCheck("Benison_of_Paper_and_Rites")) {
+                target->setBuffCheck("Benison_of_Paper_and_Rites",0);
+                target->setBuffCountdown("Benison_of_Paper_and_Rites",0);
+                if (target->ptr_to_unit->isAllyHaveSummon()) {
+                    Buff_single_target(target, "Dmg%", AT_NONE, -80);
+                } else {
+                    Buff_single_target(target, "Dmg%", AT_NONE, -30);
+                }
+                if (ptr->Eidolon >= 1) {
+                    if (target->Atv_stats->Side == "Memosprite") {
+                        Buff_single_target(target, "Def_shred", AT_NONE, -40);
+                    } else {
+                        Buff_single_target(target, "Def_shred", AT_NONE, -16);
+                        Buff_single_target(target, "Def_shred", "Summon", -24);
+                    }
+                    target->Buff_check["Sunday_E1"] = 0;
+                }
+            }
+            target->setBuffCountdown("The_Sorrowing_Body",0);
+            if(ptr->Eidolon>=6){
+                Buff_single_target(target, "Crit_rate", AT_NONE, -20*target->Stack["The_Sorrowing_Body"]);
+                target->Stack["The_Sorrowing_Body"] = 0;
+            }
+            else
+            {
+                if(target->getBuffCheck("The_Sorrowing_Body")){
+                    Buff_single_target(target, "Crit_rate", AT_NONE, -20);
+                    target->Buff_check["The_Sorrowing_Body"] = 0;
+                }
+            }
+            if (target->getBuffCheck("The_Glorious_Mysteries")){
+                Buff_single_target(target, "Dmg%", AT_NONE, -50);
+                target->setBuffCheck("The_Glorious_Mysteries",0);
+                target->setBuffCountdown("The_Glorious_Mysteries",0);
+            }
         }));
 
 
@@ -201,7 +260,16 @@ namespace Sunday{
         temp.actionFunction = [ptr](ActionData &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
-            Buff_single_with_all_memo_each(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()),ST_CRIT_RATE,AT_NONE,20,"The_Sorrowing_Body");
+            if(ptr->Eidolon>=6){
+                Stack_Buff_single_with_all_memo(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()),ST_CRIT_RATE,AT_NONE,20,1,3,"The_Sorrowing_Body");
+                Extend_Buff_single_with_all_memo(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()),"The_Sorrowing_Body",4);
+            }
+            else
+            {
+                Buff_single_with_all_memo_each(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()),ST_CRIT_RATE,AT_NONE,20,"The_Sorrowing_Body");
+                Extend_Buff_single_with_all_memo(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()),"The_Sorrowing_Body",3);
+            }
+
             if(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->isAllyHaveSummon())
             Buff_single_with_all_memo_each(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()),ST_DMG_PERCENT,AT_NONE,80,"Benison_of_Paper_and_Rites");
             else
@@ -224,7 +292,6 @@ namespace Sunday{
                 Extend_Buff_single_with_all_memo(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()),"The_Glorious_Mysteries",2);
             }
             
-            Extend_Buff_single_with_all_memo(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()),"The_Sorrowing_Body",3);
             Extend_Buff_single_with_all_memo(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()),"Benison_of_Paper_and_Rites",2);
             
             

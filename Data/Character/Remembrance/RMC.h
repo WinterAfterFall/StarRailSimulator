@@ -128,7 +128,9 @@ namespace RMC{
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (Buff_end(chooseSubUnitBuff(ptr->Sub_Unit_ptr[1].get()), "Mem_Support")) {
-                if (Ally_unit[ptr->Sub_Unit_ptr[1]->currentAllyTargetNum]->Max_energy >= 200)
+                if(chooseCharacterBuff(ptr->Sub_Unit_ptr[1].get())->Max_energy == 0)
+                Buff_single_with_all_memo(chooseCharacterBuff(ptr->Sub_Unit_ptr[1].get()),"True_Damage","None",-36);
+                else if (Ally_unit[ptr->Sub_Unit_ptr[1]->currentAllyTargetNum]->Max_energy >= 200)
                 Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[1]->currentAllyTargetNum].get(), "True_Damage", "None", -50);
                 else 
                 Buff_single_with_all_memo(Ally_unit[ptr->Sub_Unit_ptr[1]->currentAllyTargetNum].get(), "True_Damage", "None", -30 - 2 * floor((Ally_unit[ptr->Sub_Unit_ptr[1]->currentAllyTargetNum]->Max_energy - 100) / 10));
@@ -144,6 +146,10 @@ namespace RMC{
 
         When_Energy_Increase_List.push_back(TriggerEnergy_Increase_Func(PRIORITY_IMMEDIATELY, [ptr](Ally *target, double Energy) {
             if (ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed == -1) return;
+            if(Energy==0){
+                Increase_Charge(ptr,3);
+                return;
+            }
             if (Energy + target->Current_energy > target->Max_energy) {
                 Energy = target->Max_energy - target->Current_energy;
             }
@@ -269,7 +275,9 @@ namespace RMC{
             Increase_energy(ptr,10);
             if(ptr->Print)Char_Command::printUltStart("Mem");
             if(!Buff_check(chooseSubUnitBuff(ptr->Sub_Unit_ptr[1].get()),"Mem_Support")){
-                if(chooseCharacterBuff(ptr->Sub_Unit_ptr[1].get())->Max_energy>=200)
+                if(chooseCharacterBuff(ptr->Sub_Unit_ptr[1].get())->Max_energy == 0)
+                Buff_single_with_all_memo(chooseCharacterBuff(ptr->Sub_Unit_ptr[1].get()),"True_Damage","None",30+6);
+                else if(chooseCharacterBuff(ptr->Sub_Unit_ptr[1].get())->Max_energy>=200)
                 Buff_single_with_all_memo(chooseCharacterBuff(ptr->Sub_Unit_ptr[1].get()),"True_Damage","None",30+20);
                 else
                 Buff_single_with_all_memo(chooseCharacterBuff(ptr->Sub_Unit_ptr[1].get()),"True_Damage","None",30+2*floor((chooseCharacterBuff(ptr->Sub_Unit_ptr[1].get())->Max_energy-100)/10));
