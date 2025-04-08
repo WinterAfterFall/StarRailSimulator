@@ -5,7 +5,6 @@
 #include"Rappa_LC.h"
 #include"The_Herta_LC.h"
 #include"BP_Erudition.h"
-#include"BP_Erudition_S1.h"
 #include"Himeko_LC.h"
 #include"Calculus.h"
 
