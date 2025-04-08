@@ -109,9 +109,9 @@ bool StandardReroll(Ally *ptr){
 
 }
 bool AllCombinationReroll(Ally *ptr){
-    if(0 == ptr->Reroll_check)return false;
+    if(0 == ptr->Reroll_check&&ptr->Max_Average_Damage>=0)return false;
     changeMaxDamage(ptr);
-    if(ptr->Substats.size()<=1){
+    if(ptr->Substats.size()<=1||ptr->Reroll_check==0){
         ptr->Reroll_check = 0;
         return false;
     }

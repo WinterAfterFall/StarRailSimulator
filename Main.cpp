@@ -66,8 +66,8 @@ int main(){
 
 
     //Sustain
-    // Gallagher::Setup(4,6,Abundance_Lightcone::Multiplication,Relic::Iron_Cavalry,Planar::Broken_Keel);
-    Luocha::Setup(4,0,Abundance_Lightcone::Multiplication,Relic::Double_Atk,Planar::Broken_Keel);
+    Gallagher::Setup(4,6,Abundance_Lightcone::Multiplication(5),Relic::Iron_Cavalry,Planar::Broken_Keel);
+    // Luocha::Setup(4,0,Abundance_Lightcone::Multiplication,Relic::Double_Atk,Planar::Broken_Keel);
 
 
     //adjust
