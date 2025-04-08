@@ -24,8 +24,6 @@ void EnemyHit(Enemy *Attacker,vector<SubUnit*> target){
         damageDeal = calculateDmgReceive(Attacker,e,Attacker->skillRatio);
         DecreaseHP(e,Attacker,damageDeal,0,0);
     }
-
-    
 }
 
 #endif

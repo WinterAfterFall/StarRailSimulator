@@ -184,6 +184,7 @@ public:
     //TargetChoose.h
     void addTargetChangeCondition(function<bool()> condition);
     void addTargetChangeConditionImmediately(function<bool()> condition);
+    void updateTargetingSubUnits(int newTargetNum);
     
 };;
 // Enemy stats
@@ -350,6 +351,10 @@ public:
     //Energy.h
     void addUltCondition(function<bool()> condition);
     void addUltImmediatelyUseCondition(function<bool()> condition);
+
+    //TargetChoose.h
+    void updateTargetingSubUnits(int newTargetNum);
+
 };
 
 // Enemy class, derived from Unit

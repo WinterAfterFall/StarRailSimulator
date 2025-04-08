@@ -75,14 +75,50 @@ void DecreaseCurrentHP(SubUnit *ptr,double Value){
 }
 void DecreaseHP(SubUnit *target,Unit *Trigger,double Value,double percentFromTotalHP,double percentFromCurrentHP){
     double Total = Value;
-    // if(isEnemyCheck(Trigger)&&target->isSameUnit("Mydei")){
-    //     cout<<Trigger->Atv_stats->Unit_num<<" "<< Value<<endl;
-    // }
     if(target->currentHP<=0)return;
     Total += (percentFromTotalHP/100.0*target->totalHP);
     Total += (percentFromCurrentHP/100.0*target->currentHP);
     DecreaseCurrentHP(target,Total);
     allEventChangeHP(Trigger,target,Total);
+}
+//ลดเลือดทั้งทีม
+void DecreaseHP(Unit *Trigger,double Value,double percentFromTotalHP,double percentFromCurrentHP){
+    for (int i = 1; i <= Total_ally; ++i) {
+        for (unique_ptr<SubUnit> &subUnit : Ally_unit[i]->Sub_Unit_ptr) {
+            double Total = Value;
+            if(subUnit->currentHP<=0)return;
+            Total += (percentFromTotalHP/100.0*subUnit->totalHP);
+            Total += (percentFromCurrentHP/100.0*subUnit->currentHP);
+            DecreaseCurrentHP(subUnit.get(),Total);
+            allEventChangeHP(Trigger,subUnit.get(),Total);
+        }
+    }
+}
+void DecreaseHP(Unit *Trigger,vector<SubUnit*> target,double Value,double percentFromTotalHP,double percentFromCurrentHP){
+    for (SubUnit* &subUnit : target) {
+        double Total = Value;
+        if(subUnit->currentHP<=0)return;
+        Total += (percentFromTotalHP/100.0*subUnit->totalHP);
+        Total += (percentFromCurrentHP/100.0*subUnit->currentHP);
+        DecreaseCurrentHP(subUnit,Total);
+        allEventChangeHP(Trigger,subUnit,Total);
+    }
+    
+}
+//ลดเลือดทั้งทีมยกเว้นตัวเอง
+void DecreaseHP(Unit *Trigger,string Name,double Value,double percentFromTotalHP,double percentFromCurrentHP){
+    for (int i = 1; i <= Total_ally; ++i) {
+        for (unique_ptr<SubUnit> &subUnit : Ally_unit[i]->Sub_Unit_ptr) {
+            if(subUnit->isSameCharName(Name))continue;
+            double Total = Value;
+            if(subUnit->currentHP<=0)return;
+            Total += (percentFromTotalHP/100.0*subUnit->totalHP);
+            Total += (percentFromCurrentHP/100.0*subUnit->currentHP);
+            DecreaseCurrentHP(subUnit.get(),Total);
+            allEventChangeHP(Trigger,subUnit.get(),Total);
+        }
+    }
+
 }
 void SubUnit::Death(){
     this->currentHP = 0;
