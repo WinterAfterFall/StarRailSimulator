@@ -7,7 +7,6 @@
 #include".\Nihility\All_Nihility_LC.h"
 #include".\Preservation\All_Preservation_LC.h"
 #include".\Remembrance\All_Remembrance_LC.h"
-#include".\Remembrance\All_Remembrance_LC.h"
 function<void(Ally *ptr)> LightCone_temp(double HP,double ATK,double DEF){
     return [=](Ally *ptr) {
         SetBaseStats(ptr->Sub_Unit_ptr[0].get(), HP, ATK, DEF);

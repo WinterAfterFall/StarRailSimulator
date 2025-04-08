@@ -7,20 +7,21 @@
 #define S second
 #include "../Library.h"
 namespace Harmony_Lightcone{
-    void Memories_of_the_Past(Ally *ptr);
-    void Memories_of_the_Past(Ally *ptr) {
-        SetBaseStats(ptr->Sub_Unit_ptr[0].get(), 953, 423, 397);
-        ptr->Light_cone.Name = "Memories_of_the_Past";
-
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](ActionData &data_) {
-            if (data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
-                Increase_energy(ptr, 8);
-            }
-        }));
-
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] += 56;
-        }));
+    function<void(Ally *ptr)> Memories_of_the_Past(int superimpose){
+        return [=](Ally *ptr) {
+            SetBaseStats(ptr->Sub_Unit_ptr[0].get(), 953, 423, 397);
+            ptr->Light_cone.Name = "Memories_of_the_Past";
+    
+            After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](ActionData &data_) {
+                if (data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
+                    Increase_energy(ptr, 3 + superimpose);
+                }
+            }));
+    
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+                ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] += 21 + 7 * superimpose;
+            }));
+        };
     }
 }
 #endif

@@ -4,7 +4,7 @@
 
 #include "../Library.h"
 namespace Erudition_Lightcone{
-    function<void(Ally *ptr)> templateLC(int superimpose){
+    function<void(Ally *ptr)> The_Herta_LC(int superimpose){
         return [=](Ally *ptr) {
             SetBaseStats(ptr->Sub_Unit_ptr[0].get(),953,635,463);
             ptr->Light_cone.Name = "The_Herta_LC";
