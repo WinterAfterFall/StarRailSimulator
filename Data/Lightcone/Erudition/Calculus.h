@@ -4,7 +4,7 @@
 
 #include "../Library.h"
 namespace Erudition_Lightcone{
-    function<void(Ally *ptr)> templateLC(int superimpose){
+    function<void(Ally *ptr)> Calculus(int superimpose){
         return [=](Ally *ptr) {
             SetBaseStats(ptr->Sub_Unit_ptr[0].get(),1058,529,397);
             ptr->Light_cone.Name = "Calculus";
