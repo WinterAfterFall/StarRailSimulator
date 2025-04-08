@@ -224,6 +224,7 @@ void DecreaseHP(Unit *Trigger,string Name,double Value,double percentFromTotalHP
 //EnemyCombat.h
 void EnemyHit(Enemy *Attacker);
 void EnemyHit(Enemy *Attacker,vector<SubUnit*> target);
+void DamageFormEnemy(Enemy *Attacker,vector<SubUnit*> target);
 /*------Calculate------*/
 
 //Calculate_damage

@@ -24,7 +24,6 @@ namespace Destruction_Lightcone{
                     if (ptr->Sub_Unit_ptr[0]->currentHP >= 50000.0 / (5.5 + 0.5 * superimpose)) {
                         Buff_single_target(ptr->Sub_Unit_ptr[0].get(), ST_DMG_PERCENT, AT_NONE, (25 + 5 * superimpose));
                         ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_LC_Mark"]++;
-                        decreaseHPCount++;
                         DecreaseHP(ptr->Sub_Unit_ptr[0].get(), ptr->Sub_Unit_ptr[0].get(), 0, (5.5 + 0.5 * superimpose), 0);
                     }
                 }

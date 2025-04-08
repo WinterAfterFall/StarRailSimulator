@@ -74,6 +74,7 @@ void DecreaseCurrentHP(SubUnit *ptr,double Value){
     ptr->currentHP = (ptr->currentHP - Value < 1) ? 1 : ptr->currentHP - Value;
 }
 void DecreaseHP(SubUnit *target,Unit *Trigger,double Value,double percentFromTotalHP,double percentFromCurrentHP){
+    decreaseHPCount++;
     double Total = Value;
     if(target->currentHP<=0)return;
     Total += (percentFromTotalHP/100.0*target->totalHP);
@@ -83,6 +84,7 @@ void DecreaseHP(SubUnit *target,Unit *Trigger,double Value,double percentFromTot
 }
 //ลดเลือดทั้งทีม
 void DecreaseHP(Unit *Trigger,double Value,double percentFromTotalHP,double percentFromCurrentHP){
+    decreaseHPCount++;
     for (int i = 1; i <= Total_ally; ++i) {
         for (unique_ptr<SubUnit> &subUnit : Ally_unit[i]->Sub_Unit_ptr) {
             double Total = Value;
@@ -95,6 +97,7 @@ void DecreaseHP(Unit *Trigger,double Value,double percentFromTotalHP,double perc
     }
 }
 void DecreaseHP(Unit *Trigger,vector<SubUnit*> target,double Value,double percentFromTotalHP,double percentFromCurrentHP){
+    decreaseHPCount++;
     for (SubUnit* &subUnit : target) {
         double Total = Value;
         if(subUnit->currentHP<=0)return;
@@ -107,6 +110,7 @@ void DecreaseHP(Unit *Trigger,vector<SubUnit*> target,double Value,double percen
 }
 //ลดเลือดทั้งทีมยกเว้นตัวเอง
 void DecreaseHP(Unit *Trigger,string Name,double Value,double percentFromTotalHP,double percentFromCurrentHP){
+    decreaseHPCount++;
     for (int i = 1; i <= Total_ally; ++i) {
         for (unique_ptr<SubUnit> &subUnit : Ally_unit[i]->Sub_Unit_ptr) {
             if(subUnit->isSameCharName(Name))continue;

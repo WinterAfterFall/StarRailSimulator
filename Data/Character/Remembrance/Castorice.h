@@ -235,13 +235,7 @@ namespace Castorice{
                 Action_forward(ptr->getSubUnit(1)->Atv_stats.get(),100);
                 turn = ptr->getSubUnit(1)->Atv_stats.get();
                 Extend_Buff_single_target(ptr->getSubUnit(1),"NetherwingLifeSpan",1);
-                decreaseHPCount++;
-                for(int i=1;i<=Total_ally;i++){
-                    for(auto &e : Ally_unit[i]->Sub_Unit_ptr){
-                        if(e->currentHP==0||e->isSameUnitName("Netherwing"))continue;
-                        DecreaseHP(e.get(),ptr->Sub_Unit_ptr[0].get(),0,0,40);
-                    }
-                }
+                DecreaseHP(ptr->Sub_Unit_ptr[0].get(),"Netherwing",0,0,40);
                 Buff_All_Ally_Each_Ally(ST_DMG_PERCENT,AT_NONE,10,"Roar Rumbles the Realm");
                 Extend_Buff_All_Ally("Roar Rumbles the Realm",3);
                 if(ptr->Eidolon>=2){
@@ -392,13 +386,7 @@ namespace Castorice{
         data_.Damage_spilt.Adjacent.push_back({0,30,0,10});
         data_.actionFunction = [ptr](ActionData &data_){
             Increase_energy(ptr,0);
-            decreaseHPCount++;
-            for(int i=1;i<=Total_ally;i++){
-                for(auto &e : Ally_unit[i]->Sub_Unit_ptr){
-                    if(e->currentHP==0||e->isSameUnitName("Netherwing"))continue;
-                    DecreaseHP(e.get(),ptr->Sub_Unit_ptr[0].get(),0,0,30);
-                }
-            }
+            DecreaseHP(ptr->Sub_Unit_ptr[0].get(),"Netherwing",0,0,30);
             Attack(data_);
         };
         Action_bar.push(data_);
@@ -419,13 +407,7 @@ namespace Castorice{
         data_.Joint.push_back(AttackSource(1,ptr->Sub_Unit_ptr[1].get(),ptr->Sub_Unit_ptr[0].get()));
         data_.actionFunction = [ptr](ActionData &data_){
             Increase_energy(ptr,0);
-            decreaseHPCount++;
-            for(int i=1;i<=Total_ally;i++){
-                for(auto &e : Ally_unit[i]->Sub_Unit_ptr){
-                    if(e->currentHP==0||e->isSameUnitName("Netherwing"))continue;
-                    DecreaseHP(e.get(),ptr->Sub_Unit_ptr[0].get(),0,0,40);
-                }
-            }
+            DecreaseHP(ptr->Sub_Unit_ptr[0].get(),"Netherwing",0,0,40);
             if(ptr->Eidolon>=1){
                 for(Ratio_data &e : data_.Damage_spilt.Main)e.Hp_ratio*= 1.239;
                 for(Ratio_data &e : data_.Damage_spilt.Adjacent)e.Hp_ratio*= 1.239;

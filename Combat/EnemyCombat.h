@@ -15,14 +15,19 @@ void EnemyHit(Enemy *Attacker){
 }
 void EnemyHit(Enemy *Attacker,vector<SubUnit*> target){
     double damageDeal;
-    decreaseHPCount++;
     allEventWhenEnemyHit(Attacker,target);
     for(SubUnit* e : target){
         Increase_energy(e->ptr_to_unit,Attacker->Energy_gen);
     }
+    DamageFormEnemy(Attacker,target);
+}
+void DamageFormEnemy(Enemy *Attacker,vector<SubUnit*> target){
+    decreaseHPCount++;
     for(SubUnit* e : target){
-        damageDeal = calculateDmgReceive(Attacker,e,Attacker->skillRatio);
-        DecreaseHP(e,Attacker,damageDeal,0,0);
+        double damageDeal = calculateDmgReceive(Attacker,e,Attacker->skillRatio);
+        if(e->currentHP<=0)return;
+        DecreaseCurrentHP(e,damageDeal);
+        allEventChangeHP(Attacker,e,damageDeal);
     }
 }
 
