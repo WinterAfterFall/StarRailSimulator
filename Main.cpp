@@ -44,7 +44,7 @@ int main(){
     // Aglaea::Setup(1,0,Remembrance_Lightcone::SweatNowCryLess,Relic::Hero_Wreath,Planar::The_Wondrous_BananAmusement_Park);
     // Jingyuan::Setup_Jingyuan(1,2,Erudition_Lightcone::Before_Dawn,Relic::Grand_Duke,Planar::The_Wondrous_BananAmusement_Park);
     // Mydei::Setup(2,0,Destruction_Lightcone::Ninja_Record,Relic::Scholar,Planar::Bone_Collection);
-    Castorice::Setup(1,2,Remembrance_Lightcone::Castorice_LC,Relic::Poet_Dill,Planar::Bone_Collection);
+    Castorice::Setup(1,2,Remembrance_Lightcone::Castorice_LC(1),Relic::Poet_Dill,Planar::Bone_Collection);
 
     //Driver
     // Bronya::Setup(2,0,Harmony_Lightcone::But_the_Battle_Isnt_Over,Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);

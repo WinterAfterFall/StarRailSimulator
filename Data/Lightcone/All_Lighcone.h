@@ -13,6 +13,11 @@ function<void(Ally *ptr)> LightCone_temp(double HP,double ATK,double DEF){
         SetBaseStats(ptr->Sub_Unit_ptr[0].get(), HP, ATK, DEF);
     };
 }
+function<void(Ally *ptr)> templateLC(int superimpose){
+    return [=](Ally *ptr) {
+        
+    };
+}
 #endif
 //ถ้าหาก summon มีอัลติ
 // Multiplication DDD
