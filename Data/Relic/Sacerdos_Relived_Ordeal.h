@@ -26,7 +26,7 @@ namespace Relic{
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (turn->Unit_num != ptr->Sub_Unit_ptr[0]->currentAllyTargetNum) return;
-            Sub_Unit *tempstats = dynamic_cast<Sub_Unit *>(turn->ptr_to_unit);
+            SubUnit *tempstats = dynamic_cast<SubUnit *>(turn->ptr_to_unit);
             if (!tempstats) return;
             if (Buff_end(tempstats, "Sacerdos")) {
                 Buff_single_target(tempstats, "Crit_dam", "None", -(tempstats->Stack["Sacerdos"] * 18));

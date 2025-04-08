@@ -17,7 +17,7 @@ namespace Mydei{
     void Enchance_Skill(Ally *ptr);
     void GodSlayer(Ally *ptr);
     void ChargePoint(Ally *ptr,double point);
-    double CalculateChargePoint(Sub_Unit *ptr,double Value);
+    double CalculateChargePoint(SubUnit *ptr,double Value);
     
     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally_unit[num] = make_unique<Ally>();
@@ -150,7 +150,7 @@ namespace Mydei{
             }
         }));
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTTACK, [ptr](Sub_Unit *target, string StatsType) {
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTTACK, [ptr](SubUnit *target, string StatsType) {
             if (target->Atv_stats->Unit_Name != "Mydei") return;
             if (StatsType == ST_FLAT_HP || StatsType == ST_HP_PERCENT) {
             if (Buff_check(ptr->Sub_Unit_ptr[0].get(), "Mydei_Vendetta")) {
@@ -162,8 +162,8 @@ namespace Mydei{
             }
         }));
 
-        HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_ACTTACK, [ptr](Unit *Trigger, Sub_Unit *target, double Value) {
-            if (!target->isSameUnit("Mydei")) return;
+        HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_ACTTACK, [ptr](Unit *Trigger, SubUnit *target, double Value) {
+            if (!target->isSameUnitName("Mydei")) return;
             if (Trigger->isEnemyCheck()) {
             ChargePoint(ptr, ((ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] * 2.5 + 100.0) / 100.0) * CalculateChargePoint(ptr->Sub_Unit_ptr[0].get(), Value));
             } else {
@@ -171,18 +171,18 @@ namespace Mydei{
             }
         }));
 
-        Healing_List.push_back(TriggerHealing(PRIORITY_ACTTACK, [ptr](Sub_Unit *Healer, Sub_Unit *target, double Value) {
-            if (!target->isSameUnit("Mydei")) return;
+        Healing_List.push_back(TriggerHealing(PRIORITY_ACTTACK, [ptr](SubUnit *Healer, SubUnit *target, double Value) {
+            if (!target->isSameUnitName("Mydei")) return;
             if (ptr->Eidolon < 2) return;
             Value = (Value + ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_E2"] <= target->totalHP) ? Value : target->totalHP - ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_E2"];
             ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_E2"] += Value;
             ChargePoint(ptr, CalculateChargePoint(ptr->Sub_Unit_ptr[0].get(), Value * 0.4));
         }));
 
-        Enemy_hit_List.push_back(TriggerByEnemyHit(PRIORITY_ACTTACK, [ptr](Enemy *Attacker, vector<Sub_Unit *> target) {
+        Enemy_hit_List.push_back(TriggerByEnemyHit(PRIORITY_ACTTACK, [ptr](Enemy *Attacker, vector<SubUnit *> target) {
             if (ptr->Eidolon < 4) return;
-            for (Sub_Unit *e : target) {
-            if (e->isSameUnit("Mydei")) goto jump;
+            for (SubUnit *e : target) {
+            if (e->isSameUnitName("Mydei")) goto jump;
             }
             return;
         jump:
@@ -313,7 +313,7 @@ namespace Mydei{
     
     
     
-    double CalculateChargePoint(Sub_Unit *ptr,double Value){
+    double CalculateChargePoint(SubUnit *ptr,double Value){
         return (Value/ptr->totalHP*100.0);
     }
     void ChargePoint(Ally *ptr,double point){

@@ -16,7 +16,7 @@ namespace The_Herta{
     void Start_game(Ally *ptr);
     void After_attack(Ally *ptr,ActionData &data_);
     void After_turn(Ally *ptr);
-    void Enemy_Death(Ally *ptr,Enemy *target,Sub_Unit *Killer);
+    void Enemy_Death(Ally *ptr,Enemy *target,SubUnit *Killer);
     void When_Combat(Ally *ptr);
 
 
@@ -190,7 +190,7 @@ namespace The_Herta{
             Increase_energy(ptr, 0, energy_gen);
         }));
 
-        Enemy_Death_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, Sub_Unit *Killer) {
+        Enemy_Death_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, SubUnit *Killer) {
             Apply_Herta_Stack(ptr, Enemy_unit[Main_Enemy_num].get(), 1);
         }));
 

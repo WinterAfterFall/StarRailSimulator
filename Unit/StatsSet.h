@@ -3,7 +3,7 @@
 
 #include "Stats.h"
 
-void SetBaseStats(Sub_Unit *ptr,double BaseHp,double BaseAtk,double BaseDef){
+void SetBaseStats(SubUnit *ptr,double BaseHp,double BaseAtk,double BaseDef){
     ptr->Base_hp +=BaseHp;
     ptr->Base_atk +=BaseAtk;
     ptr->Base_def +=BaseDef;
@@ -27,7 +27,7 @@ void SetMemoStats(Ally *ptr,double Hp_ratio,double Speed_ratio,string Element_ty
         int num = ptr->Sub_Unit_ptr.size();
         int Num = ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num;
         
-        ptr->Sub_Unit_ptr.push_back(make_unique<Sub_Unit>());
+        ptr->Sub_Unit_ptr.push_back(make_unique<SubUnit>());
         ptr->Sub_Unit_ptr[num]->Unit_Hp_Ratio = Hp_ratio;
         ptr->Sub_Unit_ptr[num]->Unit_Speed_Ratio = Speed_ratio;
         ptr->Sub_Unit_ptr[num]->Atv_stats->Base_speed = -1;
@@ -47,7 +47,7 @@ void SetCountdownStats(Ally *ptr,string Name){
         int num = ptr->Countdown_ptr.size();
         int Num = ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num;
 
-        ptr->Countdown_ptr.push_back(make_unique<Sub_Unit>());
+        ptr->Countdown_ptr.push_back(make_unique<SubUnit>());
         ptr->Countdown_ptr[num]->Atv_stats->Base_speed = -1;
         ptr->Countdown_ptr[num]->Atv_stats->Unit_num = Num;
         ptr->Countdown_ptr[num]->Atv_stats->Char_Name = Name;
@@ -59,7 +59,7 @@ void SetSummonStats(Ally *ptr,double BaseSpeed,string Name){
         int num = ptr->Summon_ptr.size();
         int Num = ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num;
 
-        ptr->Summon_ptr.push_back(make_unique<Sub_Unit>());
+        ptr->Summon_ptr.push_back(make_unique<SubUnit>());
         ptr->Summon_ptr[num]->Atv_stats->Base_speed = BaseSpeed;
         ptr->Summon_ptr[num]->Atv_stats->Unit_num = Num;
         ptr->Summon_ptr[num]->Atv_stats->Char_Name = Name;

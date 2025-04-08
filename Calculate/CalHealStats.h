@@ -55,7 +55,7 @@ double Cal_Def_multiplier(Heal_data& healData) {
     return ans < 0 ? 0 : ans;
 }
 
-double Cal_HealBonus_multiplier(Heal_data& healData, Sub_Unit* target) {
+double Cal_HealBonus_multiplier(Heal_data& healData, SubUnit* target) {
     double mtpr = 100;
     
     mtpr += healData.Healer->Stats_type["HealingBonus"]["None"];
@@ -67,7 +67,7 @@ double Cal_HealBonus_multiplier(Heal_data& healData, Sub_Unit* target) {
     return (mtpr / 100 < 0) ? 0 : mtpr / 100;
 }
 
-double Cal_HealBonus_multiplier(Sub_Unit* Healer, Sub_Unit* target) {
+double Cal_HealBonus_multiplier(SubUnit* Healer, SubUnit* target) {
     double mtpr = 100;
     mtpr += Healer->Stats_type["HealingBonus"]["None"];
     return mtpr / 100 < 0 ? 0 : mtpr / 100;

@@ -144,7 +144,7 @@ namespace Serval{
             }
         }));
 
-        Enemy_Death_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, Sub_Unit *Killer) {
+        Enemy_Death_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, SubUnit *Killer) {
             if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Serval_A6")) {
                 ptr->Sub_Unit_ptr[0]->Buff_check["Serval_A6"] = 1;
                 ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 20;

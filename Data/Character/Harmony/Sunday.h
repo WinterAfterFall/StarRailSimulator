@@ -65,7 +65,7 @@ namespace Sunday{
                 if (Buff_check(ptr->Sub_Unit_ptr[0].get(), "Ode_to_Caress_and_Cicatrix"))
                 {
                     if(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")){
-                        for(unique_ptr<Sub_Unit> &e : ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->Sub_Unit_ptr){
+                        for(unique_ptr<SubUnit> &e : ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->Sub_Unit_ptr){
                             if(e->getBuffCheck("Ode_to_Caress_and_Cicatrix")){
                                 Buff_single_target(e.get(),ST_CRIT_DAM, AT_TEMP, -ptr->getSubUnit()->getBuffNote("Ode_to_Caress_and_Cicatrix"));
                                 Buff_single_target(e.get(),ST_CRIT_DAM, AT_NONE, -ptr->getSubUnit()->getBuffNote("Ode_to_Caress_and_Cicatrix"));
@@ -79,7 +79,7 @@ namespace Sunday{
                 ptr->Sub_Unit_ptr[0]->Buff_check["Ode_to_Caress_and_Cicatrix"] = 1;
                 ptr->setBuffAllyTarget("Ode_to_Caress_and_Cicatrix",chooseCharacterBuff(ptr->getSubUnit()));
                 ptr->getSubUnit()->setBuffNote("Ode_to_Caress_and_Cicatrix",calculateCritdamForBuff(ptr->Sub_Unit_ptr[0].get(), 30) + 12);
-                for(unique_ptr<Sub_Unit> &e : ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->Sub_Unit_ptr){
+                for(unique_ptr<SubUnit> &e : ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->Sub_Unit_ptr){
                     if(e->currentHP==0)continue;
                     e->setBuffCheck("Ode_to_Caress_and_Cicatrix",true);
                     Buff_single_target(e.get(),ST_CRIT_DAM, AT_TEMP, ptr->getSubUnit()->getBuffNote("Ode_to_Caress_and_Cicatrix"));
@@ -119,7 +119,7 @@ namespace Sunday{
             if (Buff_end(ptr->Sub_Unit_ptr[0].get(), "Ode_to_Caress_and_Cicatrix")) {
                 ptr->Sub_Unit_ptr[0]->Buff_check["Ode_to_Caress_and_Cicatrix"] = 0;
                 if(!ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"))return;
-                for(unique_ptr<Sub_Unit> &e : ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->Sub_Unit_ptr){
+                for(unique_ptr<SubUnit> &e : ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->Sub_Unit_ptr){
                     if(e->getBuffCheck("Ode_to_Caress_and_Cicatrix")){
                         Buff_single_target(e.get(),ST_CRIT_DAM, AT_TEMP, -ptr->getSubUnit()->getBuffNote("Ode_to_Caress_and_Cicatrix"));
                         Buff_single_target(e.get(),ST_CRIT_DAM, AT_NONE, -ptr->getSubUnit()->getBuffNote("Ode_to_Caress_and_Cicatrix"));
@@ -134,7 +134,7 @@ namespace Sunday{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
-            Sub_Unit *Temp_stats = turn->isSubUnitCheck();
+            SubUnit *Temp_stats = turn->isSubUnitCheck();
             if (!Temp_stats||Temp_stats->getNum()!=ptr->getSubUnit()->currentAllyTargetNum) return;
             if (Buff_end(Temp_stats, "Benison_of_Paper_and_Rites")) {
                 if (Temp_stats->ptr_to_unit->isAllyHaveSummon()) {
@@ -180,7 +180,7 @@ namespace Sunday{
             }
         }));
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](Sub_Unit *target, string StatsType) {
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](SubUnit *target, string StatsType) {
             if(ptr->Eidolon>=6&&target->getStack("The_Sorrowing_Body")>0&&StatsType == ST_CRIT_RATE){
                 double temp = (calculateCritrateForBuff(target,100) - 100)*2;
                 if(temp<0)temp=0;
@@ -193,7 +193,7 @@ namespace Sunday{
             if (StatsType != ST_CRIT_DAM) return;   
 
             ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"] = calculateCritdamForBuff(ptr->Sub_Unit_ptr[0].get(), 30) + 12 - ptr->getBuffNote("Ode_to_Caress_and_Cicatrix");
-            for(unique_ptr<Sub_Unit> &e : chooseCharacterBuff(ptr->getSubUnit())->Sub_Unit_ptr ){
+            for(unique_ptr<SubUnit> &e : chooseCharacterBuff(ptr->getSubUnit())->Sub_Unit_ptr ){
                 if(!e->getBuffCheck("Ode_to_Caress_and_Cicatrix"))continue;
                 Buff_single_target(e.get(), ST_CRIT_DAM, AT_TEMP, ptr->getBuffNote("Ode_to_Caress_and_Cicatrix"));
                 Buff_single_target(e.get(), ST_CRIT_DAM, AT_NONE, ptr->getBuffNote("Ode_to_Caress_and_Cicatrix"));
@@ -201,7 +201,7 @@ namespace Sunday{
             
         }));
 
-        AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY,[ptr](Sub_Unit* target){
+        AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY,[ptr](SubUnit* target){
             if(target->getBuffCheck("Ode_to_Caress_and_Cicatrix")){
                 Buff_single_target(target,ST_CRIT_DAM, AT_TEMP, -ptr->getSubUnit()->getBuffNote("Ode_to_Caress_and_Cicatrix"));
                 Buff_single_target(target,ST_CRIT_DAM, AT_NONE, -ptr->getSubUnit()->getBuffNote("Ode_to_Caress_and_Cicatrix"));

@@ -16,7 +16,7 @@ namespace Remembrance_Lightcone{
                 ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_PERCENT]["None"] += 22 + 8*superimpose;
             }));
 
-            AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr, superimpose](Sub_Unit* target) {
+            AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr, superimpose](SubUnit* target) {
                 if (target->Atv_stats->Unit_num==ptr->getSubUnit()->Atv_stats->Unit_num
                 &&target->Atv_stats->Side=="Memosprite"
                 &&ptr->getSubUnit()->getBuffCheck("Castorice_LC_check")==0){
@@ -39,7 +39,7 @@ namespace Remembrance_Lightcone{
                 }
             }));
             
-            HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_IMMEDIATELY, [ptr, superimpose](Unit *Trigger, Sub_Unit *target, double Value) {
+            HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_IMMEDIATELY, [ptr, superimpose](Unit *Trigger, SubUnit *target, double Value) {
                 if(!turn)return;
                 if((turn->Side=="Memosprite"||turn->Side=="Ally")
                 &&turn->Unit_num==ptr->getSubUnit()->Atv_stats->Unit_num

@@ -82,7 +82,7 @@ namespace FireFly{
             Cal_Speed_Needed(ptr, 150);
         }));
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](Sub_Unit *target, string StatsType) {
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](SubUnit *target, string StatsType) {
             if (target->Atv_stats->Unit_Name != "FireFly") return;
             if (StatsType == "Atk%" || StatsType == "Flat_Atk") {
             double temp;
@@ -96,7 +96,7 @@ namespace FireFly{
             }
         }));
 
-        Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr] (Enemy *target, Sub_Unit *Breaker) {
+        Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr] (Enemy *target, SubUnit *Breaker) {
             if (ptr->Eidolon >= 2 && ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num == Breaker->Atv_stats->Unit_num && ptr->Countdown_ptr[0]->Atv_stats->Base_speed == 70) {
                 ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"]++;
             }

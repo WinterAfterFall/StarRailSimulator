@@ -53,7 +53,7 @@ namespace Bronya{
                     Buff_single_target(e,"Atk%","None",55);
                 }
                 if(Ult_After_Turn == 0 && (turn->Side == "Memosprite" || turn->Side == "Ally")){
-                    Sub_Unit *temp = dynamic_cast<Sub_Unit*>(turn->ptr_to_unit);
+                    SubUnit *temp = dynamic_cast<SubUnit*>(turn->ptr_to_unit);
                     Extend_Buff_single_target(temp,"Bronya_Ult",1);
                 }
                 if(ptr->Print)CharCmd::printUltStart("Bronya");
@@ -101,7 +101,7 @@ namespace Bronya{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
-            Sub_Unit *tempstats = dynamic_cast<Sub_Unit*>(turn->ptr_to_unit);
+            SubUnit *tempstats = dynamic_cast<SubUnit*>(turn->ptr_to_unit);
             if(!tempstats) return;
             if(Buff_end(tempstats,"Bronya_Skill")){
                 tempstats->Buff_check["Bronya_Skill"] = 0;

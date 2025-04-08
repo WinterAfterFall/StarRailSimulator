@@ -18,7 +18,7 @@ void Debuff_single_target(Enemy *ptr, string stats_type, string Attack_type, str
     ptr->Stats_each_element[stats_type][Element][Attack_type] += Value;
 }
 
-void Debuff_All_Enemy_Apply_ver(Sub_Unit *ptr, string stats_type, string Attack_type, double Value, string Debuff_Name) {
+void Debuff_All_Enemy_Apply_ver(SubUnit *ptr, string stats_type, string Attack_type, double Value, string Debuff_Name) {
     for (int i = 1; i <= Total_enemy; i++) {
         allEventApplyDebuff(ptr, Enemy_unit[i].get());
         if (Enemy_unit[i]->Debuff[Debuff_Name] != 0) continue;
@@ -29,7 +29,7 @@ void Debuff_All_Enemy_Apply_ver(Sub_Unit *ptr, string stats_type, string Attack_
     }
 }
 
-void Debuff_All_Enemy_Apply_ver(Sub_Unit *ptr, string stats_type, string Attack_type, string Element, double Value, string Debuff_Name) {
+void Debuff_All_Enemy_Apply_ver(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value, string Debuff_Name) {
     for (int i = 1; i <= Total_enemy; i++) {
         allEventApplyDebuff(ptr, Enemy_unit[i].get());
         if (Enemy_unit[i]->Debuff[Debuff_Name] != 0) continue;
@@ -63,7 +63,7 @@ void Stack_Debuff_single_target(Enemy *ptr, string stats_type, string Attack_typ
     ptr->Debuff[Stack_Name] += Stack_increase;
 }
 
-void Stack_Debuff_All_Enemy(Sub_Unit *ptr, string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name) {
+void Stack_Debuff_All_Enemy(SubUnit *ptr, string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name) {
     int original_increase = Stack_increase;
     for (int i = 1; i <= Total_enemy; i++) {
         allEventApplyDebuff(ptr, Enemy_unit[i].get());
@@ -80,7 +80,7 @@ void Stack_Debuff_All_Enemy(Sub_Unit *ptr, string stats_type, string Attack_type
     }
 }
 
-void Stack_Debuff_All_Enemy(Sub_Unit *ptr, string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name) {
+void Stack_Debuff_All_Enemy(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name) {
     int original_increase = Stack_increase;
     for (int i = 1; i <= Total_enemy; i++) {
         allEventApplyDebuff(ptr, Enemy_unit[i].get());

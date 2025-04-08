@@ -17,7 +17,7 @@ namespace Tribbie{
     void Start_game(Ally *ptr);
     void Print_Stats(Ally *ptr);
     void When_attack(Ally *ptr,ActionData &data_);
-    void Stats_Adjust(Ally *ptr,Sub_Unit *target, string StatsType);
+    void Stats_Adjust(Ally *ptr,SubUnit *target, string StatsType);
     
 
 
@@ -219,7 +219,7 @@ namespace Tribbie{
             }
         }));
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](Sub_Unit *target, string StatsType) {
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](SubUnit *target, string StatsType) {
             if (Buff_check(ptr->Sub_Unit_ptr[0].get(), "Tribbie_Zone")) return;
             if (StatsType == "Hp%" || StatsType == "Flat_Hp") {
                 // adjust

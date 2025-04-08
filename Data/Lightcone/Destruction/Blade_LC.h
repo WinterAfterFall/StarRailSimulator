@@ -18,8 +18,8 @@ namespace Destruction_Lightcone{
                 
                 }
             ));
-            Enemy_hit_List.push_back(TriggerByEnemyHit(PRIORITY_ACTTACK,[ptr,superimpose](Enemy *Attacker,vector<Sub_Unit*> target){
-                for(Sub_Unit* e : target){
+            Enemy_hit_List.push_back(TriggerByEnemyHit(PRIORITY_ACTTACK,[ptr,superimpose](Enemy *Attacker,vector<SubUnit*> target){
+                for(SubUnit* e : target){
                     if(e->isSameUnit(ptr->Sub_Unit_ptr[0].get())){
                         if(!Buff_check(ptr->Sub_Unit_ptr[0].get(),"Blade_LC_Mark")){
                             Buff_single_target(ptr->Sub_Unit_ptr[0].get(),ST_DMG_PERCENT,AT_NONE,(20 + 4*superimpose));
@@ -29,7 +29,7 @@ namespace Destruction_Lightcone{
                     }
                 }
             }));
-            HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_ACTTACK,[ptr,superimpose](Unit *Trigger,Sub_Unit *target,double Value){
+            HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_ACTTACK,[ptr,superimpose](Unit *Trigger,SubUnit *target,double Value){
                 if(!target->isSameUnit(ptr->Sub_Unit_ptr[0].get()))return;
                 if(!Buff_check(ptr->Sub_Unit_ptr[0].get(),"Blade_LC_Mark")){
                     Buff_single_target(ptr->Sub_Unit_ptr[0].get(),ST_DMG_PERCENT,AT_NONE,(20 + 4*superimpose));

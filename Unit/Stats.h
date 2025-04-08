@@ -32,7 +32,7 @@ public:
 
     Unit* ptr_to_unit = nullptr; //* // This will be set to point back to the unit (Ally or Enemy)
 
-    bool isSameAlly(string name){
+    bool isSameCharName(string name){
         if(this->Char_Name == name)return true;
         return false;
     }
@@ -40,7 +40,7 @@ public:
         if(this->Unit_Name == name)return true;
         return false;
     }
-    Sub_Unit* isSubUnitCheck();
+    SubUnit* isSubUnitCheck();
     Enemy* isEnemyCheck();
 
 };
@@ -61,7 +61,7 @@ public:
     int getNum(){
         return this->Atv_stats->Unit_num;
     }
-    Sub_Unit* isSubUnitCheck();
+    SubUnit* isSubUnitCheck();
     Enemy* isEnemyCheck();
     
     virtual ~Unit() {}  // Virtual destructor to ensure proper cleanup of derived classes
@@ -73,7 +73,7 @@ public:
 
 
 // Ally stats
-class Sub_Unit : public Unit {
+class SubUnit : public Unit {
 public:
     double Unit_Speed_Ratio = 0;
     double Unit_Hp_Ratio = 0 ;
@@ -92,9 +92,11 @@ public:
     unordered_map<string,double> Buff_note;
     unordered_map<string,int> Buff_countdown;
     unordered_map<string,bool> Buff_check;
-    unordered_map<string,Sub_Unit*> buffSubUnitTarget;
+    unordered_map<string,SubUnit*> buffSubUnitTarget;
     unordered_map<string,Ally*> buffAllyTarget;
 
+    vector<function<bool()>> changeTargetCondition;
+    vector<function<bool()>> changeTargetImmediatelyCondtion;
 
     
     vector<string> Element_type ;//*
@@ -108,28 +110,28 @@ public:
     Ally* ptr_to_unit = nullptr;
     //temp 
     // Constructor now calls the base class constructor to initialize Atv_stats and set ptr_to_unit
-    Sub_Unit() : Unit() {
+    SubUnit() : Unit() {
           // Call Unit constructor to initialize Atv_stats and set ptr_to_unit  // Using unique_ptr for stats
     }
 
-    ~Sub_Unit() {}
-    bool isSameAlly(Sub_Unit *ptr){
+    ~SubUnit() {}
+    bool isSameChar(SubUnit *ptr){
         if(this->Atv_stats->Char_Name== ptr->Atv_stats->Char_Name)return true;
         return false;
     
     }
-    bool isSameUnit(Sub_Unit *ptr){
+    bool isSameUnit(SubUnit *ptr){
         if(this->Atv_stats->Unit_Name == ptr->Atv_stats->Unit_Name)return true;
         return false;
 
     
     }
     
-    bool isSameAlly(string name){
+    bool isSameCharName(string name){
         if(this->Atv_stats->Char_Name == name)return true;
         return false;
     }
-    bool isSameUnit(string name){
+    bool isSameUnitName(string name){
         if(this->Atv_stats->Unit_Name == name)return true;
         return false;
     }
@@ -146,7 +148,7 @@ public:
     void setBuffCheck(string buffName, bool value) {
         this->Buff_check[buffName] = value;
     }
-    void setBuffSubUnitTarget(string buffName, Sub_Unit* target) {
+    void setBuffSubUnitTarget(string buffName, SubUnit* target) {
         this->buffSubUnitTarget[buffName] = target;
     }
     void setBuffAllyTarget(string buffName, Ally* target) {
@@ -166,17 +168,24 @@ public:
     bool getBuffCheck(string buffName) {
         return this->Buff_check[buffName];
     }
-    Sub_Unit* getBuffSubUnitTarget(string buffName) {
+    SubUnit* getBuffSubUnitTarget(string buffName) {
         return this->buffSubUnitTarget[buffName];
     }
     Ally* getBuffAllyTarget(string buffName) {
         return this->buffAllyTarget[buffName];
     }
 
+    
     /*--------------------Declaration--------------------*/
+    /*-----------------Combat-----------------*/
     //ChangeHP
     void Death();
-};
+
+    //TargetChoose.h
+    void addTargetChangeCondition(function<bool()> condition);
+    void addTargetChangeConditionImmediately(function<bool()> condition);
+    
+};;
 // Enemy stats
 // Ally class, derived from Unit
 class Ally{
@@ -234,13 +243,16 @@ public:
     vector<string> Path ;//*
     //*
     vector<unique_ptr<Unit>> Summon_ptr;  //
-    vector<unique_ptr<Sub_Unit>> Sub_Unit_ptr;  // 
+    vector<unique_ptr<SubUnit>> Sub_Unit_ptr;  // 
     vector<unique_ptr<Unit>> Countdown_ptr;  // 
 
     int Technique = 1;
     double Sub_effect_hit_rate_use = 0;
     double Sub_Speed_use = 0;
+    //Ult condition
     vector<function<bool()>> ultCondition;
+    vector<function<bool()>> ultImmediatelyUseCondtion;
+
 
     bool Print =0;
     bool Wait_Other_Buff = 0;
@@ -253,7 +265,7 @@ public:
     // Constructor now calls the base class constructor to initialize Atv_stats and set ptr_to_unit
     Ally() {  // Call Unit constructor to initialize Atv_stats and set ptr_to_unit
         Sub_Unit_ptr.resize(1);
-        Sub_Unit_ptr[0] = make_unique<Sub_Unit>();
+        Sub_Unit_ptr[0] = make_unique<SubUnit>();
         Sub_Unit_ptr[0]->ptr_to_unit = this;
           // Using unique_ptr for stats
     }
@@ -281,10 +293,10 @@ public:
         if(this->Summon_ptr.size()!=0||this->Sub_Unit_ptr.size()>1)return true;
         return false;
     }
-    Sub_Unit* getSubUnit(){
+    SubUnit* getSubUnit(){
         return this->Sub_Unit_ptr[0].get();
     }
-    Sub_Unit* getSubUnit(int num){
+    SubUnit* getSubUnit(int num){
         return this->Sub_Unit_ptr[num].get();
     }
     //set
@@ -300,7 +312,7 @@ public:
     void setBuffCheck(string buffName, bool value) {
         this->Sub_Unit_ptr[0]->Buff_check[buffName] = value;
     }
-    void setBuffSubUnitTarget(string buffName, Sub_Unit* target) {
+    void setBuffSubUnitTarget(string buffName, SubUnit* target) {
         this->Sub_Unit_ptr[0]->buffSubUnitTarget[buffName] = target;
     }
     void setBuffAllyTarget(string buffName, Ally* target) {
@@ -323,7 +335,7 @@ public:
     bool getBuffCheck(string buffName) {
         return this->Sub_Unit_ptr[0]->Buff_check[buffName];
     }
-    Sub_Unit* getBuffSubUnitTarget(string buffName) {
+    SubUnit* getBuffSubUnitTarget(string buffName) {
         return this->Sub_Unit_ptr[0]->buffSubUnitTarget[buffName];
     }
     Ally* getBuffAllyTarget(string buffName) {
@@ -332,6 +344,12 @@ public:
     double getAdjust(string adjustName) {
         return this->Adjust[adjustName];
     }
+
+    /*--------------------Declaration--------------------*/
+    /*-----------------Combat-----------------*/
+    //Energy.h
+    void addUltCondition(function<bool()> condition);
+    void addUltImmediatelyUseCondition(function<bool()> condition);
 };
 
 // Enemy class, derived from Unit
@@ -363,7 +381,7 @@ public:
     int attackStartAtTurn = 2;
     double skillRatio = 0;
 
-    Sub_Unit *target = nullptr;
+    SubUnit *target = nullptr;
 
     int Bleed = 0,Bleeder = 0;
     int Burn = 0,Burner = 0;

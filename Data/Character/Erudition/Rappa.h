@@ -172,7 +172,7 @@ namespace Rappa{
             }
         }));
 
-        Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, Sub_Unit *Breaker) {
+        Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, SubUnit *Breaker) {
             ptr->Sub_Unit_ptr[0]->Stack["Rappa_Talent"]++;
             if (target->Max_toughness > 90) {
                 ptr->Sub_Unit_ptr[0]->Stack["Rappa_Talent"]++;

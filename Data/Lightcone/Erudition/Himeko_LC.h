@@ -20,7 +20,7 @@ namespace Erudition_Lightcone{
                 }
             }));
     
-            Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](Enemy *target, Sub_Unit *Breaker) {
+            Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](Enemy *target, SubUnit *Breaker) {
                 if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Himeko_LC_buff")) {
                     ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["None"] += 25+superimpose*5;
                     ptr->Sub_Unit_ptr[0]->Buff_check["Himeko_LC_buff"] = 1;

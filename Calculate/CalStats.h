@@ -14,82 +14,82 @@
 
 
 
-double calculateAtkOnStats(Sub_Unit *ptr){
+double calculateAtkOnStats(SubUnit *ptr){
     double ans = ptr->Base_atk;
     ans*= (100+ptr->Stats_type["Atk%"]["None"])/100.0;
     ans+= ptr->Stats_type["Flat_Atk"]["None"];
     return (ans < 0) ? 0 : ans;
 }
-double calculateHpOnStats(Sub_Unit *ptr){
+double calculateHpOnStats(SubUnit *ptr){
     double ans = ptr->Base_hp;
     ans*= (100+ptr->Stats_type["Hp%"]["None"])/100.0;
     ans+= ptr->Stats_type["Flat_Hp"]["None"];
     return (ans < 0) ? 0 : ans;
 }
-double calculateDefOnStats(Sub_Unit *ptr){
+double calculateDefOnStats(SubUnit *ptr){
     double ans = ptr->Base_def;
     ans*= (100+ptr->Stats_type["Def%"]["None"])/100.0;
     ans+= ptr->Stats_type["Flat_Def"]["None"];
     return (ans < 0) ? 0 : ans;
 }
-double calculateSpeedOnStats(Sub_Unit *ptr){
+double calculateSpeedOnStats(SubUnit *ptr){
     double ans = ptr->Atv_stats->Base_speed;
     ans*= (100 + ptr->Atv_stats->Speed_percent)/100.0;
     ans+= ptr->Atv_stats->Flat_Speed;
     return (ans < 0) ? 0 : ans;
 }
-double calculateCritrateOnStats(Sub_Unit *ptr){
+double calculateCritrateOnStats(SubUnit *ptr){
     double ans = ptr->Stats_type["Crit_rate"]["None"];
     return (ans < 0) ? 0 : ans;
 }
-double calculateCritdamOnStats(Sub_Unit *ptr){
+double calculateCritdamOnStats(SubUnit *ptr){
     double ans = ptr->Stats_type["Crit_dam"]["None"];
     return (ans < 0) ? 0 : ans;
 }
-double calculateBreakEffectOnStats(Sub_Unit *ptr){
+double calculateBreakEffectOnStats(SubUnit *ptr){
     double ans = ptr->Stats_type["Break_effect"]["None"];
     return (ans < 0) ? 0 : ans;
 }
 
-double calculateHPLost(Sub_Unit *ptr){
+double calculateHPLost(SubUnit *ptr){
     double ans = ptr->totalHP - ptr->currentHP;
     return (ans < 0) ? 0 : ans;
 }
 
-double calculateAtkForBuff(Sub_Unit *ptr,double ratio){
+double calculateAtkForBuff(SubUnit *ptr,double ratio){
     double ans = ptr->Base_atk;
     ans*= (100+ptr->Stats_type["Atk%"]["None"]-ptr->Stats_type["Atk%"][AT_TEMP])/100.0;
     ans+= ptr->Stats_type["Flat_Atk"]["None"]-ptr->Stats_type["Flat_Atk"][AT_TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
-double calculateHpForBuff(Sub_Unit *ptr,double ratio){
+double calculateHpForBuff(SubUnit *ptr,double ratio){
     double ans = ptr->Base_hp;
     ans*= (100+ptr->Stats_type["Hp%"]["None"]-ptr->Stats_type["Hp%"][AT_TEMP])/100.0;
     ans+= ptr->Stats_type["Flat_Hp"]["None"]-ptr->Stats_type["Flat_Hp"][AT_TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
-double calculateDefForBuff(Sub_Unit *ptr,double ratio){
+double calculateDefForBuff(SubUnit *ptr,double ratio){
     double ans = ptr->Base_def;
     ans*= (100+ptr->Stats_type["Def%"]["None"]-ptr->Stats_type["Def%"][AT_TEMP])/100.0;
     ans+= ptr->Stats_type["Flat_Def"]["None"]-ptr->Stats_type["Flat_Def"][AT_TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
-double calculateSpeedForBuff(Sub_Unit *ptr,double ratio){
+double calculateSpeedForBuff(SubUnit *ptr,double ratio){
     double ans = ptr->Atv_stats->Base_speed;
     ans*= (100 + ptr->Atv_stats->Speed_percent - ptr->Stats_type["Speed%"][AT_TEMP])/100.0;
     ans+= ptr->Atv_stats->Flat_Speed - ptr->Stats_type["Flat_Speed"][AT_TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 
 }
-double calculateCritrateForBuff(Sub_Unit *ptr,double ratio){
+double calculateCritrateForBuff(SubUnit *ptr,double ratio){
     double ans = ptr->Stats_type["Crit_rate"]["None"]-ptr->Stats_type["Crit_rate"][AT_TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
-double calculateCritdamForBuff(Sub_Unit *ptr,double ratio){
+double calculateCritdamForBuff(SubUnit *ptr,double ratio){
     double ans = ptr->Stats_type["Crit_dam"]["None"]-ptr->Stats_type["Crit_dam"][AT_TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
-double calculateBreakEffectForBuff(Sub_Unit *ptr,double ratio){
+double calculateBreakEffectForBuff(SubUnit *ptr,double ratio){
     double ans = ptr->Stats_type["Break_effect"]["None"]-ptr->Stats_type["Break_effect"][AT_TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }

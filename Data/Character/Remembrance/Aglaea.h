@@ -158,7 +158,7 @@ namespace Aglaea{
                     }
                 }
             }
-            if (data_.Attacker->isSameUnit("Aglaea")) {
+            if (data_.Attacker->isSameUnitName("Aglaea")) {
                 Apply_debuff(ptr->Sub_Unit_ptr[0].get(), Enemy_unit[Main_Enemy_num].get());
                 if (Enemy_unit[Main_Enemy_num]->Debuff["Seam_Stitch"] == 0) {
                     Enemy_unit[Main_Enemy_num]->Debuff["Seam_Stitch"] = 1;
@@ -204,7 +204,7 @@ namespace Aglaea{
             }
         }));
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](Sub_Unit *target, string StatsType) {
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](SubUnit *target, string StatsType) {
             if (target->Atv_stats->Unit_Name != "Aglaea") return;
             if (ptr->Countdown_ptr[0]->Atv_stats->Base_speed == -1) return;
             if (StatsType == "Speed") {

@@ -124,7 +124,7 @@ void Attack(ActionData &data_){
 void Heal(Heal_data& Healptr){
     Healing(Healptr);
 }
-void Skill_point(Sub_Unit *ptr,int p){
+void Skill_point(SubUnit *ptr,int p){
     
     allEventSkillPoint(ptr,p);
     sp+=p;
@@ -133,7 +133,7 @@ void Skill_point(Sub_Unit *ptr,int p){
     }
     return ;
 }
-void Apply_debuff(Sub_Unit *ptr,Enemy* target){
+void Apply_debuff(SubUnit *ptr,Enemy* target){
     allEventApplyDebuff(ptr,target);
 }
 void Superbreak_trigger(ActionData &data_, double Superbreak_ratio){
@@ -214,7 +214,7 @@ void Dot_trigger(double Dot_ratio,Enemy *target,string Dot_type){
     
 }
 void Toughness_break(ActionData &data_,Enemy* target){
-    Sub_Unit *temp1;
+    SubUnit *temp1;
     string temp2;
     if(Force_break!=0){
         temp1 = data_.Attacker;

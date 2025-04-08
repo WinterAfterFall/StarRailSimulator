@@ -153,7 +153,7 @@ void printSummaryResult(){
         << Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Char_Name<<endl;
 
         cout<< "\033[0m"<<"| ";
-        for(std::unique_ptr<Sub_Unit> &e : Ally_unit[i]->Sub_Unit_ptr){
+        for(std::unique_ptr<SubUnit> &e : Ally_unit[i]->Sub_Unit_ptr){
             cout<<e->Atv_stats->Char_Name + " Turn : "<<e->Atv_stats->turn_cnt;
             cout<< "\033[0m"<<" | ";
         }

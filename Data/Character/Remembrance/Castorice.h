@@ -238,7 +238,7 @@ namespace Castorice{
                 decreaseHPCount++;
                 for(int i=1;i<=Total_ally;i++){
                     for(auto &e : Ally_unit[i]->Sub_Unit_ptr){
-                        if(e->currentHP==0||e->isSameUnit("Netherwing"))continue;
+                        if(e->currentHP==0||e->isSameUnitName("Netherwing"))continue;
                         DecreaseHP(e.get(),ptr->Sub_Unit_ptr[0].get(),0,0,40);
                     }
                 }
@@ -260,8 +260,8 @@ namespace Castorice{
             }
         }));
 
-        Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr](Sub_Unit *Healer, Sub_Unit *target, double Value) {
-            if(target->isSameUnit("Netherwing"))return;
+        Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr](SubUnit *Healer, SubUnit *target, double Value) {
+            if(target->isSameUnitName("Netherwing"))return;
             if(ptr->getSubUnit(1)->currentHP==0){
                 ptr->getSubUnit()->Buff_note["Newbud"]+=Value;
             }
@@ -274,7 +274,7 @@ namespace Castorice{
                 target->Buff_note["NetherwingHealLimit"]+=Value;
                 Healing(healRatio,ptr->getSubUnit(1),ptr->getSubUnit(1));
             }
-            if(target->isSameUnit("Castorice")){
+            if(target->isSameUnitName("Castorice")){
                 if(!ptr->getSubUnit()->getBuffCheck("Inverted Torch")&&ptr->getSubUnit()->currentHP>=ptr->getSubUnit()->totalHP*0.5){
                     Speed_Buff(ptr->getSubUnit()->Atv_stats.get(),40,0);
                     ptr->getSubUnit()->setBuffCheck("Inverted Torch",true);
@@ -283,7 +283,7 @@ namespace Castorice{
             
         }));
 
-        HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_IMMEDIATELY, [ptr](Unit *Trigger, Sub_Unit *target, double Value) {
+        HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_IMMEDIATELY, [ptr](Unit *Trigger, SubUnit *target, double Value) {
             if(ptr->getSubUnit(1)->currentHP==0){
                 ptr->getSubUnit()->Buff_note["Newbud"]+=Value;
             }else {
@@ -296,7 +296,7 @@ namespace Castorice{
                 Stack_Buff_single_with_all_memo(ptr,ST_DMG_PERCENT,AT_NONE,20,1,3,"CastoriceTalentBuff");
                 Extend_Buff_single_with_all_memo(ptr,"CastoriceTalentBuff",3);
             }
-            if(target->isSameUnit("Castorice")){
+            if(target->isSameUnitName("Castorice")){
                 if(ptr->getSubUnit()->getBuffCheck("Inverted Torch")&&ptr->getSubUnit()->currentHP<ptr->getSubUnit()->totalHP*0.5){
                     Speed_Buff(ptr->getSubUnit()->Atv_stats.get(),-40,0);
                     ptr->getSubUnit()->setBuffCheck("Inverted Torch",false);
@@ -309,11 +309,11 @@ namespace Castorice{
             if(Buff_end(ptr->getSubUnit(1),"NetherwingLifeSpan")){
                 Kamikaze(ptr);
             }
-            if(turn->isSameAlly("Netherwing")){
+            if(turn->isSameCharName("Netherwing")){
                 Buff_single_target(ptr->getSubUnit(1),ST_DMG_PERCENT,AT_NONE,-30*ptr->getSubUnit(1)->getStack("Where The West Wind Dwells"));
                 ptr->getSubUnit(1)->Stack["Where The West Wind Dwells"] = 0;
             }
-            Sub_Unit *tempUnit = turn->isSubUnitCheck();
+            SubUnit *tempUnit = turn->isSubUnitCheck();
             if(tempUnit){
                 if(Buff_end(tempUnit,"Roar Rumbles the Realm")){
                     tempUnit->setBuffCheck("Roar Rumbles the Realm",0);
@@ -329,7 +329,7 @@ namespace Castorice{
 
         Buff_List.push_back(TriggerByAction_Func(PRIORITY_ACTION, [ptr](ActionData &data_) {
             for(int i=1;i<=Total_ally;i++){
-                for(unique_ptr<Sub_Unit> &e : Ally_unit[i]->Sub_Unit_ptr){
+                for(unique_ptr<SubUnit> &e : Ally_unit[i]->Sub_Unit_ptr){
                     e->Buff_note["NetherwingHealLimit"] = 0;
                 }
             }
@@ -339,7 +339,7 @@ namespace Castorice{
 
         Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTION, [ptr](ActionData &data_) {
             for(int i=1;i<=Total_ally;i++){
-                for(unique_ptr<Sub_Unit> &e : Ally_unit[i]->Sub_Unit_ptr){
+                for(unique_ptr<SubUnit> &e : Ally_unit[i]->Sub_Unit_ptr){
                     e->Buff_note["NetherwingHealLimit"] = 0;
                 }
             }
@@ -351,8 +351,8 @@ namespace Castorice{
             }
         }));
         
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTION, [ptr](Sub_Unit* Target, string StatsType) {
-            if(!Target->isSameUnit("Netherwing"))return;
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTION, [ptr](SubUnit* Target, string StatsType) {
+            if(!Target->isSameUnitName("Netherwing"))return;
             if(StatsType != ST_FLAT_HP && StatsType != ST_HP_PERCENT)return;
             double temp;
             if(ptr->getSubUnit(1)->currentHP==0){
@@ -364,7 +364,7 @@ namespace Castorice{
             Buff_single_target(ptr->getSubUnit(1),ST_FLAT_HP,AT_NONE,temp);
         }));
 
-        AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_ACTION, [ptr](Sub_Unit* target) {
+        AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_ACTION, [ptr](SubUnit* target) {
             if(target->getBuffCheck("Roar Rumbles the Realm")){
                 target->setBuffCheck("Roar Rumbles the Realm",0);
                 target->setBuffCountdown("Roar Rumbles the Realm",0);
@@ -395,7 +395,7 @@ namespace Castorice{
             decreaseHPCount++;
             for(int i=1;i<=Total_ally;i++){
                 for(auto &e : Ally_unit[i]->Sub_Unit_ptr){
-                    if(e->currentHP==0||e->isSameUnit("Netherwing"))continue;
+                    if(e->currentHP==0||e->isSameUnitName("Netherwing"))continue;
                     DecreaseHP(e.get(),ptr->Sub_Unit_ptr[0].get(),0,0,30);
                 }
             }
@@ -422,7 +422,7 @@ namespace Castorice{
             decreaseHPCount++;
             for(int i=1;i<=Total_ally;i++){
                 for(auto &e : Ally_unit[i]->Sub_Unit_ptr){
-                    if(e->currentHP==0||e->isSameUnit("Netherwing"))continue;
+                    if(e->currentHP==0||e->isSameUnitName("Netherwing"))continue;
                     DecreaseHP(e.get(),ptr->Sub_Unit_ptr[0].get(),0,0,40);
                 }
             }

@@ -81,7 +81,7 @@ namespace Tingyun{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
-            Sub_Unit* tempUnit = turn->isSubUnitCheck();
+            SubUnit* tempUnit = turn->isSubUnitCheck();
             if (!tempUnit) return;
             if (turn->Char_Name == "Tingyun") {
                 if (Buff_end(ptr->Sub_Unit_ptr[0].get(), "Nourished_Joviality")) {
@@ -106,7 +106,7 @@ namespace Tingyun{
         }));
 
         When_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr](ActionData& data_) {
-            Sub_Unit* tempUnit = data_.Attacker;
+            SubUnit* tempUnit = data_.Attacker;
             if (!tempUnit) return;
             if (Buff_check(tempUnit, "Benediction")) {
                 if (data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {

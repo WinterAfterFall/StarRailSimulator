@@ -155,8 +155,8 @@ namespace Gallagher{
                 }
             }
         }));
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_HEAL, [ptr](Sub_Unit* Target, string StatsType) {
-            if(StatsType!=ST_BREAK_EFFECT||!Target->isSameUnit("Gallagher"))return;
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_HEAL, [ptr](SubUnit* Target, string StatsType) {
+            if(StatsType!=ST_BREAK_EFFECT||!Target->isSameUnitName("Gallagher"))return;
 
             double temp = calculateBreakEffectForBuff( ptr->getSubUnit(),50);
             if(temp>75)temp = 75;

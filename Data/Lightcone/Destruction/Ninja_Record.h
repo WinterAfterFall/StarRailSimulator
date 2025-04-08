@@ -15,7 +15,7 @@ namespace Destruction_Lightcone{
                 ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_PERCENT][AT_NONE] += 9 + 3 * superimpose;
             }));
     
-            Healing_List.push_back(TriggerHealing(PRIORITY_ACTTACK, [ptr,superimpose](Sub_Unit *Healer, Sub_Unit *target, double Value) {
+            Healing_List.push_back(TriggerHealing(PRIORITY_ACTTACK, [ptr,superimpose](SubUnit *Healer, SubUnit *target, double Value) {
                 if (!target->isSameUnit(ptr->Sub_Unit_ptr[0].get())) return;
                 if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Ninja_Record_Buff")) {
                     Buff_single_target(ptr->Sub_Unit_ptr[0].get(), ST_CRIT_DAM, AT_NONE, 13.5 + 4.5 * superimpose);
@@ -24,7 +24,7 @@ namespace Destruction_Lightcone{
                 Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Ninja_Record_Buff", 2);
             }));
     
-            HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_ACTTACK, [ptr,superimpose](Unit *Trigger, Sub_Unit *target, double Value) {
+            HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_ACTTACK, [ptr,superimpose](Unit *Trigger, SubUnit *target, double Value) {
                 if (!target->isSameUnit(ptr->Sub_Unit_ptr[0].get())) return;
                 if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Ninja_Record_Buff")) {
                     Buff_single_target(ptr->Sub_Unit_ptr[0].get(), ST_CRIT_DAM, AT_NONE, 13.5 + 4.5 * superimpose);

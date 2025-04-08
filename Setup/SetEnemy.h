@@ -30,7 +30,7 @@ void Setup_enemy(int num, double speed, double energy, double Toughness, double 
         if (enemyPtr->attackCooldown != 0 && enemyPtr->Debuff["attackCooldown"] % enemyPtr->attackCooldown == enemyPtr->attackStartAtTurn) {
             EnemyHit(enemyPtr);
         } else if (enemyPtr->target) {
-            vector<Sub_Unit*> vec;
+            vector<SubUnit*> vec;
             vec.push_back(enemyPtr->target);
             EnemyHit(enemyPtr, vec);
         }

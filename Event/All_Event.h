@@ -99,12 +99,12 @@ void allEventWhenAttack(ActionData &data_){
         e.Call(data_);
     }
 }
-void allEventHeal(Sub_Unit *Healer,Sub_Unit *target,double Value){
+void allEventHeal(SubUnit *Healer,SubUnit *target,double Value){
     for(TriggerHealing &e : Healing_List){
         e.Call(Healer,target,Value);
     }
 }
-void allEventChangeHP(Unit *Trigger,Sub_Unit *target,double Value){
+void allEventChangeHP(Unit *Trigger,SubUnit *target,double Value){
     for(TriggerDecreaseHP &e : HPDecrease_List){
         e.Call(Trigger,target,Value);
     }
@@ -114,7 +114,7 @@ void allEventWhenToughnessBreak(ActionData &data_,Enemy *target){
         e.Call(target,data_.Attacker);
     }
 }
-void allEventWhenEnemyHit(Enemy* Attacker,vector<Sub_Unit*> vec){
+void allEventWhenEnemyHit(Enemy* Attacker,vector<SubUnit*> vec){
     
     for(TriggerByEnemyHit &e : Enemy_hit_List){
         e.Call(Attacker,vec);
@@ -127,7 +127,7 @@ void allEventWhenEnergyIncrease(Ally *target,double Energy){
         e.Call(target,Energy);
     }
 }
-void allEventSkillPoint(Sub_Unit *ptr,int p){
+void allEventSkillPoint(SubUnit *ptr,int p){
     for(TriggerSkill_point_func &e : Skill_point_List){
         e.Call(ptr,p);
     }
@@ -138,24 +138,24 @@ void allEventAttackHitCount(ActionData &data_,int Hit_cnt,int Total_Hit_cnt){
         e.Call(data_,Hit_cnt,Total_Hit_cnt);
     }
 }
-void allEventAdjustStats(Sub_Unit *ptr,string statsType){
+void allEventAdjustStats(SubUnit *ptr,string statsType){
     AdjustCheck = 1;
     for(TriggerByStats &e : Stats_Adjust_List){
         e.Call(ptr,statsType);
     }
     AdjustCheck = 0;
 }
-void allEventApplyDebuff(Sub_Unit *ptr,Enemy* target){
+void allEventApplyDebuff(SubUnit *ptr,Enemy* target){
     for(TriggerBySomeAlly_Func &e : Apply_debuff_List){
         e.Call(target,ptr);
     }
 }
-void allEventWhenEnemyDeath(Sub_Unit *Killer,Enemy *target){
+void allEventWhenEnemyDeath(SubUnit *Killer,Enemy *target){
     for(TriggerBySomeAlly_Func &e : Enemy_Death_List){
         e.Call(target,Killer);
     }
 }
-void allEventWhenAllyDeath(Sub_Unit *Target){
+void allEventWhenAllyDeath(SubUnit *Target){
     for(TriggerAllyDeath &e : AllyDeath_List){
         e.Call(Target);
     }

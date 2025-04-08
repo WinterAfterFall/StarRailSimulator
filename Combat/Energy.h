@@ -19,7 +19,7 @@ void Increase_energy(Ally *ptr,double Energy ){
     
     return ;
 }
-void Increase_energy(Sub_Unit *ptr,double Energy ){
+void Increase_energy(SubUnit *ptr,double Energy ){
     allEventWhenEnergyIncrease(ptr->ptr_to_unit,Energy*ptr->ptr_to_unit->Energy_recharge/100);
     if(ptr->ptr_to_unit->Current_energy+Energy*ptr->ptr_to_unit->Energy_recharge/100 > ptr->ptr_to_unit->Max_energy){
         ptr->ptr_to_unit->Current_energy = ptr->ptr_to_unit->Max_energy;
@@ -39,7 +39,7 @@ void Increase_energy(Ally *ptr,double Energy_percent,double Flat_energy){
     
     return;
 }
-void Increase_energy(Sub_Unit *ptr,double Energy_percent,double Flat_energy){
+void Increase_energy(SubUnit *ptr,double Energy_percent,double Flat_energy){
     allEventWhenEnergyIncrease(ptr->ptr_to_unit,Energy_percent/100*ptr->ptr_to_unit->Max_energy+Flat_energy);
     if(ptr->ptr_to_unit->Current_energy+Flat_energy+Energy_percent/100*ptr->ptr_to_unit->Max_energy > ptr->ptr_to_unit->Max_energy){
         ptr->ptr_to_unit->Current_energy = ptr->ptr_to_unit->Max_energy;
@@ -50,9 +50,13 @@ void Increase_energy(Sub_Unit *ptr,double Energy_percent,double Flat_energy){
     return;
 }
 bool ultUseCheck(Ally *ptr){
-    for(function<bool()> &e : ptr->ultCondition){
-        if(!e())return false;
+    for(function<bool()> &e : ptr->ultImmediatelyUseCondtion){
+        if(e()) goto jumpto;
     }
+    for(function<bool()> &e : ptr->ultCondition){
+        if(!e()) return false;
+    }
+    jumpto:
     if(ptr->Ult_cost<=ptr->Current_energy){
         ptr->Current_energy = ptr->Current_energy - ptr->Ult_cost;
         Increase_energy(ptr,5);
@@ -64,5 +68,12 @@ void allUltimateCheck(){
     for(TriggerByYourSelf_Func &e : Ultimate_List){
         e.Call();
     }
+}
+void Ally::addUltCondition(function<bool()> condition) {
+    ultCondition.push_back(condition);
+}
+
+void Ally::addUltImmediatelyUseCondition(function<bool()> condition) {
+    ultImmediatelyUseCondtion.push_back(condition);
 }
 #endif

@@ -9,10 +9,10 @@ using namespace std;
 
 class PointerWithValue{
     public : 
-    Sub_Unit* ptr;
+    SubUnit* ptr;
     double value = 0;
 
-    PointerWithValue(Sub_Unit *ptr ,double value) : ptr(ptr),value(value){
+    PointerWithValue(SubUnit *ptr ,double value) : ptr(ptr),value(value){
 
     }
 
@@ -25,12 +25,12 @@ class PointerWithValue{
 };
 class AttackSource{
     public : 
-    Sub_Unit* attacker = nullptr;
-    Sub_Unit* source = nullptr;
+    SubUnit* attacker = nullptr;
+    SubUnit* source = nullptr;
     int changeWhen = 0;
-    AttackSource(int changeWhen , Sub_Unit* attacker)
+    AttackSource(int changeWhen , SubUnit* attacker)
         : attacker(attacker), source(attacker), changeWhen(changeWhen) {}
-    AttackSource(int changeWhen , Sub_Unit* attacker, Sub_Unit* source)
+    AttackSource(int changeWhen , SubUnit* attacker, SubUnit* source)
         : attacker(attacker), source(source), changeWhen(changeWhen) {}
 
 };
@@ -55,12 +55,12 @@ class HealRatio{
 class Heal_data{
     public :
     
-    Sub_Unit* Healer = nullptr; //
+    SubUnit* Healer = nullptr; //
     HealRatio main;
     HealRatio adjacent;
     HealRatio other;
     // ActionData *Combat_dataPtr = nullptr;
-    void setHealer(Sub_Unit* ptr){   
+    void setHealer(SubUnit* ptr){   
         this->Healer = ptr;
     }
 
@@ -86,14 +86,14 @@ class ActionData{
     bool damageNote = 1;
     function<void(ActionData &data_)> actionFunction;
     double Dont_care_weakness =0;
-    Sub_Unit* Attacker = nullptr; 
-    Sub_Unit* source = nullptr; 
-    vector<Sub_Unit*> Target_Buff;
+    SubUnit* Attacker = nullptr; 
+    SubUnit* source = nullptr; 
+    vector<SubUnit*> Target_Buff;
     vector<Enemy*> Target_Attack;
     Hit_spilt Damage_spilt;
     vector<AttackSource> Joint;
     int Attack_trigger = 1; 
-    vector<Sub_Unit*> All_Attacker;//
+    vector<SubUnit*> All_Attacker;//
 
     pair<string,string> Action_type;//Attack Buff//Skill Basic_Attack Ultimate
 
@@ -106,7 +106,7 @@ class ActionData{
 
     string actionName = "";
 
-    void Add_Buff_Single_Target(Sub_Unit* ptr){
+    void Add_Buff_Single_Target(SubUnit* ptr){
         Target_Buff.push_back(ptr);
     }
     void Add_Buff_Single_Target(Ally* ptr){
@@ -146,7 +146,7 @@ class ActionData{
             
         }
     }
-    void Basic_Attack_set(Sub_Unit* ptr, string target_type, string name) {
+    void Basic_Attack_set(SubUnit* ptr, string target_type, string name) {
         Attacker = ptr;
         source = ptr;
         All_Attacker.push_back(ptr);
@@ -157,7 +157,7 @@ class ActionData{
         traceType = target_type;
         actionName = name;
     }
-    void Basic_Attack_set(Sub_Unit* ptr, string target_type, string buff_type, string name) {
+    void Basic_Attack_set(SubUnit* ptr, string target_type, string buff_type, string name) {
         Attacker = ptr;
         source = ptr;
         All_Attacker.push_back(ptr);
@@ -169,7 +169,7 @@ class ActionData{
         traceType = target_type;
         actionName = name;
     }
-    void Skill_set(Sub_Unit* ptr, string target_type, string name) {
+    void Skill_set(SubUnit* ptr, string target_type, string name) {
         Attacker = ptr;
         source = ptr;
         All_Attacker.push_back(ptr);
@@ -180,7 +180,7 @@ class ActionData{
         traceType = target_type;
         actionName = name;
     }
-    void Skill_set(Sub_Unit* ptr, string target_type, string buff_type, string name) {
+    void Skill_set(SubUnit* ptr, string target_type, string buff_type, string name) {
         Attacker = ptr;
         source = ptr;
         All_Attacker.push_back(ptr);
@@ -192,7 +192,7 @@ class ActionData{
         traceType = target_type;
         actionName = name;
     }
-    void Ultimate_set(Sub_Unit* ptr, string target_type, string name) {
+    void Ultimate_set(SubUnit* ptr, string target_type, string name) {
         Attacker = ptr;
         source = ptr;
         All_Attacker.push_back(ptr);
@@ -203,7 +203,7 @@ class ActionData{
         traceType = target_type;
         actionName = name;
     }
-    void Ultimate_set(Sub_Unit* ptr, string target_type, string buff_type, string name) {
+    void Ultimate_set(SubUnit* ptr, string target_type, string buff_type, string name) {
         Attacker = ptr;
         source = ptr;
         All_Attacker.push_back(ptr);
@@ -215,7 +215,7 @@ class ActionData{
         traceType = target_type;
         actionName = name;
     }
-    void Fua_set(Sub_Unit* ptr, string target_type, string name) {
+    void Fua_set(SubUnit* ptr, string target_type, string name) {
         Attacker = ptr;
         source = ptr;
         All_Attacker.push_back(ptr);
@@ -226,7 +226,7 @@ class ActionData{
         traceType = target_type;
         actionName = name;
     }
-    void Fua_set(Sub_Unit* ptr, string target_type, string buff_type, string name) {
+    void Fua_set(SubUnit* ptr, string target_type, string buff_type, string name) {
         Attacker = ptr;
         source = ptr;
         All_Attacker.push_back(ptr);
@@ -238,7 +238,7 @@ class ActionData{
         traceType = target_type;
         actionName = name;
     }
-    void Additional_set(Sub_Unit* ptr, string target_type, string name) {
+    void Additional_set(SubUnit* ptr, string target_type, string name) {
         Attacker = ptr;
         source = ptr;
         All_Attacker.push_back(ptr);
@@ -249,7 +249,7 @@ class ActionData{
         traceType = target_type;
         actionName = name;
     }
-    void Dot_set(Sub_Unit* ptr, string target_type, string name) {
+    void Dot_set(SubUnit* ptr, string target_type, string name) {
         Attacker = ptr;
         source = ptr;
         All_Attacker.push_back(ptr);
@@ -260,7 +260,7 @@ class ActionData{
         traceType = target_type;
         actionName = name;
     }
-    void Technique_set(Sub_Unit* ptr, string target_type, string name) {
+    void Technique_set(SubUnit* ptr, string target_type, string name) {
         Attacker = ptr;
         source = ptr;
         toughnessAvgCalculate = 0;
@@ -272,7 +272,7 @@ class ActionData{
         traceType = target_type;
         actionName = name;
     }
-    void Technique_set(Sub_Unit* ptr, string target_type, string buff_type, string name) {
+    void Technique_set(SubUnit* ptr, string target_type, string buff_type, string name) {
         Attacker = ptr;
         source = ptr;
         toughnessAvgCalculate = 0;
@@ -298,7 +298,7 @@ class ActionData{
     void setDamageNote(bool arg){
         this->damageNote = arg;
     }
-    void Entanglement_set(Sub_Unit* ptr){
+    void Entanglement_set(SubUnit* ptr){
         Attacker = ptr;
         source = ptr; 
         toughnessAvgCalculate = 0;
@@ -312,7 +312,7 @@ class ActionData{
         actionName = "Entanglement";
 
     }
-    void Freeze_set(Sub_Unit* ptr){
+    void Freeze_set(SubUnit* ptr){
         Attacker = ptr;
         source = ptr; 
         toughnessAvgCalculate = 0;
@@ -326,7 +326,7 @@ class ActionData{
         actionName = "Freeze";
 
     }
-    void SuperBreak_set(Sub_Unit* ptr,string target_type){
+    void SuperBreak_set(SubUnit* ptr,string target_type){
         Attacker = ptr;
         source = ptr;
         toughnessAvgCalculate = 0;
@@ -340,7 +340,7 @@ class ActionData{
         actionName = "SuperBreak";
 
     }
-    void Break_dmg_set(Sub_Unit* ptr,string name){
+    void Break_dmg_set(SubUnit* ptr,string name){
         Attacker = ptr;
         source = ptr; 
         toughnessAvgCalculate = 0;

@@ -46,7 +46,7 @@ void Basic_reset(){
             for(auto &e:Ally_unit[i]->Sub_Unit_ptr[0]->Buff_check){
                 e.second = 0;
             }
-            for(std::pair<const std::string, Sub_Unit *> &e : Ally_unit[i]->Sub_Unit_ptr[0]->buffSubUnitTarget){
+            for(std::pair<const std::string, SubUnit *> &e : Ally_unit[i]->Sub_Unit_ptr[0]->buffSubUnitTarget){
                 e.second = nullptr;
             }
             for(std::pair<const std::string, Ally *> &e : Ally_unit[i]->Sub_Unit_ptr[0]->buffAllyTarget){
@@ -210,7 +210,7 @@ void Memosprite_reset(){
             for(auto &e:Ally_unit[i]->Sub_Unit_ptr[j]->Buff_check){
                 e.second = 0;
             }
-            for(std::pair<const std::string, Sub_Unit *> &e : Ally_unit[i]->Sub_Unit_ptr[j]->buffSubUnitTarget){
+            for(std::pair<const std::string, SubUnit *> &e : Ally_unit[i]->Sub_Unit_ptr[j]->buffSubUnitTarget){
                 e.second = nullptr;
             }
             

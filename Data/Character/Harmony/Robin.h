@@ -154,7 +154,7 @@ namespace Robin{
             }
         }));
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTTACK, [ptr](Sub_Unit *target, string StatsType){
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTTACK, [ptr](SubUnit *target, string StatsType){
             if(target->Atv_stats->Unit_Name != "Robin")return;
             if(ptr->Countdown_ptr[0]->Atv_stats->Base_speed != 90)return;
             if(StatsType == "Atk%" || StatsType == "Flat_Atk"){
@@ -232,7 +232,7 @@ namespace Robin{
         Action_bar.push(data_);
     }
     bool Double_Turn(Ally *ptr){
-        Sub_Unit *target =Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[ptr->Sub_Unit_ptr[0]->currentSubUnitTargetNum].get();
+        SubUnit *target =Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[ptr->Sub_Unit_ptr[0]->currentSubUnitTargetNum].get();
 
         if((Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv<Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->Max_atv*0.2 || target->Atv_stats->atv<target->Atv_stats->Max_atv*0.2))return 1;
         if((Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv < target->Atv_stats->atv))return 1;

@@ -56,7 +56,7 @@ int main(){
     
     //Support
     Tribbie::Setup(3,0,Harmony_Lightcone::DDD(5),Relic::Poet_Dill,Planar::Broken_Keel);
-    RMC::Setup(2,6,Remembrance_Lightcone::Victory_In_Blink,Relic::Double_Speed,Planar::Broken_Keel);
+    RMC::Setup(2,6,Remembrance_Lightcone::Victory_In_Blink(5),Relic::Double_Speed,Planar::Broken_Keel);
     // Robin::Setup(2,0,Harmony_Lightcone::For_Tomorrow_Journey,Relic::Double_Atk,Planar::Broken_Keel);
     // Ruan_Mei::Setup(2,0,Harmony_Lightcone::Memories_of_the_Past,Relic::Iron_Cavalry,Planar::Broken_Keel);
     //Tingyun::Setup(3,6,Harmony_Lightcone::DDD,Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);

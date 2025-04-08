@@ -169,7 +169,7 @@ namespace Ruan_Mei{
             }
         }));
 
-        Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, Sub_Unit *Breaker){
+        Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, SubUnit *Breaker){
             ActionData data_ = ActionData();
             double temp;
             data_.Break_dmg_set(ptr->Sub_Unit_ptr[0].get(),"RuanMei Break");

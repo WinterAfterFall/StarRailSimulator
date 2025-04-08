@@ -25,7 +25,7 @@ namespace Remembrance_Lightcone{
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                Sub_Unit *tempstats = dynamic_cast<Sub_Unit *>(turn->ptr_to_unit);
+                SubUnit *tempstats = dynamic_cast<SubUnit *>(turn->ptr_to_unit);
                 if (!tempstats) return;
                 if (Buff_end(tempstats, "Victory_Blink")) {
                     tempstats->Stats_type["Dmg%"]["None"] -= (6 + 2 * superimpose);
@@ -33,7 +33,7 @@ namespace Remembrance_Lightcone{
                 }
             }));
     
-            AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,superimpose](Sub_Unit* target) {
+            AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,superimpose](SubUnit* target) {
                 if(target->getBuffCheck("Victory_Blink")){
                     target->setBuffCheck("Victory_Blink",0);
                     target->setBuffCountdown("Victory_Blink",0);

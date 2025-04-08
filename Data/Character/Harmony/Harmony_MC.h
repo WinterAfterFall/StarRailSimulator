@@ -106,12 +106,12 @@ namespace Harmony_MC{
             }
         }));
 
-        Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, Sub_Unit *Breaker){
+        Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, SubUnit *Breaker){
             Increase_energy(ptr, 11);
             Action_forward(target->Atv_stats.get(), -30);
         }));
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](Sub_Unit *target, string StatsType){
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](SubUnit *target, string StatsType){
             if(target->Atv_stats->Unit_Name != "Harmony_MC") return;
             if(StatsType == "Break_effect"){
                 ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"] = calculateBreakEffectForBuff(ptr->Sub_Unit_ptr[0].get(), 15) - ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"];

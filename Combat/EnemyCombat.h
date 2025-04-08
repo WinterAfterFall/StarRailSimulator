@@ -4,7 +4,7 @@
 #include "../Unit/Trigger_Function.h"
 
 void EnemyHit(Enemy *Attacker){
-    vector<Sub_Unit*> vec;
+    vector<SubUnit*> vec;
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
             if(Ally_unit[i]->Sub_Unit_ptr[j]->currentHP==0)continue;
@@ -13,14 +13,14 @@ void EnemyHit(Enemy *Attacker){
     }
     EnemyHit(Attacker,vec);
 }
-void EnemyHit(Enemy *Attacker,vector<Sub_Unit*> target){
+void EnemyHit(Enemy *Attacker,vector<SubUnit*> target){
     double damageDeal;
     decreaseHPCount++;
     allEventWhenEnemyHit(Attacker,target);
-    for(Sub_Unit* e : target){
+    for(SubUnit* e : target){
         Increase_energy(e->ptr_to_unit,Attacker->Energy_gen);
     }
-    for(Sub_Unit* e : target){
+    for(SubUnit* e : target){
         damageDeal = calculateDmgReceive(Attacker,e,Attacker->skillRatio);
         DecreaseHP(e,Attacker,damageDeal,0,0);
     }

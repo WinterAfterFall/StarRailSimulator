@@ -47,7 +47,7 @@ namespace Harmony_Lightcone{
             }));
     
             Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                Sub_Unit *tempstats = dynamic_cast<Sub_Unit *>(turn->ptr_to_unit);
+                SubUnit *tempstats = dynamic_cast<SubUnit *>(turn->ptr_to_unit);
                 if (!tempstats) return;
                 if (ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff"] == 1) {
                     tempstats->Stats_type["Dmg%"]["None"] += 25 + 5 * superimpose;
@@ -57,7 +57,7 @@ namespace Harmony_Lightcone{
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                Sub_Unit *tempstats = dynamic_cast<Sub_Unit *>(turn->ptr_to_unit);
+                SubUnit *tempstats = dynamic_cast<SubUnit *>(turn->ptr_to_unit);
                 if (!tempstats) return;
                 if (ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff_check"] == 1) {
                     tempstats->Stats_type["Dmg%"]["None"] -= 25 + 5 * superimpose;

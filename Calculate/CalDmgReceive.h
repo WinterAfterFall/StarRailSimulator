@@ -2,7 +2,7 @@
 #define Cal_DMG_RECEIVE_H
 #include "../Unit/Trigger_Function.h"
 
-double calculateDmgReceive(Enemy *Attacker, Sub_Unit *ptr, double ratio) {
+double calculateDmgReceive(Enemy *Attacker, SubUnit *ptr, double ratio) {
     double Damage = ratio / 100;
     Damage *= calEnemyATK(Attacker);
     Damage *= calAllyDefMultiplier(ptr);
@@ -15,7 +15,7 @@ double calEnemyATK(Enemy *enemy) {
     return (Atk < 0) ? 0 : Atk;
 }
 
-double calAllyDefMultiplier(Sub_Unit *ptr) {
+double calAllyDefMultiplier(SubUnit *ptr) {
     double Def = (ptr->totalDEF > 0) ? ptr->totalDEF : 0;
     Def = (1.0 - (Def) / (Def + 1000));
     return (Def < 0) ? 0 : Def;

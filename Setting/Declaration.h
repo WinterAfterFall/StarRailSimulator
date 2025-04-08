@@ -65,7 +65,7 @@ using std::right;
 class Func_class;
 class Action_value_stats;
 class Unit;
-class Sub_Unit;
+class SubUnit;
 class Ally;
 class Enemy;
 typedef unordered_map<string,double> Common_stats; 
@@ -93,7 +93,7 @@ class TriggerEnergy_Increase_Func;
 class TriggerSkill_point_func;
 class TriggerHit_Count_func;
 //StatsSet
-void SetBaseStats(Sub_Unit* ptr, double BaseHp, double BaseAtk, double BaseDef);
+void SetBaseStats(SubUnit* ptr, double BaseHp, double BaseAtk, double BaseDef);
 void SetBasicStats(Ally* ptr, double BaseSpeed, double Max_Energy, double Ult_cost, int Eidolon, std::string Element_type, std::string Path, int num, std::string Name, std::string Side);
 void SetMemoStats(Ally* ptr, double Hp_ratio, double Speed_ratio, std::string Element_type, std::string Name, std::string Side);
 void SetCountdownStats(Ally* ptr, std::string Name);
@@ -103,9 +103,9 @@ void SetSummonStats(Ally* ptr, double BaseSpeed, std::string Name);
 
 //Energy
 void Increase_energy(Ally* ptr, double Energy);
-void Increase_energy(Sub_Unit *ptr, double Energy);
+void Increase_energy(SubUnit *ptr, double Energy);
 void Increase_energy(Ally* ptr, double Energy_percent, double Flat_energy);
-void Increase_energy(Sub_Unit *ptr, double Energy_percent, double Flat_energy);
+void Increase_energy(SubUnit *ptr, double Energy_percent, double Flat_energy);
 bool ultUseCheck(Ally* ptr);
 void allUltimateCheck();
 
@@ -127,8 +127,8 @@ void Speed_Buff_All_Ally_Exclude_Buffer(double spd_percent, double flat_spd, std
 void Speed_Buff_All_Ally_Exclude_Buffer(double spd_percent, double flat_spd, std::string Buffer, std::string Buff_name);
 
 //Buff_Stats.h
-void Buff_single_target(Sub_Unit *ptr, string stats_type, string Attack_type, double Value);
-void Buff_single_target(Sub_Unit *ptr, string stats_type, string Attack_type, string Element, double Value);
+void Buff_single_target(SubUnit *ptr, string stats_type, string Attack_type, double Value);
+void Buff_single_target(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value);
 
 void Buff_single_with_all_memo(Ally *ptr, string stats_type, string Attack_type, double Value);
 void Buff_single_with_all_memo(Ally *ptr, string stats_type, string Attack_type, string Element, double Value);
@@ -148,8 +148,8 @@ void Buff_All_Ally_Excluding_Buffer(string stats_type, string Attack_type, strin
 void Buff_All_Ally_Each_Ally_Excluding_Buffer(string stats_type, string Attack_type, double Value, string Buff_name, string Buffer_name);
 void Buff_All_Ally_Each_Ally_Excluding_Buffer(string stats_type, string Attack_type, string Element, double Value, string Buff_name, string Buffer_name);
 
-void Stack_Buff_single_target(Sub_Unit *ptr, string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
-void Stack_Buff_single_target(Sub_Unit *ptr, string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
+void Stack_Buff_single_target(SubUnit *ptr, string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
+void Stack_Buff_single_target(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
 
 void Stack_Buff_single_with_all_memo(Ally *ptr, string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
 void Stack_Buff_single_with_all_memo(Ally *ptr, string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
@@ -163,14 +163,14 @@ void Stack_Buff_All_Ally_Excluding_Buffer(string stats_type, string Attack_type,
 
 //Buff.h
 
-Sub_Unit* chooseSubUnitBuff(Sub_Unit* ptr);
-Ally* chooseCharacterBuff(Sub_Unit* ptr);
-Enemy* chooseEnemyTarget(Sub_Unit* ptr);
-void StatsAdjust(Sub_Unit *ptr,string ST);
-void AtkAdjust(Sub_Unit *ptr);
-void HpAdjust(Sub_Unit *ptr);
-void DefAdjust(Sub_Unit *ptr);
-void Extend_Buff_single_target(Sub_Unit* ptr, std::string Buff_name, int Turn_extend);
+SubUnit* chooseSubUnitBuff(SubUnit* ptr);
+Ally* chooseCharacterBuff(SubUnit* ptr);
+Enemy* chooseEnemyTarget(SubUnit* ptr);
+void StatsAdjust(SubUnit *ptr,string ST);
+void AtkAdjust(SubUnit *ptr);
+void HpAdjust(SubUnit *ptr);
+void DefAdjust(SubUnit *ptr);
+void Extend_Buff_single_target(SubUnit* ptr, std::string Buff_name, int Turn_extend);
 void Extend_Buff_single_with_all_memo(Ally* ptr, std::string Buff_name, int Turn_extend);
 void Extend_Buff_All_Ally(std::string Buff_name, int Turn_extend);
 void Extend_Buff_All_Ally_Excluding_Buffer(std::string Buff_name, int Turn_extend, std::string Buffer_name);
@@ -178,23 +178,23 @@ void Extend_Buff_All_Ally_Excluding_Buffer(std::string Buff_name, int Turn_exten
 void Extend_Debuff_single_target(Enemy* ptr, std::string Debuff_name, int Turn_extend);
 void Extend_Debuff_All_Enemy(std::string Debuff_name, int Turn_extend);
 
-bool Buff_end(Sub_Unit* ptr, std::string Buff_name);
+bool Buff_end(SubUnit* ptr, std::string Buff_name);
 bool Debuff_end(Enemy* ptr, std::string Debuff_name);
-bool Buff_check(Sub_Unit* ptr, std::string Buff_name);
+bool Buff_check(SubUnit* ptr, std::string Buff_name);
 bool Debuff_check(Enemy* ptr, std::string Debuff_name);
 
 //Debuff_Stats
 void Debuff_single_target(Enemy* ptr, string stats_type, string Attack_type, double Value);
 void Debuff_single_target(Enemy* ptr, string stats_type, string Attack_type, string Element, double Value);
 
-void Debuff_All_Enemy_Apply_ver(Sub_Unit* ptr, string stats_type, string Attack_type, double Value, string Debuff_Name);
-void Debuff_All_Enemy_Apply_ver(Sub_Unit* ptr, string stats_type, string Attack_type, string Element, double Value, string Debuff_Name);
+void Debuff_All_Enemy_Apply_ver(SubUnit* ptr, string stats_type, string Attack_type, double Value, string Debuff_Name);
+void Debuff_All_Enemy_Apply_ver(SubUnit* ptr, string stats_type, string Attack_type, string Element, double Value, string Debuff_Name);
 
 void Stack_Debuff_single_target(Enemy* ptr, string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
 void Stack_Debuff_single_target(Enemy* ptr, string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
 
-void Stack_Debuff_All_Enemy(Sub_Unit* ptr, string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
-void Stack_Debuff_All_Enemy(Sub_Unit* ptr, string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
+void Stack_Debuff_All_Enemy(SubUnit* ptr, string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
+void Stack_Debuff_All_Enemy(SubUnit* ptr, string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
 
 
 //Combat
@@ -202,8 +202,8 @@ void Take_action();
 void Deal_damage();
 void Attack(ActionData& data_);
 void Heal(Heal_data& Healptr);
-void Skill_point(Sub_Unit *ptr,int p);
-void Apply_debuff(Sub_Unit *ptr,Enemy* target);
+void Skill_point(SubUnit *ptr,int p);
+void Apply_debuff(SubUnit *ptr,Enemy* target);
 void Superbreak_trigger(ActionData& data_, double Superbreak_ratio);
 void Dot_trigger(double Dot_ratio, Enemy* target, std::string Dot_type);
 void Toughness_break(ActionData &data_, Enemy* target);
@@ -211,17 +211,17 @@ void Toughness_break(ActionData &data_, Enemy* target);
 //ChangeHP.h
 
 void Healing(Heal_data& Healptr);
-void Healing(HealRatio& Healptr,Sub_Unit *Healer,Sub_Unit *target);
-void Healing(HealRatio& healRatio,Sub_Unit *Healer);
-void Healing(HealRatio& healRatioMain,HealRatio& healRatio,Sub_Unit *Healer,Sub_Unit *target);
-void IncreaseCurrentHP(Sub_Unit *ptr,double Value);
-void IncreaseHP(Sub_Unit *Healer,Sub_Unit *target,double Value);
-void DecreaseCurrentHP(Sub_Unit *ptr,double Value);
-void DecreaseHP(Sub_Unit *target,Unit *Trigger,double Value,double percentFromTotalHP,double percentFromCurrentHP);
+void Healing(HealRatio& Healptr,SubUnit *Healer,SubUnit *target);
+void Healing(HealRatio& healRatio,SubUnit *Healer);
+void Healing(HealRatio& healRatioMain,HealRatio& healRatio,SubUnit *Healer,SubUnit *target);
+void IncreaseCurrentHP(SubUnit *ptr,double Value);
+void IncreaseHP(SubUnit *Healer,SubUnit *target,double Value);
+void DecreaseCurrentHP(SubUnit *ptr,double Value);
+void DecreaseHP(SubUnit *target,Unit *Trigger,double Value,double percentFromTotalHP,double percentFromCurrentHP);
 
 //EnemyCombat.h
 void EnemyHit(Enemy *Attacker);
-void EnemyHit(Enemy *Attacker,vector<Sub_Unit*> target);
+void EnemyHit(Enemy *Attacker,vector<SubUnit*> target);
 /*------Calculate------*/
 
 //Calculate_damage
@@ -238,26 +238,26 @@ double Cal_Total_Toughness_Reduce(ActionData& data_, Enemy* target, double Base_
 
 
 //CalDmgReceive.h
-double calculateDmgReceive(Enemy *Attacker,Sub_Unit *ptr,double ratio);
+double calculateDmgReceive(Enemy *Attacker,SubUnit *ptr,double ratio);
 double calEnemyATK(Enemy *enemy);
-double calAllyDefMultiplier(Sub_Unit *ptr);
+double calAllyDefMultiplier(SubUnit *ptr);
 //Calculate_Stats
-double calculateAtkOnStats(Sub_Unit* ptr);
-double calculateHpOnStats(Sub_Unit* ptr);
-double calculateDefOnStats(Sub_Unit* ptr);
-double calculateSpeedOnStats(Sub_Unit* ptr);
-double calculateCritrateOnStats(Sub_Unit* ptr);
-double calculateCritdamOnStats(Sub_Unit* ptr);
-double calculateBreakEffectOnStats(Sub_Unit* ptr);
-double calculateHPLost(Sub_Unit *ptr);
+double calculateAtkOnStats(SubUnit* ptr);
+double calculateHpOnStats(SubUnit* ptr);
+double calculateDefOnStats(SubUnit* ptr);
+double calculateSpeedOnStats(SubUnit* ptr);
+double calculateCritrateOnStats(SubUnit* ptr);
+double calculateCritdamOnStats(SubUnit* ptr);
+double calculateBreakEffectOnStats(SubUnit* ptr);
+double calculateHPLost(SubUnit *ptr);
 
-double calculateAtkForBuff(Sub_Unit* ptr, double ratio);
-double calculateHpForBuff(Sub_Unit* ptr, double ratio);
-double calculateDefForBuff(Sub_Unit* ptr, double ratio);
-double calculateSpeedForBuff(Sub_Unit* ptr, double ratio);
-double calculateCritrateForBuff(Sub_Unit* ptr, double ratio);
-double calculateCritdamForBuff(Sub_Unit* ptr, double ratio);
-double calculateBreakEffectForBuff(Sub_Unit* ptr, double ratio);
+double calculateAtkForBuff(SubUnit* ptr, double ratio);
+double calculateHpForBuff(SubUnit* ptr, double ratio);
+double calculateDefForBuff(SubUnit* ptr, double ratio);
+double calculateSpeedForBuff(SubUnit* ptr, double ratio);
+double calculateCritrateForBuff(SubUnit* ptr, double ratio);
+double calculateCritdamForBuff(SubUnit* ptr, double ratio);
+double calculateBreakEffectForBuff(SubUnit* ptr, double ratio);
 
 double Cal_Atk_multiplier(ActionData& data_, Enemy* target);
 double Cal_Hp_multiplier(ActionData& data_, Enemy* target);
@@ -279,17 +279,17 @@ void Cal_Speed_Needed(Ally* ptr, double Speed_Need);
 
 
 //Calculate_Heal.h
-double calculateHeal(Heal_data& Healptr ,HealRatio healRatio,Sub_Unit *target);
-double calculateHeal(HealRatio healRatio,Sub_Unit *Healer,Sub_Unit *target);
-double calculateHealFromLostHP(Sub_Unit *target,double percent);
-double calculateHealFromTotalHP(Sub_Unit *target,double percent);
+double calculateHeal(Heal_data& Healptr ,HealRatio healRatio,SubUnit *target);
+double calculateHeal(HealRatio healRatio,SubUnit *Healer,SubUnit *target);
+double calculateHealFromLostHP(SubUnit *target,double percent);
+double calculateHealFromTotalHP(SubUnit *target,double percent);
 
 //Calculate_Stats_Heal.h
 double Cal_Atk_multiplier(Heal_data& ptr);
 double Cal_Hp_multiplier(Heal_data& ptr);
 double Cal_Def_multiplier(Heal_data& ptr);
-double Cal_HealBonus_multiplier(Heal_data& ptr,Sub_Unit *target);
-double Cal_HealBonus_multiplier(Sub_Unit *Healer,Sub_Unit *target);
+double Cal_HealBonus_multiplier(Heal_data& ptr,SubUnit *target);
+double Cal_HealBonus_multiplier(SubUnit *Healer,SubUnit *target);
 
 //CalDamageNote.h
 bool changeMaxDamage(Ally *ptr);
@@ -307,17 +307,17 @@ void allEventBuff(ActionData& data_);
 void allEventBeforeAttack(ActionData& data_);
 void allEventAfterAttack(ActionData& data_);
 void allEventWhenAttack(ActionData& data_);
-void allEventHeal(Sub_Unit *Healer,Sub_Unit *target,double Value);
-void allEventChangeHP(Unit *Trigger,Sub_Unit *target,double Value);
+void allEventHeal(SubUnit *Healer,SubUnit *target,double Value);
+void allEventChangeHP(Unit *Trigger,SubUnit *target,double Value);
 void allEventWhenToughnessBreak(ActionData& data_, Enemy* target);
-void allEventWhenEnemyHit(Enemy* Attacker,vector<Sub_Unit*> vec);
+void allEventWhenEnemyHit(Enemy* Attacker,vector<SubUnit*> vec);
 void allEventWhenEnergyIncrease(Ally* target, double Energy);
-void allEventSkillPoint(Sub_Unit* ptr, int p);
+void allEventSkillPoint(SubUnit* ptr, int p);
 void allEventAttackHitCount(ActionData& data_, int Hit_cnt, int Total_Hit_cnt);
-void allEventAdjustStats(Sub_Unit *ptr,string ST);
-void allEventApplyDebuff(Sub_Unit* ptr, Enemy* target);
-void allEventWhenEnemyDeath(Sub_Unit* Killer, Enemy* target);
-void allEventWhenAllyDeath(Sub_Unit *Target);
+void allEventAdjustStats(SubUnit *ptr,string ST);
+void allEventApplyDebuff(SubUnit* ptr, Enemy* target);
+void allEventWhenEnemyDeath(SubUnit* Killer, Enemy* target);
+void allEventWhenAllyDeath(SubUnit *Target);
 
 /*------Event------*/
 
@@ -369,8 +369,8 @@ void Set_Substats(Ally *ptr,int sub);
 void Set_Substats(Ally *ptr,int index,int sub);
 void Switch_Substats(Ally *ptr,string temp1,string temp2);
 void Switch_Substats_toFirst(Ally *ptr,string temp);
-void Set_Target_Buff(Sub_Unit *ptr,int num,int subnum);
-void Set_Target_Buff(Sub_Unit *ptr,int num);
+void Set_Target_Buff(SubUnit *ptr,int num,int subnum);
+void Set_Target_Buff(SubUnit *ptr,int num);
 void Set_Speed_Boot(Ally *ptr,bool Bool);
 void Set_Er_Rope(Ally *ptr,bool Bool);
 void Set_Body_Critdam(Ally *ptr,bool Bool);

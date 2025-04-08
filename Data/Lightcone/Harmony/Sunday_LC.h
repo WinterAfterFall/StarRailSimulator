@@ -13,7 +13,7 @@ namespace Harmony_Lightcone{
             ptr->Light_cone.Name = "Sunday_LC";
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 if (turn->Unit_num != ptr->Sub_Unit_ptr[0]->currentAllyTargetNum) return;
-                Sub_Unit *tempstats = dynamic_cast<Sub_Unit*>(turn->ptr_to_unit);
+                SubUnit *tempstats = dynamic_cast<SubUnit*>(turn->ptr_to_unit);
                 if (!tempstats) return;
                 if (Buff_end(tempstats, "Hymn")) {
                     Buff_single_target(tempstats, "Dmg%", "None", -(tempstats->Stack["Hymn"] * (12.75 + (2.25)*superimpose) ));
@@ -21,7 +21,7 @@ namespace Harmony_Lightcone{
                 }
             }));
     
-            AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,superimpose](Sub_Unit* target) {
+            AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,superimpose](SubUnit* target) {
                 target->setBuffCountdown("Hymn",0);
                 Buff_single_target(target, "Dmg%", "None", -(target->Stack["Hymn"] * (12.75 + (2.25)*superimpose)));
                 target->Stack["Hymn"] = 0;

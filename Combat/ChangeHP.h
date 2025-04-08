@@ -33,13 +33,13 @@ void Healing(Heal_data& Healptr){
     
 }
 //heal เดี่ยว
-void Healing(HealRatio& Healptr,Sub_Unit *Healer,Sub_Unit *target){
+void Healing(HealRatio& Healptr,SubUnit *Healer,SubUnit *target){
     double totalHeal = calculateHeal(Healptr,Healer,target);
     IncreaseHP(Healer,target,totalHeal);
 
 }
 //heal ทั้งทีมแบบเท่าเที่ยม
-void Healing(HealRatio& healRatio,Sub_Unit *Healer){
+void Healing(HealRatio& healRatio,SubUnit *Healer){
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
             if(Ally_unit[i]->Sub_Unit_ptr[j]->currentHP==0)continue;
@@ -49,7 +49,7 @@ void Healing(HealRatio& healRatio,Sub_Unit *Healer){
     }
 }
 //heal ทั้งทีมแบบฮีลคนนึงเยอะสุด
-void Healing(HealRatio& healRatioMain,HealRatio& healRatio,Sub_Unit *Healer,Sub_Unit *target){
+void Healing(HealRatio& healRatioMain,HealRatio& healRatio,SubUnit *Healer,SubUnit *target){
 
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
@@ -62,18 +62,18 @@ void Healing(HealRatio& healRatioMain,HealRatio& healRatio,Sub_Unit *Healer,Sub_
         }
     }
 }
-void IncreaseCurrentHP(Sub_Unit *ptr,double Value){
+void IncreaseCurrentHP(SubUnit *ptr,double Value){
     ptr->currentHP = (ptr->currentHP + Value > ptr->totalHP) ? ptr->totalHP : ptr->currentHP + Value;
 }
-void IncreaseHP(Sub_Unit *Healer,Sub_Unit *target,double Value){
+void IncreaseHP(SubUnit *Healer,SubUnit *target,double Value){
     IncreaseCurrentHP(target,Value);
     allEventHeal(Healer,target,Value);
 }
 
-void DecreaseCurrentHP(Sub_Unit *ptr,double Value){
+void DecreaseCurrentHP(SubUnit *ptr,double Value){
     ptr->currentHP = (ptr->currentHP - Value < 1) ? 1 : ptr->currentHP - Value;
 }
-void DecreaseHP(Sub_Unit *target,Unit *Trigger,double Value,double percentFromTotalHP,double percentFromCurrentHP){
+void DecreaseHP(SubUnit *target,Unit *Trigger,double Value,double percentFromTotalHP,double percentFromCurrentHP){
     double Total = Value;
     // if(isEnemyCheck(Trigger)&&target->isSameUnit("Mydei")){
     //     cout<<Trigger->Atv_stats->Unit_num<<" "<< Value<<endl;
@@ -84,7 +84,7 @@ void DecreaseHP(Sub_Unit *target,Unit *Trigger,double Value,double percentFromTo
     DecreaseCurrentHP(target,Total);
     allEventChangeHP(Trigger,target,Total);
 }
-void Sub_Unit::Death(){
+void SubUnit::Death(){
     this->currentHP = 0;
     this->Atv_stats->Base_speed=-1;
     Update_Max_atv(this->Atv_stats.get());

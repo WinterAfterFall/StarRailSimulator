@@ -13,7 +13,7 @@ namespace Nihility_Lightcone{
                 ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] += 50 + 10 * superimpose;
             }));
     
-            Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](Enemy *target, Sub_Unit *Breaker) {
+            Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](Enemy *target, SubUnit *Breaker) {
                 if (target->Debuff["Fugue_LC_Debuff"] == 0) {
                     target->Debuff["Fugue_LC_Debuff"] = 1;
                     target->Stats_type["Vul"]["Break_dmg"] += 15 + 3 * superimpose;
