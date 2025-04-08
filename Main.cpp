@@ -44,7 +44,7 @@ int main(){
     // Aglaea::Setup(1,0,Remembrance_Lightcone::SweatNowCryLess,Relic::Hero_Wreath,Planar::The_Wondrous_BananAmusement_Park);
     // Jingyuan::Setup_Jingyuan(1,2,Erudition_Lightcone::Before_Dawn,Relic::Grand_Duke,Planar::The_Wondrous_BananAmusement_Park);
     // Mydei::Setup(2,0,Destruction_Lightcone::Ninja_Record,Relic::Scholar,Planar::Bone_Collection);
-    Castorice::Setup(1,2,Remembrance_Lightcone::Castorice_LC(1),Relic::Poet_Dill,Planar::Bone_Collection);
+    Castorice::Setup(1,2,Remembrance_Lightcone::Aglaea_LC(1),Relic::Poet_Dill,Planar::Bone_Collection);
 
     //Driver
     // Bronya::Setup(2,0,Harmony_Lightcone::But_the_Battle_Isnt_Over,Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
@@ -55,7 +55,7 @@ int main(){
     //Serval::Setup(2,6,Harmony_Lightcone::Meshing_Cogs,Relic::Double_Speed,Planar::Lushaka);
     
     //Support
-    Tribbie::Setup(3,0,Harmony_Lightcone::DDD,Relic::Poet_Dill,Planar::Broken_Keel);
+    Tribbie::Setup(3,0,Harmony_Lightcone::DDD(5),Relic::Poet_Dill,Planar::Broken_Keel);
     RMC::Setup(2,6,Remembrance_Lightcone::Victory_In_Blink,Relic::Double_Speed,Planar::Broken_Keel);
     // Robin::Setup(2,0,Harmony_Lightcone::For_Tomorrow_Journey,Relic::Double_Atk,Planar::Broken_Keel);
     // Ruan_Mei::Setup(2,0,Harmony_Lightcone::Memories_of_the_Past,Relic::Iron_Cavalry,Planar::Broken_Keel);
