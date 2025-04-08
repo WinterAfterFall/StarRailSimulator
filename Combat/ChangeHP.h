@@ -3,6 +3,7 @@
 #include "../Unit/Trigger_Function.h"
 
 void Healing(Heal_data& Healptr){
+    healCount++;
     priority_queue<PointerWithValue, vector<PointerWithValue>, decltype(&PointerWithValue::Greater_cmp)> pq(&PointerWithValue::Less_cmp);
     
     for(int i=1;i<=Total_ally;i++){
@@ -34,12 +35,14 @@ void Healing(Heal_data& Healptr){
 }
 //heal เดี่ยว
 void Healing(HealRatio& Healptr,SubUnit *Healer,SubUnit *target){
+    healCount++;
     double totalHeal = calculateHeal(Healptr,Healer,target);
     IncreaseHP(Healer,target,totalHeal);
 
 }
 //heal ทั้งทีมแบบเท่าเที่ยม
 void Healing(HealRatio& healRatio,SubUnit *Healer){
+    healCount++;
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
             if(Ally_unit[i]->Sub_Unit_ptr[j]->currentHP==0)continue;
@@ -50,7 +53,7 @@ void Healing(HealRatio& healRatio,SubUnit *Healer){
 }
 //heal ทั้งทีมแบบฮีลคนนึงเยอะสุด
 void Healing(HealRatio& healRatioMain,HealRatio& healRatio,SubUnit *Healer,SubUnit *target){
-
+    healCount++;
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
             if(Ally_unit[i]->Sub_Unit_ptr[j]->currentHP==0)continue;

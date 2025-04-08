@@ -135,24 +135,30 @@ namespace Gallagher{
         When_attack_List.push_back(TriggerByAction_Func(PRIORITY_HEAL, [ptr](ActionData &data_) {
             Heal_data healData = Heal_data();
             healData.setHealer(ptr->Sub_Unit_ptr[0].get());
-            healData.main.setRatio(0, 0, 0, 707, 0, 0);
+            
 
             if (data_.Action_type.second == AT_BASIC_ATK && data_.Attacker->Atv_stats->Unit_Name == "Gallagher" && data_.Attacker->Buff_check["Gallagher_enchance_basic_atk"] == 1) {
                 ptr->Sub_Unit_ptr[0]->Buff_check["Gallagher_enchance_basic_atk"] = 0;
-
+                int cnt = 0;
                 for (Enemy *e : data_.Target_Attack) {
                     if (Debuff_check(e, "Besotted")) {
-                        healData.adjacent.setRatio(0, 0, 0, 707, 0, 0);
-                        healData.other.setRatio(0, 0, 0, 707, 0, 0);
-                        Healing(healData);
+                        cnt++;
+                        
                     }
                 }
+                healData.main.setRatio(0, 0, 0, 707*cnt, 0, 0);
+                healData.adjacent.setRatio(0, 0, 0, 707*cnt, 0, 0);
+                healData.other.setRatio(0, 0, 0, 707*cnt, 0, 0);
+                Healing(healData);
             } else {
+                int cnt = 0;
                 for (Enemy *e : data_.Target_Attack) {
                     if (Debuff_check(e, "Besotted")) {
-                        Healing(healData.main, ptr->Sub_Unit_ptr[0].get(), data_.Attacker);
+                        cnt++;           
                     }
                 }
+                healData.main.setRatio(0, 0, 0, 707*cnt, 0, 0);
+                Healing(healData.main, ptr->Sub_Unit_ptr[0].get(), data_.Attacker);
             }
         }));
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_HEAL, [ptr](SubUnit* Target, string StatsType) {
