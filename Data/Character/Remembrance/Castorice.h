@@ -33,7 +33,7 @@ namespace Castorice{
         LC(Ally_unit[num].get());
         Relic(Ally_unit[num].get());
         Planar(Ally_unit[num].get());
-        Ally_unit[num]->SetRelic(1,0,1,0);
+        Ally_unit[num]->SetRelic(1,0,0,0);
         Ally_unit[num]->Speed_tune_value = 0;
 
         SetMemoStats(Ally_unit[num].get(),0,0,"Quantum","Netherwing","Memosprite");

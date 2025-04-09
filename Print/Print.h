@@ -18,8 +18,10 @@ void Print(){
     cout<<turn->turn_cnt<<" ";
     cout<<Ally_unit[1]->getSubUnit()->Buff_note["Newbud"]<<" ";
     cout<<Ally_unit[2]->Current_energy<<" ";
+    // cout<<Ally_unit[1]->Sub_Unit_ptr[1]->currentHP<<" ";
+
     cout<<endl;
-    Ally_unit[1]->getSubUnit()->printCritStats();
+    // Ally_unit[1]->getSubUnit()->printCritStats();
     // Ally_unit[1]->getSubUnit()->printHpStats();
     // Ally_unit[2]->getSubUnit()->printHpStats();
     // Ally_unit[3]->getSubUnit()->printHpStats();
