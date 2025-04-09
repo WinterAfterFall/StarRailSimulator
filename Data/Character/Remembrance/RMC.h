@@ -80,12 +80,10 @@ namespace RMC{
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](SubUnit *target, string StatsType) {
             if (target->Atv_stats->Unit_Name != "Mem") return;
             if (StatsType == "Crit_dam") {
-                // before
-                // adjust
-                ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"] = (calculateCritdamForBuff(ptr->Sub_Unit_ptr[1].get(), 13.2) + 26.4) - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"];
-                // after
-                Buff_All_Ally("Crit_dam", AT_TEMP, ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]);
-                Buff_All_Ally("Crit_dam", "None", ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]);
+                double buffValue = (calculateCritdamForBuff(ptr->Sub_Unit_ptr[1].get(), 13.2) + 26.4);
+                Buff_All_Ally("Crit_dam", AT_TEMP, buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]);
+                Buff_All_Ally("Crit_dam", "None", buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]);
+                ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"] = buffValue;
                 return;
             }
         }));

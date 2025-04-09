@@ -129,97 +129,54 @@ void Stack_Buff_single_target(SubUnit *ptr, string stats_type, string Attack_typ
     if (ptr->Stack[Stack_Name] + Stack_increase > Stack_limit) {
         Stack_increase = Stack_limit - ptr->Stack[Stack_Name];
     }
-    Buff_single_target(ptr, stats_type, Attack_type, Stack_increase * Value_per_stack);
     ptr->Stack[Stack_Name] += Stack_increase;
+    Buff_single_target(ptr, stats_type, Attack_type, Stack_increase * Value_per_stack);
 }
 void Stack_Buff_single_target(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name) {
     if (ptr->Stack[Stack_Name] >= Stack_limit) return;
     if (ptr->Stack[Stack_Name] + Stack_increase > Stack_limit) {
         Stack_increase = Stack_limit - ptr->Stack[Stack_Name];
     }
-    Buff_single_target(ptr, stats_type, Attack_type, Element, Stack_increase * Value_per_stack);
     ptr->Stack[Stack_Name] += Stack_increase;
+    Buff_single_target(ptr, stats_type, Attack_type, Element, Stack_increase * Value_per_stack);
 }
 
 void Stack_Buff_single_with_all_memo(Ally *ptr, string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name) {
-    int original_increase = Stack_increase;
     for (int i = 0; i < ptr->Sub_Unit_ptr.size(); i++) {
         SubUnit *unit = ptr->Sub_Unit_ptr[i].get();
-        if (unit->Stack[Stack_Name] < Stack_limit) {
-            if (unit->Stack[Stack_Name] + Stack_increase > Stack_limit) {
-                Stack_increase = Stack_limit - unit->Stack[Stack_Name];
-            }
-            Buff_single_target(unit, stats_type, Attack_type, Stack_increase * Value_per_stack);
-            unit->Stack[Stack_Name] += Stack_increase;
-            Stack_increase = original_increase;
-        }
+        Stack_Buff_single_target(unit, stats_type, Attack_type, Value_per_stack, Stack_increase, Stack_limit, Stack_Name);
     }
 }
 void Stack_Buff_single_with_all_memo(Ally *ptr, string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name) {
-    int original_increase = Stack_increase;
     for (int i = 0; i < ptr->Sub_Unit_ptr.size(); i++) {
         SubUnit *unit = ptr->Sub_Unit_ptr[i].get();
-        if (unit->Stack[Stack_Name] < Stack_limit) {
-            if (unit->Stack[Stack_Name] + Stack_increase > Stack_limit) {
-                Stack_increase = Stack_limit - unit->Stack[Stack_Name];
-            }
-            Buff_single_target(unit, stats_type, Attack_type, Element, Stack_increase * Value_per_stack);
-            unit->Stack[Stack_Name] += Stack_increase;
-            Stack_increase = original_increase;
-        }
+        Stack_Buff_single_target(unit, stats_type, Attack_type,Element, Value_per_stack, Stack_increase, Stack_limit, Stack_Name);
     }
 }
 
 void Stack_Buff_All_Ally(string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name) {
-    int original_increase = Stack_increase;
     for (int i = 1; i <= Total_ally; i++) {
         for (int j = 0; j < Ally_unit[i]->Sub_Unit_ptr.size(); j++) {
             SubUnit *unit = Ally_unit[i]->Sub_Unit_ptr[j].get();
-            if (unit->Stack[Stack_Name] < Stack_limit) {
-                if (unit->Stack[Stack_Name] + Stack_increase > Stack_limit) {
-                    Stack_increase = Stack_limit - unit->Stack[Stack_Name];
-                }
-                Buff_single_target(unit, stats_type, Attack_type, Stack_increase * Value_per_stack);
-                unit->Stack[Stack_Name] += Stack_increase;
-                Stack_increase = original_increase;
-            }
+            Stack_Buff_single_target(unit, stats_type, Attack_type, Value_per_stack, Stack_increase, Stack_limit, Stack_Name);
         }
     }
 }
 void Stack_Buff_All_Ally(string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name) {
-    int original_increase = Stack_increase;
     for (int i = 1; i <= Total_ally; i++) {
         for (int j = 0; j < Ally_unit[i]->Sub_Unit_ptr.size(); j++) {
             SubUnit *unit = Ally_unit[i]->Sub_Unit_ptr[j].get();
-            if (unit->Stack[Stack_Name] < Stack_limit) {
-                if (unit->Stack[Stack_Name] + Stack_increase > Stack_limit) {
-                    Stack_increase = Stack_limit - unit->Stack[Stack_Name];
-                }
-                Buff_single_target(unit, stats_type, Attack_type, Element, Stack_increase * Value_per_stack);
-                unit->Stack[Stack_Name] += Stack_increase;
-                Stack_increase = original_increase;
-            }
+            Stack_Buff_single_target(unit, stats_type, Attack_type,Element, Value_per_stack, Stack_increase, Stack_limit, Stack_Name);
         }
     }
 }
 
 void Stack_Buff_All_Ally_Excluding_Buffer(string stats_type, string Attack_type, string Buffer_name, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name) {
-    int original_increase = Stack_increase;
-
     for (int i = 1; i <= Total_ally; i++) {
-        if (Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Char_Name == Buffer_name) continue;
-
         for (int j = 0; j < Ally_unit[i]->Sub_Unit_ptr.size(); j++) {
+            if (Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->Char_Name == Buffer_name) continue;
             SubUnit* ptr = Ally_unit[i]->Sub_Unit_ptr[j].get();  // ดึง pointer ออกจาก unique_ptr
-            
-            if (ptr->Stack[Stack_Name] < Stack_limit) {
-                if (ptr->Stack[Stack_Name] + Stack_increase > Stack_limit) {
-                    Stack_increase = Stack_limit - ptr->Stack[Stack_Name];
-                }
-
-                Buff_single_target(ptr, stats_type, Attack_type, Stack_increase * Value_per_stack);
-                Stack_increase = original_increase;
-            }
+            Stack_Buff_single_target(ptr, stats_type, Attack_type, Value_per_stack, Stack_increase, Stack_limit, Stack_Name);
         }
     }
 }
@@ -227,19 +184,11 @@ void Stack_Buff_All_Ally_Excluding_Buffer(string stats_type, string Attack_type,
     int original_increase = Stack_increase;
 
     for (int i = 1; i <= Total_ally; i++) {
-        if (Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Char_Name == Buffer_name) continue;
-
+        
         for (int j = 0; j < Ally_unit[i]->Sub_Unit_ptr.size(); j++) {
+            if (Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->Char_Name == Buffer_name) continue;
             SubUnit* ptr = Ally_unit[i]->Sub_Unit_ptr[j].get();  // ดึง pointer ออกจาก unique_ptr
-
-            if (ptr->Stack[Stack_Name] < Stack_limit) {
-                if (ptr->Stack[Stack_Name] + Stack_increase > Stack_limit) {
-                    Stack_increase = Stack_limit - ptr->Stack[Stack_Name];
-                }
-
-                Buff_single_target(ptr, stats_type, Attack_type, Element, Stack_increase * Value_per_stack);
-                Stack_increase = original_increase;
-            }
+            Stack_Buff_single_target(ptr, stats_type, Attack_type,Element, Value_per_stack, Stack_increase, Stack_limit, Stack_Name);
         }
     }
 }

@@ -184,20 +184,20 @@ namespace Sunday{
             if(ptr->Eidolon>=6&&target->getStack("The_Sorrowing_Body")>0&&StatsType == ST_CRIT_RATE){
                 double temp = (calculateCritrateForBuff(target,100) - 100)*2;
                 if(temp<0)temp=0;
-                target->Buff_note["The_Sorrowing_Body"] = temp - target->Buff_note["The_Sorrowing_Body"];
-                Buff_single_target(target, ST_CRIT_DAM, AT_TEMP, target->getBuffNote("The_Sorrowing_Body"));
-                Buff_single_target(target, ST_CRIT_DAM, AT_NONE, target->getBuffNote("The_Sorrowing_Body"));
+                Buff_single_target(target, ST_CRIT_DAM, AT_TEMP, temp - target->getBuffNote("The_Sorrowing_Body"));
+                Buff_single_target(target, ST_CRIT_DAM, AT_NONE, temp - target->getBuffNote("The_Sorrowing_Body"));
+                target->Buff_note["The_Sorrowing_Body"] = temp;
             }
             if (target->Atv_stats->Unit_Name != "Sunday") return;
             if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Ode_to_Caress_and_Cicatrix")) return;
             if (StatsType != ST_CRIT_DAM) return;   
-
-            ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"] = calculateCritdamForBuff(ptr->Sub_Unit_ptr[0].get(), 30) + 12 - ptr->getBuffNote("Ode_to_Caress_and_Cicatrix");
+            double buffValue = calculateCritdamForBuff(ptr->Sub_Unit_ptr[0].get(), 30) + 12;
             for(unique_ptr<SubUnit> &e : chooseCharacterBuff(ptr->getSubUnit())->Sub_Unit_ptr ){
                 if(!e->getBuffCheck("Ode_to_Caress_and_Cicatrix"))continue;
-                Buff_single_target(e.get(), ST_CRIT_DAM, AT_TEMP, ptr->getBuffNote("Ode_to_Caress_and_Cicatrix"));
-                Buff_single_target(e.get(), ST_CRIT_DAM, AT_NONE, ptr->getBuffNote("Ode_to_Caress_and_Cicatrix"));
+                Buff_single_target(e.get(), ST_CRIT_DAM, AT_TEMP, buffValue - ptr->getBuffNote("Ode_to_Caress_and_Cicatrix"));
+                Buff_single_target(e.get(), ST_CRIT_DAM, AT_NONE, buffValue - ptr->getBuffNote("Ode_to_Caress_and_Cicatrix"));
             }
+            ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"] =  buffValue;
             
         }));
 

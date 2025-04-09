@@ -72,12 +72,12 @@ namespace Aglaea{
                 ptr->Countdown_ptr[0]->Atv_stats->Base_speed = 100;
                 Update_Max_atv(ptr->Countdown_ptr[0]->Atv_stats.get());
                 atv_reset(ptr->Countdown_ptr[0]->Atv_stats.get());
+                double BuffValue = calculateSpeedForBuff(ptr->Sub_Unit_ptr[0].get(), 360) + 
+                calculateSpeedForBuff(ptr->Sub_Unit_ptr[1].get(), 720);
 
-                ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"] = calculateSpeedForBuff(ptr->Sub_Unit_ptr[0].get(), 360) + 
-                                                                calculateSpeedForBuff(ptr->Sub_Unit_ptr[1].get(), 720) - 
-                                                                ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"];
-                Buff_single_with_all_memo(ptr, "Flat_Atk", AT_TEMP, ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
-                Buff_single_with_all_memo(ptr, "Flat_Atk", "None", ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
+                Buff_single_with_all_memo(ptr, "Flat_Atk", AT_TEMP, BuffValue - ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
+                Buff_single_with_all_memo(ptr, "Flat_Atk", "None", BuffValue - ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
+                ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"] =  BuffValue;
                 if (ptr->Print) CharCmd::printUltStart("Aglaea");
             };
             Action_bar.push(data_);
@@ -206,9 +206,12 @@ namespace Aglaea{
             if (ptr->Countdown_ptr[0]->Atv_stats->Base_speed == -1) return;
             if (StatsType == "Speed") {
                 // adjust
-                ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"] = calculateSpeedForBuff(ptr->Sub_Unit_ptr[0].get(), 360) + calculateSpeedForBuff(ptr->Sub_Unit_ptr[1].get(), 720) - ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"];
-                Buff_single_with_all_memo(ptr, "Flat_Atk", AT_TEMP, ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
-                Buff_single_with_all_memo(ptr, "Flat_Atk", "None", ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
+                double BuffValue = calculateSpeedForBuff(ptr->Sub_Unit_ptr[0].get(), 360) + 
+                calculateSpeedForBuff(ptr->Sub_Unit_ptr[1].get(), 720);
+
+                Buff_single_with_all_memo(ptr, "Flat_Atk", AT_TEMP, BuffValue - ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
+                Buff_single_with_all_memo(ptr, "Flat_Atk", "None", BuffValue - ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
+                ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"] =  BuffValue;
                 return;
             }
         }));
