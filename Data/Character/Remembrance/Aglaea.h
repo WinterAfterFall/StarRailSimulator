@@ -159,12 +159,9 @@ namespace Aglaea{
                 }
             }
             if (data_.Attacker->isSameUnitName("Aglaea")) {
-                debuffApply(ptr->Sub_Unit_ptr[0].get(), Enemy_unit[Main_Enemy_num].get());
-                if (Enemy_unit[Main_Enemy_num]->Debuff["Seam_Stitch"] == 0) {
-                    Enemy_unit[Main_Enemy_num]->Debuff["Seam_Stitch"] = 1;
-                    Enemy_unit[Main_Enemy_num]->Total_debuff++;
+                if (Enemy_unit[Main_Enemy_num]->debuffMark(ptr->getSubUnit(),"Seam_Stitch")) {
                     if (ptr->Eidolon >= 1) {
-                        Debuff_single_target(Enemy_unit[Main_Enemy_num].get(), "Vul", "None", 15);
+                        Enemy_unit[Main_Enemy_num]->debuffSingleTarget("Vul", "None", 15);
                     }
                 }
             }

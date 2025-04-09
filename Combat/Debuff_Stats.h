@@ -40,11 +40,18 @@ bool Enemy::debuffStack(SubUnit *ptr,string debuffName,int Stack_increase,int St
         allEventApplyDebuff(ptr,this);
         return true;
     }
+    allEventApplyDebuff(ptr,this);
     return false;
 }
 void Enemy::debuffRemove(string debuffName){
     if(this->getDebuff(debuffName)){
         this->setDebuff(debuffName,0);
+        this->addTotalDebuff(-1);
+    }
+}
+void Enemy::debuffRemoveStack(string debuffName){
+    if(this->getStack(debuffName)){
+        this->setStack(debuffName,0);
         this->addTotalDebuff(-1);
     }
 }
@@ -59,20 +66,20 @@ void Enemy::debuffSingleTarget(string stats_type, string Attack_type, string Ele
 }
 
 void Enemy::debuffStackSingleTarget(SubUnit *ptr, string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name) {
-    if (this->Stack[Stack_Name] >= Stack_limit) return;
     if (this->Stack[Stack_Name] + Stack_increase > Stack_limit) {
         Stack_increase = Stack_limit - this->Stack[Stack_Name];
     }
     this->debuffStack(ptr,Stack_Name,Stack_increase);
+    if(Stack_increase==0)return;
     this->debuffSingleTarget(stats_type, Attack_type, Stack_increase * Value_per_stack);
 }
 
 void Enemy::debuffStackSingleTarget(SubUnit *ptr,string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name) {
-    if (this->Stack[Stack_Name] >= Stack_limit) return;
     if (this->Stack[Stack_Name] + Stack_increase > Stack_limit) {
         Stack_increase = Stack_limit - this->Stack[Stack_Name];
     }
     this->debuffStack(ptr,Stack_Name,Stack_increase);
+    if(Stack_increase==0)return;
     this->debuffSingleTarget(stats_type, Attack_type, Element, Stack_increase * Value_per_stack);
 }
 

@@ -40,8 +40,8 @@ public:
         if(this->Unit_Name == name)return true;
         return false;
     }
-    SubUnit* isSubUnitCheck();
-    Enemy* isEnemyCheck();
+    SubUnit* canCastToSubUnit();
+    Enemy* canCastToEnemy();
 
 };
 // Base Unit class
@@ -61,8 +61,8 @@ public:
     int getNum(){
         return this->Atv_stats->Unit_num;
     }
-    SubUnit* isSubUnitCheck();
-    Enemy* isEnemyCheck();
+    SubUnit* canCastToSubUnit();
+    Enemy* canCastToEnemy();
     
     virtual ~Unit() {}  // Virtual destructor to ensure proper cleanup of derived classes
 };
@@ -365,6 +365,7 @@ public:
    
     int Total_debuff = 0;
     unordered_map<string,int> Debuff;
+    unordered_map<string,double> DebuffNote;
     unordered_map<string,int> Stack;
     unordered_map<string,int> Debuff_time_count;
 
@@ -416,6 +417,9 @@ public:
     void setDebuff(string debuffName, int value) {
         this->Debuff[debuffName] = value;
     }
+    void setDebuffNote(string debuffName, int value) {
+        this->DebuffNote[debuffName] = value;
+    }
     void setStack(string debuffName, int value) {
         this->Stack[debuffName] = value;
     }
@@ -430,13 +434,16 @@ public:
     int getDebuff(string debuffName) {
         return this->Debuff[debuffName];
     }
+    int getDebuffNote(string debuffName) {
+        return this->DebuffNote[debuffName];
+    }
     int getStack(string debuffName) {
         return this->Stack[debuffName];
     }
     int getDebuffTimeCount(string debuffName) {
         return this->Debuff_time_count[debuffName];
     }
-
+    
     //add
     void addTotalDebuff(int value) {
         this->Total_debuff += value;
@@ -451,6 +458,7 @@ public:
     void debuffStack(SubUnit *ptr,string debuffName,int Stack_increase);
     bool debuffStack(SubUnit *ptr,string debuffName,int Stack_increase,int StackLimit);
     void debuffRemove(string debuffName);
+    void debuffRemoveStack(string debuffName);
 
     void debuffSingleTarget(string stats_type, string Attack_type, double Value);
     void debuffSingleTarget(string stats_type, string Attack_type, string Element, double Value);

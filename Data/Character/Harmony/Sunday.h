@@ -134,7 +134,7 @@ namespace Sunday{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
-            SubUnit *Temp_stats = turn->isSubUnitCheck();
+            SubUnit *Temp_stats = turn->canCastToSubUnit();
             if (!Temp_stats||Temp_stats->getNum()!=ptr->getSubUnit()->currentAllyTargetNum) return;
             if (Buff_end(Temp_stats, "Benison_of_Paper_and_Rites")) {
                 if (Temp_stats->ptr_to_unit->isAllyHaveSummon()) {

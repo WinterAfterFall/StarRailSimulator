@@ -106,11 +106,11 @@ namespace Rappa{
 
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_DEBUFF, [ptr]() {
-            if (turn->Side == "Enemy") {
-                if (Debuff_end(Enemy_unit[turn->Unit_num].get(), "Withered_Leaf")) {
-                    Debuff_single_target(Enemy_unit[turn->Unit_num].get(), "Vul", "Break_dmg", -Enemy_unit[turn->Unit_num]->Debuff["Withered_Leaf"]);
-                    Enemy_unit[turn->Unit_num]->Debuff["Withered_Leaf"] = 0;
-                    Enemy_unit[turn->Unit_num]->Total_debuff--;
+            Enemy *enemyUnit = turn->canCastToEnemy();
+            if (enemyUnit) {
+                if (Debuff_end(enemyUnit, "Withered_Leaf")) {
+                    enemyUnit->debuffSingleTarget("Vul", "Break_dmg", -enemyUnit->DebuffNote["Withered_Leaf"]);
+                    enemyUnit->debuffRemove("Withered_Leaf");
                 }
             }
             if (turn->Char_Name == "Rappa") {
@@ -178,19 +178,14 @@ namespace Rappa{
                 ptr->Sub_Unit_ptr[0]->Stack["Rappa_Talent"]++;
                 Increase_energy(ptr, 10);
             }
-            if (target->Debuff["Withered_Leaf"] <= 0) {
-                target->Total_debuff++;
-            }
-            Debuff_single_target(target, "Vul", "Break_dmg", -target->Debuff["Withered_Leaf"]);
-            target->Debuff["Withered_Leaf"] = floor((((ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] / 100 * ptr->Sub_Unit_ptr[0]->Base_atk + ptr->Sub_Unit_ptr[0]->Base_atk) + ptr->Sub_Unit_ptr[0]->Stats_type["Flat_Atk"]["None"]) - 2400) / 100) + 2;
-            if (target->Debuff["Withered_Leaf"] > 10) {
-                target->Debuff["Withered_Leaf"] = 10;
-            }
-            if (target->Debuff["Withered_Leaf"] < 0) {
-                target->Debuff["Withered_Leaf"] = 0;
-            }
-            debuffApply(ptr->Sub_Unit_ptr[0].get(), target);
-            Debuff_single_target(target, "Vul", "Break_dmg", target->Debuff["Withered_Leaf"]);
+            double temp = floor((calculateAtkForBuff(ptr->getSubUnit(),100) - 2400) / 100) + 2;
+            if (temp > 10) 
+            temp = 10;
+            if (temp < 0)
+            temp = 0;
+            target->DebuffNote["Withered_Leaf"] = temp - target->DebuffNote["Withered_Leaf"];
+            target->debuffApply(ptr->getSubUnit(),"Withered_Leaf");
+            target->debuffSingleTarget("Vul", "Break_dmg", target->DebuffNote["Withered_Leaf"]);
             Extend_Debuff_single_target(target, "Withered_Leaf", 2);
         }));
 

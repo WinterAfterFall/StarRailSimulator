@@ -75,14 +75,11 @@ namespace Serval{
                 Attack(data_);
                 if (ptr->Eidolon >= 4){
                     for (int i = 1; i <= Total_enemy; i++) {
-                        if (!Debuff_check(Enemy_unit[i].get(), "Serval_Shock")) {
-                            Enemy_unit[i]->Debuff["Serval_Shock"] = 1;
+                        if (Enemy_unit[i]->debuffApply(ptr->getSubUnit(),"Serval_Shock")) {
                             Enemy_unit[i]->Debuff["Shock_check"]++;
-                            Enemy_unit[i]->Total_debuff++;
                         }
-                        debuffApply(ptr->Sub_Unit_ptr[0].get(), Enemy_unit[i].get());
-                        Extend_Debuff_single_target(Enemy_unit[i].get(), "Serval_Shock", 2);
                     }
+                    Extend_Debuff_All_Enemy("Serval_Shock", 2);
                 }
             };
             Action_bar.push(data_);
@@ -102,9 +99,8 @@ namespace Serval{
                 Enemy *tempstats = dynamic_cast<Enemy*>(turn->ptr_to_unit);
                 if (tempstats) {
                     if (Debuff_end(tempstats, "Serval_Shock")) {
-                        tempstats->Debuff["Serval_Shock"] = 0;
+                        tempstats->debuffRemove("Serval_Shock");
                         tempstats->Debuff["Shock_check"]--;
-                        tempstats->Total_debuff--;
                     }
                 }
             }
@@ -191,15 +187,12 @@ namespace Serval{
         data_.actionFunction = [ptr](ActionData &data_){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
-            for(int i=1;i<=Total_enemy;i++){
-                if(!Debuff_check(Enemy_unit[i].get(),"Serval_Shock")){
-                    Enemy_unit[i]->Debuff["Serval_Shock"] = 1;
+            for (int i = 1; i <= Total_enemy; i++) {
+                if (Enemy_unit[i]->debuffApply(ptr->getSubUnit(),"Serval_Shock")) {
                     Enemy_unit[i]->Debuff["Shock_check"]++;
-                    Enemy_unit[i]->Total_debuff++;
                 }
-                debuffApply(ptr->Sub_Unit_ptr[0].get(),Enemy_unit[i].get());
-                Extend_Debuff_single_target(Enemy_unit[i].get(),"Serval_Shock",2);
             }
+            Extend_Debuff_All_Enemy("Serval_Shock", 2);
             Attack(data_);
         };
         Action_bar.push(data_);

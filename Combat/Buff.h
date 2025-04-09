@@ -14,16 +14,16 @@ using namespace std;
 
 //normal buff/debuff
 // 
-SubUnit* Action_value_stats::isSubUnitCheck(){
+SubUnit* Action_value_stats::canCastToSubUnit(){
     return dynamic_cast<SubUnit*>(this->ptr_to_unit);
 }
-Enemy* Action_value_stats::isEnemyCheck(){
+Enemy* Action_value_stats::canCastToEnemy(){
     return dynamic_cast<Enemy*>(this->ptr_to_unit);
 }
-SubUnit* Unit::isSubUnitCheck() {
+SubUnit* Unit::canCastToSubUnit() {
     return dynamic_cast<SubUnit*>(this);
 }
-Enemy* Unit::isEnemyCheck(){
+Enemy* Unit::canCastToEnemy(){
     return dynamic_cast<Enemy*>(this);
 }
 

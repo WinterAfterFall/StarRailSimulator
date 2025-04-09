@@ -57,12 +57,7 @@ namespace Mydei{
             data_.actionFunction = [ptr](ActionData &data_) {
                 for (Enemy* e : data_.Target_Attack) {
                     e->target = ptr->Sub_Unit_ptr[0].get();
-                    debuffApply(ptr->Sub_Unit_ptr[0].get(), e);
-                    if(e->Debuff["Mydei_Taunt"]==0){
-                        e->Debuff["Mydei_Taunt"] = 1;
-                        e->Total_debuff++;
-                    }
-                    
+                    e->debuffApply(ptr->Sub_Unit_ptr[0].get(),"Mydei_Taunt");
                 }
 
                 HealRatio healratio = HealRatio();
@@ -164,7 +159,7 @@ namespace Mydei{
 
         HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_ACTTACK, [ptr](Unit *Trigger, SubUnit *target, double Value) {
             if (!target->isSameUnitName("Mydei")) return;
-            if (Trigger->isEnemyCheck()) {
+            if (Trigger->canCastToEnemy()) {
             ChargePoint(ptr, ((ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] * 2.5 + 100.0) / 100.0) * CalculateChargePoint(ptr->Sub_Unit_ptr[0].get(), Value));
             } else {
             ChargePoint(ptr, CalculateChargePoint(ptr->Sub_Unit_ptr[0].get(), Value));

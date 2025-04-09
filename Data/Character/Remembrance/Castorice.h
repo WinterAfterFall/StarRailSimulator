@@ -179,7 +179,7 @@ namespace Castorice{
             data_.Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
             data_.actionFunction = [ptr](ActionData &data_) {
                 if(ptr->Print)CharCmd::printUltStart("Castorice");
-                Debuff_All_Enemy_Apply_ver(ptr->getSubUnit(1),ST_RESPEN,AT_NONE,20,"Lost Netherland");
+                debuffAllEnemyMarkVer(ptr->getSubUnit(1),ST_RESPEN,AT_NONE,20,"Lost Netherland");
                 
 
                 ptr->getSubUnit(1)->currentHP = 34000;
@@ -224,7 +224,7 @@ namespace Castorice{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if(ptr->Technique==1){
-                Debuff_All_Enemy_Apply_ver(ptr->getSubUnit(1),ST_RESPEN,AT_NONE,20,"Lost Netherland");
+                debuffAllEnemyMarkVer(ptr->getSubUnit(1),ST_RESPEN,AT_NONE,20,"Lost Netherland");
                 
 
                 ptr->getSubUnit(1)->currentHP = 17000;
@@ -307,7 +307,7 @@ namespace Castorice{
                 Buff_single_target(ptr->getSubUnit(1),ST_DMG_PERCENT,AT_NONE,-30*ptr->getSubUnit(1)->getStack("Where The West Wind Dwells"));
                 ptr->getSubUnit(1)->Stack["Where The West Wind Dwells"] = 0;
             }
-            SubUnit *tempUnit = turn->isSubUnitCheck();
+            SubUnit *tempUnit = turn->canCastToSubUnit();
             if(tempUnit){
                 if(Buff_end(tempUnit,"Roar Rumbles the Realm")){
                     tempUnit->setBuffCheck("Roar Rumbles the Realm",0);
@@ -459,9 +459,8 @@ namespace Castorice{
             healRatio.setRatio(0,6,0,800,0,0);
             Healing(healRatio,ptr->getSubUnit(0));
             for(int i=1;i<=Total_enemy;i++){
-                Enemy_unit[i]->Debuff["Lost Netherland"]=0;
-                Enemy_unit[i]->Total_debuff--;
-                Debuff_single_target(Enemy_unit[i].get(),ST_RESPEN,AT_NONE,-20);
+                Enemy_unit[i]->debuffRemove("Lost Netherland"); 
+                Enemy_unit[i]->debuffSingleTarget(ST_RESPEN,AT_NONE,-20);
             }
             ptr->getSubUnit(1)->Death();
             Buff_single_target(ptr->getSubUnit(1),ST_FLAT_HP,AT_NONE,-34000);

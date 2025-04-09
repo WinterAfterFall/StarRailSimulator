@@ -34,7 +34,6 @@ void SetValue(){
     Additional_Damage_check_mode = 0;
     // golden ratio
     rerollSubstatsMode = "Standard" ; //Standard AllCombination AllPossible
-
     Enemy_unit.resize(Total_enemy+1);
 }
 int main(){

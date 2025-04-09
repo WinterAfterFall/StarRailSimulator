@@ -124,8 +124,7 @@ namespace Ruan_Mei{
             if(turn->Side == "Enemy" && Turn_Skip == 0){
                 if(Enemy_unit[turn->Unit_num]->Debuff["RuanMei_Ult_bloom"] == 1){
                     Turn_Skip = 1;
-                    Enemy_unit[turn->Unit_num]->Debuff["RuanMei_Ult_bloom"] = 0;
-                    Enemy_unit[turn->Unit_num]->Total_debuff--;
+                    Enemy_unit[turn->Unit_num]->debuffRemove("RuanMei_Ult_bloom");
                     Action_forward(Enemy_unit[turn->Unit_num]->Atv_stats.get(), -10 - (0.2 * (ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"])));
                     ActionData data_ = ActionData();
                     data_.Break_dmg_set(ptr->Sub_Unit_ptr[0].get(),"RuanMei Break");
@@ -136,35 +135,12 @@ namespace Ruan_Mei{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
-            if(turn->Side == "Enemy" && ptr->Eidolon >= 2 && Turn_Skip == 0 && Debuff_check(Enemy_unit[turn->Unit_num].get(), "RuanMei_E2")){
-                Debuff_single_target(Enemy_unit[turn->Unit_num].get(), "Atk%", "None", 40);
-                Enemy_unit[turn->Unit_num]->Debuff["RuanMei_E2"] = 0;
-            }
         }));
 
         After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](ActionData &data_){
             if(Buff_check(ptr->Sub_Unit_ptr[0].get(), "RuanMei_Ult")){
-                int sz2 = data_.Damage_spilt.Adjacent.size();
-                int sz3 = data_.Damage_spilt.Other.size();
-                for(int i = 1; i <= Total_enemy; i++){
-                    if(Enemy_unit[i]->Target_type == "Main"){
-                        if(Enemy_unit[i]->Debuff["RuanMei_Ult_bloom"] == 1) continue;
-                        debuffApply(ptr->Sub_Unit_ptr[0].get(), Enemy_unit[i].get());
-                        Enemy_unit[i]->Total_debuff++;
-                        Enemy_unit[i]->Debuff["RuanMei_Ult_bloom"] = 1;
-                    }
-                    if(0 < sz2 && Enemy_unit[i]->Target_type == "Adjacent"){
-                        if(Enemy_unit[i]->Debuff["RuanMei_Ult_bloom"] == 1) continue;
-                        debuffApply(ptr->Sub_Unit_ptr[0].get(), Enemy_unit[i].get());
-                        Enemy_unit[i]->Total_debuff++;
-                        Enemy_unit[i]->Debuff["RuanMei_Ult_bloom"] = 1;
-                    }
-                    if(0 < sz3 && Enemy_unit[i]->Target_type == "Other"){
-                        if(Enemy_unit[i]->Debuff["RuanMei_Ult_bloom"] == 1) continue;
-                        debuffApply(ptr->Sub_Unit_ptr[0].get(), Enemy_unit[i].get());
-                        Enemy_unit[i]->Total_debuff++;
-                        Enemy_unit[i]->Debuff["RuanMei_Ult_bloom"] = 1;
-                    }
+                for(Enemy * e : data_.Target_Attack){
+                    e->debuffApply(ptr->Sub_Unit_ptr[0].get(),"RuanMei_Ult_bloom");
                 }
             }
         }));
@@ -175,12 +151,6 @@ namespace Ruan_Mei{
             data_.Break_dmg_set(ptr->Sub_Unit_ptr[0].get(),"RuanMei Break");
             temp = 1.2;
             Cal_Break_damage(data_, target, temp);
-            if(ptr->Eidolon >= 2){
-                if(Debuff_check(target, "RuanMei_E2")){
-                    Debuff_single_target(target, "Atk%", "None", 40);
-                    target->Debuff["RuanMei_E2"] = 1;
-                }
-            }
         }));
     
     }

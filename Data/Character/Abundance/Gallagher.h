@@ -55,7 +55,7 @@ namespace Gallagher{
             data_.actionFunction = [ptr](ActionData &data_) {
                 Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
                 ptr->Sub_Unit_ptr[0]->Buff_check["Gallagher_enchance_basic_atk"] = 1;
-                Debuff_All_Enemy_Apply_ver(ptr->Sub_Unit_ptr[0].get(), "Vul", "Break_dmg", 13.2, "Besotted");
+                debuffAllEnemyApplyVer(ptr->Sub_Unit_ptr[0].get(), "Vul", "Break_dmg", 13.2, "Besotted");  
                 if (ptr->Eidolon >= 4) {
                     Extend_Debuff_All_Enemy("Besotted", 3);
                 } else {
@@ -88,16 +88,14 @@ namespace Gallagher{
         }});
 
         After_turn_List.push_back({PRIORITY_IMMEDIATELY, [ptr]() {
-            if (turn->Side == "Enemy") {
-                if (Debuff_end(Enemy_unit[turn->Unit_num].get(), "Besotted")) {
-                    Debuff_single_target(Enemy_unit[turn->Unit_num].get(), "Vul", "Break_dmg", -13.2);
-                    Enemy_unit[turn->Unit_num]->Debuff["Besotted"] = 0;
-                    --Enemy_unit[turn->Unit_num]->Total_debuff;
-                }
-                if (Debuff_end(Enemy_unit[turn->Unit_num].get(), "Nectar_Blitz")) {
-                    --Enemy_unit[turn->Unit_num]->Total_debuff;
-                    Enemy_unit[Main_Enemy_num]->Debuff["Nectar_Blitz"] = 0;
-                }
+            Enemy * focusUnit = turn->canCastToEnemy();
+            if(!focusUnit)return;
+            if (Debuff_end(focusUnit, "Besotted")) {
+                focusUnit->debuffSingleTarget("Vul", "Break_dmg", -13.2);
+                focusUnit->debuffRemove("Besotted");
+            }
+            if (Debuff_end(focusUnit, "Nectar_Blitz")) {
+                focusUnit->debuffRemove("Nectar_Blitz");
             }
         }});
 
@@ -125,7 +123,7 @@ namespace Gallagher{
                 Action_bar.push(data_);
                 data_.actionFunction = [ptr](ActionData &data_){
                     Extend_Debuff_All_Enemy("Besotted", 2);
-                    Debuff_All_Enemy_Apply_ver(ptr->Sub_Unit_ptr[0].get(), "Vul", "Break_dmg", 13.2, "Besotted");
+                    debuffAllEnemyApplyVer(ptr->Sub_Unit_ptr[0].get(), "Vul", "Break_dmg", 13.2, "Besotted");
                     Attack(data_);
                 };
                 if (!actionBarUse) Deal_damage();
@@ -208,13 +206,10 @@ namespace Gallagher{
         data_.actionFunction = [ptr](ActionData &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
-            if(!Debuff_check(Enemy_unit[Main_Enemy_num].get(),"Nectar_Blitz")){
-                Enemy_unit[Main_Enemy_num]->Debuff["Nectar_Blitz"] = 1;
-                ++Enemy_unit[Main_Enemy_num]->Total_debuff;
-                
+            for(Enemy* target : data_.Target_Attack){
+                target->debuffApply(data_.Attacker,"Nectar_Blitz");
+                Extend_Debuff_single_target(target,"Nectar_Blitz",2);
             }
-            debuffApply(ptr->Sub_Unit_ptr[0].get(),Enemy_unit[Main_Enemy_num].get());
-            Extend_Debuff_single_target(Enemy_unit[Main_Enemy_num].get(),"Nectar_Blitz",2);
             Attack(data_);
         };
         Action_bar.push(data_);

@@ -87,7 +87,7 @@ void Speed_Buff(Action_value_stats *ptr,double spd_percent ,double flat_spd ) {
     ptr->Speed_percent += spd_percent;
     Update_Max_atv(ptr);
     ptr->atv=ptr->atv/x*ptr->Max_atv;
-    SubUnit *temp = ptr->isSubUnitCheck();
+    SubUnit *temp = ptr->canCastToSubUnit();
     if(!temp)return;
     StatsAdjust(temp,"Speed");
 }
