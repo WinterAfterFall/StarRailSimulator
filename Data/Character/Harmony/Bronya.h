@@ -45,9 +45,10 @@ namespace Bronya{
             data_.actionFunction = [ptr](ActionData &data_){
                 for(auto e : data_.Target_Buff){
                     Extend_Buff_single_target(e,"Bronya_Ult",2);
-                    e->Buff_note["Bronya_Ult"] = calculateCritdamForBuff(ptr->Sub_Unit_ptr[0].get(),16)+20 - e->Buff_note["Bronya_Ult"];
-                    Buff_single_target(e,"Crit_dam",AT_TEMP,e->Buff_note["Bronya_Ult"]);
-                    Buff_single_target(e,"Crit_dam","None",e->Buff_note["Bronya_Ult"]);
+                    double temp = calculateCritdamForBuff(ptr->Sub_Unit_ptr[0].get(),16)+20;
+                    Buff_single_target(e,"Crit_dam",AT_TEMP,temp - e->Buff_note["Bronya_Ult"]);
+                    Buff_single_target(e,"Crit_dam","None",temp - e->Buff_note["Bronya_Ult"]);
+                    e->Buff_note["Bronya_Ult"] = temp;
                     if(e->Buff_check["Bronya_Ult"]) continue;
                     e->Buff_check["Bronya_Ult"] = 1;
                     Buff_single_target(e,"Atk%","None",55);

@@ -185,7 +185,11 @@ public:
     void addTargetChangeCondition(function<bool()> condition);
     void addTargetChangeConditionImmediately(function<bool()> condition);
     void updateTargetingSubUnits(int newTargetNum);
-    
+
+    /*-----------------Print-----------------*/
+    //PrintStats.h
+    void printAtkStats();
+    void printHpStats();
 };;
 // Enemy stats
 // Ally class, derived from Unit

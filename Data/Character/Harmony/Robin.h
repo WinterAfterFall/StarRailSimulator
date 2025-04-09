@@ -158,12 +158,10 @@ namespace Robin{
             if(target->Atv_stats->Unit_Name != "Robin")return;
             if(ptr->Countdown_ptr[0]->Atv_stats->Base_speed != 90)return;
             if(StatsType == "Atk%" || StatsType == "Flat_Atk"){
-                Buff_All_Ally("Flat_Atk", AT_TEMP, -ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
-                Buff_All_Ally("Flat_Atk", "None", -ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
-
-                ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"] = calculateAtkForBuff(ptr->Sub_Unit_ptr[0].get(), 22.8) + 200;
-                Buff_All_Ally("Flat_Atk", AT_TEMP, ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
-                Buff_All_Ally("Flat_Atk", "None", ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
+                double buffValue = calculateAtkForBuff(ptr->Sub_Unit_ptr[0].get(), 22.8) + 200;
+                Buff_All_Ally("Flat_Atk", AT_TEMP, buffValue - ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
+                Buff_All_Ally("Flat_Atk", "None", buffValue - ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
+                ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"] = buffValue;
             }
         }));
 

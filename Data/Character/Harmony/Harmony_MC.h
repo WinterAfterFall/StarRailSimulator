@@ -114,10 +114,10 @@ namespace Harmony_MC{
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](SubUnit *target, string StatsType){
             if(target->Atv_stats->Unit_Name != "Harmony_MC") return;
             if(StatsType == "Break_effect"){
-                ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"] = calculateBreakEffectForBuff(ptr->Sub_Unit_ptr[0].get(), 15) - ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"];
-
-                Buff_All_Ally_Excluding_Buffer("Break_effect",AT_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"],"Harmony_MC");
-                Buff_All_Ally_Excluding_Buffer("Break_effect","None",ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"],"Harmony_MC");
+                double temp = calculateBreakEffectForBuff(ptr->Sub_Unit_ptr[0].get(), 15);
+                Buff_All_Ally_Excluding_Buffer("Break_effect",AT_TEMP,temp - ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"],"Harmony_MC");
+                Buff_All_Ally_Excluding_Buffer("Break_effect","None",temp - ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"],"Harmony_MC");
+                ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"] =  temp ;
             }
         }));
         

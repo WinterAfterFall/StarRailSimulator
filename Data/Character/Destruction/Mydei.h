@@ -149,10 +149,10 @@ namespace Mydei{
             if (target->Atv_stats->Unit_Name != "Mydei") return;
             if (StatsType == ST_FLAT_HP || StatsType == ST_HP_PERCENT) {
             if (Buff_check(ptr->Sub_Unit_ptr[0].get(), "Mydei_Vendetta")) {
-                ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Talent"] = calculateHpForBuff(ptr->Sub_Unit_ptr[0].get(), 50) - ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Talent"];
-
-                Buff_single_target(ptr->Sub_Unit_ptr[0].get(), ST_FLAT_HP, AT_TEMP, ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Talent"]);
-                Buff_single_target(ptr->Sub_Unit_ptr[0].get(), ST_FLAT_HP, AT_NONE, ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Talent"]);
+                double temp = calculateHpForBuff(ptr->Sub_Unit_ptr[0].get(), 50);
+                Buff_single_target(ptr->Sub_Unit_ptr[0].get(), ST_FLAT_HP, AT_TEMP, temp - ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Talent"]);
+                Buff_single_target(ptr->Sub_Unit_ptr[0].get(), ST_FLAT_HP, AT_NONE, temp - ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Talent"]);
+                ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Talent"] = temp;
             }
             }
         }));

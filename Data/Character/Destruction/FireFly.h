@@ -85,13 +85,13 @@ namespace FireFly{
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](SubUnit *target, string StatsType) {
             if (target->Atv_stats->Unit_Name != "FireFly") return;
             if (StatsType == "Atk%" || StatsType == "Flat_Atk") {
-            double temp;
+            double temp = 0;
             temp = floor(((ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] / 100 * ptr->Sub_Unit_ptr[0]->Base_atk + ptr->Sub_Unit_ptr[0]->Base_atk) + ptr->Sub_Unit_ptr[0]->Stats_type["Flat_Atk"]["None"] - 1800) / 100) * 0.8;
             if (ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"] <= 0)temp = 0;
-            ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"] = temp - ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"];
             
-            Buff_single_target(ptr->Sub_Unit_ptr[0].get(), ST_BREAK_EFFECT, AT_TEMP, ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"]);
-            Buff_single_target(ptr->Sub_Unit_ptr[0].get(), ST_BREAK_EFFECT, AT_NONE, ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"]);
+            Buff_single_target(ptr->Sub_Unit_ptr[0].get(), ST_BREAK_EFFECT, AT_TEMP, temp - ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"]);
+            Buff_single_target(ptr->Sub_Unit_ptr[0].get(), ST_BREAK_EFFECT, AT_NONE, temp - ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"]);
+            ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"] = temp;
                 
             }
         }));

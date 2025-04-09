@@ -8,16 +8,8 @@
 
 namespace Tribbie{
     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
-    void Reset(Ally *ptr);
-    void Turn_func(Unit *ptr);
-    void Before_turn(Ally *ptr);
-    void After_turn(Ally *ptr);
-    void Ult_func(Ally *ptr);
-    void Tune_stats(Ally *ptr);    
-    void Start_game(Ally *ptr);
     void Print_Stats(Ally *ptr);
-    void When_attack(Ally *ptr,ActionData &data_);
-    void Stats_Adjust(Ally *ptr,SubUnit *target, string StatsType);
+
     
 
 
@@ -55,7 +47,6 @@ namespace Tribbie{
             if (ptr->Light_cone.Name == "DDD" && chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats->atv <= 0) return;
             if (ptr->Light_cone.Name == "DDD" && Driver_num != 0 && Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv <= 0) return;
             if (ptr->Light_cone.Name == "Eagle_Beaked_Helmet" && ptr->Sub_Unit_ptr[0]->Atv_stats->atv <= 0) return;
-
             if (!ultUseCheck(ptr)) return;
             ActionData data_ = ActionData();
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","Tribbie Ultimate");
@@ -157,8 +148,8 @@ namespace Tribbie{
                 if (ptr->Eidolon >= 1) {
                     Buff_All_Ally("True_Damage", "None", -24);
                 }
-                Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Flat_Hp", "None", -ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]);
                 Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Flat_Hp", AT_TEMP, -ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]);
+                Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Flat_Hp", "None", -ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]);
 
                 ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"] = 0;
                 if (ptr->Print) cout << "---------------------------------------------------- Tribbie Ult END at " << Current_atv << endl;
@@ -219,19 +210,18 @@ namespace Tribbie{
         }));
 
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](SubUnit *target, string StatsType) {
-            if (Buff_check(ptr->Sub_Unit_ptr[0].get(), "Tribbie_Zone")) return;
+            if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Tribbie_Zone")) return;
             if (StatsType == "Hp%" || StatsType == "Flat_Hp") {
                 // adjust
                 double temp = 0;
-                ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"] = 0;
                 for (int i = 1; i <= Total_ally; i++) {
                     temp += calculateHpForBuff(Ally_unit[i]->Sub_Unit_ptr[0].get(), 9);
                 }
-                ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"] = temp - ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"];
-
+                
                 // after
-                Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Flat_Hp", AT_TEMP, ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]);
-                Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Flat_Hp", "None", ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]);
+                Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Flat_Hp", AT_TEMP, temp - ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]);
+                Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Flat_Hp", "None", temp - ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]);
+                ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"] = temp;
                 return;
             }
         }));  
