@@ -8,15 +8,17 @@
 #include "../Library.h"
 
 namespace Luocha{
-    void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
+    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
     void Basic_Atk(Ally *ptr);
     void Talent(Ally *ptr);
     void Abyss_Flower(Ally *ptr);
 
 
     
-    void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit[num] = make_unique<Ally>();
+    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
+        Ally_unit.push_back(make_unique<Ally>());
+        Total_ally++;
+        int num = Total_ally;
         Ally *ptr = Ally_unit[num].get();
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1280,756,363);
         SetBasicStats(Ally_unit[num].get(),101,100,100,E,"Imaginary","Abundance",num,"Luocha","Ally");
@@ -60,7 +62,7 @@ namespace Luocha{
 
             // relic
             ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING]["None"] += 34.57;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING_OUT]["None"] += 34.57;
             ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
             ptr->Energy_recharge += 19.4;
 

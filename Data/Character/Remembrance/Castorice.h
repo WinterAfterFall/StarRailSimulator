@@ -7,15 +7,17 @@
 #include "../Library.h"
 
 namespace Castorice{
-    void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
+    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
 
     void BasicAttack(Ally *ptr);
     void Skill(Ally *ptr);
     void Enchance_Skill(Ally *ptr);
     void Kamikaze(Ally *ptr);
-    void DriverCondition();
-    void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit[num] = make_unique<Ally>();
+    void DriverCondition(Ally *ptr, Ally *target);
+    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
+        Ally_unit.push_back(make_unique<Ally>());
+        Total_ally++;
+        int num = Total_ally;
         Ally *ptr = Ally_unit[num].get();
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1630,524,485);
         SetBasicStats(Ally_unit[num].get(),95,0,0,E,"Quantum","Remembrance",num,"Castorice","Ally");
@@ -165,13 +167,17 @@ namespace Castorice{
             // countdown
         }));
         
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
-            // if(Driver_num!=0&&(Ally_unit[Driver_num]->getSubUnit()->Atv_stats->atv==0||Ally_unit[Driver_num]->getSubUnit()->Atv_stats->atv>20))return;
-            // if(Driver_num!=0&&(Ally_unit[Driver_num]->getSubUnit()->Atv_stats->atv!=0))return;
-            // if(Driver_num!=0&&(Ally_unit[Driver_num]->getSubUnit()->Atv_stats->atv>10000.0/165.0))return;
+        ptr->addUltCondition([ptr]() -> bool {
+            if(ptr->getSubUnit()->Buff_note["Newbud"] >= 34000)return true;
+            return false;
+        });
+        ptr->addUltCondition([ptr]() -> bool {
+            if(ptr->getSubUnit(1)->currentHP==0)return true;
+            return false;
+        });
 
-            if(ptr->getSubUnit(1)->currentHP!=0)return ;
-            if (ptr->getSubUnit()->Buff_note["Newbud"]<34000)return;
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
+            if(!ultUseCheck(ptr))return;
             ptr->getSubUnit()->Buff_note["Newbud"] = 0;
 
             ActionData data_ = ActionData();
@@ -207,7 +213,7 @@ namespace Castorice{
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if(ptr->Eidolon>=4){
-                Buff_All_Ally(ST_HEALING,AT_NONE,20);
+                Buff_All_Ally(ST_HEALING_OUT,AT_NONE,20);
             }
             if(ptr->Eidolon>=6){
                 Buff_single_with_all_memo(ptr,ST_RESPEN,AT_NONE,20);
@@ -472,11 +478,23 @@ namespace Castorice{
         
     }
     void DriverCondition(Ally *ptr, Ally *target) {
-        ptr->ultCondition.push_back([ptr, target]() -> bool {
-            if(target->getSubUnit(1)->currentHP==0)return false;
+        target->ultCondition.push_back([ptr, target]() -> bool {
+            if(ptr->getSubUnit(1)->currentHP==0)return false;
             return true;
         });
     }
+    void HealerCondition(Ally *ptr, Ally *target) {
+        target->ultCondition.push_back([ptr, target]() -> bool {
+            if(ptr->getSubUnit()->Buff_note["Newbud"] >= 34000)return false;
+            return true;
+        });
+    }
+    void CastoriceWithDriver(Ally *ptr, Ally *target) {
+        ptr->ultCondition.push_back([ptr, target]() -> bool {
+            if(target->getSubUnit()->Atv_stats->atv>=10000/165)return false;
+            return true;
+        });
+    } 
 
 }
 #endif

@@ -190,7 +190,9 @@ public:
     //PrintStats.h
     void printAtkStats();
     void printHpStats();
-};;
+    void printCritStats();
+    //Combat.h
+};
 // Enemy stats
 // Ally class, derived from Unit
 class Ally{
@@ -285,6 +287,7 @@ public:
         this->Element_Orb = Element_Orb;
         this->Speed_Boot = Speed_Boot;
     }
+    function<void(Ally *ptr)> RelicPairSet(string stats);
     void setTotalSubstats(int Value){
         this->Total_substats=Value;
         this->SeparateRatio=Value;
@@ -349,6 +352,7 @@ public:
     double getAdjust(string adjustName) {
         return this->Adjust[adjustName];
     }
+
 
     /*--------------------Declaration--------------------*/
     /*-----------------Combat-----------------*/

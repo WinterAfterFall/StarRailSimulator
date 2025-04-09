@@ -8,13 +8,15 @@
 #include "../Library.h"
 
 namespace Rappa{
-    void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
+    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
     void Enchance_Basic_Atk(Ally *ptr);
     void Skill_func(Ally *ptr);
 
     
-    void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit[num] = make_unique<Ally>();
+    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
+        Ally_unit.push_back(make_unique<Ally>());
+        Total_ally++;
+        int num = Total_ally;
         Ally *ptr = Ally_unit[num].get();
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 1087, 718, 461);
         SetBasicStats(Ally_unit[num].get(), 96, 140, 140, E, "Imaginary", "Erudition", num, "Rappa", "Ally");

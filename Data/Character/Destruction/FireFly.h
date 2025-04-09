@@ -7,13 +7,15 @@
 #include "../Library.h"
 
 namespace FireFly{
-    void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
+    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
     void Skill_func(Ally *ptr);
     void Enchance_Skill_func(Ally *ptr);
 
     
-    void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit[num] = make_unique<Ally>();
+    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
+        Ally_unit.push_back(make_unique<Ally>());
+        Total_ally++;
+        int num = Total_ally;
         Ally *ptr = Ally_unit[num].get();
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 815, 524, 776);
         SetBasicStats(Ally_unit[num].get(), 104, 240, 240, E, "Fire", "Destruction", num, "FireFly", "Ally");

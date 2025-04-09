@@ -8,7 +8,7 @@
 #include "../Library.h"
 
 namespace Gallagher{
-    void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
+    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
     void Basic_Atk(Ally *ptr);
     void Enchance_Basic_Atk(Ally *ptr);
     void Skill_func(Ally *ptr);
@@ -16,8 +16,10 @@ namespace Gallagher{
 
 
     
-    void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit[num] = make_unique<Ally>();
+    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
+        Ally_unit.push_back(make_unique<Ally>());
+        Total_ally++;
+        int num = Total_ally;
         Ally *ptr = Ally_unit[num].get();
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1305,529,441);
         SetBasicStats(Ally_unit[num].get(),98,110,110,E,"Fire","Abundance",num,"Gallagher","Ally");
@@ -74,7 +76,7 @@ namespace Gallagher{
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES]["None"] += 18;
 
             // relic
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING]["None"] += 34.57;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING_OUT]["None"] += 34.57;
             ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
             ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
             ptr->Energy_recharge += 19.4;

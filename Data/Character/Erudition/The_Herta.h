@@ -7,7 +7,7 @@
 #include "../Library.h"
 
 namespace The_Herta{
-    void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
+    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
     void Reset(Ally *ptr);
     void Turn_func(Unit *ptr);
 
@@ -29,8 +29,10 @@ namespace The_Herta{
     bool Enchance_Skill_Condition(Ally *ptr);
 
 
-    void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit[num] = make_unique<Ally>();
+    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
+        Ally_unit.push_back(make_unique<Ally>());
+        Total_ally++;
+        int num = Total_ally;
         Ally *ptr = Ally_unit[num].get();
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1164,679,485);
         SetBasicStats(Ally_unit[num].get(),99,220,220,E,"Ice","Erudition",num,"The_Herta","Ally");

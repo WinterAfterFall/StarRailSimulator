@@ -7,7 +7,7 @@
 #include "../Library.h"
 
 namespace RMC{
-    void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
+    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
 //temp
     void Basic_Atk(Ally *ptr);
     void Skill(Ally *ptr);
@@ -16,8 +16,10 @@ namespace RMC{
     void Memo_Echance_Skill(Ally *ptr);
 
 
-    void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit[num] = make_unique<Ally>();
+    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
+        Ally_unit.push_back(make_unique<Ally>());
+        Total_ally++;
+        int num = Total_ally;
         Ally *ptr = Ally_unit[num].get();
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1048,543,631);
         SetBasicStats(Ally_unit[num].get(),103,160,160,E,"Ice","Remembrance",num,"RMC","Ally");

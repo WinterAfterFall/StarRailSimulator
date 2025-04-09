@@ -2,12 +2,10 @@
 #define Setup_Enemy_H
 #include "../Unit/Trigger_Function.h"
 
-void Setup_enemy(int num, double speed, double energy, double Toughness, double skillRatio, int attackCooldown, string type) {
-    if (num == 0) {
-        cout << "setup enemy error";
-        exit(0);
-    }
-    Enemy_unit[num] = make_unique<Enemy>();
+void Setup_enemy(double speed, double energy, double Toughness, double skillRatio, int attackCooldown, string type) {
+    Total_enemy++;
+    int num = Total_enemy;
+    Enemy_unit.push_back(make_unique<Enemy>());
 
     Enemy_unit[num]->Atv_stats->Base_speed = speed;
     Enemy_unit[num]->Energy_gen = energy;

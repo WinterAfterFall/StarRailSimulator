@@ -66,10 +66,6 @@ namespace Harmony_Lightcone{
             }));
         };
     }
-    void But_the_Battle_Isnt_Over(Ally *ptr){
-
-
-    }
     
 }
 #endif

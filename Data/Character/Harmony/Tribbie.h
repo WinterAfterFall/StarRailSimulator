@@ -7,7 +7,7 @@
 #include "../Library.h"
 
 namespace Tribbie{
-    void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
+    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
     void Print_Stats(Ally *ptr);
 
     
@@ -18,8 +18,10 @@ namespace Tribbie{
     void Skill(Ally *ptr);
     void Basic_Atk(Ally *ptr);
 
-    void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit[num] = make_unique<Ally>();
+    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
+        Ally_unit.push_back(make_unique<Ally>());
+        Total_ally++;
+        int num = Total_ally;
         Ally *ptr = Ally_unit[num].get();
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1048,524,728);
         SetBasicStats(Ally_unit[num].get(),96,120,120,E,"Quantum","Harmony",num,"Tribbie","Ally");

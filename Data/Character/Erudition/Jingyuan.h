@@ -7,7 +7,7 @@
 #include "../Library.h"
 
 namespace Jingyuan{
-    void Setup_Jingyuan(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
+    void Setup_Jingyuan(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
     void Basic_Atk(Ally *ptr);
     void Skill(Ally *ptr);
 
@@ -17,8 +17,10 @@ namespace Jingyuan{
 
 
 
-    void Setup_Jingyuan(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit[num] = make_unique<Ally>();
+    void Setup_Jingyuan(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
+        Ally_unit.push_back(make_unique<Ally>());
+        Total_ally++;
+        int num = Total_ally;
         Ally *ptr = Ally_unit[num].get();
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 1164, 698, 485);
         SetBasicStats(Ally_unit[num].get(), 99, 130, 130, E, "Lightning", "Erudition", num, "Jingyuan", "Ally");

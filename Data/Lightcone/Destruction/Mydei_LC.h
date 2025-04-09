@@ -13,7 +13,7 @@ namespace Destruction_Lightcone{
             ptr->Light_cone.Name = "Mydei_LC";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_PERCENT][AT_NONE] += 15 + 3*superimpose;
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING][AT_NONE] += 15 + 5 * superimpose;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING_OUT][AT_NONE] += 15 + 5 * superimpose;
             }));
     
             Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](ActionData &data_) {

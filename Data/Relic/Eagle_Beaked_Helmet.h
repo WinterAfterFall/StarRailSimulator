@@ -7,9 +7,13 @@
 #define S second
 #include "../Library.h"
 namespace Relic{
-    void Eagle_Beaked_Helmet(Ally *ptr);
     void Eagle_Beaked_Helmet(Ally *ptr){
         ptr->Relic.Name = "Eagle_Beaked_Helmet";
+        ptr->addUltCondition([ptr]() -> bool {
+            if(ptr->getSubUnit()->Atv_stats->atv<=ptr->getSubUnit()->Atv_stats->Max_atv*0.15)return false;
+            return true;
+        });
+
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Wind"]["None"] += 10;
         }));
@@ -28,5 +32,6 @@ namespace Relic{
         
         
     }
+    
 }
 #endif

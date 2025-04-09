@@ -8,12 +8,14 @@
 #include "../Library.h"
 
 namespace Sunday{
-    void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
+    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
     void Skill(Ally *ptr);
 
     bool ult_condition(Ally *ptr);
-    void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit[num] = make_unique<Ally>();
+    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
+        Ally_unit.push_back(make_unique<Ally>());
+        Total_ally++;
+        int num = Total_ally;
         Ally *ptr = Ally_unit[num].get();
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 1242, 640, 533);
         SetBasicStats(Ally_unit[num].get(), 96, 130, 130, E, "Imaginary", "Harmony", num, "Sunday", "Ally");
@@ -29,17 +31,24 @@ namespace Sunday{
             Skill(ptr);
         };
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
+        ptr->addUltCondition([ptr]() -> bool {
             if(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy!=0){
                 if (chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy <= 200 &&
-                    chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy - chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Current_energy < 30 &&
-                    Buff_check(ptr->Sub_Unit_ptr[0].get(), "Ode_to_Caress_and_Cicatrix")) return;
+                    chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy - 
+                    chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Current_energy < 30) return false;
                 if (chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy >= 200 &&
-                    chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy - chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Current_energy < chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy * 0.2 &&
-                    Buff_check(ptr->Sub_Unit_ptr[0].get(), "Ode_to_Caress_and_Cicatrix")) return;
+                    chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy - 
+                    chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Current_energy 
+                    < chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy * 0.2) return false;
             }
+            return true;
+        });
+        // ptr->addUltImmediatelyUseCondition([ptr]() -> bool {
+        //     if(Buff_check(ptr->Sub_Unit_ptr[0].get(), "Ode_to_Caress_and_Cicatrix"))return false;
+        //     return true;
+        // });
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
             if (!ultUseCheck(ptr)) return;
-            
             ActionData data_ = ActionData();
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Buff", "Single_target","Sunday Ultimate");
             data_.Add_Buff_Single_Target(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()));

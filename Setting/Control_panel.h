@@ -12,6 +12,7 @@ bool Avg_damage_Mode = 1;
 bool SuperBreak__Mode = 0;
 int Main_dps_num = 1;
 int Driver_num = 0;
+int HealerNum = 0;
 string Sp_status ="Positive"; //Positive Negative       
 int Main_Enemy_num = 1;
 int Adjacent_Enemy_num[2] = {2,3};
@@ -25,13 +26,13 @@ int Additional_Damage_Formula_check_mode = 0, Additional_Damage_check_mode =0;
 int SuperBreak_Formula_check_mode = 0;
 int Break_Formula_check_mode =0;
 
-int Total_ally = 4;
-int Total_enemy = 3;
+int Total_ally = 0;
+int Total_enemy = 0;
 int Force_break = 1;
 
 string Driver_Type = "Double_turn"; //Swap_pull Always_pull Double_turn None
-vector<unique_ptr<Ally>> Ally_unit(Total_ally+1);
-vector<unique_ptr<Enemy>> Enemy_unit(Total_enemy+1);
+vector<unique_ptr<Ally>> Ally_unit(1);
+vector<unique_ptr<Enemy>> Enemy_unit(1);
 unordered_map<std::string, double> Enemy_res = {
         {"Fire", 0.0},
         {"Ice", 0.0},

@@ -8,7 +8,7 @@
 #include "../Library.h"
 
 namespace Robin{
-    void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
+    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
     
     //temp
     void Basic_Atk(Ally *ptr);
@@ -17,8 +17,10 @@ namespace Robin{
     bool Ult_Condition(Ally *ptr);
     
 
-    void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit[num] = make_unique<Ally>();
+    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
+        Ally_unit.push_back(make_unique<Ally>());
+        Total_ally++;
+        int num = Total_ally;
         Ally *ptr = Ally_unit[num].get();
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 1280, 640, 485);
         SetBasicStats(Ally_unit[num].get(), 102, 160, 160, E, "Physical", "Harmony", num, "Robin", "Ally");

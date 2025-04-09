@@ -18,4 +18,10 @@ void SubUnit::printHpStats(){
     cout << "Flat HP: " << this->Stats_type[ST_FLAT_HP][AT_NONE] << " ";
     cout<<endl;
 }
+void SubUnit::printCritStats(){
+    cout<<this->Atv_stats->Unit_Name<<" ";
+    cout << "Crit rate : " << this->Stats_type[ST_CRIT_RATE][AT_NONE] << " ";
+    cout << "Crit dam : " << this->Stats_type[ST_CRIT_DAM][AT_NONE] << " ";
+    cout<<endl;
+}
 #endif

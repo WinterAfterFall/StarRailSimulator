@@ -30,8 +30,11 @@
 #define ST_RES "Res"
 #define ST_EHR "ehr"
 #define ST_TRUE "True_Damage"
+#define ST_FLAT_SPD "Flat-Speed"
+#define ST_SPD_PERCENT "Speed%"
 #define ST_TOTAL_TRUE "True_Damage_From_Total"
-#define ST_HEALING "HealingBonus"
+#define ST_HEALING_OUT "outGoingHeal"
+#define ST_HEALING_IN "inComingHeal"
 #define ST_SHEILD "SheildBonus"
 
 #define AT_TEMP "Temporary"
@@ -39,6 +42,7 @@
 #define AT_BASIC_ATK "Basic_Attack"
 #define AT_SKILL "Skill"
 #define AT_ULT "Ultimate"
+#define AT_Fua "Fua"
 
 using std::cout;
 using std::setprecision;
@@ -326,8 +330,7 @@ void EndWave(double Total_atv);
 void Start_wave(int WAVE);
 
 //SetEnemy
-void Enemy_func(Unit* ptr);
-void Setup_enemy(int num,double speed,double energy,double Toughness,double skillRatio,int attackCooldown,string type);
+void Setup_enemy(double speed,double energy,double Toughness,double skillRatio,int attackCooldown,string type);
 
 
 //Stats_Reset
