@@ -206,7 +206,7 @@ namespace Gallagher{
         data_.actionFunction = [ptr](ActionData &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
-            for(Enemy* target : data_.Target_Attack){
+            for(Enemy* &target : data_.Target_Attack){
                 target->debuffApply(data_.Attacker,"Nectar_Blitz");
                 Extend_Debuff_single_target(target,"Nectar_Blitz",2);
             }

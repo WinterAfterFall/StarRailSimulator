@@ -139,7 +139,7 @@ namespace Ruan_Mei{
 
         After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](ActionData &data_){
             if(Buff_check(ptr->Sub_Unit_ptr[0].get(), "RuanMei_Ult")){
-                for(Enemy * e : data_.Target_Attack){
+                for(Enemy * &e : data_.Target_Attack){
                     e->debuffApply(ptr->Sub_Unit_ptr[0].get(),"RuanMei_Ult_bloom");
                 }
             }

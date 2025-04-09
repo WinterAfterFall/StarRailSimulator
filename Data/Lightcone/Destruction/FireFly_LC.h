@@ -17,44 +17,13 @@ namespace Destruction_Lightcone{
     
             After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](ActionData &data_) {
                 if (data_.Attacker->Atv_stats->Unit_num != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num && data_.Attacker->Atv_stats->Side != "Ally") return;
-    
-                int sz2 = data_.Damage_spilt.Adjacent.size();
-                int sz3 = data_.Damage_spilt.Other.size();
-    
-                for (int i = 1; i <= Total_enemy; i++) {
-                    if (Enemy_unit[i]->Target_type == "Main") {
-                        if (Enemy_unit[i]->Debuff["FireFly_LC_debuff"] == 0) {
-                            Enemy_unit[i]->Debuff["FireFly_LC_debuff"] = 1;
-                            Speed_Buff(Enemy_unit[i]->Atv_stats.get(), -20, 0);
-                            Enemy_unit[i]->Stats_type["Vul"]["Break_dmg"] += 20 + 4 * superimpose;
-                            Enemy_unit[i]->Total_debuff++;
-                        }
-                        Extend_Debuff_single_target(Enemy_unit[i].get(), "FireFly_LC_debuff", 2);
-                        debuffApply(ptr->Sub_Unit_ptr[0].get(), Enemy_unit[i].get());
+                for(Enemy* &e :data_.Target_Attack){
+                    if (e->debuffApply(ptr->Sub_Unit_ptr[0].get(),"FireFly_LC_debuff")) {
+                        Speed_Buff(e->Atv_stats.get(), -20, 0);
+                        e->Stats_type["Vul"]["Break_dmg"] += 20 + 4 * superimpose;
                     }
-    
-                    if (sz2 > 0 && Enemy_unit[i]->Target_type == "Adjacent") {
-                        if (Enemy_unit[i]->Debuff["FireFly_LC_debuff"] == 0) {
-                            Enemy_unit[i]->Debuff["FireFly_LC_debuff"] = 1;
-                            Speed_Buff(Enemy_unit[i]->Atv_stats.get(), -20, 0);
-                            Enemy_unit[i]->Stats_type["Vul"]["Break_dmg"] += 20 + 4 * superimpose;
-                            Enemy_unit[i]->Total_debuff++;
-                        }
-                        Extend_Debuff_single_target(Enemy_unit[i].get(), "FireFly_LC_debuff", 2);
-                        debuffApply(ptr->Sub_Unit_ptr[0].get(), Enemy_unit[i].get());
-                    }
-    
-                    if (sz3 > 0 && Enemy_unit[i]->Target_type == "Other") {
-                        if (Enemy_unit[i]->Debuff["FireFly_LC_debuff"] == 0) {
-                            Enemy_unit[i]->Debuff["FireFly_LC_debuff"] = 1;
-                            Speed_Buff(Enemy_unit[i]->Atv_stats.get(), -20, 0);
-                            Enemy_unit[i]->Stats_type["Vul"]["Break_dmg"] += 20 + 4 * superimpose;
-                            Enemy_unit[i]->Total_debuff++;
-                        }
-                        Extend_Debuff_single_target(Enemy_unit[i].get(), "FireFly_LC_debuff", 2);
-                        debuffApply(ptr->Sub_Unit_ptr[0].get(), Enemy_unit[i].get());
-                    }
-                }
+                    Extend_Debuff_single_target(e, "FireFly_LC_debuff", 2);
+                } 
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {

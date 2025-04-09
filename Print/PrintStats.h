@@ -10,4 +10,5 @@ using std::cout ;
 using std::vector;
 #include"../Unit/Trigger_Function.h"
 void printAtkStats();
+void printHpStats();
 #endif
