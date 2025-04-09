@@ -133,9 +133,6 @@ void Skill_point(SubUnit *ptr,int p){
     }
     return ;
 }
-void Apply_debuff(SubUnit *ptr,Enemy* target){
-    allEventApplyDebuff(ptr,target);
-}
 void Superbreak_trigger(ActionData &data_, double Superbreak_ratio){
     ActionData data_2 = ActionData();
     data_2.SuperBreak_set(data_.Attacker,data_.traceType);

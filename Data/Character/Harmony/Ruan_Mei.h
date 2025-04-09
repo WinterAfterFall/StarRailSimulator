@@ -149,19 +149,19 @@ namespace Ruan_Mei{
                 for(int i = 1; i <= Total_enemy; i++){
                     if(Enemy_unit[i]->Target_type == "Main"){
                         if(Enemy_unit[i]->Debuff["RuanMei_Ult_bloom"] == 1) continue;
-                        Apply_debuff(ptr->Sub_Unit_ptr[0].get(), Enemy_unit[i].get());
+                        debuffApply(ptr->Sub_Unit_ptr[0].get(), Enemy_unit[i].get());
                         Enemy_unit[i]->Total_debuff++;
                         Enemy_unit[i]->Debuff["RuanMei_Ult_bloom"] = 1;
                     }
                     if(0 < sz2 && Enemy_unit[i]->Target_type == "Adjacent"){
                         if(Enemy_unit[i]->Debuff["RuanMei_Ult_bloom"] == 1) continue;
-                        Apply_debuff(ptr->Sub_Unit_ptr[0].get(), Enemy_unit[i].get());
+                        debuffApply(ptr->Sub_Unit_ptr[0].get(), Enemy_unit[i].get());
                         Enemy_unit[i]->Total_debuff++;
                         Enemy_unit[i]->Debuff["RuanMei_Ult_bloom"] = 1;
                     }
                     if(0 < sz3 && Enemy_unit[i]->Target_type == "Other"){
                         if(Enemy_unit[i]->Debuff["RuanMei_Ult_bloom"] == 1) continue;
-                        Apply_debuff(ptr->Sub_Unit_ptr[0].get(), Enemy_unit[i].get());
+                        debuffApply(ptr->Sub_Unit_ptr[0].get(), Enemy_unit[i].get());
                         Enemy_unit[i]->Total_debuff++;
                         Enemy_unit[i]->Debuff["RuanMei_Ult_bloom"] = 1;
                     }

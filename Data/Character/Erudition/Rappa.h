@@ -189,7 +189,7 @@ namespace Rappa{
             if (target->Debuff["Withered_Leaf"] < 0) {
                 target->Debuff["Withered_Leaf"] = 0;
             }
-            Apply_debuff(ptr->Sub_Unit_ptr[0].get(), target);
+            debuffApply(ptr->Sub_Unit_ptr[0].get(), target);
             Debuff_single_target(target, "Vul", "Break_dmg", target->Debuff["Withered_Leaf"]);
             Extend_Debuff_single_target(target, "Withered_Leaf", 2);
         }));

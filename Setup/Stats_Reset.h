@@ -118,6 +118,9 @@ void Basic_reset(){
             for(auto &e: Enemy_unit[i]->Debuff){
                 e.second = 0;
             }
+            for(auto &e: Enemy_unit[i]->Stack){
+                e.second = 0;
+            }
             for(auto &e: Enemy_unit[i]->Debuff_time_count){
                 e.second = 0;
             }

@@ -361,10 +361,11 @@ public:
 class Enemy : public Unit {
 public:
     
-      //*
+    //*
    
     int Total_debuff = 0;
     unordered_map<string,int> Debuff;
+    unordered_map<string,int> Stack;
     unordered_map<string,int> Debuff_time_count;
 
     vector<unordered_map<string,double>> damageAvgNote;
@@ -407,7 +408,59 @@ public:
     }
 
     ~Enemy() {}
-};
+    
+    // Getters and Setters
+    void setTotalDebuff(int value) {
+        this->Total_debuff = value;
+    }
+    void setDebuff(string debuffName, int value) {
+        this->Debuff[debuffName] = value;
+    }
+    void setStack(string debuffName, int value) {
+        this->Stack[debuffName] = value;
+    }
+    void setDebuffTimeCount(string debuffName, int value) {
+        this->Debuff_time_count[debuffName] = value;
+    }
+
+    //getter
+    int getTotalDebuff() {
+        return this->Total_debuff;
+    }
+    int getDebuff(string debuffName) {
+        return this->Debuff[debuffName];
+    }
+    int getStack(string debuffName) {
+        return this->Stack[debuffName];
+    }
+    int getDebuffTimeCount(string debuffName) {
+        return this->Debuff_time_count[debuffName];
+    }
+
+    //add
+    void addTotalDebuff(int value) {
+        this->Total_debuff += value;
+    }
+    void addStack(string debuffName,int value) {
+        this->Stack[debuffName] += value;
+    }
+
+    //debuff.h
+    bool debuffApply(SubUnit *ptr, string debuffName);
+    bool debuffMark(SubUnit *ptr, string debuffName);
+    void debuffStack(SubUnit *ptr,string debuffName,int Stack_increase);
+    bool debuffStack(SubUnit *ptr,string debuffName,int Stack_increase,int StackLimit);
+    void debuffRemove(string debuffName);
+
+    void debuffSingleTarget(string stats_type, string Attack_type, double Value);
+    void debuffSingleTarget(string stats_type, string Attack_type, string Element, double Value);
+
+    void debuffStackSingleTarget(SubUnit *ptr,string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
+    void debuffStackSingleTarget(SubUnit *ptr,string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
+
+
+
+};  
 //check if it is ally unit
 
 #endif

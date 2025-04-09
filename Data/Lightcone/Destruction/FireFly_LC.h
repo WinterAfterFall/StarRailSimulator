@@ -30,7 +30,7 @@ namespace Destruction_Lightcone{
                             Enemy_unit[i]->Total_debuff++;
                         }
                         Extend_Debuff_single_target(Enemy_unit[i].get(), "FireFly_LC_debuff", 2);
-                        Apply_debuff(ptr->Sub_Unit_ptr[0].get(), Enemy_unit[i].get());
+                        debuffApply(ptr->Sub_Unit_ptr[0].get(), Enemy_unit[i].get());
                     }
     
                     if (sz2 > 0 && Enemy_unit[i]->Target_type == "Adjacent") {
@@ -41,7 +41,7 @@ namespace Destruction_Lightcone{
                             Enemy_unit[i]->Total_debuff++;
                         }
                         Extend_Debuff_single_target(Enemy_unit[i].get(), "FireFly_LC_debuff", 2);
-                        Apply_debuff(ptr->Sub_Unit_ptr[0].get(), Enemy_unit[i].get());
+                        debuffApply(ptr->Sub_Unit_ptr[0].get(), Enemy_unit[i].get());
                     }
     
                     if (sz3 > 0 && Enemy_unit[i]->Target_type == "Other") {
@@ -52,7 +52,7 @@ namespace Destruction_Lightcone{
                             Enemy_unit[i]->Total_debuff++;
                         }
                         Extend_Debuff_single_target(Enemy_unit[i].get(), "FireFly_LC_debuff", 2);
-                        Apply_debuff(ptr->Sub_Unit_ptr[0].get(), Enemy_unit[i].get());
+                        debuffApply(ptr->Sub_Unit_ptr[0].get(), Enemy_unit[i].get());
                     }
                 }
             }));

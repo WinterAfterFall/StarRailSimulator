@@ -8,92 +8,111 @@ using namespace std;
 #define DMG_CAL 12
 
 
+bool Enemy::debuffApply(SubUnit *ptr,string debuffName){
+    if(!this->getDebuff(debuffName)){
+        this->setDebuff(debuffName,1);
+        this->addTotalDebuff(1);
+        allEventApplyDebuff(ptr,this);
+        return true;
+    }
+    allEventApplyDebuff(ptr,this);
+    return false;
+}
+bool Enemy::debuffMark(SubUnit *ptr,string debuffName){
+    if(!this->getDebuff(debuffName)){
+        this->setDebuff(debuffName,1);
+        this->addTotalDebuff(1);
+        allEventApplyDebuff(ptr,this);
+        return true;
+    }
+    return false;
+}
+void Enemy::debuffStack(SubUnit *ptr,string debuffName,int Stack_increase){
 
-
-void Debuff_single_target(Enemy *ptr, string stats_type, string Attack_type, double Value) {
-    ptr->Stats_type[stats_type][Attack_type] += Value;
+    if(!this->getStack(debuffName))this->addTotalDebuff(1);
+    this->addStack(debuffName,Stack_increase);
+    allEventApplyDebuff(ptr,this);
+}
+bool Enemy::debuffStack(SubUnit *ptr,string debuffName,int Stack_increase,int StackLimit){
+    if(!this->getStack(debuffName))this->addTotalDebuff(1);
+    if(this->getStack(debuffName) + Stack_increase <= StackLimit){
+        this->addStack(debuffName,Stack_increase);
+        allEventApplyDebuff(ptr,this);
+        return true;
+    }
+    return false;
+}
+void Enemy::debuffRemove(string debuffName){
+    if(this->getDebuff(debuffName)){
+        this->setDebuff(debuffName,0);
+        this->addTotalDebuff(-1);
+    }
 }
 
-void Debuff_single_target(Enemy *ptr, string stats_type, string Attack_type, string Element, double Value) {
-    ptr->Stats_each_element[stats_type][Element][Attack_type] += Value;
+
+void Enemy::debuffSingleTarget(string stats_type, string Attack_type, double Value) {
+    this->Stats_type[stats_type][Attack_type] += Value;
 }
 
-void Debuff_All_Enemy_Apply_ver(SubUnit *ptr, string stats_type, string Attack_type, double Value, string Debuff_Name) {
+void Enemy::debuffSingleTarget(string stats_type, string Attack_type, string Element, double Value) {
+    this->Stats_each_element[stats_type][Element][Attack_type] += Value;
+}
+
+void Enemy::debuffStackSingleTarget(SubUnit *ptr, string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name) {
+    if (this->Stack[Stack_Name] >= Stack_limit) return;
+    if (this->Stack[Stack_Name] + Stack_increase > Stack_limit) {
+        Stack_increase = Stack_limit - this->Stack[Stack_Name];
+    }
+    this->debuffStack(ptr,Stack_Name,Stack_increase);
+    this->debuffSingleTarget(stats_type, Attack_type, Stack_increase * Value_per_stack);
+}
+
+void Enemy::debuffStackSingleTarget(SubUnit *ptr,string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name) {
+    if (this->Stack[Stack_Name] >= Stack_limit) return;
+    if (this->Stack[Stack_Name] + Stack_increase > Stack_limit) {
+        Stack_increase = Stack_limit - this->Stack[Stack_Name];
+    }
+    this->debuffStack(ptr,Stack_Name,Stack_increase);
+    this->debuffSingleTarget(stats_type, Attack_type, Element, Stack_increase * Value_per_stack);
+}
+
+void debuffAllEnemyApplyVer(SubUnit *ptr, string stats_type, string Attack_type, double Value, string Debuff_Name) {
     for (int i = 1; i <= Total_enemy; i++) {
-        allEventApplyDebuff(ptr, Enemy_unit[i].get());
-        if (Enemy_unit[i]->Debuff[Debuff_Name] != 0) continue;
-        Enemy_unit[i]->Debuff[Debuff_Name] = 1;
-        Enemy_unit[i]->Total_debuff++;
-
-        Debuff_single_target(Enemy_unit[i].get(), stats_type, Attack_type, Value);
+        if(!Enemy_unit[i]->debuffApply(ptr,Debuff_Name))continue;
+        Enemy_unit[i]->debuffSingleTarget(stats_type, Attack_type, Value);
     }
 }
 
-void Debuff_All_Enemy_Apply_ver(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value, string Debuff_Name) {
+void debuffAllEnemyApplyVer(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value, string Debuff_Name) {
     for (int i = 1; i <= Total_enemy; i++) {
-        allEventApplyDebuff(ptr, Enemy_unit[i].get());
-        if (Enemy_unit[i]->Debuff[Debuff_Name] != 0) continue;
-        Enemy_unit[i]->Debuff[Debuff_Name] = 1;
-        Enemy_unit[i]->Total_debuff++;
-
-        Debuff_single_target(Enemy_unit[i].get(), stats_type, Attack_type, Element, Value);
+        if(!Enemy_unit[i]->debuffApply(ptr,Debuff_Name))continue;
+        Enemy_unit[i]->debuffSingleTarget(stats_type, Attack_type, Element, Value);
     }
 }
 
-//stack buff/debuff
-void Stack_Debuff_single_target(Enemy *ptr, string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name) {
-    if (ptr->Debuff[Stack_Name] >= Stack_limit) return;
-    if (ptr->Debuff[Stack_Name] + Stack_increase > Stack_limit) {
-        Stack_increase = Stack_limit - ptr->Debuff[Stack_Name];
-    }
-    if (ptr->Debuff[Stack_Name] == 0) ptr->Total_debuff++;
-
-    Debuff_single_target(ptr, stats_type, Attack_type, Stack_increase * Value_per_stack);
-    ptr->Debuff[Stack_Name] += Stack_increase;
-}
-
-void Stack_Debuff_single_target(Enemy *ptr, string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name) {
-    if (ptr->Debuff[Stack_Name] >= Stack_limit) return;
-    if (ptr->Debuff[Stack_Name] + Stack_increase > Stack_limit) {
-        Stack_increase = Stack_limit - ptr->Debuff[Stack_Name];
-    }
-    if (ptr->Debuff[Stack_Name] == 0) ptr->Total_debuff++;
-
-    Debuff_single_target(ptr, stats_type, Attack_type, Element, Stack_increase * Value_per_stack);
-    ptr->Debuff[Stack_Name] += Stack_increase;
-}
-
-void Stack_Debuff_All_Enemy(SubUnit *ptr, string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name) {
-    int original_increase = Stack_increase;
+void debuffAllEnemyMarkVer(SubUnit *ptr, string stats_type, string Attack_type, double Value, string Debuff_Name) {
     for (int i = 1; i <= Total_enemy; i++) {
-        allEventApplyDebuff(ptr, Enemy_unit[i].get());
-        if (Enemy_unit[i]->Debuff[Stack_Name] < Stack_limit) {
-            if (Enemy_unit[i]->Debuff[Stack_Name] == 0) Enemy_unit[i]->Total_debuff++;
-            if (Enemy_unit[i]->Debuff[Stack_Name] + Stack_increase > Stack_limit) {
-                Stack_increase = Stack_limit - Enemy_unit[i]->Debuff[Stack_Name];
-            }
-            Enemy_unit[i]->Debuff[Stack_Name] += Stack_increase;
-
-            Debuff_single_target(Enemy_unit[i].get(), stats_type, Attack_type, Stack_increase * Value_per_stack);
-            Stack_increase = original_increase;
-        }
+        if(!Enemy_unit[i]->debuffMark(ptr,Debuff_Name))continue;
+        Enemy_unit[i]->debuffSingleTarget(stats_type, Attack_type, Value);
     }
 }
 
-void Stack_Debuff_All_Enemy(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name) {
-    int original_increase = Stack_increase;
+void debuffAllEnemyMarkVer(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value, string Debuff_Name) {
     for (int i = 1; i <= Total_enemy; i++) {
-        allEventApplyDebuff(ptr, Enemy_unit[i].get());
-        if (Enemy_unit[i]->Debuff[Stack_Name] < Stack_limit) {
-            if (Enemy_unit[i]->Debuff[Stack_Name] == 0) Enemy_unit[i]->Total_debuff++;
-            if (Enemy_unit[i]->Debuff[Stack_Name] + Stack_increase > Stack_limit) {
-                Stack_increase = Stack_limit - Enemy_unit[i]->Debuff[Stack_Name];
-            }
-            Enemy_unit[i]->Debuff[Stack_Name] += Stack_increase;
+        if(!Enemy_unit[i]->debuffMark(ptr,Debuff_Name))continue;
+        Enemy_unit[i]->debuffSingleTarget(stats_type, Attack_type, Element, Value);
+    }
+}
 
-            Debuff_single_target(Enemy_unit[i].get(), stats_type, Attack_type, Element, Stack_increase * Value_per_stack);
-            Stack_increase = original_increase;
-        }
+void debuffAllEnemyStack(SubUnit *ptr, string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name) {
+    for (int i = 1; i <= Total_enemy; i++) {
+        Enemy_unit[i]->debuffStackSingleTarget(ptr,stats_type,Attack_type,Value_per_stack,Stack_increase,Stack_limit,Stack_Name);
+    }
+}
+
+void debuffAllEnemyStack(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name) {
+    for (int i = 1; i <= Total_enemy; i++) {
+        Enemy_unit[i]->debuffStackSingleTarget(ptr,stats_type,Attack_type,Element,Value_per_stack,Stack_increase,Stack_limit,Stack_Name);
     }
 }
 

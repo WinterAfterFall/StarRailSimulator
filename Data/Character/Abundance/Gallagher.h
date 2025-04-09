@@ -213,7 +213,7 @@ namespace Gallagher{
                 ++Enemy_unit[Main_Enemy_num]->Total_debuff;
                 
             }
-            Apply_debuff(ptr->Sub_Unit_ptr[0].get(),Enemy_unit[Main_Enemy_num].get());
+            debuffApply(ptr->Sub_Unit_ptr[0].get(),Enemy_unit[Main_Enemy_num].get());
             Extend_Debuff_single_target(Enemy_unit[Main_Enemy_num].get(),"Nectar_Blitz",2);
             Attack(data_);
         };

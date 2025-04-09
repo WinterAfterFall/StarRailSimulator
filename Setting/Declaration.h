@@ -184,17 +184,12 @@ bool Buff_check(SubUnit* ptr, std::string Buff_name);
 bool Debuff_check(Enemy* ptr, std::string Debuff_name);
 
 //Debuff_Stats
-void Debuff_single_target(Enemy* ptr, string stats_type, string Attack_type, double Value);
-void Debuff_single_target(Enemy* ptr, string stats_type, string Attack_type, string Element, double Value);
-
-void Debuff_All_Enemy_Apply_ver(SubUnit* ptr, string stats_type, string Attack_type, double Value, string Debuff_Name);
-void Debuff_All_Enemy_Apply_ver(SubUnit* ptr, string stats_type, string Attack_type, string Element, double Value, string Debuff_Name);
-
-void Stack_Debuff_single_target(Enemy* ptr, string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
-void Stack_Debuff_single_target(Enemy* ptr, string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
-
-void Stack_Debuff_All_Enemy(SubUnit* ptr, string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
-void Stack_Debuff_All_Enemy(SubUnit* ptr, string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
+void debuffAllEnemyApplyVer(SubUnit *ptr, string stats_type, string Attack_type, double Value, string Debuff_Name);
+void debuffAllEnemyApplyVer(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value, string Debuff_Name);
+void debuffAllEnemyMarkVer(SubUnit *ptr, string stats_type, string Attack_type, double Value, string Debuff_Name);
+void debuffAllEnemyMarkVer(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value, string Debuff_Name);
+void debuffAllEnemyStack(SubUnit *ptr, string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
+void debuffAllEnemyStack(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
 
 
 //Combat
@@ -203,7 +198,6 @@ void Deal_damage();
 void Attack(ActionData& data_);
 void Heal(Heal_data& Healptr);
 void Skill_point(SubUnit *ptr,int p);
-void Apply_debuff(SubUnit *ptr,Enemy* target);
 void Superbreak_trigger(ActionData& data_, double Superbreak_ratio);
 void Dot_trigger(double Dot_ratio, Enemy* target, std::string Dot_type);
 void Toughness_break(ActionData &data_, Enemy* target);

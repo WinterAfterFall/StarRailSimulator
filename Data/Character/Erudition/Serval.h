@@ -80,7 +80,7 @@ namespace Serval{
                             Enemy_unit[i]->Debuff["Shock_check"]++;
                             Enemy_unit[i]->Total_debuff++;
                         }
-                        Apply_debuff(ptr->Sub_Unit_ptr[0].get(), Enemy_unit[i].get());
+                        debuffApply(ptr->Sub_Unit_ptr[0].get(), Enemy_unit[i].get());
                         Extend_Debuff_single_target(Enemy_unit[i].get(), "Serval_Shock", 2);
                     }
                 }
@@ -197,7 +197,7 @@ namespace Serval{
                     Enemy_unit[i]->Debuff["Shock_check"]++;
                     Enemy_unit[i]->Total_debuff++;
                 }
-                Apply_debuff(ptr->Sub_Unit_ptr[0].get(),Enemy_unit[i].get());
+                debuffApply(ptr->Sub_Unit_ptr[0].get(),Enemy_unit[i].get());
                 Extend_Debuff_single_target(Enemy_unit[i].get(),"Serval_Shock",2);
             }
             Attack(data_);

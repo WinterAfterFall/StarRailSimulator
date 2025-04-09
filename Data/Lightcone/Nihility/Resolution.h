@@ -23,7 +23,7 @@ namespace Nihility_Lightcone{
                     e->Stats_type["Def"]["None"] += 11 + superimpose;
                     e->Debuff["Ensnared"] = 1;
                     e->Debuff_time_count["Ensnared"] = 1 + e->Atv_stats->turn_cnt;
-                    Apply_debuff(ptr->Sub_Unit_ptr[0].get(), e);
+                    debuffApply(ptr->Sub_Unit_ptr[0].get(), e);
                     ++e->Total_debuff;
                 }
             }));

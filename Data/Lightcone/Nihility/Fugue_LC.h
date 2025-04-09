@@ -19,7 +19,7 @@ namespace Nihility_Lightcone{
                     target->Stats_type["Vul"]["Break_dmg"] += 15 + 3 * superimpose;
                     target->Total_debuff++;
                 }
-                Apply_debuff(ptr->Sub_Unit_ptr[0].get(), target);
+                debuffApply(ptr->Sub_Unit_ptr[0].get(), target);
                 Extend_Debuff_single_target(target, "Fugue_LC_Debuff", 2);
             }));
     
