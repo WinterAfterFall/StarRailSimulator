@@ -14,6 +14,12 @@ using namespace std;
 
 //normal buff/debuff
 // 
+
+bool Action_value_stats::isSameUnit(SubUnit *ptr){
+    if(this->Unit_Name == ptr->Atv_stats->Unit_Name)return true;
+    return false;
+}
+
 SubUnit* Action_value_stats::canCastToSubUnit(){
     return dynamic_cast<SubUnit*>(this->ptr_to_unit);
 }

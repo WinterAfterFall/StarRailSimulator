@@ -186,8 +186,6 @@ namespace Castorice{
             data_.actionFunction = [ptr](ActionData &data_) {
                 if(ptr->Print)CharCmd::printUltStart("Castorice");
                 debuffAllEnemyMarkVer(ptr->getSubUnit(1),ST_RESPEN,AT_NONE,20,"Lost Netherland");
-                
-
                 ptr->getSubUnit(1)->currentHP = 34000;
                 Buff_single_target(ptr->getSubUnit(1),ST_FLAT_HP,AT_NONE,34000);
                 ptr->getSubUnit(1)->Atv_stats->Base_speed = 165;
@@ -485,14 +483,16 @@ namespace Castorice{
     }
     void HealerCondition(Ally *ptr, Ally *target) {
         target->ultCondition.push_back([ptr, target]() -> bool {
-            if(ptr->getSubUnit()->Buff_note["Newbud"] >= 34000)return false;
+            if(ptr->getSubUnit()->Buff_note["Newbud"] >= 34000||ptr->getSubUnit(1)->currentHP==34000)return false;
             return true;
         });
     }
     void CastoriceWithDriver(Ally *ptr, Ally *target) {
         ptr->ultCondition.push_back([ptr, target]() -> bool {
-            if(target->getSubUnit()->Atv_stats->atv>=10000/165)return false;
-            return true;
+            if(target->getSubUnit()->Atv_stats->atv>=10000/165)return true;
+            // if(target->getSubUnit()->Atv_stats->atv>=10)return true;
+            if(turn->isSameUnit(target->getSubUnit())&&Ult_After_Turn==0)return true;
+            return false;
         });
     } 
 

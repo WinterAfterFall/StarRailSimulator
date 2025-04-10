@@ -36,10 +36,11 @@ public:
         if(this->Char_Name == name)return true;
         return false;
     }
-    bool isSameUnit(string name){
+    bool isSameUnitName(string name){
         if(this->Unit_Name == name)return true;
         return false;
     }
+    bool isSameUnit(SubUnit *ptr);
     SubUnit* canCastToSubUnit();
     Enemy* canCastToEnemy();
 
