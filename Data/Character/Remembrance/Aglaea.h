@@ -220,8 +220,8 @@ namespace Aglaea{
 
 
 
-        Ally_unit[num]->SetRelic(0,1,0,1);
-        // Ally_unit[num]->Speed_tune_value = 135;
+        Ally_unit[num]->SetRelic(0,1,1,1);
+        Ally_unit[num]->Speed_tune_value = 135;
         Aglaea_num = num;
 
 

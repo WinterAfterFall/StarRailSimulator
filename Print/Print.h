@@ -17,29 +17,10 @@ void Print(){
     cout<<""<<turn->Char_Name<<" ";
     cout<<turn->turn_cnt<<" ";
     cout<<Ally_unit[1]->getSubUnit()->Buff_note["Newbud"]<<" ";
-    cout<<Ally_unit[2]->Current_energy<<" ";
-    // cout<<Ally_unit[1]->Sub_Unit_ptr[1]->currentHP<<" ";
-
-    cout<<endl;
-    // Ally_unit[1]->getSubUnit()->printCritStats();
-    // Ally_unit[1]->getSubUnit()->printHpStats();
-    // Ally_unit[2]->getSubUnit()->printHpStats();
-    // Ally_unit[3]->getSubUnit()->printHpStats();
-    // Ally_unit[4]->getSubUnit()->printHpStats();
-
-    
-    //cout<<sp<<" ";
+    cout<<Ally_unit[1]->Sub_Unit_ptr[0]->Atv_stats->Max_atv<<" ";
+    cout<<Ally_unit[2]->Sub_Unit_ptr[0]->Atv_stats->Max_atv<<" ";
 
 
-    
-
-
-    
-    
-    // cout<<Ally_unit[1]->Sub_Unit_ptr[0]->Atv_stats->Speed_percent<<" ";
-    // cout<<Ally_unit[2]->Sub_Unit_ptr[0]->currentHP<<" ";
-    // cout<<Ally_unit[2]->Sub_Unit_ptr[0]->totalHP<<" ";
-    // cout<<Ally_unit[1]->Sub_Unit_ptr[1]->Atv_stats->Flat_speed<<" ";
     
     
     cout<<endl;
