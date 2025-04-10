@@ -73,6 +73,9 @@ namespace Tribbie{
                     if (ptr->Eidolon >= 1) {
                         Buff_All_Ally("True_Damage", "None", 24);
                     }
+                    if (ptr->Eidolon >= 4) {
+                        Buff_All_Ally(ST_DEF_SHRED, "None", 18);
+                    }
                 }
                 for (int i = 1; i <= Total_ally; i++) {
                     if (i == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num) continue;
@@ -149,6 +152,9 @@ namespace Tribbie{
                 }
                 if (ptr->Eidolon >= 1) {
                     Buff_All_Ally("True_Damage", "None", -24);
+                }
+                if (ptr->Eidolon >= 4) {
+                    Buff_All_Ally(ST_DEF_SHRED, "None", -18);
                 }
                 Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Flat_Hp", AT_TEMP, -ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]);
                 Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Flat_Hp", "None", -ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]);

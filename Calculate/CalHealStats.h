@@ -58,7 +58,7 @@ double Cal_Def_multiplier(Heal_data& healData) {
 double Cal_HealBonus_multiplier(Heal_data& healData, SubUnit* target) {
     double mtpr = 100;
     
-    mtpr += healData.Healer->Stats_type["HealingBonus"]["None"];
+    mtpr += healData.Healer->Stats_type[ST_HEALING_OUT]["None"];
     // if (healData.Combat_dataPtr) {
     //     for (int i = 0, sz = healData.Combat_dataPtr->Skill_Type.size(); i < sz; i++) {
     //         mtpr += healData.Healer->Stats_type["HealingBonus"][healData.Combat_dataPtr->Skill_Type[i]];
@@ -69,7 +69,7 @@ double Cal_HealBonus_multiplier(Heal_data& healData, SubUnit* target) {
 
 double Cal_HealBonus_multiplier(SubUnit* Healer, SubUnit* target) {
     double mtpr = 100;
-    mtpr += Healer->Stats_type["HealingBonus"]["None"];
+    mtpr += Healer->Stats_type[ST_HEALING_OUT]["None"];
     return mtpr / 100 < 0 ? 0 : mtpr / 100;
 }
 

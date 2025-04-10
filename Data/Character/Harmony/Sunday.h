@@ -106,6 +106,8 @@ namespace Sunday{
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_CRIT_DAM][AT_NONE] += 37.3;
             ptr->Sub_Unit_ptr[0]->Stats_type["Def%"][AT_NONE] += 12.5;
+            // ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed -= 2.3;
+
 
             // relic
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_CRIT_DAM][AT_NONE] += 64.8;
@@ -122,7 +124,7 @@ namespace Sunday{
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
-            if(turn->isSameUnit("Sunday")){
+            if(turn->isSameUnit("Sunday")&&ptr->Eidolon>=4){
                 Increase_energy(ptr,8);
             }
             if (Buff_end(ptr->Sub_Unit_ptr[0].get(), "Ode_to_Caress_and_Cicatrix")) {

@@ -18,7 +18,9 @@ void Print(){
     cout<<turn->turn_cnt<<" ";
     cout<<Ally_unit[1]->getSubUnit()->Buff_note["Newbud"]<<" ";
     cout<<Ally_unit[1]->Sub_Unit_ptr[0]->Atv_stats->Max_atv<<" ";
+    cout<<Ally_unit[1]->Sub_Unit_ptr[0]->Atv_stats->atv<<" ";
     cout<<Ally_unit[2]->Sub_Unit_ptr[0]->Atv_stats->Max_atv<<" ";
+    cout<<Ally_unit[2]->Sub_Unit_ptr[0]->Atv_stats->atv<<" ";
 
 
     

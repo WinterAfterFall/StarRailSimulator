@@ -262,16 +262,16 @@ namespace Castorice{
 
         Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr](SubUnit *Healer, SubUnit *target, double Value) {
             if(target->isSameUnitName("Netherwing"))return;
+            Value = (Value + target->getBuffNote("NetherwingHealLimit") > 4080) 
+            ? 4080 - target->getBuffNote("NetherwingHealLimit")
+            : Value;
+            target->Buff_note["NetherwingHealLimit"]+=Value;
             if(ptr->getSubUnit(1)->currentHP==0){
                 ptr->getSubUnit()->Buff_note["Newbud"]+=Value;
             }
             else {
-                Value = (Value + target->getBuffNote("NetherwingHealLimit") > 4080) 
-                ? 4080 - target->getBuffNote("NetherwingHealLimit")
-                : Value;
                 HealRatio healRatio = HealRatio();
                 healRatio.setRatio(0,0,0,Value,0,0);
-                target->Buff_note["NetherwingHealLimit"]+=Value;
                 Healing(healRatio,ptr->getSubUnit(1),ptr->getSubUnit(1));
             }
             if(target->isSameUnitName("Castorice")){
