@@ -19,7 +19,7 @@ namespace Rappa{
         int num = Total_ally;
         Ally *ptr = Ally_unit[num].get();
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 1087, 718, 461);
-        SetBasicStats(Ally_unit[num].get(), 96, 140, 140, E, "Imaginary", "Erudition", num, "Rappa", "Ally");
+        SetAllyBasicStats(Ally_unit[num].get(), 96, 140, 140, E, "Imaginary", "Erudition", num, "Rappa", "Ally");
 
         //func
         LC(Ally_unit[num].get());

@@ -35,7 +35,7 @@ namespace The_Herta{
         int num = Total_ally;
         Ally *ptr = Ally_unit[num].get();
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1164,679,485);
-        SetBasicStats(Ally_unit[num].get(),99,220,220,E,"Ice","Erudition",num,"The_Herta","Ally");
+        SetAllyBasicStats(Ally_unit[num].get(),99,220,220,E,"Ice","Erudition",num,"The_Herta","Ally");
         Ally_unit[num]->Speed_Boot=0;
 
         //substats

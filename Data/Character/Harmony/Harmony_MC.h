@@ -20,7 +20,7 @@ namespace Harmony_MC{
         Ally* ptr = Ally_unit[num].get();
 
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 1087, 446, 679);
-        SetBasicStats(Ally_unit[num].get(), 105, 140, 140, E, "Imaginary", "Harmony", num, "Harmony_MC", "Ally");
+        SetAllyBasicStats(Ally_unit[num].get(), 105, 140, 140, E, "Imaginary", "Harmony", num, "Harmony_MC", "Ally");
 
         //func
         LC(Ally_unit[num].get());

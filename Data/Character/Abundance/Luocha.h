@@ -16,12 +16,8 @@ namespace Luocha{
 
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit.push_back(make_unique<Ally>());
-        Total_ally++;
-        int num = Total_ally;
-        Ally *ptr = Ally_unit[num].get();
+        Ally *ptr = SetAllyBasicStats(101,100,100,E,"Imaginary","Abundance","Luocha","Ally");
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1280,756,363);
-        SetBasicStats(Ally_unit[num].get(),101,100,100,E,"Imaginary","Abundance",num,"Luocha","Ally");
 
         ptr->pushSubstats(ST_ATK_PERCENT);
         ptr->setTotalSubstats(20);

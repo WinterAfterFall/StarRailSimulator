@@ -2,26 +2,27 @@
 #define STATSSET_H
 
 #include "Stats.h"
-
-void SetBaseStats(SubUnit *ptr,double BaseHp,double BaseAtk,double BaseDef){
-    ptr->Base_hp +=BaseHp;
-    ptr->Base_atk +=BaseAtk;
-    ptr->Base_def +=BaseDef;
-
+void Ally::SetAllyBaseStats(double BaseHp,double BaseAtk,double BaseDef){
+        this->getSubUnit()->Base_hp +=BaseHp;
+        this->getSubUnit()->Base_atk +=BaseAtk;
+        this->getSubUnit()->Base_def +=BaseDef;
 }
-void SetBasicStats(Ally *ptr,double BaseSpeed,double Max_Energy,double Ult_cost,int Eidolon,string Element_type,string Path,int num,string Name,string Side){
-        ptr->Sub_Unit_ptr[0]->Atv_stats->Base_speed = BaseSpeed;
-        ptr->Max_energy = Max_Energy;
-        ptr->Ult_cost = Ult_cost;
-        ptr->Eidolon = Eidolon;
-        ptr->Sub_Unit_ptr[0]->Element_type.push_back(Element_type);
-        ptr->Path.push_back(Path);
-        ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num = num;
-        ptr->Sub_Unit_ptr[0]->Atv_stats->Char_Name = Name;
-        ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name = Name;
-        ptr->Sub_Unit_ptr[0]->Atv_stats->Side = Side;
-        //ptr->Sub_Unit_ptr[0]->Atv_stats->ptr_to_unit = ptr->Sub_Unit_ptr[0].get();
-
+Ally* SetAllyBasicStats(double BaseSpeed,double Max_Energy,double Ult_cost,int Eidolon,string Element_type,string Path,string Name,string UnitType){
+        Ally_unit.push_back(make_unique<Ally>());
+        Total_ally++;
+        int num = Total_ally;
+        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Base_speed = BaseSpeed;
+        Ally_unit[num]->Max_energy = Max_Energy;
+        Ally_unit[num]->Ult_cost = Ult_cost;
+        Ally_unit[num]->Eidolon = Eidolon;
+        Ally_unit[num]->Sub_Unit_ptr[0]->Element_type.push_back(Element_type);
+        Ally_unit[num]->Path.push_back(Path);
+        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Unit_num = num;
+        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Char_Name = Name;
+        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Unit_Name = Name;
+        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Side = "Ally";
+        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Type = UnitType;
+        return Ally_unit[num].get();
 }
 void SetMemoStats(Ally *ptr,double Hp_ratio,double Speed_ratio,string Element_type,string Name,string Side){
         int num = ptr->Sub_Unit_ptr.size();

@@ -25,7 +25,7 @@ namespace Jade{
         int num = Total_ally;
         Ally *ptr = Ally_unit[num].get();
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1087,660,509);
-        SetBasicStats(Ally_unit[num].get(),103,140,140,E,"Quantum","Erudition",num,"Jade","Ally");
+        SetAllyBasicStats(Ally_unit[num].get(),103,140,140,E,"Quantum","Erudition",num,"Jade","Ally");
 
         //substats
         Ally_unit[num]->Total_substats=20;

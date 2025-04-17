@@ -18,7 +18,7 @@ namespace Ruan_Mei{
         int num = Total_ally;
         Ally *ptr = Ally_unit[num].get();
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 1087, 660, 485);
-        SetBasicStats(Ally_unit[num].get(), 104, 130, 130, E, "Ice", "Harmony", num, "Ruan_Mei", "Ally");
+        SetAllyBasicStats(Ally_unit[num].get(), 104, 130, 130, E, "Ice", "Harmony", num, "Ruan_Mei", "Ally");
 
         //func
         LC(Ally_unit[num].get());

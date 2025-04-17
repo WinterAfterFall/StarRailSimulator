@@ -26,7 +26,7 @@ namespace Mydei{
         Ally *ptr = Ally_unit[num].get();
 
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1552,427,194);
-        SetBasicStats(Ally_unit[num].get(),95,160,160,E,"Imaginary","Destruction",num,"Mydei","Ally");
+        SetAllyBasicStats(Ally_unit[num].get(),95,160,160,E,"Imaginary","Destruction",num,"Mydei","Ally");
 
         //substats
         ptr->pushSubstats("Crit_dam");

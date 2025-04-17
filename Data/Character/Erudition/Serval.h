@@ -24,7 +24,7 @@ namespace Serval{
         int num = Total_ally;
         Ally *ptr = Ally_unit[num].get();
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),917,653,375);
-        SetBasicStats(Ally_unit[num].get(),104,100,100,E,"Lightning","Erudition",num,"Serval","Ally");
+        SetAllyBasicStats(Ally_unit[num].get(),104,100,100,E,"Lightning","Erudition",num,"Serval","Ally");
 
         //substats
         Ally_unit[num]->Total_substats=20;

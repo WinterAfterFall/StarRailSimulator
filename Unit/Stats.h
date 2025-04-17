@@ -26,6 +26,7 @@ public:
     int turn_cnt = 0;
     int Unit_num = 0;//*
     string Side;//Memosprite Ally Summon
+    string Type;
     int priority = 0;
     string Char_Name;
     string Unit_Name;//ชื่อเจ้าของเทิร์น
@@ -356,6 +357,7 @@ public:
 
 
     /*--------------------Declaration--------------------*/
+    void SetAllyBaseStats(double BaseHp,double BaseAtk,double BaseDef);
     /*-----------------Combat-----------------*/
     //Energy.h
     void addUltCondition(function<bool()> condition);

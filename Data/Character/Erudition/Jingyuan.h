@@ -23,7 +23,7 @@ namespace Jingyuan{
         int num = Total_ally;
         Ally *ptr = Ally_unit[num].get();
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 1164, 698, 485);
-        SetBasicStats(Ally_unit[num].get(), 99, 130, 130, E, "Lightning", "Erudition", num, "Jingyuan", "Ally");
+        SetAllyBasicStats(Ally_unit[num].get(), 99, 130, 130, E, "Lightning", "Erudition", num, "Jingyuan", "Ally");
         
 
         //substats

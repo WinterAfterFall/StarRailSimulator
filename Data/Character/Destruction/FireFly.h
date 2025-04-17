@@ -18,7 +18,7 @@ namespace FireFly{
         int num = Total_ally;
         Ally *ptr = Ally_unit[num].get();
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 815, 524, 776);
-        SetBasicStats(Ally_unit[num].get(), 104, 240, 240, E, "Fire", "Destruction", num, "FireFly", "Ally");
+        SetAllyBasicStats(Ally_unit[num].get(), 104, 240, 240, E, "Fire", "Destruction", num, "FireFly", "Ally");
 
         //func
         LC(Ally_unit[num].get());

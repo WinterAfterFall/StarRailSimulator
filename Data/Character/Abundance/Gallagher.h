@@ -17,23 +17,19 @@ namespace Gallagher{
 
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit.push_back(make_unique<Ally>());
-        Total_ally++;
-        int num = Total_ally;
-        Ally *ptr = Ally_unit[num].get();
-        SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1305,529,441);
-        SetBasicStats(Ally_unit[num].get(),98,110,110,E,"Fire","Abundance",num,"Gallagher","Ally");
+        Ally *ptr = SetAllyBasicStats(98,110,110,E,"Fire","Abundance","Gallagher","Standard");
+        ptr->SetAllyBaseStats(1305,529,441);
 
         //substats
         ptr->pushSubstats("Break_effect");
         ptr->setTotalSubstats(20);
 
         //func
-        LC(Ally_unit[num].get());
-        Relic(Ally_unit[num].get());
-        Planar(Ally_unit[num].get());
+        LC(ptr);
+        Relic(ptr);
+        Planar(ptr);
         
-        Ally_unit[num]->Sub_Unit_ptr[0]->Turn_func = [ptr]() {
+        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr]() {
             if (ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt % 8 == 1) {
                 Skill_func(ptr);
             } else {

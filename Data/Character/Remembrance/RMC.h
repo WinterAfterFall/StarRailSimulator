@@ -17,12 +17,8 @@ namespace RMC{
 
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit.push_back(make_unique<Ally>());
-        Total_ally++;
-        int num = Total_ally;
-        Ally *ptr = Ally_unit[num].get();
-        SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1048,543,631);
-        SetBasicStats(Ally_unit[num].get(),103,160,160,E,"Ice","Remembrance",num,"RMC","Ally");
+        Ally *ptr = SetAllyBasicStats(103,160,160,E,"Ice","Remembrance","RMC","Standard");
+        SetBaseStats(ptr->Sub_Unit_ptr[0].get(),1048,543,631);
 
         //substats
         
@@ -31,10 +27,10 @@ namespace RMC{
         ptr->setTotalSubstats(20);
 
         //func
-        LC(Ally_unit[num].get());
-        Relic(Ally_unit[num].get());
-        Planar(Ally_unit[num].get());
-        Ally_unit[num]->Sub_Unit_ptr[0]->Turn_func = [ptr](){
+        LC(ptr);
+        Relic(ptr);
+        Planar(ptr);
+        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr](){
             if(ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt%3!=1){
                 Basic_Atk(ptr);
             }else{
@@ -167,8 +163,8 @@ namespace RMC{
 
 
 
-        SetMemoStats(Ally_unit[num].get(),68,0,"Ice","Mem","Memosprite");
-        Ally_unit[num]->Sub_Unit_ptr[1]->Turn_func = [ptr](){
+        SetMemoStats(ptr,68,0,"Ice","Mem","Memosprite");
+        ptr->Sub_Unit_ptr[1]->Turn_func = [ptr](){
         
             if(ptr->Sub_Unit_ptr[1]->Buff_check["Mem_Charge"]==1){
                 Memo_Echance_Skill(ptr);

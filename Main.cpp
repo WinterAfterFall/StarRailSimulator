@@ -42,7 +42,7 @@ int main(){
     // Aglaea::Setup(1,Remembrance_Lightcone::SweatNowCryLess(1),Relic::Hero_Wreath,Planar::The_Wondrous_BananAmusement_Park);
     // Jingyuan::Setup_Jingyuan(2,Erudition_Lightcone::Before_Dawn,Relic::Grand_Duke,Planar::The_Wondrous_BananAmusement_Park);
     Castorice::Setup(0,Remembrance_Lightcone::Castorice_LC(1),Relic::Poet_Dill,Planar::Bone_Collection);
-    Mydei::Setup(0,Destruction_Lightcone::Ninja_Record(5),Relic::Scholar,Planar::Bone_Collection);
+    // Mydei::Setup(0,Destruction_Lightcone::Ninja_Record(5),Relic::Scholar,Planar::Bone_Collection);
 
     //Driver
     // Bronya::Setup(0,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
@@ -53,10 +53,10 @@ int main(){
     //Serval::Setup(6,Harmony_Lightcone::Meshing_Cogs,Relic::Double_Speed,Planar::Lushaka);
     
     //Support
-    // RMC::Setup(6,Remembrance_Lightcone::Victory_In_Blink(5),Relic::PairSet(ST_SPD_PERCENT,ST_SPD_PERCENT),Planar::Broken_Keel);
-    // Tribbie::Setup(0,Harmony_Lightcone::Tribbie_LC(1),Relic::Poet_Dill,Planar::Broken_Keel);
+    RMC::Setup(6,Remembrance_Lightcone::Victory_In_Blink(5),Relic::PairSet(ST_SPD_PERCENT,ST_SPD_PERCENT),Planar::Broken_Keel);
+    Tribbie::Setup(0,Harmony_Lightcone::DDD(5),Relic::Poet_Dill,Planar::Broken_Keel);
     // Robin::Setup(2,Harmony_Lightcone::For_Tomorrow_Journey(5),Relic::PairSet(ST_ATK_PERCENT,ST_ATK_PERCENT),Planar::Broken_Keel);
-    Ruan_Mei::Setup(0,Harmony_Lightcone::Memories_of_the_Past(5),Relic::PairSet(ST_BREAK_EFFECT,ST_BREAK_EFFECT),Planar::Broken_Keel);
+    // Ruan_Mei::Setup(0,Harmony_Lightcone::Memories_of_the_Past(5),Relic::PairSet(ST_BREAK_EFFECT,ST_BREAK_EFFECT),Planar::Broken_Keel);
     //Tingyun::Setup(6,Harmony_Lightcone::DDD(5),Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
     
     //Debuffer
@@ -76,7 +76,7 @@ int main(){
 
     // CharCmd::Set_Tune_Speed(Ally_unit[2].get(),1);
 
-    CharCmd::Set_Technique(Ally_unit[2].get(),0);
+    // CharCmd::Set_Technique(Ally_unit[2].get(),0);
     CharCmd::Set_Technique(Ally_unit[4].get(),0);
 
     //-----------------------------------------------------------

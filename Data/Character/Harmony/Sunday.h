@@ -18,7 +18,7 @@ namespace Sunday{
         int num = Total_ally;
         Ally *ptr = Ally_unit[num].get();
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 1242, 640, 533);
-        SetBasicStats(Ally_unit[num].get(), 96, 130, 130, E, "Imaginary", "Harmony", num, "Sunday", "Ally");
+        SetAllyBasicStats(Ally_unit[num].get(), 96, 130, 130, E, "Imaginary", "Harmony", num, "Sunday", "Ally");
 
         ptr->pushSubstats(ST_CRIT_DAM);
         ptr->setTotalSubstats(20);

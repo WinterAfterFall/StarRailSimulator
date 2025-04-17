@@ -15,12 +15,9 @@ namespace Castorice{
     void Kamikaze(Ally *ptr);
     void DriverCondition(Ally *ptr, Ally *target);
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit.push_back(make_unique<Ally>());
-        Total_ally++;
-        int num = Total_ally;
-        Ally *ptr = Ally_unit[num].get();
-        SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1630,524,485);
-        SetBasicStats(Ally_unit[num].get(),95,0,0,E,"Quantum","Remembrance",num,"Castorice","Ally");
+
+        Ally *ptr = SetAllyBasicStats(95,0,0,E,"Quantum","Remembrance","Castorice","Standard");
+        SetBaseStats(ptr->Sub_Unit_ptr[0].get(),1630,524,485);
 
         //substats
         ptr->pushSubstats(ST_CRIT_DAM);
@@ -30,18 +27,18 @@ namespace Castorice{
 
 
         //func
-        LC(Ally_unit[num].get());
-        Relic(Ally_unit[num].get());
-        Planar(Ally_unit[num].get());
-        Ally_unit[num]->SetRelic(1,0,0,0);
-        Ally_unit[num]->Speed_tune_value = 0;
+        LC(ptr);
+        Relic(ptr);
+        Planar(ptr);
+        ptr->SetRelic(1,0,0,0);
+        ptr->Speed_tune_value = 0;
 
-        SetMemoStats(Ally_unit[num].get(),0,0,"Quantum","Netherwing","Memosprite");
-        // SetCountdownStats(Ally_unit[num].get(),"Supreme_Stance");
+        SetMemoStats(ptr,0,0,"Quantum","Netherwing","Memosprite");
+        // SetCountdownStats(ptr,"Supreme_Stance");
         //adjust
         ptr->Adjust["NetherwingLifeSpan"] = 3;
         
-        Ally_unit[num]->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
+        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
 
             if (ptr->getSubUnit(1)->currentHP==0) {
                 Skill(ptr);

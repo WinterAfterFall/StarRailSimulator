@@ -23,7 +23,7 @@ namespace Robin{
         int num = Total_ally;
         Ally *ptr = Ally_unit[num].get();
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 1280, 640, 485);
-        SetBasicStats(Ally_unit[num].get(), 102, 160, 160, E, "Physical", "Harmony", num, "Robin", "Ally");
+        SetAllyBasicStats(Ally_unit[num].get(), 102, 160, 160, E, "Physical", "Harmony", num, "Robin", "Ally");
         Robin_num = num;
         ptr->pushSubstats(ST_ATK_PERCENT);
         ptr->setTotalSubstats(15);

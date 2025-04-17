@@ -19,12 +19,8 @@ namespace Tribbie{
     void Basic_Atk(Ally *ptr);
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit.push_back(make_unique<Ally>());
-        Total_ally++;
-        int num = Total_ally;
-        Ally *ptr = Ally_unit[num].get();
-        SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1048,524,728);
-        SetBasicStats(Ally_unit[num].get(),96,120,120,E,"Quantum","Harmony",num,"Tribbie","Ally");
+        Ally *ptr = SetAllyBasicStats(96,120,120,E,"Quantum","Harmony","Tribbie","Standard");
+        SetBaseStats(ptr->Sub_Unit_ptr[0].get(),1048,524,728);
         //substats
         ptr->pushSubstats("Crit_dam");
         ptr->pushSubstats("Crit_rate");
@@ -33,10 +29,10 @@ namespace Tribbie{
 
 
         //func
-        LC(Ally_unit[num].get());
-        Relic(Ally_unit[num].get());
-        Planar(Ally_unit[num].get());
-        Ally_unit[num]->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
+        LC(ptr);
+        Relic(ptr);
+        Planar(ptr);
+        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
             if (Buff_check(allyPtr, "Numinosity")) {
                 Basic_Atk(ptr);
             } else {
@@ -44,7 +40,7 @@ namespace Tribbie{
             }
         };
 
-        Ally_unit[num]->Char.Print_Func = Print_Stats;
+        ptr->Char.Print_Func = Print_Stats;
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
             if (ptr->Light_cone.Name == "DDD" && chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats->atv <= 0) return;
             if (ptr->Light_cone.Name == "DDD" && Driver_num != 0 && Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv <= 0) return;
@@ -233,7 +229,7 @@ namespace Tribbie{
                 return;
             }
         }));  
-        Ally_unit[num]->SetRelic(0,0,0,1);
+        ptr->SetRelic(0,0,0,1);
     }
 
 

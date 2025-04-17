@@ -19,7 +19,7 @@ namespace Tingyun{
         int num = Total_ally;
         Ally *ptr = Ally_unit[num].get();
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 847, 529, 397);
-        SetBasicStats(Ally_unit[num].get(), 112, 130, 130, E, "Lightning", "Harmony", num, "Tingyun", "Ally");
+        SetAllyBasicStats(Ally_unit[num].get(), 112, 130, 130, E, "Lightning", "Harmony", num, "Tingyun", "Ally");
         Ally_unit[num]->Technique = 2;
 
         //func
