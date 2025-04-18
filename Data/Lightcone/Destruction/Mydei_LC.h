@@ -9,7 +9,7 @@
 namespace Destruction_Lightcone{
     function<void(Ally *ptr)> Mydei_LC(int superimpose){
         return [=](Ally *ptr) {
-            SetBaseStats(ptr->Sub_Unit_ptr[0].get(),1376,476,397);
+            ptr->SetAllyBaseStats(1376,476,397);
             ptr->Light_cone.Name = "Mydei_LC";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_PERCENT][AT_NONE] += 15 + 3*superimpose;

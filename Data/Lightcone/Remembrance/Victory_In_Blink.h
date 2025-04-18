@@ -9,7 +9,7 @@
 namespace Remembrance_Lightcone{
     function<void(Ally *ptr)> Victory_In_Blink(int superimpose){
         return [=](Ally *ptr) {
-            SetBaseStats(ptr->Sub_Unit_ptr[0].get(),847,476,397);
+            ptr->SetAllyBaseStats(847,476,397);
             ptr->Light_cone.Name = "Victory_In_Blink";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {

@@ -9,7 +9,7 @@
 namespace Abundance_Lightcone{
     function<void(Ally *ptr)> Multiplication(int superimpose){
         return [=](Ally *ptr) {
-            SetBaseStats(ptr->Sub_Unit_ptr[0].get(),953,318,198);
+            ptr->SetAllyBaseStats(953,318,198);
             ptr->Light_cone.Name = "Multiplication";
             After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](ActionData &data_){
                         

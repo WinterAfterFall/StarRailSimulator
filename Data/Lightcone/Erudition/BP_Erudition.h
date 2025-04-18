@@ -6,7 +6,7 @@
 namespace Erudition_Lightcone{
     function<void(Ally *ptr)> BP_Erudition(int superimpose){
     return [=](Ally *ptr) {
-        SetBaseStats(ptr->Sub_Unit_ptr[0].get(),847,529,331);
+        ptr->SetAllyBaseStats(847,529,331);
         ptr->Light_cone.Name = "BP_Erudition";
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
             if (ptr->Max_energy > 160) {

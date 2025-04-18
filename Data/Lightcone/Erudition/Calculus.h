@@ -6,7 +6,7 @@
 namespace Erudition_Lightcone{
     function<void(Ally *ptr)> Calculus(int superimpose){
         return [=](Ally *ptr) {
-            SetBaseStats(ptr->Sub_Unit_ptr[0].get(),1058,529,397);
+            ptr->SetAllyBaseStats(1058,529,397);
             ptr->Light_cone.Name = "Calculus";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {

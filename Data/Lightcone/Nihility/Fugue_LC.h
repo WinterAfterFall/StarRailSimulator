@@ -6,7 +6,7 @@
 namespace Nihility_Lightcone{
     function<void(Ally *ptr)> Fugue_LC(int superimpose){
         return [=](Ally *ptr) {
-            SetBaseStats(ptr->Sub_Unit_ptr[0].get(),953,582,529);
+            ptr->SetAllyBaseStats(953,582,529);
             ptr->Light_cone.Name = "Fugue_LC";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {

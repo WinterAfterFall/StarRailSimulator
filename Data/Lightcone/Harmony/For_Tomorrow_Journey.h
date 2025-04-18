@@ -9,7 +9,7 @@
 namespace Harmony_Lightcone{
     function<void(Ally *ptr)> For_Tomorrow_Journey(int superimpose){
         return [=](Ally *ptr) {
-            SetBaseStats(ptr->Sub_Unit_ptr[0].get(),953,476,331);
+            ptr->SetAllyBaseStats(953,476,331);
             ptr->Light_cone.Name = "For_Tomorrow_Journey";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {

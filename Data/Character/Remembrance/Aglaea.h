@@ -18,31 +18,21 @@ namespace Aglaea{
 
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit.push_back(make_unique<Ally>());
-        Total_ally++;
-        int num = Total_ally;
-        Ally *ptr = Ally_unit[num].get();
-        SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1242,699,485);
-        SetAllyBasicStats(Ally_unit[num].get(),102,350,350,E,"Lightning","Remembrance",num,"Aglaea",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(102,350,350,E,"Lightning","Remembrance","Aglaea",TYPE_STD);
+        ptr->SetAllyBaseStats(1242,699,485);
 
         //substats
-        Ally_unit[num]->Total_substats=20;
-        Ally_unit[num]->SeparateRatio=20;
-        Ally_unit[num]->Reroll_check=1;
-
-        Ally_unit[num]->Substats.push_back({"Crit_dam",20});
-        Ally_unit[num]->Substats.push_back({"Crit_rate",0});
-        Ally_unit[num]->Substats.push_back({"Atk%",0});
-       
-
-        Ally_unit[num]->Max_damage_Substats.resize(Ally_unit[num]->Substats.size());
+        ptr->pushSubstats(ST_CRIT_DAM);
+        ptr->pushSubstats(ST_CRIT_RATE);
+        ptr->pushSubstats(ST_ATK_PERCENT);
+        ptr->setTotalSubstats(20);
 
 
         //func
-        LC(Ally_unit[num].get());
-        Relic(Ally_unit[num].get());
-        Planar(Ally_unit[num].get());
-        Ally_unit[num]->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
+        LC(ptr);
+        Relic(ptr);
+        Planar(ptr);
+        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
             if (allyPtr->Atv_stats->Base_speed == -1) {
                 Skill(ptr);
                 return;
@@ -220,13 +210,13 @@ namespace Aglaea{
 
 
 
-        Ally_unit[num]->SetRelic(0,1,1,1);
-        Ally_unit[num]->Speed_tune_value = 135;
+        ptr->SetRelic(0,1,1,1);
+        ptr->Speed_tune_value = 135;
 
 
 
-        SetMemoStats(Ally_unit[num].get(),66,35,"Lightning","Garmentmaker","Memosprite");
-        SetCountdownStats(Ally_unit[num].get(),"Supreme_Stance");
+        SetMemoStats(ptr,66,35,"Lightning","Garmentmaker","Memosprite");
+        SetCountdownStats(ptr,"Supreme_Stance");
         ptr->Sub_Unit_ptr[1]->Turn_func = [ptr](){
         
             Memo_Skill(ptr);

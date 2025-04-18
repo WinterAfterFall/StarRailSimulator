@@ -9,7 +9,7 @@
 namespace Harmony_Lightcone{
     function<void(Ally *ptr)> Memories_of_the_Past(int superimpose){
         return [=](Ally *ptr) {
-            SetBaseStats(ptr->Sub_Unit_ptr[0].get(), 953, 423, 397);
+            ptr->SetAllyBaseStats( 953, 423, 397);
             ptr->Light_cone.Name = "Memories_of_the_Past";
     
             After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](ActionData &data_) {

@@ -9,7 +9,7 @@
 namespace Harmony_Lightcone{
     function<void(Ally *ptr)> Bronya_LC(int superimpose){
         return [=](Ally *ptr) {
-            SetBaseStats(ptr->Sub_Unit_ptr[0].get(),1164,529,463);
+            ptr->SetAllyBaseStats(1164,529,463);
             ptr->Light_cone.Name = "Bronya_LC";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {

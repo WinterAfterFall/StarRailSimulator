@@ -9,7 +9,7 @@
 namespace Nihility_Lightcone{
     function<void(Ally *ptr)> Before_the_Tutorial(int superimpose){
         return [=](Ally *ptr) {
-            SetBaseStats(ptr->Sub_Unit_ptr[0].get(),953,476,331);
+            ptr->SetAllyBaseStats(953,476,331);
             ptr->Light_cone.Name = "Before_the_Tutorial";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {

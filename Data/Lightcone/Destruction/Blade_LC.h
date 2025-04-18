@@ -9,7 +9,7 @@
 namespace Destruction_Lightcone{
     function<void(Ally *ptr)> Blade_LC(int superimpose){
         return [=](Ally *ptr) {
-            SetBaseStats(ptr->Sub_Unit_ptr[0].get(),1270,582,331);
+            ptr->SetAllyBaseStats(1270,582,331);
             ptr->Light_cone.Name = "Blade_LC";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](){
                         

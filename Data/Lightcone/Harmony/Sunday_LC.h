@@ -9,7 +9,7 @@
 namespace Harmony_Lightcone{
     function<void(Ally *ptr)> Sunday_LC(int superimpose){
         return [=](Ally *ptr) {
-            SetBaseStats(ptr->Sub_Unit_ptr[0].get(),1164,476,529);
+            ptr->SetAllyBaseStats(1164,476,529);
             ptr->Light_cone.Name = "Sunday_LC";
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 if (turn->Unit_num != ptr->Sub_Unit_ptr[0]->currentAllyTargetNum) return;

@@ -6,7 +6,7 @@
 namespace Erudition_Lightcone{
     function<void(Ally *ptr)> Himeko_LC(int superimpose){
         return [=](Ally *ptr) {
-            SetBaseStats(ptr->Sub_Unit_ptr[0].get(),1164,582,397);
+            ptr->SetAllyBaseStats(1164,582,397);
             ptr->Light_cone.Name = "Himeko_LC";
     
             When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {

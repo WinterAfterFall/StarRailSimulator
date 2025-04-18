@@ -6,7 +6,7 @@
 namespace Erudition_Lightcone{
     function<void(Ally *ptr)> Before_Dawn(int superimpose){
         return [=](Ally *ptr) {
-            SetBaseStats(ptr->Sub_Unit_ptr[0].get(),1058,582,463);
+            ptr->SetAllyBaseStats(1058,582,463);
 
             ptr->Light_cone.Name = "Before_Dawn";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {

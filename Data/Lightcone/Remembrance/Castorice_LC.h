@@ -9,7 +9,7 @@
 namespace Remembrance_Lightcone{
     function<void(Ally *ptr)> Castorice_LC(int superimpose){
         return [=](Ally *ptr) {
-            SetBaseStats(ptr->Sub_Unit_ptr[0].get(),1270,529,397);
+            ptr->SetAllyBaseStats(1270,529,397);
             ptr->Light_cone.Name = "Castorice_LC";
 
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr, superimpose]() {

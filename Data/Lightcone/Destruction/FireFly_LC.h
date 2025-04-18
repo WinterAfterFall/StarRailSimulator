@@ -9,7 +9,7 @@
 namespace Destruction_Lightcone{
     function<void(Ally *ptr)> FireFly_LC(int superimpose){
         return [=](Ally *ptr) {
-            SetBaseStats(ptr->Sub_Unit_ptr[0].get(),1164,476,529);
+            ptr->SetAllyBaseStats(1164,476,529);
             ptr->Light_cone.Name = "FireFly_LC";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] += 50 + 10 * superimpose;

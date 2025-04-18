@@ -9,7 +9,7 @@
 namespace Harmony_Lightcone{
     function<void(Ally *ptr)> Meshing_Cogs(int superimpose){
         return [=](Ally *ptr) {
-            SetBaseStats(ptr->Sub_Unit_ptr[0].get(),847,318,265);
+            ptr->SetAllyBaseStats(847,318,265);
             ptr->Light_cone.Name = "Meshing_Cogs";
     
             After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](ActionData &data_) {

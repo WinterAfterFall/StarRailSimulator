@@ -9,7 +9,7 @@
 namespace Nihility_Lightcone{
     function<void(Ally *ptr)> Resolution(int superimpose){
         return [=](Ally *ptr) {
-            SetBaseStats(ptr->Sub_Unit_ptr[0].get(),953,476,331);
+            ptr->SetAllyBaseStats(953,476,331);
             ptr->Light_cone.Name = "Resolution";
 
             Tune_stats_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {

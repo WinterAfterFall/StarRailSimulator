@@ -9,7 +9,7 @@
 namespace Remembrance_Lightcone{
     function<void(Ally *ptr)> Aglaea_LC(int superimpose){
         return [=](Ally *ptr) {
-            SetBaseStats(ptr->Sub_Unit_ptr[0].get(),1058,635,397);
+            ptr->SetAllyBaseStats(1058,635,397);
             ptr->Light_cone.Name = "Aglaea_LC";
             ptr->Sub_Unit_ptr[0]->Atv_stats->Base_speed+= 10 + superimpose * 2;
             When_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](ActionData &data_) {

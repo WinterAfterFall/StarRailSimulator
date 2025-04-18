@@ -9,7 +9,7 @@
 #include".\Remembrance\All_Remembrance_LC.h"
 function<void(Ally *ptr)> LightCone_temp(double HP,double ATK,double DEF){
     return [=](Ally *ptr) {
-        SetBaseStats(ptr->Sub_Unit_ptr[0].get(), HP, ATK, DEF);
+        ptr->SetAllyBaseStats( HP, ATK, DEF);
     };
 }
 function<void(Ally *ptr)> templateLC(int superimpose){

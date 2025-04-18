@@ -9,7 +9,7 @@
 namespace Destruction_Lightcone{
     function<void(Ally *ptr)> Ninja_Record(int superimpose){
         return [=](Ally *ptr) {
-            SetBaseStats(ptr->Sub_Unit_ptr[0].get(),1058,476,265);
+            ptr->SetAllyBaseStats(1058,476,265);
             ptr->Light_cone.Name = "Ninja_Record";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_PERCENT][AT_NONE] += 9 + 3 * superimpose;

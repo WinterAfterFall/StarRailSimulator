@@ -12,32 +12,23 @@ namespace Pela{
     void Basic_Atk(Ally *ptr);
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit.push_back(make_unique<Ally>());
-        Total_ally++;
-        int num = Total_ally;
-        Ally *ptr = Ally_unit[num].get();
-        SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1087,660,509);
-        SetAllyBasicStats(Ally_unit[num].get(),105,110,110,E,"Ice","Nihility",num,"Pela",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(105,110,110,E,"Ice","Nihility","Pela",TYPE_STD);
+        ptr->SetAllyBaseStats(1087,660,509);
 
         //substats
         ptr->pushSubstats(ST_CRIT_DAM);
         ptr->pushSubstats(ST_CRIT_RATE);
         ptr->pushSubstats(ST_ATK_PERCENT);
         ptr->setTotalSubstats(20);
-        Ally_unit[num]->Speed_tune_value=160;
-
-
-
-
-        //func
-        LC(Ally_unit[num].get());
-        Relic(Ally_unit[num].get());
-        Planar(Ally_unit[num].get());
+        ptr->Speed_tune_value=160;
         
-        Ally_unit[num]->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
+        //func
+        LC(ptr);
+        Relic(ptr);
+        Planar(ptr);
+        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
             Basic_Atk(ptr);
         };
-
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
             for (int i = 1; i <= Total_enemy; i++) {
                 if (Enemy_unit[i]->Debuff["Zone_Suppression"] == 0) break;

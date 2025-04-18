@@ -17,7 +17,7 @@ namespace Castorice{
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
 
         Ally *ptr = SetAllyBasicStats(95,0,0,E,"Quantum","Remembrance","Castorice",TYPE_STD);
-        SetBaseStats(ptr->Sub_Unit_ptr[0].get(),1630,524,485);
+        ptr->SetAllyBaseStats(1630,524,485);
 
         //substats
         ptr->pushSubstats(ST_CRIT_DAM);
