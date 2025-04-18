@@ -19,12 +19,13 @@ namespace RMC{
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally *ptr = SetAllyBasicStats(103,160,160,E,"Ice","Remembrance","RMC",TYPE_STD);
         ptr->SetAllyBaseStats(1048,543,631);
-        ptr->SpeedRequire = 150;
         //substats
         
 
         ptr->pushSubstats("Crit_dam");
         ptr->setTotalSubstats(20);
+        ptr->setSpeedRequire(150);
+
 
         //func
         LC(ptr);

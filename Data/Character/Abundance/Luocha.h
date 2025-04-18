@@ -21,7 +21,7 @@ namespace Luocha{
 
         ptr->pushSubstats(ST_ATK_PERCENT);
         ptr->setTotalSubstats(20);
-        ptr->SpeedRequire=140;
+        ptr->setSpeedRequire(150);
 
         //func
         LC(ptr);

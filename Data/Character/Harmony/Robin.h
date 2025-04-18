@@ -21,8 +21,9 @@ namespace Robin{
         Ally *ptr = SetAllyBasicStats(102, 160, 160, E, "Physical", "Harmony", "Robin",TYPE_STD);
         ptr->SetAllyBaseStats(1280, 640, 485);
         ptr->pushSubstats(ST_ATK_PERCENT);
-        ptr->setTotalSubstats(15);
-        ptr->SpeedRequire=120;
+        ptr->setTotalSubstats(20);
+        ptr->setSpeedRequire(120);
+
 
         //func
         LC(ptr);
@@ -99,7 +100,6 @@ namespace Robin{
             ptr->Energy_recharge += 19.4;
 
             // substats
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 13.8; // 5
 
             ptr->Countdown_ptr[0]->Atv_stats->Base_speed = -1;
             ptr->Sub_Unit_ptr[0]->Atv_stats->Base_speed = 102;

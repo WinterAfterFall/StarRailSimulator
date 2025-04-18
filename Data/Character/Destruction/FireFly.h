@@ -24,7 +24,7 @@ namespace FireFly{
         //substats
         ptr->pushSubstats(ST_BREAK_EFFECT);
         ptr->setTotalSubstats(20);
-        ptr->SpeedRequire=150;
+        ptr->setSpeedRequire(150);
 
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr] (){
             if(ptr->Countdown_ptr[0]->Atv_stats->Base_speed==-1){

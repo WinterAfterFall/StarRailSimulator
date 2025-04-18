@@ -18,7 +18,8 @@ namespace Sunday{
 
         ptr->pushSubstats(ST_CRIT_DAM);
         ptr->setTotalSubstats(20);
-        ptr->SpeedRequire=133.4;
+        ptr->setSpeedRequire(133.4);
+        
         //func
         LC(ptr);
         Relic(ptr);

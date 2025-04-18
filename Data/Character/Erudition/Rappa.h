@@ -19,6 +19,8 @@ namespace Rappa{
         //substats
         ptr->pushSubstats("Break_effect");
         ptr->setTotalSubstats(20);
+        ptr->setSpeedRequire(145);
+
 
         //func
         LC(ptr);
@@ -93,7 +95,6 @@ namespace Rappa{
             ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
             ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
             ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] += 64.8;
-            // ptr->stats->Energy_recharge += 19.4;
 
             // substats
 

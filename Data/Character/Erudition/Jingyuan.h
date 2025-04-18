@@ -25,7 +25,8 @@ namespace Jingyuan{
         ptr->pushSubstats("Crit_dam");
         ptr->pushSubstats("Crit_rate");
         ptr->pushSubstats("Atk%");
-        ptr->setTotalSubstats(15);
+        ptr->setTotalSubstats(20);
+        ptr->setSpeedRequire(135);
 
 
         //func
@@ -93,7 +94,6 @@ namespace Jingyuan{
             ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
 
             // substats
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 11.5;
 
             // LL
             ptr->Sub_Unit_ptr[0]->Stack["LL_stack"] = 3;

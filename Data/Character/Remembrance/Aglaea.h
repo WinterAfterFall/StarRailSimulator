@@ -26,6 +26,8 @@ namespace Aglaea{
         ptr->pushSubstats(ST_CRIT_RATE);
         ptr->pushSubstats(ST_ATK_PERCENT);
         ptr->setTotalSubstats(20);
+        ptr->setSpeedRequire(135);
+
 
 
         //func
@@ -203,13 +205,6 @@ namespace Aglaea{
                 return;
             }
         }));
-
-
-
-        ptr->SetRelic(0,1,1,1);
-        ptr->SpeedRequire = 135;
-
-
 
         SetMemoStats(ptr,66,35,"Lightning","Garmentmaker","Memosprite");
         SetCountdownStats(ptr,"Supreme_Stance");

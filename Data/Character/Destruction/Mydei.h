@@ -28,6 +28,8 @@ namespace Mydei{
         ptr->pushSubstats("Crit_rate");
         ptr->pushSubstats("Hp%");
         ptr->setTotalSubstats(20);
+        ptr->setSpeedRequire(135);
+
 
 
         //func

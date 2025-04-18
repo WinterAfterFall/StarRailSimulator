@@ -22,7 +22,8 @@ namespace Bronya{
         ptr->pushSubstats("Crit_dam");
         ptr->setTotalSubstats(20);
         ptr->SetRelic(1,1,0,1);
-        ptr->SpeedRequire =133.4;
+        ptr->setSpeedRequire(133.4);
+
 
         //func
         LC(ptr);

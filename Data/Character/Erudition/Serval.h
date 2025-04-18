@@ -27,6 +27,8 @@ namespace Serval{
         ptr->pushSubstats("Crit_rate");
         ptr->pushSubstats("Atk%");
         ptr->setTotalSubstats(20);
+        ptr->setSpeedRequire(150);
+        ptr->setApplyBaseChance(100);
 
 
         //func

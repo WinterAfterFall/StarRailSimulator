@@ -19,6 +19,7 @@ namespace Tingyun{
         ptr->Technique = 2;
         ptr->pushSubstats(ST_ATK_PERCENT);
         ptr->setTotalSubstats(20);
+        ptr->setSpeedRequire(140);
         //func
         LC(ptr);
         Relic(ptr);

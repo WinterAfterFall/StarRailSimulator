@@ -23,7 +23,8 @@ namespace Gallagher{
         //substats
         ptr->pushSubstats("Break_effect");
         ptr->setTotalSubstats(20);
-        ptr->SpeedRequire = 150;
+        ptr->setSpeedRequire(150);
+
         //func
         LC(ptr);
         Relic(ptr);

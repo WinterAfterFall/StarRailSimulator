@@ -20,7 +20,8 @@ namespace Pela{
         ptr->pushSubstats(ST_CRIT_RATE);
         ptr->pushSubstats(ST_ATK_PERCENT);
         ptr->setTotalSubstats(20);
-        ptr->SpeedRequire=160;
+        ptr->setSpeedRequire(160);
+        ptr->setApplyBaseChance(100);
         
         //func
         LC(ptr);

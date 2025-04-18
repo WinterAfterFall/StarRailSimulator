@@ -19,6 +19,8 @@ namespace Harmony_MC{
         //substats
         ptr->pushSubstats("Break_effect");
         ptr->setTotalSubstats(20);
+        ptr->setSpeedRequire(145);
+
         //func
         LC(ptr);
         Relic(ptr);

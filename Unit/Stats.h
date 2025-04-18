@@ -341,6 +341,12 @@ public:
     void setAdjust(string adjustName, double value) {
         this->Adjust[adjustName] = value;
     }
+    void setSpeedRequire(double value){
+        this->SpeedRequire = value;
+    }
+    void setApplyBaseChance(double value){
+        this->ApplyBaseChance = value;
+    }
 
     //get
     int getStack(string buffName) {

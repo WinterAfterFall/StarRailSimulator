@@ -24,6 +24,7 @@ namespace Ruan_Mei{
         //substats
         ptr->pushSubstats(ST_BREAK_EFFECT);
         ptr->setTotalSubstats(20);
+        ptr->setSpeedRequire(140);
         
         
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,allyptr = ptr->Sub_Unit_ptr[0].get() ]() {
