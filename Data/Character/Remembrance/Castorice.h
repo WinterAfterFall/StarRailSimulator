@@ -32,7 +32,7 @@ namespace Castorice{
         Planar(ptr);
         ptr->setRelicMainStats(ST_CRIT_DAM,ST_HP_PERCENT,ST_HP_PERCENT,ST_HP_PERCENT);
 
-        SetMemoStats(ptr,0,0,"Quantum","Netherwing","Memosprite");
+        SetMemoStats(ptr,0,0,"Quantum","Netherwing",ALLYTYPE_BACKUP);
         // SetCountdownStats(ptr,"Supreme_Stance");
         //adjust
         ptr->Adjust["NetherwingLifeSpan"] = 3;

@@ -20,6 +20,8 @@ namespace Aglaea{
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally *ptr = SetAllyBasicStats(102,350,350,E,"Lightning","Remembrance","Aglaea",TYPE_STD);
         ptr->SetAllyBaseStats(1242,699,485);
+        SetMemoStats(ptr,66,35,"Lightning","Garmentmaker",TYPE_STD);
+        SetCountdownStats(ptr,"Supreme_Stance");
 
         //substats
         ptr->pushSubstats(ST_CRIT_DAM);
@@ -188,8 +190,7 @@ namespace Aglaea{
             }
         }));
 
-        SetMemoStats(ptr,66,35,"Lightning","Garmentmaker","Memosprite");
-        SetCountdownStats(ptr,"Supreme_Stance");
+        
         ptr->Sub_Unit_ptr[1]->Turn_func = [ptr](){
         
             Memo_Skill(ptr);

@@ -7,7 +7,7 @@ void EnemyHit(Enemy *Attacker){
     vector<SubUnit*> vec;
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
-            if(Ally_unit[i]->Sub_Unit_ptr[j]->isSameUnitName("Netherwing"))continue;
+            if(Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->Type == ALLYTYPE_BACKUP)continue;
             if(Ally_unit[i]->Sub_Unit_ptr[j]->currentHP==0)continue;
             vec.push_back(Ally_unit[i]->Sub_Unit_ptr[j].get());
         }

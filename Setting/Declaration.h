@@ -102,7 +102,7 @@ class TriggerSkill_point_func;
 class TriggerHit_Count_func;
 //StatsSet
 Ally* SetAllyBasicStats(double BaseSpeed,double Max_Energy,double Ult_cost,int Eidolon,string Element_type,string Path,string Name,string UnitType);
-void SetMemoStats(Ally* ptr, double Hp_ratio, double Speed_ratio, std::string Element_type, std::string Name, std::string Side);
+void SetMemoStats(Ally *ptr,double Hp_ratio,double Speed_ratio,string Element_type,string Name,string UnitType);
 void SetCountdownStats(Ally* ptr, std::string Name);
 void SetSummonStats(Ally* ptr, double BaseSpeed, std::string Name);
 

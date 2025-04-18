@@ -155,7 +155,7 @@ namespace RMC{
 
 
 
-        SetMemoStats(ptr,68,0,"Ice","Mem","Memosprite");
+        SetMemoStats(ptr,68,0,"Ice","Mem",TYPE_STD);
         ptr->Sub_Unit_ptr[1]->Turn_func = [ptr](){
         
             if(ptr->Sub_Unit_ptr[1]->Buff_check["Mem_Charge"]==1){

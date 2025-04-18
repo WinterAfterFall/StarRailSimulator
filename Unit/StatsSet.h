@@ -24,7 +24,7 @@ Ally* SetAllyBasicStats(double BaseSpeed,double Max_Energy,double Ult_cost,int E
         Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Type = UnitType;
         return Ally_unit[num].get();
 }
-void SetMemoStats(Ally *ptr,double Hp_ratio,double Speed_ratio,string Element_type,string Name,string Side){
+void SetMemoStats(Ally *ptr,double Hp_ratio,double Speed_ratio,string Element_type,string Name,string UnitType){
         int num = ptr->Sub_Unit_ptr.size();
         int Num = ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num;
         
@@ -39,7 +39,8 @@ void SetMemoStats(Ally *ptr,double Hp_ratio,double Speed_ratio,string Element_ty
         ptr->Sub_Unit_ptr[num]->Atv_stats->Unit_num = Num;
         ptr->Sub_Unit_ptr[num]->Atv_stats->Char_Name = Name;
         ptr->Sub_Unit_ptr[num]->Atv_stats->Unit_Name = Name;
-        ptr->Sub_Unit_ptr[num]->Atv_stats->Side = Side;
+        ptr->Sub_Unit_ptr[num]->Atv_stats->Side = "Memosprite";
+        ptr->Sub_Unit_ptr[num]->Atv_stats->Type = UnitType;
         ptr->Sub_Unit_ptr[num]->Atv_stats->ptr_to_unit = ptr->Sub_Unit_ptr[num].get();
         ptr->Sub_Unit_ptr[num]->ptr_to_unit = ptr;
 
