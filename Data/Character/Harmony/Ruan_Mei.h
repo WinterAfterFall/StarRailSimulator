@@ -25,6 +25,8 @@ namespace Ruan_Mei{
         ptr->pushSubstats(ST_BREAK_EFFECT);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(140);
+        ptr->setRelicMainStats(ST_ATK_PERCENT,ST_FLAT_SPD,ST_ATK_PERCENT,ST_EnergyRecharge);
+
         
         
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,allyptr = ptr->Sub_Unit_ptr[0].get() ]() {
@@ -62,10 +64,6 @@ namespace Ruan_Mei{
             ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 5;
 
             // relic
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
-            ptr->Energy_recharge += 19.4;
 
             // substats
         }));

@@ -19,6 +19,8 @@ namespace Sunday{
         ptr->pushSubstats(ST_CRIT_DAM);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(133.4);
+        ptr->setRelicMainStats(ST_HP_PERCENT,ST_FLAT_SPD,ST_HP_PERCENT,ST_EnergyRecharge);
+
         
         //func
         LC(ptr);
@@ -107,10 +109,6 @@ namespace Sunday{
 
 
             // relic
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CRIT_DAM][AT_NONE] += 64.8;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"][AT_NONE] += 43.2;
-            ptr->Energy_recharge += 19.4;
 
             // substats
         }));

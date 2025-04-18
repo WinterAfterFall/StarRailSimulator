@@ -23,6 +23,7 @@ namespace Robin{
         ptr->pushSubstats(ST_ATK_PERCENT);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(120);
+        ptr->setRelicMainStats(ST_ATK_PERCENT,ST_ATK_PERCENT,ST_ATK_PERCENT,ST_EnergyRecharge);
 
 
         //func
@@ -94,11 +95,6 @@ namespace Robin{
             ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 5;
 
             // relic
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
-            ptr->Energy_recharge += 19.4;
-
             // substats
 
             ptr->Countdown_ptr[0]->Atv_stats->Base_speed = -1;

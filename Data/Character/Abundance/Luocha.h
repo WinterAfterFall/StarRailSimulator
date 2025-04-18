@@ -22,6 +22,7 @@ namespace Luocha{
         ptr->pushSubstats(ST_ATK_PERCENT);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(150);
+        ptr->setRelicMainStats(ST_HEALING_OUT,ST_FLAT_SPD,ST_ATK_PERCENT,ST_EnergyRecharge);
 
         //func
         LC(ptr);
@@ -57,10 +58,6 @@ namespace Luocha{
             ptr->Sub_Unit_ptr[0]->Stats_type["Def%"]["None"] += 12.5;
 
             // relic
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING_OUT]["None"] += 34.57;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
-            ptr->Energy_recharge += 19.4;
 
             // substats
         }));

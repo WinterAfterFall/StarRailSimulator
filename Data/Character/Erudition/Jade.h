@@ -28,6 +28,8 @@ namespace Jade{
         ptr->pushSubstats("Crit_rate");
         ptr->pushSubstats("Atk%");
         ptr->setTotalSubstats(20);
+        ptr->setRelicMainStats(ST_CRIT_RATE,ST_ATK_PERCENT,ST_DMG_PERCENT,ST_ATK_PERCENT);
+
 
 
         //func
@@ -63,11 +65,6 @@ namespace Jade{
             ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Quantum"]["None"] += 22.4;
 
             // relic
-            ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"] += 32.4;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Quantum"]["None"] += 38.8;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
-
             // substats
         }));
 

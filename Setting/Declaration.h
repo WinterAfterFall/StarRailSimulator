@@ -29,6 +29,7 @@
 #define ST_VUL "Vul"
 #define ST_RES "Res"
 #define ST_EHR "Ehr"
+#define ST_EnergyRecharge "Energy_recharge"
 #define ST_TRUE "True_Damage"
 #define ST_FLAT_SPD "Flat-Speed"
 #define ST_SPD_PERCENT "Speed%"

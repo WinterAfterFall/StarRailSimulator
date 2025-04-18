@@ -20,6 +20,8 @@ namespace Rappa{
         ptr->pushSubstats("Break_effect");
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(145);
+        ptr->setRelicMainStats(ST_ATK_PERCENT,ST_FLAT_SPD,ST_ATK_PERCENT,ST_BREAK_EFFECT);
+
 
 
         //func
@@ -91,10 +93,6 @@ namespace Rappa{
             ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 9;
 
             // relic
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] += 64.8;
 
             // substats
 

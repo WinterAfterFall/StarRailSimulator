@@ -29,6 +29,8 @@ namespace Mydei{
         ptr->pushSubstats("Hp%");
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(135);
+        ptr->setRelicMainStats(ST_HP_PERCENT,ST_FLAT_SPD,ST_DMG_PERCENT,ST_HP_PERCENT);
+
 
 
 
@@ -79,26 +81,6 @@ namespace Mydei{
             ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 5;
 
             // relic
-            if (ptr->Body_CritDam) {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"] += 64.8;
-            } else {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_PERCENT]["None"] += 43.2;
-            }
-            if (ptr->Speed_Boot) {
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
-            } else {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
-            }
-            if (ptr->Element_Orb) {
-            ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Imaginary"]["None"] += 38.8;
-            } else {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
-            }
-            if (ptr->Er_Rope) {
-            ptr->Energy_recharge += 19.4;
-            } else {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_PERCENT]["None"] += 43.2;
-            }
 
             // substats
             // eidolon
@@ -200,13 +182,6 @@ namespace Mydei{
             }
         }));
         
-
-
-        ptr->SetRelic(0,1,1,0);
-        ptr->SpeedRequire = 135;
-
-
-
         // SetMemoStats(ptr,66,35,"Lightning","MemName","Memosprite");
         // SetCountdownStats(ptr,"Name");
         // ptr->Sub_Unit_ptr[1]->Turn_func = Mem_turn;

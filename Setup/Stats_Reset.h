@@ -82,6 +82,11 @@ void Basic_reset(){
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Ehr"]["None"] += 3.888*2;
             Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 2.3*2;
 
+
+            Ally_unit[i]->Body(Ally_unit[i].get());
+            Ally_unit[i]->Boot(Ally_unit[i].get());
+            Ally_unit[i]->Orb(Ally_unit[i].get());
+            Ally_unit[i]->Rope(Ally_unit[i].get());
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Ehr"]["None"] += Ally_unit[i]->ExtraEhr;
             Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += Ally_unit[i]->ExtraSpeed;
     }

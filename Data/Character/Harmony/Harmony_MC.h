@@ -20,6 +20,8 @@ namespace Harmony_MC{
         ptr->pushSubstats("Break_effect");
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(145);
+        ptr->setRelicMainStats(ST_ATK_PERCENT,ST_FLAT_SPD,ST_DMG_PERCENT,ST_EnergyRecharge);
+
 
         //func
         LC(ptr);
@@ -57,10 +59,6 @@ namespace Harmony_MC{
             ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Imaginary"]["None"] += 14.4;
 
             // relic
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
-            ptr->Energy_recharge += 19.4;
 
             // substats
         }));

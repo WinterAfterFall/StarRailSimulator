@@ -20,6 +20,9 @@ namespace Tingyun{
         ptr->pushSubstats(ST_ATK_PERCENT);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(140);
+        ptr->setRelicMainStats(ST_ATK_PERCENT,ST_FLAT_SPD,ST_ATK_PERCENT,ST_EnergyRecharge);
+
+
         //func
         LC(ptr);
         Relic(ptr);
@@ -65,10 +68,6 @@ namespace Tingyun{
             ptr->Sub_Unit_ptr[0]->Stats_type["Def%"]["None"] += 22.5;
 
             // relic
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
-            ptr->Energy_recharge += 19.4;
 
             // substats
             ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Basic_Attack"] += 40;

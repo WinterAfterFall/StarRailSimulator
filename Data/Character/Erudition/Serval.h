@@ -29,6 +29,7 @@ namespace Serval{
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(150);
         ptr->setApplyBaseChance(100);
+        ptr->setRelicMainStats(ST_EHR,ST_FLAT_SPD,ST_DMG_PERCENT,ST_EnergyRecharge);
 
 
         //func
@@ -48,10 +49,6 @@ namespace Serval{
             ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"] += 18.7;
 
             // relic
-            ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"]["None"] += 43.2;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Lightning"]["None"] += 38.8;
-            ptr->Energy_recharge += 19.4;
 
             // substats
         }));

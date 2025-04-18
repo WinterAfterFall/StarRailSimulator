@@ -27,6 +27,8 @@ namespace Aglaea{
         ptr->pushSubstats(ST_ATK_PERCENT);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(135);
+        ptr->setRelicMainStats(ST_CRIT_RATE,ST_FLAT_SPD,ST_DMG_PERCENT,ST_EnergyRecharge);
+
 
 
 
@@ -84,26 +86,6 @@ namespace Aglaea{
             ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Lightning"]["None"] += 22.4;
 
             // relic
-            if (ptr->Body_CritDam) {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"] += 64.8;
-            } else {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"] += 32.4;
-            }
-            if (ptr->Speed_Boot) {
-                ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
-            } else {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
-            }
-            if (ptr->Element_Orb) {
-                ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Lightning"]["None"] += 38.8;
-            } else {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
-            }
-            if (ptr->Er_Rope) {
-                ptr->Energy_recharge += 19.4;
-            } else {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
-            }
 
             // substats
 

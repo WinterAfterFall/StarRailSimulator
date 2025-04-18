@@ -25,6 +25,7 @@ namespace RMC{
         ptr->pushSubstats("Crit_dam");
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(150);
+        ptr->setRelicMainStats(ST_CRIT_DAM,ST_FLAT_SPD,ST_DMG_PERCENT,ST_EnergyRecharge);
 
 
         //func
@@ -64,13 +65,7 @@ namespace RMC{
             ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"]["None"] += 14;
             ptr->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"] += 37.3;
 
-            ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Ice"]["None"] += 22.4;
-
             // relic
-            ptr->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"] += 64.8;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Ice"]["None"] += 38.8;
-            ptr->Energy_recharge += 19.4;
 
             // substats
         }));

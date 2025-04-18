@@ -22,6 +22,8 @@ namespace Pela{
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(160);
         ptr->setApplyBaseChance(100);
+        ptr->setRelicMainStats(ST_CRIT_RATE,ST_FLAT_SPD,ST_DMG_PERCENT,ST_EnergyRecharge);
+
         
         //func
         LC(ptr);
@@ -58,10 +60,6 @@ namespace Pela{
             ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"]["None"] += 10;
 
             // relic
-            ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"]["None"] += 43.2;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
-            ptr->Energy_recharge += 19.4;
 
             // substats
         }));

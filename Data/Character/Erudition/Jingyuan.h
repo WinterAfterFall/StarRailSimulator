@@ -27,6 +27,8 @@ namespace Jingyuan{
         ptr->pushSubstats("Atk%");
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(135);
+        ptr->setRelicMainStats(ST_CRIT_RATE,ST_FLAT_SPD,ST_DMG_PERCENT,ST_ATK_PERCENT);
+
 
 
         //func
@@ -88,10 +90,6 @@ namespace Jingyuan{
             ptr->Sub_Unit_ptr[0]->Stats_type["Def%"]["None"] += 12.5;
 
             // relic
-            ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"] += 32.4;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Lightning"]["None"] += 38.8;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
 
             // substats
 

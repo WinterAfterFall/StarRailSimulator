@@ -26,6 +26,8 @@ namespace Tribbie{
         ptr->pushSubstats("Crit_rate");
         ptr->pushSubstats("Hp%");
         ptr->setTotalSubstats(20);
+        ptr->setRelicMainStats(ST_CRIT_RATE,ST_HP_PERCENT,ST_HP_PERCENT,ST_EnergyRecharge);
+
 
 
         //func
@@ -106,27 +108,6 @@ namespace Tribbie{
             ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"]["None"] += 10;
 
             // relic
-            if (ptr->Body_CritDam) {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"] += 64.8;
-            } else {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"] += 32.4;
-            }
-
-            if (ptr->Speed_Boot) {
-                ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
-            } else {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"]["None"] += 43.2;
-            }
-            if (ptr->Element_Orb) {
-                ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Quantum"]["None"] += 38.8;
-            } else {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"]["None"] += 43.2;
-            }
-            if (ptr->Er_Rope) {
-                ptr->Energy_recharge += 19.4;
-            } else {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"]["None"] += 43.2;
-            }
 
             // substats
             if (ptr->Eidolon >= 6) {
@@ -225,7 +206,6 @@ namespace Tribbie{
                 return;
             }
         }));  
-        ptr->SetRelic(0,0,0,1);
     }
 
 

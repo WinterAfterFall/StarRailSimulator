@@ -32,13 +32,14 @@ namespace The_Herta{
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally *ptr = SetAllyBasicStats(99,220,220,E,"Ice","Erudition","The_Herta",TYPE_STD);
         ptr->SetAllyBaseStats(1164,679,485);
-        ptr->Speed_Boot=0;
 
         //substats
         ptr->pushSubstats("Crit_dam");
         ptr->pushSubstats("Crit_rate");
         ptr->pushSubstats("Atk%");
         ptr->setTotalSubstats(20);
+        ptr->setRelicMainStats(ST_CRIT_RATE,ST_ATK_PERCENT,ST_DMG_PERCENT,ST_ATK_PERCENT);
+
 
 
         //func
@@ -97,20 +98,6 @@ namespace The_Herta{
             ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 5;
 
             // relic
-            ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"] += 32.4;
-            if (ptr->Speed_Boot) {
-                ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
-            } else {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
-            }
-
-            ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Ice"]["None"] += 38.8;
-
-            if (ptr->Er_Rope) {
-                ptr->Energy_recharge += 19.4;
-            } else {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
-            }
 
             // substats
             int cnt = 0;

@@ -77,16 +77,7 @@ void Set_Target_Buff(SubUnit *ptr,int num){
 void Set_Technique(Ally *ptr,int tech){
     ptr->Technique = tech;
 }
-void Set_Speed_Boot(Ally *ptr,bool Bool){
-    ptr->Speed_Boot = Bool;
-}
-void Set_Er_Rope(Ally *ptr,bool Bool){
-    ptr->Er_Rope = Bool;
-}
-void Set_Body_Critdam(Ally *ptr,bool Bool){
-    ptr->Body_CritDam = Bool;
 
-}
 
 void Set_Tune_Speed(Ally *ptr,double value){
     if(value==0)return;

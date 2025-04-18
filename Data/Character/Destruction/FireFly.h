@@ -25,6 +25,8 @@ namespace FireFly{
         ptr->pushSubstats(ST_BREAK_EFFECT);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(150);
+        ptr->setRelicMainStats(ST_ATK_PERCENT,ST_FLAT_SPD,ST_ATK_PERCENT,ST_BREAK_EFFECT);
+        
 
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr] (){
             if(ptr->Countdown_ptr[0]->Atv_stats->Base_speed==-1){
@@ -38,10 +40,6 @@ namespace FireFly{
             ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 5;
 
             // relic
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] += 64.8;
 
             // substats
 

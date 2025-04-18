@@ -263,10 +263,10 @@ public:
     
     bool Print =0;
     bool Wait_Other_Buff = 0;
-    bool Er_Rope=0;
-    bool Speed_Boot = 1;
-    bool Element_Orb = 1;
-    bool Body_CritDam = 0;
+    function<void(Ally *ptr)> Body;
+    function<void(Ally *ptr)> Boot;
+    function<void(Ally *ptr)> Orb;
+    function<void(Ally *ptr)> Rope;
 
     double SpeedRequire = 0;
     double ApplyBaseChance = 0;
@@ -285,13 +285,16 @@ public:
     int getNum(){
         return this->Sub_Unit_ptr[0]->Atv_stats->Unit_num;
     }
-    void SetRelic(bool Body_CritDam,bool Speed_Boot,bool Element_Orb,bool Er_Rope){
-        this->Er_Rope = Er_Rope;
-        this->Body_CritDam = Body_CritDam;
-        this->Element_Orb = Element_Orb;
-        this->Speed_Boot = Speed_Boot;
+
+    void setRelicMainStats(string Body,string Boot,string Orb,string Rope){
+        this->Body = RelicMainStatsSet(Body);
+        this->Boot = RelicMainStatsSet(Boot);
+        this->Orb  = RelicMainStatsSet(Orb);
+        this->Rope = RelicMainStatsSet(Rope);
     }
     function<void(Ally *ptr)> RelicPairSet(string stats);
+    function<void(Ally *ptr)> RelicMainStatsSet(string stats);
+
     void setTotalSubstats(int Value){
         this->Total_substats=Value;
         this->currentTotalSubstats=Value;

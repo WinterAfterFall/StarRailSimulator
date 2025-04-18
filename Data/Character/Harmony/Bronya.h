@@ -21,7 +21,7 @@ namespace Bronya{
         //substats
         ptr->pushSubstats("Crit_dam");
         ptr->setTotalSubstats(20);
-        ptr->SetRelic(1,1,0,1);
+        ptr->setRelicMainStats(ST_CRIT_DAM,ST_FLAT_SPD,ST_DMG_PERCENT,ST_EnergyRecharge);
         ptr->setSpeedRequire(133.4);
 
 
@@ -65,19 +65,6 @@ namespace Bronya{
             ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Wind"]["None"] += 22.4;
 
             // relic
-            ptr->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"] += 64.8;
-
-            if(ptr->Speed_Boot){
-                ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 25;
-            } else {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 43.2;
-            }
-            if(ptr->Element_Orb){
-                ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Wind"]["None"] += 38.8;
-            } else {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"]["None"] += 43.2;
-            }
-            ptr->Energy_recharge += 19.4;
 
             // substats
             ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["Basic_Attack"] = 100;
