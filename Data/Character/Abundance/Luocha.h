@@ -16,19 +16,19 @@ namespace Luocha{
 
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(101,100,100,E,"Imaginary","Abundance","Luocha","Ally");
-        SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1280,756,363);
+        Ally *ptr = SetAllyBasicStats(101,100,100,E,"Imaginary","Abundance","Luocha",TYPE_STD);
+        ptr->SetAllyBaseStats(1280,756,363);
 
         ptr->pushSubstats(ST_ATK_PERCENT);
         ptr->setTotalSubstats(20);
-        Ally_unit[num]->Speed_tune_value=140;
+        ptr->Speed_tune_value=140;
 
         //func
-        LC(Ally_unit[num].get());
-        Relic(Ally_unit[num].get());
-        Planar(Ally_unit[num].get());
+        LC(ptr);
+        Relic(ptr);
+        Planar(ptr);
         
-        Ally_unit[num]->Sub_Unit_ptr[0]->Turn_func = [ptr]() {
+       ptr->Sub_Unit_ptr[0]->Turn_func = [ptr]() {
             Basic_Atk(ptr);
         };
 

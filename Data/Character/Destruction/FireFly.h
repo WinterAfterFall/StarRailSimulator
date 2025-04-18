@@ -13,30 +13,20 @@ namespace FireFly{
 
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit.push_back(make_unique<Ally>());
-        Total_ally++;
-        int num = Total_ally;
-        Ally *ptr = Ally_unit[num].get();
-        SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 815, 524, 776);
-        SetAllyBasicStats(Ally_unit[num].get(), 104, 240, 240, E, "Fire", "Destruction", num, "FireFly", "Ally");
+        Ally *ptr = SetAllyBasicStats( 104, 240, 240, E, "Fire", "Destruction", "FireFly", TYPE_STD);
+        ptr->SetAllyBaseStats( 815, 524, 776);
 
         //func
-        LC(Ally_unit[num].get());
-        Relic(Ally_unit[num].get());
-        Planar(Ally_unit[num].get());
+        LC(ptr);
+        Relic(ptr);
+        Planar(ptr);
         
         //substats
-        Ally_unit[num]->Total_substats=20;
-        Ally_unit[num]->SeparateRatio=20;
-        //Ally_unit[num]->Reroll_check=1;
+        ptr->pushSubstats(ST_BREAK_EFFECT);
+        ptr->setTotalSubstats(20);
+        ptr->Speed_tune_value=150;
 
-        Ally_unit[num]->Substats.push_back({"Break_effect",20});
-        Ally_unit[num]->Substats.push_back({"Atk%",0});
-
-
-        Ally_unit[num]->Max_damage_Substats.resize(Ally_unit[num]->Substats.size());
-
-        Ally_unit[num]->Sub_Unit_ptr[0]->Turn_func = [ptr] (){
+        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr] (){
             if(ptr->Countdown_ptr[0]->Atv_stats->Base_speed==-1){
                 Skill_func(ptr);
             }else {
@@ -143,8 +133,8 @@ namespace FireFly{
         
 
         //countdown
-        SetCountdownStats(Ally_unit[num].get(), "Combustion_state");
-        Ally_unit[num]->Countdown_ptr[0]->Turn_func = [ptr](){
+        SetCountdownStats(ptr, "Combustion_state");
+        ptr->Countdown_ptr[0]->Turn_func = [ptr](){
 
 
             if(ptr->Print)cout<<"-------------------------------------------- FF Ult End at "<<Current_atv<<endl;

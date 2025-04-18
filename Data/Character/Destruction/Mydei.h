@@ -20,13 +20,8 @@ namespace Mydei{
     double CalculateChargePoint(SubUnit *ptr,double Value);
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit.push_back(make_unique<Ally>());
-        Total_ally++;
-        int num = Total_ally;
-        Ally *ptr = Ally_unit[num].get();
-
-        SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1552,427,194);
-        SetAllyBasicStats(Ally_unit[num].get(),95,160,160,E,"Imaginary","Destruction",num,"Mydei","Ally");
+        Ally *ptr = SetAllyBasicStats(95,160,160,E,"Imaginary","Destruction","Mydei",TYPE_STD);
+        ptr->SetAllyBaseStats(1552,427,194);
 
         //substats
         ptr->pushSubstats("Crit_dam");
@@ -36,10 +31,10 @@ namespace Mydei{
 
 
         //func
-        LC(Ally_unit[num].get());
-        Relic(Ally_unit[num].get());
-        Planar(Ally_unit[num].get());
-        Ally_unit[num]->Sub_Unit_ptr[0]->Turn_func = [ptr](){
+        LC(ptr);
+        Relic(ptr);
+        Planar(ptr);
+        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr](){
             if (ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_Vendetta"] == false) {
             Skill(ptr);
             } else {
@@ -210,15 +205,15 @@ namespace Mydei{
         
 
 
-        Ally_unit[num]->SetRelic(0,1,1,0);
-        Ally_unit[num]->Speed_tune_value = 135;
+        ptr->SetRelic(0,1,1,0);
+        ptr->Speed_tune_value = 135;
 
 
 
-        // SetMemoStats(Ally_unit[num].get(),66,35,"Lightning","MemName","Memosprite");
-        // SetCountdownStats(Ally_unit[num].get(),"Name");
-        // Ally_unit[num]->Sub_Unit_ptr[1]->Turn_func = Mem_turn;
-        // Ally_unit[num]->Countdown_ptr[0]->Turn_func = CountDown_turn;
+        // SetMemoStats(ptr,66,35,"Lightning","MemName","Memosprite");
+        // SetCountdownStats(ptr,"Name");
+        // ptr->Sub_Unit_ptr[1]->Turn_func = Mem_turn;
+        // ptr->Countdown_ptr[0]->Turn_func = CountDown_turn;
 
     }
 

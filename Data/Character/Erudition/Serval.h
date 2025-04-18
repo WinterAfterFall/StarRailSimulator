@@ -19,30 +19,21 @@ namespace Serval{
     bool Use_Skill();
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit.push_back(make_unique<Ally>());
-        Total_ally++;
-        int num = Total_ally;
-        Ally *ptr = Ally_unit[num].get();
-        SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),917,653,375);
-        SetAllyBasicStats(Ally_unit[num].get(),104,100,100,E,"Lightning","Erudition",num,"Serval","Ally");
+        Ally *ptr = SetAllyBasicStats(104,100,100,E,"Lightning","Erudition","Serval",TYPE_STD);
+        ptr->SetAllyBaseStats(917,653,375);
 
         //substats
-        Ally_unit[num]->Total_substats=20;
-        Ally_unit[num]->SeparateRatio=20;
-        Ally_unit[num]->Reroll_check=1;
-
-        Ally_unit[num]->Substats.push_back({"Crit_dam",20});
-        Ally_unit[num]->Substats.push_back({"Crit_rate",0});
-        Ally_unit[num]->Substats.push_back({"Atk%",0});
-
-        Ally_unit[num]->Max_damage_Substats.resize(Ally_unit[num]->Substats.size());
+        ptr->pushSubstats("Crit_dam");
+        ptr->pushSubstats("Crit_rate");
+        ptr->pushSubstats("Atk%");
+        ptr->setTotalSubstats(20);
 
 
         //func
-        LC(Ally_unit[num].get());
-        Relic(Ally_unit[num].get());
-        Planar(Ally_unit[num].get());
-        Ally_unit[num]->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
+        LC(ptr);
+        Relic(ptr);
+        Planar(ptr);
+        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
             if (allyPtr->Atv_stats->turn_cnt % 3 != 1) {
                 Basic_Atk(ptr);
             } else {

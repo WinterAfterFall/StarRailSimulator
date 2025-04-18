@@ -44,7 +44,7 @@
 #define AT_ULT "Ultimate"
 #define AT_Fua "Fua"
 
-#define ALLYTYPE_STANDARD "Standard"
+#define TYPE_STD "Standard"
 #define ALLYTYPE_BACKUP "Backup"
 
 using std::cout;

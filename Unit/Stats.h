@@ -292,6 +292,7 @@ public:
     function<void(Ally *ptr)> RelicPairSet(string stats);
     void setTotalSubstats(int Value){
         this->Total_substats=Value;
+        this->currentTotalSubstats=Value;
         this->SeparateRatio=Value;
         this->Substats[0].second = Value;
         this->Max_damage_Substats.resize(this->Substats.size());

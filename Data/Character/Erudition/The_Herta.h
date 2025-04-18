@@ -30,32 +30,23 @@ namespace The_Herta{
 
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit.push_back(make_unique<Ally>());
-        Total_ally++;
-        int num = Total_ally;
-        Ally *ptr = Ally_unit[num].get();
-        SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1164,679,485);
-        SetAllyBasicStats(Ally_unit[num].get(),99,220,220,E,"Ice","Erudition",num,"The_Herta","Ally");
-        Ally_unit[num]->Speed_Boot=0;
+        Ally *ptr = SetAllyBasicStats(99,220,220,E,"Ice","Erudition","The_Herta",TYPE_STD);
+        ptr->SetAllyBaseStats(1164,679,485);
+        ptr->Speed_Boot=0;
 
         //substats
-        Ally_unit[num]->Total_substats=20;
-        Ally_unit[num]->SeparateRatio=20;
-        Ally_unit[num]->Reroll_check=1;
-
-        Ally_unit[num]->Substats.push_back({"Crit_dam",20});
-        Ally_unit[num]->Substats.push_back({"Crit_rate",0});
-        Ally_unit[num]->Substats.push_back({"Atk%",0});
-
-        Ally_unit[num]->Max_damage_Substats.resize(Ally_unit[num]->Substats.size());
+        ptr->pushSubstats("Crit_dam");
+        ptr->pushSubstats("Crit_rate");
+        ptr->pushSubstats("Atk%");
+        ptr->setTotalSubstats(20);
 
 
         //func
-        LC(Ally_unit[num].get());
-        Relic(Ally_unit[num].get());
-        Planar(Ally_unit[num].get());
+        LC(ptr);
+        Relic(ptr);
+        Planar(ptr);
 
-        Ally_unit[num]->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = Ally_unit[num]->Sub_Unit_ptr[0].get()]() {
+        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
 
             if (Enchance_Skill_Condition(ptr)) {
                 return;

@@ -14,18 +14,17 @@ namespace Rappa{
 
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit.push_back(make_unique<Ally>());
-        Total_ally++;
-        int num = Total_ally;
-        Ally *ptr = Ally_unit[num].get();
-        SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 1087, 718, 461);
-        SetAllyBasicStats(Ally_unit[num].get(), 96, 140, 140, E, "Imaginary", "Erudition", num, "Rappa", "Ally");
+        Ally *ptr = SetAllyBasicStats(96, 140, 140, E, "Imaginary", "Erudition", "Rappa", TYPE_STD);
+        ptr->SetAllyBaseStats(1087,718,461);
+        //substats
+        ptr->pushSubstats("Break_effect");
+        ptr->setTotalSubstats(20);
 
         //func
-        LC(Ally_unit[num].get());
-        Relic(Ally_unit[num].get());
-        Planar(Ally_unit[num].get());
-        Ally_unit[num]->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
+        LC(ptr);
+        Relic(ptr);
+        Planar(ptr);
+        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
             if (allyPtr->Buff_check["Rappa_Ult"] == 0) {
             Skill_func(ptr);
             } else {
@@ -190,18 +189,6 @@ namespace Rappa{
             target->debuffSingleTarget("Vul", "Break_dmg", target->DebuffNote["Withered_Leaf"]);
             Extend_Debuff_single_target(target, "Withered_Leaf", 2);
         }));
-
-        
-
-        //substats
-        Ally_unit[num]->Total_substats=20;
-        Ally_unit[num]->SeparateRatio=20;
-
-        Ally_unit[num]->Substats.push_back({"Break_effect",20});
-
-        Ally_unit[num]->Max_damage_Substats.resize(Ally_unit[num]->Substats.size());
-
-
     }
 
 

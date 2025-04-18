@@ -45,7 +45,7 @@ void Setup(){
     sort(Skill_point_List.begin(), Skill_point_List.end(), TriggerFunc::Trigger_cmp);
     sort(Hit_Count_List.begin(), Hit_Count_List.end(), TriggerFunc::Trigger_cmp);
     
-    if(rerollSubstatsMode == "Standard")rerollFunction = StandardReroll;
+    if(rerollSubstatsMode == TYPE_STD)rerollFunction = StandardReroll;
     else
     if(rerollSubstatsMode == "AllCombination")rerollFunction = AllCombinationReroll;
     else
@@ -69,7 +69,6 @@ void Setup(){
         // Ally_unit[i]->Weakness_Break_Efficiency["None"] = 0;
         // Ally_unit[i]->Toughness_reduction["None"] = 0;
 
-        Ally_unit[i]->currentTotalSubstats=Ally_unit[i]->Total_substats;
         Ally_unit[i]->StatsType_Compare_MAX_MIN.first = -1;
         Ally_unit[i]->StatsType_Compare_MAX_MIN.second = 1e9;
         Ally_unit[i]->TotalSubstats_Compare_MAX_MIN.first = -1;

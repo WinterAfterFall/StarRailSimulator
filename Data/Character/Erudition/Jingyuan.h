@@ -18,30 +18,22 @@ namespace Jingyuan{
 
 
     void Setup_Jingyuan(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit.push_back(make_unique<Ally>());
-        Total_ally++;
-        int num = Total_ally;
-        Ally *ptr = Ally_unit[num].get();
-        SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 1164, 698, 485);
-        SetAllyBasicStats(Ally_unit[num].get(), 99, 130, 130, E, "Lightning", "Erudition", num, "Jingyuan", "Ally");
+        Ally *ptr = SetAllyBasicStats(99, 130, 130, E, "Lightning", "Erudition", "Jingyuan",TYPE_STD);
+        ptr->SetAllyBaseStats(1164, 698, 485);
         
 
         //substats
-        Ally_unit[num]->Total_substats=15;
-        Ally_unit[num]->SeparateRatio=15;
-        Ally_unit[num]->Reroll_check=1;
-        Ally_unit[num]->Substats.push_back({"Crit_dam",15});
-        Ally_unit[num]->Substats.push_back({"Crit_rate",0});
-        Ally_unit[num]->Substats.push_back({"Atk%",0});
-
-        Ally_unit[num]->Max_damage_Substats.resize(Ally_unit[num]->Substats.size());
+        ptr->pushSubstats("Crit_dam");
+        ptr->pushSubstats("Crit_rate");
+        ptr->pushSubstats("Atk%");
+        ptr->setTotalSubstats(15);
 
 
         //func
-        LC(Ally_unit[num].get());
-        Relic(Ally_unit[num].get());
-        Planar(Ally_unit[num].get());
-        Ally_unit[num]->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
+        LC(ptr);
+        Relic(ptr);
+        Planar(ptr);
+        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
             if ((sp <= Sp_Safety && Robin_temp(ptr)) || allyPtr->Atv_stats->turn_cnt == 1 && Sp_status == "Negative") {
                 Basic_Atk(ptr);
             } else {
@@ -121,7 +113,7 @@ namespace Jingyuan{
 
         //LL
         SetSummonStats(ptr, 60, "LL");
-        Ally_unit[num]->Summon_ptr[0]->Turn_func = [ptr](){
+        ptr->Summon_ptr[0]->Turn_func = [ptr](){
             
             ActionData temp = ActionData();
             temp.Fua_set(ptr->Sub_Unit_ptr[0].get(),"Bounce","LL Attack");

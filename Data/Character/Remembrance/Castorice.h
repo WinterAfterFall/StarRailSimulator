@@ -16,7 +16,7 @@ namespace Castorice{
     void DriverCondition(Ally *ptr, Ally *target);
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
 
-        Ally *ptr = SetAllyBasicStats(95,0,0,E,"Quantum","Remembrance","Castorice","Standard");
+        Ally *ptr = SetAllyBasicStats(95,0,0,E,"Quantum","Remembrance","Castorice",TYPE_STD);
         SetBaseStats(ptr->Sub_Unit_ptr[0].get(),1630,524,485);
 
         //substats
