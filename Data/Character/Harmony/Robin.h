@@ -18,22 +18,17 @@ namespace Robin{
     
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit.push_back(make_unique<Ally>());
-        Total_ally++;
-        int num = Total_ally;
-        Ally *ptr = Ally_unit[num].get();
-        SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 1280, 640, 485);
-        SetAllyBasicStats(Ally_unit[num].get(), 102, 160, 160, E, "Physical", "Harmony", num, "Robin", "Ally");
-        Robin_num = num;
+        Ally *ptr = SetAllyBasicStats(102, 160, 160, E, "Physical", "Harmony", "Robin",TYPE_STD);
+        ptr->SetAllyBaseStats(1280, 640, 485);
         ptr->pushSubstats(ST_ATK_PERCENT);
         ptr->setTotalSubstats(15);
-        Ally_unit[num]->Speed_tune_value=120;
+        ptr->Speed_tune_value=120;
 
         //func
-        LC(Ally_unit[num].get());
-        Relic(Ally_unit[num].get());
-        Planar(Ally_unit[num].get());
-        Ally_unit[num]->Sub_Unit_ptr[0]->Turn_func = [ptr,allyptr = ptr->Sub_Unit_ptr[0].get()]() {
+        LC(ptr);
+        Relic(ptr);
+        Planar(ptr);
+        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,allyptr = ptr->Sub_Unit_ptr[0].get()]() {
             if (!Buff_check(allyptr, "Pinion'sAria")) {
             Skill(ptr);
             } else {
@@ -169,8 +164,8 @@ namespace Robin{
 
 
         // countdown
-        SetCountdownStats(Ally_unit[num].get(), "Concerto_state");
-        Ally_unit[num]->Countdown_ptr[0]->Turn_func = [ptr](){
+        SetCountdownStats(ptr, "Concerto_state");
+        ptr->Countdown_ptr[0]->Turn_func = [ptr](){
             if( ptr->Countdown_ptr[0]->Atv_stats->Base_speed == 90){
                 ptr->Countdown_ptr[0]->Atv_stats->Base_speed = -1;
                 ptr->Sub_Unit_ptr[0]->Atv_stats->Base_speed = 102;

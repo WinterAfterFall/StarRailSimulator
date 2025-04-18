@@ -13,26 +13,20 @@ namespace Ruan_Mei{
     void Skill_func(Ally *ptr);
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit.push_back(make_unique<Ally>());
-        Total_ally++;
-        int num = Total_ally;
-        Ally *ptr = Ally_unit[num].get();
-        SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 1087, 660, 485);
-        SetAllyBasicStats(Ally_unit[num].get(), 104, 130, 130, E, "Ice", "Harmony", num, "Ruan_Mei", "Ally");
+        Ally *ptr = SetAllyBasicStats(104, 130, 130, E, "Ice", "Harmony", "Ruan_Mei",TYPE_STD);
+        ptr->SetAllyBaseStats(1087, 660, 485);
 
         //func
-        LC(Ally_unit[num].get());
-        Relic(Ally_unit[num].get());
-        Planar(Ally_unit[num].get());
+        LC(ptr);
+        Relic(ptr);
+        Planar(ptr);
 
         //substats
-        Ally_unit[num]->Total_substats=20;
-        Ally_unit[num]->SeparateRatio=20;
-        Ally_unit[num]->Substats.push_back({"Break_effect",20});
-        Ally_unit[num]->Max_damage_Substats.resize(Ally_unit[num]->Substats.size());
+        ptr->pushSubstats(ST_BREAK_EFFECT);
+        ptr->setTotalSubstats(20);
         
         
-        Ally_unit[num]->Sub_Unit_ptr[0]->Turn_func = [ptr,allyptr = ptr->Sub_Unit_ptr[0].get() ]() {
+        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,allyptr = ptr->Sub_Unit_ptr[0].get() ]() {
             if (allyptr->Buff_check["Mei_Skill"] == 0) {
                 Skill_func(ptr);
             } else {

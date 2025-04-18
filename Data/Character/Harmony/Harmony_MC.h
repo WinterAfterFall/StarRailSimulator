@@ -14,19 +14,16 @@ namespace Harmony_MC{
 
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit.push_back(make_unique<Ally>());
-        Total_ally++;
-        int num = Total_ally;
-        Ally* ptr = Ally_unit[num].get();
-
-        SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 1087, 446, 679);
-        SetAllyBasicStats(Ally_unit[num].get(), 105, 140, 140, E, "Imaginary", "Harmony", num, "Harmony_MC", "Ally");
-
+        Ally* ptr = SetAllyBasicStats( 105, 140, 140, E, "Imaginary", "Harmony", "Harmony_MC",TYPE_STD);
+        ptr->SetAllyBaseStats(1087, 446, 679);
+        //substats
+        ptr->pushSubstats("Break_effect");
+        ptr->setTotalSubstats(20);
         //func
-        LC(Ally_unit[num].get());
-        Relic(Ally_unit[num].get());
-        Planar(Ally_unit[num].get());
-        Ally_unit[num]->Sub_Unit_ptr[0]->Turn_func = [ptr](){
+        LC(ptr);
+        Relic(ptr);
+        Planar(ptr);
+        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr](){
             if(sp > Sp_Safety || ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt == 1){
                 Skill_func(ptr);           
             } else {
@@ -122,19 +119,7 @@ namespace Harmony_MC{
                 ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"] =  temp ;
             }
         }));
-        
-
-
-
-
-        //substats
-        Ally_unit[num]->Total_substats=20;
-        Ally_unit[num]->SeparateRatio=20;
-
-        Ally_unit[num]->Substats.push_back({"Break_effect",20});
-
-        Ally_unit[num]->Max_damage_Substats.resize(Ally_unit[num]->Substats.size());
-        
+ 
     }
 
 

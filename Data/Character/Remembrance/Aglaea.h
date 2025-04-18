@@ -23,7 +23,7 @@ namespace Aglaea{
         int num = Total_ally;
         Ally *ptr = Ally_unit[num].get();
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1242,699,485);
-        SetAllyBasicStats(Ally_unit[num].get(),102,350,350,E,"Lightning","Remembrance",num,"Aglaea","Ally");
+        SetAllyBasicStats(Ally_unit[num].get(),102,350,350,E,"Lightning","Remembrance",num,"Aglaea",TYPE_STD);
 
         //substats
         Ally_unit[num]->Total_substats=20;
@@ -222,7 +222,6 @@ namespace Aglaea{
 
         Ally_unit[num]->SetRelic(0,1,1,1);
         Ally_unit[num]->Speed_tune_value = 135;
-        Aglaea_num = num;
 
 
 

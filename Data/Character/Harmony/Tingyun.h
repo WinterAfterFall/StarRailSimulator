@@ -14,20 +14,17 @@ namespace Tingyun{
 
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit.push_back(make_unique<Ally>());
-        Total_ally++;
-        int num = Total_ally;
-        Ally *ptr = Ally_unit[num].get();
-        SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 847, 529, 397);
-        SetAllyBasicStats(Ally_unit[num].get(), 112, 130, 130, E, "Lightning", "Harmony", num, "Tingyun", "Ally");
-        Ally_unit[num]->Technique = 2;
-
+        Ally *ptr =  SetAllyBasicStats(112, 130, 130, E, "Lightning", "Harmony", "Tingyun",TYPE_STD);
+        ptr->SetAllyBaseStats(847, 529, 397);
+        ptr->Technique = 2;
+        ptr->pushSubstats(ST_ATK_PERCENT);
+        ptr->setTotalSubstats(20);
         //func
-        LC(Ally_unit[num].get());
-        Relic(Ally_unit[num].get());
-        Planar(Ally_unit[num].get());
+        LC(ptr);
+        Relic(ptr);
+        Planar(ptr);
         
-        Ally_unit[num]->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
+        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
             if (chooseSubUnitBuff(allyPtr)->Buff_check["Benediction"] == 0) {
                 Skill(ptr);
             } else {
@@ -73,7 +70,6 @@ namespace Tingyun{
             ptr->Energy_recharge += 19.4;
 
             // substats
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 77.76;
             ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Basic_Attack"] += 40;
         }));
 

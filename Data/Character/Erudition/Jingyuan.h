@@ -12,7 +12,6 @@ namespace Jingyuan{
     void Skill(Ally *ptr);
 
     bool Temp_Turn_Condition(Unit *ptr);
-    bool Robin_temp(Ally *ptr);
     bool Temp_ult_Condition(Ally *ptr);
 
 
@@ -34,7 +33,7 @@ namespace Jingyuan{
         Relic(ptr);
         Planar(ptr);
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
-            if ((sp <= Sp_Safety && Robin_temp(ptr)) || allyPtr->Atv_stats->turn_cnt == 1 && Sp_status == "Negative") {
+            if ((sp <= Sp_Safety) || allyPtr->Atv_stats->turn_cnt == 1 && Sp_status == "Negative") {
                 Basic_Atk(ptr);
             } else {
                 Skill(ptr);
@@ -42,7 +41,7 @@ namespace Jingyuan{
         };
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
-            if (((turn->Char_Name != "Jingyuan" || Ult_After_Turn == 1) && Robin_temp(ptr)) || !ultUseCheck(ptr)) return;
+            if (((turn->Char_Name != "Jingyuan" || Ult_After_Turn == 1)) || !ultUseCheck(ptr)) return;
             ActionData data_ = ActionData();
             
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","Jingyuan Ultimate");
@@ -228,12 +227,6 @@ namespace Jingyuan{
         return true;
     }
     bool Temp_ult_Condition(Ally *ptr){
-        return true;
-    }
-    bool Robin_temp(Ally *ptr){
-        if(Robin_num!=0&&Ally_unit[Robin_num]->Sub_Unit_ptr[0]->Atv_stats->Base_speed==-1){
-            return false;
-        }
         return true;
     }
 }

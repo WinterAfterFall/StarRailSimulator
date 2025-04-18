@@ -13,21 +13,17 @@ namespace Sunday{
 
     bool ult_condition(Ally *ptr);
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit.push_back(make_unique<Ally>());
-        Total_ally++;
-        int num = Total_ally;
-        Ally *ptr = Ally_unit[num].get();
-        SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(), 1242, 640, 533);
-        SetAllyBasicStats(Ally_unit[num].get(), 96, 130, 130, E, "Imaginary", "Harmony", num, "Sunday", "Ally");
+        Ally *ptr = SetAllyBasicStats(96, 130, 130, E, "Imaginary", "Harmony", "Sunday",TYPE_STD);
+        ptr->SetAllyBaseStats(1242, 640, 533);
 
         ptr->pushSubstats(ST_CRIT_DAM);
         ptr->setTotalSubstats(20);
-        Ally_unit[num]->Speed_tune_value=133.4;
+        ptr->Speed_tune_value=133.4;
         //func
-        LC(Ally_unit[num].get());
-        Relic(Ally_unit[num].get());
-        Planar(Ally_unit[num].get());
-        Ally_unit[num]->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
+        LC(ptr);
+        Relic(ptr);
+        Planar(ptr);
+        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
             Skill(ptr);
         };
 

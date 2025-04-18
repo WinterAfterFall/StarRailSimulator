@@ -16,7 +16,7 @@ namespace TemplateName{
         Ally_unit[num] = make_unique<Ally>();
         Ally *ptr = Ally_unit[num].get();
         // SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1242,699,485);
-        // SetAllyBasicStats(Ally_unit[num].get(),102,350,350,E,"Lightning","Remembrance",num,"Aglaea","Ally");
+        // SetAllyBasicStats(Ally_unit[num].get(),102,350,350,E,"Lightning","Remembrance",num,"Aglaea",TYPE_STD);
 
         //substats
         ptr->pushSubstats("Crit_dam");

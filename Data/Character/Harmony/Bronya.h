@@ -16,26 +16,19 @@ namespace Bronya{
     void Skill(Ally *ptr);
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally_unit.push_back(make_unique<Ally>());
-        Total_ally++;
-        int num = Total_ally;
-        Ally *ptr = Ally_unit[num].get();
-        SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1242,582,534);
-        SetAllyBasicStats(Ally_unit[num].get(),99,120,120,E,"Wind","Harmony",num,"Bronya","Ally");
+        Ally *ptr = SetAllyBasicStats(99,120,120,E,"Wind","Harmony","Bronya",TYPE_STD);
+        ptr->SetAllyBaseStats(1242,582,534);
         //substats
-        Ally_unit[num]->Total_substats=20;
-        Ally_unit[num]->SeparateRatio=20;
-
-        Ally_unit[num]->Substats.push_back({"Crit_dam",20});
-
-        Ally_unit[num]->Max_damage_Substats.resize(Ally_unit[num]->Substats.size());
-
+        ptr->pushSubstats("Crit_dam");
+        ptr->setTotalSubstats(20);
+        ptr->SetRelic(1,1,0,1);
+        ptr->Speed_tune_value =133.4;
 
         //func
-        LC(Ally_unit[num].get());
-        Relic(Ally_unit[num].get());
-        Planar(Ally_unit[num].get());
-        Ally_unit[num]->Sub_Unit_ptr[0]->Turn_func = [ptr](){            
+        LC(ptr);
+        Relic(ptr);
+        Planar(ptr);
+        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr](){            
             Skill(ptr);
         };
 
@@ -165,8 +158,7 @@ namespace Bronya{
         }));
 
 
-        ptr->SetRelic(1,1,0,1);
-        Ally_unit[num]->Speed_tune_value =133.4;
+
         
     }
 

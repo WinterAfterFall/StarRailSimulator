@@ -17,7 +17,7 @@ namespace Pela{
         int num = Total_ally;
         Ally *ptr = Ally_unit[num].get();
         SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1087,660,509);
-        SetAllyBasicStats(Ally_unit[num].get(),105,110,110,E,"Ice","Nihility",num,"Pela","Ally");
+        SetAllyBasicStats(Ally_unit[num].get(),105,110,110,E,"Ice","Nihility",num,"Pela",TYPE_STD);
 
         //substats
         ptr->pushSubstats(ST_CRIT_DAM);

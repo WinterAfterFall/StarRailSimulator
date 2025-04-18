@@ -101,10 +101,10 @@ void Timing_print(Ally *ptr){
 bool Using_Skill(Ally *ptr){
     if(Sp_status=="Positive")return true;
     if(sp>Sp_Safety)return true;
-    if(Robin_num!=0){
-        if(Ally_unit[Robin_num ]->Sub_Unit_ptr[0]->Atv_stats->Base_speed==-1)return true;
-        if(!Ally_unit[Robin_num]->Wait_Other_Buff)return false;   
-    }
+    // if(Robin_num!=0){
+    //     if(Ally_unit[Robin_num ]->Sub_Unit_ptr[0]->Atv_stats->Base_speed==-1)return true;
+    //     if(!Ally_unit[Robin_num]->Wait_Other_Buff)return false;   
+    // }
     return false;
 }
 void Set_Other_buff(Ally *ptr,bool Bool){
