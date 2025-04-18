@@ -104,14 +104,10 @@ namespace Aglaea{
             }
 
             // substats
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += ptr->Sub_Speed_use;
 
             // countdown
         }));
 
-        Tune_stats_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            Cal_Speed_Needed(ptr, ptr->Speed_tune_value);
-        }));
 
         Setup_Memo_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[1]->Stats_type["Flat_Hp"]["None"] += 720;
@@ -211,7 +207,7 @@ namespace Aglaea{
 
 
         ptr->SetRelic(0,1,1,1);
-        ptr->Speed_tune_value = 135;
+        ptr->SpeedRequire = 135;
 
 
 

@@ -6,6 +6,7 @@
 #include "CalHealStats.h"
 #include "CalDmgReceive.h"
 #include "CalDamageNote.h"
+#include "CalRequireStats.h"
 
 
 #endif

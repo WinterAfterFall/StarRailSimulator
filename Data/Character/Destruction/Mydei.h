@@ -99,14 +99,9 @@ namespace Mydei{
             }
 
             // substats
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += ptr->Sub_Speed_use;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"]["None"] += ptr->Sub_effect_hit_rate_use;
             // eidolon
         }));
         
-        Tune_stats_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            Cal_Speed_Needed(ptr, ptr->Speed_tune_value);
-        }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] = (floor((ptr->Sub_Unit_ptr[0]->totalHP - 4000) / 100) <= 40) ? floor((ptr->Sub_Unit_ptr[0]->totalHP - 4000) / 100) : 40;
@@ -206,7 +201,7 @@ namespace Mydei{
 
 
         ptr->SetRelic(0,1,1,0);
-        ptr->Speed_tune_value = 135;
+        ptr->SpeedRequire = 135;
 
 
 

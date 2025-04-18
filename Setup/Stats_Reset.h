@@ -79,7 +79,11 @@ void Basic_reset(){
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["True_Damage"]["None"] += 0;
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_HEALING_OUT]["None"] += 0;
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_RES]["None"] += 4.32*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Ehr"]["None"] += 3.888*2;
             Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 2.3*2;
+
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Ehr"]["None"] += Ally_unit[i]->ExtraEhr;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += Ally_unit[i]->ExtraSpeed;
     }
 
 

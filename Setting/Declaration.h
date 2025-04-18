@@ -28,7 +28,7 @@
 #define ST_RESPEN "Respen"
 #define ST_VUL "Vul"
 #define ST_RES "Res"
-#define ST_EHR "ehr"
+#define ST_EHR "Ehr"
 #define ST_TRUE "True_Damage"
 #define ST_FLAT_SPD "Flat-Speed"
 #define ST_SPD_PERCENT "Speed%"
@@ -276,9 +276,7 @@ double Cal_BreakEffect_multiplier(ActionData& data_, Enemy* target);
 double Cal_Toughness_multiplier(ActionData& data_, Enemy* target);
 double Cal_Superbreak_DamageIncrease_multiplier(ActionData& data_, Enemy* target);
 double Cal_Mitigation_multiplier(ActionData& data_, Enemy* target);
-
-void Cal_effect_hit_rate(Ally* ptr, double Base_chance);
-void Cal_Speed_Needed(Ally* ptr, double Speed_Need);
+//CalRequireStats.h
 
 
 //Calculate_Heal.h

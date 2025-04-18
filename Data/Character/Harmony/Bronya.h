@@ -22,7 +22,7 @@ namespace Bronya{
         ptr->pushSubstats("Crit_dam");
         ptr->setTotalSubstats(20);
         ptr->SetRelic(1,1,0,1);
-        ptr->Speed_tune_value =133.4;
+        ptr->SpeedRequire =133.4;
 
         //func
         LC(ptr);
@@ -79,12 +79,7 @@ namespace Bronya{
             ptr->Energy_recharge += 19.4;
 
             // substats
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += ptr->Sub_Speed_use;
             ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["Basic_Attack"] = 100;
-        }));
-
-        Tune_stats_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
-            Cal_Speed_Needed(ptr, ptr->Speed_tune_value);
         }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){

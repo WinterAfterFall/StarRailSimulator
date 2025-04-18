@@ -90,7 +90,7 @@ void Set_Body_Critdam(Ally *ptr,bool Bool){
 
 void Set_Tune_Speed(Ally *ptr,double value){
     if(value==0)return;
-    ptr->Speed_tune_value = value;
+    ptr->SpeedRequire = value;
 }
 void Set_Reroll_check(Ally *ptr,bool Bool){
     ptr->Reroll_check = Bool;

@@ -96,14 +96,11 @@ namespace Rappa{
             // ptr->stats->Energy_recharge += 19.4;
 
             // substats
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += ptr->Sub_Speed_use;
 
             // skill
         }));
 
-        Tune_stats_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            Cal_Speed_Needed(ptr, 145);
-        }));
+
 
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_DEBUFF, [ptr]() {

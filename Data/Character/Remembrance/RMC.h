@@ -19,7 +19,7 @@ namespace RMC{
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally *ptr = SetAllyBasicStats(103,160,160,E,"Ice","Remembrance","RMC",TYPE_STD);
         ptr->SetAllyBaseStats(1048,543,631);
-
+        ptr->SpeedRequire = 150;
         //substats
         
 
@@ -72,7 +72,6 @@ namespace RMC{
             ptr->Energy_recharge += 19.4;
 
             // substats
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += ptr->Sub_Speed_use;
         }));
 
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](SubUnit *target, string StatsType) {
@@ -86,9 +85,6 @@ namespace RMC{
             }
         }));
 
-        Tune_stats_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            Cal_Speed_Needed(ptr, 150);
-        }));
 
         Setup_Memo_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[1]->Stats_type["Flat_Hp"]["None"] += 688;

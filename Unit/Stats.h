@@ -256,21 +256,23 @@ public:
     vector<unique_ptr<Unit>> Countdown_ptr;  // 
 
     int Technique = 1;
-    double Sub_effect_hit_rate_use = 0;
-    double Sub_Speed_use = 0;
     //Ult condition
     vector<function<bool()>> ultCondition;
     vector<function<bool()>> ultImmediatelyUseCondtion;
-
-
+    
+    
     bool Print =0;
     bool Wait_Other_Buff = 0;
     bool Er_Rope=0;
     bool Speed_Boot = 1;
     bool Element_Orb = 1;
     bool Body_CritDam = 0;
-    double Speed_tune_value = 0;
 
+    double SpeedRequire = 0;
+    double ApplyBaseChance = 0;
+    double ExtraEhr = 0;
+    double ExtraSpeed = 0;
+    
     // Constructor now calls the base class constructor to initialize Atv_stats and set ptr_to_unit
     Ally() {  // Call Unit constructor to initialize Atv_stats and set ptr_to_unit
         Sub_Unit_ptr.resize(1);
@@ -299,6 +301,13 @@ public:
     }
     void pushSubstats(string StatsType){
         this->Substats.push_back({StatsType,0});
+    }
+    void decreaseTotalSubStats(int amount){
+        amount = (this->Total_substats>=amount) ? amount : this->Total_substats;
+        this->Total_substats-=amount;
+        this->currentTotalSubstats-=amount;
+        this->SeparateRatio-=amount;
+        this->Substats[0].second -=amount;
     }
     bool isAllyHaveSummon(){
         if(this->Summon_ptr.size()!=0||this->Sub_Unit_ptr.size()>1)return true;
@@ -366,6 +375,15 @@ public:
 
     //TargetChoose.h
     void updateTargetingSubUnits(int newTargetNum);
+
+    //Requirement Stats
+    void SpeedRequirment();
+    void newSpeedRequire(double amount);
+    void EhrRequirment();
+    void newEhrRequire(double amount);
+    void ATKRequirment();
+    void HPRequirment();
+    void DEFRequirment();
 
 };
 

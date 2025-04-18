@@ -52,8 +52,6 @@ namespace Serval{
             ptr->Energy_recharge += 19.4;
 
             // substats
-            ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"]["None"] += ptr->Sub_effect_hit_rate_use;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += ptr->Sub_Speed_use;
         }));
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
@@ -97,10 +95,6 @@ namespace Serval{
                     }
                 }
             }
-        }));
-        Tune_stats_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            Cal_Speed_Needed(ptr, 150);
-            Cal_effect_hit_rate(ptr, 100);
         }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {

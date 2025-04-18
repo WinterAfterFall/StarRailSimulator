@@ -104,6 +104,10 @@ void Reset(){
     for(TriggerByYourSelf_Func &e : When_Combat_List){
         e.Call();
     }
+    for(int i=1;i<=Total_ally;i++){
+        Ally_unit[i]->SpeedRequirment();
+        Ally_unit[i]->EhrRequirment();
+    }
     for(TriggerByYourSelf_Func &e : Tune_stats_List){
         e.Call();
     }

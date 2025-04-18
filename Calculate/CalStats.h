@@ -269,42 +269,4 @@ double Cal_Mitigation_multiplier(ActionData &data_,Enemy *target){
     }
     return (Mitigation_mtpr / 100 < 0) ? 0 : Mitigation_mtpr / 100;
 }
-
-void Cal_effect_hit_rate(Ally *ptr,double Base_chance){
-    double temp=100/(Base_chance/100)/((100 - Enemy_effect_res)/100);
-    temp = temp-100;
-    double x =0;
-    temp-=ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"]["None"];
-    if(temp<=0)return ;
-    x = ceil(temp/3.888);
-    ptr->Total_substats-=x;
-    ptr->currentTotalSubstats-=x;
-    ptr->SeparateRatio-=x;
-    ptr->Substats[0].second -=x;
-    x = x * 3.888;
-    ptr->Sub_effect_hit_rate_use += x;
-    ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"]["None"] += ptr->Sub_effect_hit_rate_use;
-    for(int i=1,sz = ptr->Sub_Unit_ptr.size();i<sz;i++){
-        ptr->Sub_Unit_ptr[i]->Stats_type["Ehr"]["None"]+=x;
-    }
-    return ;
-}
-void Cal_Speed_Needed(Ally *ptr,double Speed_Need){
-    double temp = ptr->Sub_Unit_ptr[0]->Atv_stats->Base_speed+ptr->Sub_Unit_ptr[0]->Atv_stats->Base_speed*ptr->Sub_Unit_ptr[0]->Atv_stats->Speed_percent/100 + ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed;
-    temp = Speed_Need - temp;
-    double x =0;
-    if(temp<=0)return;
-    x = ceil(temp/2.3);
-    ptr->Total_substats-=x;
-    ptr->currentTotalSubstats-=x;
-    ptr->SeparateRatio-=x;
-    ptr->Substats[0].second -=x;
-    x = x * 2.3;
-    ptr->Sub_Speed_use += x;
-    ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += x;
-    for(int i=1,sz = ptr->Sub_Unit_ptr.size();i<sz;i++){
-        ptr->Sub_Unit_ptr[i]->Atv_stats->Flat_Speed+=x*(ptr->Sub_Unit_ptr[i]->Unit_Speed_Ratio/100);
-    }
-    return;
-}
 #endif

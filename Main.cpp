@@ -14,6 +14,10 @@ using std::vector;
 #include "./Data/Lightcone/All_Lighcone.h"
 #include "./Data/Planar/All_Planar.h"
 #include"./Data/Relic/All_Relic.h"
+Ally* Char1;
+Ally* Char2;
+Ally* Char3;
+Ally* Char4;
 void SetValue(){
     Driver_num = 2;
     Driver_Type = "None"; //Swap_pull Always_pull Double_turn None
@@ -34,6 +38,12 @@ void SetValue(){
     // golden ratio
     rerollSubstatsMode = "Standard" ; //Standard AllCombination AllPossible
 
+}
+void SetCharacterPtr(){
+    Char1 = Ally_unit[1].get();
+    Char2 = Ally_unit[2].get();
+    Char3 = Ally_unit[3].get();
+    Char4 = Ally_unit[4].get();
 }
 int main(){
     
@@ -67,6 +77,8 @@ int main(){
     Gallagher::Setup(6,Abundance_Lightcone::Multiplication(5),Relic::PairSet(ST_HEALING_OUT,ST_BREAK_EFFECT),Planar::Broken_Keel);
     // Luocha::Setup(0,Abundance_Lightcone::Multiplication(5),Relic::PairSet(ST_HEALING_OUT,ST_ATK_PERCENT),Planar::Broken_Keel);
 
+    SetCharacterPtr();
+    
     //-----------------------------------------------------------
     //adjust
     Ally_unit[1]->setAdjust("NetherwingLifeSpan",3);

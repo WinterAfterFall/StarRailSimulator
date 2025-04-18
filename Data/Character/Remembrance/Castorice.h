@@ -31,7 +31,7 @@ namespace Castorice{
         Relic(ptr);
         Planar(ptr);
         ptr->SetRelic(1,0,0,0);
-        ptr->Speed_tune_value = 0;
+        ptr->SpeedRequire = 0;
 
         SetMemoStats(ptr,0,0,"Quantum","Netherwing","Memosprite");
         // SetCountdownStats(ptr,"Supreme_Stance");
@@ -159,7 +159,6 @@ namespace Castorice{
             }
             
             // substats
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += ptr->Sub_Speed_use;
             
             // countdown
         }));
@@ -202,9 +201,6 @@ namespace Castorice{
             if (!actionBarUse) Deal_damage();
         }));
         
-        Tune_stats_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            Cal_Speed_Needed(ptr, ptr->Speed_tune_value);
-        }));
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if(ptr->Eidolon>=4){

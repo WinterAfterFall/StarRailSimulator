@@ -24,7 +24,7 @@ namespace FireFly{
         //substats
         ptr->pushSubstats(ST_BREAK_EFFECT);
         ptr->setTotalSubstats(20);
-        ptr->Speed_tune_value=150;
+        ptr->SpeedRequire=150;
 
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr] (){
             if(ptr->Countdown_ptr[0]->Atv_stats->Base_speed==-1){
@@ -44,7 +44,6 @@ namespace FireFly{
             ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] += 64.8;
 
             // substats
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += ptr->Sub_Speed_use;
 
             // eidolon
             if (ptr->Eidolon >= 1) {
@@ -70,9 +69,6 @@ namespace FireFly{
             }
         ));
         
-        Tune_stats_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            Cal_Speed_Needed(ptr, 150);
-        }));
 
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](SubUnit *target, string StatsType) {
             if (target->Atv_stats->Unit_Name != "FireFly") return;

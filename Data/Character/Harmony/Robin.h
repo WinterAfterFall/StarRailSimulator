@@ -22,7 +22,7 @@ namespace Robin{
         ptr->SetAllyBaseStats(1280, 640, 485);
         ptr->pushSubstats(ST_ATK_PERCENT);
         ptr->setTotalSubstats(15);
-        ptr->Speed_tune_value=120;
+        ptr->SpeedRequire=120;
 
         //func
         LC(ptr);

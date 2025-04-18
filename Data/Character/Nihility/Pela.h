@@ -20,7 +20,7 @@ namespace Pela{
         ptr->pushSubstats(ST_CRIT_RATE);
         ptr->pushSubstats(ST_ATK_PERCENT);
         ptr->setTotalSubstats(20);
-        ptr->Speed_tune_value=160;
+        ptr->SpeedRequire=160;
         
         //func
         LC(ptr);
@@ -63,15 +63,8 @@ namespace Pela{
             ptr->Energy_recharge += 19.4;
 
             // substats
-            ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"]["None"] += ptr->Sub_effect_hit_rate_use;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += ptr->Sub_Speed_use;
-
         }));
 
-        Tune_stats_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            Cal_Speed_Needed(ptr, ptr->Speed_tune_value);
-            Cal_effect_hit_rate(ptr, 100);
-        }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (ptr->Technique == 1) {

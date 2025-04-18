@@ -83,8 +83,8 @@
 //         ptr->stats->Energy_recharge+=19.4;
 
 //         //substats
-//         ptr->Effect_hit_rate+=ptr->stats->Sub_effect_hit_rate_use;
-//         ptr->Atv_stats->Flat_speed+=ptr->stats->Sub_Speed_use;
+//         ptr->Effect_hit_rate+=ptr->stats->ExtraEhr;
+//         ptr->Atv_stats->Flat_speed+=ptr->stats->ExtraSpeed;
 
 //         //skill
 //         ptr->Break_effect["None"]+=30;

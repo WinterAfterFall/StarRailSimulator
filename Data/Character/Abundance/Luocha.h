@@ -21,7 +21,7 @@ namespace Luocha{
 
         ptr->pushSubstats(ST_ATK_PERCENT);
         ptr->setTotalSubstats(20);
-        ptr->Speed_tune_value=140;
+        ptr->SpeedRequire=140;
 
         //func
         LC(ptr);
@@ -63,11 +63,6 @@ namespace Luocha{
             ptr->Energy_recharge += 19.4;
 
             // substats
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += ptr->Sub_Speed_use; // 15
-        }));
-
-        Tune_stats_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            Cal_Speed_Needed(ptr, ptr->Speed_tune_value);
         }));
 
 

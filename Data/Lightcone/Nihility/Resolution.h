@@ -12,9 +12,7 @@ namespace Nihility_Lightcone{
             ptr->SetAllyBaseStats(953,476,331);
             ptr->Light_cone.Name = "Resolution";
 
-            Tune_stats_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                Cal_effect_hit_rate(ptr, 50 + superimpose);
-            }));
+            ptr->newEhrRequire(50 + superimpose);
 
             After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](ActionData &data_) {
                 if (data_.Attacker->Atv_stats->Unit_Name != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) return;

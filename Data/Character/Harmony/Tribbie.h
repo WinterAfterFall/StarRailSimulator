@@ -129,15 +129,11 @@ namespace Tribbie{
             }
 
             // substats
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += ptr->Sub_Speed_use;
             if (ptr->Eidolon >= 6) {
                 ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Fua"] += 729;
             }
         }));
 
-        Tune_stats_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            Cal_Speed_Needed(ptr, ptr->Speed_tune_value);
-        }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (Buff_end(ptr->Sub_Unit_ptr[0].get(), "Tribbie_Zone")) {

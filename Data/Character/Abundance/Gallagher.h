@@ -23,7 +23,7 @@ namespace Gallagher{
         //substats
         ptr->pushSubstats("Break_effect");
         ptr->setTotalSubstats(20);
-
+        ptr->SpeedRequire = 150;
         //func
         LC(ptr);
         Relic(ptr);
@@ -78,7 +78,6 @@ namespace Gallagher{
             ptr->Energy_recharge += 19.4;
 
             // substats
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += ptr->Sub_Speed_use;
             if (ptr->Eidolon >= 6) {
                 ptr->Sub_Unit_ptr[0]->Stats_type["Weakness_Break_Efficiency"]["None"] += 20;
                 ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] += 20;
@@ -97,9 +96,6 @@ namespace Gallagher{
             }
         }});
 
-        Tune_stats_List.push_back({PRIORITY_IMMEDIATELY, [ptr]() {
-            Cal_Speed_Needed(ptr, 150);
-        }});
 
         Start_game_List.push_back({PRIORITY_IMMEDIATELY, [ptr]() {
             if (ptr->Eidolon >= 1) {
