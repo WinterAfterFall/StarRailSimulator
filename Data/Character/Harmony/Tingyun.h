@@ -39,10 +39,10 @@ namespace Tingyun{
             if (Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Max_energy - Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Current_energy <= 30) return;
 
             if (!ultUseCheck(ptr)) return;
-            AllyActionData data_ = AllyActionData();
-            data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Buff","Tingyun Ultimate");
-            data_.Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
-            data_.actionFunction = [ptr](AllyActionData &data_){
+            shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+            data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Buff","Tingyun Ultimate");
+            data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
+            data_->actionFunction = [ptr](AllyActionData &data_){
                 Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(), 0, (ptr->Eidolon >= 6) ? 60 : 50);
                 if (ptr->Eidolon >= 1) {
                     Speed_Buff(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats.get(), 20, 0);
@@ -135,11 +135,11 @@ namespace Tingyun{
 
     void Skill(Ally *ptr){
         
-        AllyActionData data_ = AllyActionData();
-        data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Tingyun Skill");
-        data_.Add_Buff_Single_Target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
-        data_.Turn_reset = 1;
-        data_.actionFunction = [ptr](AllyActionData &data_){
+        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Tingyun Skill");
+        data_->Add_Buff_Single_Target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
+        data_->Turn_reset = 1;
+        data_->actionFunction = [ptr](AllyActionData &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
             if(!Buff_check(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()),"Benediction")){
@@ -152,18 +152,18 @@ namespace Tingyun{
         Extend_Buff_single_target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()),"Benediction",3);
     }
     void Basic_Atk(Ally *ptr){
-        AllyActionData data_ = AllyActionData();
+        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         
-        data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Tingyun BasicAttack");
-        data_.Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
-        data_.Turn_reset = 1;
-        data_.actionFunction = [ptr](AllyActionData &data_){
+        data_->Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Tingyun BasicAttack");
+        data_->Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
+        data_->Turn_reset = 1;
+        data_->actionFunction = [ptr](AllyActionData &data_){
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(data_);
         };
-        data_.Damage_spilt.Main.push_back({33,0,0,3});
-        data_.Damage_spilt.Main.push_back({77,0,0,7});
+        data_->Damage_spilt.Main.push_back({33,0,0,3});
+        data_->Damage_spilt.Main.push_back({77,0,0,7});
         Action_bar.push(data_);
     }
 

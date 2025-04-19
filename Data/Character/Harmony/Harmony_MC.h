@@ -39,10 +39,10 @@ namespace Harmony_MC{
             if(Buff_check(ptr->Sub_Unit_ptr[0].get(),"Harmony_MC_ult") || !ultUseCheck(ptr)) return;
             
             
-            AllyActionData data_ = AllyActionData();
-            data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff", "HMC Ultimate");
-            data_.Add_Buff_All_Ally();
-            data_.actionFunction = [ptr](AllyActionData &data_){
+            shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+            data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff", "HMC Ultimate");
+            data_->Add_Buff_All_Ally();
+            data_->actionFunction = [ptr](AllyActionData &data_){
                 if(!Buff_check(ptr->Sub_Unit_ptr[0].get(),"Harmony_MC_ult")){
                     Buff_All_Ally("Break_effect","None",33);
                 }
@@ -121,12 +121,12 @@ namespace Harmony_MC{
 
 void Basic_Atk(Ally *ptr){
         
-        AllyActionData data_ = AllyActionData();
-        data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","HMC BasicAttack");
-        data_.Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
-        data_.Turn_reset = 1;
-        data_.Damage_spilt.Main.push_back({110,0,0,10});
-        data_.actionFunction = [ptr](AllyActionData &data_){
+        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+        data_->Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","HMC BasicAttack");
+        data_->Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
+        data_->Turn_reset = 1;
+        data_->Damage_spilt.Main.push_back({110,0,0,10});
+        data_->actionFunction = [ptr](AllyActionData &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
             Attack(data_);
@@ -135,29 +135,29 @@ void Basic_Atk(Ally *ptr){
     }
     void Skill_func(Ally *ptr){
         
-        AllyActionData data_ = AllyActionData();
-        data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Bounce","HMC Skill");
-        data_.Add_Target_Adjacent();
-        data_.Turn_reset = 1;
-        data_.Damage_spilt.Main.push_back({55,0,0,10});
-        data_.Damage_spilt.Main.push_back({55,0,0,5});
-        data_.Damage_spilt.Main.push_back({55,0,0,5});
+        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Bounce","HMC Skill");
+        data_->Add_Target_Adjacent();
+        data_->Turn_reset = 1;
+        data_->Damage_spilt.Main.push_back({55,0,0,10});
+        data_->Damage_spilt.Main.push_back({55,0,0,5});
+        data_->Damage_spilt.Main.push_back({55,0,0,5});
         
         if(Total_enemy==1){
-            data_.Damage_spilt.Main.push_back({55,0,0,5});
-            data_.Damage_spilt.Main.push_back({55,0,0,5});
-            data_.Damage_spilt.Main.push_back({55,0,0,5});
-            data_.Damage_spilt.Main.push_back({55,0,0,5});
+            data_->Damage_spilt.Main.push_back({55,0,0,5});
+            data_->Damage_spilt.Main.push_back({55,0,0,5});
+            data_->Damage_spilt.Main.push_back({55,0,0,5});
+            data_->Damage_spilt.Main.push_back({55,0,0,5});
         }else if(Total_enemy==2){
-            data_.Damage_spilt.Main.push_back({55,0,0,5});
-            data_.Damage_spilt.Adjacent.push_back({55,0,0,5});
-            data_.Damage_spilt.Adjacent.push_back({55,0,0,5});
-            data_.Damage_spilt.Adjacent.push_back({55,0,0,5});
+            data_->Damage_spilt.Main.push_back({55,0,0,5});
+            data_->Damage_spilt.Adjacent.push_back({55,0,0,5});
+            data_->Damage_spilt.Adjacent.push_back({55,0,0,5});
+            data_->Damage_spilt.Adjacent.push_back({55,0,0,5});
         }else if(Total_enemy>=3){
-            data_.Damage_spilt.Adjacent.push_back({55,0,0,5});
-            data_.Damage_spilt.Adjacent.push_back({55,0,0,5});
+            data_->Damage_spilt.Adjacent.push_back({55,0,0,5});
+            data_->Damage_spilt.Adjacent.push_back({55,0,0,5});
         }
-        data_.actionFunction = [ptr](AllyActionData &data_){
+        data_->actionFunction = [ptr](AllyActionData &data_){
             if(ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt!=1)Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);     
             Increase_energy(ptr,30);
             Attack(data_);
