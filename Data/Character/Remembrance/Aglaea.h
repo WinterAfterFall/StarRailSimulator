@@ -58,10 +58,10 @@ namespace Aglaea{
             if (ptr->Sub_Unit_ptr[1]->Atv_stats->atv == 0 || ptr->Sub_Unit_ptr[0]->Atv_stats->atv == 0) return;
             if (!ultUseCheck(ptr)) return;
 
-            AllyActionData data_ = AllyActionData();
-            data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Buff", "Aglaea Ultimate");
-            data_.Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
-            data_.actionFunction = [ptr](AllyActionData &data_) {
+            shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+            data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Buff", "Aglaea Ultimate");
+            data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
+            data_->actionFunction = [ptr](AllyActionData &data_) {
                 if (ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed == -1) Summon(ptr);
 
                 if (ptr->Countdown_ptr[0]->Atv_stats->Base_speed == -1) 
@@ -103,13 +103,13 @@ namespace Aglaea{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (ptr->Technique == 1) {
-                AllyActionData data_ = AllyActionData();
-                data_.Technique_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Aglaea Technique");
-                data_.Add_Target_Other();
-                data_.Damage_spilt.Main.push_back({100, 0, 0, 20});
-                data_.Damage_spilt.Adjacent.push_back({100, 0, 0, 20});
-                data_.Damage_spilt.Other.push_back({100, 0, 0, 20});
-                data_.actionFunction = [ptr](AllyActionData &data_) {
+                shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+                data_->Technique_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Aglaea Technique");
+                data_->Add_Target_Other();
+                data_->Damage_spilt.Main.push_back({100, 0, 0, 20});
+                data_->Damage_spilt.Adjacent.push_back({100, 0, 0, 20});
+                data_->Damage_spilt.Other.push_back({100, 0, 0, 20});
+                data_->actionFunction = [ptr](AllyActionData &data_) {
                     Increase_energy(ptr, 30);
                     ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed = ptr->Sub_Unit_ptr[0]->Atv_stats->Base_speed * 0.35;
                     Update_Max_atv(ptr->Sub_Unit_ptr[1]->Atv_stats.get());
@@ -232,19 +232,19 @@ namespace Aglaea{
 
     void Enchance_Basic_Atk(Ally *ptr){
        
-        AllyActionData data_ = AllyActionData();
-        data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Blast","Aglaea Joint Attack");
-        data_.Add_Target_Adjacent();
-        data_.Turn_reset=true;
-        data_.Damage_spilt.Main.push_back({200,0,0,10});
-        data_.Damage_spilt.Main.push_back({200,0,0,10});
+        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+        data_->Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Blast","Aglaea Joint Attack");
+        data_->Add_Target_Adjacent();
+        data_->Turn_reset=true;
+        data_->Damage_spilt.Main.push_back({200,0,0,10});
+        data_->Damage_spilt.Main.push_back({200,0,0,10});
 
-        data_.Damage_spilt.Adjacent.push_back({90,0,0,5});
-        data_.Damage_spilt.Adjacent.push_back({90,0,0,5});
-        data_.All_Attacker.push_back(ptr->Sub_Unit_ptr[1].get());
-        data_.Attack_trigger++;
-        data_.Joint.push_back(AttackSource(1,ptr->Sub_Unit_ptr[1].get()));
-        data_.actionFunction =[ptr](AllyActionData &data_ ){
+        data_->Damage_spilt.Adjacent.push_back({90,0,0,5});
+        data_->Damage_spilt.Adjacent.push_back({90,0,0,5});
+        data_->All_Attacker.push_back(ptr->Sub_Unit_ptr[1].get());
+        data_->Attack_trigger++;
+        data_->Joint.push_back(AttackSource(1,ptr->Sub_Unit_ptr[1].get()));
+        data_->actionFunction =[ptr](AllyActionData &data_ ){
             Increase_energy(ptr,20);
             Attack(data_);
         };
@@ -253,12 +253,12 @@ namespace Aglaea{
     }
     void Basic_Atk(Ally *ptr){
         
-        AllyActionData data_ = AllyActionData();
-        data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Aglaea BasicAttack");
-        data_.Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
-        data_.Turn_reset=true;
-        data_.Damage_spilt.Main.push_back({100,0,0,10});
-        data_.actionFunction =[ptr](AllyActionData &data_ ){
+        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+        data_->Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Aglaea BasicAttack");
+        data_->Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
+        data_->Turn_reset=true;
+        data_->Damage_spilt.Main.push_back({100,0,0,10});
+        data_->actionFunction =[ptr](AllyActionData &data_ ){
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(data_);
@@ -266,12 +266,12 @@ namespace Aglaea{
         Action_bar.push(data_);
     }
     void Skill(Ally *ptr){
-        AllyActionData data_ = AllyActionData();
-        data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Aglaea Skill");
-        data_.Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
-        data_.Turn_reset=true;
-        data_.Buff_type.push_back("Summon");
-        data_.actionFunction = [ptr](AllyActionData &data_){
+        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Aglaea Skill");
+        data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
+        data_->Turn_reset=true;
+        data_->Buff_type.push_back("Summon");
+        data_->actionFunction = [ptr](AllyActionData &data_){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             if(ptr->Sub_Unit_ptr[1]->currentHP == 0){
@@ -295,15 +295,15 @@ namespace Aglaea{
     void Memo_Skill(Ally *ptr){
 
         
-        AllyActionData data_ = AllyActionData();
+        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
 
-        data_.Skill_set(ptr->Sub_Unit_ptr[1].get(),"Blast","Garmentmaker Skill");
-        data_.Add_Target_Adjacent();
-        data_.Skill_Type.push_back("Summon");
-        data_.Turn_reset=true;
-        data_.Damage_spilt.Main.push_back({110,0,0,10});
-        data_.Damage_spilt.Adjacent.push_back({66,0,0,5});
-        data_.actionFunction = [ptr](AllyActionData &data_){
+        data_->Skill_set(ptr->Sub_Unit_ptr[1].get(),"Blast","Garmentmaker Skill");
+        data_->Add_Target_Adjacent();
+        data_->Skill_Type.push_back("Summon");
+        data_->Turn_reset=true;
+        data_->Damage_spilt.Main.push_back({110,0,0,10});
+        data_->Damage_spilt.Adjacent.push_back({66,0,0,5});
+        data_->actionFunction = [ptr](AllyActionData &data_){
             Increase_energy(ptr,10);
             Attack(data_);
         };

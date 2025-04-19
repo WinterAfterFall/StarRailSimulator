@@ -48,17 +48,17 @@ namespace Castorice{
             }
         };
         ptr->Sub_Unit_ptr[1]->Turn_func = [ptr](){
-            AllyActionData data_ = AllyActionData();
-            data_.Skill_set(ptr->getSubUnit(1),"Aoe","Breath Scorches the Shadow");
-            data_.Add_Target_Other();
-            data_.Skill_Type.push_back("Summon");
-            data_.resetTurn();
-            if(ptr->Eidolon>=6)data_.Dont_care_weakness = 100;
-            data_.source = ptr->getSubUnit();
-            data_.Damage_spilt.Main.push_back({0,24,0,10});
-            data_.Damage_spilt.Adjacent.push_back({0,24,0,10});
-            data_.Damage_spilt.Other.push_back({0,24,0,10});
-            data_.actionFunction = [ptr](AllyActionData &data_){
+            shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+            data_->Skill_set(ptr->getSubUnit(1),"Aoe","Breath Scorches the Shadow");
+            data_->Add_Target_Other();
+            data_->Skill_Type.push_back("Summon");
+            data_->resetTurn();
+            if(ptr->Eidolon>=6)data_->Dont_care_weakness = 100;
+            data_->source = ptr->getSubUnit();
+            data_->Damage_spilt.Main.push_back({0,24,0,10});
+            data_->Damage_spilt.Adjacent.push_back({0,24,0,10});
+            data_->Damage_spilt.Other.push_back({0,24,0,10});
+            data_->actionFunction = [ptr](AllyActionData &data_){
                 Increase_energy(ptr,0);
                 while(ptr->getSubUnit(1)->currentHP>8500){
                     if(ptr->getSubUnit(1)->Stack["Breath Scorches the Shadow"]==0){
@@ -155,10 +155,10 @@ namespace Castorice{
             if(!ultUseCheck(ptr))return;
             ptr->getSubUnit()->Buff_note["Newbud"] = 0;
 
-            AllyActionData data_ = AllyActionData();
-            data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Summon","Castorice Ultimate");
-            data_.Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
-            data_.actionFunction = [ptr](AllyActionData &data_) {
+            shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+            data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Summon","Castorice Ultimate");
+            data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
+            data_->actionFunction = [ptr](AllyActionData &data_) {
                 if(ptr->Print)CharCmd::printUltStart("Castorice");
                 debuffAllEnemyMarkVer(ptr->getSubUnit(1),ST_RESPEN,AT_NONE,20,"Lost Netherland");
                 ptr->getSubUnit(1)->currentHP = 34000;
@@ -343,24 +343,24 @@ namespace Castorice{
         }));
     }
     void BasicAttack(Ally *ptr){
-        AllyActionData data_ = AllyActionData();
-        data_.Basic_Attack_set(ptr->getSubUnit(),"Single_target","Castorice Skill");
-        data_.Add_Target_Adjacent();
-        data_.resetTurn();
-        data_.Damage_spilt.Main.push_back({0,50,0,20});
-        data_.actionFunction = [ptr](AllyActionData &data_){
+        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+        data_->Basic_Attack_set(ptr->getSubUnit(),"Single_target","Castorice Skill");
+        data_->Add_Target_Adjacent();
+        data_->resetTurn();
+        data_->Damage_spilt.Main.push_back({0,50,0,20});
+        data_->actionFunction = [ptr](AllyActionData &data_){
             Attack(data_);
         };
         Action_bar.push(data_);
     }
     void Skill(Ally *ptr){
-        AllyActionData data_ = AllyActionData();
-        data_.Skill_set(ptr->getSubUnit(),"Blast","Castorice Skill");
-        data_.Add_Target_Adjacent();
-        data_.resetTurn();
-        data_.Damage_spilt.Main.push_back({0,50,0,20});
-        data_.Damage_spilt.Adjacent.push_back({0,30,0,10});
-        data_.actionFunction = [ptr](AllyActionData &data_){
+        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+        data_->Skill_set(ptr->getSubUnit(),"Blast","Castorice Skill");
+        data_->Add_Target_Adjacent();
+        data_->resetTurn();
+        data_->Damage_spilt.Main.push_back({0,50,0,20});
+        data_->Damage_spilt.Adjacent.push_back({0,30,0,10});
+        data_->actionFunction = [ptr](AllyActionData &data_){
             Increase_energy(ptr,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),"Netherwing",0,0,30);
             Attack(data_);
@@ -368,20 +368,20 @@ namespace Castorice{
         Action_bar.push(data_);
     }
     void Enchance_Skill(Ally *ptr){
-        AllyActionData data_ = AllyActionData();
-        data_.Skill_set(ptr->getSubUnit(),"Aoe","Castorice Enchance Skill");
-        data_.Add_Target_Other();
-        data_.resetTurn();
-        data_.Damage_spilt.Main.push_back({0,30,0,10});
-        data_.Damage_spilt.Adjacent.push_back({0,30,0,10});
-        data_.Damage_spilt.Other.push_back({0,30,0,10});
-        data_.Damage_spilt.Main.push_back({0,50,0,10});
-        data_.Damage_spilt.Adjacent.push_back({0,50,0,10});
-        data_.Damage_spilt.Other.push_back({0,50,0,10});
-        data_.All_Attacker.push_back(ptr->Sub_Unit_ptr[1].get());
-        data_.Attack_trigger++;
-        data_.Joint.push_back(AttackSource(1,ptr->Sub_Unit_ptr[1].get(),ptr->Sub_Unit_ptr[0].get()));
-        data_.actionFunction = [ptr](AllyActionData &data_){
+        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+        data_->Skill_set(ptr->getSubUnit(),"Aoe","Castorice Enchance Skill");
+        data_->Add_Target_Other();
+        data_->resetTurn();
+        data_->Damage_spilt.Main.push_back({0,30,0,10});
+        data_->Damage_spilt.Adjacent.push_back({0,30,0,10});
+        data_->Damage_spilt.Other.push_back({0,30,0,10});
+        data_->Damage_spilt.Main.push_back({0,50,0,10});
+        data_->Damage_spilt.Adjacent.push_back({0,50,0,10});
+        data_->Damage_spilt.Other.push_back({0,50,0,10});
+        data_->All_Attacker.push_back(ptr->Sub_Unit_ptr[1].get());
+        data_->Attack_trigger++;
+        data_->Joint.push_back(AttackSource(1,ptr->Sub_Unit_ptr[1].get(),ptr->Sub_Unit_ptr[0].get()));
+        data_->actionFunction = [ptr](AllyActionData &data_){
             Increase_energy(ptr,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),"Netherwing",0,0,40);
             if(ptr->Eidolon>=1){
@@ -394,41 +394,41 @@ namespace Castorice{
         Action_bar.push(data_);
     }
     void Kamikaze(Ally *ptr){
-        AllyActionData data_ = AllyActionData();
-        data_.Skill_set(ptr->getSubUnit(1),"Aoe","Wings Sweep the Ruins");
-        data_.Add_Target_Other();
-        data_.Skill_Type.push_back("Summon");
-        data_.source = ptr->getSubUnit();
-        if(ptr->Eidolon>=6)data_.Dont_care_weakness = 100;
-        data_.Damage_spilt.Main.push_back({0,40,0,5});
-        data_.Damage_spilt.Main.push_back({0,40,0,5});
+        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+        data_->Skill_set(ptr->getSubUnit(1),"Aoe","Wings Sweep the Ruins");
+        data_->Add_Target_Other();
+        data_->Skill_Type.push_back("Summon");
+        data_->source = ptr->getSubUnit();
+        if(ptr->Eidolon>=6)data_->Dont_care_weakness = 100;
+        data_->Damage_spilt.Main.push_back({0,40,0,5});
+        data_->Damage_spilt.Main.push_back({0,40,0,5});
         if(Total_enemy==1){
-            data_.Damage_spilt.Main.push_back({0,40,0,5});
-            data_.Damage_spilt.Main.push_back({0,40,0,5});
-            data_.Damage_spilt.Main.push_back({0,40,0,5});
-            data_.Damage_spilt.Main.push_back({0,40,0,5});
+            data_->Damage_spilt.Main.push_back({0,40,0,5});
+            data_->Damage_spilt.Main.push_back({0,40,0,5});
+            data_->Damage_spilt.Main.push_back({0,40,0,5});
+            data_->Damage_spilt.Main.push_back({0,40,0,5});
 
         }else if(Total_enemy==2){
-            data_.Damage_spilt.Main.push_back({0,40,0,5});
-            data_.Damage_spilt.Main.push_back({0,40,0,5});
-            data_.Damage_spilt.Adjacent.push_back({0,40,0,5});
-            data_.Damage_spilt.Adjacent.push_back({0,40,0,5});
+            data_->Damage_spilt.Main.push_back({0,40,0,5});
+            data_->Damage_spilt.Main.push_back({0,40,0,5});
+            data_->Damage_spilt.Adjacent.push_back({0,40,0,5});
+            data_->Damage_spilt.Adjacent.push_back({0,40,0,5});
 
         }else {
-            data_.Damage_spilt.Adjacent.push_back({0,40,0,5});
-            data_.Damage_spilt.Adjacent.push_back({0,40,0,5});
+            data_->Damage_spilt.Adjacent.push_back({0,40,0,5});
+            data_->Damage_spilt.Adjacent.push_back({0,40,0,5});
         }
         if(ptr->Eidolon>=1){
-            for(Ratio_data &e : data_.Damage_spilt.Main)e.Hp_ratio*= 1.239;
-            for(Ratio_data &e : data_.Damage_spilt.Adjacent)e.Hp_ratio*= 1.239;
-            for(Ratio_data &e : data_.Damage_spilt.Other)e.Hp_ratio*= 1.239;
+            for(Ratio_data &e : data_->Damage_spilt.Main)e.Hp_ratio*= 1.239;
+            for(Ratio_data &e : data_->Damage_spilt.Adjacent)e.Hp_ratio*= 1.239;
+            for(Ratio_data &e : data_->Damage_spilt.Other)e.Hp_ratio*= 1.239;
         }
         if(ptr->Eidolon>=6){
-            data_.Damage_spilt.Main.push_back({0,40*1.239,0,5});
-            data_.Damage_spilt.Main.push_back({0,40*1.239,0,5});
-            data_.Damage_spilt.Main.push_back({0,40*1.239,0,5});
+            data_->Damage_spilt.Main.push_back({0,40*1.239,0,5});
+            data_->Damage_spilt.Main.push_back({0,40*1.239,0,5});
+            data_->Damage_spilt.Main.push_back({0,40*1.239,0,5});
         }
-        data_.actionFunction = [ptr](AllyActionData &data_){
+        data_->actionFunction = [ptr](AllyActionData &data_){
             Increase_energy(ptr,0);
             Attack(data_);
             HealRatio healRatio = HealRatio();

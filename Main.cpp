@@ -48,10 +48,10 @@ void SetCharacterPtr(){
 int main(){
     
     SetValue();
-    // The_Herta::Setup(2,Erudition_Lightcone::The_Herta_LC(1),Relic::Scholar,Planar::Izumo);
+    The_Herta::Setup(2,Erudition_Lightcone::The_Herta_LC(1),Relic::Scholar,Planar::Izumo);
     // Aglaea::Setup(1,Remembrance_Lightcone::SweatNowCryLess(1),Relic::Hero_Wreath,Planar::The_Wondrous_BananAmusement_Park);
     // Jingyuan::Setup_Jingyuan(2,Erudition_Lightcone::Before_Dawn,Relic::Grand_Duke,Planar::The_Wondrous_BananAmusement_Park);
-    Castorice::Setup(0,Remembrance_Lightcone::Castorice_LC(1),Relic::Poet_Dill,Planar::Bone_Collection);
+    // Castorice::Setup(0,Remembrance_Lightcone::Castorice_LC(1),Relic::Poet_Dill,Planar::Bone_Collection);
     // Mydei::Setup(0,Destruction_Lightcone::Ninja_Record(5),Relic::Scholar,Planar::Bone_Collection);
 
     //Driver
@@ -81,7 +81,7 @@ int main(){
     
     //-----------------------------------------------------------
     //adjust
-    Ally_unit[1]->setAdjust("NetherwingLifeSpan",3);
+    // Ally_unit[1]->setAdjust("NetherwingLifeSpan",3);
     // Castorice::DriverCondition(Ally_unit[1].get(),Ally_unit[2].get());
     // Castorice::HealerCondition(Ally_unit[1].get(),Ally_unit[4].get());
     // Castorice::CastoriceWithDriver(Ally_unit[1].get(),Ally_unit[2].get());
@@ -107,9 +107,9 @@ int main(){
 
 
 
-    SetupEnemy(158,15,160,300.0,3,"Main");
-    SetupEnemy(158,10,160,300.0,3,"Adjacent");
-    SetupEnemy(158,0,160,200.0,0,"Adjacent");
+    SetupEnemy(158,160,{10,15},{200,300},{2,3},"Main");
+    SetupEnemy(158,10,{10,10},{200,300},{2,3},"Adjacent");
+    SetupEnemy(158,0,{0,0},{200,200},{2,3},"Adjacent");
     
     // SetupEnemy(130,0,90,200.0,0,"Other");
     // SetupEnemy(120,0,90,200.0,0,"Other");

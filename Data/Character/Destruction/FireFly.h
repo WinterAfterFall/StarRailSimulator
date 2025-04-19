@@ -91,12 +91,12 @@ namespace FireFly{
 
         Start_wave_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
             if (ptr->Technique == 1) {
-            AllyActionData data_ = AllyActionData();
-            data_.Technique_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","FireFly Technique");
-            data_.Add_Target_Other();
-            data_.Damage_spilt.Main.push_back({200, 0, 0, 20});
-            data_.Damage_spilt.Adjacent.push_back({200, 0, 0, 20});
-            data_.Damage_spilt.Other.push_back({200, 0, 0, 20});
+            shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+            data_->Technique_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","FireFly Technique");
+            data_->Add_Target_Other();
+            data_->Damage_spilt.Main.push_back({200, 0, 0, 20});
+            data_->Damage_spilt.Adjacent.push_back({200, 0, 0, 20});
+            data_->Damage_spilt.Other.push_back({200, 0, 0, 20});
 
             Action_bar.push(data_);
             if(!actionBarUse)Deal_damage();
@@ -144,13 +144,13 @@ namespace FireFly{
     }
     
     void Skill_func(Ally *ptr){   
-        AllyActionData data_ = AllyActionData();
-        data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","FireFly Skill");
-        data_.Add_Target_Main();
-        data_.Turn_reset = 1;
-        data_.Damage_spilt.Main.push_back({40,0,0,8});
-        data_.Damage_spilt.Main.push_back({60,0,0,12});
-        data_.actionFunction = [ptr](AllyActionData &data_){
+        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","FireFly Skill");
+        data_->Add_Target_Main();
+        data_->Turn_reset = 1;
+        data_->Damage_spilt.Main.push_back({40,0,0,8});
+        data_->Damage_spilt.Main.push_back({60,0,0,12});
+        data_->actionFunction = [ptr](AllyActionData &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,60,0);
             Attack(data_);
@@ -160,11 +160,11 @@ namespace FireFly{
 
     }
     void Enchance_Skill_func(Ally *ptr){
-        AllyActionData data_ = AllyActionData();
-        data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Blast","FireFly EnchanceSkill");
-        data_.Add_Target_Adjacent();
-        data_.Turn_reset = 1;
-        data_.actionFunction = [ptr](AllyActionData &data_){
+        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Blast","FireFly EnchanceSkill");
+        data_->Add_Target_Adjacent();
+        data_->Turn_reset = 1;
+        data_->actionFunction = [ptr](AllyActionData &data_){
             if(ptr->Eidolon<1)Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             double skill_dmg = 0;
             if(ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"]>=360){

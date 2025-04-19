@@ -161,10 +161,10 @@ namespace Rappa{
                         temp = 1.8;
                         Cal_Break_damage(*data_, Enemy_unit[i].get(), temp);
                     }
-                    shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-                    data_->Technique_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Rappa Technique");
-                    data_->Add_Target_Other();
-                    Cal_Toughness_reduction(*data_, Enemy_unit[i].get(), 30);
+                    shared_ptr<AllyActionData> data_2 = make_shared<AllyActionData>();
+                    data_2->Technique_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Rappa Technique");
+                    data_2->Add_Target_Other();
+                    Cal_Toughness_reduction(*data_2, Enemy_unit[i].get(), 30);
                 }
             }
         }));
