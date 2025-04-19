@@ -59,7 +59,7 @@ class Heal_data{
     HealRatio main;
     HealRatio adjacent;
     HealRatio other;
-    // AllyActionData *Combat_dataPtr = nullptr;
+    AllyActionData *Combat_dataPtr = nullptr;
     void setHealer(SubUnit* ptr){   
         this->Healer = ptr;
     }
@@ -327,7 +327,7 @@ class AllyActionData : public ActionData {
     }
     void createHealRatio(){
         this->healPtr = make_shared<Heal_data>();
-        // this->healPtr->Combat_dataPtr = this;
+        this->healPtr->Combat_dataPtr = this;
     }
     void resetTurn(){
         this->Turn_reset = true;
