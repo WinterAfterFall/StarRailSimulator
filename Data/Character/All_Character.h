@@ -101,7 +101,7 @@ bool Using_Skill(Ally *ptr){
 void Set_Other_buff(Ally *ptr,bool Bool){
     ptr->Wait_Other_Buff=Bool;
 }
-// bool Enemy_got_hit(Enemy *ptr,AllyActionData &data_){
+// bool Enemy_got_hit(Enemy *ptr,shared_ptr<AllyActionData> &data_){
 //     if(ptr->Target_type=="Main"){
 //         for(int i=0;i<data_.Damage_spilt.Main.size();i++){
 //             if(data_.Damage_spilt.Main[i].Atk_ratio!=0||data_.Damage_spilt.Main[i].Hp_ratio!=0||data_.Damage_spilt.Main[i].Def_ratio!=0)return true;
@@ -134,16 +134,16 @@ void Set_Other_buff(Ally *ptr,bool Bool){
     void Start_wave(Ally *ptr);
     void Before_turn(Ally *ptr);
     void After_turn(Ally *ptr);
-    void Before_attack(Ally *ptr,AllyActionData &data_);
-    void After_attack(Ally *ptr,AllyActionData &data_);
-    void When_attack(Ally *ptr,AllyActionData &data_);
-    void Buff(Ally *ptr,AllyActionData &data_);
+    void Before_attack(Ally *ptr,shared_ptr<AllyActionData> &data_);
+    void After_attack(Ally *ptr,shared_ptr<AllyActionData> &data_);
+    void When_attack(Ally *ptr,shared_ptr<AllyActionData> &data_);
+    void Buff(Ally *ptr,shared_ptr<AllyActionData> &data_);
     void Dot(Enemy* target,Ally *ptr,double Dot_ratio,string Dot_type);
     void Toughness_break(Ally *ptr,Enemy *target,Sub_Unit *Breaker);
     void Enemy_hit(Ally *ptr,Enemy *Attacker,vector<Sub_Unit*> target);
     void Apply_debuff(Ally *ptr,Enemy* target,Sub_Unit *Applier);
     void Skill_point(Ally *ptr,Sub_Unit *SP_maker,int SP);
-    void Hit(Ally *ptr,AllyActionData &data_,int Hit_cnt,int Total_Hit_cnt);
+    void Hit(Ally *ptr,shared_ptr<AllyActionData> &data_,int Hit_cnt,int Total_Hit_cnt);
     void Enemy_Death(Ally *ptr,Enemy *target,Sub_Unit *Killer);
     void When_Energy_Increase(Ally *ptr,Ally *target,double Energy);
     void WhenHeal(Ally *ptr,Sub_Unit *Healer,Sub_Unit *target,double Value);

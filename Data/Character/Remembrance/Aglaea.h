@@ -61,7 +61,7 @@ namespace Aglaea{
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
             data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Buff", "Aglaea Ultimate");
             data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
-            data_->actionFunction = [ptr](AllyActionData &data_) {
+            data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_) {
                 if (ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed == -1) Summon(ptr);
 
                 if (ptr->Countdown_ptr[0]->Atv_stats->Base_speed == -1) 
@@ -109,7 +109,7 @@ namespace Aglaea{
                 data_->Damage_spilt.Main.push_back({100, 0, 0, 20});
                 data_->Damage_spilt.Adjacent.push_back({100, 0, 0, 20});
                 data_->Damage_spilt.Other.push_back({100, 0, 0, 20});
-                data_->actionFunction = [ptr](AllyActionData &data_) {
+                data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_) {
                     Increase_energy(ptr, 30);
                     ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed = ptr->Sub_Unit_ptr[0]->Atv_stats->Base_speed * 0.35;
                     Update_Max_atv(ptr->Sub_Unit_ptr[1]->Atv_stats.get());
@@ -122,26 +122,26 @@ namespace Aglaea{
             }
         }));
 
-        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr](AllyActionData &data_) {
-            if (data_.Attacker->Atv_stats->Unit_Name == "Garmentmaker") {
-                if (data_.Attacker->Stack["Brewed_by_Tears"] < 6) {
-                    Speed_Buff(data_.Attacker->Atv_stats.get(), 0, 55);
-                    data_.Attacker->Stack["Brewed_by_Tears"]++;
+        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyActionData> &data_) {
+            if (data_->Attacker->Atv_stats->Unit_Name == "Garmentmaker") {
+                if (data_->Attacker->Stack["Brewed_by_Tears"] < 6) {
+                    Speed_Buff(data_->Attacker->Atv_stats.get(), 0, 55);
+                    data_->Attacker->Stack["Brewed_by_Tears"]++;
                     if (ptr->Countdown_ptr[0]->Atv_stats->Base_speed != -1) {
-                        Speed_Buff(data_.Attacker->ptr_to_unit->Sub_Unit_ptr[0]->Atv_stats.get(), 15, 0);
+                        Speed_Buff(data_->Attacker->ptr_to_unit->Sub_Unit_ptr[0]->Atv_stats.get(), 15, 0);
                     }
                 }
             }
-            if (data_.Attacker->isSameUnitName("Aglaea")) {
+            if (data_->Attacker->isSameUnitName("Aglaea")) {
                 if (Enemy_unit[Main_Enemy_num]->debuffMark(ptr->getSubUnit(),"Seam_Stitch")) {
                     if (ptr->Eidolon >= 1) {
                         Enemy_unit[Main_Enemy_num]->debuffSingleTarget("Vul", "None", 15);
                     }
                 }
             }
-            if (data_.Attacker->Atv_stats->Unit_num == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num) {
-                AllyActionData data_Additional = AllyActionData();
-                data_Additional.Additional_set(data_.Attacker, "Single_target", "Aglaea Additional Damage");
+            if (data_->Attacker->Atv_stats->Unit_num == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num) {
+                shared_ptr<AllyActionData> data_Additional = make_shared<AllyActionData>();
+                data_Additional->Additional_set(data_->Attacker, "Single_target", "Aglaea Additional Damage");
                 Cal_Additional_damage(data_Additional, Enemy_unit[Main_Enemy_num].get(), {30, 0, 0, 0});
                 if (ptr->Eidolon >= 1) {
                     Increase_energy(ptr, 20);
@@ -149,9 +149,9 @@ namespace Aglaea{
             }
         }));
 
-        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](AllyActionData &data_) {
+        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
             if (ptr->Eidolon >= 2) {
-                if (data_.Attacker->Atv_stats->Unit_Name == "Aglaea" || data_.Attacker->Atv_stats->Unit_Name == "Garmentmaker") {
+                if (data_->Attacker->Atv_stats->Unit_Name == "Aglaea" || data_->Attacker->Atv_stats->Unit_Name == "Garmentmaker") {
                     Stack_Buff_single_with_all_memo(ptr, "Def_shred", "None", 14, 1, 3, "Aglaea_E2");
                 } else {
                     for (int i = 0; i < ptr->Sub_Unit_ptr.size(); i++) {
@@ -162,9 +162,9 @@ namespace Aglaea{
             }
         }));
 
-        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](AllyActionData &data_) {
+        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
             if (ptr->Eidolon >= 2) {
-                if (data_.Attacker->Atv_stats->Unit_Name == "Aglaea" || data_.Attacker->Atv_stats->Unit_Name == "Garmentmaker") {
+                if (data_->Attacker->Atv_stats->Unit_Name == "Aglaea" || data_->Attacker->Atv_stats->Unit_Name == "Garmentmaker") {
                     Stack_Buff_single_with_all_memo(ptr, "Def_shred", "None", 14, 1, 3, "Aglaea_E2");
                 } else {
                     for (int i = 0; i < ptr->Sub_Unit_ptr.size(); i++) {
@@ -244,7 +244,7 @@ namespace Aglaea{
         data_->All_Attacker.push_back(ptr->Sub_Unit_ptr[1].get());
         data_->Attack_trigger++;
         data_->Joint.push_back(AttackSource(1,ptr->Sub_Unit_ptr[1].get()));
-        data_->actionFunction =[ptr](AllyActionData &data_ ){
+        data_->actionFunction =[ptr](shared_ptr<AllyActionData> &data_ ){
             Increase_energy(ptr,20);
             Attack(data_);
         };
@@ -258,7 +258,7 @@ namespace Aglaea{
         data_->Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
         data_->Turn_reset=true;
         data_->Damage_spilt.Main.push_back({100,0,0,10});
-        data_->actionFunction =[ptr](AllyActionData &data_ ){
+        data_->actionFunction =[ptr](shared_ptr<AllyActionData> &data_ ){
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(data_);
@@ -271,12 +271,12 @@ namespace Aglaea{
         data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
         data_->Turn_reset=true;
         data_->Buff_type.push_back("Summon");
-        data_->actionFunction = [ptr](AllyActionData &data_){
+        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             if(ptr->Sub_Unit_ptr[1]->currentHP == 0){
                 Summon(ptr);
-                data_.Turn_reset=false;
+                data_->Turn_reset=false;
             }
         };
         
@@ -303,7 +303,7 @@ namespace Aglaea{
         data_->Turn_reset=true;
         data_->Damage_spilt.Main.push_back({110,0,0,10});
         data_->Damage_spilt.Adjacent.push_back({66,0,0,5});
-        data_->actionFunction = [ptr](AllyActionData &data_){
+        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,10);
             Attack(data_);
         };

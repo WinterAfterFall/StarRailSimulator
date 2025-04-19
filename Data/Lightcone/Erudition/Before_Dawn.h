@@ -15,10 +15,10 @@ namespace Erudition_Lightcone{
                 ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Ultimate"] += 15 + 3 * superimpose;
             }));
     
-            Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](AllyActionData &data_) {
-                if (data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name &&
+            Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+                if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name &&
                     ptr->Sub_Unit_ptr[0]->Stack["Somnus_Corpus"] == 1) {
-                    for (auto e : data_.Skill_Type) {
+                    for (auto e : data_->Skill_Type) {
                         if (e == "Fua") {
                             ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Fua"] += 40 + 8 * superimpose;
                             break;
@@ -27,19 +27,19 @@ namespace Erudition_Lightcone{
                 }
             }));
     
-            After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](AllyActionData &data_) {
-                if (data_.Attacker->Atv_stats->Unit_Name != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) return;
+            After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+                if (data_->Attacker->Atv_stats->Unit_Name != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) return;
     
-                for (auto e : data_.Skill_Type) {
+                for (auto e : data_->Skill_Type) {
                     if (e == "Skill" || e == "Ultimate") {
                         ptr->Sub_Unit_ptr[0]->Stack["Somnus_Corpus"] = 1;
                         break;
                     }
                 }
     
-                if (data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name &&
+                if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name &&
                     ptr->Sub_Unit_ptr[0]->Stack["Somnus_Corpus"] == 1) {
-                    for (auto e : data_.Skill_Type) {
+                    for (auto e : data_->Skill_Type) {
                         if (e == "Fua") {
                             ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Fua"] -= 40 + 8 * superimpose;
                             ptr->Sub_Unit_ptr[0]->Stack["Somnus_Corpus"] = 0;

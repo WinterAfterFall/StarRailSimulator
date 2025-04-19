@@ -53,7 +53,7 @@ namespace Gallagher{
             data_->Damage_spilt.Main.push_back({165, 0, 0, 20});
             data_->Damage_spilt.Adjacent.push_back({165, 0, 0, 20});
             data_->Damage_spilt.Other.push_back({165, 0, 0, 20});
-            data_->actionFunction = [ptr](AllyActionData &data_) {
+            data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_) {
                 Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
                 ptr->Sub_Unit_ptr[0]->Buff_check["Gallagher_enchance_basic_atk"] = 1;
                 debuffAllEnemyApplyVer(ptr->Sub_Unit_ptr[0].get(), "Vul", "Break_dmg", 13.2, "Besotted");  
@@ -114,7 +114,7 @@ namespace Gallagher{
                 data_->Damage_spilt.Adjacent.push_back({50, 0, 0, 20});
                 data_->Damage_spilt.Other.push_back({50, 0, 0, 20});
                 Action_bar.push(data_);
-                data_->actionFunction = [ptr](AllyActionData &data_){
+                data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
                     Extend_Debuff_All_Enemy("Besotted", 2);
                     debuffAllEnemyApplyVer(ptr->Sub_Unit_ptr[0].get(), "Vul", "Break_dmg", 13.2, "Besotted");
                     Attack(data_);
@@ -123,15 +123,15 @@ namespace Gallagher{
             }
         }});
 
-        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_HEAL, [ptr](AllyActionData &data_) {
+        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_HEAL, [ptr](shared_ptr<AllyActionData> &data_) {
             Heal_data healData = Heal_data();
             healData.setHealer(ptr->Sub_Unit_ptr[0].get());
             
 
-            if (data_.Action_type.second == AT_BASIC_ATK && data_.Attacker->Atv_stats->Unit_Name == "Gallagher" && data_.Attacker->Buff_check["Gallagher_enchance_basic_atk"] == 1) {
+            if (data_->Action_type.second == AT_BASIC_ATK && data_->Attacker->Atv_stats->Unit_Name == "Gallagher" && data_->Attacker->Buff_check["Gallagher_enchance_basic_atk"] == 1) {
                 ptr->Sub_Unit_ptr[0]->Buff_check["Gallagher_enchance_basic_atk"] = 0;
                 int cnt = 0;
-                for (Enemy *e : data_.Target_Attack) {
+                for (Enemy *e : data_->Target_Attack) {
                     if (Debuff_check(e, "Besotted")) {
                         cnt++;
                         
@@ -143,13 +143,13 @@ namespace Gallagher{
                 Healing(healData);
             } else {
                 int cnt = 0;
-                for (Enemy *e : data_.Target_Attack) {
+                for (Enemy *e : data_->Target_Attack) {
                     if (Debuff_check(e, "Besotted")) {
                         cnt++;           
                     }
                 }
                 healData.main.setRatio(0, 0, 0, 707*cnt, 0, 0);
-                Healing(healData.main, ptr->Sub_Unit_ptr[0].get(), data_.Attacker);
+                Healing(healData.main, ptr->Sub_Unit_ptr[0].get(), data_->Attacker);
             }
         }));
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_HEAL, [ptr](SubUnit* Target, string StatsType) {
@@ -178,7 +178,7 @@ namespace Gallagher{
         data_->Turn_reset = 1;
         data_->Damage_spilt.Main.push_back({55,0,0,5});
         data_->Damage_spilt.Main.push_back({55,0,0,5});
-        data_->actionFunction = [ptr](AllyActionData &data_){
+        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
             Attack(data_);
@@ -196,11 +196,11 @@ namespace Gallagher{
         data_->Damage_spilt.Main.push_back({62.5,0,0,7.5});
         data_->Damage_spilt.Main.push_back({37.5,0,0,4.5});
         data_->Damage_spilt.Main.push_back({150,0,0,18});
-        data_->actionFunction = [ptr](AllyActionData &data_){
+        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
-            for(Enemy* &target : data_.Target_Attack){
-                target->debuffApply(data_.Attacker,"Nectar_Blitz");
+            for(Enemy* &target : data_->Target_Attack){
+                target->debuffApply(data_->Attacker,"Nectar_Blitz");
                 Extend_Debuff_single_target(target,"Nectar_Blitz",2);
             }
             Attack(data_);
@@ -219,7 +219,7 @@ namespace Gallagher{
         data_->createHealRatio();
         data_->healPtr->setHealer(ptr->Sub_Unit_ptr[0].get());
         data_->healPtr->main.setRatio(0,0,0,1768,0,0);
-        data_->actionFunction = [ptr](AllyActionData &data_){
+        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
 

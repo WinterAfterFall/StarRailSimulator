@@ -16,11 +16,11 @@ namespace Harmony_Lightcone{
                 ptr->Energy_recharge += 8 + 2 * superimpose;
             }));
     
-            After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](AllyActionData &data_) {
-                if (data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
-                    if (data_.Action_type.second == "Skill") {
+            After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+                if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
+                    if (data_->Action_type.second == "Skill") {
                         ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff"] = 1;
-                    } else if (data_.Action_type.second == "Ultimate") {
+                    } else if (data_->Action_type.second == "Ultimate") {
                         if (ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_cnt"] == 0) {
                             ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_cnt"] = true;
                             Skill_point(ptr->Sub_Unit_ptr[0].get(), 1);
@@ -31,11 +31,11 @@ namespace Harmony_Lightcone{
                 }
             }));
     
-            Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](AllyActionData &data_) {
-                if (data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
-                    if (data_.Action_type.second == "Skill") {
+            Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+                if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
+                    if (data_->Action_type.second == "Skill") {
                         ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff"] = 1;
-                    } else if (data_.Action_type.second == "Ultimate") {
+                    } else if (data_->Action_type.second == "Ultimate") {
                         if (ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_cnt"] == 0) {
                             ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_cnt"] = true;
                             Skill_point(ptr->Sub_Unit_ptr[0].get(), 1);

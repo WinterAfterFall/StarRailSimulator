@@ -106,14 +106,14 @@ namespace FireFly{
             allEventAdjustStats(ptr->Sub_Unit_ptr[0].get(), ST_FLAT_ATK);
         }));
         
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr]( AllyActionData &data_ ) {
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr]( shared_ptr<AllyActionData> &data_ ) {
 
             if (ptr->Eidolon >= 2 && ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"] > 0 && ptr->Countdown_ptr[0]->Atv_stats->Base_speed == 70) {
             ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"]--;
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
             }
-            if (data_.Attacker->Atv_stats->Char_Name == "FireFly") {
-            if (data_.Action_type.second == "Skill" && ptr->Countdown_ptr[0]->Atv_stats->Base_speed == -1) {
+            if (data_->Attacker->Atv_stats->Char_Name == "FireFly") {
+            if (data_->Action_type.second == "Skill" && ptr->Countdown_ptr[0]->Atv_stats->Base_speed == -1) {
                 Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 25);
             }
             if (ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] >= 360) {
@@ -150,7 +150,7 @@ namespace FireFly{
         data_->Turn_reset = 1;
         data_->Damage_spilt.Main.push_back({40,0,0,8});
         data_->Damage_spilt.Main.push_back({60,0,0,12});
-        data_->actionFunction = [ptr](AllyActionData &data_){
+        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,60,0);
             Attack(data_);
@@ -164,7 +164,7 @@ namespace FireFly{
         data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Blast","FireFly EnchanceSkill");
         data_->Add_Target_Adjacent();
         data_->Turn_reset = 1;
-        data_->actionFunction = [ptr](AllyActionData &data_){
+        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             if(ptr->Eidolon<1)Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             double skill_dmg = 0;
             if(ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"]>=360){
@@ -173,17 +173,17 @@ namespace FireFly{
                 skill_dmg = 200 + (ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"])*0.2;
             }
 
-            data_.Damage_spilt.Main.push_back({0.15*skill_dmg,0,0,4.5});
-            data_.Damage_spilt.Main.push_back({0.15*skill_dmg,0,0,4.5});
-            data_.Damage_spilt.Main.push_back({0.15*skill_dmg,0,0,4.5});
-            data_.Damage_spilt.Main.push_back({0.15*skill_dmg,0,0,4.5});
-            data_.Damage_spilt.Main.push_back({0.4*skill_dmg,0,0,12});
+            data_->Damage_spilt.Main.push_back({0.15*skill_dmg,0,0,4.5});
+            data_->Damage_spilt.Main.push_back({0.15*skill_dmg,0,0,4.5});
+            data_->Damage_spilt.Main.push_back({0.15*skill_dmg,0,0,4.5});
+            data_->Damage_spilt.Main.push_back({0.15*skill_dmg,0,0,4.5});
+            data_->Damage_spilt.Main.push_back({0.4*skill_dmg,0,0,12});
 
-            data_.Damage_spilt.Adjacent.push_back({0.15*skill_dmg*0.5,0,0,2.25});
-            data_.Damage_spilt.Adjacent.push_back({0.15*skill_dmg*0.5,0,0,2.25});
-            data_.Damage_spilt.Adjacent.push_back({0.15*skill_dmg*0.5,0,0,2.25});
-            data_.Damage_spilt.Adjacent.push_back({0.15*skill_dmg*0.5,0,0,2.25});
-            data_.Damage_spilt.Adjacent.push_back({0.2*skill_dmg,0,0,6});
+            data_->Damage_spilt.Adjacent.push_back({0.15*skill_dmg*0.5,0,0,2.25});
+            data_->Damage_spilt.Adjacent.push_back({0.15*skill_dmg*0.5,0,0,2.25});
+            data_->Damage_spilt.Adjacent.push_back({0.15*skill_dmg*0.5,0,0,2.25});
+            data_->Damage_spilt.Adjacent.push_back({0.15*skill_dmg*0.5,0,0,2.25});
+            data_->Damage_spilt.Adjacent.push_back({0.2*skill_dmg,0,0,6});
             Attack(data_);
 
         };

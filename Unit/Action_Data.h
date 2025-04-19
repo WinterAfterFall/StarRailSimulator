@@ -83,12 +83,12 @@ class ActionData{
     public:
     virtual ~ActionData() {}
 };
-class AllyActionData : public ActionData {
+class AllyActionData : public ActionData, public std::enable_shared_from_this<AllyActionData> {
     public:
     bool Turn_reset = 0;
     bool toughnessAvgCalculate = 1;
     bool damageNote = 1;
-    function<void(AllyActionData &data_)> actionFunction;
+    function<void(shared_ptr<AllyActionData> &data_)> actionFunction;
     double Dont_care_weakness =0;
     SubUnit* Attacker = nullptr; 
     SubUnit* source = nullptr; 

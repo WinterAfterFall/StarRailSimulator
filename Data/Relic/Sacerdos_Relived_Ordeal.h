@@ -15,9 +15,9 @@ namespace Relic{
             ptr->Sub_Unit_ptr[0]->Atv_stats->Speed_percent += 6;
         }));
 
-        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](AllyActionData &data_) {
-            if (data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_.traceType == "Single_target") {
-                for (auto e : data_.Target_Buff) {
+        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
+            if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_->traceType == "Single_target") {
+                for (auto e : data_->Target_Buff) {
                     Stack_Buff_single_target(e, "Crit_dam", "None", 18, 1, 2, "Sacerdos");
                     Extend_Buff_single_target(e, "Sacerdos", 2);
                 }

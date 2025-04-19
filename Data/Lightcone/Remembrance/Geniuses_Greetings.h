@@ -16,15 +16,15 @@ namespace Remembrance_Lightcone{
                 ptr->Sub_Unit_ptr[0]->Stats_type["ATK%"]["None"] += 12 + 4 * superimpose;
             }));
     
-            After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](AllyActionData &data_) {
-                if (data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_.Action_type.second == "Ultimate") {
+            After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+                if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_->Action_type.second == "Ultimate") {
                     Buff_single_with_all_memo_each(ptr, "Dmg%", "Basic_Attack", (15 + superimpose * 5) , "Geniuses_Greetings");
                     Extend_Buff_single_with_all_memo(ptr, "Geniuses_Greetings", 3);
                 }
             }));
     
-            Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](AllyActionData &data_) {
-                if (data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_.Action_type.second == "Ultimate") {
+            Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+                if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_->Action_type.second == "Ultimate") {
                     Buff_single_with_all_memo_each(ptr, "Dmg%", "Basic_Attack", (15 + superimpose * 5), "Geniuses_Greetings");
                     Extend_Buff_single_with_all_memo(ptr, "Geniuses_Greetings", 3);
                 }

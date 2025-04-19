@@ -42,7 +42,7 @@ namespace Luocha{
             data_->Damage_spilt.Main.push_back({200, 0, 0, 20});
             data_->Damage_spilt.Adjacent.push_back({200, 0, 0, 20});
             data_->Damage_spilt.Other.push_back({200, 0, 0, 20});
-            data_->actionFunction = [ptr](AllyActionData &data_) {
+            data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_) {
                 Attack(data_);
                 ++ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"];
                 Abyss_Flower(ptr);
@@ -81,7 +81,7 @@ namespace Luocha{
             }
         }));
 
-        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](AllyActionData &data_) {
+        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
             if (ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"] >= 2) {
                 HealRatio healRatio = HealRatio();
                 HealRatio healRatioMain = HealRatio();
@@ -89,7 +89,7 @@ namespace Luocha{
                 healRatioMain.setRatio(18, 0, 0, 240, 0, 0);
                 healRatio.setRatio(7, 0, 0, 93, 0, 0);
 
-                Healing(healRatioMain, healRatio, ptr->Sub_Unit_ptr[0].get(), data_.Attacker);
+                Healing(healRatioMain, healRatio, ptr->Sub_Unit_ptr[0].get(), data_->Attacker);
             }
         }));
         
@@ -124,7 +124,7 @@ namespace Luocha{
         data_->Damage_spilt.Main.push_back({30,0,0,3});
         data_->Damage_spilt.Main.push_back({30,0,0,3});
         data_->Damage_spilt.Main.push_back({40,0,0,4});
-        data_->actionFunction = [ptr](AllyActionData &data_){
+        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(data_);

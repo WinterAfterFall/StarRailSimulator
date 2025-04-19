@@ -2,17 +2,17 @@
 #define Event_H
 #include "../Unit/Trigger_Function.h"
 void allEventBeforeTurn(){
-    AllyActionData temp = AllyActionData();
+    shared_ptr<AllyActionData> temp = make_shared<AllyActionData>();
     if(turn->Side=="Enemy"){
         Dot_trigger(100,Enemy_unit[turn->Unit_num].get(),"None");
         if(Enemy_unit[turn->Unit_num]->Entanglement != 0){
-            temp.Entanglement_set(Ally_unit[Enemy_unit[turn->Unit_num]->Entanglement]->Sub_Unit_ptr[0].get());
+            temp->Entanglement_set(Ally_unit[Enemy_unit[turn->Unit_num]->Entanglement]->Sub_Unit_ptr[0].get());
             double Const = 0.6*Enemy_unit[turn->Unit_num]->Entanglement_stack;
             Cal_Break_damage(temp,Enemy_unit[turn->Unit_num].get(),Const);
         }
         if(Enemy_unit[turn->Unit_num]->Freeze != 0){
             
-            temp.Freeze_set(Ally_unit[Enemy_unit[turn->Unit_num]->Freeze]->Sub_Unit_ptr[0].get());
+            temp->Freeze_set(Ally_unit[Enemy_unit[turn->Unit_num]->Freeze]->Sub_Unit_ptr[0].get());
             
             Cal_Freeze_damage(temp,Enemy_unit[turn->Unit_num].get());
             Action_forward(Enemy_unit[turn->Unit_num]->Atv_stats.get(),-50);
@@ -73,23 +73,23 @@ void allEventAfterTurn(){
         e.Call();
     }
 }
-void allEventBuff(AllyActionData &data_){
+void allEventBuff(shared_ptr<AllyActionData> &data_){
     for(TriggerByAction_Func &e : Buff_List){
         e.Call(data_);
     }
 }
-void allEventBeforeAttack(AllyActionData &data_){
+void allEventBeforeAttack(shared_ptr<AllyActionData> &data_){
     for(TriggerByAction_Func &e : Before_attack_List){
         e.Call(data_);
     }
 }
-void allEventAfterAttack(AllyActionData &data_){
+void allEventAfterAttack(shared_ptr<AllyActionData> &data_){
     for(TriggerByAction_Func &e : After_attack_List){
         e.Call(data_);
     }
 }
-void allEventWhenAttack(AllyActionData &data_){
-    for(Enemy* &e : data_.Target_Attack){
+void allEventWhenAttack(shared_ptr<AllyActionData> &data_){
+    for(Enemy* &e : data_->Target_Attack){
         if(e->Entanglement != 0){
             e->Entanglement_stack++;
         }
@@ -109,9 +109,9 @@ void allEventChangeHP(Unit *Trigger,SubUnit *target,double Value){
         e.Call(Trigger,target,Value);
     }
 }
-void allEventWhenToughnessBreak(AllyActionData &data_,Enemy *target){
+void allEventWhenToughnessBreak(shared_ptr<AllyActionData> &data_,Enemy *target){
     for(TriggerBySomeAlly_Func &e : Toughness_break_List){
-        e.Call(target,data_.Attacker);
+        e.Call(target,data_->Attacker);
     }
 }
 void allEventWhenEnemyHit(Enemy* Attacker,vector<SubUnit*> vec){
@@ -133,7 +133,7 @@ void allEventSkillPoint(SubUnit *ptr,int p){
     }
     return ;
 }
-void allEventAttackHitCount(AllyActionData &data_,int Hit_cnt,int Total_Hit_cnt){
+void allEventAttackHitCount(shared_ptr<AllyActionData> &data_,int Hit_cnt,int Total_Hit_cnt){
     for(TriggerHit_Count_func &e : Hit_Count_List){
         e.Call(data_,Hit_cnt,Total_Hit_cnt);
     }

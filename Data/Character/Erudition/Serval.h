@@ -61,7 +61,7 @@ namespace Serval{
             data_->Damage_spilt.Main.push_back({194, 0, 0, 20});
             data_->Damage_spilt.Adjacent.push_back({194, 0, 0, 20});
             data_->Damage_spilt.Other.push_back({194, 0, 0, 20});
-            data_->actionFunction = [ptr](AllyActionData &data_){
+            data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
                 Attack(data_);
                 if (ptr->Eidolon >= 4){
                     for (int i = 1; i <= Total_enemy; i++) {
@@ -109,13 +109,13 @@ namespace Serval{
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
             data_->Dot_set(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Serval Shock");
             data_->Damage_spilt.Main.push_back({114, 0, 0, 0});
-            Cal_Dot_damage(*data_, target, Dot_ratio);
+            Cal_Dot_damage(data_, target, Dot_ratio);
         }));
 
-        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr](AllyActionData &data_) {
-            if (data_.Attacker->Atv_stats->Unit_Name != "Serval") return;
-            AllyActionData data_temp = AllyActionData();
-            data_temp.Additional_set(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Serval Additional Damage");
+        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyActionData> &data_) {
+            if (data_->Attacker->Atv_stats->Unit_Name != "Serval") return;
+            shared_ptr<AllyActionData> data_temp = make_shared<AllyActionData>();
+            data_temp->Additional_set(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Serval Additional Damage");
             for (int i = 1; i <= Total_enemy; i++) {
                 if (Debuff_check(Enemy_unit[i].get(), "Serval_Shock")) {
                     Cal_Additional_damage(data_temp, Enemy_unit[i].get(), {79, 0, 0, 0});
@@ -155,7 +155,7 @@ namespace Serval{
         data_->Turn_reset=true;
         data_->Damage_spilt.Main.push_back({110,0,0,10});
         if(ptr->Eidolon>=1)data_->Damage_spilt.Adjacent.push_back({60,0,0,0});
-        data_->actionFunction = [ptr](AllyActionData &data_){
+        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(data_);
@@ -170,7 +170,7 @@ namespace Serval{
         data_->Damage_spilt.Main.push_back({154,0,0,20});
         data_->Damage_spilt.Adjacent.push_back({66,0,0,10});
 
-        data_->actionFunction = [ptr](AllyActionData &data_){
+        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             for (int i = 1; i <= Total_enemy; i++) {

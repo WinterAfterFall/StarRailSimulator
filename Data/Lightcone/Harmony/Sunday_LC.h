@@ -27,10 +27,10 @@ namespace Harmony_Lightcone{
                 target->Stack["Hymn"] = 0;
             }));
     
-            Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](AllyActionData &data_) {
-                if (data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_.traceType == "Single_target") {
+            Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+                if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_->traceType == "Single_target") {
                     Increase_energy(ptr, 5.5 + 0.5 * superimpose);
-                    for (auto e : data_.Target_Buff) {
+                    for (auto e : data_->Target_Buff) {
                         Stack_Buff_single_target(e, "Dmg%", "None", (12.75 + (2.25)*superimpose), 1, 3, "Hymn");
                         Extend_Buff_single_target(e, "Hymn", 3);
                     }

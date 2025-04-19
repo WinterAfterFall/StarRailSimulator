@@ -52,7 +52,7 @@ namespace Jade{
             data_->Damage_spilt.Main.push_back({240, 0, 0, 20});
             data_->Damage_spilt.Adjacent.push_back({240, 0, 0, 20});
             data_->Damage_spilt.Other.push_back({240, 0, 0, 20});
-            data_->actionFunction = [ptr](AllyActionData &data_) {
+            data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_) {
                 ptr->Sub_Unit_ptr[0]->Stack["Jade_Ultimate_stack"] = 2;
                 Attack(data_);
             };
@@ -79,7 +79,7 @@ namespace Jade{
                 data_->Damage_spilt.Main.push_back({50, 0, 0, 0});
                 data_->Damage_spilt.Adjacent.push_back({50, 0, 0, 0});
                 data_->Damage_spilt.Other.push_back({50, 0, 0, 0});
-                data_->actionFunction = [ptr](AllyActionData &data_) {
+                data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_) {
                     Jade_Talent(ptr, 15);
                     Attack(data_);
                 };
@@ -98,28 +98,28 @@ namespace Jade{
             }
         }));
 
-        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](AllyActionData &data_) {
-            if (data_.Attacker->Atv_stats->Unit_Name == "Jade" && data_.Action_type.second == "Fua") {
+        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
+            if (data_->Attacker->Atv_stats->Unit_Name == "Jade" && data_->Action_type.second == "Fua") {
                 Jade_Talent(ptr, 5);
                 return;
             }
             if (ptr->Sub_Unit_ptr[0]->Buff_check["Jade_Skill"] == 0) return;
-            if (data_.Attacker->Atv_stats->Unit_Name != "Jade" && data_.Attacker->Atv_stats->Unit_Name != chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats->Unit_Name) return;
+            if (data_->Attacker->Atv_stats->Unit_Name != "Jade" && data_->Attacker->Atv_stats->Unit_Name != chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats->Unit_Name) return;
 
-            int temp = data_.Target_Attack.size();
+            int temp = data_->Target_Attack.size();
             if (ptr->Eidolon >= 1 && temp < 3) temp = 3;
             ptr->Sub_Unit_ptr[0]->Stack["Jade_Talent"] += temp;
             Jade_Fua(ptr);
         }));
 
-        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](AllyActionData &data_){
-            if(ptr->Eidolon >= 1 && data_.Attacker->Atv_stats->Unit_Name == "Jade" && data_.Action_type.second == "Fua"){
+        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_){
+            if(ptr->Eidolon >= 1 && data_->Attacker->Atv_stats->Unit_Name == "Jade" && data_->Action_type.second == "Fua"){
                 Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Dmg%", "None", 32);
             }
         }));
 
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](AllyActionData &data_){
-            if(ptr->Eidolon >= 1 && data_.Attacker->Atv_stats->Unit_Name == "Jade" && data_.Action_type.second == "Fua"){
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_){
+            if(ptr->Eidolon >= 1 && data_->Attacker->Atv_stats->Unit_Name == "Jade" && data_->Action_type.second == "Fua"){
                 Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Dmg%", "None", -32);
             }
         }));
@@ -144,7 +144,7 @@ namespace Jade{
         data_->Turn_reset=true;
         data_->Damage_spilt.Main.push_back({90,0,0,10});
         data_->Damage_spilt.Adjacent.push_back({30,0,0,5});
-        data_->actionFunction = [ptr](AllyActionData &data_){
+        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(data_);
@@ -159,7 +159,7 @@ namespace Jade{
         data_->Turn_reset=true;
         
         
-        data_->actionFunction = [ptr](AllyActionData &data_){
+        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Speed_Buff(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats.get(),0,30);
@@ -207,7 +207,7 @@ namespace Jade{
         data_->Damage_spilt.Other.push_back({18,0,0,10});
         data_->Damage_spilt.Other.push_back({18,0,0,10});
         data_->Damage_spilt.Other.push_back({48,0,0,10});
-        data_->actionFunction = [ptr](AllyActionData &data_){
+        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,10);
             Attack(data_);
         };
@@ -235,7 +235,7 @@ namespace Jade{
         data_->Damage_spilt.Other.push_back({20,0,0,10});
         data_->Damage_spilt.Other.push_back({20,0,0,10});
         data_->Damage_spilt.Other.push_back({120,0,0,10});
-        data_->actionFunction = [ptr](AllyActionData &data_){
+        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,10);
             Attack(data_);
         };

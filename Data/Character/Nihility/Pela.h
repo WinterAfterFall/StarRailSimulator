@@ -45,7 +45,7 @@ namespace Pela{
             data_->Damage_spilt.Main.push_back({108, 0, 0, 20});
             data_->Damage_spilt.Adjacent.push_back({108, 0, 0, 20});
             data_->Damage_spilt.Other.push_back({108, 0, 0, 20});
-            data_->actionFunction = [ptr](AllyActionData &data_) {
+            data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_) {
                 debuffAllEnemyApplyVer(ptr->Sub_Unit_ptr[0].get(), "Def_shred", "None", 42, "Zone_Suppression");
                 Extend_Debuff_All_Enemy("Zone_Suppression", 2);
                 Attack(data_);
@@ -92,19 +92,19 @@ namespace Pela{
             }
         }));
         
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](AllyActionData &data_) {
-            if (data_.Attacker->Atv_stats->Char_Name != "Pela") return;
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
+            if (data_->Attacker->Atv_stats->Char_Name != "Pela") return;
 
-            for (auto e : data_.Target_Attack) {
+            for (auto e : data_->Target_Attack) {
                 if (e->Total_debuff == 0) continue;
                 Increase_energy(ptr, 11);
                 break;
             }
 
             if (ptr->Eidolon >= 6) {
-                AllyActionData temp = AllyActionData();
-                temp.Additional_set(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Pela E6");
-                for (auto e : data_.Target_Attack) {
+                shared_ptr<AllyActionData> temp = make_shared<AllyActionData>();
+                temp->Additional_set(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Pela E6");
+                for (auto e : data_->Target_Attack) {
                     Cal_Additional_damage(temp, e, {40, 0, 0, 0});
                 }
             }
@@ -120,7 +120,7 @@ namespace Pela{
         data_->Turn_reset=true;
         data_->Damage_spilt.Main.push_back({55,0,0,5});
         data_->Damage_spilt.Main.push_back({55,0,0,5});
-        data_->actionFunction = [ptr](AllyActionData &data_){
+        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(data_);

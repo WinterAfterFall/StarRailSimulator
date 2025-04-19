@@ -52,17 +52,17 @@ double Cal_AvgToughnessMultiplier(Enemy *target,double Total_atv){
     
     return temp;
 }
-void Cal_DamageNote(AllyActionData &data_,Enemy *target,double damage){
-    Ally *ptr = data_.Attacker->ptr_to_unit;
-    if(data_.toughnessAvgCalculate){
+void Cal_DamageNote(shared_ptr<AllyActionData> &data_,Enemy *target,double damage){
+    Ally *ptr = data_->Attacker->ptr_to_unit;
+    if(data_->toughnessAvgCalculate){
         ptr->totalAvgToughnessDamage[target->getNum()] += damage;
-        target->damageAvgNote[ptr->getNum()][data_.actionName] += damage;
+        target->damageAvgNote[ptr->getNum()][data_->actionName] += damage;
     }else{
         ptr->totalRealTimeDamage += damage;
-        target->damageRealTimeNote[ptr->getNum()][data_.actionName] += damage;
+        target->damageRealTimeNote[ptr->getNum()][data_->actionName] += damage;
     }
-    if(Normal_Damage_check_mode==data_.Attacker->getNum())
-    cout<<data_.Attacker->Atv_stats->Unit_Name<<" "<<data_.actionName<<" "<<damage<<endl;
+    if(Normal_Damage_check_mode==data_->Attacker->getNum())
+    cout<<data_->Attacker->Atv_stats->Unit_Name<<" "<<data_->actionName<<" "<<damage<<endl;
 }
 void Cal_DamageSummary(){
     int sum;

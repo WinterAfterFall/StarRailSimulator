@@ -52,7 +52,7 @@ namespace Jingyuan{
             data_->Damage_spilt.Main.push_back({200, 0, 0, 20});
             data_->Damage_spilt.Adjacent.push_back({200, 0, 0, 20});
             data_->Damage_spilt.Other.push_back({200, 0, 0, 20});
-            data_->actionFunction = [ptr](AllyActionData &data_){
+            data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
                 Attack(data_);
                 if (ptr->Print)CharCmd::printUltStart("Jingyuan");
                 ptr->Sub_Unit_ptr[0]->Stack["LL_stack"] += 3;
@@ -117,17 +117,17 @@ namespace Jingyuan{
             temp->Add_Target_Adjacent();
             temp->Skill_Type.push_back("Summon");
             temp->Turn_reset = 1;
-            temp->actionFunction = [ptr](AllyActionData &data_){
+            temp->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
                 if(ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]>=6){
                     ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["Summon"]+=25;
                 }
 
                 for(int i=1;i<=ptr->Sub_Unit_ptr[0]->Stack["LL_stack"];i++){
-                    data_.Damage_spilt.Main.push_back({66,0,0,5});
+                    data_->Damage_spilt.Main.push_back({66,0,0,5});
                     if(ptr->Eidolon>=1){
-                        data_.Damage_spilt.Adjacent.push_back({33,0,0,0});
+                        data_->Damage_spilt.Adjacent.push_back({33,0,0,0});
                     }else{
-                        data_.Damage_spilt.Adjacent.push_back({66*0.25,0,0,0});
+                        data_->Damage_spilt.Adjacent.push_back({66*0.25,0,0,0});
                     }
                     
                 }
@@ -173,7 +173,7 @@ namespace Jingyuan{
         data_->Turn_reset=true;
         data_->Damage_spilt.Main.push_back({55,0,0,5.5});
         data_->Damage_spilt.Main.push_back({45,0,0,4.5});
-        data_->actionFunction = [ptr] (AllyActionData &data_){
+        data_->actionFunction = [ptr] (shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(data_);
@@ -197,7 +197,7 @@ namespace Jingyuan{
         data_->Damage_spilt.Other.push_back({40,0,0,4});
         data_->Damage_spilt.Other.push_back({30,0,0,3});
         data_->Damage_spilt.Other.push_back({30,0,0,3});
-        data_->actionFunction = [ptr] (AllyActionData &data_){
+        data_->actionFunction = [ptr] (shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             if(!Buff_check(ptr->Sub_Unit_ptr[0].get(),"War_Marshal")){

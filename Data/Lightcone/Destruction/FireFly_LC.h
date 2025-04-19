@@ -15,9 +15,9 @@ namespace Destruction_Lightcone{
                 ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] += 50 + 10 * superimpose;
             }));
     
-            After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](AllyActionData &data_) {
-                if (data_.Attacker->Atv_stats->Unit_num != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num && data_.Attacker->Atv_stats->Side != "Ally") return;
-                for(Enemy* &e :data_.Target_Attack){
+            After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+                if (data_->Attacker->Atv_stats->Unit_num != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num && data_->Attacker->Atv_stats->Side != "Ally") return;
+                for(Enemy* &e :data_->Target_Attack){
                     if (e->debuffApply(ptr->Sub_Unit_ptr[0].get(),"FireFly_LC_debuff")) {
                         Speed_Buff(e->Atv_stats.get(), -20, 0);
                         e->Stats_type["Vul"]["Break_dmg"] += 20 + 4 * superimpose;

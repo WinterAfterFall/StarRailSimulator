@@ -30,8 +30,8 @@ namespace Harmony_Lightcone{
                 }
             }));
     
-            After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](AllyActionData &data_) {
-                if (data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_.Action_type.second == "Fua") {
+            After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+                if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_->Action_type.second == "Fua") {
                     Increase_energy(ptr, 12);
                     if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Presage")) {
                         Buff_All_Ally("Crit_dam", "None", (36 + 12 * superimpose));
@@ -40,8 +40,8 @@ namespace Harmony_Lightcone{
                 }
             }));
     
-            Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](AllyActionData &data_) {
-                if (data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_.Action_type.second == "Fua") {
+            Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+                if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_->Action_type.second == "Fua") {
                     Increase_energy(ptr, 12);
                     if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Presage")) {
                         Buff_All_Ally("Crit_dam", "None", (36 + 12 * superimpose));

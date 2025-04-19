@@ -55,8 +55,8 @@ namespace Mydei{
             data_->Damage_spilt.Adjacent.push_back({0, 100, 0, 20});
             
             
-            data_->actionFunction = [ptr](AllyActionData &data_) {
-                for (Enemy* e : data_.Target_Attack) {
+            data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_) {
+                for (Enemy* e : data_->Target_Attack) {
                     e->target = ptr->Sub_Unit_ptr[0].get();
                     e->debuffApply(ptr->Sub_Unit_ptr[0].get(),"Mydei_Taunt");
                 }
@@ -166,13 +166,13 @@ namespace Mydei{
             ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_E2"] = 0;
         }));
 
-        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr](AllyActionData &data_) {
-            if (data_.actionName == "GodSlayer") {
+        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyActionData> &data_) {
+            if (data_->actionName == "GodSlayer") {
             ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_cannot_charge"] = 1;
             }
         }));
 
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr](AllyActionData &data_) {
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyActionData> &data_) {
             if (ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_action"]) {
             ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_action"] = 0;
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
@@ -206,7 +206,7 @@ namespace Mydei{
         data_->resetTurn();
         data_->Damage_spilt.Main.push_back({0,90,0,20});
         data_->Damage_spilt.Adjacent.push_back({0,50,0,10});
-        data_->actionFunction = [ptr](AllyActionData &data_){
+        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,30,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),ptr->Sub_Unit_ptr[0].get(),0,0,50);
             Attack(data_);
@@ -222,7 +222,7 @@ namespace Mydei{
         data_->resetTurn();
         data_->Damage_spilt.Main.push_back({0,110,0,20});
         data_->Damage_spilt.Adjacent.push_back({0,66,0,10});
-        data_->actionFunction = [ptr](AllyActionData &data_){
+        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,30,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),ptr->Sub_Unit_ptr[0].get(),0,0,35);
             Attack(data_);
@@ -249,7 +249,7 @@ namespace Mydei{
             data_->Damage_spilt.Adjacent.push_back({0,84,0,10});
             data_->Damage_spilt.Adjacent.push_back({0,84,0,10});
         }
-        data_->actionFunction = [ptr](AllyActionData &data_){
+        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             
             Increase_energy(ptr,10,0);
             Attack(data_);

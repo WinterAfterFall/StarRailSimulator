@@ -49,7 +49,7 @@ namespace Jade{
             data_.Damage_spilt.Main.push_back({240, 0, 0, 20});
             data_.Damage_spilt.Adjacent.push_back({240, 0, 0, 20});
             data_.Damage_spilt.Other.push_back({240, 0, 0, 20});
-            data_.actionFunction = [ptr](AllyActionData &data_) {
+            data_.actionFunction = [ptr](shared_ptr<AllyActionData> &data_) {
                 ptr->Sub_Unit_ptr[0]->Stack["Jade_Ultimate_stack"] = 2;
                 Attack(data_);
             };
@@ -76,7 +76,7 @@ namespace Jade{
         data_.Add_Target_Adjacent();
         data_.Turn_reset=true;
         data_.Damage_spilt.Main.push_back({100,0,0,10});
-        data_.actionFunction = [ptr](AllyActionData &data_){
+        data_.actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(data_);
@@ -89,7 +89,7 @@ namespace Jade{
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),TT_BOUNCE,"Anaxa Skill");
         data_.Add_Target_FairBounce(5,{70,0,0,10});
         data_.Turn_reset=true; 
-        data_.actionFunction = [ptr](AllyActionData &data_){
+        data_.actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Attack(data_);

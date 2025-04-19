@@ -42,7 +42,7 @@ namespace TemplateName{
 
             AllyActionData data_ = AllyActionData();
             // data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),);
-            data_.actionFunction = [ptr](AllyActionData &data_) {
+            data_.actionFunction = [ptr](shared_ptr<AllyActionData> &data_) {
 
             };
             Action_bar.push(data_);
