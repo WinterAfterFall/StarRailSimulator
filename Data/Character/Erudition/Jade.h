@@ -46,13 +46,13 @@ namespace Jade{
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
             if (!ultUseCheck(ptr)) return;
-            AllyActionData data_ = AllyActionData();
-            data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","Jade Ultimate");
-            data_.Add_Target_Other();
-            data_.Damage_spilt.Main.push_back({240, 0, 0, 20});
-            data_.Damage_spilt.Adjacent.push_back({240, 0, 0, 20});
-            data_.Damage_spilt.Other.push_back({240, 0, 0, 20});
-            data_.actionFunction = [ptr](AllyActionData &data_) {
+            shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+            data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","Jade Ultimate");
+            data_->Add_Target_Other();
+            data_->Damage_spilt.Main.push_back({240, 0, 0, 20});
+            data_->Damage_spilt.Adjacent.push_back({240, 0, 0, 20});
+            data_->Damage_spilt.Other.push_back({240, 0, 0, 20});
+            data_->actionFunction = [ptr](AllyActionData &data_) {
                 ptr->Sub_Unit_ptr[0]->Stack["Jade_Ultimate_stack"] = 2;
                 Attack(data_);
             };
@@ -73,13 +73,13 @@ namespace Jade{
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 50);
             if (ptr->Technique == 1) {
                 
-                AllyActionData data_ = AllyActionData();
-                data_.Technique_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","Jade Technique");
-                data_.Add_Target_Other();
-                data_.Damage_spilt.Main.push_back({50, 0, 0, 0});
-                data_.Damage_spilt.Adjacent.push_back({50, 0, 0, 0});
-                data_.Damage_spilt.Other.push_back({50, 0, 0, 0});
-                data_.actionFunction = [ptr](AllyActionData &data_) {
+                shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+                data_->Technique_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","Jade Technique");
+                data_->Add_Target_Other();
+                data_->Damage_spilt.Main.push_back({50, 0, 0, 0});
+                data_->Damage_spilt.Adjacent.push_back({50, 0, 0, 0});
+                data_->Damage_spilt.Other.push_back({50, 0, 0, 0});
+                data_->actionFunction = [ptr](AllyActionData &data_) {
                     Jade_Talent(ptr, 15);
                     Attack(data_);
                 };
@@ -138,13 +138,13 @@ namespace Jade{
 
     void Basic_Atk(Ally *ptr){
         
-        AllyActionData data_ = AllyActionData();
-        data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Blast","Jade BasicAtttack");
-        data_.Add_Target_Adjacent();
-        data_.Turn_reset=true;
-        data_.Damage_spilt.Main.push_back({90,0,0,10});
-        data_.Damage_spilt.Adjacent.push_back({30,0,0,5});
-        data_.actionFunction = [ptr](AllyActionData &data_){
+        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+        data_->Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Blast","Jade BasicAtttack");
+        data_->Add_Target_Adjacent();
+        data_->Turn_reset=true;
+        data_->Damage_spilt.Main.push_back({90,0,0,10});
+        data_->Damage_spilt.Adjacent.push_back({30,0,0,5});
+        data_->actionFunction = [ptr](AllyActionData &data_){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(data_);
@@ -153,13 +153,13 @@ namespace Jade{
     }
     void Skill(Ally *ptr){
         
-        AllyActionData data_ = AllyActionData();
-        data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Jade Skill");
-        data_.Add_Buff_Single_Target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
-        data_.Turn_reset=true;
+        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Jade Skill");
+        data_->Add_Buff_Single_Target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
+        data_->Turn_reset=true;
         
         
-        data_.actionFunction = [ptr](AllyActionData &data_){
+        data_->actionFunction = [ptr](AllyActionData &data_){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Speed_Buff(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats.get(),0,30);
@@ -187,27 +187,27 @@ namespace Jade{
         if(!actionBarUse)Deal_damage();
     }
     void Fua(Ally *ptr){
-        AllyActionData data_ = AllyActionData();
-        data_.Fua_set(ptr->Sub_Unit_ptr[0].get(),"Aoe","Jade Fua");
-        data_.Add_Target_Other();
-        data_.Damage_spilt.Main.push_back({18,0,0,10});
-        data_.Damage_spilt.Main.push_back({18,0,0,10});
-        data_.Damage_spilt.Main.push_back({18,0,0,10});
-        data_.Damage_spilt.Main.push_back({18,0,0,10});
-        data_.Damage_spilt.Main.push_back({48,0,0,10});
+        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+        data_->Fua_set(ptr->Sub_Unit_ptr[0].get(),"Aoe","Jade Fua");
+        data_->Add_Target_Other();
+        data_->Damage_spilt.Main.push_back({18,0,0,10});
+        data_->Damage_spilt.Main.push_back({18,0,0,10});
+        data_->Damage_spilt.Main.push_back({18,0,0,10});
+        data_->Damage_spilt.Main.push_back({18,0,0,10});
+        data_->Damage_spilt.Main.push_back({48,0,0,10});
 
-        data_.Damage_spilt.Adjacent.push_back({18,0,0,10});
-        data_.Damage_spilt.Adjacent.push_back({18,0,0,10});
-        data_.Damage_spilt.Adjacent.push_back({18,0,0,10});
-        data_.Damage_spilt.Adjacent.push_back({18,0,0,10});
-        data_.Damage_spilt.Adjacent.push_back({48,0,0,10});
+        data_->Damage_spilt.Adjacent.push_back({18,0,0,10});
+        data_->Damage_spilt.Adjacent.push_back({18,0,0,10});
+        data_->Damage_spilt.Adjacent.push_back({18,0,0,10});
+        data_->Damage_spilt.Adjacent.push_back({18,0,0,10});
+        data_->Damage_spilt.Adjacent.push_back({48,0,0,10});
 
-        data_.Damage_spilt.Other.push_back({18,0,0,10});
-        data_.Damage_spilt.Other.push_back({18,0,0,10});
-        data_.Damage_spilt.Other.push_back({18,0,0,10});
-        data_.Damage_spilt.Other.push_back({18,0,0,10});
-        data_.Damage_spilt.Other.push_back({48,0,0,10});
-        data_.actionFunction = [ptr](AllyActionData &data_){
+        data_->Damage_spilt.Other.push_back({18,0,0,10});
+        data_->Damage_spilt.Other.push_back({18,0,0,10});
+        data_->Damage_spilt.Other.push_back({18,0,0,10});
+        data_->Damage_spilt.Other.push_back({18,0,0,10});
+        data_->Damage_spilt.Other.push_back({48,0,0,10});
+        data_->actionFunction = [ptr](AllyActionData &data_){
             Increase_energy(ptr,10);
             Attack(data_);
         };
@@ -215,27 +215,27 @@ namespace Jade{
         
     }
     void Fua_Enchance(Ally *ptr){
-        AllyActionData data_ = AllyActionData();
-        data_.Fua_set(ptr->Sub_Unit_ptr[0].get(),"Aoe","Jade Enchance Fua");
-        data_.Add_Target_Other();
-        data_.Damage_spilt.Main.push_back({20,0,0,10});
-        data_.Damage_spilt.Main.push_back({20,0,0,10});
-        data_.Damage_spilt.Main.push_back({20,0,0,10});
-        data_.Damage_spilt.Main.push_back({20,0,0,10});
-        data_.Damage_spilt.Main.push_back({120,0,0,10});
+        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+        data_->Fua_set(ptr->Sub_Unit_ptr[0].get(),"Aoe","Jade Enchance Fua");
+        data_->Add_Target_Other();
+        data_->Damage_spilt.Main.push_back({20,0,0,10});
+        data_->Damage_spilt.Main.push_back({20,0,0,10});
+        data_->Damage_spilt.Main.push_back({20,0,0,10});
+        data_->Damage_spilt.Main.push_back({20,0,0,10});
+        data_->Damage_spilt.Main.push_back({120,0,0,10});
 
-        data_.Damage_spilt.Adjacent.push_back({20,0,0,10});
-        data_.Damage_spilt.Adjacent.push_back({20,0,0,10});
-        data_.Damage_spilt.Adjacent.push_back({20,0,0,10});
-        data_.Damage_spilt.Adjacent.push_back({20,0,0,10});
-        data_.Damage_spilt.Adjacent.push_back({120,0,0,10});
+        data_->Damage_spilt.Adjacent.push_back({20,0,0,10});
+        data_->Damage_spilt.Adjacent.push_back({20,0,0,10});
+        data_->Damage_spilt.Adjacent.push_back({20,0,0,10});
+        data_->Damage_spilt.Adjacent.push_back({20,0,0,10});
+        data_->Damage_spilt.Adjacent.push_back({120,0,0,10});
 
-        data_.Damage_spilt.Other.push_back({20,0,0,10});
-        data_.Damage_spilt.Other.push_back({20,0,0,10});
-        data_.Damage_spilt.Other.push_back({20,0,0,10});
-        data_.Damage_spilt.Other.push_back({20,0,0,10});
-        data_.Damage_spilt.Other.push_back({120,0,0,10});
-        data_.actionFunction = [ptr](AllyActionData &data_){
+        data_->Damage_spilt.Other.push_back({20,0,0,10});
+        data_->Damage_spilt.Other.push_back({20,0,0,10});
+        data_->Damage_spilt.Other.push_back({20,0,0,10});
+        data_->Damage_spilt.Other.push_back({20,0,0,10});
+        data_->Damage_spilt.Other.push_back({120,0,0,10});
+        data_->actionFunction = [ptr](AllyActionData &data_){
             Increase_energy(ptr,10);
             Attack(data_);
         };
