@@ -45,6 +45,11 @@
 #define AT_ULT "Ultimate"
 #define AT_Fua "Fua"
 
+#define TT_SINGLE "Single_target"
+#define TT_BLAST "Blast"
+#define TT_AOE "Aoe"
+#define TT_BOUNCE "Bounce"
+
 #define TYPE_STD "Standard"
 #define ALLYTYPE_BACKUP "Backup"
 
@@ -244,6 +249,7 @@ double Cal_Total_Toughness_Reduce(ActionData& data_, Enemy* target, double Base_
 //CalDmgReceive.h
 double calculateDmgReceive(Enemy *Attacker,SubUnit *ptr,double ratio);
 double calEnemyATK(Enemy *enemy);
+double calEnemyDMG(Enemy *enemy);
 double calAllyDefMultiplier(SubUnit *ptr);
 //Calculate_Stats
 double calculateAtkOnStats(SubUnit* ptr);
@@ -331,7 +337,7 @@ void EndWave(double Total_atv);
 void Start_wave(int WAVE);
 
 //SetEnemy
-void Setup_enemy(double speed,double energy,double Toughness,double skillRatio,int attackCooldown,string type);
+void SetupEnemy(double speed,double energy,double Toughness,double skillRatio,int attackCooldown,string type);
 
 
 //Stats_Reset

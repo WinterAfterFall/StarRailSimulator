@@ -103,6 +103,9 @@ public:
     
     vector<string> Element_type ;//*
     
+    double tauntBase = 0;
+    double taunt = 0;
+    double tauntMtpr = 1;
     //string Target_Buff = "Ally";
     int defaultAllyTargetNum = Main_dps_num;
     int defaultSubUnitTargetNum = 0;
@@ -114,6 +117,13 @@ public:
     // Constructor now calls the base class constructor to initialize Atv_stats and set ptr_to_unit
     SubUnit() : Unit() {
           // Call Unit constructor to initialize Atv_stats and set ptr_to_unit  // Using unique_ptr for stats
+    }
+
+    void tauntMtprChange(int value){
+        tauntMtpr += value;
+        totalTaunt -= taunt;
+        taunt = tauntBase * tauntMtpr/100.0;
+        totalTaunt += taunt;
     }
 
     ~SubUnit() {}
@@ -417,14 +427,14 @@ public:
 
     double ATK = 718;
     double atkPercent = 0;
+    double dmgPercent = 0;
     double Energy_gen;
     double Max_toughness; 
     double Current_toughness;
     bool Toughness_status = 1;
     double toughnessAvgMultiplier = 0;
     string Target_type = "";//*
-    int attackCooldown = 3; 
-    int attackStartAtTurn = 2;
+    pair<int,int> AOECoolDown = {2,3};
     double skillRatio = 0;
 
     SubUnit *target = nullptr;
@@ -442,7 +452,7 @@ public:
     double Total_toughness_broken_time =0;
     double when_toughness_broken;
  
-    // Constructor now calls the base class constructor to initialize Atv_stats and set ptr_to_unit
+    //Constructor now calls the base class constructor to initialize Atv_stats and set ptr_to_unit
     Enemy() : Unit() {  // Call Unit constructor to initialize Atv_stats and set ptr_to_unit
     
     }
@@ -491,6 +501,9 @@ public:
         this->Stack[debuffName] += value;
     }
 
+
+    //create
+    Enemy* createNewEnemy();
     //debuff.h
     bool debuffApply(SubUnit *ptr, string debuffName);
     bool debuffMark(SubUnit *ptr, string debuffName);

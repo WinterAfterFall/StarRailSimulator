@@ -22,6 +22,7 @@ Ally* SetAllyBasicStats(double BaseSpeed,double Max_Energy,double Ult_cost,int E
         Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Unit_Name = Name;
         Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Side = "Ally";
         Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Type = UnitType;
+        Ally_unit[num]->Sub_Unit_ptr[0]->tauntBase = tauntValueEachPath[Ally_unit[num]->Path[0]];
         return Ally_unit[num].get();
 }
 void SetMemoStats(Ally *ptr,double Hp_ratio,double Speed_ratio,string Element_type,string Name,string UnitType){
@@ -43,6 +44,7 @@ void SetMemoStats(Ally *ptr,double Hp_ratio,double Speed_ratio,string Element_ty
         ptr->Sub_Unit_ptr[num]->Atv_stats->Type = UnitType;
         ptr->Sub_Unit_ptr[num]->Atv_stats->ptr_to_unit = ptr->Sub_Unit_ptr[num].get();
         ptr->Sub_Unit_ptr[num]->ptr_to_unit = ptr;
+        ptr->Sub_Unit_ptr[num]->tauntBase = tauntValueEachPath[ptr->Path[0]];
 
 }
 void SetCountdownStats(Ally *ptr,string Name){

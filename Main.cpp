@@ -107,22 +107,22 @@ int main(){
 
 
 
-    Setup_enemy(158,15,160,300.0,3,"Main");
-    Setup_enemy(158,10,160,300.0,3,"Adjacent");
-    Setup_enemy(158,0,160,200.0,0,"Adjacent");
+    SetupEnemy(158,15,160,300.0,3,"Main");
+    SetupEnemy(158,10,160,300.0,3,"Adjacent");
+    SetupEnemy(158,0,160,200.0,0,"Adjacent");
     
-    // Setup_enemy(130,0,90,200.0,0,"Other");
-    // Setup_enemy(120,0,90,200.0,0,"Other");
+    // SetupEnemy(130,0,90,200.0,0,"Other");
+    // SetupEnemy(120,0,90,200.0,0,"Other");
     
-    //Setup_enemy(1,600,0,30,"Main");
-    //Setup_enemy(2,600,0,30,"Adjacent");
-    // Setup_enemy(3,130,0,90,"Adjacent");
+    //SetupEnemy(1,600,0,30,"Main");
+    //SetupEnemy(2,600,0,30,"Adjacent");
+    // SetupEnemy(3,130,0,90,"Adjacent");
     
 
     
     
-    // Setup_enemy(4,130,0,90,0.0,0,"Other");
-    // Setup_enemy(5,120,0,90,0.0,0,"Other");
+    // SetupEnemy(4,130,0,90,0.0,0,"Other");
+    // SetupEnemy(5,120,0,90,0.0,0,"Other");
 
     Setup();
     

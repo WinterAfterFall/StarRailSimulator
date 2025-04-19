@@ -33,6 +33,8 @@ void Basic_reset(){
             Ally_unit[i]->Current_energy = Ally_unit[i]->Max_energy/2;
             Ally_unit[i]->Sub_Unit_ptr[0]->currentAllyTargetNum = Ally_unit[i]->Sub_Unit_ptr[0]->defaultAllyTargetNum;
             Ally_unit[i]->Sub_Unit_ptr[0]->currentSubUnitTargetNum = Ally_unit[i]->Sub_Unit_ptr[0]->defaultSubUnitTargetNum;
+            Ally_unit[i]->Sub_Unit_ptr[0]->tauntMtpr = 100;
+            Ally_unit[i]->Sub_Unit_ptr[0]->taunt = Ally_unit[i]->Sub_Unit_ptr[0]->tauntBase;
             Ally_unit[i]->Sub_Unit_ptr[0]->currentSheild = 0;
             for(auto &e:Ally_unit[i]->Sub_Unit_ptr[0]->Stack){
                 e.second = 0;
@@ -118,6 +120,9 @@ void Basic_reset(){
             Enemy_unit[i]->Current_toughness=Enemy_unit[i]->Max_toughness;
             Enemy_unit[i]->Total_debuff=0;
             Enemy_unit[i]->target=nullptr;
+            Enemy_unit[i]->atkPercent = 0;
+            Enemy_unit[i]->dmgPercent = 0;
+            Enemy_unit[i]->dmgPercent = 0;
 
             Enemy_unit[i]->damageAvgNote.resize(Total_ally+1);
             Enemy_unit[i]->damageRealTimeNote.resize(Total_ally+1);

@@ -41,22 +41,33 @@ unordered_map<std::string, double> Enemy_res = {
         {"Lightning", 0.0},
         {"Physical", 0.0},
         {"Imaginary", 0.0}
-    };
+};
 unordered_map<std::string, bool> Enemy_weak = {
-         {"Fire", 0},
+        {"Fire", 0},
         {"Ice", 1},
         {"Quantum", 1},
         {"Wind", 1},
         {"Lightning", 1},
         {"Physical", 1},
         {"Imaginary", 1}
-    };
+};
+unordered_map<std::string, double> tauntValueEachPath = {
+    {"Abundance", 100},
+    {"Preservation", 150},
+    {"Hunt", 75},
+    {"Erudition", 75},
+    {"Destruction", 125},
+    {"Harmony", 100},
+    {"Nihility", 100},
+    {"Remembrance", 100}
+};
     
 Action_value_stats* turn = nullptr;
 queue<ActionData> Action_bar;
 
 double Level_multiplier = 3767.5533;
 double Current_atv =0;
+double totalTaunt = 0;
 
 bool Ult_After_Turn = 0;
 bool After_Turn_Check = 0;

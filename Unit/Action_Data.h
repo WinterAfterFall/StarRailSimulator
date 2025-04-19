@@ -146,6 +146,40 @@ class ActionData{
             
         }
     }
+    void Add_Target_Bounce(int amount,Ratio_data instanceRatio){
+        this->Add_Target_Adjacent();
+        int loop = amount/this->Target_Attack.size();
+        int extra = amount%this->Target_Attack.size();
+        while(loop--){
+            this->Damage_spilt.Main.push_back(instanceRatio);
+            this->Damage_spilt.Adjacent.push_back(instanceRatio);
+        }
+        while(extra--){
+            this->Damage_spilt.Main.push_back(instanceRatio);
+        }
+    }
+    void Add_Target_FairBounce(int amount,Ratio_data instanceRatio){
+        this->Add_Target_Other();
+        int loop = amount/this->Target_Attack.size();
+        int extra = amount%this->Target_Attack.size();
+        while(loop--){
+            this->Damage_spilt.Main.push_back(instanceRatio);
+            this->Damage_spilt.Adjacent.push_back(instanceRatio);
+            this->Damage_spilt.Other.push_back(instanceRatio);
+        }
+        if(extra>=1)
+        this->Damage_spilt.Main.push_back(instanceRatio);
+        else return;
+
+        if(extra>2)
+        this->Damage_spilt.Adjacent.push_back(instanceRatio);
+        else
+        this->Damage_spilt.Main.push_back(instanceRatio);
+
+        if(extra==4)
+        this->Damage_spilt.Other.push_back(instanceRatio);
+
+    }
     void Basic_Attack_set(SubUnit* ptr, string target_type, string name) {
         Attacker = ptr;
         source = ptr;
