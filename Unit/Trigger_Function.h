@@ -26,8 +26,8 @@ class TriggerByYourSelf_Func : public TriggerFunc{
 };
 class TriggerByAction_Func : public TriggerFunc{
     public:
-    function<void(ActionData &data_)> Call;
-    TriggerByAction_Func(int priority, function<void(ActionData &data_)> Call) 
+    function<void(AllyActionData &data_)> Call;
+    TriggerByAction_Func(int priority, function<void(AllyActionData &data_)> Call) 
     : TriggerFunc(priority), Call(Call) {}
 };
 
@@ -94,8 +94,8 @@ class TriggerSkill_point_func : public TriggerFunc{
 
 class TriggerHit_Count_func : public TriggerFunc{
     public:
-    function<void(ActionData &data_, int Hit_cnt, int Total_Hit_cnt)> Call;
-    TriggerHit_Count_func(int priority, function<void(ActionData &data_, int Hit_cnt, int Total_Hit_cnt)> Call) 
+    function<void(AllyActionData &data_, int Hit_cnt, int Total_Hit_cnt)> Call;
+    TriggerHit_Count_func(int priority, function<void(AllyActionData &data_, int Hit_cnt, int Total_Hit_cnt)> Call) 
     : TriggerFunc(priority), Call(Call) {}
 };
 #endif

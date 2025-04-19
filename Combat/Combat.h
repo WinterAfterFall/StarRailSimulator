@@ -41,41 +41,48 @@ void Take_action(){
 void Deal_damage(){
     actionBarUse = true;
     while(!Action_bar.empty()){
-        ActionData *temp = &Action_bar.front();
-        if(temp->Action_type.first == "Attack"){
-            
-            allEventBeforeAttack(*temp);
-            
-            if(temp->actionFunction)temp->actionFunction(*temp);
-            else Attack(*temp);    
-            
-            for(int i = 0; i < temp->Attack_trigger; i++){
-                temp->Attacker = temp->All_Attacker[i];
-                allEventWhenAttack(*temp);
-            }
-            
-            temp->Attacker = temp->All_Attacker[0];
-            allEventAfterAttack(*temp);  
-
-        }else if(temp->Action_type.first == "Buff"){
-            if(temp->actionFunction)temp->actionFunction(*temp);
-            if(temp->Turn_reset)atv_reset(turn);
-            allEventBuff(*temp);
-            
-            
+        ActionData *temp = Action_bar.front().get();
+        if (AllyActionData* allyActionData = dynamic_cast<AllyActionData*>(temp)) {
+            allyActionData->AllyAction();
+        } else if (EnemyActionData* enemyActionData = dynamic_cast<EnemyActionData*>(temp)) {
+            enemyActionData->EnemyAction();
         }
-        
-        if(temp->healPtr)Heal(*(temp->healPtr.get()));
-        if(temp->damageNote)Cal_AverageDamage(temp->Attacker->ptr_to_unit);
         Action_bar.pop();
-    }
-    
-    if(turn!=nullptr&&turn->Side=="Enemy"){
-        atv_reset(turn);
     }
     actionBarUse = false;
 }
-void Attack(ActionData &data_){
+void AllyActionData::AllyAction(){
+    if(this->Action_type.first == "Attack"){
+            
+        allEventBeforeAttack(*this);
+        
+        if(this->actionFunction)this->actionFunction(*this);
+        else Attack(*this);    
+        
+        for(int i = 0; i < this->Attack_trigger; i++){
+            this->Attacker = this->All_Attacker[i];
+            allEventWhenAttack(*this);
+        }
+        
+        this->Attacker = this->All_Attacker[0];
+        allEventAfterAttack(*this);  
+
+    }else if(this->Action_type.first == "Buff"){
+        if(this->actionFunction)this->actionFunction(*this);
+        if(this->Turn_reset)atv_reset(turn);
+        allEventBuff(*this);
+        
+        
+    }
+    
+    if(this->healPtr)Heal(*(this->healPtr.get()));
+    if(this->damageNote)Cal_AverageDamage(this->Attacker->ptr_to_unit);
+}
+void EnemyActionData::EnemyAction(){
+    this->actionFunction();
+    atv_reset(turn);
+}
+void Attack(AllyActionData &data_){
     int Total_hit = 0;
     int temp = 0;
     unordered_map<string,int> Total_hit_each;
@@ -133,8 +140,8 @@ void Skill_point(SubUnit *ptr,int p){
     }
     return ;
 }
-void Superbreak_trigger(ActionData &data_, double Superbreak_ratio){
-    ActionData data_2 = ActionData();
+void Superbreak_trigger(AllyActionData &data_, double Superbreak_ratio){
+    AllyActionData data_2 = AllyActionData();
     data_2.SuperBreak_set(data_.Attacker,data_.traceType);
     
     for(int i=1;i<=Total_enemy;i++){
@@ -170,7 +177,7 @@ void Superbreak_trigger(ActionData &data_, double Superbreak_ratio){
     }
 }
 void Dot_trigger(double Dot_ratio,Enemy *target,string Dot_type){
-    ActionData data_;
+    AllyActionData data_;
     data_.Skill_Type.push_back("Dot");
     
     data_.Action_type.first = "Attack";
@@ -210,7 +217,7 @@ void Dot_trigger(double Dot_ratio,Enemy *target,string Dot_type){
     }
     
 }
-void Toughness_break(ActionData &data_,Enemy* target){
+void Toughness_break(AllyActionData &data_,Enemy* target){
     SubUnit *temp1;
     string temp2;
     if(Force_break!=0){
@@ -220,7 +227,7 @@ void Toughness_break(ActionData &data_,Enemy* target){
         data_.Damage_element = Ally_unit[Force_break]->Sub_Unit_ptr[0]->Element_type[0];
     }
     double Constant = 0;
-    ActionData data_2 = ActionData();
+    AllyActionData data_2 = AllyActionData();
     data_2.Break_dmg_set(data_.Attacker,"Break");
     ++target->Total_debuff;
     allEventApplyDebuff(data_.Attacker,target);

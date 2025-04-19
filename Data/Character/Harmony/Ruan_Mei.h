@@ -39,10 +39,10 @@ namespace Ruan_Mei{
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr](){
             if(!ultUseCheck(ptr)) return;
-            ActionData data_ = ActionData();
+            AllyActionData data_ = AllyActionData();
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff","RuanMei Ult");
             data_.Add_Buff_All_Ally();
-            data_.actionFunction = [ptr](ActionData &data_){
+            data_.actionFunction = [ptr](AllyActionData &data_){
                 if(ptr->Print)CharCmd::printUltStart("Ruan Mei");
                 if(!Buff_check(ptr->Sub_Unit_ptr[0].get(), "RuanMei_Ult")){
                     Buff_All_Ally("Respen", "None", 25);
@@ -78,10 +78,10 @@ namespace Ruan_Mei{
             if(ptr->Technique == 1){
                 
 
-                ActionData data_ = ActionData();
+                AllyActionData data_ = AllyActionData();
                 data_.Skill_set(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Buff","RuanMei Skill");
                 data_.Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
-                data_.actionFunction = [ptr](ActionData &data_){
+                data_.actionFunction = [ptr](AllyActionData &data_){
                     Increase_energy(ptr, 30);
                     Buff_All_Ally("Dmg%", "None", 32);
                     Buff_All_Ally("Weakness_Break_Efficiency", "None", 50);
@@ -116,7 +116,7 @@ namespace Ruan_Mei{
                     Turn_Skip = 1;
                     Enemy_unit[turn->Unit_num]->debuffRemove("RuanMei_Ult_bloom");
                     Action_forward(Enemy_unit[turn->Unit_num]->Atv_stats.get(), -10 - (0.2 * (ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"])));
-                    ActionData data_ = ActionData();
+                    AllyActionData data_ = AllyActionData();
                     data_.Break_dmg_set(ptr->Sub_Unit_ptr[0].get(),"RuanMei Break");
                     double temp = 0.5;
                     Cal_Break_damage(data_, Enemy_unit[turn->Unit_num].get(), temp);
@@ -127,7 +127,7 @@ namespace Ruan_Mei{
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
         }));
 
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](ActionData &data_){
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](AllyActionData &data_){
             if(Buff_check(ptr->Sub_Unit_ptr[0].get(), "RuanMei_Ult")){
                 for(Enemy * &e : data_.Target_Attack){
                     e->debuffApply(ptr->Sub_Unit_ptr[0].get(),"RuanMei_Ult_bloom");
@@ -136,7 +136,7 @@ namespace Ruan_Mei{
         }));
 
         Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, SubUnit *Breaker){
-            ActionData data_ = ActionData();
+            AllyActionData data_ = AllyActionData();
             double temp;
             data_.Break_dmg_set(ptr->Sub_Unit_ptr[0].get(),"RuanMei Break");
             temp = 1.2;
@@ -149,12 +149,12 @@ namespace Ruan_Mei{
 
     void Basic_Atk(Ally *ptr){
         
-        ActionData data_ = ActionData();
+        AllyActionData data_ = AllyActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","RuanMei BasicAttack");
         data_.Add_Target_Main();
         data_.Turn_reset = 1;
         data_.Damage_spilt.Main.push_back({100,0,0,10});
-        data_.actionFunction = [ptr](ActionData &data_){
+        data_.actionFunction = [ptr](AllyActionData &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
             Attack(data_);
@@ -164,11 +164,11 @@ namespace Ruan_Mei{
     void Skill_func(Ally *ptr){
         
         
-        ActionData data_ = ActionData();
+        AllyActionData data_ = AllyActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","RuanMei Skill");
         data_.Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
         data_.Turn_reset = 1;
-        data_.actionFunction = [ptr](ActionData &data_){
+        data_.actionFunction = [ptr](AllyActionData &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
             Buff_All_Ally("Dmg%","None",32);

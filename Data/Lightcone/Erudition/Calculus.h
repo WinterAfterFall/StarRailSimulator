@@ -20,7 +20,7 @@ namespace Erudition_Lightcone{
                 }
             }));
     
-            Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](ActionData &data_) {
+            Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](AllyActionData &data_) {
                 ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] -= ptr->Sub_Unit_ptr[0]->Buff_note["Calculus_Atk_buff"];
                 ptr->Sub_Unit_ptr[0]->Buff_note["Calculus_Atk_buff"] = data_.Target_Attack.size() * 3 + superimpose;
     

@@ -16,7 +16,7 @@ namespace Relic{
             ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Skill"] += 20;
         }));
 
-        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](ActionData &data_) {
+        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](AllyActionData &data_) {
             if (data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_.Action_type.second == "Ultimate") {
                 if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Scholar_buff")) {
                     ptr->Sub_Unit_ptr[0]->Buff_check["Scholar_buff"] = 1;
@@ -25,7 +25,7 @@ namespace Relic{
             }
         }));
 
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](ActionData &data_) {
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](AllyActionData &data_) {
             if (data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_.Action_type.second == "Skill") {
                 if (Buff_check(ptr->Sub_Unit_ptr[0].get(), "Scholar_buff")) {
                     ptr->Sub_Unit_ptr[0]->Buff_check["Scholar_buff"] = 0;
@@ -34,7 +34,7 @@ namespace Relic{
             }
         }));
 
-        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](ActionData &data_) {
+        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](AllyActionData &data_) {
             if (data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_.Action_type.second == "Ultimate") {
                 if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Scholar_buff")) {
                     ptr->Sub_Unit_ptr[0]->Buff_check["Scholar_buff"] = 1;

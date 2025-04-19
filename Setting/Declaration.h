@@ -91,6 +91,8 @@ class PointerWithValue;
 class Ratio_data;
 class Hit_spilt;
 class ActionData;
+class AllyActionData;
+class EnemyActionData;
 //Trigger_Function
 class TriggerFunc;
 class TriggerByYourSelf_Func;
@@ -207,12 +209,12 @@ void debuffAllEnemyStack(SubUnit *ptr, string stats_type, string Attack_type, st
 //Combat
 void Take_action();
 void Deal_damage();
-void Attack(ActionData& data_);
+void Attack(AllyActionData& data_);
 void Heal(Heal_data& Healptr);
 void Skill_point(SubUnit *ptr,int p);
-void Superbreak_trigger(ActionData& data_, double Superbreak_ratio);
+void Superbreak_trigger(AllyActionData& data_, double Superbreak_ratio);
 void Dot_trigger(double Dot_ratio, Enemy* target, std::string Dot_type);
-void Toughness_break(ActionData &data_, Enemy* target);
+void Toughness_break(AllyActionData &data_, Enemy* target);
 
 //ChangeHP.h
 
@@ -228,22 +230,22 @@ void DecreaseHP(Unit *Trigger,double Value,double percentFromTotalHP,double perc
 void DecreaseHP(Unit *Trigger,vector<SubUnit*> target,double Value,double percentFromTotalHP,double percentFromCurrentHP);
 void DecreaseHP(Unit *Trigger,string Name,double Value,double percentFromTotalHP,double percentFromCurrentHP);
 //EnemyCombat.h
-void EnemyHit(Enemy *Attacker);
-void EnemyHit(Enemy *Attacker,vector<SubUnit*> target);
+void EnemyHit(Enemy *Attacker,double energy);
+void EnemyHit(Enemy *Attacker,vector<SubUnit*> target,double energy);
 void DamageFormEnemy(Enemy *Attacker,vector<SubUnit*> target);
 /*------Calculate------*/
 
 //Calculate_damage
-void Cal_Damage(ActionData& data_, Enemy* target, Ratio_data Skill_mtpr);
-void Cal_Toughness_reduction(ActionData& data_, Enemy* target, double Toughness_reduce);
-void Cal_Break_damage(ActionData& data_, Enemy* target, double& Constant);
-void Cal_Freeze_damage(ActionData& data_, Enemy* target);
-void Cal_Dot_damage(ActionData& data_, Enemy* target, double Dot_ratio);
-void Cal_Dot_Toughness_break_damage(ActionData& data_, Enemy* target, double Dot_ratio);
-void Cal_Superbreak_damage(ActionData& data_, Enemy* target, double Superbreak_ratio);
-void Cal_Additional_damage(ActionData& data_, Enemy* target, Ratio_data Skill_mtpr);
-void Cal_TrueDamage(ActionData &data_,Enemy *target,double Damage);
-double Cal_Total_Toughness_Reduce(ActionData& data_, Enemy* target, double Base_Toughness_reduce);
+void Cal_Damage(AllyActionData& data_, Enemy* target, Ratio_data Skill_mtpr);
+void Cal_Toughness_reduction(AllyActionData& data_, Enemy* target, double Toughness_reduce);
+void Cal_Break_damage(AllyActionData& data_, Enemy* target, double& Constant);
+void Cal_Freeze_damage(AllyActionData& data_, Enemy* target);
+void Cal_Dot_damage(AllyActionData& data_, Enemy* target, double Dot_ratio);
+void Cal_Dot_Toughness_break_damage(AllyActionData& data_, Enemy* target, double Dot_ratio);
+void Cal_Superbreak_damage(AllyActionData& data_, Enemy* target, double Superbreak_ratio);
+void Cal_Additional_damage(AllyActionData& data_, Enemy* target, Ratio_data Skill_mtpr);
+void Cal_TrueDamage(AllyActionData &data_,Enemy *target,double Damage);
+double Cal_Total_Toughness_Reduce(AllyActionData& data_, Enemy* target, double Base_Toughness_reduce);
 
 
 //CalDmgReceive.h
@@ -269,20 +271,20 @@ double calculateCritrateForBuff(SubUnit* ptr, double ratio);
 double calculateCritdamForBuff(SubUnit* ptr, double ratio);
 double calculateBreakEffectForBuff(SubUnit* ptr, double ratio);
 
-double Cal_Atk_multiplier(ActionData& data_, Enemy* target);
-double Cal_Hp_multiplier(ActionData& data_, Enemy* target);
-double Cal_Def_multiplier(ActionData& data_, Enemy* target);
-double Cal_Bonus_dmg_multiplier(ActionData& data_, Enemy* target);
-double Cal_Crit_multiplier(ActionData& data_, Enemy* target);
-double Cal_Crit_rate_multiplier(ActionData& data_, Enemy* target);
-double Cal_Crit_dam_multiplier(ActionData& data_, Enemy* target);
-double Cal_Def_shred_multiplier(ActionData& data_, Enemy* target);
-double Cal_Respen_multiplier(ActionData& data_, Enemy* target);
-double Cal_Vul_multiplier(ActionData& data_, Enemy* target);
-double Cal_BreakEffect_multiplier(ActionData& data_, Enemy* target);
-double Cal_Toughness_multiplier(ActionData& data_, Enemy* target);
-double Cal_Superbreak_DamageIncrease_multiplier(ActionData& data_, Enemy* target);
-double Cal_Mitigation_multiplier(ActionData& data_, Enemy* target);
+double Cal_Atk_multiplier(AllyActionData& data_, Enemy* target);
+double Cal_Hp_multiplier(AllyActionData& data_, Enemy* target);
+double Cal_Def_multiplier(AllyActionData& data_, Enemy* target);
+double Cal_Bonus_dmg_multiplier(AllyActionData& data_, Enemy* target);
+double Cal_Crit_multiplier(AllyActionData& data_, Enemy* target);
+double Cal_Crit_rate_multiplier(AllyActionData& data_, Enemy* target);
+double Cal_Crit_dam_multiplier(AllyActionData& data_, Enemy* target);
+double Cal_Def_shred_multiplier(AllyActionData& data_, Enemy* target);
+double Cal_Respen_multiplier(AllyActionData& data_, Enemy* target);
+double Cal_Vul_multiplier(AllyActionData& data_, Enemy* target);
+double Cal_BreakEffect_multiplier(AllyActionData& data_, Enemy* target);
+double Cal_Toughness_multiplier(AllyActionData& data_, Enemy* target);
+double Cal_Superbreak_DamageIncrease_multiplier(AllyActionData& data_, Enemy* target);
+double Cal_Mitigation_multiplier(AllyActionData& data_, Enemy* target);
 //CalRequireStats.h
 
 
@@ -304,24 +306,24 @@ bool changeMaxDamage(Ally *ptr);
 void Cal_AverageDamage(Ally *ptr);
 double Cal_AvgToughnessMultiplier(Enemy* target, double Total_atv);
 void Cal_DamageSummary();
-void Cal_DamageNote(ActionData &data_,Enemy *target,double damage);
+void Cal_DamageNote(AllyActionData &data_,Enemy *target,double damage);
 
 /*------Event------*/
 
 //Event
 void allEventBeforeTurn();
 void allEventAfterTurn();
-void allEventBuff(ActionData& data_);
-void allEventBeforeAttack(ActionData& data_);
-void allEventAfterAttack(ActionData& data_);
-void allEventWhenAttack(ActionData& data_);
+void allEventBuff(AllyActionData& data_);
+void allEventBeforeAttack(AllyActionData& data_);
+void allEventAfterAttack(AllyActionData& data_);
+void allEventWhenAttack(AllyActionData& data_);
 void allEventHeal(SubUnit *Healer,SubUnit *target,double Value);
 void allEventChangeHP(Unit *Trigger,SubUnit *target,double Value);
-void allEventWhenToughnessBreak(ActionData& data_, Enemy* target);
+void allEventWhenToughnessBreak(AllyActionData& data_, Enemy* target);
 void allEventWhenEnemyHit(Enemy* Attacker,vector<SubUnit*> vec);
 void allEventWhenEnergyIncrease(Ally* target, double Energy);
 void allEventSkillPoint(SubUnit* ptr, int p);
-void allEventAttackHitCount(ActionData& data_, int Hit_cnt, int Total_Hit_cnt);
+void allEventAttackHitCount(AllyActionData& data_, int Hit_cnt, int Total_Hit_cnt);
 void allEventAdjustStats(SubUnit *ptr,string ST);
 void allEventApplyDebuff(SubUnit* ptr, Enemy* target);
 void allEventWhenEnemyDeath(SubUnit* Killer, Enemy* target);
@@ -337,7 +339,8 @@ void EndWave(double Total_atv);
 void Start_wave(int WAVE);
 
 //SetEnemy
-void SetupEnemy(double speed,double energy,double Toughness,double skillRatio,int attackCooldown,string type);
+Enemy* createNewEnemy(double speed,double Toughness,string type);
+void SetupEnemy(double speed,double Toughness,pair<double,double> energy,pair<double,double> skillRatio,pair<int,int> attackCooldown,string type);
 
 
 //Stats_Reset

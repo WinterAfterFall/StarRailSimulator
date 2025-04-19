@@ -36,13 +36,13 @@ namespace Luocha{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_DEBUFF, [ptr]() {
             if (ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"] >= 2) return;
             if (!ultUseCheck(ptr)) return;
-            ActionData data_ = ActionData();
+            AllyActionData data_ = AllyActionData();
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","Luocha Ultimate");
             data_.Add_Target_Other();
             data_.Damage_spilt.Main.push_back({200, 0, 0, 20});
             data_.Damage_spilt.Adjacent.push_back({200, 0, 0, 20});
             data_.Damage_spilt.Other.push_back({200, 0, 0, 20});
-            data_.actionFunction = [ptr](ActionData &data_) {
+            data_.actionFunction = [ptr](AllyActionData &data_) {
                 Attack(data_);
                 ++ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"];
                 Abyss_Flower(ptr);
@@ -81,7 +81,7 @@ namespace Luocha{
             }
         }));
 
-        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](ActionData &data_) {
+        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](AllyActionData &data_) {
             if (ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"] >= 2) {
                 HealRatio healRatio = HealRatio();
                 HealRatio healRatioMain = HealRatio();
@@ -117,14 +117,14 @@ namespace Luocha{
     }
     void Basic_Atk(Ally *ptr){
         
-        ActionData data_ = ActionData();
+        AllyActionData data_ = AllyActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Luocha Basic_Atk");
         data_.Add_Target_Main();
         data_.Turn_reset = 1;
         data_.Damage_spilt.Main.push_back({30,0,0,3});
         data_.Damage_spilt.Main.push_back({30,0,0,3});
         data_.Damage_spilt.Main.push_back({40,0,0,4});
-        data_.actionFunction = [ptr](ActionData &data_){
+        data_.actionFunction = [ptr](AllyActionData &data_){
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(data_);

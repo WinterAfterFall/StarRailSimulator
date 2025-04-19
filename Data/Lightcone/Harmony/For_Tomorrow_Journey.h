@@ -16,7 +16,7 @@ namespace Harmony_Lightcone{
                 ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 12 + 4 * superimpose;
             }));
     
-            After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](ActionData &data_) {
+            After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](AllyActionData &data_) {
                 if (data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_.Action_type.second == "Ultimate") {
                     if (ptr->Sub_Unit_ptr[0]->Buff_check["For_Tomorrow_Journey_Buff"] == 0) {
                         ptr->Sub_Unit_ptr[0]->Buff_check["For_Tomorrow_Journey_Buff"] = 1;
@@ -26,7 +26,7 @@ namespace Harmony_Lightcone{
                 }
             }));
     
-            Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](ActionData &data_) {
+            Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](AllyActionData &data_) {
                 if (data_.Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_.Action_type.second == "Ultimate") {
                     if (ptr->Sub_Unit_ptr[0]->Buff_check["For_Tomorrow_Journey_Buff"] == 0) {
                         ptr->Sub_Unit_ptr[0]->Buff_check["For_Tomorrow_Journey_Buff"] = 1;

@@ -14,7 +14,7 @@ namespace Relic{
             ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Fua"] += 20;
         }));
 
-        Hit_Count_List.push_back(TriggerHit_Count_func(PRIORITY_IMMEDIATELY, [ptr](ActionData &data_, int Hit_cnt, int Total_Hit_cnt) {
+        Hit_Count_List.push_back(TriggerHit_Count_func(PRIORITY_IMMEDIATELY, [ptr](AllyActionData &data_, int Hit_cnt, int Total_Hit_cnt) {
             if (data_.Attacker->Atv_stats->Unit_Name != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) return;
 
             bool check = false;

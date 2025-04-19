@@ -2,7 +2,7 @@
 #define Event_H
 #include "../Unit/Trigger_Function.h"
 void allEventBeforeTurn(){
-    ActionData temp = ActionData();
+    AllyActionData temp = AllyActionData();
     if(turn->Side=="Enemy"){
         Dot_trigger(100,Enemy_unit[turn->Unit_num].get(),"None");
         if(Enemy_unit[turn->Unit_num]->Entanglement != 0){
@@ -73,22 +73,22 @@ void allEventAfterTurn(){
         e.Call();
     }
 }
-void allEventBuff(ActionData &data_){
+void allEventBuff(AllyActionData &data_){
     for(TriggerByAction_Func &e : Buff_List){
         e.Call(data_);
     }
 }
-void allEventBeforeAttack(ActionData &data_){
+void allEventBeforeAttack(AllyActionData &data_){
     for(TriggerByAction_Func &e : Before_attack_List){
         e.Call(data_);
     }
 }
-void allEventAfterAttack(ActionData &data_){
+void allEventAfterAttack(AllyActionData &data_){
     for(TriggerByAction_Func &e : After_attack_List){
         e.Call(data_);
     }
 }
-void allEventWhenAttack(ActionData &data_){
+void allEventWhenAttack(AllyActionData &data_){
     for(Enemy* &e : data_.Target_Attack){
         if(e->Entanglement != 0){
             e->Entanglement_stack++;
@@ -109,7 +109,7 @@ void allEventChangeHP(Unit *Trigger,SubUnit *target,double Value){
         e.Call(Trigger,target,Value);
     }
 }
-void allEventWhenToughnessBreak(ActionData &data_,Enemy *target){
+void allEventWhenToughnessBreak(AllyActionData &data_,Enemy *target){
     for(TriggerBySomeAlly_Func &e : Toughness_break_List){
         e.Call(target,data_.Attacker);
     }
@@ -133,7 +133,7 @@ void allEventSkillPoint(SubUnit *ptr,int p){
     }
     return ;
 }
-void allEventAttackHitCount(ActionData &data_,int Hit_cnt,int Total_Hit_cnt){
+void allEventAttackHitCount(AllyActionData &data_,int Hit_cnt,int Total_Hit_cnt){
     for(TriggerHit_Count_func &e : Hit_Count_List){
         e.Call(data_,Hit_cnt,Total_Hit_cnt);
     }

@@ -48,10 +48,10 @@ namespace Sunday{
         // });
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
             if (!ultUseCheck(ptr)) return;
-            ActionData data_ = ActionData();
+            AllyActionData data_ = AllyActionData();
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Buff", "Single_target","Sunday Ultimate");
             data_.Add_Buff_Single_Target(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()));
-            data_.actionFunction = [ptr](ActionData &data_){
+            data_.actionFunction = [ptr](AllyActionData &data_){
                 if (ptr->Print)CharCmd::printUltStart("Sunday");
                 if (ptr->Eidolon >= 2) {
                     if (ptr->Sub_Unit_ptr[0]->Buff_check["Ult_first_time"] == 0) {
@@ -176,7 +176,7 @@ namespace Sunday{
             Increase_energy(ptr, 25);
         }));
 
-        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](ActionData &data_) {
+        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](AllyActionData &data_) {
             if (chooseCharacterBuff(ptr->getSubUnit())->getBuffCheck("Ode_to_Caress_and_Cicatrix") && data_.actionName=="Sunday Skill") {
                 Skill_point(ptr->Sub_Unit_ptr[0].get(), 1);
             }
@@ -256,11 +256,11 @@ namespace Sunday{
 
     
     void Skill(Ally *ptr){
-        ActionData temp = ActionData();
+        AllyActionData temp = AllyActionData();
         temp.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Sunday Skill");
         temp.Add_Buff_Single_Target(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()));
         temp.Turn_reset=true;
-        temp.actionFunction = [ptr](ActionData &data_){
+        temp.actionFunction = [ptr](AllyActionData &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
             if(ptr->Eidolon>=6){

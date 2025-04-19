@@ -60,10 +60,10 @@ namespace Robin{
             if(Ult_Condition(ptr))return;
             if(ptr->Countdown_ptr[0]->Atv_stats->Base_speed != 90 && ptr->Sub_Unit_ptr[0]->Buff_countdown["Pinion'sAria"] > ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt && ultUseCheck(ptr)){
                 
-                ActionData data_ = ActionData();
+                AllyActionData data_ = AllyActionData();
                 data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff","Robin Ultimate");
                 data_.Add_Buff_All_Ally();
-                data_.actionFunction = [ptr](ActionData &data_){
+                data_.actionFunction = [ptr](AllyActionData &data_){
                     ptr->Countdown_ptr[0]->Atv_stats->Base_speed = 90;
                     ptr->Sub_Unit_ptr[0]->Atv_stats->Base_speed = -1;
                     Update_Max_atv(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
@@ -123,13 +123,13 @@ namespace Robin{
             }
         }));
 
-        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr](ActionData &data_){
+        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr](AllyActionData &data_){
             Increase_energy(ptr, 2);
             if(ptr->Eidolon >= 2){
                 Increase_energy(ptr, 1);
             }
             if(ptr->Countdown_ptr[0]->Atv_stats->Base_speed == 90){
-                ActionData data_ = ActionData();
+                AllyActionData data_ = AllyActionData();
                 double x1 = 0, x2 = 0;
                 data_.Additional_set(ptr->Sub_Unit_ptr[0].get(), "Single_target","Robin Additional");
 
@@ -192,11 +192,11 @@ namespace Robin{
 
     void Skill(Ally *ptr){
         
-        ActionData data_ = ActionData();
+        AllyActionData data_ = AllyActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Robin Skill");
         data_.Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
         data_.Turn_reset = 1;
-        data_.actionFunction = [ptr](ActionData &data_){
+        data_.actionFunction = [ptr](AllyActionData &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,35);
             Buff_All_Ally("Dmg%","None",50);
@@ -210,12 +210,12 @@ namespace Robin{
     }
     void Basic_Atk(Ally *ptr){
         
-        ActionData data_ = ActionData();
+        AllyActionData data_ = AllyActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Robin BasicAttack");
         data_.Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
         data_.Turn_reset = 1;
         data_.Damage_spilt.Main.push_back({100,0,0,10});
-        data_.actionFunction = [ptr](ActionData &data_){
+        data_.actionFunction = [ptr](AllyActionData &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
             Attack(data_);

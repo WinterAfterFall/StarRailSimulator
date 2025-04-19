@@ -125,6 +125,9 @@ public:
         taunt = tauntBase * tauntMtpr/100.0;
         totalTaunt += taunt;
     }
+    double calHitChance(){
+        return (taunt/totalTaunt*100.0);
+    }
 
     ~SubUnit() {}
     bool isSameChar(SubUnit *ptr){
@@ -428,14 +431,13 @@ public:
     double ATK = 718;
     double atkPercent = 0;
     double dmgPercent = 0;
-    double Energy_gen;
     double Max_toughness; 
     double Current_toughness;
     bool Toughness_status = 1;
     double toughnessAvgMultiplier = 0;
     string Target_type = "";//*
-    pair<int,int> AOECoolDown = {2,3};
-    double skillRatio = 0;
+    unordered_map<string,double> AttackCoolDown;
+    int AoeCharge = 0;
 
     SubUnit *target = nullptr;
 
@@ -503,7 +505,9 @@ public:
 
 
     //create
-    Enemy* createNewEnemy();
+    void BaAttack(double SkillRatio,double energy);
+    void AoeAttack(double SkillRatio,double energy);
+
     //debuff.h
     bool debuffApply(SubUnit *ptr, string debuffName);
     bool debuffMark(SubUnit *ptr, string debuffName);

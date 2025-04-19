@@ -14,7 +14,7 @@ namespace The_Herta{
     void Ult_func(Ally *ptr);
     void Tune_stats(Ally *ptr);
     void Start_game(Ally *ptr);
-    void After_attack(Ally *ptr,ActionData &data_);
+    void After_attack(Ally *ptr,AllyActionData &data_);
     void After_turn(Ally *ptr);
     void Enemy_Death(Ally *ptr,Enemy *target,SubUnit *Killer);
     void When_Combat(Ally *ptr);
@@ -62,10 +62,10 @@ namespace The_Herta{
             if ((ptr->Sub_Unit_ptr[0]->Atv_stats->atv < ptr->Sub_Unit_ptr[0]->Atv_stats->Max_atv * 0.3)) return;
             if (!ultUseCheck(ptr)) return;
 
-            ActionData data_ = ActionData();
+            AllyActionData data_ = AllyActionData();
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","The Herta Ultimate");
             data_.Add_Target_Other();
-            data_.actionFunction = [ptr](ActionData &data_){
+            data_.actionFunction = [ptr](AllyActionData &data_){
                 double Increase_mtpr = ptr->Sub_Unit_ptr[0]->Stack["The_Herta_A6"];
                 data_.Damage_spilt.Main.push_back({200 + Increase_mtpr, 0, 0, 20});
                 data_.Damage_spilt.Adjacent.push_back({200 + Increase_mtpr, 0, 0, 20});
@@ -140,7 +140,7 @@ namespace The_Herta{
             }
         }));
 
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_BUFF, [ptr](ActionData &data_){
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_BUFF, [ptr](AllyActionData &data_){
             if(data_.Action_type.second=="Skill" && ptr->Sub_Unit_ptr[0]->Buff_check["Ther_Herta_A2"]){
                 ptr->Sub_Unit_ptr[0]->Buff_check["Ther_Herta_A2"] = 0;
                 Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Dmg%","None",-50);
@@ -214,12 +214,12 @@ namespace The_Herta{
     }
 
     void Basic_Atk(Ally *ptr){
-        ActionData data_ = ActionData();
+        AllyActionData data_ = AllyActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","The Herta BasicAttack");
         data_.Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
         data_.Turn_reset=true;
         data_.Damage_spilt.Main.push_back({100,0,0,10});
-        data_.actionFunction =[ptr](ActionData &data_){
+        data_.actionFunction =[ptr](AllyActionData &data_){
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(data_);
@@ -229,7 +229,7 @@ namespace The_Herta{
     void Skill(Ally *ptr){
         
 
-        ActionData data_ = ActionData();
+        AllyActionData data_ = AllyActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Blast","The Herta Skill");
         data_.Add_Target_Other();
         data_.Damage_spilt.Main.push_back({70,0,0,5});
@@ -244,7 +244,7 @@ namespace The_Herta{
         data_.Damage_spilt.Other.push_back({0,0,0,0});
         data_.Damage_spilt.Other.push_back({70,0,0,5});
         data_.Turn_reset=true;
-        data_.actionFunction =[ptr](ActionData &data_){
+        data_.actionFunction =[ptr](AllyActionData &data_){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Apply_Herta_Stack(ptr,Enemy_unit[Main_Enemy_num].get(),1);
@@ -253,11 +253,11 @@ namespace The_Herta{
         Action_bar.push(data_);
     }
     void Enchance_Skill(Ally *ptr){
-        ActionData data_ = ActionData();
+        AllyActionData data_ = AllyActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Aoe","The Herta EnchanceSkill");
         data_.Add_Target_Other();
         data_.Turn_reset=true;
-        data_.actionFunction =[ptr](ActionData &data_){
+        data_.actionFunction =[ptr](AllyActionData &data_){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             double Increase_mtpr = Enemy_unit[Main_Enemy_num]->Debuff["Herta_Stack"];

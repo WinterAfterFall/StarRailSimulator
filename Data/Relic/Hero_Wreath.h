@@ -27,7 +27,7 @@ namespace Relic{
             }
         }));
 
-        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](ActionData &data_) {
+        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](AllyActionData &data_) {
             if (data_.Attacker->Atv_stats->Side == "Ally" && ptr->Sub_Unit_ptr.size() > 1) {
                 Buff_single_with_all_memo_each(ptr, "Crit_dam", "None", 30, "Hero_Wreath_buff");
             }

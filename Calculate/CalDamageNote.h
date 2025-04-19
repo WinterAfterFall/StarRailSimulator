@@ -52,7 +52,7 @@ double Cal_AvgToughnessMultiplier(Enemy *target,double Total_atv){
     
     return temp;
 }
-void Cal_DamageNote(ActionData &data_,Enemy *target,double damage){
+void Cal_DamageNote(AllyActionData &data_,Enemy *target,double damage){
     Ally *ptr = data_.Attacker->ptr_to_unit;
     if(data_.toughnessAvgCalculate){
         ptr->totalAvgToughnessDamage[target->getNum()] += damage;

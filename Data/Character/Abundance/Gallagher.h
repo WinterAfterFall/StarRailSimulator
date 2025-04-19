@@ -47,13 +47,13 @@ namespace Gallagher{
             if (Ult_After_Turn == 0 || ptr->Sub_Unit_ptr[0]->Atv_stats->atv == 0 || !ultUseCheck(ptr)) return;
             
 
-            ActionData data_ = ActionData();
+            AllyActionData data_ = AllyActionData();
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Gallagher Ultimate");
             data_.Add_Target_Other();
             data_.Damage_spilt.Main.push_back({165, 0, 0, 20});
             data_.Damage_spilt.Adjacent.push_back({165, 0, 0, 20});
             data_.Damage_spilt.Other.push_back({165, 0, 0, 20});
-            data_.actionFunction = [ptr](ActionData &data_) {
+            data_.actionFunction = [ptr](AllyActionData &data_) {
                 Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
                 ptr->Sub_Unit_ptr[0]->Buff_check["Gallagher_enchance_basic_atk"] = 1;
                 debuffAllEnemyApplyVer(ptr->Sub_Unit_ptr[0].get(), "Vul", "Break_dmg", 13.2, "Besotted");  
@@ -108,13 +108,13 @@ namespace Gallagher{
             ptr->getSubUnit()->Buff_note["Novel Concoction"] = temp - ptr->getSubUnit()->Buff_note["Novel Concoction"];
             Buff_single_target(ptr->getSubUnit(),ST_BREAK_EFFECT,AT_NONE,ptr->getSubUnit()->Buff_note["Novel Concoction"]);
             if (ptr->Technique) {
-                ActionData data_ = ActionData();
+                AllyActionData data_ = AllyActionData();
                 data_.Technique_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","gallagher Technique");
                 data_.Damage_spilt.Main.push_back({50, 0, 0, 20});
                 data_.Damage_spilt.Adjacent.push_back({50, 0, 0, 20});
                 data_.Damage_spilt.Other.push_back({50, 0, 0, 20});
                 Action_bar.push(data_);
-                data_.actionFunction = [ptr](ActionData &data_){
+                data_.actionFunction = [ptr](AllyActionData &data_){
                     Extend_Debuff_All_Enemy("Besotted", 2);
                     debuffAllEnemyApplyVer(ptr->Sub_Unit_ptr[0].get(), "Vul", "Break_dmg", 13.2, "Besotted");
                     Attack(data_);
@@ -123,7 +123,7 @@ namespace Gallagher{
             }
         }});
 
-        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_HEAL, [ptr](ActionData &data_) {
+        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_HEAL, [ptr](AllyActionData &data_) {
             Heal_data healData = Heal_data();
             healData.setHealer(ptr->Sub_Unit_ptr[0].get());
             
@@ -172,13 +172,13 @@ namespace Gallagher{
 
     void Basic_Atk(Ally *ptr){
         
-        ActionData data_ = ActionData();
+        AllyActionData data_ = AllyActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Gallagher Basic_Atk");
         data_.Add_Target_Main();
         data_.Turn_reset = 1;
         data_.Damage_spilt.Main.push_back({55,0,0,5});
         data_.Damage_spilt.Main.push_back({55,0,0,5});
-        data_.actionFunction = [ptr](ActionData &data_){
+        data_.actionFunction = [ptr](AllyActionData &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
             Attack(data_);
@@ -189,14 +189,14 @@ namespace Gallagher{
        
         
         
-        ActionData data_ = ActionData();
+        AllyActionData data_ = AllyActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Nectar Blitz");
         data_.Add_Target_Main();
         data_.Turn_reset = 1;
         data_.Damage_spilt.Main.push_back({62.5,0,0,7.5});
         data_.Damage_spilt.Main.push_back({37.5,0,0,4.5});
         data_.Damage_spilt.Main.push_back({150,0,0,18});
-        data_.actionFunction = [ptr](ActionData &data_){
+        data_.actionFunction = [ptr](AllyActionData &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
             for(Enemy* &target : data_.Target_Attack){
@@ -212,14 +212,14 @@ namespace Gallagher{
     void Skill_func(Ally *ptr){
 
         
-        ActionData data_ = ActionData();
+        AllyActionData data_ = AllyActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Heal","Gallagher Skill");
         data_.Add_Buff_Single_Target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
         data_.resetTurn();
         data_.createHealRatio();
         data_.healPtr->setHealer(ptr->Sub_Unit_ptr[0].get());
         data_.healPtr->main.setRatio(0,0,0,1768,0,0);
-        data_.actionFunction = [ptr](ActionData &data_){
+        data_.actionFunction = [ptr](AllyActionData &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
 

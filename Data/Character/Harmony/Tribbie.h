@@ -48,13 +48,13 @@ namespace Tribbie{
             if (ptr->Light_cone.Name == "DDD" && Driver_num != 0 && Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv <= 0) return;
             if (ptr->Light_cone.Name == "Eagle_Beaked_Helmet" && ptr->Sub_Unit_ptr[0]->Atv_stats->atv <= 0) return;
             if (!ultUseCheck(ptr)) return;
-            ActionData data_ = ActionData();
+            AllyActionData data_ = AllyActionData();
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","Tribbie Ultimate");
             data_.Add_Target_Other();
             data_.Damage_spilt.Main.push_back({0, 30, 0, 20});
             data_.Damage_spilt.Adjacent.push_back({0, 30, 0, 20});
             data_.Damage_spilt.Other.push_back({0, 30, 0, 20});
-            data_.actionFunction = [ptr](ActionData &data_){
+            data_.actionFunction = [ptr](AllyActionData &data_){
                 if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Tribbie_Zone")) {
                         ptr->Sub_Unit_ptr[0]->Buff_check["Tribbie_Zone"] = 1;
                         debuffAllEnemyMarkVer(ptr->Sub_Unit_ptr[0].get(),ST_VUL,AT_NONE,30,"Tribbie_Zone");
@@ -84,10 +84,10 @@ namespace Tribbie{
                 
                 if (ptr->Print)CharCmd::printUltStart("Tribbie");
                 if (ptr->Eidolon >= 6) {
-                    ActionData data_2 = ActionData();
+                    AllyActionData data_2 = AllyActionData();
                     data_2.Fua_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","Tribbie Fua");
                     data_2.Add_Target_Other();
-                    data_2.actionFunction =[ptr](ActionData &data_2){
+                    data_2.actionFunction =[ptr](AllyActionData &data_2){
                         Increase_energy(ptr, 5);
                         Attack(data_2);
                     };
@@ -155,7 +155,7 @@ namespace Tribbie{
             ptr->Sub_Unit_ptr[0]->Buff_check["Numinosity"] = 1;
         }));
 
-        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](ActionData &data_) {
+        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](AllyActionData &data_) {
             int temp = data_.Target_Attack.size();
             if (data_.Attacker->Atv_stats->Char_Name == "Tribbie" && data_.Action_type.second == "Fua") {
                 Stack_Buff_single_target(data_.Attacker, "Dmg%", "None", 72, 1, 3, "Tribbie_A2");
@@ -163,7 +163,7 @@ namespace Tribbie{
             }
             Increase_energy(ptr, (1.5) * temp);
             if (Buff_check(ptr->Sub_Unit_ptr[0].get(), "Tribbie_Zone")) {
-                ActionData data_1 = ActionData();
+                AllyActionData data_1 = AllyActionData();
                 data_1.Additional_set(ptr->Sub_Unit_ptr[0].get(), "Single_target","Tribbie Additional Damage");
                 if (ptr->Eidolon >= 2) {
                     Cal_Additional_damage(data_1, chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()), {0, (14.4) * (temp + 1), 0, 0});
@@ -173,10 +173,10 @@ namespace Tribbie{
             }
             if (data_.Action_type.second == "Ultimate" && Buff_check(data_.Attacker, "Tribbie_ult_launch") == 0 && data_.Attacker->Atv_stats->Char_Name != "Tribbie" && data_.Attacker->Atv_stats->Side == "Ally") {
                 data_.Attacker->Buff_check["Tribbie_ult_launch"] = 1;
-                ActionData data_2 = ActionData();
+                AllyActionData data_2 = AllyActionData();
                 data_2.Fua_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","Tribbie Fua");
                 data_2.Add_Target_Other();
-                data_2.actionFunction =[ptr](ActionData data_){
+                data_2.actionFunction =[ptr](AllyActionData data_){
                     Increase_energy(ptr, 5);
                     Attack(data_);
                 };
@@ -210,13 +210,13 @@ namespace Tribbie{
 
 
     void Basic_Atk(Ally *ptr){
-        ActionData data_ = ActionData();
+        AllyActionData data_ = AllyActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Blast","Tribbie BasicAttack");
         data_.Add_Target_Adjacent();
         data_.Turn_reset=true;
         data_.Damage_spilt.Main.push_back({0,30,0,10});
         data_.Damage_spilt.Adjacent.push_back({0,15,0,5});
-        data_.actionFunction =[ptr](ActionData &data_){
+        data_.actionFunction =[ptr](AllyActionData &data_){
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(data_);
@@ -227,11 +227,11 @@ namespace Tribbie{
     
     void Skill(Ally *ptr){
         
-        ActionData data_ = ActionData();
+        AllyActionData data_ = AllyActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Aoe","Buff","Tribbie Skill");
         data_.Add_Buff_All_Ally();
         data_.Turn_reset=true;
-        data_.actionFunction =[ptr](ActionData &data_){
+        data_.actionFunction =[ptr](AllyActionData &data_){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Buff_All_Ally("Respen","None",24);

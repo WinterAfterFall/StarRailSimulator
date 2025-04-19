@@ -39,10 +39,10 @@ namespace Harmony_MC{
             if(Buff_check(ptr->Sub_Unit_ptr[0].get(),"Harmony_MC_ult") || !ultUseCheck(ptr)) return;
             
             
-            ActionData data_ = ActionData();
+            AllyActionData data_ = AllyActionData();
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff", "HMC Ultimate");
             data_.Add_Buff_All_Ally();
-            data_.actionFunction = [ptr](ActionData &data_){
+            data_.actionFunction = [ptr](AllyActionData &data_){
                 if(!Buff_check(ptr->Sub_Unit_ptr[0].get(),"Harmony_MC_ult")){
                     Buff_All_Ally("Break_effect","None",33);
                 }
@@ -94,7 +94,7 @@ namespace Harmony_MC{
             }
         }));
 
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr](ActionData &data_){
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr](AllyActionData &data_){
             if(ptr->Sub_Unit_ptr[0]->Buff_check["Harmony_MC_ult"] == 1){
                 Superbreak_trigger(data_, 100 * (1.7 - (0.1 * Total_enemy)));
             }
@@ -121,12 +121,12 @@ namespace Harmony_MC{
 
 void Basic_Atk(Ally *ptr){
         
-        ActionData data_ = ActionData();
+        AllyActionData data_ = AllyActionData();
         data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","HMC BasicAttack");
         data_.Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
         data_.Turn_reset = 1;
         data_.Damage_spilt.Main.push_back({110,0,0,10});
-        data_.actionFunction = [ptr](ActionData &data_){
+        data_.actionFunction = [ptr](AllyActionData &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
             Attack(data_);
@@ -135,7 +135,7 @@ void Basic_Atk(Ally *ptr){
     }
     void Skill_func(Ally *ptr){
         
-        ActionData data_ = ActionData();
+        AllyActionData data_ = AllyActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Bounce","HMC Skill");
         data_.Add_Target_Adjacent();
         data_.Turn_reset = 1;
@@ -157,7 +157,7 @@ void Basic_Atk(Ally *ptr){
             data_.Damage_spilt.Adjacent.push_back({55,0,0,5});
             data_.Damage_spilt.Adjacent.push_back({55,0,0,5});
         }
-        data_.actionFunction = [ptr](ActionData &data_){
+        data_.actionFunction = [ptr](AllyActionData &data_){
             if(ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt!=1)Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);     
             Increase_energy(ptr,30);
             Attack(data_);

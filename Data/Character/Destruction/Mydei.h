@@ -48,14 +48,14 @@ namespace Mydei{
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
             if (!ultUseCheck(ptr)) return;
-            ActionData data_ = ActionData();
+            AllyActionData data_ = AllyActionData();
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Blast","Mydei Ult");
             data_.Add_Target_Adjacent();
             data_.Damage_spilt.Main.push_back({0, 160, 0, 20});
             data_.Damage_spilt.Adjacent.push_back({0, 100, 0, 20});
             
             
-            data_.actionFunction = [ptr](ActionData &data_) {
+            data_.actionFunction = [ptr](AllyActionData &data_) {
                 for (Enemy* e : data_.Target_Attack) {
                     e->target = ptr->Sub_Unit_ptr[0].get();
                     e->debuffApply(ptr->Sub_Unit_ptr[0].get(),"Mydei_Taunt");
@@ -109,7 +109,7 @@ namespace Mydei{
 
             allEventAdjustStats(ptr->Sub_Unit_ptr[0].get(), "Hp%");
             if (ptr->Technique) {
-            ActionData data_ = ActionData();
+            AllyActionData data_ = AllyActionData();
             data_.Technique_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Mydei Technique");
             data_.Add_Target_Other();
             data_.Damage_spilt.Main.push_back({0, 80, 0, 0});
@@ -166,13 +166,13 @@ namespace Mydei{
             ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_E2"] = 0;
         }));
 
-        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr](ActionData &data_) {
+        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr](AllyActionData &data_) {
             if (data_.actionName == "GodSlayer") {
             ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_cannot_charge"] = 1;
             }
         }));
 
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr](ActionData &data_) {
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr](AllyActionData &data_) {
             if (ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_action"]) {
             ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_action"] = 0;
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
@@ -193,20 +193,20 @@ namespace Mydei{
     void Basic_Atk(Ally *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         Increase_energy(ptr,30,0);
-        ActionData data_ = ActionData();
+        AllyActionData data_ = AllyActionData();
         Action_bar.push(data_);
         //none complete
 
     }
     void Skill(Ally *ptr){
         
-        ActionData data_ = ActionData();
+        AllyActionData data_ = AllyActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Blast","Mydei Skill");
         data_.Add_Target_Adjacent();
         data_.resetTurn();
         data_.Damage_spilt.Main.push_back({0,90,0,20});
         data_.Damage_spilt.Adjacent.push_back({0,50,0,10});
-        data_.actionFunction = [ptr](ActionData &data_){
+        data_.actionFunction = [ptr](AllyActionData &data_){
             Increase_energy(ptr,30,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),ptr->Sub_Unit_ptr[0].get(),0,0,50);
             Attack(data_);
@@ -216,13 +216,13 @@ namespace Mydei{
     }
     void Enchance_Skill(Ally *ptr){
         
-        ActionData data_ = ActionData();
+        AllyActionData data_ = AllyActionData();
         data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Blast","KingSlayer");
         data_.Add_Target_Adjacent();
         data_.resetTurn();
         data_.Damage_spilt.Main.push_back({0,110,0,20});
         data_.Damage_spilt.Adjacent.push_back({0,66,0,10});
-        data_.actionFunction = [ptr](ActionData &data_){
+        data_.actionFunction = [ptr](AllyActionData &data_){
             Increase_energy(ptr,30,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),ptr->Sub_Unit_ptr[0].get(),0,0,35);
             Attack(data_);
@@ -231,7 +231,7 @@ namespace Mydei{
     }
     void GodSlayer(Ally *ptr){
         
-        ActionData data_ = ActionData();
+        AllyActionData data_ = AllyActionData();
         if(ptr->Eidolon>=1){
             data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),"Aoe","GodSlayer");
             data_.Add_Target_Other();
@@ -249,7 +249,7 @@ namespace Mydei{
             data_.Damage_spilt.Adjacent.push_back({0,84,0,10});
             data_.Damage_spilt.Adjacent.push_back({0,84,0,10});
         }
-        data_.actionFunction = [ptr](ActionData &data_){
+        data_.actionFunction = [ptr](AllyActionData &data_){
             
             Increase_energy(ptr,10,0);
             Attack(data_);

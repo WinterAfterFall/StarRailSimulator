@@ -122,8 +122,10 @@ void Basic_reset(){
             Enemy_unit[i]->target=nullptr;
             Enemy_unit[i]->atkPercent = 0;
             Enemy_unit[i]->dmgPercent = 0;
-            Enemy_unit[i]->dmgPercent = 0;
-
+            Enemy_unit[i]->AoeCharge = 0;
+            for(auto &e: Enemy_unit[i]->AttackCoolDown){
+                e.second = 0;
+            }
             Enemy_unit[i]->damageAvgNote.resize(Total_ally+1);
             Enemy_unit[i]->damageRealTimeNote.resize(Total_ally+1);
             Enemy_unit[i]->maxDamageAvgNote.resize(Total_ally+1);

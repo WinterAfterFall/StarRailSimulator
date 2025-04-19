@@ -48,7 +48,7 @@ namespace Castorice{
             }
         };
         ptr->Sub_Unit_ptr[1]->Turn_func = [ptr](){
-            ActionData data_ = ActionData();
+            AllyActionData data_ = AllyActionData();
             data_.Skill_set(ptr->getSubUnit(1),"Aoe","Breath Scorches the Shadow");
             data_.Add_Target_Other();
             data_.Skill_Type.push_back("Summon");
@@ -58,7 +58,7 @@ namespace Castorice{
             data_.Damage_spilt.Main.push_back({0,24,0,10});
             data_.Damage_spilt.Adjacent.push_back({0,24,0,10});
             data_.Damage_spilt.Other.push_back({0,24,0,10});
-            data_.actionFunction = [ptr](ActionData &data_){
+            data_.actionFunction = [ptr](AllyActionData &data_){
                 Increase_energy(ptr,0);
                 while(ptr->getSubUnit(1)->currentHP>8500){
                     if(ptr->getSubUnit(1)->Stack["Breath Scorches the Shadow"]==0){
@@ -155,10 +155,10 @@ namespace Castorice{
             if(!ultUseCheck(ptr))return;
             ptr->getSubUnit()->Buff_note["Newbud"] = 0;
 
-            ActionData data_ = ActionData();
+            AllyActionData data_ = AllyActionData();
             data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Summon","Castorice Ultimate");
             data_.Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
-            data_.actionFunction = [ptr](ActionData &data_) {
+            data_.actionFunction = [ptr](AllyActionData &data_) {
                 if(ptr->Print)CharCmd::printUltStart("Castorice");
                 debuffAllEnemyMarkVer(ptr->getSubUnit(1),ST_RESPEN,AT_NONE,20,"Lost Netherland");
                 ptr->getSubUnit(1)->currentHP = 34000;
@@ -297,7 +297,7 @@ namespace Castorice{
             
         }));
 
-        Buff_List.push_back(TriggerByAction_Func(PRIORITY_ACTION, [ptr](ActionData &data_) {
+        Buff_List.push_back(TriggerByAction_Func(PRIORITY_ACTION, [ptr](AllyActionData &data_) {
             for(int i=1;i<=Total_ally;i++){
                 for(unique_ptr<SubUnit> &e : Ally_unit[i]->Sub_Unit_ptr){
                     e->Buff_note["NetherwingHealLimit"] = 0;
@@ -307,7 +307,7 @@ namespace Castorice{
             
         }));
 
-        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTION, [ptr](ActionData &data_) {
+        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTION, [ptr](AllyActionData &data_) {
             for(int i=1;i<=Total_ally;i++){
                 for(unique_ptr<SubUnit> &e : Ally_unit[i]->Sub_Unit_ptr){
                     e->Buff_note["NetherwingHealLimit"] = 0;
@@ -315,7 +315,7 @@ namespace Castorice{
             }
         }));
 
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTION, [ptr](ActionData &data_) {
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTION, [ptr](AllyActionData &data_) {
             if(data_.actionName=="Wings Sweep the Ruins"){
                 
             }
@@ -343,24 +343,24 @@ namespace Castorice{
         }));
     }
     void BasicAttack(Ally *ptr){
-        ActionData data_ = ActionData();
+        AllyActionData data_ = AllyActionData();
         data_.Basic_Attack_set(ptr->getSubUnit(),"Single_target","Castorice Skill");
         data_.Add_Target_Adjacent();
         data_.resetTurn();
         data_.Damage_spilt.Main.push_back({0,50,0,20});
-        data_.actionFunction = [ptr](ActionData &data_){
+        data_.actionFunction = [ptr](AllyActionData &data_){
             Attack(data_);
         };
         Action_bar.push(data_);
     }
     void Skill(Ally *ptr){
-        ActionData data_ = ActionData();
+        AllyActionData data_ = AllyActionData();
         data_.Skill_set(ptr->getSubUnit(),"Blast","Castorice Skill");
         data_.Add_Target_Adjacent();
         data_.resetTurn();
         data_.Damage_spilt.Main.push_back({0,50,0,20});
         data_.Damage_spilt.Adjacent.push_back({0,30,0,10});
-        data_.actionFunction = [ptr](ActionData &data_){
+        data_.actionFunction = [ptr](AllyActionData &data_){
             Increase_energy(ptr,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),"Netherwing",0,0,30);
             Attack(data_);
@@ -368,7 +368,7 @@ namespace Castorice{
         Action_bar.push(data_);
     }
     void Enchance_Skill(Ally *ptr){
-        ActionData data_ = ActionData();
+        AllyActionData data_ = AllyActionData();
         data_.Skill_set(ptr->getSubUnit(),"Aoe","Castorice Enchance Skill");
         data_.Add_Target_Other();
         data_.resetTurn();
@@ -381,7 +381,7 @@ namespace Castorice{
         data_.All_Attacker.push_back(ptr->Sub_Unit_ptr[1].get());
         data_.Attack_trigger++;
         data_.Joint.push_back(AttackSource(1,ptr->Sub_Unit_ptr[1].get(),ptr->Sub_Unit_ptr[0].get()));
-        data_.actionFunction = [ptr](ActionData &data_){
+        data_.actionFunction = [ptr](AllyActionData &data_){
             Increase_energy(ptr,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),"Netherwing",0,0,40);
             if(ptr->Eidolon>=1){
@@ -394,7 +394,7 @@ namespace Castorice{
         Action_bar.push(data_);
     }
     void Kamikaze(Ally *ptr){
-        ActionData data_ = ActionData();
+        AllyActionData data_ = AllyActionData();
         data_.Skill_set(ptr->getSubUnit(1),"Aoe","Wings Sweep the Ruins");
         data_.Add_Target_Other();
         data_.Skill_Type.push_back("Summon");
@@ -428,7 +428,7 @@ namespace Castorice{
             data_.Damage_spilt.Main.push_back({0,40*1.239,0,5});
             data_.Damage_spilt.Main.push_back({0,40*1.239,0,5});
         }
-        data_.actionFunction = [ptr](ActionData &data_){
+        data_.actionFunction = [ptr](AllyActionData &data_){
             Increase_energy(ptr,0);
             Attack(data_);
             HealRatio healRatio = HealRatio();
