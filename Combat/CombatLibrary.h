@@ -4,7 +4,7 @@
 #include "Action_value.h"
 #include "Buff_Speed.h"
 #include "Buff_Stats.h"
-#include "Buff.h"
+#include "AdjustStats.h"
 #include "Combat.h"
 #include "Debuff_Stats.h"
 #include "Energy.h" 

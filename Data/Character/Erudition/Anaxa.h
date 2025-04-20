@@ -43,13 +43,13 @@ namespace Jade{
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
             if (!ultUseCheck(ptr)) return;
-            AllyActionData data_ = AllyActionData();
-            data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","Jade Ultimate");
-            data_.Add_Target_Other();
-            data_.Damage_spilt.Main.push_back({240, 0, 0, 20});
-            data_.Damage_spilt.Adjacent.push_back({240, 0, 0, 20});
-            data_.Damage_spilt.Other.push_back({240, 0, 0, 20});
-            data_.actionFunction = [ptr](shared_ptr<AllyActionData> &data_) {
+            shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+            data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","Jade Ultimate");
+            data_->Add_Target_Other();
+            data_->Damage_spilt.Main.push_back({240, 0, 0, 20});
+            data_->Damage_spilt.Adjacent.push_back({240, 0, 0, 20});
+            data_->Damage_spilt.Other.push_back({240, 0, 0, 20});
+            data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_) {
                 ptr->Sub_Unit_ptr[0]->Stack["Jade_Ultimate_stack"] = 2;
                 Attack(data_);
             };
@@ -65,37 +65,110 @@ namespace Jade{
             // substats
         }));
 
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+            Enemy * enemy = turn->canCastToEnemy();
+            if(!enemy)return;
+            if(enemy->isDebuffEnd("Anaxa Weakness")){
+                enemy->debuffRemoveStack("Anaxa Weakness");
+                if(enemy->getDebuff(""))
+            }
+        }));
+
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
+            if(data_->actionName=="Anaxa BA"||data_->actionName=="Anaxa BA"){
+                AdditionalSkill(ptr);
+            }
+        }));
     }
+
 
 
 
     void Basic_Atk(Ally *ptr){
         
-        AllyActionData data_ = AllyActionData();
-        data_.Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),TT_SINGLE,"Anaxa BA");
-        data_.Add_Target_Adjacent();
-        data_.Turn_reset=true;
-        data_.Damage_spilt.Main.push_back({100,0,0,10});
-        data_.actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
+        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+        data_->Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),TT_SINGLE,"Anaxa BA");
+        data_->Add_Target_Adjacent();
+        data_->Turn_reset=true;
+        data_->Damage_spilt.Main.push_back({100,0,0,10});
+        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
+            Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
+            for(auto &e : data_->Target_Attack){
+                if(e->debuffStack(data_->Attacker,"Anaxa Weakness",1,4).second >=2){
+                    if(e->isHaveToAddDebuff("Qualitative Disclosure")){
+                        e->debuffSingleTarget(ST_DMG_PERCENT,AT_NONE,30);
+                    }
+                    Extend_Debuff_single_target(e,"Anaxa Weakness",3);
+                }
+            }
             Attack(data_);
         };
         Action_bar.push(data_);
     }
     void Skill(Ally *ptr){
         
-        AllyActionData data_ = AllyActionData();
-        data_.Skill_set(ptr->Sub_Unit_ptr[0].get(),TT_BOUNCE,"Anaxa Skill");
-        data_.Add_Target_FairBounce(5,{70,0,0,10});
-        data_.Turn_reset=true; 
-        data_.actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
+        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),TT_BOUNCE,"Anaxa Skill");
+        data_->Add_Target_FairBounce(5,{70,0,0,10});
+        data_->Turn_reset=true;     
+        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
+            Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
+
+            Buff_single_target(data_->Attacker,ST_DMG_PERCENT,AT_NONE,20 * Total_enemy);
+            int cnt = 5;
+            while(1){
+                for(auto &e : data_->Target_Attack){
+                    if(e->debuffStack(data_->Attacker,"Anaxa Weakness",1,4).second >=2){
+                        if(e->isHaveToAddDebuff("Qualitative Disclosure")){
+                            e->debuffSingleTarget(ST_DMG_PERCENT,AT_NONE,30);
+                            Extend_Debuff_single_target(e,"Qualitative Disclosure",3);
+                        }
+                    }
+                    --cnt;
+                    if(cnt==0)break;
+                }
+                if(cnt==0)break;    
+            }
+            
             Attack(data_);
+            Buff_single_target(data_->Attacker,ST_DMG_PERCENT,AT_NONE,-20 * Total_enemy);
         };
         Action_bar.push(data_);
     }
+    void AdditionalSkill(Ally *ptr){
+        
+        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),TT_BOUNCE,"Anaxa AdditionalSkill");
+        data_->Add_Target_FairBounce(5,{70,0,0,10});
+        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
+            Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
+            Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
+
+            Buff_single_target(data_->Attacker,ST_DMG_PERCENT,AT_NONE,20 * Total_enemy);
+            int cnt = 5;
+            while(1){
+                for(auto &e : data_->Target_Attack){
+                    if(e->debuffStack(data_->Attacker,"Anaxa Weakness",1,4).second >=2){
+                        if(e->isHaveToAddDebuff("Qualitative Disclosure")){
+                            e->debuffSingleTarget(ST_DMG_PERCENT,AT_NONE,30);
+                            Extend_Debuff_single_target(e,"Qualitative Disclosure",3);
+                        }
+                    }
+                    --cnt;
+                    if(cnt==0)break;
+                }
+                if(cnt==0)break;    
+            }
+            
+            Attack(data_);
+            Buff_single_target(data_->Attacker,ST_DMG_PERCENT,AT_NONE,-20 * Total_enemy);
+        };
+        Action_bar.push(data_);
+        if(!actionBarUse)Deal_damage();
+    }
+    
 
 }
 #endif

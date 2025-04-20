@@ -11,6 +11,45 @@ using namespace std;
 
 
 //check if it is ally uni
+bool SubUnit::isBuffEnd(string Buff_name){
+    if(this->Atv_stats->turn_cnt==this->Buff_countdown[Buff_name]&&turn->Char_Name==this->Atv_stats->Char_Name){
+        this->Buff_check[Buff_name] = 0;
+        return true;
+    }
+    return false;
+}
+bool SubUnit::isHaveToAddBuff(string Buff_name){
+    if(this->Buff_check[Buff_name]==1){
+        return false;
+    }
+    Buff_check[Buff_name] = 1;
+    return true;
+}
+void Extend_Buff_single_target(SubUnit *ptr,string Buff_name,int Turn_extend){
+    ptr->Buff_countdown[Buff_name] = ptr->Atv_stats->turn_cnt+Turn_extend;
+}
+void Extend_Buff_single_with_all_memo(Ally *ptr,string Buff_name,int Turn_extend){
+    for(int i=0;i<ptr->Sub_Unit_ptr.size();i++){
+        ptr->Sub_Unit_ptr[i]->Buff_countdown[Buff_name] = ptr->Sub_Unit_ptr[i]->Atv_stats->turn_cnt+Turn_extend;
+    }
+}
+void Extend_Buff_All_Ally(string Buff_name,int Turn_extend){
+    for(int i=1;i<=Total_ally;i++){
+        for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
+            Ally_unit[i]->Sub_Unit_ptr[j]->Buff_countdown[Buff_name] = Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->turn_cnt + Turn_extend;
+        }
+    }
+}
+void Extend_Buff_All_Ally_Excluding_Buffer(string Buff_name,int Turn_extend,string Buffer_name){
+    for(int i=1;i<=Total_ally;i++){
+        if(Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Char_Name==Buffer_name)continue;
+
+        for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
+            Ally_unit[i]->Sub_Unit_ptr[j]->Buff_countdown[Buff_name] = Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->turn_cnt + Turn_extend;
+        }
+    }
+}
+
 void Buff_single_target(SubUnit *ptr, string stats_type, string Attack_type, double Value) {  
     ptr->Stats_type[stats_type][Attack_type] += Value;
     if(Attack_type=="None")StatsAdjust(ptr,stats_type);

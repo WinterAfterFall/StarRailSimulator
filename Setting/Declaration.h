@@ -141,6 +141,11 @@ void Speed_Buff_All_Ally_Exclude_Buffer(double spd_percent, double flat_spd, std
 void Speed_Buff_All_Ally_Exclude_Buffer(double spd_percent, double flat_spd, std::string Buffer, std::string Buff_name);
 
 //Buff_Stats.h
+void Extend_Buff_single_target(SubUnit* ptr, std::string Buff_name, int Turn_extend);
+void Extend_Buff_single_with_all_memo(Ally* ptr, std::string Buff_name, int Turn_extend);
+void Extend_Buff_All_Ally(std::string Buff_name, int Turn_extend);
+void Extend_Buff_All_Ally_Excluding_Buffer(std::string Buff_name, int Turn_extend, std::string Buffer_name);
+
 void Buff_single_target(SubUnit *ptr, string stats_type, string Attack_type, double Value);
 void Buff_single_target(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value);
 
@@ -175,27 +180,16 @@ void Stack_Buff_All_Ally_Excluding_Buffer(string stats_type, string Attack_type,
 void Stack_Buff_All_Ally_Excluding_Buffer(string stats_type, string Attack_type, string Element, string Buffer_name, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
 
 
-//Buff.h
+//AdjustStats.h
 
-SubUnit* chooseSubUnitBuff(SubUnit* ptr);
-Ally* chooseCharacterBuff(SubUnit* ptr);
-Enemy* chooseEnemyTarget(SubUnit* ptr);
+
 void StatsAdjust(SubUnit *ptr,string ST);
 void AtkAdjust(SubUnit *ptr);
 void HpAdjust(SubUnit *ptr);
 void DefAdjust(SubUnit *ptr);
-void Extend_Buff_single_target(SubUnit* ptr, std::string Buff_name, int Turn_extend);
-void Extend_Buff_single_with_all_memo(Ally* ptr, std::string Buff_name, int Turn_extend);
-void Extend_Buff_All_Ally(std::string Buff_name, int Turn_extend);
-void Extend_Buff_All_Ally_Excluding_Buffer(std::string Buff_name, int Turn_extend, std::string Buffer_name);
 
-void Extend_Debuff_single_target(Enemy* ptr, std::string Debuff_name, int Turn_extend);
-void Extend_Debuff_All_Enemy(std::string Debuff_name, int Turn_extend);
 
-bool Buff_end(SubUnit* ptr, std::string Buff_name);
-bool Debuff_end(Enemy* ptr, std::string Debuff_name);
-bool Buff_check(SubUnit* ptr, std::string Buff_name);
-bool Debuff_check(Enemy* ptr, std::string Debuff_name);
+
 
 //Debuff_Stats
 void debuffAllEnemyApplyVer(SubUnit *ptr, string stats_type, string Attack_type, double Value, string Debuff_Name);
@@ -204,7 +198,8 @@ void debuffAllEnemyMarkVer(SubUnit *ptr, string stats_type, string Attack_type, 
 void debuffAllEnemyMarkVer(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value, string Debuff_Name);
 void debuffAllEnemyStack(SubUnit *ptr, string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
 void debuffAllEnemyStack(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
-
+void Extend_Debuff_single_target(Enemy* ptr, std::string Debuff_name, int Turn_extend);
+void Extend_Debuff_All_Enemy(std::string Debuff_name, int Turn_extend);
 
 //Combat
 void Take_action();
@@ -233,6 +228,12 @@ void DecreaseHP(Unit *Trigger,string Name,double Value,double percentFromTotalHP
 void EnemyHit(Enemy *Attacker,double energy);
 void EnemyHit(Enemy *Attacker,vector<SubUnit*> target,double energy);
 void DamageFormEnemy(Enemy *Attacker,vector<SubUnit*> target);
+
+//ChooseChar.h
+SubUnit* chooseSubUnitBuff(SubUnit* ptr);
+Ally* chooseCharacterBuff(SubUnit* ptr);
+Enemy* chooseEnemyTarget(SubUnit* ptr);
+
 /*------Calculate------*/
 
 //Calculate_damage
