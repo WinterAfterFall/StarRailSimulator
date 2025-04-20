@@ -63,13 +63,13 @@ namespace Luocha{
         }));
 
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Charptr = ptr->Sub_Unit_ptr[0].get()]() {
             if (turn->Char_Name == "Luocha") {
-                if (Buff_end(ptr->Sub_Unit_ptr[0].get(), "Cycle_of_Life")) {
+                if (Charptr->isBuffEnd("Cycle_of_Life")) {
                     if (ptr->Eidolon >= 1) {
-                        Buff_All_Ally("Atk%", "None", -20);
+                        buffAllAlly("Atk%", "None", -20);
                     }
-                    ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"] = 0;
+                    Charptr->setStack("Abyss_Flower",0);
                 }
             }
         }));
@@ -111,7 +111,7 @@ namespace Luocha{
         if(ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"]==2){
         Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Cycle_of_Life",2);
         if(ptr->Eidolon>=1){
-            Buff_All_Ally("Atk%","None",20);
+            buffAllAlly("Atk%","None",20);
         }
         }
     }

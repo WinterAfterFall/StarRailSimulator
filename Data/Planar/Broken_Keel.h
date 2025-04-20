@@ -15,7 +15,7 @@ namespace Planar{
         }));
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            Buff_All_Ally("Crit_dam", "None", 10);
+            buffAllAlly("Crit_dam", "None", 10);
         }));
     }
 }

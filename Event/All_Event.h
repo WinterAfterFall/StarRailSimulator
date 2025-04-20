@@ -1,6 +1,6 @@
 #ifndef Event_H
 #define Event_H
-#include "../Unit/Trigger_Function.h"
+#include "../Class/Trigger_Function.h"
 void allEventBeforeTurn(){
     shared_ptr<AllyActionData> temp = make_shared<AllyActionData>();
     if(turn->Side=="Enemy"){

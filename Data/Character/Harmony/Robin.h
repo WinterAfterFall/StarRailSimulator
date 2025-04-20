@@ -72,11 +72,11 @@ namespace Robin{
                     atv_reset(ptr->Countdown_ptr[0]->Atv_stats.get());
 
                     ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"] = calculateAtkForBuff(ptr->Sub_Unit_ptr[0].get(), 22.8) + 200;
-                    Buff_All_Ally("Flat_Atk", AT_TEMP, ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
-                    Buff_All_Ally("Flat_Atk", "None", ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
+                    buffAllAlly("Flat_Atk", AT_TEMP, ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
+                    buffAllAlly("Flat_Atk", "None", ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
 
-                    Buff_All_Ally("Crit_dam", "Fua", 25);
-                    if(ptr->Eidolon >= 1)Buff_All_Ally("Respen", "None", 24);
+                    buffAllAlly("Crit_dam", "Fua", 25);
+                    if(ptr->Eidolon >= 1)buffAllAlly("Respen", "None", 24);
                     if(ptr->Eidolon >= 2)Speed_Buff_All_Ally_Exclude_Buffer(16, 0, "Robin");
                     
                     All_Action_forward(100);
@@ -113,12 +113,12 @@ namespace Robin{
         }));
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
-            Buff_All_Ally("Crit_dam", "None", 20);
+            buffAllAlly("Crit_dam", "None", 20);
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr](){
             if(Buff_end(ptr->Sub_Unit_ptr[0].get(), "Pinion'sAria")){
-                Buff_All_Ally("Dmg%", "None", -50);
+                buffAllAlly("Dmg%", "None", -50);
                 ptr->Sub_Unit_ptr[0]->Buff_check["Pinion'sAria"] = 0;
             }
         }));
@@ -152,8 +152,8 @@ namespace Robin{
             if(ptr->Countdown_ptr[0]->Atv_stats->Base_speed != 90)return;
             if(StatsType == "Atk%" || StatsType == "Flat_Atk"){
                 double buffValue = calculateAtkForBuff(ptr->Sub_Unit_ptr[0].get(), 22.8) + 200;
-                Buff_All_Ally("Flat_Atk", AT_TEMP, buffValue - ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
-                Buff_All_Ally("Flat_Atk", "None", buffValue - ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
+                buffAllAlly("Flat_Atk", AT_TEMP, buffValue - ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
+                buffAllAlly("Flat_Atk", "None", buffValue - ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
                 ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"] = buffValue;
             }
         }));
@@ -169,11 +169,11 @@ namespace Robin{
                 Update_Max_atv(ptr->Countdown_ptr[0]->Atv_stats.get());
                 atv_reset(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
                 atv_reset(ptr->Countdown_ptr[0]->Atv_stats.get());
-                Buff_All_Ally("Flat_Atk",AT_TEMP,-ptr-> Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
-                Buff_All_Ally("Flat_Atk","None",-ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
-                Buff_All_Ally("Crit_dam","Fua",-25);
+                buffAllAlly("Flat_Atk",AT_TEMP,-ptr-> Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
+                buffAllAlly("Flat_Atk","None",-ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
+                buffAllAlly("Crit_dam","Fua",-25);
                 if(ptr->Eidolon>=1){
-                        Buff_All_Ally("Respen","None",-24);
+                        buffAllAlly("Respen","None",-24);
                     }
 
                 if(ptr->Eidolon>=2){
@@ -199,7 +199,7 @@ namespace Robin{
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,35);
-            Buff_All_Ally("Dmg%","None",50);
+            buffAllAlly("Dmg%","None",50);
             ptr->Sub_Unit_ptr[0]->setBuffCheck("Pinion'sAria",true);
             Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Pinion'sAria",3);
         };

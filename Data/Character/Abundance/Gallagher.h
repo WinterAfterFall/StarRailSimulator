@@ -86,12 +86,11 @@ namespace Gallagher{
         After_turn_List.push_back({PRIORITY_IMMEDIATELY, [ptr]() {
             Enemy * focusUnit = turn->canCastToEnemy();
             if(!focusUnit)return;
-            if (Debuff_end(focusUnit, "Besotted")) {
+            if (focusUnit->isDebuffEnd("Besotted")) {
                 focusUnit->debuffSingleTarget("Vul", "Break_dmg", -13.2);
-                focusUnit->debuffRemove("Besotted");
             }
-            if (Debuff_end(focusUnit, "Nectar_Blitz")) {
-                focusUnit->debuffRemove("Nectar_Blitz");
+            if (focusUnit->isDebuffEnd("Nectar_Blitz")) {
+                focusUnit->atkPercent += 16;
             }
         }});
 
@@ -132,7 +131,7 @@ namespace Gallagher{
                 ptr->Sub_Unit_ptr[0]->Buff_check["Gallagher_enchance_basic_atk"] = 0;
                 int cnt = 0;
                 for (Enemy *e : data_->Target_Attack) {
-                    if (Debuff_check(e, "Besotted")) {
+                    if (e->getDebuff("Besotted")) {
                         cnt++;
                         
                     }
@@ -144,7 +143,7 @@ namespace Gallagher{
             } else {
                 int cnt = 0;
                 for (Enemy *e : data_->Target_Attack) {
-                    if (Debuff_check(e, "Besotted")) {
+                    if (e->getDebuff("Besotted")) {
                         cnt++;           
                     }
                 }
@@ -201,7 +200,8 @@ namespace Gallagher{
             Increase_energy(ptr,20);
             for(Enemy* &target : data_->Target_Attack){
                 target->debuffApply(data_->Attacker,"Nectar_Blitz");
-                Extend_Debuff_single_target(target,"Nectar_Blitz",2);
+                target->atkPercent -= 16;
+                target->extendDebuffTime("Nectar_Blitz",2);
             }
             Attack(data_);
         };

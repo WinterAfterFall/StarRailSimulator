@@ -169,7 +169,7 @@ namespace Castorice{
                 Action_forward(ptr->getSubUnit(1)->Atv_stats.get(),100);
                 Extend_Buff_single_target(ptr->getSubUnit(1),"NetherwingLifeSpan",ptr->Adjust["NetherwingLifeSpan"]);       
                 Buff_All_Ally_Each_Ally(ST_DMG_PERCENT,AT_NONE,10,"Roar Rumbles the Realm");
-                Extend_Buff_All_Ally("Roar Rumbles the Realm",3);
+                extendBuffTime("Roar Rumbles the Realm",3);
                 if(ptr->Eidolon>=2){
                     ptr->getSubUnit(1)->setStack("Ardent Will",2);
                     Action_forward(ptr->getSubUnit()->Atv_stats.get(),100);
@@ -183,7 +183,7 @@ namespace Castorice{
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if(ptr->Eidolon>=4){
-                Buff_All_Ally(ST_HEALING_OUT,AT_NONE,20);
+                buffAllAlly(ST_HEALING_OUT,AT_NONE,20);
             }
             if(ptr->Eidolon>=6){
                 Buff_single_with_all_memo(ptr,ST_RESPEN,AT_NONE,20);
@@ -213,7 +213,7 @@ namespace Castorice{
                 Extend_Buff_single_target(ptr->getSubUnit(1),"NetherwingLifeSpan",1);
                 DecreaseHP(ptr->Sub_Unit_ptr[0].get(),"Netherwing",0,0,40);
                 Buff_All_Ally_Each_Ally(ST_DMG_PERCENT,AT_NONE,10,"Roar Rumbles the Realm");
-                Extend_Buff_All_Ally("Roar Rumbles the Realm",3);
+                extendBuffTime("Roar Rumbles the Realm",3);
                 if(ptr->Eidolon>=2){
                     ptr->getSubUnit(1)->setStack("Ardent Will",2);
                     Action_forward(ptr->getSubUnit()->Atv_stats.get(),100);

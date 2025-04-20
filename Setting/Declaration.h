@@ -143,8 +143,8 @@ void Speed_Buff_All_Ally_Exclude_Buffer(double spd_percent, double flat_spd, std
 //Buff_Stats.h
 void Extend_Buff_single_target(SubUnit* ptr, std::string Buff_name, int Turn_extend);
 void Extend_Buff_single_with_all_memo(Ally* ptr, std::string Buff_name, int Turn_extend);
-void Extend_Buff_All_Ally(std::string Buff_name, int Turn_extend);
-void Extend_Buff_All_Ally_Excluding_Buffer(std::string Buff_name, int Turn_extend, std::string Buffer_name);
+void extendBuffTime(std::string Buff_name, int Turn_extend);
+void extendBuffTime(std::string Buff_name, int Turn_extend, std::string Buffer_name);
 
 void Buff_single_target(SubUnit *ptr, string stats_type, string Attack_type, double Value);
 void Buff_single_target(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value);
@@ -155,7 +155,7 @@ void Buff_single_with_all_memo(Ally *ptr, string stats_type, string Attack_type,
 void Buff_single_with_all_memo_each(Ally *ptr, string stats_type, string Attack_type, double Value, string Buff_name);
 void Buff_single_with_all_memo_each(Ally *ptr, string stats_type, string Attack_type, string Element, double Value, string Buff_name);
 
-void Buff_All_Ally(string stats_type, string Attack_type, double Value);
+void buffAllAlly(string stats_type, string Attack_type, double Value);
 void Buff_All_Ally(string stats_type, string Attack_type, string Element, double Value);
 
 void Buff_All_Ally_Each_Ally(string stats_type, string Attack_type, double Value, string Buff_name);

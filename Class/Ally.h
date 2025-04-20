@@ -7,12 +7,6 @@ using namespace std;
 #define F first
 #define S second
 #define DMG_CAL 12
-
-
-
-
-
-
 class Func_class{
     public:
     string Name;
@@ -201,6 +195,12 @@ public:
     /*--------------------Declaration--------------------*/
     void SetAllyBaseStats(double BaseHp,double BaseAtk,double BaseDef);
     /*-----------------Combat-----------------*/
+    //BuffStats.h
+    void extendBuffTime(string Buff_name,int Turn_extend);
+    void buffAlly(string stats_type, string Attack_type, double Value);
+    void buffAlly(string stats_type, string Attack_type, string Element, double Value);
+    void buffAlly(string stats_type, string Attack_type, double Value,string Buff_name);
+    void buffAlly(string stats_type, string Attack_type, string Element, double Value,string Buff_name);
     //Energy.h
     void addUltCondition(function<bool()> condition);
     void addUltImmediatelyUseCondition(function<bool()> condition);

@@ -8,7 +8,7 @@
 #define DMG_CAL 12
 using std::cout ;
 using std::vector;
-#include"../Unit/Trigger_Function.h"
+#include"../Class/Trigger_Function.h"
 
 void printRoundResult();
 void Print(){

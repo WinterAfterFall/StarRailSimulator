@@ -24,7 +24,7 @@ namespace Harmony_Lightcone{
                     ptr->Energy_recharge -= ptr->Sub_Unit_ptr[0]->Stack["Cantillation"] * (2.5 + 0.5 * superimpose);
                     ptr->Sub_Unit_ptr[0]->Stack["Cantillation"] = 0;
                     if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Cadenza")) {
-                        Buff_All_Ally("Dmg%", "None", (20 + 4 * superimpose));
+                        buffAllAlly("Dmg%", "None", (20 + 4 * superimpose));
                         Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Atk%", "None", (36 + 12 * superimpose));
                         ptr->Sub_Unit_ptr[0]->Buff_check["Cadenza"] = 1;
                     }
@@ -37,7 +37,7 @@ namespace Harmony_Lightcone{
                     ptr->Energy_recharge -= ptr->Sub_Unit_ptr[0]->Stack["Cantillation"] * (2.5 + 0.5 * superimpose);
                     ptr->Sub_Unit_ptr[0]->Stack["Cantillation"] = 0;
                     if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Cadenza")) {
-                        Buff_All_Ally("Dmg%", "None", (20 + 4 * superimpose));
+                        buffAllAlly("Dmg%", "None", (20 + 4 * superimpose));
                         Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Atk%", "None", (36 + 12 * superimpose));
                         ptr->Sub_Unit_ptr[0]->Buff_check["Cadenza"] = 1;
                     }
@@ -47,7 +47,7 @@ namespace Harmony_Lightcone{
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 if (Buff_end(ptr->Sub_Unit_ptr[0].get(), "Cadenza")) {
-                    Buff_All_Ally("Dmg%", "None", -(20 + 4 * superimpose));
+                    buffAllAlly("Dmg%", "None", -(20 + 4 * superimpose));
                     Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Atk%", "None", -(36 + 12 * superimpose));
                     ptr->Sub_Unit_ptr[0]->Buff_check["Cadenza"] = 0;
                 }

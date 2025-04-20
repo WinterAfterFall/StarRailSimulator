@@ -1,7 +1,7 @@
 #ifndef Cal_Require_Stats_H
 #define Cal_Require_Stats_H
 #include<bits/stdc++.h>
-#include "../Unit/Trigger_Function.h"
+#include "../Class/Trigger_Function.h"
 
 #define endl '\n'
 #define F first

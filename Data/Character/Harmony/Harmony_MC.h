@@ -44,7 +44,7 @@ namespace Harmony_MC{
             data_->Add_Buff_All_Ally();
             data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
                 if(!Buff_check(ptr->Sub_Unit_ptr[0].get(),"Harmony_MC_ult")){
-                    Buff_All_Ally("Break_effect","None",33);
+                    buffAllAlly("Break_effect","None",33);
                 }
                 ptr->Sub_Unit_ptr[0]->Buff_check["Harmony_MC_ult"] = 1;
                 Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Harmony_MC_ult",3);
@@ -71,14 +71,14 @@ namespace Harmony_MC{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
             if(ptr->Technique == 1){
-                Buff_All_Ally("Break_effect","None",30);
+                buffAllAlly("Break_effect","None",30);
             }
             ptr->Energy_recharge += 25;
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr](){
             if(turn->Char_Name == "Harmony_MC" && Buff_end(ptr->Sub_Unit_ptr[0].get(),"Harmony_MC_ult")){
-                Buff_All_Ally("Break_effect","None",-33);
+                buffAllAlly("Break_effect","None",-33);
                 ptr->Sub_Unit_ptr[0]->Buff_check["Harmony_MC_ult"] = 0;
             }
         }));

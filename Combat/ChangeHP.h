@@ -1,6 +1,6 @@
 #ifndef CHANGEHP_H
 #define CHANGEHP_H
-#include "../Unit/Trigger_Function.h"
+#include "../Class/Trigger_Function.h"
 
 void Healing(Heal_data& Healptr){
     healCount++;

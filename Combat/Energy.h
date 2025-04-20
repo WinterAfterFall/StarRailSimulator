@@ -1,7 +1,7 @@
 #ifndef ENERGY_H
 #define ENERGY_H
 #include<bits/stdc++.h>
-#include "../Unit/Trigger_Function.h"
+#include "../Class/Trigger_Function.h"
 #define endl '\n'
 #define F first
 #define S second

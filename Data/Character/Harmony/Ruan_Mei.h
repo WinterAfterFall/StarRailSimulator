@@ -45,9 +45,9 @@ namespace Ruan_Mei{
             data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
                 if(ptr->Print)CharCmd::printUltStart("Ruan Mei");
                 if(!Buff_check(ptr->Sub_Unit_ptr[0].get(), "RuanMei_Ult")){
-                    Buff_All_Ally("Respen", "None", 25);
+                    buffAllAlly("Respen", "None", 25);
                     if(ptr->Eidolon >= 1){
-                        Buff_All_Ally("Def_shred", "None", 20);
+                        buffAllAlly("Def_shred", "None", 20);
                     }
                 }
                 ptr->Sub_Unit_ptr[0]->Buff_check["RuanMei_Ult"] = 1;
@@ -69,8 +69,8 @@ namespace Ruan_Mei{
         }));
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
-            Buff_All_Ally("Dmg%", "None", 36);
-            Buff_All_Ally("Break_effect", "None", 20);
+            buffAllAlly("Dmg%", "None", 36);
+            buffAllAlly("Break_effect", "None", 20);
             Speed_Buff_All_Ally_Exclude_Buffer(10, 0, "Ruan_Mei");
         }));
 
@@ -83,8 +83,8 @@ namespace Ruan_Mei{
                 data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
                 data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
                     Increase_energy(ptr, 30);
-                    Buff_All_Ally("Dmg%", "None", 32);
-                    Buff_All_Ally("Weakness_Break_Efficiency", "None", 50);
+                    buffAllAlly("Dmg%", "None", 32);
+                    buffAllAlly("Weakness_Break_Efficiency", "None", 50);
                     ptr->Sub_Unit_ptr[0]->Buff_check["Mei_Skill"] = 1;
                     Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Mei_Skill", 3);
                 };
@@ -97,15 +97,15 @@ namespace Ruan_Mei{
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
             if(Buff_end(ptr->Sub_Unit_ptr[0].get(), "Mei_Skill")){
                 ptr->Sub_Unit_ptr[0]->Buff_check["Mei_Skill"] = 0;
-                Buff_All_Ally("Dmg%", "None", -32);
-                Buff_All_Ally("Weakness_Break_Efficiency", "None", -50);
+                buffAllAlly("Dmg%", "None", -32);
+                buffAllAlly("Weakness_Break_Efficiency", "None", -50);
             }
             if(turn->Char_Name == "Ruan_Mei"){
                 Increase_energy(ptr, 5);
                 if(Buff_end(ptr->Sub_Unit_ptr[0].get(), "RuanMei_Ult")){
-                    Buff_All_Ally("Respen", "None", -25);
+                    buffAllAlly("Respen", "None", -25);
                     if(ptr->Eidolon >= 1){
-                        Buff_All_Ally("Def_shred", "None", -20);
+                        buffAllAlly("Def_shred", "None", -20);
                     }
                     ptr->Sub_Unit_ptr[0]->Buff_check["RuanMei_Ult"] = 0;
                     if(ptr->Print == 1) cout << "-------------------------------------------- Ruan Mei ult end at " << Current_atv << endl;
@@ -171,8 +171,8 @@ namespace Ruan_Mei{
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
-            Buff_All_Ally("Dmg%","None",32);
-            Buff_All_Ally("Weakness_Break_Efficiency","None",50);
+            buffAllAlly("Dmg%","None",32);
+            buffAllAlly("Weakness_Break_Efficiency","None",50);
             ptr->Sub_Unit_ptr[0]->Buff_check["Mei_Skill"] = 1;
             Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Mei_Skill",3);
         };

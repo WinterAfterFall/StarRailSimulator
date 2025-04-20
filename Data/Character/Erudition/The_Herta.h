@@ -136,7 +136,7 @@ namespace The_Herta{
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (ptr->Sub_Unit_ptr[0]->Buff_check["Two_Erudition"] == 1) {
-                Buff_All_Ally("Crit_dam", "None", 80);
+                buffAllAlly("Crit_dam", "None", 80);
             }
         }));
 

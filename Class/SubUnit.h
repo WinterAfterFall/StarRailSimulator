@@ -51,7 +51,7 @@ public:
     SubUnit() : Unit() {
           // Call Unit constructor to initialize Atv_stats and set ptr_to_unit  // Using unique_ptr for stats
     }
-
+    ~SubUnit() {}
     void tauntMtprChange(int value){
         tauntMtpr += value;
         totalTaunt -= taunt;
@@ -62,7 +62,8 @@ public:
         return (taunt/totalTaunt*100.0);
     }
 
-    ~SubUnit() {}
+    
+
     bool isSameChar(SubUnit *ptr){
         if(this->Atv_stats->Char_Name== ptr->Atv_stats->Char_Name)return true;
         return false;
@@ -71,10 +72,7 @@ public:
     bool isSameUnit(SubUnit *ptr){
         if(this->Atv_stats->Unit_Name == ptr->Atv_stats->Unit_Name)return true;
         return false;
-
-    
     }
-    
     bool isSameCharName(string name){
         if(this->Atv_stats->Char_Name == name)return true;
         return false;
@@ -83,6 +81,15 @@ public:
         if(this->Atv_stats->Unit_Name == name)return true;
         return false;
     }
+    bool isSameNum(SubUnit *ptr){
+        if(this->Atv_stats->Unit_num == ptr->Atv_stats->Unit_num)return true;
+        return false;
+    }
+    bool isSameNum(int num){
+        if(this->Atv_stats->Unit_num == num)return true;
+        return false;
+    }
+
     //get
     void setStack(string buffName, int value) {
         this->Stack[buffName] = value;
@@ -125,15 +132,18 @@ public:
 
     
     /*--------------------Declaration--------------------*/
-    /*-----------------Buff-----------------*/
-    bool isHaveToAddBuff(string Buff_name);
-    bool isBuffEnd(string Buff_name);
+    
     /*-----------------Combat-----------------*/
     //ChangeHP
     void Death();
 
     //BuffStats.h
-    void extendBuffTime(SubUnit *ptr,string Buff_name,int Turn_extend);
+    bool isHaveToAddBuff(string Buff_name);
+    bool isBuffEnd(string Buff_name);
+    void extendBuffTime(string Buff_name,int Turn_extend);
+    void buffAlly(string stats_type, string Attack_type, double Value);
+    void buffAlly(string stats_type, string Attack_type, string Element, double Value);
+
     //TargetChoose.h
     void addTargetChangeCondition(function<bool()> condition);
     void addTargetChangeConditionImmediately(function<bool()> condition);

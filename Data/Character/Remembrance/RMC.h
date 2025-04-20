@@ -74,8 +74,8 @@ namespace RMC{
             if (target->Atv_stats->Unit_Name != "Mem") return;
             if (StatsType == "Crit_dam") {
                 double buffValue = (calculateCritdamForBuff(ptr->Sub_Unit_ptr[1].get(), 13.2) + 26.4);
-                Buff_All_Ally("Crit_dam", AT_TEMP, buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]);
-                Buff_All_Ally("Crit_dam", "None", buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]);
+                buffAllAlly("Crit_dam", AT_TEMP, buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]);
+                buffAllAlly("Crit_dam", "None", buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]);
                 ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"] = buffValue;
                 return;
             }
@@ -110,8 +110,8 @@ namespace RMC{
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"] = calculateCritdamForBuff(ptr->Sub_Unit_ptr[1].get(), 13.2) + 26.4;
-            Buff_All_Ally("Crit_dam", AT_TEMP, ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]);
-            Buff_All_Ally("Crit_dam", "None", ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]);
+            buffAllAlly("Crit_dam", AT_TEMP, ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]);
+            buffAllAlly("Crit_dam", "None", ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]);
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {

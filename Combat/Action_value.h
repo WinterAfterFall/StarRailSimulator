@@ -1,7 +1,7 @@
 #ifndef ATV_H
 #define ATV_H
 #include<bits/stdc++.h>
-#include "../Unit/Trigger_Function.h"
+#include "../Class/Trigger_Function.h"
 #define endl '\n'
 #define F first
 #define S second

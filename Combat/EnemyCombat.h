@@ -1,7 +1,7 @@
 #ifndef ENEMY_COMBAT_H
 #define ENEMY_COMBAT_H
 
-#include "../Unit/Trigger_Function.h"
+#include "../Class/Trigger_Function.h"
 
 void Enemy::AoeAttack(double SkillRatio,double energy){
     shared_ptr<EnemyActionData> data_ = make_shared<EnemyActionData>();

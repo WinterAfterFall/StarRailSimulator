@@ -69,10 +69,10 @@ namespace Tribbie{
     
                     // Eidolon 1
                     if (ptr->Eidolon >= 1) {
-                        Buff_All_Ally("True_Damage", "None", 24);
+                        buffAllAlly("True_Damage", "None", 24);
                     }
                     if (ptr->Eidolon >= 4) {
-                        Buff_All_Ally(ST_DEF_SHRED, "None", 18);
+                        buffAllAlly(ST_DEF_SHRED, "None", 18);
                     }
                 }
                 for (int i = 1; i <= Total_ally; i++) {
@@ -124,10 +124,10 @@ namespace Tribbie{
                     Enemy_unit[i]->debuffSingleTarget(ST_VUL,AT_NONE,-30);
                 }
                 if (ptr->Eidolon >= 1) {
-                    Buff_All_Ally("True_Damage", "None", -24);
+                    buffAllAlly("True_Damage", "None", -24);
                 }
                 if (ptr->Eidolon >= 4) {
-                    Buff_All_Ally(ST_DEF_SHRED, "None", -18);
+                    buffAllAlly(ST_DEF_SHRED, "None", -18);
                 }
                 Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Flat_Hp", AT_TEMP, -ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]);
                 Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Flat_Hp", "None", -ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]);
@@ -136,7 +136,7 @@ namespace Tribbie{
                 if (ptr->Print) cout << "---------------------------------------------------- Tribbie Ult END at " << Current_atv << endl;
             }
             if (Buff_end(ptr->Sub_Unit_ptr[0].get(), "Numinosity")) {
-                Buff_All_Ally("Respen", "None", -24);
+                buffAllAlly("Respen", "None", -24);
                 ptr->Sub_Unit_ptr[0]->Buff_check["Numinosity"] = 0;
             }
         }));
@@ -150,7 +150,7 @@ namespace Tribbie{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             Increase_energy(ptr, 30);
-            Buff_All_Ally("Respen", "None", 24);
+            buffAllAlly("Respen", "None", 24);
             Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Numinosity", 3);
             ptr->Sub_Unit_ptr[0]->Buff_check["Numinosity"] = 1;
         }));
@@ -234,7 +234,7 @@ namespace Tribbie{
         data_->actionFunction =[ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
-            Buff_All_Ally("Respen","None",24);
+            buffAllAlly("Respen","None",24);
             Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Numinosity",3);
             ptr->Sub_Unit_ptr[0]->Buff_check["Numinosity"] = 1;
         };

@@ -74,7 +74,7 @@ namespace Pela{
         }));
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            Buff_All_Ally("Ehr", "None", 10);
+            buffAllAlly("Ehr", "None", 10);
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {

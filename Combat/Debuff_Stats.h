@@ -1,6 +1,6 @@
 #ifndef DEBUFF_STATS_H
 #define DEBUFF_STATS_H
-#include "../Unit/Trigger_Function.h"
+#include "../Class/Trigger_Function.h"
 using namespace std;
 #define endl '\n'
 #define F first
@@ -56,7 +56,7 @@ void Enemy::debuffRemoveStack(string debuffName){
 }
 bool Enemy::isDebuffEnd(string Debuff_name){
     if(this->Atv_stats->turn_cnt==this->Debuff_time_count[Debuff_name]&&turn->Char_Name==this->Atv_stats->Char_Name){
-        this->Debuff[Debuff_name] = 0;
+        this->debuffRemove(Debuff_name);
         return true;
     }
     return false;

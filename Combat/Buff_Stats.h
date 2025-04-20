@@ -1,6 +1,6 @@
 #ifndef BUFF_STATS_H
 #define BUFF_STATS_H
-#include "../Unit/Trigger_Function.h"
+#include "../Class/Trigger_Function.h"
 using namespace std;
 #define endl '\n'
 #define F first
@@ -25,75 +25,76 @@ bool SubUnit::isHaveToAddBuff(string Buff_name){
     Buff_check[Buff_name] = 1;
     return true;
 }
-void Extend_Buff_single_target(SubUnit *ptr,string Buff_name,int Turn_extend){
-    ptr->Buff_countdown[Buff_name] = ptr->Atv_stats->turn_cnt+Turn_extend;
+
+//Extend
+void SubUnit::extendBuffTime(string Buff_name,int Turn_extend){
+    this->Buff_countdown[Buff_name] = this->Atv_stats->turn_cnt+Turn_extend;
 }
-void Extend_Buff_single_with_all_memo(Ally *ptr,string Buff_name,int Turn_extend){
-    for(int i=0;i<ptr->Sub_Unit_ptr.size();i++){
-        ptr->Sub_Unit_ptr[i]->Buff_countdown[Buff_name] = ptr->Sub_Unit_ptr[i]->Atv_stats->turn_cnt+Turn_extend;
+void Ally::extendBuffTime(string Buff_name,int Turn_extend){
+    for(int i=0;i<this->Sub_Unit_ptr.size();i++){
+        this->Sub_Unit_ptr[i]->extendBuffTime(Buff_name,Turn_extend);
     }
 }
-void Extend_Buff_All_Ally(string Buff_name,int Turn_extend){
+void extendBuffTime(string Buff_name,int Turn_extend){
+    for(int i=1;i<=Total_ally;i++){
+        Ally_unit[i]->extendBuffTime(Buff_name,Turn_extend);
+    }
+}
+void extendBuffTime(string Buff_name,int Turn_extend,string Buffer_name){
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
-            Ally_unit[i]->Sub_Unit_ptr[j]->Buff_countdown[Buff_name] = Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->turn_cnt + Turn_extend;
+            if(Ally_unit[i]->Sub_Unit_ptr[j]->isSameUnitName(Buffer_name))continue;
+            Ally_unit[i]->Sub_Unit_ptr[j]->extendBuffTime(Buff_name,Turn_extend);
         }
     }
 }
-void Extend_Buff_All_Ally_Excluding_Buffer(string Buff_name,int Turn_extend,string Buffer_name){
+void extendBuffTime(string Buff_name,int Turn_extend,SubUnit *Buffer){
     for(int i=1;i<=Total_ally;i++){
-        if(Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Char_Name==Buffer_name)continue;
-
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
-            Ally_unit[i]->Sub_Unit_ptr[j]->Buff_countdown[Buff_name] = Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->turn_cnt + Turn_extend;
+            if(Ally_unit[i]->Sub_Unit_ptr[j]->isSameUnit(Buffer))continue;
+            Ally_unit[i]->Sub_Unit_ptr[j]->extendBuffTime(Buff_name,Turn_extend);
         }
     }
 }
-
-void Buff_single_target(SubUnit *ptr, string stats_type, string Attack_type, double Value) {  
-    ptr->Stats_type[stats_type][Attack_type] += Value;
-    if(Attack_type=="None")StatsAdjust(ptr,stats_type);
+void SubUnit::buffAlly(string stats_type, string Attack_type, double Value){
+    this->Stats_type[stats_type][Attack_type] += Value;
+    if(Attack_type=="None")StatsAdjust(this,stats_type);
 }
-void Buff_single_target(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value) {  
-    ptr->Stats_each_element[stats_type][Element][Attack_type] += Value;
+void SubUnit::buffAlly(string stats_type, string Attack_type, string Element, double Value){
+    this->Stats_each_element[stats_type][Element][Attack_type] += Value;
 }
-
-void Buff_single_with_all_memo(Ally *ptr, string stats_type, string Attack_type, double Value) {
-    for (int i = 0; i < ptr->Sub_Unit_ptr.size(); i++) {
-        Buff_single_target(ptr->Sub_Unit_ptr[i].get(), stats_type, Attack_type, Value);
+void Ally::buffAlly(string stats_type, string Attack_type, double Value){
+    for (auto &e : this->Sub_Unit_ptr) {
+        e->buffAlly(stats_type, Attack_type, Value);
     }
 }
-void Buff_single_with_all_memo(Ally *ptr, string stats_type, string Attack_type, string Element, double Value) {
-    for (int i = 0; i < ptr->Sub_Unit_ptr.size(); i++) {
-        Buff_single_target(ptr->Sub_Unit_ptr[i].get(), stats_type, Attack_type, Element, Value);
-    }
-}
-
-void Buff_single_with_all_memo_each(Ally *ptr, string stats_type, string Attack_type, double Value, string Buff_name) {
-    for (int i = 0; i < ptr->Sub_Unit_ptr.size(); i++) {
-        if (ptr->Sub_Unit_ptr[i]->Buff_check[Buff_name] == 0) {
-            Buff_single_target(ptr->Sub_Unit_ptr[i].get(), stats_type, Attack_type, Value);
-            ptr->Sub_Unit_ptr[i]->Buff_check[Buff_name] = 1;
-        }
-    }
-}
-void Buff_single_with_all_memo_each(Ally *ptr, string stats_type, string Attack_type, string Element, double Value, string Buff_name) {
-    for (int i = 0; i < ptr->Sub_Unit_ptr.size(); i++) {
-        if (ptr->Sub_Unit_ptr[i]->Buff_check[Buff_name] == 0) {
-            Buff_single_target(ptr->Sub_Unit_ptr[i].get(), stats_type, Attack_type, Element, Value);
-            ptr->Sub_Unit_ptr[i]->Buff_check[Buff_name] = 1;
-        }
+void Ally::buffAlly(string stats_type, string Attack_type, string Element, double Value){
+    for (auto &e : this->Sub_Unit_ptr) {
+        e->buffAlly(stats_type, Attack_type,Element, Value);
     }
 }
 
-void Buff_All_Ally(string stats_type, string Attack_type, double Value) {
+void Ally::buffAlly(string stats_type, string Attack_type, double Value,string Buff_name){
+    for (auto &e : this->Sub_Unit_ptr) {
+        if(!e->isHaveToAddBuff(Buff_name))continue;
+        e->buffAlly(stats_type, Attack_type, Value);
+    }
+}
+void Ally::buffAlly(string stats_type, string Attack_type, string Element, double Value,string Buff_name){
+    for (auto &e : this->Sub_Unit_ptr) {
+        if(!e->isHaveToAddBuff(Buff_name))continue;
+        e->buffAlly(stats_type, Attack_type,Element, Value);
+    }
+}   
+
+void buffAllAlly(string stats_type, string Attack_type, double Value) {
     for (int i = 1; i <= Total_ally; i++) {
         for (int j = 0; j < Ally_unit[i]->Sub_Unit_ptr.size(); j++) {
-            Buff_single_target(Ally_unit[i]->Sub_Unit_ptr[j].get(), stats_type, Attack_type, Value);
+            Ally_unit[i]->Sub_Unit_ptr[j]->buffAlly(stats_type, Attack_type, Value);
         }
     }
 }
-void Buff_All_Ally(string stats_type, string Attack_type, string Element, double Value) {
+void buffAllAlly(string stats_type, string Attack_type, string Element, double Value) {
     for (int i = 1; i <= Total_ally; i++) {
         for (int j = 0; j < Ally_unit[i]->Sub_Unit_ptr.size(); j++) {
             Buff_single_target(Ally_unit[i]->Sub_Unit_ptr[j].get(), stats_type, Attack_type, Element, Value);

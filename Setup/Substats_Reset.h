@@ -1,6 +1,6 @@
 #ifndef Setup_Substats_H
 #define Setup_Substats_H
-#include "../Unit/Trigger_Function.h"
+#include "../Class/Trigger_Function.h"
 void Set_Stats(Ally *ptr){
     for(int i=0,sz = ptr->Substats.size();i<sz;i++){
         if(ptr->Substats[i].first=="Speed"){

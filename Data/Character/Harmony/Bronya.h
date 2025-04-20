@@ -72,11 +72,11 @@ namespace Bronya{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
             if(ptr->Technique == 1){
-                Buff_All_Ally("Atk%","None",15);
-                Extend_Buff_All_Ally("Bronya_Technique",2);
+                buffAllAlly("Atk%","None",15);
+                extendBuffTime("Bronya_Technique",2);
             }
-            Buff_All_Ally("Def%","None",20);
-            Extend_Buff_All_Ally("Bronya_A4",2);
+            buffAllAlly("Def%","None",20);
+            extendBuffTime("Bronya_A4",2);
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
@@ -117,7 +117,7 @@ namespace Bronya{
         }));
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
-            Buff_All_Ally("Dmg%","None",10);
+            buffAllAlly("Dmg%","None",10);
         }));
 
         After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_){

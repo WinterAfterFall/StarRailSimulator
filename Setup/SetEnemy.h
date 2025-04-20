@@ -1,6 +1,6 @@
 #ifndef Setup_Enemy_H
 #define Setup_Enemy_H
-#include "../Unit/Trigger_Function.h"
+#include "../Class/Trigger_Function.h"
 
 Enemy* createNewEnemy(double speed,double Toughness,string type){
     Total_enemy++; 

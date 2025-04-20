@@ -1,6 +1,6 @@
 #ifndef DAMAGE_NOTE_H
 #define DAMAGE_NOTE_H
-#include "../Unit/Trigger_Function.h"
+#include "../Class/Trigger_Function.h"
 
 bool changeMaxDamage(Ally *ptr){
     
