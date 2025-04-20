@@ -33,15 +33,13 @@ void Enemy::debuffStack(SubUnit *ptr,string debuffName,int Stack_increase){
     this->addStack(debuffName,Stack_increase);
     allEventApplyDebuff(ptr,this);
 }
-bool Enemy::debuffStack(SubUnit *ptr,string debuffName,int Stack_increase,int StackLimit){
-    if(!this->getStack(debuffName))this->addTotalDebuff(1);
-    if(this->getStack(debuffName) + Stack_increase <= StackLimit){
-        this->addStack(debuffName,Stack_increase);
-        allEventApplyDebuff(ptr,this);
-        return true;
-    }
-    allEventApplyDebuff(ptr,this);
-    return false;
+//return ว่า stackเต็มไหม
+pair<int,int> Enemy::debuffStack(SubUnit *ptr,string debuffName,int Stack_increase,int StackLimit){
+    if (!this->getStack(debuffName)) this->addTotalDebuff(1);
+    Stack_increase = (this->getStack(debuffName) + Stack_increase <= StackLimit) ? Stack_increase : StackLimit - this->getStack(debuffName);
+    this->addStack(debuffName, Stack_increase);
+    allEventApplyDebuff(ptr, this);
+    return {Stack_increase, this->getStack(debuffName)};
 }
 void Enemy::debuffRemove(string debuffName){
     if(this->getDebuff(debuffName)){

@@ -111,6 +111,13 @@ bool Buff_end(SubUnit *ptr,string Buff_name){
     }
     return false;
 }
+bool SubUnit::isBuffEnd(string Buff_name){
+    if(this->Atv_stats->turn_cnt==this->Buff_countdown[Buff_name]&&turn->Char_Name==this->Atv_stats->Char_Name){
+        this->Buff_check[Buff_name] = 0;
+        return true;
+    }
+    return false;
+}
 bool Debuff_end(Enemy *ptr,string Debuff_name){
     if(ptr->Atv_stats->turn_cnt==ptr->Debuff_time_count[Debuff_name]&&turn->Char_Name==ptr->Atv_stats->Char_Name){
         return true;
@@ -122,6 +129,13 @@ bool Buff_check(SubUnit *ptr,string Buff_name){
         return true;
     }
     return false;
+}
+bool SubUnit::isHaveToAddBuff(string Buff_name){
+    if(this->Buff_check[Buff_name]==1){
+        return false;
+    }
+    Buff_check[Buff_name] = 1;
+    return true;
 }
 bool Debuff_check(Enemy *ptr,string Debuff_name){
     if(ptr->Debuff[Debuff_name]==1){

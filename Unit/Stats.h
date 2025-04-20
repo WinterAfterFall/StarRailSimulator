@@ -192,6 +192,9 @@ public:
 
     
     /*--------------------Declaration--------------------*/
+    /*-----------------Buff-----------------*/
+    bool isHaveToAddBuff(string Buff_name);
+    bool isBuffEnd(string Buff_name);
     /*-----------------Combat-----------------*/
     //ChangeHP
     void Death();
@@ -449,7 +452,9 @@ public:
     int Freeze = 0;
     int Entanglement= 0,Entanglement_stack = 0;
     int Imprisonment = 0;
+    unordered_map<string,bool> Default_Weakness_type;
     unordered_map<string,bool> Weakness_type;
+    unordered_map<string,double> DefaultElementRes;
     
     double Total_toughness_broken_time =0;
     double when_toughness_broken;
@@ -512,7 +517,7 @@ public:
     bool debuffApply(SubUnit *ptr, string debuffName);
     bool debuffMark(SubUnit *ptr, string debuffName);
     void debuffStack(SubUnit *ptr,string debuffName,int Stack_increase);
-    bool debuffStack(SubUnit *ptr,string debuffName,int Stack_increase,int StackLimit);
+    pair<int,int> debuffStack(SubUnit *ptr,string debuffName,int Stack_increase,int StackLimit);
     void debuffRemove(string debuffName);
     void debuffRemoveStack(string debuffName);
 

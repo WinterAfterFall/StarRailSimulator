@@ -36,6 +36,7 @@ void Basic_reset(){
             Ally_unit[i]->Sub_Unit_ptr[0]->tauntMtpr = 100;
             Ally_unit[i]->Sub_Unit_ptr[0]->taunt = Ally_unit[i]->Sub_Unit_ptr[0]->tauntBase;
             Ally_unit[i]->Sub_Unit_ptr[0]->currentSheild = 0;
+            
             for(auto &e:Ally_unit[i]->Sub_Unit_ptr[0]->Stack){
                 e.second = 0;
             }
@@ -131,6 +132,11 @@ void Basic_reset(){
             Enemy_unit[i]->maxDamageAvgNote.resize(Total_ally+1);
             Enemy_unit[i]->maxDamageRealTimeNote.resize(Total_ally+1);
             
+            
+            for(auto &e: Enemy_unit[i]->Weakness_type){
+                e.second = Enemy_unit[i]->Default_Weakness_type[e.first];
+            }
+
             for(auto &e: Enemy_unit[i]->Debuff){
                 e.second = 0;
             }
@@ -170,13 +176,13 @@ void Basic_reset(){
             Enemy_unit[i]->Total_toughness_broken_time =0;
             Enemy_unit[i]->when_toughness_broken = 0;
             
-            Enemy_unit[i]->Stats_each_element["Respen"]["Fire"]["None"] = -Enemy_res["Fire"];
-            Enemy_unit[i]->Stats_each_element["Respen"]["Ice"]["None"] = -Enemy_res["Ice"];
-            Enemy_unit[i]->Stats_each_element["Respen"]["Quantum"]["None"] = -Enemy_res["Quantum"];
-            Enemy_unit[i]->Stats_each_element["Respen"]["Wind"]["None"] = -Enemy_res["Wind"];
-            Enemy_unit[i]->Stats_each_element["Respen"]["Lightning"]["None"] = -Enemy_res["Lightning"];
-            Enemy_unit[i]->Stats_each_element["Respen"]["Physical"]["None"] = -Enemy_res["Physical"];
-            Enemy_unit[i]->Stats_each_element["Respen"]["Imaginary"]["None"] = -Enemy_res["Imaginary"];
+            Enemy_unit[i]->Stats_each_element["Respen"]["Fire"]["None"] = - Enemy_unit[i]->DefaultElementRes["Fire"];
+            Enemy_unit[i]->Stats_each_element["Respen"]["Ice"]["None"] = -Enemy_unit[i]->DefaultElementRes["Ice"];
+            Enemy_unit[i]->Stats_each_element["Respen"]["Quantum"]["None"] = -Enemy_unit[i]->DefaultElementRes["Quantum"];
+            Enemy_unit[i]->Stats_each_element["Respen"]["Wind"]["None"] = -Enemy_unit[i]->DefaultElementRes["Wind"];
+            Enemy_unit[i]->Stats_each_element["Respen"]["Lightning"]["None"] = -Enemy_unit[i]->DefaultElementRes["Lightning"];
+            Enemy_unit[i]->Stats_each_element["Respen"]["Physical"]["None"] = -Enemy_unit[i]->DefaultElementRes["Physical"];
+            Enemy_unit[i]->Stats_each_element["Respen"]["Imaginary"]["None"] = -Enemy_unit[i]->DefaultElementRes["Imaginary"];
         }
 
     
