@@ -172,6 +172,10 @@ public:
     void buffStackExcludingBuffer(vector<BuffClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name, int extend);
     void buffStackExcludingBuffer(vector<BuffElementClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name);
     void buffStackExcludingBuffer(vector<BuffElementClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name, int extend);
+
+    //Speed
+    void speedBuff(double spd_percent ,double flat_spd);
+    
     //TargetChoose.h
     void addTargetChangeCondition(function<bool()> condition);
     void addTargetChangeConditionImmediately(function<bool()> condition);

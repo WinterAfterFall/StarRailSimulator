@@ -62,7 +62,7 @@ unordered_map<std::string, double> tauntValueEachPath = {
     {"Remembrance", 100}
 };
     
-Action_value_stats* turn = nullptr;
+ActionValueStats* turn = nullptr;
 queue<shared_ptr<ActionData>> Action_bar;
 
 double Level_multiplier = 3767.5533;

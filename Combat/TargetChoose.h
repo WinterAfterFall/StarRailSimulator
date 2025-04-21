@@ -9,15 +9,15 @@
 #define K_const 10000
 
 //Ally
-bool Action_value_stats::isSameUnit(SubUnit *ptr){
+bool ActionValueStats::isSameUnit(SubUnit *ptr){
     if(this->Unit_Name == ptr->Atv_stats->Unit_Name)return true;
     return false;
 }
 
-SubUnit* Action_value_stats::canCastToSubUnit(){
+SubUnit* ActionValueStats::canCastToSubUnit(){
     return dynamic_cast<SubUnit*>(this->ptr_to_unit);
 }
-Enemy* Action_value_stats::canCastToEnemy(){
+Enemy* ActionValueStats::canCastToEnemy(){
     return dynamic_cast<Enemy*>(this->ptr_to_unit);
 }
 SubUnit* Unit::canCastToSubUnit() {

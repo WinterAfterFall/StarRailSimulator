@@ -12,7 +12,7 @@ using namespace std;
 
 
 // Action value stats for a unit (atv)
-class Action_value_stats {
+class ActionValueStats {
 public:
     double Base_speed = 0.01;//*
     double Flat_Speed = 0;
@@ -40,6 +40,8 @@ public:
     bool isSameUnit(SubUnit *ptr);
     SubUnit* canCastToSubUnit();
     Enemy* canCastToEnemy();
+
+    void speedBuff(double spd_percent ,double flat_spd);
 
 };
 

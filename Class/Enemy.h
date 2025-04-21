@@ -141,6 +141,9 @@ public:
     void debuffStackSingle(vector<BuffClass>,SubUnit *ptr, int Stack_increase, int Stack_limit, string Stack_Name,int extend);
     void debuffStackSingle(vector<BuffElementClass>,SubUnit *ptr, int Stack_increase, int Stack_limit, string Stack_Name,int extend);
 
+    //Speed
+    void speedBuff(double spd_percent ,double flat_spd);
+
 };  
 //check if it is ally unit
 

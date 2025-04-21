@@ -9,10 +9,10 @@
 #define K_const 10000
 
 
-bool compareActionValueStats(Action_value_stats* a, Action_value_stats* b) {
+bool compareActionValueStats(ActionValueStats* a, ActionValueStats* b) {
     return a->atv > b->atv; // Sort by `atv` in descending order
 }
-void Update_Max_atv(Action_value_stats *ptr) {
+void Update_Max_atv(ActionValueStats *ptr) {
     if(ptr->Base_speed<=0){
         ptr->Max_atv = 1e6;
         return;
@@ -20,7 +20,7 @@ void Update_Max_atv(Action_value_stats *ptr) {
     ptr->Max_atv = K_const / (ptr->Base_speed + ptr->Base_speed * ptr->Speed_percent/100 + ptr->Flat_Speed);
     
 }
-void atv_reset(Action_value_stats *ptr) {
+void atv_reset(ActionValueStats *ptr) {
 
     ptr->atv = ptr->Max_atv;
     
@@ -52,7 +52,7 @@ void All_atv_reset() {
        
     
 }
-void Action_forward(Action_value_stats *ptr,double fwd) {
+void Action_forward(ActionValueStats *ptr,double fwd) {
     if(ptr->Base_speed<=0)return;
     if(ptr->Unit_num==0){
         return ;
@@ -67,7 +67,7 @@ void Action_forward(Action_value_stats *ptr,double fwd) {
     }
 }
 void All_Action_forward(double fwd){
-    vector<Action_value_stats*> vec;
+    vector<ActionValueStats*> vec;
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
             vec.push_back(Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats.get());
@@ -78,18 +78,6 @@ void All_Action_forward(double fwd){
         Action_forward(vec[i],fwd);
       
     }
-}
-
-
-void Speed_Buff(Action_value_stats *ptr,double spd_percent ,double flat_spd ) {
-    double x = ptr->Max_atv;
-    ptr->Flat_Speed += flat_spd;
-    ptr->Speed_percent += spd_percent;
-    Update_Max_atv(ptr);
-    ptr->atv=ptr->atv/x*ptr->Max_atv;
-    SubUnit *temp = ptr->canCastToSubUnit();
-    if(!temp)return;
-    StatsAdjust(temp,"Speed");
 }
 void Find_turn(){
     pair<double,int> mx;

@@ -81,7 +81,7 @@ using std::right;
 class Func_class;
 class BuffClass;
 class BuffElementClass;
-class Action_value_stats;
+class ActionValueStats;
 class Unit;
 class SubUnit;
 class Ally;
@@ -129,13 +129,13 @@ bool ultUseCheck(Ally* ptr);
 void allUltimateCheck();
 
 //Action_value
-bool compareActionValueStats(Action_value_stats* a, Action_value_stats* b);
-void Update_Max_atv(Action_value_stats* ptr);
-void atv_reset(Action_value_stats* ptr);
+bool compareActionValueStats(ActionValueStats* a, ActionValueStats* b);
+void Update_Max_atv(ActionValueStats* ptr);
+void atv_reset(ActionValueStats* ptr);
 void All_atv_reset();
-void Action_forward(Action_value_stats* ptr, double fwd);
+void Action_forward(ActionValueStats* ptr, double fwd);
 void All_Action_forward(double fwd);
-void Speed_Buff(Action_value_stats* ptr, double spd_percent, double flat_spd);
+void Speed_Buff(ActionValueStats* ptr, double spd_percent, double flat_spd);
 void Find_turn();
 void Atv_fix(double Atv_reduce);
 
