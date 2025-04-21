@@ -35,9 +35,9 @@ function<void(Ally *ptr)> Ally::RelicPairSet(string stats){
     return [=](Ally *ptr) {
         ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING_OUT]["None"] += 10;
     };
-    if(stats == AT_Fua)
+    if(stats == AT_FUA)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG_PERCENT][AT_Fua] += 20;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG_PERCENT][AT_FUA] += 20;
     };
     if(stats == ST_DMG_PERCENT)
     return [=](Ally *ptr) {

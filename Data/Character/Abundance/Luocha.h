@@ -67,7 +67,7 @@ namespace Luocha{
             if (turn->Char_Name == "Luocha") {
                 if (Charptr->isBuffEnd("Cycle_of_Life")) {
                     if (ptr->Eidolon >= 1) {
-                        buffAllAlly("Atk%", "None", -20);
+                        buffAllAlly({{ST_ATK_PERCENT,AT_NONE,-20}});
                     }
                     Charptr->setStack("Abyss_Flower",0);
                 }
@@ -109,9 +109,9 @@ namespace Luocha{
     }
     void Abyss_Flower(Ally *ptr){
         if(ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"]==2){
-        Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Cycle_of_Life",2);
+            ptr->Sub_Unit_ptr[0]->extendBuffTime("Cycle_of_Life",2);
         if(ptr->Eidolon>=1){
-            buffAllAlly("Atk%","None",20);
+            buffAllAlly({{ST_ATK_PERCENT,AT_NONE,20}});
         }
         }
     }

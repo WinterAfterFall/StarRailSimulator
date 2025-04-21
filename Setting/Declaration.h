@@ -43,7 +43,10 @@
 #define AT_BASIC_ATK "Basic_Attack"
 #define AT_SKILL "Skill"
 #define AT_ULT "Ultimate"
-#define AT_Fua "Fua"
+#define AT_FUA "Fua"
+#define AT_DOT "Dot"
+#define AT_BREAK "Break_dmg"
+#define AT_SPB "Super_break"
 
 #define TT_SINGLE "Single_target"
 #define TT_BLAST "Blast"
@@ -143,35 +146,23 @@ void Speed_Buff_All_Ally_Exclude_Buffer(double spd_percent, double flat_spd, std
 void Speed_Buff_All_Ally_Exclude_Buffer(double spd_percent, double flat_spd, std::string Buffer, std::string Buff_name);
 
 //Buff_Stats.h
-void extendBuffTimeAllAlly(std::string Buff_name, int Turn_extend);
-void extendBuffTimeExcludingBuffer(std::string Buff_name, int Turn_extend, std::string Buffer_name);
+void extendBuffTimeAllAlly(string Buff_name, int Turn_extend);
+void extendBuffTimeExcludingBuffer(string Buff_name, int Turn_extend, string Buffer_name);
+void extendBuffTimeExcludingBuffer(string Buff_name, int Turn_extend, SubUnit* Buffer);
 
+void buffAllAlly(vector<BuffClass> buffSet);
+void buffAllAlly(vector<BuffElementClass> buffSet);
+void buffAllAlly(vector<BuffClass> buffSet, string Buff_name, int extend);
+void buffAllAlly(vector<BuffElementClass> buffSet, string Buff_name, int extend);
 
+//BuffStack.h
+void buffStackAllAlly(vector<BuffClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name);
+void buffStackAllAlly(vector<BuffClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name, int extend);
+void buffStackAllAlly(vector<BuffElementClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name);
+void buffStackAllAlly(vector<BuffElementClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name, int extend);
 
-void buffAllAlly(string stats_type, string Attack_type, double Value);
-void buffAllAlly(string stats_type, string Attack_type, string Element, double Value);
-
-void buffAllAlly(string stats_type, string Attack_type, double Value, string Buff_name);
-void buffAllAlly(string stats_type, string Attack_type, string Element, double Value, string Buff_name);
-
-void Buff_All_Ally_Excluding_Buffer(string stats_type, string Attack_type, double Value, string Buffer_name);
-void Buff_All_Ally_Excluding_Buffer(string stats_type, string Attack_type, string Element, double Value, string Buffer_name);
-
-void Buff_All_Ally_Each_Ally_Excluding_Buffer(string stats_type, string Attack_type, double Value, string Buff_name, string Buffer_name);
-void Buff_All_Ally_Each_Ally_Excluding_Buffer(string stats_type, string Attack_type, string Element, double Value, string Buff_name, string Buffer_name);
-
-void Stack_Buff_single_target(SubUnit *ptr, string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
-void Stack_Buff_single_target(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
-
-void Stack_Buff_single_with_all_memo(Ally *ptr, string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
-void Stack_Buff_single_with_all_memo(Ally *ptr, string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
-
-void Stack_Buff_All_Ally(string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
-void Stack_Buff_All_Ally(string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
-
-void Stack_Buff_All_Ally_Excluding_Buffer(string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
-void Stack_Buff_All_Ally_Excluding_Buffer(string stats_type, string Attack_type, string Element, string Buffer_name, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
-
+void buffResetStackAllAlly(vector<BuffClass> buffSet, string Stack_Name);
+void buffResetStackAllAlly(vector<BuffElementClass> buffSet, string Stack_Name);
 
 //AdjustStats.h
 
@@ -184,15 +175,27 @@ void DefAdjust(SubUnit *ptr);
 
 
 
-//Debuff_Stats
-void debuffAllEnemyApplyVer(SubUnit *ptr, string stats_type, string Attack_type, double Value, string Debuff_Name);
-void debuffAllEnemyApplyVer(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value, string Debuff_Name);
-void debuffAllEnemyMark(SubUnit *ptr, string stats_type, string Attack_type, double Value, string Debuff_Name);
-void debuffAllEnemyMark(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value, string Debuff_Name);
-void debuffAllEnemyStack(SubUnit *ptr, string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
-void debuffAllEnemyStack(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
-void Extend_Debuff_single_target(Enemy* ptr, std::string Debuff_name, int Turn_extend);
-void extendDebuffAll(std::string Debuff_name, int Turn_extend);
+//Debuff_Stats.h
+void extendDebuffAll(string Debuff_name, int Turn_extend);
+
+void debuffAllEnemy(vector<BuffClass> debuffSet);
+void debuffAllEnemy(vector<BuffElementClass> debuffSet);
+
+void debuffAllEnemyApply(vector<BuffClass> debuffSet, SubUnit* ptr, string Debuff_Name);
+void debuffAllEnemyApply(vector<BuffElementClass> debuffSet, SubUnit* ptr, string Debuff_Name);
+void debuffAllEnemyApply(vector<BuffClass> debuffSet, SubUnit* ptr, string Debuff_Name, int extend);
+void debuffAllEnemyApply(vector<BuffElementClass> debuffSet, SubUnit* ptr, string Debuff_Name, int extend);
+
+void debuffAllEnemyMark(vector<BuffClass> debuffSet, SubUnit* ptr, string Debuff_Name);
+void debuffAllEnemyMark(vector<BuffElementClass> debuffSet, SubUnit* ptr, string Debuff_Name);
+void debuffAllEnemyMark(vector<BuffClass> debuffSet, SubUnit* ptr, string Debuff_Name, int extend);
+void debuffAllEnemyMark(vector<BuffElementClass> debuffSet, SubUnit* ptr, string Debuff_Name, int extend);
+
+//DebuffStack.h
+void debuffStackAll(vector<BuffClass> debuffSet, SubUnit* ptr, int Stack_increase, int Stack_limit, string Stack_Name);
+void debuffStackAll(vector<BuffElementClass> debuffSet, SubUnit* ptr, int Stack_increase, int Stack_limit, string Stack_Name);
+void debuffStackAll(vector<BuffClass> debuffSet, SubUnit* ptr, int Stack_increase, int Stack_limit, string Stack_Name, int extend);
+void debuffStackAll(vector<BuffElementClass> debuffSet, SubUnit* ptr, int Stack_increase, int Stack_limit, string Stack_Name, int extend);
 
 //Combat
 void Take_action();

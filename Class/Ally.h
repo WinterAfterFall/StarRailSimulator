@@ -16,14 +16,14 @@ class BuffClass{
     public:
     string statsType;
     string actionType;
-    int value;
+    double value;
 };
 class BuffElementClass{
     public:
     string statsType;
     string element;
     string actionType;
-    int value;
+    double value;
 };
 // Enemy stats
 // Ally class, derived from Unit
