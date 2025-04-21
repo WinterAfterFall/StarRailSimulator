@@ -130,6 +130,11 @@ public:
         return this->buffAllyTarget[buffName];
     }
 
+    //add
+    void addStack(string buffName,int value) {
+        this->Stack[buffName] += value;
+    }
+
     
     /*--------------------Declaration--------------------*/
     
@@ -139,10 +144,18 @@ public:
 
     //BuffStats.h
     bool isHaveToAddBuff(string Buff_name);
+    pair<int,int> calStack(int Stack_increase,int StackLimit,string buffName);
     bool isBuffEnd(string Buff_name);
     void extendBuffTime(string Buff_name,int Turn_extend);
-    void buffAlly(string stats_type, string Attack_type, double Value);
-    void buffAlly(string stats_type, string Attack_type, string Element, double Value);
+    void buffAlly(vector<BuffClass> buffSet);
+    void buffAlly(vector<BuffElementClass> buffSet);
+    void buffAllAllyExcludingBuffer(vector<BuffClass> buffSet);
+    void buffAllAllyExcludingBuffer(vector<BuffElementClass> buffSet);
+    void buffAllAllyExcludingBuffer(vector<BuffClass> buffSet,string Buff_name,int Turn_extend);
+    void buffAllAllyExcludingBuffer(vector<BuffElementClass> buffSet,string Buff_name,int Turn_extend);
+
+    void buffStackSingle(vector<BuffClass> buffSet);
+    void buffStackSingle(vector<BuffElementClass> buffSet);
 
     //TargetChoose.h
     void addTargetChangeCondition(function<bool()> condition);

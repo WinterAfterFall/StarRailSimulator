@@ -12,6 +12,19 @@ class Func_class{
     string Name;
     function<void(Ally *ptr)> Print_Func;
 };
+class BuffClass{
+    public:
+    string statsType;
+    string actionType;
+    int value;
+};
+class BuffElementClass{
+    public:
+    string statsType;
+    string element;
+    string actionType;
+    int value;
+};
 // Enemy stats
 // Ally class, derived from Unit
 class Ally{
@@ -197,10 +210,10 @@ public:
     /*-----------------Combat-----------------*/
     //BuffStats.h
     void extendBuffTime(string Buff_name,int Turn_extend);
-    void buffAlly(string stats_type, string Attack_type, double Value);
-    void buffAlly(string stats_type, string Attack_type, string Element, double Value);
-    void buffAlly(string stats_type, string Attack_type, double Value,string Buff_name);
-    void buffAlly(string stats_type, string Attack_type, string Element, double Value,string Buff_name);
+    void buffAlly(vector<BuffClass> buffSet);
+    void buffAlly(vector<BuffElementClass> buffSet);
+    void buffAlly(vector<BuffClass> buffSet,string Buff_name,int extend);
+    void buffAlly(vector<BuffElementClass> buffSet,string Buff_name,int extend);
     //Energy.h
     void addUltCondition(function<bool()> condition);
     void addUltImmediatelyUseCondition(function<bool()> condition);
