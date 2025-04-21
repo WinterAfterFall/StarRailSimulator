@@ -15,6 +15,7 @@ namespace Rappa{
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally *ptr = SetAllyBasicStats(96, 140, 140, E, "Imaginary", "Erudition", "Rappa", TYPE_STD);
+        SubUnit *Rappaptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1087,718,461);
         //substats
         ptr->pushSubstats("Break_effect");
@@ -105,9 +106,9 @@ namespace Rappa{
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_DEBUFF, [ptr]() {
             Enemy *enemyUnit = turn->canCastToEnemy();
             if (enemyUnit) {
-                if (Debuff_end(enemyUnit, "Withered_Leaf")) {
-                    enemyUnit->debuffSingleApply("Vul", "Break_dmg", -enemyUnit->DebuffNote["Withered_Leaf"]);
-                    enemyUnit->debuffRemove("Withered_Leaf");
+                
+                if (enemyUnit->isDebuffEnd("Withered_Leaf")) {
+                    enemyUnit->debuffSingle({{ST_VUL,AT_BREAK,-enemyUnit->DebuffNote["Withered_Leaf"]}});
                 }
             }
             if (turn->Char_Name == "Rappa") {
@@ -169,7 +170,7 @@ namespace Rappa{
             }
         }));
 
-        Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, SubUnit *Breaker) {
+        Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,Rappaptr](Enemy *target, SubUnit *Breaker) {
             ptr->Sub_Unit_ptr[0]->Stack["Rappa_Talent"]++;
             if (target->Max_toughness > 90) {
                 ptr->Sub_Unit_ptr[0]->Stack["Rappa_Talent"]++;
@@ -180,10 +181,8 @@ namespace Rappa{
             temp = 10;
             if (temp < 0)
             temp = 0;
-            target->DebuffNote["Withered_Leaf"] = temp - target->DebuffNote["Withered_Leaf"];
-            target->debuffApply(ptr->getSubUnit(),"Withered_Leaf");
-            target->debuffSingleApply("Vul", "Break_dmg", target->DebuffNote["Withered_Leaf"]);
-            Extend_Debuff_single_target(target, "Withered_Leaf", 2);
+            target->DebuffNote["Withered_Leaf"] = target->DebuffNote["Withered_Leaf"];
+            target->debuffSingleApply({{ST_VUL, AT_BREAK, temp - target->DebuffNote["Withered_Leaf"]}},Rappaptr,"Withered_Leaf",2);
         }));
     }
 

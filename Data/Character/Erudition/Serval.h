@@ -20,8 +20,8 @@ namespace Serval{
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally *ptr = SetAllyBasicStats(104,100,100,E,"Lightning","Erudition","Serval",TYPE_STD);
+        SubUnit *Servalptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(917,653,375);
-
         //substats
         ptr->pushSubstats("Crit_dam");
         ptr->pushSubstats("Crit_rate");
@@ -80,16 +80,14 @@ namespace Serval{
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
             if (turn->Unit_Name == "Serval") {
-                if (Buff_end(ptr->Sub_Unit_ptr[0].get(), "Serval_A6")) {
-                    ptr->Sub_Unit_ptr[0]->Buff_check["Serval_A6"] = 0;
+                if (ptr->Sub_Unit_ptr[0].get()->isBuffEnd("Serval_A6")) {
                     ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] -= 20;
                 }
             }
             if (turn->Side == "Enemy") {
                 Enemy *tempstats = dynamic_cast<Enemy*>(turn->ptr_to_unit);
                 if (tempstats) {
-                    if (Debuff_end(tempstats, "Serval_Shock")) {
-                        tempstats->debuffRemove("Serval_Shock");
+                    if (tempstats->isDebuffEnd("Serval_Shock")) {
                         tempstats->Debuff["Shock_check"]--;
                     }
                 }
@@ -103,9 +101,9 @@ namespace Serval{
             }
         }));
 
-        Dot_List.push_back(TriggerDot_Func(PRIORITY_BUFF, [ptr](Enemy* target, double Dot_ratio, string Dot_type) {
+        Dot_List.push_back(TriggerDot_Func(PRIORITY_BUFF, [ptr,Servalptr](Enemy* target, double Dot_ratio, string Dot_type) {
             if (Dot_type != "None" && Dot_type != "Lightning") return;
-            if (!Debuff_check(target, "Serval_Shock")) return;
+            if (!target->getDebuff("Serval_Shock")) return;
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
             data_->Dot_set(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Serval Shock");
             data_->Damage_spilt.Main.push_back({114, 0, 0, 0});
@@ -117,7 +115,7 @@ namespace Serval{
             shared_ptr<AllyActionData> data_temp = make_shared<AllyActionData>();
             data_temp->Additional_set(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Serval Additional Damage");
             for (int i = 1; i <= Total_enemy; i++) {
-                if (Debuff_check(Enemy_unit[i].get(), "Serval_Shock")) {
+                if (Enemy_unit[i]->getDebuff("Serval_Shock")) {
                     Cal_Additional_damage(data_temp, Enemy_unit[i].get(), {79, 0, 0, 0});
                     if (ptr->Eidolon >= 2) {
                         Increase_energy(ptr, 4);
@@ -126,12 +124,8 @@ namespace Serval{
             }
         }));
 
-        Enemy_Death_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, SubUnit *Killer) {
-            if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Serval_A6")) {
-                ptr->Sub_Unit_ptr[0]->Buff_check["Serval_A6"] = 1;
-                ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 20;
-            }
-            Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Serval_A6", 2);
+        Enemy_Death_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,Servalptr](Enemy *target, SubUnit *Killer) {
+            Servalptr->buffSingle({{ST_ATK_PERCENT,AT_NONE,20}},"Serval_A6",2);
         }));
 
 

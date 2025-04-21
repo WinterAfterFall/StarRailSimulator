@@ -18,8 +18,8 @@ namespace Jingyuan{
 
     void Setup_Jingyuan(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally *ptr = SetAllyBasicStats(99, 130, 130, E, "Lightning", "Erudition", "Jingyuan",TYPE_STD);
+        SubUnit *Jingyuanptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1164, 698, 485);
-        
 
         //substats
         ptr->pushSubstats("Crit_dam");
@@ -43,7 +43,7 @@ namespace Jingyuan{
             }
         };
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr,Jingyuanptr]() {
             if (((turn->Char_Name != "Jingyuan" || Ult_After_Turn == 1)) || !ultUseCheck(ptr)) return;
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
             
@@ -69,17 +69,19 @@ namespace Jingyuan{
         }));
         
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Jingyuanptr]() {
             if (!(ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num == turn->Unit_num && turn->Side == "Ally")) return;
-            if (Buff_end(ptr->Sub_Unit_ptr[0].get(), "War_Marshal")) {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"] -= 10;
-                ptr->Sub_Unit_ptr[0]->Buff_check["War_Marshal"];
+            
+            if (Jingyuanptr->isBuffEnd("War_Marshal")) {
+                Jingyuanptr->buffSingle({{ST_CRIT_RATE,AT_NONE,-10}});
             }
-            if (ptr->Eidolon >= 2 && Buff_end(ptr->Sub_Unit_ptr[0].get(), "Swing_Skies_Squashed")) {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Basic_Attack"] -= 20;
-                ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Skill"] -= 20;
-                ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Ultimate"] -= 20;
-                ptr->Sub_Unit_ptr[0]->Buff_check["Swing_Skies_Squashed"] = 0;
+            ;
+            if (ptr->Eidolon >= 2 && Jingyuanptr->isBuffEnd("Swing_Skies_Squashed")) {
+                Jingyuanptr->buffSingle({
+                    {ST_DMG_PERCENT,AT_BASIC_ATK,-20},
+                    {ST_DMG_PERCENT,AT_SKILL,-20},
+                    {ST_DMG_PERCENT,AT_ULT,-20}
+                });
             }
         }));
 
@@ -99,7 +101,7 @@ namespace Jingyuan{
             ptr->Summon_ptr[0]->Atv_stats->Speed_percent = 0;
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Jingyuanptr]() {
             if (ptr->Technique == 1) {
                 ptr->Sub_Unit_ptr[0]->Stack["LL_stack"] += 3;
                 Speed_Buff(ptr->Summon_ptr[0]->Atv_stats.get(), 0, 30);
@@ -110,14 +112,14 @@ namespace Jingyuan{
 
         //LL
         SetSummonStats(ptr, 60, "LL");
-        ptr->Summon_ptr[0]->Turn_func = [ptr](){
+        ptr->Summon_ptr[0]->Turn_func = [ptr,Jingyuanptr](){
             
             shared_ptr<AllyActionData> temp = make_shared<AllyActionData>();
             temp->Fua_set(ptr->Sub_Unit_ptr[0].get(),"Bounce","LL Attack");
             temp->Add_Target_Adjacent();
             temp->Skill_Type.push_back("Summon");
             temp->Turn_reset = 1;
-            temp->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
+            temp->actionFunction = [ptr,Jingyuanptr](shared_ptr<AllyActionData> &data_){
                 if(ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]>=6){
                     ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["Summon"]+=25;
                 }
@@ -142,14 +144,12 @@ namespace Jingyuan{
                 
                 
                 if(ptr->Eidolon>=2){
-                Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Swing_Skies_Squashed",2);
-                
-                if(!Buff_check(ptr->Sub_Unit_ptr[0].get(),"Swing_Skies_Squashed")){
-                    ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Basic_Attack"]+=20;
-                    ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Skill"]+=20;
-                    ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Ultimate"]+=20;
-                    ptr->Sub_Unit_ptr[0]->Buff_check["Swing_Skies_Squashed"] = 1;
-                }
+                    Jingyuanptr->buffSingle({
+                        {ST_DMG_PERCENT,AT_BASIC_ATK,20},
+                        {ST_DMG_PERCENT,AT_SKILL,20},
+                        {ST_DMG_PERCENT,AT_ULT,20}},
+                        "Swing_Skies_Squashed",2
+                    );
                 }
             };
             
@@ -197,15 +197,10 @@ namespace Jingyuan{
         data_->Damage_spilt.Other.push_back({40,0,0,4});
         data_->Damage_spilt.Other.push_back({30,0,0,3});
         data_->Damage_spilt.Other.push_back({30,0,0,3});
-        data_->actionFunction = [ptr] (shared_ptr<AllyActionData> &data_){
+        data_->actionFunction = [ptr,Jingyuanptr = ptr->getSubUnit()] (shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
-            if(!Buff_check(ptr->Sub_Unit_ptr[0].get(),"War_Marshal")){
-                ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"]+=10;
-                ptr->Sub_Unit_ptr[0]->Buff_check["War_Marshal"]=1;
-    
-            }
-            Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"War_Marshal",2);
+            Jingyuanptr->buffSingle({{ST_CRIT_RATE,AT_NONE,10}},"War_Marshal",2);
             ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]+=2;
             if(ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]>=10){
                 ptr->Summon_ptr[0]->Atv_stats->Flat_Speed=70;

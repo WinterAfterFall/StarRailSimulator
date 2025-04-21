@@ -87,7 +87,7 @@ namespace Gallagher{
             Enemy * focusUnit = turn->canCastToEnemy();
             if(!focusUnit)return;
             if (focusUnit->isDebuffEnd("Besotted")) {
-                focusUnit->debuffSingle({{"Vul", "Break_dmg", -13.2}});
+                focusUnit->debuffSingle({{ST_VUL, "Break_dmg", -13.2}});
             }
             if (focusUnit->isDebuffEnd("Nectar_Blitz")) {
                 focusUnit->atkPercent += 16;
@@ -114,7 +114,7 @@ namespace Gallagher{
                 data_->Damage_spilt.Other.push_back({50, 0, 0, 20});
                 Action_bar.push(data_);
                 data_->actionFunction = [ptr,Charptr](shared_ptr<AllyActionData> &data_){
-                    debuffAllEnemyApply({{"Vul", "Break_dmg", 13.2}},Charptr,"Besotted",2);
+                    debuffAllEnemyApply({{ST_VUL, "Break_dmg", 13.2}},Charptr,"Besotted",2);
                     Attack(data_);
                 };
                 if (!actionBarUse) Deal_damage();

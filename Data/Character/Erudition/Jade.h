@@ -37,7 +37,8 @@ namespace Jade{
         Relic(ptr);
         Planar(ptr);
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
-            if (Buff_check(allyPtr, "Jade_Skill")) {
+            
+            if (allyPtr->getBuffCheck("Jade_Skill")) {
                 Basic_Atk(ptr);
             } else {
                 Skill(ptr);
@@ -92,9 +93,9 @@ namespace Jade{
             if (chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats->Char_Name == turn->Char_Name) {
                 Jade_Talent(ptr, 3);
             }
-            if (Buff_end(ptr->Sub_Unit_ptr[0].get(), "Jade_Skill")) {
+            
+            if (ptr->Sub_Unit_ptr[0].get()->isBuffEnd("Jade_Skill")) {
                 Speed_Buff(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats.get(), 0, -30);
-                ptr->Sub_Unit_ptr[0]->Buff_check["Jade_Skill"] = 0;
             }
         }));
 
@@ -110,18 +111,6 @@ namespace Jade{
             if (ptr->Eidolon >= 1 && temp < 3) temp = 3;
             ptr->Sub_Unit_ptr[0]->Stack["Jade_Talent"] += temp;
             Jade_Fua(ptr);
-        }));
-
-        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_){
-            if(ptr->Eidolon >= 1 && data_->Attacker->Atv_stats->Unit_Name == "Jade" && data_->Action_type.second == "Fua"){
-                Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Dmg%", "None", 32);
-            }
-        }));
-
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_){
-            if(ptr->Eidolon >= 1 && data_->Attacker->Atv_stats->Unit_Name == "Jade" && data_->Action_type.second == "Fua"){
-                Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Dmg%", "None", -32);
-            }
         }));
 
         Enemy_Death_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, SubUnit *Killer){
@@ -162,9 +151,9 @@ namespace Jade{
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
-            Speed_Buff(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats.get(),0,30);
-            ptr->Sub_Unit_ptr[0]->Buff_check["Jade_Skill"]=1;
-            Extend_Buff_single_target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()),"Jade_Skill",3);
+            if(ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Jade_Skill",3)){
+                Speed_Buff(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats.get(),0,30);
+            }
         };
         Action_bar.push(data_);
     }
@@ -209,7 +198,9 @@ namespace Jade{
         data_->Damage_spilt.Other.push_back({48,0,0,10});
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,10);
+            if(ptr->Eidolon>=1)ptr->getSubUnit()->buffSingle({{ST_DMG_PERCENT,AT_NONE,32}});
             Attack(data_);
+            if(ptr->Eidolon>=1)ptr->getSubUnit()->buffSingle({{ST_DMG_PERCENT,AT_NONE,-32}});
         };
         Action_bar.push(data_);
         
@@ -237,17 +228,19 @@ namespace Jade{
         data_->Damage_spilt.Other.push_back({120,0,0,10});
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,10);
+            if(ptr->Eidolon>=1)ptr->getSubUnit()->buffSingle({{ST_DMG_PERCENT,AT_NONE,32}});
             Attack(data_);
+            if(ptr->Eidolon>=1)ptr->getSubUnit()->buffSingle({{ST_DMG_PERCENT,AT_NONE,-32}});
         };
         Action_bar.push(data_);
     }
     void Jade_Talent(Ally *ptr,int amount){
-        Stack_Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Atk%","None",0.5,amount,50,"Atk_Pawned_Asset");
-        Stack_Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Crit_dam","None",2.4,amount,50,"Crit_Pawned_Asset");
-        if(ptr->Eidolon>=2&&ptr->Sub_Unit_ptr[0]->Buff_check["Jade_E2"]==0&&ptr->Sub_Unit_ptr[0]->Stack["Atk_Pawned_Asset"]>=15){
-            ptr->Sub_Unit_ptr[0]->Buff_check["Jade_E2"]=1;
-            Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Crit_rate","None",18);
-
+        ptr->getSubUnit()->buffStackSingle(
+            {{ST_ATK_PERCENT,AT_NONE,0.5},
+            {ST_CRIT_DAM,AT_NONE,2.4}},
+            amount,50,"Pawned_Asset");
+        if(ptr->Eidolon>=2&&ptr->Sub_Unit_ptr[0]->Stack["Pawned_Asset"]>=15&&ptr->getSubUnit()->isHaveToAddBuff("Jade_E2")){
+            ptr->getSubUnit()->buffSingle({{ST_CRIT_RATE,AT_NONE,18}});
         }
 
     }

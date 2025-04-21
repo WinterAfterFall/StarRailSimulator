@@ -8,18 +8,6 @@
 
 namespace The_Herta{
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
-    void Reset(Ally *ptr);
-    void Turn_func(Unit *ptr);
-
-    void Ult_func(Ally *ptr);
-    void Tune_stats(Ally *ptr);
-    void Start_game(Ally *ptr);
-    void After_attack(Ally *ptr,shared_ptr<AllyActionData> &data_);
-    void After_turn(Ally *ptr);
-    void Enemy_Death(Ally *ptr,Enemy *target,SubUnit *Killer);
-    void When_Combat(Ally *ptr);
-
-
 //temp
     void Basic_Atk(Ally *ptr);
     void Skill(Ally *ptr);
@@ -31,6 +19,7 @@ namespace The_Herta{
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally *ptr = SetAllyBasicStats(99,220,220,E,"Ice","Erudition","The_Herta",TYPE_STD);
+        SubUnit* Hertaptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1164,679,485);
 
         //substats
@@ -58,14 +47,14 @@ namespace The_Herta{
             }
         };
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr,Hertaptr]() {
             if ((ptr->Sub_Unit_ptr[0]->Atv_stats->atv < ptr->Sub_Unit_ptr[0]->Atv_stats->Max_atv * 0.3)) return;
             if (!ultUseCheck(ptr)) return;
 
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
             data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","The Herta Ultimate");
             data_->Add_Target_Other();
-            data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
+            data_->actionFunction = [ptr,Hertaptr](shared_ptr<AllyActionData> &data_){
                 double Increase_mtpr = ptr->Sub_Unit_ptr[0]->Stack["The_Herta_A6"];
                 data_->Damage_spilt.Main.push_back({200 + Increase_mtpr, 0, 0, 20});
                 data_->Damage_spilt.Adjacent.push_back({200 + Increase_mtpr, 0, 0, 20});
@@ -74,12 +63,8 @@ namespace The_Herta{
                 if (ptr->Eidolon >= 2) {
                     ptr->Sub_Unit_ptr[0]->Buff_note["The_Herta_Skill_Enchance"]++;
                 }
-                if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Ult_The_Herta_Buff")) {
-                    Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Atk%", "None", 80);
-                    ptr->Sub_Unit_ptr[0]->Buff_check["Ult_The_Herta_Buff"] = 1;
-                }
-                Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Ult_The_Herta_Buff", 3);
-                
+                Hertaptr->buffSingle({{ST_ATK_PERCENT,AT_NONE,80}},"Ult_The_Herta_Buff",3);
+
                 if (ptr->Print)CharCmd::printUltStart("The Herta");
                 Attack(data_);
 
@@ -113,10 +98,9 @@ namespace The_Herta{
         }));
 
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hertaptr]() {
             if (ptr->Technique == 1) {
-                Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Atk%", "None", 60);
-                Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "The_Herta_Technique", 2);
+                Hertaptr->buffSingle({{ST_ATK_PERCENT,AT_NONE,60}},"The_Herta_Technique",2);
             }
             Apply_Herta_Stack(ptr, Enemy_unit[Main_Enemy_num].get(), 25);
             for (int i = 1; i <= Total_enemy; i++) {
@@ -124,29 +108,25 @@ namespace The_Herta{
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
-            if (Buff_end(ptr->Sub_Unit_ptr[0].get(), "The_Herta_Technique")) {
-                Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Atk%", "None", -60);
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Hertaptr]() {
+            if (Hertaptr->isBuffEnd("The_Herta_Technique")) {
+                Hertaptr->buffSingle({{ST_ATK_PERCENT,AT_NONE,-60}});
             }
-            if (Buff_end(ptr->Sub_Unit_ptr[0].get(), "Ult_The_Herta_Buff")) {
-                Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Atk%", "None", -80);
-                ptr->Sub_Unit_ptr[0]->Buff_check["Ult_The_Herta_Buff"] = 0;
+            if (Hertaptr->isBuffEnd("Ult_The_Herta_Buff")) {
+                Hertaptr->buffSingle({{ST_ATK_PERCENT,AT_NONE,-80}});
             }
         }));
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (ptr->Sub_Unit_ptr[0]->Buff_check["Two_Erudition"] == 1) {
-                buffAllAlly("Crit_dam", "None", 80);
+                buffAllAlly({{ST_CRIT_DAM,AT_NONE,80}});
             }
         }));
 
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_BUFF, [ptr](shared_ptr<AllyActionData> &data_){
-            if(data_->Action_type.second=="Skill" && ptr->Sub_Unit_ptr[0]->Buff_check["Ther_Herta_A2"]){
-                ptr->Sub_Unit_ptr[0]->Buff_check["Ther_Herta_A2"] = 0;
-                Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Dmg%","None",-50);
-                if(ptr->Eidolon >= 2){
-                    Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),35);
-                }
+        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_BUFF, [ptr,Hertaptr](shared_ptr<AllyActionData> &data_){
+            if(data_->actionName=="The Herta EnchanceSkill"){
+                Hertaptr->buffSingle({{ST_DMG_PERCENT,AT_NONE,-50}});
+                if(ptr->Eidolon >= 2)Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),35);
             }
             bool Erudition_check = 0;
 
@@ -299,8 +279,7 @@ namespace The_Herta{
             Herta_reset_Stack();
 
             Apply_Herta_Stack(ptr,Enemy_unit[Main_Enemy_num].get(),1);
-            ptr->Sub_Unit_ptr[0]->Buff_check["Ther_Herta_A2"] = 1;
-            Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Dmg%","None",50); 
+            ptr->getSubUnit()->buffSingle({{ST_DMG_PERCENT,AT_NONE,50}});
             Attack(data_);
         };
         
