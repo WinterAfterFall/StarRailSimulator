@@ -58,9 +58,9 @@ namespace Gallagher{
                 ptr->Sub_Unit_ptr[0]->Buff_check["Gallagher_enchance_basic_atk"] = 1;
                 debuffAllEnemyApplyVer(ptr->Sub_Unit_ptr[0].get(), "Vul", "Break_dmg", 13.2, "Besotted");  
                 if (ptr->Eidolon >= 4) {
-                    Extend_Debuff_All_Enemy("Besotted", 3);
+                    extendDebuffAll("Besotted", 3);
                 } else {
-                    Extend_Debuff_All_Enemy("Besotted", 2);
+                    extendDebuffAll("Besotted", 2);
                 }
                 Attack(data_);
             };
@@ -87,7 +87,7 @@ namespace Gallagher{
             Enemy * focusUnit = turn->canCastToEnemy();
             if(!focusUnit)return;
             if (focusUnit->isDebuffEnd("Besotted")) {
-                focusUnit->debuffSingleTarget("Vul", "Break_dmg", -13.2);
+                focusUnit->debuffSingleApply("Vul", "Break_dmg", -13.2);
             }
             if (focusUnit->isDebuffEnd("Nectar_Blitz")) {
                 focusUnit->atkPercent += 16;
@@ -114,7 +114,7 @@ namespace Gallagher{
                 data_->Damage_spilt.Other.push_back({50, 0, 0, 20});
                 Action_bar.push(data_);
                 data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
-                    Extend_Debuff_All_Enemy("Besotted", 2);
+                    extendDebuffAll("Besotted", 2);
                     debuffAllEnemyApplyVer(ptr->Sub_Unit_ptr[0].get(), "Vul", "Break_dmg", 13.2, "Besotted");
                     Attack(data_);
                 };
@@ -201,7 +201,7 @@ namespace Gallagher{
             for(Enemy* &target : data_->Target_Attack){
                 target->debuffApply(data_->Attacker,"Nectar_Blitz");
                 target->atkPercent -= 16;
-                target->extendDebuffTime("Nectar_Blitz",2);
+                target->extendDebuff("Nectar_Blitz",2);
             }
             Attack(data_);
         };

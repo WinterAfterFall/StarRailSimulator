@@ -47,7 +47,7 @@ namespace Pela{
             data_->Damage_spilt.Other.push_back({108, 0, 0, 20});
             data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_) {
                 debuffAllEnemyApplyVer(ptr->Sub_Unit_ptr[0].get(), "Def_shred", "None", 42, "Zone_Suppression");
-                Extend_Debuff_All_Enemy("Zone_Suppression", 2);
+                extendDebuffAll("Zone_Suppression", 2);
                 Attack(data_);
             };
             Action_bar.push(data_);
@@ -68,7 +68,7 @@ namespace Pela{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (ptr->Technique == 1) {
                 debuffAllEnemyApplyVer(ptr->Sub_Unit_ptr[0].get(), "Def_shred", "None", 20, "Pela_Technique");
-                Extend_Debuff_All_Enemy("Pela_Technique", 2);
+                extendDebuffAll("Pela_Technique", 2);
                 Increase_energy(ptr, 20);
             }
         }));

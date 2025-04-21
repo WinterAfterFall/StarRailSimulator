@@ -111,22 +111,35 @@ public:
 
     //debuff.h
     bool debuffApply(SubUnit *ptr, string debuffName);
+    bool debuffApply(SubUnit *ptr, string debuffName,int extend);
     bool debuffMark(SubUnit *ptr, string debuffName);
-    void debuffStack(SubUnit *ptr,string debuffName,int Stack_increase);
-    pair<int,int> debuffStack(SubUnit *ptr,string debuffName,int Stack_increase,int StackLimit);
+    bool debuffMark(SubUnit *ptr, string debuffName,int extend);
     void debuffRemove(string debuffName);
-    void debuffRemoveStack(string debuffName);
-
+    
     bool isDebuffEnd(string Debuff_name);
-    void extendDebuffTime(string Debuff_name,int Turn_extend);
+    void extendDebuff(string Debuff_name,int Turn_extend);
+    
+    //Single target
+    void debuffSingle(vector<BuffClass> debuffSet);
+    void debuffSingle(vector<BuffElementClass> debuffSet);
+    void debuffSingleApply(vector<BuffClass> debuffSet,SubUnit *ptr,string debuffName);
+    void debuffSingleApply(vector<BuffElementClass> debuffSet,SubUnit *ptr,string debuffName);
+    void debuffSingleMark(vector<BuffClass> debuffSet,SubUnit *ptr,string debuffName);
+    void debuffSingleMark(vector<BuffElementClass> ,SubUnit *ptr,string debuffName);
+    void debuffSingleApply(vector<BuffClass> debuffSet,SubUnit *ptr,string debuffName ,int extend);
+    void debuffSingleApply(vector<BuffElementClass> debuffSet,SubUnit *ptr,string debuffName ,int extend);
+    void debuffSingleMark(vector<BuffClass> buffSet, SubUnit* ptr, string debuffName, int extend);
+    void debuffSingleMark(vector<BuffElementClass> buffSet, SubUnit* ptr, string debuffName, int extend);
 
-    void debuffSingleTarget(string stats_type, string Attack_type, double Value);
-    void debuffSingleTarget(string stats_type, string Attack_type, string Element, double Value);
-
-    void debuffStackSingleTarget(SubUnit *ptr,string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
-    void debuffStackSingleTarget(SubUnit *ptr,string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
-
-
+    //Stack
+    int debuffRemoveStack(string debuffName);
+    pair<int,int> calDebuffStack(SubUnit *ptr,string debuffName,int Stack_increase,int StackLimit);
+    void debuffStackRemove(vector<BuffClass> buffSet,string debuffName);
+    void debuffStackRemove(vector<BuffElementClass> buffSet,string debuffName);
+    void debuffStackSingle(vector<BuffClass>,SubUnit *ptr, int Stack_increase, int Stack_limit, string Stack_Name);
+    void debuffStackSingle(vector<BuffElementClass>,SubUnit *ptr, int Stack_increase, int Stack_limit, string Stack_Name);
+    void debuffStackSingle(vector<BuffClass>,SubUnit *ptr, int Stack_increase, int Stack_limit, string Stack_Name,int extend);
+    void debuffStackSingle(vector<BuffElementClass>,SubUnit *ptr, int Stack_increase, int Stack_limit, string Stack_Name,int extend);
 
 };  
 //check if it is ally unit

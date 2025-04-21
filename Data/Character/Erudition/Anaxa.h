@@ -95,9 +95,9 @@ namespace Jade{
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             for(auto &e : data_->Target_Attack){
-                if(e->debuffStack(data_->Attacker,"Anaxa Weakness",1,4).second >=2){
+                if(e->calDebuffStack(data_->Attacker,"Anaxa Weakness",1,4).second >=2){
                     if(e->isHaveToAddDebuff("Qualitative Disclosure")){
-                        e->debuffSingleTarget(ST_DMG_PERCENT,AT_NONE,30);
+                        e->debuffSingleApply(ST_DMG_PERCENT,AT_NONE,30);
                     }
                     Extend_Debuff_single_target(e,"Anaxa Weakness",3);
                 }
@@ -120,9 +120,9 @@ namespace Jade{
             int cnt = 5;
             while(1){
                 for(auto &e : data_->Target_Attack){
-                    if(e->debuffStack(data_->Attacker,"Anaxa Weakness",1,4).second >=2){
+                    if(e->calDebuffStack(data_->Attacker,"Anaxa Weakness",1,4).second >=2){
                         if(e->isHaveToAddDebuff("Qualitative Disclosure")){
-                            e->debuffSingleTarget(ST_DMG_PERCENT,AT_NONE,30);
+                            e->debuffSingleApply(ST_DMG_PERCENT,AT_NONE,30);
                             Extend_Debuff_single_target(e,"Qualitative Disclosure",3);
                         }
                     }
@@ -150,9 +150,9 @@ namespace Jade{
             int cnt = 5;
             while(1){
                 for(auto &e : data_->Target_Attack){
-                    if(e->debuffStack(data_->Attacker,"Anaxa Weakness",1,4).second >=2){
+                    if(e->calDebuffStack(data_->Attacker,"Anaxa Weakness",1,4).second >=2){
                         if(e->isHaveToAddDebuff("Qualitative Disclosure")){
-                            e->debuffSingleTarget(ST_DMG_PERCENT,AT_NONE,30);
+                            e->debuffSingleApply(ST_DMG_PERCENT,AT_NONE,30);
                             Extend_Debuff_single_target(e,"Qualitative Disclosure",3);
                         }
                     }

@@ -160,7 +160,7 @@ namespace Castorice{
             data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
             data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_) {
                 if(ptr->Print)CharCmd::printUltStart("Castorice");
-                debuffAllEnemyMarkVer(ptr->getSubUnit(1),ST_RESPEN,AT_NONE,20,"Lost Netherland");
+                debuffAllEnemyMark(ptr->getSubUnit(1),ST_RESPEN,AT_NONE,20,"Lost Netherland");
                 ptr->getSubUnit(1)->currentHP = 34000;
                 Buff_single_target(ptr->getSubUnit(1),ST_FLAT_HP,AT_NONE,34000);
                 ptr->getSubUnit(1)->Atv_stats->Base_speed = 165;
@@ -169,7 +169,7 @@ namespace Castorice{
                 Action_forward(ptr->getSubUnit(1)->Atv_stats.get(),100);
                 Extend_Buff_single_target(ptr->getSubUnit(1),"NetherwingLifeSpan",ptr->Adjust["NetherwingLifeSpan"]);       
                 buffAllAlly(ST_DMG_PERCENT,AT_NONE,10,"Roar Rumbles the Realm");
-                extendBuffTime("Roar Rumbles the Realm",3);
+                extendBuffTimeAllAlly("Roar Rumbles the Realm",3);
                 if(ptr->Eidolon>=2){
                     ptr->getSubUnit(1)->setStack("Ardent Will",2);
                     Action_forward(ptr->getSubUnit()->Atv_stats.get(),100);
@@ -200,7 +200,7 @@ namespace Castorice{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if(ptr->Technique==1){
-                debuffAllEnemyMarkVer(ptr->getSubUnit(1),ST_RESPEN,AT_NONE,20,"Lost Netherland");
+                debuffAllEnemyMark(ptr->getSubUnit(1),ST_RESPEN,AT_NONE,20,"Lost Netherland");
                 
 
                 ptr->getSubUnit(1)->currentHP = 17000;
@@ -213,7 +213,7 @@ namespace Castorice{
                 Extend_Buff_single_target(ptr->getSubUnit(1),"NetherwingLifeSpan",1);
                 DecreaseHP(ptr->Sub_Unit_ptr[0].get(),"Netherwing",0,0,40);
                 buffAllAlly(ST_DMG_PERCENT,AT_NONE,10,"Roar Rumbles the Realm");
-                extendBuffTime("Roar Rumbles the Realm",3);
+                extendBuffTimeAllAlly("Roar Rumbles the Realm",3);
                 if(ptr->Eidolon>=2){
                     ptr->getSubUnit(1)->setStack("Ardent Will",2);
                     Action_forward(ptr->getSubUnit()->Atv_stats.get(),100);
@@ -436,7 +436,7 @@ namespace Castorice{
             Healing(healRatio,ptr->getSubUnit(0));
             for(int i=1;i<=Total_enemy;i++){
                 Enemy_unit[i]->debuffRemove("Lost Netherland"); 
-                Enemy_unit[i]->debuffSingleTarget(ST_RESPEN,AT_NONE,-20);
+                Enemy_unit[i]->debuffSingleApply(ST_RESPEN,AT_NONE,-20);
             }
             ptr->getSubUnit(1)->Death();
             Buff_single_target(ptr->getSubUnit(1),ST_FLAT_HP,AT_NONE,-34000);

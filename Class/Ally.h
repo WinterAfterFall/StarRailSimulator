@@ -214,6 +214,16 @@ public:
     void buffAlly(vector<BuffElementClass> buffSet);
     void buffAlly(vector<BuffClass> buffSet,string Buff_name,int extend);
     void buffAlly(vector<BuffElementClass> buffSet,string Buff_name,int extend);
+
+    //StackBuff.h
+    void buffResetStack(vector<BuffClass> buffSet,string Stack_Name);
+    void buffResetStack(vector<BuffElementClass> buffSet,string Stack_Name);
+    
+    void buffStackAlly(vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name);
+    void buffStackAlly(vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name,int extend);
+    void buffStackAlly(vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name);
+    void buffStackAlly(vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Nam,int extend);
+
     //Energy.h
     void addUltCondition(function<bool()> condition);
     void addUltImmediatelyUseCondition(function<bool()> condition);

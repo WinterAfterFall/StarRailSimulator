@@ -69,7 +69,7 @@ namespace Serval{
                             Enemy_unit[i]->Debuff["Shock_check"]++;
                         }
                     }
-                    Extend_Debuff_All_Enemy("Serval_Shock", 2);
+                    extendDebuffAll("Serval_Shock", 2);
                 }
             };
             Action_bar.push(data_);
@@ -178,7 +178,7 @@ namespace Serval{
                     Enemy_unit[i]->Debuff["Shock_check"]++;
                 }
             }
-            Extend_Debuff_All_Enemy("Serval_Shock", 2);
+            extendDebuffAll("Serval_Shock", 2);
             Attack(data_);
         };
         Action_bar.push(data_);

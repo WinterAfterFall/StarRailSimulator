@@ -135,7 +135,7 @@ namespace Aglaea{
             if (data_->Attacker->isSameUnitName("Aglaea")) {
                 if (Enemy_unit[Main_Enemy_num]->debuffMark(ptr->getSubUnit(),"Seam_Stitch")) {
                     if (ptr->Eidolon >= 1) {
-                        Enemy_unit[Main_Enemy_num]->debuffSingleTarget("Vul", "None", 15);
+                        Enemy_unit[Main_Enemy_num]->debuffSingleApply("Vul", "None", 15);
                     }
                 }
             }

@@ -106,7 +106,7 @@ namespace Rappa{
             Enemy *enemyUnit = turn->canCastToEnemy();
             if (enemyUnit) {
                 if (Debuff_end(enemyUnit, "Withered_Leaf")) {
-                    enemyUnit->debuffSingleTarget("Vul", "Break_dmg", -enemyUnit->DebuffNote["Withered_Leaf"]);
+                    enemyUnit->debuffSingleApply("Vul", "Break_dmg", -enemyUnit->DebuffNote["Withered_Leaf"]);
                     enemyUnit->debuffRemove("Withered_Leaf");
                 }
             }
@@ -182,7 +182,7 @@ namespace Rappa{
             temp = 0;
             target->DebuffNote["Withered_Leaf"] = temp - target->DebuffNote["Withered_Leaf"];
             target->debuffApply(ptr->getSubUnit(),"Withered_Leaf");
-            target->debuffSingleTarget("Vul", "Break_dmg", target->DebuffNote["Withered_Leaf"]);
+            target->debuffSingleApply("Vul", "Break_dmg", target->DebuffNote["Withered_Leaf"]);
             Extend_Debuff_single_target(target, "Withered_Leaf", 2);
         }));
     }

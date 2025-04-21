@@ -57,7 +57,7 @@ namespace Tribbie{
             data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
                 if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Tribbie_Zone")) {
                         ptr->Sub_Unit_ptr[0]->Buff_check["Tribbie_Zone"] = 1;
-                        debuffAllEnemyMarkVer(ptr->Sub_Unit_ptr[0].get(),ST_VUL,AT_NONE,30,"Tribbie_Zone");
+                        debuffAllEnemyMark(ptr->Sub_Unit_ptr[0].get(),ST_VUL,AT_NONE,30,"Tribbie_Zone");
     
                     // A4 Trace
                     ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"] = 0;
@@ -121,7 +121,7 @@ namespace Tribbie{
                 ptr->Sub_Unit_ptr[0]->Buff_check["Tribbie_Zone"] = 0;
                 for(int i=1;i<=Total_enemy;i++){
                     Enemy_unit[i]->debuffRemove("Tribbie_Zone");
-                    Enemy_unit[i]->debuffSingleTarget(ST_VUL,AT_NONE,-30);
+                    Enemy_unit[i]->debuffSingleApply(ST_VUL,AT_NONE,-30);
                 }
                 if (ptr->Eidolon >= 1) {
                     buffAllAlly("True_Damage", "None", -24);

@@ -20,7 +20,7 @@ namespace Remembrance_Lightcone{
                 if (data_->Attacker->Atv_stats->Side == "Memosprite" &&
                     data_->Attacker->ptr_to_unit->Sub_Unit_ptr[0]->Atv_stats->Char_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Char_Name) {
                     buffAllAlly("Dmg%", "None", (6 + 2 * superimpose), "Victory_Blink");
-                    extendBuffTime("Victory_Blink", 3);
+                    extendBuffTimeAllAlly("Victory_Blink", 3);
                 }
             }));
     

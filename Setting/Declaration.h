@@ -143,7 +143,7 @@ void Speed_Buff_All_Ally_Exclude_Buffer(double spd_percent, double flat_spd, std
 void Speed_Buff_All_Ally_Exclude_Buffer(double spd_percent, double flat_spd, std::string Buffer, std::string Buff_name);
 
 //Buff_Stats.h
-void extendBuffTime(std::string Buff_name, int Turn_extend);
+void extendBuffTimeAllAlly(std::string Buff_name, int Turn_extend);
 void extendBuffTimeExcludingBuffer(std::string Buff_name, int Turn_extend, std::string Buffer_name);
 
 
@@ -187,12 +187,12 @@ void DefAdjust(SubUnit *ptr);
 //Debuff_Stats
 void debuffAllEnemyApplyVer(SubUnit *ptr, string stats_type, string Attack_type, double Value, string Debuff_Name);
 void debuffAllEnemyApplyVer(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value, string Debuff_Name);
-void debuffAllEnemyMarkVer(SubUnit *ptr, string stats_type, string Attack_type, double Value, string Debuff_Name);
-void debuffAllEnemyMarkVer(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value, string Debuff_Name);
+void debuffAllEnemyMark(SubUnit *ptr, string stats_type, string Attack_type, double Value, string Debuff_Name);
+void debuffAllEnemyMark(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value, string Debuff_Name);
 void debuffAllEnemyStack(SubUnit *ptr, string stats_type, string Attack_type, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
 void debuffAllEnemyStack(SubUnit *ptr, string stats_type, string Attack_type, string Element, double Value_per_stack, int Stack_increase, int Stack_limit, string Stack_Name);
 void Extend_Debuff_single_target(Enemy* ptr, std::string Debuff_name, int Turn_extend);
-void Extend_Debuff_All_Enemy(std::string Debuff_name, int Turn_extend);
+void extendDebuffAll(std::string Debuff_name, int Turn_extend);
 
 //Combat
 void Take_action();

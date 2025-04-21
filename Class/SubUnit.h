@@ -144,19 +144,34 @@ public:
 
     //BuffStats.h
     bool isHaveToAddBuff(string Buff_name);
-    pair<int,int> calStack(int Stack_increase,int StackLimit,string buffName);
+    bool isHaveToAddBuff(string Buff_name,int extend);
+    bool isBuffGoneByDeath(string Buff_name);
     bool isBuffEnd(string Buff_name);
     void extendBuffTime(string Buff_name,int Turn_extend);
-    void buffAlly(vector<BuffClass> buffSet);
-    void buffAlly(vector<BuffElementClass> buffSet);
+
+    void buffSingle(vector<BuffClass> buffSet);
+    void buffSingle(vector<BuffClass> buffSet,string buffName,int extend);
+    void buffSingle(vector<BuffElementClass> buffSet);
+    void buffSingle(vector<BuffElementClass> buffSet,string buffName,int extend);
     void buffAllAllyExcludingBuffer(vector<BuffClass> buffSet);
     void buffAllAllyExcludingBuffer(vector<BuffElementClass> buffSet);
     void buffAllAllyExcludingBuffer(vector<BuffClass> buffSet,string Buff_name,int Turn_extend);
     void buffAllAllyExcludingBuffer(vector<BuffElementClass> buffSet,string Buff_name,int Turn_extend);
 
-    void buffStackSingle(vector<BuffClass> buffSet);
-    void buffStackSingle(vector<BuffElementClass> buffSet);
+    //Stack.h
+    pair<int,int> calStack(int Stack_increase,int StackLimit,string buffName);
+    void buffRemoveStack(vector<BuffClass> buffSet,string Stack_Name);
+    void buffRemoveStack(vector<BuffElementClass> buffSet,string Stack_Name);
 
+    void buffStackSingle(vector<BuffClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Nam);
+    void buffStackSingle(vector<BuffClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Nam,int extend);
+    void buffStackSingle(vector<BuffElementClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Nam);
+    void buffStackSingle(vector<BuffElementClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Nam,int extend);
+
+    void buffStackExcludingBuffer(vector<BuffClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name);
+    void buffStackExcludingBuffer(vector<BuffClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name, int extend);
+    void buffStackExcludingBuffer(vector<BuffElementClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name);
+    void buffStackExcludingBuffer(vector<BuffElementClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name, int extend);
     //TargetChoose.h
     void addTargetChangeCondition(function<bool()> condition);
     void addTargetChangeConditionImmediately(function<bool()> condition);
