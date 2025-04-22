@@ -214,7 +214,7 @@ namespace Gallagher{
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Heal","Gallagher Skill");
         data_->Add_Buff_Single_Target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
-        data_->resetTurn();
+        data_->turnResetTrue();
         data_->createHealRatio();
         data_->healPtr->setHealer(ptr->Sub_Unit_ptr[0].get());
         data_->healPtr->main.setRatio(0,0,0,1768,0,0);

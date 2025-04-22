@@ -52,7 +52,7 @@ namespace Castorice{
             data_->Skill_set(ptr->getSubUnit(1),"Aoe","Breath Scorches the Shadow");
             data_->Add_Target_Other();
             data_->Skill_Type.push_back("Summon");
-            data_->resetTurn();
+            data_->turnResetTrue();
             if(ptr->Eidolon>=6)data_->Dont_care_weakness = 100;
             data_->source = ptr->getSubUnit();
             data_->Damage_spilt.Main.push_back({0,24,0,10});
@@ -346,7 +346,7 @@ namespace Castorice{
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->Basic_Attack_set(ptr->getSubUnit(),"Single_target","Castorice Skill");
         data_->Add_Target_Adjacent();
-        data_->resetTurn();
+        data_->turnResetTrue();
         data_->Damage_spilt.Main.push_back({0,50,0,20});
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Attack(data_);
@@ -357,7 +357,7 @@ namespace Castorice{
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->Skill_set(ptr->getSubUnit(),"Blast","Castorice Skill");
         data_->Add_Target_Adjacent();
-        data_->resetTurn();
+        data_->turnResetTrue();
         data_->Damage_spilt.Main.push_back({0,50,0,20});
         data_->Damage_spilt.Adjacent.push_back({0,30,0,10});
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
@@ -371,7 +371,7 @@ namespace Castorice{
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->Skill_set(ptr->getSubUnit(),"Aoe","Castorice Enchance Skill");
         data_->Add_Target_Other();
-        data_->resetTurn();
+        data_->turnResetTrue();
         data_->Damage_spilt.Main.push_back({0,30,0,10});
         data_->Damage_spilt.Adjacent.push_back({0,30,0,10});
         data_->Damage_spilt.Other.push_back({0,30,0,10});

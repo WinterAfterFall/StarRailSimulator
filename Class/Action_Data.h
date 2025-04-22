@@ -329,7 +329,7 @@ class AllyActionData : public ActionData, public std::enable_shared_from_this<Al
         this->healPtr = make_shared<Heal_data>();
         this->healPtr->Combat_dataPtr = this;
     }
-    void resetTurn(){
+    void turnResetTrue(){
         this->Turn_reset = true;
     }
     void setToughnessAvgCalculate(bool arg){

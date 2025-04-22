@@ -205,7 +205,7 @@ namespace Mydei{
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Blast","Mydei Skill");
         data_->Add_Target_Adjacent();
-        data_->resetTurn();
+        data_->turnResetTrue();
         data_->Damage_spilt.Main.push_back({0,90,0,20});
         data_->Damage_spilt.Adjacent.push_back({0,50,0,10});
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
@@ -221,7 +221,7 @@ namespace Mydei{
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Blast","KingSlayer");
         data_->Add_Target_Adjacent();
-        data_->resetTurn();
+        data_->turnResetTrue();
         data_->Damage_spilt.Main.push_back({0,110,0,20});
         data_->Damage_spilt.Adjacent.push_back({0,66,0,10});
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
