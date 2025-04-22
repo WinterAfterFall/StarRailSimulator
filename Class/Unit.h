@@ -28,6 +28,16 @@ public:
     int getNum(){
         return this->Atv_stats->Unit_num;
     }
+    void speedBuff(BuffClass buffSet){
+        if(buffSet.actionType==ST_FLAT_SPD)this->Atv_stats->speedBuff(0,buffSet.value);
+        else this->Atv_stats->speedBuff(buffSet.value,0);
+    }
+    void resetATV(){
+        this->Atv_stats->resetATV();
+    }
+    void resetATV(double baseSpeed){
+        this->Atv_stats->resetATV(baseSpeed);
+    }
     SubUnit* canCastToSubUnit();
     Enemy* canCastToEnemy();
     

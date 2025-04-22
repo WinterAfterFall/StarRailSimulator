@@ -21,7 +21,6 @@ void StatsAdjust(SubUnit *ptr,string statsType){
     if(statsType == "Atk%"||statsType == "Flat_Atk")AtkAdjust(ptr);
     if(statsType == "Hp%"||statsType == "Flat_Hp")HpAdjust(ptr);
     if(statsType == "Def%"||statsType == "Flat_Def")DefAdjust(ptr);
-
     if(!AdjustCheck)allEventAdjustStats(ptr,statsType);
 }
 void AtkAdjust(SubUnit *ptr){

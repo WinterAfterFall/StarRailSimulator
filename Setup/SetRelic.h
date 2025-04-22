@@ -27,9 +27,9 @@ function<void(Ally *ptr)> Ally::RelicPairSet(string stats){
     return [=](Ally *ptr) {
         ptr->Sub_Unit_ptr[0]->Stats_type[ST_CRIT_DAM]["None"] += 16;
     };
-    if(stats == ST_BREAK_EFFECT)
+    if(stats == ST_BE)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_BREAK_EFFECT]["None"] += 16;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"] += 16;
     };
     if(stats == ST_HEALING_OUT)
     return [=](Ally *ptr) {
@@ -74,9 +74,9 @@ function<void(Ally *ptr)> Ally::RelicMainStatsSet(string stats){
     return [=](Ally *ptr) {
         ptr->Sub_Unit_ptr[0]->Stats_type[ST_CRIT_DAM]["None"] += 64.8;
     };
-    if(stats == ST_BREAK_EFFECT)
+    if(stats == ST_BE)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_BREAK_EFFECT]["None"] += 64.8;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"] += 64.8;
     };
     if(stats == ST_HEALING_OUT)
     return [=](Ally *ptr) {

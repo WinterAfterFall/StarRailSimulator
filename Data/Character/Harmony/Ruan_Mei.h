@@ -22,7 +22,7 @@ namespace Ruan_Mei{
         Planar(ptr);
 
         //substats
-        ptr->pushSubstats(ST_BREAK_EFFECT);
+        ptr->pushSubstats(ST_BE);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(140);
         ptr->setRelicMainStats(ST_ATK_PERCENT,ST_FLAT_SPD,ST_ATK_PERCENT,ST_EnergyRecharge);

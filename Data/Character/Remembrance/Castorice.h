@@ -165,7 +165,7 @@ namespace Castorice{
                 Buff_single_target(ptr->getSubUnit(1),ST_FLAT_HP,AT_NONE,34000);
                 ptr->getSubUnit(1)->Atv_stats->Base_speed = 165;
                 Update_Max_atv(ptr->getSubUnit(1)->Atv_stats.get());
-                atv_reset(ptr->getSubUnit(1)->Atv_stats.get());
+                resetTurn(ptr->getSubUnit(1)->Atv_stats.get());
                 Action_forward(ptr->getSubUnit(1)->Atv_stats.get(),100);
                 Extend_Buff_single_target(ptr->getSubUnit(1),"NetherwingLifeSpan",ptr->Adjust["NetherwingLifeSpan"]);       
                 buffAllAlly(ST_DMG_PERCENT,AT_NONE,10,"Roar Rumbles the Realm");
@@ -207,7 +207,7 @@ namespace Castorice{
                 Buff_single_target(ptr->getSubUnit(1),ST_FLAT_HP,AT_NONE,34000);
                 ptr->getSubUnit(1)->Atv_stats->Base_speed = 165;
                 Update_Max_atv(ptr->getSubUnit(1)->Atv_stats.get());
-                atv_reset(ptr->getSubUnit(1)->Atv_stats.get());
+                resetTurn(ptr->getSubUnit(1)->Atv_stats.get());
                 Action_forward(ptr->getSubUnit(1)->Atv_stats.get(),100);
                 turn = ptr->getSubUnit(1)->Atv_stats.get();
                 Extend_Buff_single_target(ptr->getSubUnit(1),"NetherwingLifeSpan",1);

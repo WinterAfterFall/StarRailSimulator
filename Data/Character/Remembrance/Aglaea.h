@@ -69,7 +69,7 @@ namespace Aglaea{
                 Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
                 ptr->Countdown_ptr[0]->Atv_stats->Base_speed = 100;
                 Update_Max_atv(ptr->Countdown_ptr[0]->Atv_stats.get());
-                atv_reset(ptr->Countdown_ptr[0]->Atv_stats.get());
+                resetTurn(ptr->Countdown_ptr[0]->Atv_stats.get());
                 double BuffValue = calculateSpeedForBuff(ptr->Sub_Unit_ptr[0].get(), 360) + 
                 calculateSpeedForBuff(ptr->Sub_Unit_ptr[1].get(), 720);
 
@@ -113,7 +113,7 @@ namespace Aglaea{
                     Increase_energy(ptr, 30);
                     ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed = ptr->Sub_Unit_ptr[0]->Atv_stats->Base_speed * 0.35;
                     Update_Max_atv(ptr->Sub_Unit_ptr[1]->Atv_stats.get());
-                    atv_reset(ptr->Sub_Unit_ptr[1]->Atv_stats.get());
+                    resetTurn(ptr->Sub_Unit_ptr[1]->Atv_stats.get());
                     Action_forward(ptr->Sub_Unit_ptr[1]->Atv_stats.get(), 100);
                     Attack(data_);
                 };
@@ -202,7 +202,7 @@ namespace Aglaea{
             
             ptr->Countdown_ptr[0]->Atv_stats->Base_speed=-1;
             Update_Max_atv(ptr->Countdown_ptr[0]->Atv_stats.get());
-            atv_reset(ptr->Countdown_ptr[0]->Atv_stats.get());
+            resetTurn(ptr->Countdown_ptr[0]->Atv_stats.get());
             
             Buff_single_with_all_memo(ptr,"Flat_Atk",AT_TEMP,-ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
             Buff_single_with_all_memo(ptr,"Flat_Atk","None",-ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
@@ -212,7 +212,7 @@ namespace Aglaea{
     
             ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed = -1;
             Update_Max_atv(ptr->Sub_Unit_ptr[1]->Atv_stats.get());
-            atv_reset(ptr->Sub_Unit_ptr[1]->Atv_stats.get());
+            resetTurn(ptr->Sub_Unit_ptr[1]->Atv_stats.get());
             double temp =0;
             if(ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"]>1){
                 temp = ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"]-1;
@@ -285,7 +285,7 @@ namespace Aglaea{
     void Summon(Ally *ptr){
         ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed = ptr->Sub_Unit_ptr[0]->Atv_stats->Base_speed*0.35;
         Update_Max_atv(ptr->Sub_Unit_ptr[1]->Atv_stats.get());
-        atv_reset(ptr->Sub_Unit_ptr[1]->Atv_stats.get());
+        resetTurn(ptr->Sub_Unit_ptr[1]->Atv_stats.get());
         Action_forward(ptr->Sub_Unit_ptr[1]->Atv_stats.get(),100);
         ptr->Sub_Unit_ptr[1]->currentHP = ptr->Sub_Unit_ptr[1]->totalHP;
     }

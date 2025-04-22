@@ -68,8 +68,8 @@ namespace Robin{
                     ptr->Sub_Unit_ptr[0]->Atv_stats->Base_speed = -1;
                     Update_Max_atv(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
                     Update_Max_atv(ptr->Countdown_ptr[0]->Atv_stats.get());
-                    atv_reset(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
-                    atv_reset(ptr->Countdown_ptr[0]->Atv_stats.get());
+                    resetTurn(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
+                    resetTurn(ptr->Countdown_ptr[0]->Atv_stats.get());
 
                     ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"] = calculateAtkForBuff(ptr->Sub_Unit_ptr[0].get(), 22.8) + 200;
                     buffAllAlly("Flat_Atk", AT_TEMP, ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
@@ -167,8 +167,8 @@ namespace Robin{
                 ptr->Sub_Unit_ptr[0]->Atv_stats->Base_speed = 102;
                 Update_Max_atv(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
                 Update_Max_atv(ptr->Countdown_ptr[0]->Atv_stats.get());
-                atv_reset(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
-                atv_reset(ptr->Countdown_ptr[0]->Atv_stats.get());
+                resetTurn(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
+                resetTurn(ptr->Countdown_ptr[0]->Atv_stats.get());
                 buffAllAlly("Flat_Atk",AT_TEMP,-ptr-> Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
                 buffAllAlly("Flat_Atk","None",-ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]);
                 buffAllAlly("Crit_dam","Fua",-25);

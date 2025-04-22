@@ -58,9 +58,9 @@ namespace Jingyuan{
                 ptr->Sub_Unit_ptr[0]->Stack["LL_stack"] += 3;
                 if (ptr->Sub_Unit_ptr[0]->Stack["LL_stack"] >= 10) {
                     ptr->Summon_ptr[0]->Atv_stats->Flat_Speed = 70;
-                    Speed_Buff(ptr->Summon_ptr[0]->Atv_stats.get(), 0, 0);
+                    ptr->Summon_ptr[0]->speedBuff({ST_SPD,ST_FLAT_SPD,0});
                 } else {
-                    Speed_Buff(ptr->Summon_ptr[0]->Atv_stats.get(), 0, 30);
+                    ptr->Summon_ptr[0]->speedBuff({ST_SPD,ST_FLAT_SPD,30});
                 }
             };
             
@@ -104,7 +104,8 @@ namespace Jingyuan{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Jingyuanptr]() {
             if (ptr->Technique == 1) {
                 ptr->Sub_Unit_ptr[0]->Stack["LL_stack"] += 3;
-                Speed_Buff(ptr->Summon_ptr[0]->Atv_stats.get(), 0, 30);
+                ptr->Summon_ptr[0]->speedBuff({ST_SPD,ST_FLAT_SPD,30});
+
             }
             Increase_energy(ptr, 15);
         }));
@@ -204,9 +205,9 @@ namespace Jingyuan{
             ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]+=2;
             if(ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]>=10){
                 ptr->Summon_ptr[0]->Atv_stats->Flat_Speed=70;
-                Speed_Buff(ptr->Summon_ptr[0]->Atv_stats.get(),0,0);
+                ptr->Summon_ptr[0]->speedBuff({ST_SPD,ST_FLAT_SPD,0});
             }else{
-                Speed_Buff(ptr->Summon_ptr[0]->Atv_stats.get(),0,20);
+                ptr->Summon_ptr[0]->speedBuff({ST_SPD,ST_FLAT_SPD,20});
             }
             Attack(data_);
         };

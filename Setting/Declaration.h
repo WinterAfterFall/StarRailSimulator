@@ -23,7 +23,7 @@
 #define ST_DMG_PERCENT "Dmg%"
 #define ST_CRIT_RATE "Crit_rate"
 #define ST_CRIT_DAM "Crit_dam"
-#define ST_BREAK_EFFECT "Break_effect"
+#define ST_BE "Break_effect"
 #define ST_DEF_SHRED "Def_shred"
 #define ST_RESPEN "Respen"
 #define ST_VUL "Vul"
@@ -31,12 +31,16 @@
 #define ST_EHR "Ehr"
 #define ST_EnergyRecharge "Energy_recharge"
 #define ST_TRUE "True_Damage"
-#define ST_FLAT_SPD "Flat-Speed"
-#define ST_SPD_PERCENT "Speed%"
 #define ST_TOTAL_TRUE "True_Damage_From_Total"
 #define ST_HEALING_OUT "outGoingHeal"
 #define ST_HEALING_IN "inComingHeal"
 #define ST_SHEILD "SheildBonus"
+#define ST_SPD "Speed"
+#define ST_FLAT_SPD "Flat-Speed"
+#define ST_SPD_PERCENT "Speed%"
+#define ST_BREAK_EFF "Weakness_Break_Efficiency"
+#define ST_TOUGH_REDUCE "Toughness_reduction"
+
 
 #define AT_TEMP "Temporary"
 #define AT_NONE "None"
@@ -131,19 +135,12 @@ void allUltimateCheck();
 //Action_value
 bool compareActionValueStats(ActionValueStats* a, ActionValueStats* b);
 void Update_Max_atv(ActionValueStats* ptr);
-void atv_reset(ActionValueStats* ptr);
+void resetTurn(ActionValueStats* ptr);
 void All_atv_reset();
 void Action_forward(ActionValueStats* ptr, double fwd);
 void All_Action_forward(double fwd);
-void Speed_Buff(ActionValueStats* ptr, double spd_percent, double flat_spd);
 void Find_turn();
 void Atv_fix(double Atv_reduce);
-
-//Buff_Speed
-void Speed_Buff_All_Ally(double spd_percent, double flat_spd);
-void Speed_Buff_All_Ally(double spd_percent, double flat_spd, std::string Buff_name);
-void Speed_Buff_All_Ally_Exclude_Buffer(double spd_percent, double flat_spd, std::string Buffer);
-void Speed_Buff_All_Ally_Exclude_Buffer(double spd_percent, double flat_spd, std::string Buffer, std::string Buff_name);
 
 //Buff_Stats.h
 void extendBuffTimeAllAlly(string Buff_name, int Turn_extend);

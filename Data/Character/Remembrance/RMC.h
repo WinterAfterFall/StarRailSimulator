@@ -207,7 +207,7 @@ namespace RMC{
                 ptr->Sub_Unit_ptr[1]->currentHP = ptr->Sub_Unit_ptr[1]->totalHP;
                 ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed = 130;
                 Update_Max_atv(ptr->Sub_Unit_ptr[1]->Atv_stats.get());
-                atv_reset(ptr->Sub_Unit_ptr[1]->Atv_stats.get());
+                resetTurn(ptr->Sub_Unit_ptr[1]->Atv_stats.get());
                 Increase_Charge(ptr,90);
             }
         };

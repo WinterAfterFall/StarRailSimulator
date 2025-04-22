@@ -21,8 +21,8 @@ namespace Mydei{
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally *ptr = SetAllyBasicStats(95,160,160,E,"Imaginary","Destruction","Mydei",TYPE_STD);
+        SubUnit *Mydeiptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1552,427,194);
-
         //substats
         ptr->pushSubstats("Crit_dam");
         ptr->pushSubstats("Crit_rate");
@@ -87,7 +87,7 @@ namespace Mydei{
         }));
         
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Mydeiptr]() {
             ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] = (floor((ptr->Sub_Unit_ptr[0]->totalHP - 4000) / 100) <= 40) ? floor((ptr->Sub_Unit_ptr[0]->totalHP - 4000) / 100) : 40;
             if (ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] < 0) ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] = 0;
 
@@ -103,8 +103,9 @@ namespace Mydei{
             Healing(healratio, ptr->Sub_Unit_ptr[0].get(), ptr->Sub_Unit_ptr[0].get());
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_FLAT_DEF][AT_NONE] -= 10000;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_FLAT_DEF][AT_TEMP] -= 10000;
-            if (ptr->Eidolon >= 2) Buff_single_target(ptr->Sub_Unit_ptr[0].get(), ST_DEF_SHRED, AT_NONE, 15);
-            if (ptr->Eidolon >= 4) Buff_single_target(ptr->Sub_Unit_ptr[0].get(), ST_CRIT_DAM, AT_NONE, 30);
+            
+            if (ptr->Eidolon >= 2) Mydeiptr->buffSingle({{ST_DEF_SHRED,AT_NONE,15}});
+            if (ptr->Eidolon >= 4) Mydeiptr->buffSingle({{ST_CRIT_DAM,AT_NONE,30}});
             }
 
             allEventAdjustStats(ptr->Sub_Unit_ptr[0].get(), "Hp%");
@@ -121,13 +122,14 @@ namespace Mydei{
             }
         }));
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTTACK, [ptr](SubUnit *target, string StatsType) {
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTTACK, [ptr,Mydeiptr](SubUnit *target, string StatsType) {
             if (target->Atv_stats->Unit_Name != "Mydei") return;
             if (StatsType == ST_FLAT_HP || StatsType == ST_HP_PERCENT) {
-            if (Buff_check(ptr->Sub_Unit_ptr[0].get(), "Mydei_Vendetta")) {
+                
+            if (Mydeiptr->getBuffCheck("Mydei_Vendetta")) {
                 double temp = calculateHpForBuff(ptr->Sub_Unit_ptr[0].get(), 50);
-                Buff_single_target(ptr->Sub_Unit_ptr[0].get(), ST_FLAT_HP, AT_TEMP, temp - ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Talent"]);
-                Buff_single_target(ptr->Sub_Unit_ptr[0].get(), ST_FLAT_HP, AT_NONE, temp - ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Talent"]);
+                Mydeiptr->buffSingle({{ST_FLAT_HP,AT_TEMP,temp - ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Talent"]}});
+                Mydeiptr->buffSingle({{ST_FLAT_HP,AT_NONE,temp - ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Talent"]}});
                 ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Talent"] = temp;
             }
             }
@@ -288,10 +290,10 @@ namespace Mydei{
             HealRatio healratio = HealRatio();
             healratio.setRatio(0,0,0,0,25,0);
             Healing(healratio,ptr->Sub_Unit_ptr[0].get(),ptr->Sub_Unit_ptr[0].get());
-            Buff_single_target(ptr->Sub_Unit_ptr[0].get(),ST_FLAT_DEF,AT_TEMP,-10000);
-            Buff_single_target(ptr->Sub_Unit_ptr[0].get(),ST_FLAT_DEF,AT_NONE,-10000);
-            if(ptr->Eidolon>=2)Buff_single_target(ptr->Sub_Unit_ptr[0].get(),ST_DEF_SHRED,AT_NONE,15);
-            if(ptr->Eidolon>=4)Buff_single_target(ptr->Sub_Unit_ptr[0].get(),ST_CRIT_DAM,AT_NONE,30);
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_FLAT_DEF][AT_NONE] -= 10000;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_FLAT_DEF][AT_TEMP] -= 10000;    
+            if (ptr->Eidolon >= 2) ptr->Sub_Unit_ptr[0]->buffSingle({{ST_DEF_SHRED,AT_NONE,15}});
+            if (ptr->Eidolon >= 4) ptr->Sub_Unit_ptr[0]->buffSingle({{ST_CRIT_DAM,AT_NONE,30}});
             allEventAdjustStats(ptr->Sub_Unit_ptr[0].get(),"Hp%");
         }
         if(ptr->Eidolon>=6){

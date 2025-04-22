@@ -95,7 +95,7 @@ namespace Jade{
             }
             
             if (ptr->Sub_Unit_ptr[0].get()->isBuffEnd("Jade_Skill")) {
-                Speed_Buff(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats.get(), 0, -30);
+                chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_SPD,ST_SPD_PERCENT,-30}});
             }
         }));
 
@@ -152,7 +152,7 @@ namespace Jade{
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             if(ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Jade_Skill",3)){
-                Speed_Buff(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats.get(),0,30);
+                chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_SPD,ST_SPD_PERCENT,30}});
             }
         };
         Action_bar.push(data_);

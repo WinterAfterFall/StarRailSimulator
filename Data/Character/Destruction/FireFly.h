@@ -14,6 +14,7 @@ namespace FireFly{
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally *ptr = SetAllyBasicStats( 104, 240, 240, E, "Fire", "Destruction", "FireFly", TYPE_STD);
+        SubUnit *FFptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats( 815, 524, 776);
 
         //func
@@ -22,10 +23,10 @@ namespace FireFly{
         Planar(ptr);
         
         //substats
-        ptr->pushSubstats(ST_BREAK_EFFECT);
+        ptr->pushSubstats(ST_BE);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(150);
-        ptr->setRelicMainStats(ST_ATK_PERCENT,ST_FLAT_SPD,ST_ATK_PERCENT,ST_BREAK_EFFECT);
+        ptr->setRelicMainStats(ST_ATK_PERCENT,ST_FLAT_SPD,ST_ATK_PERCENT,ST_BE);
         
 
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr] (){
@@ -53,30 +54,32 @@ namespace FireFly{
             }
         }));
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_DEBUFF, [ptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_DEBUFF, [ptr,FFptr]() {
             if (!ultUseCheck(ptr)) return;
-            Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Weakness_Break_Efficiency", "None", 50);
-            Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Vul", "Break_dmg", 20);
-            ptr->Countdown_ptr[0]->Atv_stats->Base_speed = 70;
-            Speed_Buff(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 0, 60);
-            Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
-
-            Update_Max_atv(ptr->Countdown_ptr[0]->Atv_stats.get());
-            atv_reset(ptr->Countdown_ptr[0]->Atv_stats.get());
+            FFptr->buffSingle(
+                {
+                    {ST_SPD,ST_FLAT_SPD,60},
+                    {ST_BREAK_EFF,AT_NONE,50},
+                    {ST_VUL,AT_NONE,20},
+                });
+            Action_forward(FFptr->Atv_stats.get(), 100);
+            ptr->Countdown_ptr[0]->resetATV(70);
             if (ptr->Print)CharCmd::printUltStart("FireFly");
             }
         ));
         
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](SubUnit *target, string StatsType) {
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,FFptr](SubUnit *target, string StatsType) {
             if (target->Atv_stats->Unit_Name != "FireFly") return;
             if (StatsType == "Atk%" || StatsType == "Flat_Atk") {
             double temp = 0;
             temp = floor(((ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] / 100 * ptr->Sub_Unit_ptr[0]->Base_atk + ptr->Sub_Unit_ptr[0]->Base_atk) + ptr->Sub_Unit_ptr[0]->Stats_type["Flat_Atk"]["None"] - 1800) / 100) * 0.8;
             if (ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"] <= 0)temp = 0;
-            
-            Buff_single_target(ptr->Sub_Unit_ptr[0].get(), ST_BREAK_EFFECT, AT_TEMP, temp - ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"]);
-            Buff_single_target(ptr->Sub_Unit_ptr[0].get(), ST_BREAK_EFFECT, AT_NONE, temp - ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"]);
+            FFptr->buffSingle(
+                {
+                    {ST_BE,AT_TEMP,temp - FFptr->Buff_note["FireFly_ModuleY"]},
+                    {ST_BE,AT_NONE,temp - FFptr->Buff_note["FireFly_ModuleY"]}
+                });
             ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"] = temp;
                 
             }
@@ -128,18 +131,17 @@ namespace FireFly{
 
         //countdown
         SetCountdownStats(ptr, "Combustion_state");
-        ptr->Countdown_ptr[0]->Turn_func = [ptr](){
+        ptr->Countdown_ptr[0]->Turn_func = [ptr,FFptr](){
 
 
-            if(ptr->Print)cout<<"-------------------------------------------- FF Ult End at "<<Current_atv<<endl;
-            Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Weakness_Break_Efficiency","None",-50);
-            Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Vul","Break_dmg",-20);
-            ptr->Countdown_ptr[0]->Atv_stats->Base_speed=-1;
-            Speed_Buff(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),0,-60);
-
-            Update_Max_atv(ptr->Countdown_ptr[0]->Atv_stats.get());
-            atv_reset(ptr->Countdown_ptr[0]->Atv_stats.get());
-
+            if(ptr->Print)CharCmd::printUltEnd("FireFly");
+            FFptr->buffSingle(
+                {
+                    {ST_SPD,ST_FLAT_SPD,-60},
+                    {ST_BREAK_EFF,AT_NONE,-50},
+                    {ST_VUL,AT_NONE,-20},
+                });
+            ptr->Countdown_ptr[0]->resetATV(-1);
         };
     }
     

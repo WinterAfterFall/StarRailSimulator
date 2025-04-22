@@ -42,6 +42,8 @@ public:
     Enemy* canCastToEnemy();
 
     void speedBuff(double spd_percent ,double flat_spd);
+    void resetATV();
+    void resetATV(double baseSpeed);
 
 };
 

@@ -75,7 +75,8 @@ void extendDebuffAll(string Debuff_name,int Turn_extend){
 //เป้าเดี่ยว
 void Enemy::debuffSingle(vector<BuffClass> debuffSet) {
     for(BuffClass &debuff : debuffSet){
-        this->Stats_type[debuff.statsType][debuff.actionType] += debuff.value;
+        if(debuff.statsType=="Speed")this->speedBuff(debuff);
+        else this->Stats_type[debuff.statsType][debuff.actionType] += debuff.value;
     }
 }
 void Enemy::debuffSingle(vector<BuffElementClass> debuffSet) {
@@ -88,7 +89,8 @@ void Enemy::debuffSingle(vector<BuffElementClass> debuffSet) {
 void Enemy::debuffSingleApply(vector<BuffClass> debuffSet,SubUnit *ptr,string debuffName){
     if(!this->debuffApply(ptr,debuffName))return;
     for(BuffClass &debuff : debuffSet){
-        this->Stats_type[debuff.statsType][debuff.actionType] += debuff.value;
+        if(debuff.statsType=="Speed")this->speedBuff(debuff);
+        else this->Stats_type[debuff.statsType][debuff.actionType] += debuff.value;
     }
 }
 void Enemy::debuffSingleApply(vector<BuffElementClass> debuffSet,SubUnit *ptr,string debuffName){
@@ -101,7 +103,8 @@ void Enemy::debuffSingleApply(vector<BuffElementClass> debuffSet,SubUnit *ptr,st
 void Enemy::debuffSingleApply(vector<BuffClass> debuffSet,SubUnit *ptr,string debuffName ,int extend) {
     if(!this->debuffApply(ptr,debuffName,extend))return;
     for(BuffClass &debuff : debuffSet){
-        this->Stats_type[debuff.statsType][debuff.actionType] += debuff.value;
+        if(debuff.statsType=="Speed")this->speedBuff(debuff);
+        else this->Stats_type[debuff.statsType][debuff.actionType] += debuff.value;
     }
 }
 void Enemy::debuffSingleApply(vector<BuffElementClass> debuffSet,SubUnit *ptr,string debuffName ,int extend) {
@@ -114,7 +117,8 @@ void Enemy::debuffSingleApply(vector<BuffElementClass> debuffSet,SubUnit *ptr,st
 void Enemy::debuffSingleMark(vector<BuffClass> debuffSet,SubUnit *ptr,string debuffName){
     if(!this->debuffMark(ptr,debuffName))return;
     for(BuffClass &debuff : debuffSet){
-        this->Stats_type[debuff.statsType][debuff.actionType] += debuff.value;
+        if(debuff.statsType=="Speed")this->speedBuff(debuff);
+        else this->Stats_type[debuff.statsType][debuff.actionType] += debuff.value;
     }
 }
 void Enemy::debuffSingleMark(vector<BuffElementClass> debuffSet,SubUnit *ptr,string debuffName){
@@ -127,7 +131,8 @@ void Enemy::debuffSingleMark(vector<BuffElementClass> debuffSet,SubUnit *ptr,str
 void Enemy::debuffSingleMark(vector<BuffClass> debuffSet,SubUnit *ptr,string debuffName ,int extend) {
     if(!this->debuffMark(ptr,debuffName,extend))return;
     for(BuffClass &debuff : debuffSet){
-        this->Stats_type[debuff.statsType][debuff.actionType] += debuff.value;
+        if(debuff.statsType=="Speed")this->speedBuff(debuff);
+        else this->Stats_type[debuff.statsType][debuff.actionType] += debuff.value;
     }
 }
 void Enemy::debuffSingleMark(vector<BuffElementClass> debuffSet,SubUnit *ptr,string debuffName ,int extend) {

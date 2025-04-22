@@ -21,7 +21,7 @@ namespace Rappa{
         ptr->pushSubstats("Break_effect");
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(145);
-        ptr->setRelicMainStats(ST_ATK_PERCENT,ST_FLAT_SPD,ST_ATK_PERCENT,ST_BREAK_EFFECT);
+        ptr->setRelicMainStats(ST_ATK_PERCENT,ST_FLAT_SPD,ST_ATK_PERCENT,ST_BE);
 
 
 

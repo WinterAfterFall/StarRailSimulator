@@ -224,9 +224,6 @@ public:
     void buffStackAlly(vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name);
     void buffStackAlly(vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Nam,int extend);
 
-    //Speed
-    void speedBuff(double spd_percent ,double flat_spd);
-    
     //Energy.h
     void addUltCondition(function<bool()> condition);
     void addUltImmediatelyUseCondition(function<bool()> condition);

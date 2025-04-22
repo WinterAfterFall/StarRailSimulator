@@ -8,7 +8,13 @@
 #define DMG_CAL 12
 #define K_const 10000
 
-
+void ActionValueStats::speedBuff(double spd_percent ,double flat_spd){
+    double x = this->Max_atv;
+    this->Flat_Speed += flat_spd;
+    this->Speed_percent += spd_percent;
+    Update_Max_atv(this);
+    this->atv=this->atv/x*this->Max_atv;
+}
 bool compareActionValueStats(ActionValueStats* a, ActionValueStats* b) {
     return a->atv > b->atv; // Sort by `atv` in descending order
 }
@@ -20,7 +26,16 @@ void Update_Max_atv(ActionValueStats *ptr) {
     ptr->Max_atv = K_const / (ptr->Base_speed + ptr->Base_speed * ptr->Speed_percent/100 + ptr->Flat_Speed);
     
 }
-void atv_reset(ActionValueStats *ptr) {
+void ActionValueStats::resetATV(){
+    Update_Max_atv(this);
+    resetTurn(this);
+}
+void ActionValueStats::resetATV(double baseSpeed){
+    this->Base_speed = baseSpeed;
+    Update_Max_atv(this);
+    resetTurn(this);
+}
+void resetTurn(ActionValueStats *ptr) {
 
     ptr->atv = ptr->Max_atv;
     
@@ -28,25 +43,25 @@ void atv_reset(ActionValueStats *ptr) {
 void All_atv_reset() {
     for(int i=1;i<=Total_enemy;i++){
         Update_Max_atv(Enemy_unit[i]->Atv_stats.get());
-        atv_reset(Enemy_unit[i]->Atv_stats.get());
+        resetTurn(Enemy_unit[i]->Atv_stats.get());
     }
     
     for(int i=1;i<=Total_ally;i++){
         for(int j=0,sz = Ally_unit[i]->Summon_ptr.size();j<sz;j++){
         Update_Max_atv(Ally_unit[i]->Summon_ptr[j]->Atv_stats.get());
-        atv_reset(Ally_unit[i]->Summon_ptr[j]->Atv_stats.get());
+        resetTurn(Ally_unit[i]->Summon_ptr[j]->Atv_stats.get());
         }
     }
     for(int i=1;i<=Total_ally;i++){
         for(int j=0,sz = Ally_unit[i]->Countdown_ptr.size();j<sz;j++){
         Update_Max_atv(Ally_unit[i]->Countdown_ptr[j]->Atv_stats.get());
-        atv_reset(Ally_unit[i]->Countdown_ptr[j]->Atv_stats.get());
+        resetTurn(Ally_unit[i]->Countdown_ptr[j]->Atv_stats.get());
         }
     }
     for(int i=1;i<=Total_ally;i++){
         for(int j=0,sz = Ally_unit[i]->Sub_Unit_ptr.size();j<sz;j++){
         Update_Max_atv(Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats.get());
-        atv_reset(Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats.get());
+        resetTurn(Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats.get());
         }
     }
        

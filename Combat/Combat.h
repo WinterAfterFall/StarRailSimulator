@@ -70,7 +70,7 @@ void AllyActionData::AllyAction(){
 
     }else if(this->Action_type.first == "Buff"){
         if(this->actionFunction)this->actionFunction(self);
-        if(this->Turn_reset)atv_reset(turn);
+        if(this->Turn_reset)resetTurn(turn);
         allEventBuff(self);
         
         
@@ -81,7 +81,7 @@ void AllyActionData::AllyAction(){
 }
 void EnemyActionData::EnemyAction(){
     this->actionFunction();
-    atv_reset(turn);
+    resetTurn(turn);
 }
 void Attack(shared_ptr<AllyActionData> &data_){
     int Total_hit = 0;
@@ -127,7 +127,7 @@ void Attack(shared_ptr<AllyActionData> &data_){
             }    
         }
     }
-    if(data_->Turn_reset)atv_reset(turn);
+    if(data_->Turn_reset)resetTurn(turn);
 }
 void Heal(Heal_data& Healptr){
     Healing(Healptr);
@@ -278,7 +278,8 @@ void Toughness_break(shared_ptr<AllyActionData> &data_,Enemy* target){
 
     }else if(data_->Damage_element=="Imaginary"){
         Action_forward(target->Atv_stats.get(),-30*Cal_BreakEffect_multiplier(data_,target));
-        Speed_Buff(target->Atv_stats.get(),-10,0);
+        target->speedBuff({ST_SPD,ST_SPD_PERCENT,-10});
+
         target->Imprisonment = data_->Attacker->Atv_stats->Unit_num;
         Constant=0.5;
     }
