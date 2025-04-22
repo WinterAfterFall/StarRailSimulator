@@ -22,7 +22,7 @@ namespace Destruction_Lightcone{
                 for(SubUnit* e : target){
                     if(e->isSameUnit(ptr->Sub_Unit_ptr[0].get())){
                         if(!Buff_check(ptr->Sub_Unit_ptr[0].get(),"Blade_LC_Mark")){
-                            Buff_single_target(ptr->Sub_Unit_ptr[0].get(),ST_DMG_PERCENT,AT_NONE,(20 + 4*superimpose));
+                            Buff_single_target(ptr->Sub_Unit_ptr[0].get(),ST_DMG,AT_NONE,(20 + 4*superimpose));
                             ptr->Sub_Unit_ptr[0]->Buff_check["Blade_LC_Mark"] = 1;
                         }
                         return;
@@ -32,7 +32,7 @@ namespace Destruction_Lightcone{
             HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_ACTTACK,[ptr,superimpose](Unit *Trigger,SubUnit *target,double Value){
                 if(!target->isSameUnit(ptr->Sub_Unit_ptr[0].get()))return;
                 if(!Buff_check(ptr->Sub_Unit_ptr[0].get(),"Blade_LC_Mark")){
-                    Buff_single_target(ptr->Sub_Unit_ptr[0].get(),ST_DMG_PERCENT,AT_NONE,(20 + 4*superimpose));
+                    Buff_single_target(ptr->Sub_Unit_ptr[0].get(),ST_DMG,AT_NONE,(20 + 4*superimpose));
                     ptr->Sub_Unit_ptr[0]->Buff_check["Blade_LC_Mark"] = 1;
                 }
                 
@@ -40,7 +40,7 @@ namespace Destruction_Lightcone{
             After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &data_){
                 if(!data_->Attacker->isSameUnit(ptr->Sub_Unit_ptr[0].get()))return;
                 if(Buff_check(ptr->Sub_Unit_ptr[0].get(),"Blade_LC_Mark")){
-                    Buff_single_target(ptr->Sub_Unit_ptr[0].get(),ST_DMG_PERCENT,AT_NONE,-(20 + 4*superimpose));
+                    Buff_single_target(ptr->Sub_Unit_ptr[0].get(),ST_DMG,AT_NONE,-(20 + 4*superimpose));
                     ptr->Sub_Unit_ptr[0]->Buff_check["Blade_LC_Mark"] = 0;
                 }
             }));

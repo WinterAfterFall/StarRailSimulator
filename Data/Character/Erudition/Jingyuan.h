@@ -27,7 +27,7 @@ namespace Jingyuan{
         ptr->pushSubstats("Atk%");
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(135);
-        ptr->setRelicMainStats(ST_CRIT_RATE,ST_FLAT_SPD,ST_DMG_PERCENT,ST_ATK_PERCENT);
+        ptr->setRelicMainStats(ST_CRIT_RATE,ST_FLAT_SPD,ST_DMG,ST_ATK_PERCENT);
 
 
 
@@ -78,9 +78,9 @@ namespace Jingyuan{
             ;
             if (ptr->Eidolon >= 2 && Jingyuanptr->isBuffEnd("Swing_Skies_Squashed")) {
                 Jingyuanptr->buffSingle({
-                    {ST_DMG_PERCENT,AT_BASIC_ATK,-20},
-                    {ST_DMG_PERCENT,AT_SKILL,-20},
-                    {ST_DMG_PERCENT,AT_ULT,-20}
+                    {ST_DMG,AT_BASIC_ATK,-20},
+                    {ST_DMG,AT_SKILL,-20},
+                    {ST_DMG,AT_ULT,-20}
                 });
             }
         }));
@@ -146,9 +146,9 @@ namespace Jingyuan{
                 
                 if(ptr->Eidolon>=2){
                     Jingyuanptr->buffSingle({
-                        {ST_DMG_PERCENT,AT_BASIC_ATK,20},
-                        {ST_DMG_PERCENT,AT_SKILL,20},
-                        {ST_DMG_PERCENT,AT_ULT,20}},
+                        {ST_DMG,AT_BASIC_ATK,20},
+                        {ST_DMG,AT_SKILL,20},
+                        {ST_DMG,AT_ULT,20}},
                         "Swing_Skies_Squashed",2
                     );
                 }

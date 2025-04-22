@@ -21,7 +21,7 @@ namespace Harmony_MC{
         ptr->pushSubstats("Break_effect");
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(145);
-        ptr->setRelicMainStats(ST_ATK_PERCENT,ST_FLAT_SPD,ST_DMG_PERCENT,ST_EnergyRecharge);
+        ptr->setRelicMainStats(ST_ATK_PERCENT,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
 
 
         //func
@@ -70,15 +70,14 @@ namespace Harmony_MC{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
             if(ptr->Technique == 1){
-                buffAllAlly("Break_effect","None",30);
+                buffAllAlly({{"Break_effect","None",30}});
             }
             ptr->Energy_recharge += 25;
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr](){
-            if(turn->Char_Name == "Harmony_MC" && Buff_end(ptr->Sub_Unit_ptr[0].get(),"Harmony_MC_ult")){
-                buffAllAlly("Break_effect","None",-33);
-                ptr->Sub_Unit_ptr[0]->Buff_check["Harmony_MC_ult"] = 0;
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,HMCptr](){
+            if(HMCptr->isBuffEnd("Harmony_MC_ult")){
+                buffAllAlly({{"Break_effect","None",-33}});
             }
         }));
 
@@ -88,7 +87,7 @@ namespace Harmony_MC{
             }
             if(turn->Side == "Ally" || turn->Side == "Memosprite"){
                 if(turn->turn_cnt == 2 && ptr->Technique == 1){
-                    Buff_single_target(Ally_unit[turn->Unit_num]->Sub_Unit_ptr[0].get(),"Break_effect","None",-30);
+                    Ally_unit[turn->Unit_num]->Sub_Unit_ptr[0]->buffSingle({{"Break_effect","None",-30}});
                 }
             }
         }));
@@ -104,12 +103,12 @@ namespace Harmony_MC{
             Action_forward(target->Atv_stats.get(), -30);
         }));
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](SubUnit *target, string StatsType){
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,HMCptr](SubUnit *target, string StatsType){
             if(target->Atv_stats->Unit_Name != "Harmony_MC") return;
             if(StatsType == "Break_effect"){
                 double temp = calculateBreakEffectForBuff(ptr->Sub_Unit_ptr[0].get(), 15);
-                Buff_All_Ally_Excluding_Buffer("Break_effect",AT_TEMP,temp - ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"],"Harmony_MC");
-                Buff_All_Ally_Excluding_Buffer("Break_effect","None",temp - ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"],"Harmony_MC");
+                HMCptr->buffAllAllyExcludingBuffer({{"Break_effect",AT_TEMP,temp - ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"]}});
+                HMCptr->buffAllAllyExcludingBuffer({{"Break_effect",AT_NONE,temp - ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"]}});
                 ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"] =  temp ;
             }
         }));

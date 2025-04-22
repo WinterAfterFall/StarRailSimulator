@@ -25,7 +25,7 @@ namespace RMC{
         ptr->pushSubstats("Crit_dam");
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(150);
-        ptr->setRelicMainStats(ST_CRIT_DAM,ST_FLAT_SPD,ST_DMG_PERCENT,ST_EnergyRecharge);
+        ptr->setRelicMainStats(ST_CRIT_DAM,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
 
 
         //func

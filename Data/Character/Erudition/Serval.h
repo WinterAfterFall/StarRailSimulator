@@ -29,7 +29,7 @@ namespace Serval{
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(150);
         ptr->setApplyBaseChance(100);
-        ptr->setRelicMainStats(ST_EHR,ST_FLAT_SPD,ST_DMG_PERCENT,ST_EnergyRecharge);
+        ptr->setRelicMainStats(ST_EHR,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
 
 
         //func

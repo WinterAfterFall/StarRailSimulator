@@ -39,6 +39,7 @@ void Take_action(){
 }
 
 void Deal_damage(){
+    if(actionBarUse)return;
     actionBarUse = true;
     while(!Action_bar.empty()){
         shared_ptr<ActionData> temp = Action_bar.front();

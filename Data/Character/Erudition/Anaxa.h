@@ -25,7 +25,7 @@ namespace Jade{
         ptr->pushSubstats("Atk%");
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(145);
-        ptr->setRelicMainStats(ST_CRIT_RATE,ST_FLAT_SPD,ST_DMG_PERCENT,ST_ATK_PERCENT);
+        ptr->setRelicMainStats(ST_CRIT_RATE,ST_FLAT_SPD,ST_DMG,ST_ATK_PERCENT);
 
 
 
@@ -97,7 +97,7 @@ namespace Jade{
             for(auto &e : data_->Target_Attack){
                 if(e->calDebuffStack(data_->Attacker,"Anaxa Weakness",1,4).second >=2){
                     if(e->isHaveToAddDebuff("Qualitative Disclosure")){
-                        e->debuffSingleApply(ST_DMG_PERCENT,AT_NONE,30);
+                        e->debuffSingleApply(ST_DMG,AT_NONE,30);
                     }
                     Extend_Debuff_single_target(e,"Anaxa Weakness",3);
                 }
@@ -116,13 +116,13 @@ namespace Jade{
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
 
-            Buff_single_target(data_->Attacker,ST_DMG_PERCENT,AT_NONE,20 * Total_enemy);
+            Buff_single_target(data_->Attacker,ST_DMG,AT_NONE,20 * Total_enemy);
             int cnt = 5;
             while(1){
                 for(auto &e : data_->Target_Attack){
                     if(e->calDebuffStack(data_->Attacker,"Anaxa Weakness",1,4).second >=2){
                         if(e->isHaveToAddDebuff("Qualitative Disclosure")){
-                            e->debuffSingleApply(ST_DMG_PERCENT,AT_NONE,30);
+                            e->debuffSingleApply(ST_DMG,AT_NONE,30);
                             Extend_Debuff_single_target(e,"Qualitative Disclosure",3);
                         }
                     }
@@ -133,7 +133,7 @@ namespace Jade{
             }
             
             Attack(data_);
-            Buff_single_target(data_->Attacker,ST_DMG_PERCENT,AT_NONE,-20 * Total_enemy);
+            Buff_single_target(data_->Attacker,ST_DMG,AT_NONE,-20 * Total_enemy);
         };
         Action_bar.push(data_);
     }
@@ -146,13 +146,13 @@ namespace Jade{
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
 
-            Buff_single_target(data_->Attacker,ST_DMG_PERCENT,AT_NONE,20 * Total_enemy);
+            Buff_single_target(data_->Attacker,ST_DMG,AT_NONE,20 * Total_enemy);
             int cnt = 5;
             while(1){
                 for(auto &e : data_->Target_Attack){
                     if(e->calDebuffStack(data_->Attacker,"Anaxa Weakness",1,4).second >=2){
                         if(e->isHaveToAddDebuff("Qualitative Disclosure")){
-                            e->debuffSingleApply(ST_DMG_PERCENT,AT_NONE,30);
+                            e->debuffSingleApply(ST_DMG,AT_NONE,30);
                             Extend_Debuff_single_target(e,"Qualitative Disclosure",3);
                         }
                     }
@@ -163,7 +163,7 @@ namespace Jade{
             }
             
             Attack(data_);
-            Buff_single_target(data_->Attacker,ST_DMG_PERCENT,AT_NONE,-20 * Total_enemy);
+            Buff_single_target(data_->Attacker,ST_DMG,AT_NONE,-20 * Total_enemy);
         };
         Action_bar.push(data_);
         if(!actionBarUse)Deal_damage();

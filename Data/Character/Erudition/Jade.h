@@ -28,7 +28,7 @@ namespace Jade{
         ptr->pushSubstats("Crit_rate");
         ptr->pushSubstats("Atk%");
         ptr->setTotalSubstats(20);
-        ptr->setRelicMainStats(ST_CRIT_RATE,ST_ATK_PERCENT,ST_DMG_PERCENT,ST_ATK_PERCENT);
+        ptr->setRelicMainStats(ST_CRIT_RATE,ST_ATK_PERCENT,ST_DMG,ST_ATK_PERCENT);
 
 
 
@@ -198,9 +198,9 @@ namespace Jade{
         data_->Damage_spilt.Other.push_back({48,0,0,10});
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,10);
-            if(ptr->Eidolon>=1)ptr->getSubUnit()->buffSingle({{ST_DMG_PERCENT,AT_NONE,32}});
+            if(ptr->Eidolon>=1)ptr->getSubUnit()->buffSingle({{ST_DMG,AT_NONE,32}});
             Attack(data_);
-            if(ptr->Eidolon>=1)ptr->getSubUnit()->buffSingle({{ST_DMG_PERCENT,AT_NONE,-32}});
+            if(ptr->Eidolon>=1)ptr->getSubUnit()->buffSingle({{ST_DMG,AT_NONE,-32}});
         };
         Action_bar.push(data_);
         
@@ -228,9 +228,9 @@ namespace Jade{
         data_->Damage_spilt.Other.push_back({120,0,0,10});
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,10);
-            if(ptr->Eidolon>=1)ptr->getSubUnit()->buffSingle({{ST_DMG_PERCENT,AT_NONE,32}});
+            if(ptr->Eidolon>=1)ptr->getSubUnit()->buffSingle({{ST_DMG,AT_NONE,32}});
             Attack(data_);
-            if(ptr->Eidolon>=1)ptr->getSubUnit()->buffSingle({{ST_DMG_PERCENT,AT_NONE,-32}});
+            if(ptr->Eidolon>=1)ptr->getSubUnit()->buffSingle({{ST_DMG,AT_NONE,-32}});
         };
         Action_bar.push(data_);
     }

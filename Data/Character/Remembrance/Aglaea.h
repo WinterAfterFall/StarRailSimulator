@@ -29,7 +29,7 @@ namespace Aglaea{
         ptr->pushSubstats(ST_ATK_PERCENT);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(135);
-        ptr->setRelicMainStats(ST_CRIT_RATE,ST_FLAT_SPD,ST_DMG_PERCENT,ST_EnergyRecharge);
+        ptr->setRelicMainStats(ST_CRIT_RATE,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
 
 
 

@@ -84,7 +84,7 @@ namespace Castorice{
                         data_->Damage_spilt.Other[0].Hp_ratio *= 1.239;
                     }
                     ptr->getSubUnit(1)->Stack["Breath Scorches the Shadow"]++;
-                    Stack_Buff_single_target(ptr->getSubUnit(1),ST_DMG_PERCENT,AT_NONE,30,1,6,"Where The West Wind Dwells");
+                    Stack_Buff_single_target(ptr->getSubUnit(1),ST_DMG,AT_NONE,30,1,6,"Where The West Wind Dwells");
                     Attack(data_);
                     if(ptr->getSubUnit(1)->getStack("Ardent Will")>0)
                     ptr->getSubUnit(1)->Stack["Ardent Will"]--;
@@ -109,7 +109,7 @@ namespace Castorice{
                         data_->Damage_spilt.Adjacent[0].Hp_ratio = 34;
                         data_->Damage_spilt.Other[0].Hp_ratio = 34;
                     }
-                    Stack_Buff_single_target(ptr->getSubUnit(1),ST_DMG_PERCENT,AT_NONE,30,1,6,"Where The West Wind Dwells");
+                    Stack_Buff_single_target(ptr->getSubUnit(1),ST_DMG,AT_NONE,30,1,6,"Where The West Wind Dwells");
                 }else{
                     data_->Damage_spilt.Main[0].Hp_ratio = 40;
                     data_->Damage_spilt.Adjacent[0].Hp_ratio = 40;
@@ -168,7 +168,7 @@ namespace Castorice{
                 resetTurn(ptr->getSubUnit(1)->Atv_stats.get());
                 Action_forward(ptr->getSubUnit(1)->Atv_stats.get(),100);
                 Extend_Buff_single_target(ptr->getSubUnit(1),"NetherwingLifeSpan",ptr->Adjust["NetherwingLifeSpan"]);       
-                buffAllAlly(ST_DMG_PERCENT,AT_NONE,10,"Roar Rumbles the Realm");
+                buffAllAlly(ST_DMG,AT_NONE,10,"Roar Rumbles the Realm");
                 extendBuffTimeAllAlly("Roar Rumbles the Realm",3);
                 if(ptr->Eidolon>=2){
                     ptr->getSubUnit(1)->setStack("Ardent Will",2);
@@ -212,7 +212,7 @@ namespace Castorice{
                 turn = ptr->getSubUnit(1)->Atv_stats.get();
                 Extend_Buff_single_target(ptr->getSubUnit(1),"NetherwingLifeSpan",1);
                 DecreaseHP(ptr->Sub_Unit_ptr[0].get(),"Netherwing",0,0,40);
-                buffAllAlly(ST_DMG_PERCENT,AT_NONE,10,"Roar Rumbles the Realm");
+                buffAllAlly(ST_DMG,AT_NONE,10,"Roar Rumbles the Realm");
                 extendBuffTimeAllAlly("Roar Rumbles the Realm",3);
                 if(ptr->Eidolon>=2){
                     ptr->getSubUnit(1)->setStack("Ardent Will",2);
@@ -263,7 +263,7 @@ namespace Castorice{
             }
             if(ptr->getSubUnit()->Buff_note["CastoriceTalentBuff"]!=decreaseHPCount){
                 ptr->getSubUnit()->Buff_note["CastoriceTalentBuff"] = decreaseHPCount;
-                Stack_Buff_single_with_all_memo(ptr,ST_DMG_PERCENT,AT_NONE,20,1,3,"CastoriceTalentBuff");
+                Stack_Buff_single_with_all_memo(ptr,ST_DMG,AT_NONE,20,1,3,"CastoriceTalentBuff");
                 Extend_Buff_single_with_all_memo(ptr,"CastoriceTalentBuff",3);
             }
             if(target->isSameUnitName("Castorice")){
@@ -280,17 +280,17 @@ namespace Castorice{
                 Kamikaze(ptr);
             }
             if(turn->isSameCharName("Netherwing")){
-                Buff_single_target(ptr->getSubUnit(1),ST_DMG_PERCENT,AT_NONE,-30*ptr->getSubUnit(1)->getStack("Where The West Wind Dwells"));
+                Buff_single_target(ptr->getSubUnit(1),ST_DMG,AT_NONE,-30*ptr->getSubUnit(1)->getStack("Where The West Wind Dwells"));
                 ptr->getSubUnit(1)->Stack["Where The West Wind Dwells"] = 0;
             }
             SubUnit *tempUnit = turn->canCastToSubUnit();
             if(tempUnit){
                 if(Buff_end(tempUnit,"Roar Rumbles the Realm")){
                     tempUnit->setBuffCheck("Roar Rumbles the Realm",0);
-                    Buff_single_target(tempUnit,ST_DMG_PERCENT,AT_NONE,-10);
+                    Buff_single_target(tempUnit,ST_DMG,AT_NONE,-10);
                 }
                 if(Buff_end(tempUnit,"CastoriceTalentBuff")){
-                    Buff_single_target(tempUnit,ST_DMG_PERCENT,AT_NONE,-20*tempUnit->getStack("CastoriceTalentBuff"));
+                    Buff_single_target(tempUnit,ST_DMG,AT_NONE,-20*tempUnit->getStack("CastoriceTalentBuff"));
                     tempUnit->setStack("CastoriceTalentBuff",0);
                 }
             }
@@ -338,7 +338,7 @@ namespace Castorice{
             if(target->getBuffCheck("Roar Rumbles the Realm")){
                 target->setBuffCheck("Roar Rumbles the Realm",0);
                 target->setBuffCountdown("Roar Rumbles the Realm",0);
-                Buff_single_target(target,ST_DMG_PERCENT,AT_NONE,-10);
+                Buff_single_target(target,ST_DMG,AT_NONE,-10);
             }
         }));
     }

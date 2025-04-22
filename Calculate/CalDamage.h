@@ -12,7 +12,6 @@
 
 void Cal_Damage(shared_ptr<AllyActionData> &data_,Enemy *target,Ratio_data Skill_mtpr){
     double Total_dmg = 0;
-    
     if(Normal_Damage_Formula_check_mode&&data_->Attacker->Atv_stats->Unit_num==Normal_Damage_Formula_check_mode){
         cout<<data_->Attacker->Atv_stats->Char_Name<<" :"<<endl;
         cout<<data_->Attacker->Base_atk<<" ";

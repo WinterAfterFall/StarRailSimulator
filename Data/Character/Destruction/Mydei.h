@@ -29,7 +29,7 @@ namespace Mydei{
         ptr->pushSubstats("Hp%");
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(135);
-        ptr->setRelicMainStats(ST_HP_PERCENT,ST_FLAT_SPD,ST_DMG_PERCENT,ST_HP_PERCENT);
+        ptr->setRelicMainStats(ST_HP_PERCENT,ST_FLAT_SPD,ST_DMG,ST_HP_PERCENT);
 
 
 

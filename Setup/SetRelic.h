@@ -37,11 +37,11 @@ function<void(Ally *ptr)> Ally::RelicPairSet(string stats){
     };
     if(stats == AT_FUA)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG_PERCENT][AT_FUA] += 20;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG][AT_FUA] += 20;
     };
-    if(stats == ST_DMG_PERCENT)
+    if(stats == ST_DMG)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG_PERCENT][ptr->Sub_Unit_ptr[0]->Element_type[0]][AT_NONE] += 10;
+        ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ptr->Sub_Unit_ptr[0]->Element_type[0]][AT_NONE] += 10;
     };
 
 
@@ -82,9 +82,9 @@ function<void(Ally *ptr)> Ally::RelicMainStatsSet(string stats){
     return [=](Ally *ptr) {
         ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING_OUT]["None"] += 34.57;
     };
-    if(stats == ST_DMG_PERCENT)
+    if(stats == ST_DMG)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG_PERCENT][ptr->Sub_Unit_ptr[0]->Element_type[0]][AT_NONE] += 38.88;
+        ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ptr->Sub_Unit_ptr[0]->Element_type[0]][AT_NONE] += 38.88;
     };
     if(stats == ST_EHR)
     return [=](Ally *ptr) {

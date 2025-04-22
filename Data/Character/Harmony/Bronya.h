@@ -22,7 +22,7 @@ namespace Bronya{
         //substats
         ptr->pushSubstats("Crit_dam");
         ptr->setTotalSubstats(20);
-        ptr->setRelicMainStats(ST_CRIT_DAM,ST_FLAT_SPD,ST_DMG_PERCENT,ST_EnergyRecharge);
+        ptr->setRelicMainStats(ST_CRIT_DAM,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
         ptr->setSpeedRequire(133.4);
 
 

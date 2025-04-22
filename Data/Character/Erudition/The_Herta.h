@@ -27,7 +27,7 @@ namespace The_Herta{
         ptr->pushSubstats("Crit_rate");
         ptr->pushSubstats("Atk%");
         ptr->setTotalSubstats(20);
-        ptr->setRelicMainStats(ST_CRIT_RATE,ST_ATK_PERCENT,ST_DMG_PERCENT,ST_ATK_PERCENT);
+        ptr->setRelicMainStats(ST_CRIT_RATE,ST_ATK_PERCENT,ST_DMG,ST_ATK_PERCENT);
 
 
 
@@ -125,7 +125,7 @@ namespace The_Herta{
 
         After_attack_List.push_back(TriggerByAction_Func(PRIORITY_BUFF, [ptr,Hertaptr](shared_ptr<AllyActionData> &data_){
             if(data_->actionName=="The Herta EnchanceSkill"){
-                Hertaptr->buffSingle({{ST_DMG_PERCENT,AT_NONE,-50}});
+                Hertaptr->buffSingle({{ST_DMG,AT_NONE,-50}});
                 if(ptr->Eidolon >= 2)Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),35);
             }
             bool Erudition_check = 0;
@@ -279,7 +279,7 @@ namespace The_Herta{
             Herta_reset_Stack();
 
             Apply_Herta_Stack(ptr,Enemy_unit[Main_Enemy_num].get(),1);
-            ptr->getSubUnit()->buffSingle({{ST_DMG_PERCENT,AT_NONE,50}});
+            ptr->getSubUnit()->buffSingle({{ST_DMG,AT_NONE,50}});
             Attack(data_);
         };
         
