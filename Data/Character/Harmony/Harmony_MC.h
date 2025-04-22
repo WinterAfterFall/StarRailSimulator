@@ -15,6 +15,7 @@ namespace Harmony_MC{
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally* ptr = SetAllyBasicStats( 105, 140, 140, E, "Imaginary", "Harmony", "Harmony_MC",TYPE_STD);
+        SubUnit *HMCptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1087, 446, 679);
         //substats
         ptr->pushSubstats("Break_effect");
@@ -34,20 +35,17 @@ namespace Harmony_MC{
                 Basic_Atk(ptr);
             }
         };
-
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr](){
-            if(Buff_check(ptr->Sub_Unit_ptr[0].get(),"Harmony_MC_ult") || !ultUseCheck(ptr)) return;
+        
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,HMCptr](){
+            if(!ultUseCheck(ptr)) return;
             
             
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
             data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff", "HMC Ultimate");
             data_->Add_Buff_All_Ally();
-            data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
-                if(!Buff_check(ptr->Sub_Unit_ptr[0].get(),"Harmony_MC_ult")){
-                    buffAllAlly("Break_effect","None",33);
-                }
-                ptr->Sub_Unit_ptr[0]->Buff_check["Harmony_MC_ult"] = 1;
-                Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(),"Harmony_MC_ult",3);
+            data_->actionFunction = [ptr,HMCptr](shared_ptr<AllyActionData> &data_){
+                if(HMCptr->isHaveToAddBuff("Harmony_MC_ult",3))
+                buffAllAlly({{"Break_effect","None",33}});
             };
 
             Action_bar.push(data_);
@@ -56,6 +54,7 @@ namespace Harmony_MC{
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
             ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] += 37.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES]["None"] += 10;
             ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Imaginary"]["None"] += 14.4;
 
             // relic
@@ -63,10 +62,10 @@ namespace Harmony_MC{
             // substats
         }));
 
-        When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
+        When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,HMCptr](){
             ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"] = calculateBreakEffectForBuff(ptr->Sub_Unit_ptr[0].get(), 15);                  
-            Buff_All_Ally_Excluding_Buffer("Break_effect",AT_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"],"Harmony_MC");
-            Buff_All_Ally_Excluding_Buffer("Break_effect","None",ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"],"Harmony_MC");
+            HMCptr->buffAllAllyExcludingBuffer({{"Break_effect",AT_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"]}});
+            HMCptr->buffAllAllyExcludingBuffer({{"Break_effect",AT_NONE,ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"]}});
         }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
