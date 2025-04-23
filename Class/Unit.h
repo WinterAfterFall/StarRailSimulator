@@ -28,6 +28,12 @@ public:
     int getNum(){
         return this->Atv_stats->Unit_num;
     }
+    int getUnitName(){
+        return this->Atv_stats->Unit_Name
+    }
+    int getCharName(){
+        return this->Atv_stats->Char_Name;
+    }
     void speedBuff(BuffClass buffSet){
         if(buffSet.actionType==ST_FLAT_SPD)this->Atv_stats->speedBuff(0,buffSet.value);
         else this->Atv_stats->speedBuff(buffSet.value,0);

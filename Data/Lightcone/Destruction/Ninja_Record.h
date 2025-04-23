@@ -16,27 +16,22 @@ namespace Destruction_Lightcone{
             }));
     
             Healing_List.push_back(TriggerHealing(PRIORITY_ACTTACK, [ptr,superimpose](SubUnit *Healer, SubUnit *target, double Value) {
-                if (!target->isSameUnit(ptr->Sub_Unit_ptr[0].get())) return;
-                if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Ninja_Record_Buff")) {
-                    Buff_single_target(ptr->Sub_Unit_ptr[0].get(), ST_CRIT_DAM, AT_NONE, 13.5 + 4.5 * superimpose);
-                    ptr->Sub_Unit_ptr[0]->Buff_check["Ninja_Record_Buff"] = 1;
+                if (!target->isSameUnit(ptr->Sub_Unit_ptr[0].get())) return; 
+                if (ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Ninja_Record_Buff",2)) {
+                    ptr->Sub_Unit_ptr[0]->buffSingle({{ST_CRIT_DAM, AT_NONE, 13.5 + 4.5 * superimpose}});
                 }
-                Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Ninja_Record_Buff", 2);
             }));
     
             HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_ACTTACK, [ptr,superimpose](Unit *Trigger, SubUnit *target, double Value) {
-                if (!target->isSameUnit(ptr->Sub_Unit_ptr[0].get())) return;
-                if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Ninja_Record_Buff")) {
-                    Buff_single_target(ptr->Sub_Unit_ptr[0].get(), ST_CRIT_DAM, AT_NONE, 13.5 + 4.5 * superimpose);
-                    ptr->Sub_Unit_ptr[0]->Buff_check["Ninja_Record_Buff"] = 1;
+                if (!target->isSameUnit(ptr->Sub_Unit_ptr[0].get())) return; 
+                if (ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Ninja_Record_Buff",2)) {
+                    ptr->Sub_Unit_ptr[0]->buffSingle({{ST_CRIT_DAM, AT_NONE, 13.5 + 4.5 * superimpose}});
                 }
-                Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Ninja_Record_Buff", 2);
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,superimpose]() {
-                if (Buff_end(ptr->Sub_Unit_ptr[0].get(), "Ninja_Record_Buff")) {
-                    Buff_single_target(ptr->Sub_Unit_ptr[0].get(), ST_CRIT_DAM, AT_NONE, -(13.5 + 4.5 * superimpose));
-                    ptr->Sub_Unit_ptr[0]->Buff_check["Ninja_Record_Buff"] = 0;
+                if (ptr->Sub_Unit_ptr[0]->isBuffEnd("Ninja_Record_Buff")) {
+                    ptr->Sub_Unit_ptr[0]->buffSingle({{ST_CRIT_DAM, AT_NONE, -(13.5 + 4.5 * superimpose)}});
                 }
             }));
         };

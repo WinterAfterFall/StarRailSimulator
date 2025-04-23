@@ -11,28 +11,29 @@ namespace Destruction_Lightcone{
         return [=](Ally *ptr) {
             ptr->SetAllyBaseStats(1164,476,529);
             ptr->Light_cone.Name = "FireFly_LC";
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            string debuffName = ptr->getSubUnit()->getUnitName() + " FireFlyLC debuff";
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,debuffName]() {
                 ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] += 50 + 10 * superimpose;
             }));
+            
     
-            After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+            After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,debuffName](shared_ptr<AllyActionData> &data_) {
                 if (data_->Attacker->Atv_stats->Unit_num != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num && data_->Attacker->Atv_stats->Side != "Ally") return;
                 for(Enemy* &e :data_->Target_Attack){
-                    if (e->debuffApply(ptr->Sub_Unit_ptr[0].get(),"FireFly_LC_debuff")) {
-                        Speed_Buff(e->Atv_stats.get(), -20, 0);
-                        e->Stats_type["Vul"]["Break_dmg"] += 20 + 4 * superimpose;
-                    }
-                    Extend_Debuff_single_target(e, "FireFly_LC_debuff", 2);
+                    e->debuffSingleApply({
+                        {ST_VUL,AT_BREAK,20.0 + 4 * superimpose},
+                        {ST_SPD,ST_SPD_PERCENT,-20.0}
+                    },ptr->Sub_Unit_ptr[0].get(),debuffName,2);
                 } 
             }));
     
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,debuffName]() {
                 if (turn != nullptr && turn->Side == "Enemy") {
-                    if (Debuff_end(Enemy_unit[turn->Unit_num].get(), "FireFly_LC_debuff")) {
-                        Enemy_unit[turn->Unit_num]->Debuff["FireFly_LC_debuff"] = 0;
-                        Speed_Buff(Enemy_unit[turn->Unit_num]->Atv_stats.get(), 20, 0);
-                        Enemy_unit[turn->Unit_num]->Stats_type["Vul"]["Break_dmg"] -= 20 + 4 * superimpose;
-                        Enemy_unit[turn->Unit_num]->Total_debuff--;
+                    if (Enemy_unit[turn->Unit_num]->isDebuffEnd(debuffName)) {
+                        Enemy_unit[turn->Unit_num]->debuffSingle({
+                            {ST_VUL,AT_BREAK,-20.0 - 4 * superimpose},
+                            {ST_SPD,ST_SPD_PERCENT,20.0}
+                        });
                     }
                 }
             }));

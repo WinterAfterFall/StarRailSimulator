@@ -41,6 +41,13 @@
 #define ST_BREAK_EFF "Weakness_Break_Efficiency"
 #define ST_TOUGH_REDUCE "Toughness_reduction"
 
+#define ET_FIRE "Fire"
+#define ET_ICE "Ice"
+#define ET_LN "Lightning"
+#define ET_WIND "Wind"
+#define ET_QT "Quantum"
+#define ET_IMG "Imaginary"
+#define ET_PHY "Physical"
 
 #define AT_TEMP "Temporary"
 #define AT_NONE "None"
