@@ -152,7 +152,7 @@ void Set_Other_buff(Ally *ptr,bool Bool){
     void WhenEnemyDeath(Ally *ptr,Enemy *target);
     void Stats_Adjust(Ally *ptr,Sub_Unit *target, string StatsType);
     void Stats_Adjust(Ally *ptr,Sub_Unit *target, string StatsType){
-        if(StatsType=="Crit_dam"){
+        if(StatsType==ST_CD){
             //before TYPE_TEMP
 
             

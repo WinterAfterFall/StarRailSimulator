@@ -58,14 +58,14 @@ namespace Tingyun{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,TYptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Lightning"]["None"] += 8;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Lightning"]["None"] += 8;
             ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 28;
             ptr->Sub_Unit_ptr[0]->Stats_type["Def%"]["None"] += 22.5;
 
             // relic
 
             // substats
-            ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Basic_Attack"] += 40;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG]["Basic_Attack"] += 40;
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,TYptr]() {

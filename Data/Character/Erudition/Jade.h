@@ -24,8 +24,8 @@ namespace Jade{
         ptr->SetAllyBaseStats(1087,660,509);
 
         //substats
-        ptr->pushSubstats("Crit_dam");
-        ptr->pushSubstats("Crit_rate");
+        ptr->pushSubstats(ST_CD);
+        ptr->pushSubstats(ST_CR);
         ptr->pushSubstats("Atk%");
         ptr->setTotalSubstats(20);
         ptr->setRelicMainStats(ST_CR,ST_ATK_P,ST_DMG,ST_ATK_P);
@@ -63,7 +63,7 @@ namespace Jade{
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Quantum"]["None"] += 22.4;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Quantum"]["None"] += 22.4;
 
             // relic
             // substats

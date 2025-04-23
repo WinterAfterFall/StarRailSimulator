@@ -23,8 +23,8 @@ namespace Tribbie{
         SubUnit *TBptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1048,524,728);
         //substats
-        ptr->pushSubstats("Crit_dam");
-        ptr->pushSubstats("Crit_rate");
+        ptr->pushSubstats(ST_CD);
+        ptr->pushSubstats(ST_CR);
         ptr->pushSubstats("Hp%");
         ptr->setTotalSubstats(20);
         ptr->setRelicMainStats(ST_CR,ST_HP_P,ST_HP_P,ST_EnergyRecharge);
@@ -102,15 +102,15 @@ namespace Tribbie{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"] += 37.3;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"] += 12;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD]["None"] += 37.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 12;
             ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"]["None"] += 10;
 
             // relic
 
             // substats
             if (ptr->Eidolon >= 6) {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Fua"] += 729;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG]["Fua"] += 729;
             }
         }));
 

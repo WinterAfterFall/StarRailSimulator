@@ -12,12 +12,12 @@ namespace Planar{
         
         ptr->Planar.Name = "Rutilant";
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"] += 8;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 8;
         }));
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Skill"] += 20;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Basic_Attack"] += 20;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG]["Skill"] += 20;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG]["Basic_Attack"] += 20;
         }));
         
        

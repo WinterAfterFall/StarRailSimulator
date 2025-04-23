@@ -79,11 +79,11 @@ namespace Pela{
             if (turn->Side == "Enemy") {
                 if (Enemy_unit[turn->Unit_num]->Debuff_time_count["Zone_Suppression"] == Enemy_unit[turn->Unit_num]->Atv_stats->turn_cnt) {
                     Enemy_unit[turn->Unit_num]->Debuff["Zone_Suppression"] = 0;
-                    Enemy_unit[turn->Unit_num]->Stats_type["Def_shred"]["None"] -= 42;
+                    Enemy_unit[turn->Unit_num]->Stats_type[ST_DEF_SHRED]["None"] -= 42;
                     --Enemy_unit[turn->Unit_num]->Total_debuff;
                 }
                 if (Enemy_unit[turn->Unit_num]->Debuff_time_count["Pela_Technique"] == turn->turn_cnt) {
-                    Enemy_unit[turn->Unit_num]->Stats_type["Def_shred"]["None"] -= 20;
+                    Enemy_unit[turn->Unit_num]->Stats_type[ST_DEF_SHRED]["None"] -= 20;
                     Enemy_unit[turn->Unit_num]->Debuff["Pela_Technique"] = 0;
                     --Enemy_unit[turn->Unit_num]->Total_debuff;
                 }

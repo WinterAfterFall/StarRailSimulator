@@ -23,8 +23,8 @@ namespace The_Herta{
         ptr->SetAllyBaseStats(1164,679,485);
 
         //substats
-        ptr->pushSubstats("Crit_dam");
-        ptr->pushSubstats("Crit_rate");
+        ptr->pushSubstats(ST_CD);
+        ptr->pushSubstats(ST_CR);
         ptr->pushSubstats("Atk%");
         ptr->setTotalSubstats(20);
         ptr->setRelicMainStats(ST_CR,ST_ATK_P,ST_DMG,ST_ATK_P);
@@ -79,7 +79,7 @@ namespace The_Herta{
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Ice"]["None"] += 22.4;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Ice"]["None"] += 22.4;
             ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 5;
 
             // relic

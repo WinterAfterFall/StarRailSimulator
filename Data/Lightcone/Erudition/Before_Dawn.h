@@ -10,9 +10,9 @@ namespace Erudition_Lightcone{
 
             ptr->Light_cone.Name = "Before_Dawn";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"] += 30 + 6 * superimpose;
-                ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Skill"] += 15 + 3 * superimpose;
-                ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Ultimate"] += 15 + 3 * superimpose;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD]["None"] += 30 + 6 * superimpose;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG]["Skill"] += 15 + 3 * superimpose;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG]["Ultimate"] += 15 + 3 * superimpose;
             }));
     
             Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
@@ -20,7 +20,7 @@ namespace Erudition_Lightcone{
                     ptr->Sub_Unit_ptr[0]->Stack["Somnus_Corpus"] == 1) {
                     for (auto e : data_->Skill_Type) {
                         if (e == "Fua") {
-                            ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Fua"] += 40 + 8 * superimpose;
+                            ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG]["Fua"] += 40 + 8 * superimpose;
                             break;
                         }
                     }
@@ -41,7 +41,7 @@ namespace Erudition_Lightcone{
                     ptr->Sub_Unit_ptr[0]->Stack["Somnus_Corpus"] == 1) {
                     for (auto e : data_->Skill_Type) {
                         if (e == "Fua") {
-                            ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Fua"] -= 40 + 8 * superimpose;
+                            ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG]["Fua"] -= 40 + 8 * superimpose;
                             ptr->Sub_Unit_ptr[0]->Stack["Somnus_Corpus"] = 0;
                             break;
                         }

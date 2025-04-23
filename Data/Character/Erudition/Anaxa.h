@@ -20,8 +20,8 @@ namespace Jade{
         ptr->SetAllyBaseStats(970,757,558);
 
         //substats
-        ptr->pushSubstats("Crit_dam");
-        ptr->pushSubstats("Crit_rate");
+        ptr->pushSubstats(ST_CD);
+        ptr->pushSubstats(ST_CR);
         ptr->pushSubstats("Atk%");
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(145);
@@ -60,7 +60,7 @@ namespace Jade{
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 12;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P]["None"] += 10;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Wind"]["None"] += 22.4;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Wind"]["None"] += 22.4;
             // relic
             // substats
         }));

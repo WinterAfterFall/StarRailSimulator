@@ -24,7 +24,7 @@ namespace RMC{
         //substats
         
 
-        ptr->pushSubstats("Crit_dam");
+        ptr->pushSubstats(ST_CD);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(150);
         ptr->setRelicMainStats(ST_CD,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
@@ -65,7 +65,7 @@ namespace RMC{
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 14;
             ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"]["None"] += 14;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"] += 37.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD]["None"] += 37.3;
 
             // relic
 
@@ -74,7 +74,7 @@ namespace RMC{
 
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr](SubUnit *target, string StatsType) {
             if (target->Atv_stats->Unit_Name != "Mem") return;
-            if (StatsType == "Crit_dam") {
+            if (StatsType == ST_CD) {
                 double buffValue = (calculateCritdamForBuff(ptr->Sub_Unit_ptr[1].get(), 13.2) + 26.4);
                 buffAllAlly({{ST_CD, AT_TEMP, buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});
                 buffAllAlly({{ST_CD, AT_NONE, buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});

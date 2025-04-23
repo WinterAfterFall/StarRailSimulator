@@ -21,7 +21,7 @@ namespace Planar{
                 for (auto e1 : Ally_unit[i]->Path) {
                     for (auto e2 : ptr->Path) {
                         if (e2 == e1) {
-                            ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"] += 12;
+                            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 12;
                             return;
                         }
                     }

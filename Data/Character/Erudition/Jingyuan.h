@@ -22,8 +22,8 @@ namespace Jingyuan{
         ptr->SetAllyBaseStats(1164, 698, 485);
 
         //substats
-        ptr->pushSubstats("Crit_dam");
-        ptr->pushSubstats("Crit_rate");
+        ptr->pushSubstats(ST_CD);
+        ptr->pushSubstats(ST_CR);
         ptr->pushSubstats("Atk%");
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(135);
@@ -88,7 +88,7 @@ namespace Jingyuan{
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 28;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"] += 12;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 12;
             ptr->Sub_Unit_ptr[0]->Stats_type["Def%"]["None"] += 12.5;
 
             // relic
@@ -122,7 +122,7 @@ namespace Jingyuan{
             temp->Turn_reset = 1;
             temp->actionFunction = [ptr,Jingyuanptr](shared_ptr<AllyActionData> &data_){
                 if(ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]>=6){
-                    ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["Summon"]+=25;
+                    ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["Summon"]+=25;
                 }
 
                 for(int i=1;i<=ptr->Sub_Unit_ptr[0]->Stack["LL_stack"];i++){
@@ -137,7 +137,7 @@ namespace Jingyuan{
                 Attack(data_);
 
                 if(ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]>=6){
-                    ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["Summon"]-=25;
+                    ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["Summon"]-=25;
                 }
         
                 turn->Flat_Speed = 0;

@@ -134,8 +134,8 @@ namespace Castorice{
         
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Casptr,Polluxptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD]["None"] += 13.3;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"] += 18.7;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Quantum"]["None"] += 14.4;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 18.7;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Quantum"]["None"] += 14.4;
             
             // relic
 

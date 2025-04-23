@@ -18,7 +18,7 @@ namespace Rappa{
         SubUnit *Rappaptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1087,718,461);
         //substats
-        ptr->pushSubstats("Break_effect");
+        ptr->pushSubstats(ST_BE);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(145);
         ptr->setRelicMainStats(ST_ATK_P,ST_FLAT_SPD,ST_ATK_P,ST_BE);
@@ -48,9 +48,9 @@ namespace Rappa{
                 if (ptr->Print)CharCmd::printUltStart("Rappa");
                 ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"] = 1;
                 ptr->Sub_Unit_ptr[0]->Stack["Rappa_Ult"] = 2;
-                ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] += 30;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"] += 30;
                 ptr->Sub_Unit_ptr[0]->Stats_type["Weakness_Break_Efficiency"]["None"] += 50;
-                if (ptr->Eidolon >= 1)ptr->Sub_Unit_ptr[0]->Stats_type["Def_shred"]["None"] += 15;
+                if (ptr->Eidolon >= 1)ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_SHRED]["None"] += 15;
                 
 
                 shared_ptr<AllyActionData> data_2 = make_shared<AllyActionData>();
@@ -90,7 +90,7 @@ namespace Rappa{
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 28;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] += 13.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"] += 13.3;
             ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 9;
 
             // relic
@@ -113,12 +113,12 @@ namespace Rappa{
             }
             if (turn->Char_Name == "Rappa") {
                 if (ptr->Sub_Unit_ptr[0]->Stack["Rappa_Ult"] == 0 && ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"] == 1) {
-                    ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] -= 30;
+                    ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"] -= 30;
                     ptr->Sub_Unit_ptr[0]->Stats_type["Weakness_Break_Efficiency"]["None"] -= 50;
 
                     ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"] = 0;
                     if (ptr->Eidolon >= 1) {
-                        ptr->Sub_Unit_ptr[0]->Stats_type["Def_shred"]["None"] -= 15;
+                        ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_SHRED]["None"] -= 15;
                         Increase_energy(ptr, 20);
                     }
                     if (ptr->Print == 1) {

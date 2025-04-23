@@ -23,8 +23,8 @@ namespace Serval{
         SubUnit *Servalptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(917,653,375);
         //substats
-        ptr->pushSubstats("Crit_dam");
-        ptr->pushSubstats("Crit_rate");
+        ptr->pushSubstats(ST_CD);
+        ptr->pushSubstats(ST_CR);
         ptr->pushSubstats("Atk%");
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(150);
@@ -46,7 +46,7 @@ namespace Serval{
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"]["None"] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"] += 18.7;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 18.7;
 
             // relic
 
@@ -97,7 +97,7 @@ namespace Serval{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
             Increase_energy(ptr, 15);
             if (ptr->Eidolon >= 6) {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["None"] += 30;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG]["None"] += 30;
             }
         }));
 

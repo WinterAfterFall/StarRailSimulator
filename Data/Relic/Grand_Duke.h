@@ -11,7 +11,7 @@ namespace Relic{
     void Grand_Duke(Ally *ptr){
         ptr->Relic.Name = "Grand_Duke";
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Fua"] += 20;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG]["Fua"] += 20;
         }));
 
         Hit_Count_List.push_back(TriggerHit_Count_func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_, int Hit_cnt, int Total_Hit_cnt) {

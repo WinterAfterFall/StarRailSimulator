@@ -15,7 +15,7 @@ namespace Erudition_Lightcone{
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 if (ptr->getSubUnit()->isBuffEnd("Himeko_LC_buff")) {
-                    ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["None"] -= 25+superimpose*5;
+                    ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG]["None"] -= 25+superimpose*5;
                 }
             }));
     

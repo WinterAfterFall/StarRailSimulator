@@ -39,15 +39,15 @@ double calculateSpeedOnStats(SubUnit *ptr){
     return (ans < 0) ? 0 : ans;
 }
 double calculateCritrateOnStats(SubUnit *ptr){
-    double ans = ptr->Stats_type["Crit_rate"]["None"];
+    double ans = ptr->Stats_type[ST_CR]["None"];
     return (ans < 0) ? 0 : ans;
 }
 double calculateCritdamOnStats(SubUnit *ptr){
-    double ans = ptr->Stats_type["Crit_dam"]["None"];
+    double ans = ptr->Stats_type[ST_CD]["None"];
     return (ans < 0) ? 0 : ans;
 }
 double calculateBreakEffectOnStats(SubUnit *ptr){
-    double ans = ptr->Stats_type["Break_effect"]["None"];
+    double ans = ptr->Stats_type[ST_BE]["None"];
     return (ans < 0) ? 0 : ans;
 }
 
@@ -82,15 +82,15 @@ double calculateSpeedForBuff(SubUnit *ptr,double ratio){
 
 }
 double calculateCritrateForBuff(SubUnit *ptr,double ratio){
-    double ans = ptr->Stats_type["Crit_rate"]["None"]-ptr->Stats_type["Crit_rate"][AT_TEMP];
+    double ans = ptr->Stats_type[ST_CR]["None"]-ptr->Stats_type[ST_CR][AT_TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 double calculateCritdamForBuff(SubUnit *ptr,double ratio){
-    double ans = ptr->Stats_type["Crit_dam"]["None"]-ptr->Stats_type["Crit_dam"][AT_TEMP];
+    double ans = ptr->Stats_type[ST_CD]["None"]-ptr->Stats_type[ST_CD][AT_TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 double calculateBreakEffectForBuff(SubUnit *ptr,double ratio){
-    double ans = ptr->Stats_type["Break_effect"]["None"]-ptr->Stats_type["Break_effect"][AT_TEMP];
+    double ans = ptr->Stats_type[ST_BE]["None"]-ptr->Stats_type[ST_BE][AT_TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 
@@ -157,11 +157,11 @@ double Cal_Def_multiplier(shared_ptr<AllyActionData> &data_,Enemy *target){
 double Cal_Bonus_dmg_multiplier(shared_ptr<AllyActionData> &data_,Enemy *target){
     double Bonus_dmg_mtpr = 100;
     
-    Bonus_dmg_mtpr += data_->Attacker->Stats_type["Dmg%"]["None"] + target->Stats_type["Dmg%"]["None"] + data_->Attacker->Stats_each_element["Dmg%"][data_->Damage_element]["None"] + target->Stats_each_element["Dmg%"][data_->Damage_element]["None"];
+    Bonus_dmg_mtpr += data_->Attacker->Stats_type[ST_DMG]["None"] + target->Stats_type[ST_DMG]["None"] + data_->Attacker->Stats_each_element[ST_DMG][data_->Damage_element]["None"] + target->Stats_each_element[ST_DMG][data_->Damage_element]["None"];
 
     for(int i = 0, sz = data_->Skill_Type.size(); i < sz; i++){
-        Bonus_dmg_mtpr += data_->Attacker->Stats_type["Dmg%"][data_->Skill_Type[i]] + data_->Attacker->Stats_each_element["Dmg%"][data_->Damage_element][data_->Skill_Type[i]];
-        Bonus_dmg_mtpr += target->Stats_type["Dmg%"][data_->Skill_Type[i]] + target->Stats_each_element["Dmg%"][data_->Damage_element][data_->Skill_Type[i]];
+        Bonus_dmg_mtpr += data_->Attacker->Stats_type[ST_DMG][data_->Skill_Type[i]] + data_->Attacker->Stats_each_element[ST_DMG][data_->Damage_element][data_->Skill_Type[i]];
+        Bonus_dmg_mtpr += target->Stats_type[ST_DMG][data_->Skill_Type[i]] + target->Stats_each_element[ST_DMG][data_->Damage_element][data_->Skill_Type[i]];
     }
     return (Bonus_dmg_mtpr / 100 < 0) ? 0 : Bonus_dmg_mtpr / 100;
 }
@@ -169,11 +169,11 @@ double Cal_Crit_multiplier(shared_ptr<AllyActionData> &data_,Enemy *target){
     double Crit_rate_mtpr;
     double Crit_dam_mtpr;
 
-    Crit_rate_mtpr = data_->Attacker->Stats_type["Crit_rate"]["None"] + target->Stats_type["Crit_rate"]["None"];
-    Crit_dam_mtpr = data_->Attacker->Stats_type["Crit_dam"]["None"] + target->Stats_type["Crit_dam"]["None"];
+    Crit_rate_mtpr = data_->Attacker->Stats_type[ST_CR]["None"] + target->Stats_type[ST_CR]["None"];
+    Crit_dam_mtpr = data_->Attacker->Stats_type[ST_CD]["None"] + target->Stats_type[ST_CD]["None"];
     for(int i=0,sz=data_->Skill_Type.size();i<sz;i++){
-            Crit_rate_mtpr += data_->Attacker->Stats_type["Crit_rate"][data_->Skill_Type[i]] + target->Stats_type["Crit_rate"][data_->Skill_Type[i]];
-            Crit_dam_mtpr += data_->Attacker->Stats_type["Crit_dam"][data_->Skill_Type[i]] + target->Stats_type["Crit_dam"][data_->Skill_Type[i]];
+            Crit_rate_mtpr += data_->Attacker->Stats_type[ST_CR][data_->Skill_Type[i]] + target->Stats_type[ST_CR][data_->Skill_Type[i]];
+            Crit_dam_mtpr += data_->Attacker->Stats_type[ST_CD][data_->Skill_Type[i]] + target->Stats_type[ST_CD][data_->Skill_Type[i]];
     }
     
 
@@ -186,9 +186,9 @@ double Cal_Crit_multiplier(shared_ptr<AllyActionData> &data_,Enemy *target){
 double Cal_Crit_rate_multiplier(shared_ptr<AllyActionData> &data_,Enemy *target) {
     double Crit_rate_mtpr;
 
-    Crit_rate_mtpr = data_->Attacker->Stats_type["Crit_rate"]["None"] + target->Stats_type["Crit_rate"]["None"];
+    Crit_rate_mtpr = data_->Attacker->Stats_type[ST_CR]["None"] + target->Stats_type[ST_CR]["None"];
     for (int i = 0, sz = data_->Skill_Type.size(); i < sz; i++) {
-        Crit_rate_mtpr += data_->Attacker->Stats_type["Crit_rate"][data_->Skill_Type[i]] + target->Stats_type["Crit_rate"][data_->Skill_Type[i]];
+        Crit_rate_mtpr += data_->Attacker->Stats_type[ST_CR][data_->Skill_Type[i]] + target->Stats_type[ST_CR][data_->Skill_Type[i]];
     }
 
     return (Crit_rate_mtpr < 0) ? 0 : Crit_rate_mtpr;
@@ -197,9 +197,9 @@ double Cal_Crit_rate_multiplier(shared_ptr<AllyActionData> &data_,Enemy *target)
 double Cal_Crit_dam_multiplier(shared_ptr<AllyActionData> &data_,Enemy *target) {
     double Crit_dam_mtpr;
 
-    Crit_dam_mtpr = data_->Attacker->Stats_type["Crit_dam"]["None"] + target->Stats_type["Crit_dam"]["None"];
+    Crit_dam_mtpr = data_->Attacker->Stats_type[ST_CD]["None"] + target->Stats_type[ST_CD]["None"];
     for (int i = 0, sz = data_->Skill_Type.size(); i < sz; i++) {
-        Crit_dam_mtpr += data_->Attacker->Stats_type["Crit_dam"][data_->Skill_Type[i]] + target->Stats_type["Crit_dam"][data_->Skill_Type[i]];
+        Crit_dam_mtpr += data_->Attacker->Stats_type[ST_CD][data_->Skill_Type[i]] + target->Stats_type[ST_CD][data_->Skill_Type[i]];
     }
 
     return (Crit_dam_mtpr < 0) ? 0 : Crit_dam_mtpr;
@@ -207,9 +207,9 @@ double Cal_Crit_dam_multiplier(shared_ptr<AllyActionData> &data_,Enemy *target) 
 double Cal_Def_shred_multiplier(shared_ptr<AllyActionData> &data_,Enemy *target){
     double Def_shred_mtpr;
     
-    Def_shred_mtpr = data_->Attacker->Stats_type["Def_shred"]["None"] + target->Stats_type["Def_shred"]["None"];
+    Def_shred_mtpr = data_->Attacker->Stats_type[ST_DEF_SHRED]["None"] + target->Stats_type[ST_DEF_SHRED]["None"];
     for(int i=0,sz=data_->Skill_Type.size();i<sz;i++){
-            Def_shred_mtpr += data_->Attacker->Stats_type["Def_shred"][data_->Skill_Type[i]] + target->Stats_type["Def_shred"][data_->Skill_Type[i]];
+            Def_shred_mtpr += data_->Attacker->Stats_type[ST_DEF_SHRED][data_->Skill_Type[i]] + target->Stats_type[ST_DEF_SHRED][data_->Skill_Type[i]];
     }
 
     
@@ -242,9 +242,9 @@ double Cal_Vul_multiplier(shared_ptr<AllyActionData> &data_,Enemy *target){
 double Cal_BreakEffect_multiplier(shared_ptr<AllyActionData> &data_,Enemy *target){
     double BreakEffect_mtpr = 100;
   
-    BreakEffect_mtpr += data_->Attacker->Stats_type["Break_effect"]["None"] + target->Stats_type["Break_effect"]["None"];
+    BreakEffect_mtpr += data_->Attacker->Stats_type[ST_BE]["None"] + target->Stats_type[ST_BE]["None"];
     for(int i = 0, sz = data_->Skill_Type.size(); i < sz; i++){
-        BreakEffect_mtpr += data_->Attacker->Stats_type["Break_effect"][data_->Skill_Type[i]] + target->Stats_type["Break_effect"][data_->Skill_Type[i]];
+        BreakEffect_mtpr += data_->Attacker->Stats_type[ST_BE][data_->Skill_Type[i]] + target->Stats_type[ST_BE][data_->Skill_Type[i]];
     }
     return (BreakEffect_mtpr / 100 < 0) ? 0 : BreakEffect_mtpr / 100;
 }

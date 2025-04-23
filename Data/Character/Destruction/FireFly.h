@@ -37,7 +37,7 @@ namespace FireFly{
             }
         };
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] += 37.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"] += 37.3;
             ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 5;
 
             // relic
@@ -46,7 +46,7 @@ namespace FireFly{
 
             // eidolon
             if (ptr->Eidolon >= 1) {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Def_shred"]["None"] += 15;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_SHRED]["None"] += 15;
             }
             ptr->Countdown_ptr[0]->Atv_stats->Base_speed = -1;
             if (ptr->Eidolon >= 2) {
@@ -119,9 +119,9 @@ namespace FireFly{
             if (data_->Action_type.second == "Skill" && ptr->Countdown_ptr[0]->Atv_stats->Base_speed == -1) {
                 Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 25);
             }
-            if (ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] >= 360) {
+            if (ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"] >= 360) {
                 Superbreak_trigger(data_, 50);
-            } else if (ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] >= 200) {
+            } else if (ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"] >= 200) {
                 Superbreak_trigger(data_, 35);
             }
             }
@@ -169,10 +169,10 @@ namespace FireFly{
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             if(ptr->Eidolon<1)Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             double skill_dmg = 0;
-            if(ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"]>=360){
+            if(ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"]>=360){
                 skill_dmg = 272;
             }else{
-                skill_dmg = 200 + (ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"])*0.2;
+                skill_dmg = 200 + (ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"])*0.2;
             }
 
             data_->Damage_spilt.Main.push_back({0.15*skill_dmg,0,0,4.5});

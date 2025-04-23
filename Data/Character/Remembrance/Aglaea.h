@@ -84,8 +84,8 @@ namespace Aglaea{
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type["Def%"]["None"] += 12.5;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"] += 12;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Lightning"]["None"] += 22.4;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 12;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Lightning"]["None"] += 22.4;
 
             // relic
 

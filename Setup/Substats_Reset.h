@@ -14,14 +14,14 @@ void Set_Stats(Ally *ptr){
             Buff_single_target(ptr->Sub_Unit_ptr[j].get(),"Hp%","None",3.888*ptr->Substats[i].second);
             }
         }
-        if(ptr->Substats[i].first=="Crit_rate"){
+        if(ptr->Substats[i].first==ST_CR){
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),"Crit_rate","None",2.9*ptr->Substats[i].second);
+            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),ST_CR,"None",2.9*ptr->Substats[i].second);
             }
 
-        }else if(ptr->Substats[i].first=="Crit_dam"){
+        }else if(ptr->Substats[i].first==ST_CD){
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),"Crit_dam","None",5.8*ptr->Substats[i].second);
+            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),ST_CD,"None",5.8*ptr->Substats[i].second);
             }
             
         }else if(ptr->Substats[i].first=="Atk%"){
@@ -34,9 +34,9 @@ void Set_Stats(Ally *ptr){
             Buff_single_target(ptr->Sub_Unit_ptr[j].get(),"Def%","None",4.86*ptr->Substats[i].second);
             }
             
-        }else if(ptr->Substats[i].first=="Break_effect"){
+        }else if(ptr->Substats[i].first==ST_BE){
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),"Break_effect","None",5.8*ptr->Substats[i].second);
+            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),ST_BE,"None",5.8*ptr->Substats[i].second);
             }
         }
     }

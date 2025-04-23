@@ -18,7 +18,7 @@ namespace Harmony_MC{
         SubUnit *HMCptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1087, 446, 679);
         //substats
-        ptr->pushSubstats("Break_effect");
+        ptr->pushSubstats(ST_BE);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(145);
         ptr->setRelicMainStats(ST_ATK_P,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
@@ -45,7 +45,7 @@ namespace Harmony_MC{
             data_->Add_Buff_All_Ally();
             data_->actionFunction = [ptr,HMCptr](shared_ptr<AllyActionData> &data_){
                 if(HMCptr->isHaveToAddBuff("Harmony_MC_ult",3))
-                buffAllAlly({{"Break_effect","None",33}});
+                buffAllAlly({{ST_BE,"None",33}});
             };
 
             Action_bar.push(data_);
@@ -53,9 +53,9 @@ namespace Harmony_MC{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
-            ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] += 37.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"] += 37.3;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES]["None"] += 10;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Imaginary"]["None"] += 14.4;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Imaginary"]["None"] += 14.4;
 
             // relic
 
@@ -64,20 +64,20 @@ namespace Harmony_MC{
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,HMCptr](){
             ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"] = calculateBreakEffectForBuff(ptr->Sub_Unit_ptr[0].get(), 15);                  
-            HMCptr->buffAllAllyExcludingBuffer({{"Break_effect",AT_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"]}});
-            HMCptr->buffAllAllyExcludingBuffer({{"Break_effect",AT_NONE,ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"]}});
+            HMCptr->buffAllAllyExcludingBuffer({{ST_BE,AT_TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"]}});
+            HMCptr->buffAllAllyExcludingBuffer({{ST_BE,AT_NONE,ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"]}});
         }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
             if(ptr->Technique == 1){
-                buffAllAlly({{"Break_effect","None",30}});
+                buffAllAlly({{ST_BE,"None",30}});
             }
             ptr->Energy_recharge += 25;
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,HMCptr](){
             if(HMCptr->isBuffEnd("Harmony_MC_ult")){
-                buffAllAlly({{"Break_effect","None",-33}});
+                buffAllAlly({{ST_BE,"None",-33}});
             }
         }));
 
@@ -87,7 +87,7 @@ namespace Harmony_MC{
             }
             if(turn->Side == "Ally" || turn->Side == "Memosprite"){
                 if(turn->turn_cnt == 2 && ptr->Technique == 1){
-                    Ally_unit[turn->Unit_num]->Sub_Unit_ptr[0]->buffSingle({{"Break_effect","None",-30}});
+                    Ally_unit[turn->Unit_num]->Sub_Unit_ptr[0]->buffSingle({{ST_BE,"None",-30}});
                 }
             }
         }));
@@ -105,10 +105,10 @@ namespace Harmony_MC{
 
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,HMCptr](SubUnit *target, string StatsType){
             if(target->Atv_stats->Unit_Name != "Harmony_MC") return;
-            if(StatsType == "Break_effect"){
+            if(StatsType == ST_BE){
                 double temp = calculateBreakEffectForBuff(ptr->Sub_Unit_ptr[0].get(), 15);
-                HMCptr->buffAllAllyExcludingBuffer({{"Break_effect",AT_TEMP,temp - ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"]}});
-                HMCptr->buffAllAllyExcludingBuffer({{"Break_effect",AT_NONE,temp - ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"]}});
+                HMCptr->buffAllAllyExcludingBuffer({{ST_BE,AT_TEMP,temp - ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"]}});
+                HMCptr->buffAllAllyExcludingBuffer({{ST_BE,AT_NONE,temp - ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"]}});
                 ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"] =  temp ;
             }
         }));

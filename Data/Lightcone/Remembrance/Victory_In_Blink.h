@@ -13,13 +13,13 @@ namespace Remembrance_Lightcone{
             ptr->Light_cone.Name = "Victory_In_Blink";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"] += 9 + 3 * superimpose;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD]["None"] += 9 + 3 * superimpose;
             }));
     
             Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 if (data_->Attacker->Atv_stats->Side == "Memosprite" &&
                     data_->Attacker->ptr_to_unit->Sub_Unit_ptr[0]->Atv_stats->Char_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Char_Name) {
-                    buffAllAlly("Dmg%", "None", (6 + 2 * superimpose), "Victory_Blink");
+                    buffAllAlly(ST_DMG, "None", (6 + 2 * superimpose), "Victory_Blink");
                     extendBuffTimeAllAlly("Victory_Blink", 3);
                 }
             }));
@@ -28,7 +28,7 @@ namespace Remembrance_Lightcone{
                 SubUnit *tempstats = dynamic_cast<SubUnit *>(turn->ptr_to_unit);
                 if (!tempstats) return;
                 if (Buff_end(tempstats, "Victory_Blink")) {
-                    tempstats->Stats_type["Dmg%"]["None"] -= (6 + 2 * superimpose);
+                    tempstats->Stats_type[ST_DMG]["None"] -= (6 + 2 * superimpose);
                     tempstats->Buff_check["Victory_Blink"] = 0;
                 }
             }));
@@ -37,7 +37,7 @@ namespace Remembrance_Lightcone{
                 if(target->getBuffCheck("Victory_Blink")){
                     target->setBuffCheck("Victory_Blink",0);
                     target->setBuffCountdown("Victory_Blink",0);
-                    target->Stats_type["Dmg%"]["None"] -= (6 + 2 * superimpose);
+                    target->Stats_type[ST_DMG]["None"] -= (6 + 2 * superimpose);
                 }
             }));
         };

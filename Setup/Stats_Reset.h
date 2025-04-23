@@ -75,9 +75,9 @@ void Basic_reset(){
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Hp%"]["None"] += 3.888*2;
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Flat_Hp"]["None"] += 76+705.6;
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Def%"]["None"] += 4.86*2;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"] += 5+2.9*2;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"] += 50+5.8*2;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] += 5.8*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 5+2.9*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_CD]["None"] += 50+5.8*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"] += 5.8*2;
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Effect_hit_rate"]["None"] += 3.888*2;
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["True_Damage"]["None"] += 0;
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_HEALING_OUT]["None"] += 0;

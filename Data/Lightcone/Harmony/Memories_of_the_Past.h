@@ -19,7 +19,7 @@ namespace Harmony_Lightcone{
             }));
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] += 21 + 7 * superimpose;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"] += 21 + 7 * superimpose;
             }));
         };
     }

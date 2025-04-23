@@ -11,7 +11,7 @@ namespace Erudition_Lightcone{
     
             When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 14 + 2*superimpose;
-                ptr->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"] += 15 + 5*superimpose;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD]["None"] += 15 + 5*superimpose;
             }));
         };
     }

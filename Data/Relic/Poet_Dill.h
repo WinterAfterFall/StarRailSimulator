@@ -13,8 +13,8 @@ namespace Relic{
         
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[0]->Atv_stats->Speed_percent -= 8;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Quantum"]["None"] += 10;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"] += 32;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Quantum"]["None"] += 10;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 32;
         }));
         
         

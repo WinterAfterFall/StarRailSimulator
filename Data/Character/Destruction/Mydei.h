@@ -24,8 +24,8 @@ namespace Mydei{
         SubUnit *Mydeiptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1552,427,194);
         //substats
-        ptr->pushSubstats("Crit_dam");
-        ptr->pushSubstats("Crit_rate");
+        ptr->pushSubstats(ST_CD);
+        ptr->pushSubstats(ST_CR);
         ptr->pushSubstats("Hp%");
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(135);

@@ -13,12 +13,12 @@ namespace Remembrance_Lightcone{
             ptr->Light_cone.Name = "SweatNowCryLess";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"] += 10 + 2 * superimpose;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 10 + 2 * superimpose;
             }));
     
             Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "SweatNowCryLess") && ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed > -1) {
-                    Buff_single_with_all_memo(ptr, "Dmg%", "None", 20 + superimpose * 4);
+                    Buff_single_with_all_memo(ptr, ST_DMG, "None", 20 + superimpose * 4);
                     ptr->Sub_Unit_ptr[0]->Buff_check["SweatNowCryLess"] = 1;
                 }
             }));
