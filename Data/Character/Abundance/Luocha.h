@@ -53,9 +53,9 @@ namespace Luocha{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 28;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"]["None"] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Def%"]["None"] += 12.5;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 28;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"][AT_NONE] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Def%"][AT_NONE] += 12.5;
 
             // relic
 

@@ -11,32 +11,32 @@ void Set_Stats(Ally *ptr){
             
         }else if(ptr->Substats[i].first=="Hp%"){ 
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),"Hp%","None",3.888*ptr->Substats[i].second);
+            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),"Hp%",AT_NONE,3.888*ptr->Substats[i].second);
             }
         }
         if(ptr->Substats[i].first==ST_CR){
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),ST_CR,"None",2.9*ptr->Substats[i].second);
+            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),ST_CR,AT_NONE,2.9*ptr->Substats[i].second);
             }
 
         }else if(ptr->Substats[i].first==ST_CD){
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),ST_CD,"None",5.8*ptr->Substats[i].second);
+            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),ST_CD,AT_NONE,5.8*ptr->Substats[i].second);
             }
             
         }else if(ptr->Substats[i].first=="Atk%"){
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),"Atk%","None",3.888*ptr->Substats[i].second);
+            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),"Atk%",AT_NONE,3.888*ptr->Substats[i].second);
             }
             
         }else if(ptr->Substats[i].first=="Def%"){
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),"Def%","None",4.86*ptr->Substats[i].second);
+            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),"Def%",AT_NONE,4.86*ptr->Substats[i].second);
             }
             
         }else if(ptr->Substats[i].first==ST_BE){
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),ST_BE,"None",5.8*ptr->Substats[i].second);
+            Buff_single_target(ptr->Sub_Unit_ptr[j].get(),ST_BE,AT_NONE,5.8*ptr->Substats[i].second);
             }
         }
     }

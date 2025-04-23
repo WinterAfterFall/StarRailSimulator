@@ -45,7 +45,7 @@ namespace Harmony_MC{
             data_->Add_Buff_All_Ally();
             data_->actionFunction = [ptr,HMCptr](shared_ptr<AllyActionData> &data_){
                 if(HMCptr->isHaveToAddBuff("Harmony_MC_ult",3))
-                buffAllAlly({{ST_BE,"None",33}});
+                buffAllAlly({{ST_BE,AT_NONE,33}});
             };
 
             Action_bar.push(data_);
@@ -53,9 +53,9 @@ namespace Harmony_MC{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"] += 37.3;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES]["None"] += 10;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Imaginary"]["None"] += 14.4;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] += 37.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES][AT_NONE] += 10;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Imaginary"][AT_NONE] += 14.4;
 
             // relic
 
@@ -70,14 +70,14 @@ namespace Harmony_MC{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
             if(ptr->Technique == 1){
-                buffAllAlly({{ST_BE,"None",30}});
+                buffAllAlly({{ST_BE,AT_NONE,30}});
             }
             ptr->Energy_recharge += 25;
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,HMCptr](){
             if(HMCptr->isBuffEnd("Harmony_MC_ult")){
-                buffAllAlly({{ST_BE,"None",-33}});
+                buffAllAlly({{ST_BE,AT_NONE,-33}});
             }
         }));
 
@@ -87,7 +87,7 @@ namespace Harmony_MC{
             }
             if(turn->Side == "Ally" || turn->Side == "Memosprite"){
                 if(turn->turn_cnt == 2 && ptr->Technique == 1){
-                    Ally_unit[turn->Unit_num]->Sub_Unit_ptr[0]->buffSingle({{ST_BE,"None",-30}});
+                    Ally_unit[turn->Unit_num]->Sub_Unit_ptr[0]->buffSingle({{ST_BE,AT_NONE,-30}});
                 }
             }
         }));

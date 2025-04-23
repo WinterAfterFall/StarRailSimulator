@@ -13,7 +13,7 @@ namespace Remembrance_Lightcone{
             ptr->Light_cone.Name = "Geniuses_Greetings";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type["ATK%"]["None"] += 12 + 4 * superimpose;
+                ptr->Sub_Unit_ptr[0]->Stats_type["ATK%"][AT_NONE] += 12 + 4 * superimpose;
             }));
     
             After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {

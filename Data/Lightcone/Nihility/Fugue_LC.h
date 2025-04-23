@@ -10,7 +10,7 @@ namespace Nihility_Lightcone{
             ptr->Light_cone.Name = "Fugue_LC";
             string Charring = ptr->getSubUnit()->getUnitName() + " Charring";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,Charring]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"] += 50 + 10 * superimpose;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] += 50 + 10 * superimpose;
             }));
     
             Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,Charring](Enemy *target, SubUnit *Breaker) {

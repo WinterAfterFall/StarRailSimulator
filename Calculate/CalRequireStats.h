@@ -14,15 +14,15 @@ void Ally::EhrRequirment(){
     double temp=100/(this->ApplyBaseChance/100)/((100 - Enemy_effect_res)/100);
     temp = temp-100;
     double x =0;
-    temp-=this->Sub_Unit_ptr[0]->Stats_type["Ehr"]["None"];
+    temp-=this->Sub_Unit_ptr[0]->Stats_type["Ehr"][AT_NONE];
     if(temp<=0)return ;
     x = ceil(temp/3.888);
     this->decreaseTotalSubStats(x);
     x = x * 3.888;
     this->ExtraEhr += x;
-    this->Sub_Unit_ptr[0]->Stats_type["Ehr"]["None"] += this->ExtraEhr;
+    this->Sub_Unit_ptr[0]->Stats_type["Ehr"][AT_NONE] += this->ExtraEhr;
     for(int i=1,sz = this->Sub_Unit_ptr.size();i<sz;i++){
-        this->Sub_Unit_ptr[i]->Stats_type["Ehr"]["None"]+=x;
+        this->Sub_Unit_ptr[i]->Stats_type["Ehr"][AT_NONE]+=x;
     }
     return ;
 }

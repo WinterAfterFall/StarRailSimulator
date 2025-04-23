@@ -65,14 +65,14 @@ namespace Tribbie{
                         ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"] += calculateHpForBuff(Ally_unit[i]->Sub_Unit_ptr[0].get(), 9);
                     }
                     TBptr->buffSingle({{ST_FLAT_HP, AT_TEMP , ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]}});
-                    TBptr->buffSingle({{ST_FLAT_HP, "None", ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]}});
+                    TBptr->buffSingle({{ST_FLAT_HP, AT_NONE, ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]}});
     
                     // Eidolon 1
                     if (ptr->Eidolon >= 1) {
-                        buffAllAlly({{"True_Damage", "None", 24}});
+                        buffAllAlly({{"True_Damage", AT_NONE, 24}});
                     }
                     if (ptr->Eidolon >= 4) {
-                        buffAllAlly({{ST_DEF_SHRED, "None", 18}});
+                        buffAllAlly({{ST_DEF_SHRED, AT_NONE, 18}});
                     }
                 }
                 for (int i = 1; i <= Total_ally; i++) {
@@ -102,9 +102,9 @@ namespace Tribbie{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD]["None"] += 37.3;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 12;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"]["None"] += 10;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AT_NONE] += 37.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 12;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"][AT_NONE] += 10;
 
             // relic
 
@@ -123,20 +123,20 @@ namespace Tribbie{
                     Enemy_unit[i]->debuffSingle({{ST_VUL,AT_NONE,-30}});
                 }
                 if (ptr->Eidolon >= 1) {
-                    buffAllAlly({{"True_Damage", "None", -24}});
+                    buffAllAlly({{"True_Damage", AT_NONE, -24}});
                 }
                 if (ptr->Eidolon >= 4) {
-                    buffAllAlly({{ST_DEF_SHRED, "None", -18}});
+                    buffAllAlly({{ST_DEF_SHRED, AT_NONE, -18}});
                 }
 
                 TBptr->buffSingle({{ST_FLAT_HP, AT_TEMP , -ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]}});
-                TBptr->buffSingle({{ST_FLAT_HP, "None", -ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]}});
+                TBptr->buffSingle({{ST_FLAT_HP, AT_NONE, -ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]}});
 
                 ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"] = 0;
                 if (ptr->Print)CharCmd::printUltEnd("Tribbie");
             }
             if (TBptr->isBuffEnd("Numinosity")) {
-                buffAllAlly({{"Respen", "None", -24}});
+                buffAllAlly({{"Respen", AT_NONE, -24}});
             }
         }));
 
@@ -148,7 +148,7 @@ namespace Tribbie{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr]() {
             Increase_energy(ptr, 30);
-            buffAllAlly({{"Respen", "None", 24}});
+            buffAllAlly({{"Respen", AT_NONE, 24}});
             TBptr->isHaveToAddBuff("Numinosity", 3);
         }));
 
@@ -197,7 +197,7 @@ namespace Tribbie{
                 
                 // after
                 TBptr->buffSingle({{ST_FLAT_HP, AT_TEMP , temp - ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]}});
-                TBptr->buffSingle({{ST_FLAT_HP, "None", temp - ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]}});
+                TBptr->buffSingle({{ST_FLAT_HP, AT_NONE, temp - ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]}});
                 ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"] = temp;
                 return;
             }
@@ -230,7 +230,7 @@ namespace Tribbie{
         data_->actionFunction =[ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
-            buffAllAlly({{"Respen","None",24}});
+            buffAllAlly({{"Respen",AT_NONE,24}});
             ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Numinosity", 3);
         };
         Action_bar.push(data_);

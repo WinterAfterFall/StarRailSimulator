@@ -29,9 +29,9 @@ namespace Relic{
                 if (Hit_cnt > 8) {
                     Hit_cnt = 8;
                 }
-                data_->Attacker->Stats_type["Atk%"]["None"] -= data_->Attacker->Stack["Grand_Duke"] * 6;
+                data_->Attacker->Stats_type["Atk%"][AT_NONE] -= data_->Attacker->Stack["Grand_Duke"] * 6;
                 data_->Attacker->Stack["Grand_Duke"] = Hit_cnt;
-                data_->Attacker->Stats_type["Atk%"]["None"] += data_->Attacker->Stack["Grand_Duke"] * 6;
+                data_->Attacker->Stats_type["Atk%"][AT_NONE] += data_->Attacker->Stack["Grand_Duke"] * 6;
                 Extend_Buff_single_target(data_->Attacker, "Grand_Duke", 3);
             }
         }));
@@ -40,7 +40,7 @@ namespace Relic{
             if (turn->Char_Name != ptr->Sub_Unit_ptr[0]->Atv_stats->Char_Name) return;
 
             if (Buff_end(ptr->Sub_Unit_ptr[0].get(), "Grand_Duke")) {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] -= ptr->Sub_Unit_ptr[0]->Stack["Grand_Duke"] * 6;
+                ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] -= ptr->Sub_Unit_ptr[0]->Stack["Grand_Duke"] * 6;
                 ptr->Sub_Unit_ptr[0]->Stack["Grand_Duke"] = 0;
             }
         }));

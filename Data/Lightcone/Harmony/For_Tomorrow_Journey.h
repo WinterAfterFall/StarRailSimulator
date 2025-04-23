@@ -13,7 +13,7 @@ namespace Harmony_Lightcone{
             ptr->Light_cone.Name = "For_Tomorrow_Journey";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 12 + 4 * superimpose;
+                ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 12 + 4 * superimpose;
             }));
     
             After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {

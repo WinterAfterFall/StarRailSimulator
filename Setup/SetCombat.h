@@ -10,9 +10,9 @@
 #define K_const 10000
 //Defination
 void Setup(){
-    if(Driver_Type=="None"&&(Driver_num!=0)){
+    if(Driver_Type==AT_NONE&&(Driver_num!=0)){
         Driver_num = 0;
-    }else if(Driver_Type!="None"&&(Driver_num==0)){
+    }else if(Driver_Type!=AT_NONE&&(Driver_num==0)){
         Driver_num = 2;
     }
     sort(Reset_List.begin(), Reset_List.end(), TriggerFunc::Trigger_cmp);
@@ -52,22 +52,22 @@ void Setup(){
     if(rerollSubstatsMode == "AllPossible")rerollFunction = AllPossibleReroll;
     
     for(int i=1;i<=Total_ally;i++){
-        // Ally_unit[i]->Atk_flat["None"] = 0;
-        // Ally_unit[i]->Atk_percent["None"] = 0;
-        // Ally_unit[i]->Hp_flat["None"] = 0;
-        // Ally_unit[i]->Hp_percent["None"] = 0;
-        // Ally_unit[i]->Def_flat["None"] = 0;
-        // Ally_unit[i]->Def_percent["None"] = 0;
-        // Ally_unit[i]->Dmg_bonus["None"] = 0;
-        // Ally_unit[i]->Crit_rate["None"] = 0;
-        // Ally_unit[i]->Crit_dam["None"] = 0;
-        // Ally_unit[i]->Def_shred["None"] = 0;
-        // Ally_unit[i]->Respen["None"] = 0;
-        // Ally_unit[i]->Vul["None"] = 0;
-        // Ally_unit[i]->Break_effect["None"] = 0;
-        // Ally_unit[i]->Mitigation["None"] = 0;
-        // Ally_unit[i]->Weakness_Break_Efficiency["None"] = 0;
-        // Ally_unit[i]->Toughness_reduction["None"] = 0;
+        // Ally_unit[i]->Atk_flat[AT_NONE] = 0;
+        // Ally_unit[i]->Atk_percent[AT_NONE] = 0;
+        // Ally_unit[i]->Hp_flat[AT_NONE] = 0;
+        // Ally_unit[i]->Hp_percent[AT_NONE] = 0;
+        // Ally_unit[i]->Def_flat[AT_NONE] = 0;
+        // Ally_unit[i]->Def_percent[AT_NONE] = 0;
+        // Ally_unit[i]->Dmg_bonus[AT_NONE] = 0;
+        // Ally_unit[i]->Crit_rate[AT_NONE] = 0;
+        // Ally_unit[i]->Crit_dam[AT_NONE] = 0;
+        // Ally_unit[i]->Def_shred[AT_NONE] = 0;
+        // Ally_unit[i]->Respen[AT_NONE] = 0;
+        // Ally_unit[i]->Vul[AT_NONE] = 0;
+        // Ally_unit[i]->Break_effect[AT_NONE] = 0;
+        // Ally_unit[i]->Mitigation[AT_NONE] = 0;
+        // Ally_unit[i]->Weakness_Break_Efficiency[AT_NONE] = 0;
+        // Ally_unit[i]->Toughness_reduction[AT_NONE] = 0;
 
         Ally_unit[i]->StatsType_Compare_MAX_MIN.first = -1;
         Ally_unit[i]->StatsType_Compare_MAX_MIN.second = 1e9;

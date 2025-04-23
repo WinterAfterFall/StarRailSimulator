@@ -14,7 +14,7 @@
 //         ptr->Light_cone.Name = "DayOne_of_MyNewLife";
 
 //         ptr->Light_cone.Reset_func = [](Ally *ptr){
-//             ptr->Sub_Unit_ptr[0]->Stats_type["Def%"]["None"]+=24;
+//             ptr->Sub_Unit_ptr[0]->Stats_type["Def%"][AT_NONE]+=24;
 //         };
        
 //     }

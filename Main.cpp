@@ -20,7 +20,7 @@ Ally* Char3;
 Ally* Char4;
 void SetValue(){
     Driver_num = 2;
-    Driver_Type = "None"; //Swap_pull Always_pull Double_turn None
+    Driver_Type = AT_NONE; //Swap_pull Always_pull Double_turn None
     Sp_status ="Positive"; //Positive Negative       
     //set unit
     

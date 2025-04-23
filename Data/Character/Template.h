@@ -50,9 +50,9 @@ namespace TemplateName{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            // ptr->Sub_Unit_ptr[0]->Stats_type["Def%"]["None"] += 12.5;
-            // ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 12;
-            // ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Lightning"]["None"] += 22.4;
+            // ptr->Sub_Unit_ptr[0]->Stats_type["Def%"][AT_NONE] += 12.5;
+            // ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 12;
+            // ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Lightning"][AT_NONE] += 22.4;
 
             // relic
 
@@ -68,7 +68,7 @@ namespace TemplateName{
         }));
 
         Setup_Memo_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[1]->Stats_type["Flat_Hp"]["None"] += 720;
+            ptr->Sub_Unit_ptr[1]->Stats_type["Flat_Hp"][AT_NONE] += 720;
             ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed = -1;
             ptr->Sub_Unit_ptr[1]->currentHP = 0;
         }));

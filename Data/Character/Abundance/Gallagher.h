@@ -70,16 +70,16 @@ namespace Gallagher{
         }});
 
         Reset_List.push_back({PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"] += 13.3;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P]["None"] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES]["None"] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] += 13.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P][AT_NONE] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES][AT_NONE] += 18;
 
             // relic
 
             // substats
             if (ptr->Eidolon >= 6) {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Weakness_Break_Efficiency"]["None"] += 20;
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"] += 20;
+                ptr->Sub_Unit_ptr[0]->Stats_type["Weakness_Break_Efficiency"][AT_NONE] += 20;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] += 20;
             }
         }});
 

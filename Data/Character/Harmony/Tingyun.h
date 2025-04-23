@@ -58,9 +58,9 @@ namespace Tingyun{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,TYptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Lightning"]["None"] += 8;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 28;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Def%"]["None"] += 22.5;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Lightning"][AT_NONE] += 8;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 28;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Def%"][AT_NONE] += 22.5;
 
             // relic
 

@@ -176,13 +176,13 @@ void Cal_Additional_damage(shared_ptr<AllyActionData> &data_,Enemy *target,Ratio
     Cal_TrueDamage(data_,target,Total_dmg);
 
     if(Additional_Damage_check_mode==data_->Attacker->Atv_stats->Unit_num){
-        cout<<data_->Attacker->Atv_stats->Char_Name<<" "<<data_->Action_type.second<<" "<<(long long)Total_dmg*data_->Attacker->Stats_type["True_Damage"]["None"]/100<<" to Enemy"<<target->Atv_stats->Unit_num<<endl;
+        cout<<data_->Attacker->Atv_stats->Char_Name<<" "<<data_->Action_type.second<<" "<<(long long)Total_dmg*data_->Attacker->Stats_type["True_Damage"][AT_NONE]/100<<" to Enemy"<<target->Atv_stats->Unit_num<<endl;
     }
 }
 void Cal_TrueDamage(shared_ptr<AllyActionData> &data_,Enemy *target,double Damage){
     double totalTrueDamage = 0;
   
-    totalTrueDamage += data_->Attacker->Stats_type[ST_TRUE]["None"] + target->Stats_type[ST_TRUE]["None"];
+    totalTrueDamage += data_->Attacker->Stats_type[ST_TRUE][AT_NONE] + target->Stats_type[ST_TRUE][AT_NONE];
     for(int i = 0, sz = data_->Skill_Type.size(); i < sz; i++){
         totalTrueDamage += data_->Attacker->Stats_type[ST_TRUE][data_->Skill_Type[i]] + target->Stats_type[ST_TRUE][data_->Skill_Type[i]];
     }
@@ -212,8 +212,8 @@ double Cal_Total_Toughness_Reduce(shared_ptr<AllyActionData> &data_,Enemy *targe
     double ans = Base_Toughness_reduce;
     double Toughness_reduction_mtpr =100;
     double Weakness_Break_Efficiency_mtpr =100;
-    Toughness_reduction_mtpr += data_->Attacker->Stats_type["Toughness_reduction"]["None"] + target->Stats_type["Toughness_reduction"]["None"];
-    Weakness_Break_Efficiency_mtpr += data_->Attacker->Stats_type["Weakness_Break_Efficiency"]["None"] + target->Stats_type["Weakness_Break_Efficiency"]["None"];
+    Toughness_reduction_mtpr += data_->Attacker->Stats_type["Toughness_reduction"][AT_NONE] + target->Stats_type["Toughness_reduction"][AT_NONE];
+    Weakness_Break_Efficiency_mtpr += data_->Attacker->Stats_type["Weakness_Break_Efficiency"][AT_NONE] + target->Stats_type["Weakness_Break_Efficiency"][AT_NONE];
     
     for(int i=0,sz=data_->Skill_Type.size();i<sz;i++){
             Toughness_reduction_mtpr += data_->Attacker->Stats_type["Toughness_reduction"][data_->Skill_Type[i]] + target->Stats_type["Toughness_reduction"][data_->Skill_Type[i]];

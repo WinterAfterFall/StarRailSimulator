@@ -70,19 +70,19 @@ void Basic_reset(){
             Ally_unit[i]->averageDamageInstance.clear();
             Ally_unit[i]->Last_note = 0;
             
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 3.888*2;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Flat_Atk"]["None"] += 352.8+38;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Hp%"]["None"] += 3.888*2;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Flat_Hp"]["None"] += 76+705.6;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Def%"]["None"] += 4.86*2;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 5+2.9*2;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_CD]["None"] += 50+5.8*2;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"] += 5.8*2;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Effect_hit_rate"]["None"] += 3.888*2;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["True_Damage"]["None"] += 0;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_HEALING_OUT]["None"] += 0;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_RES]["None"] += 4.32*2;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Ehr"]["None"] += 3.888*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 3.888*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Flat_Atk"][AT_NONE] += 352.8+38;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Hp%"][AT_NONE] += 3.888*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Flat_Hp"][AT_NONE] += 76+705.6;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Def%"][AT_NONE] += 4.86*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 5+2.9*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_CD][AT_NONE] += 50+5.8*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] += 5.8*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Effect_hit_rate"][AT_NONE] += 3.888*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["True_Damage"][AT_NONE] += 0;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_HEALING_OUT][AT_NONE] += 0;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_RES][AT_NONE] += 4.32*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Ehr"][AT_NONE] += 3.888*2;
             Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 2.3*2;
 
 
@@ -90,7 +90,7 @@ void Basic_reset(){
             Ally_unit[i]->Boot(Ally_unit[i].get());
             Ally_unit[i]->Orb(Ally_unit[i].get());
             Ally_unit[i]->Rope(Ally_unit[i].get());
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Ehr"]["None"] += Ally_unit[i]->ExtraEhr;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Ehr"][AT_NONE] += Ally_unit[i]->ExtraEhr;
             Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += Ally_unit[i]->ExtraSpeed;
     }
 
@@ -176,13 +176,13 @@ void Basic_reset(){
             Enemy_unit[i]->Total_toughness_broken_time =0;
             Enemy_unit[i]->when_toughness_broken = 0;
             
-            Enemy_unit[i]->Stats_each_element["Respen"]["Fire"]["None"] = - Enemy_unit[i]->DefaultElementRes["Fire"];
-            Enemy_unit[i]->Stats_each_element["Respen"]["Ice"]["None"] = -Enemy_unit[i]->DefaultElementRes["Ice"];
-            Enemy_unit[i]->Stats_each_element["Respen"]["Quantum"]["None"] = -Enemy_unit[i]->DefaultElementRes["Quantum"];
-            Enemy_unit[i]->Stats_each_element["Respen"]["Wind"]["None"] = -Enemy_unit[i]->DefaultElementRes["Wind"];
-            Enemy_unit[i]->Stats_each_element["Respen"]["Lightning"]["None"] = -Enemy_unit[i]->DefaultElementRes["Lightning"];
-            Enemy_unit[i]->Stats_each_element["Respen"]["Physical"]["None"] = -Enemy_unit[i]->DefaultElementRes["Physical"];
-            Enemy_unit[i]->Stats_each_element["Respen"]["Imaginary"]["None"] = -Enemy_unit[i]->DefaultElementRes["Imaginary"];
+            Enemy_unit[i]->Stats_each_element["Respen"]["Fire"][AT_NONE] = - Enemy_unit[i]->DefaultElementRes["Fire"];
+            Enemy_unit[i]->Stats_each_element["Respen"]["Ice"][AT_NONE] = -Enemy_unit[i]->DefaultElementRes["Ice"];
+            Enemy_unit[i]->Stats_each_element["Respen"]["Quantum"][AT_NONE] = -Enemy_unit[i]->DefaultElementRes["Quantum"];
+            Enemy_unit[i]->Stats_each_element["Respen"]["Wind"][AT_NONE] = -Enemy_unit[i]->DefaultElementRes["Wind"];
+            Enemy_unit[i]->Stats_each_element["Respen"]["Lightning"][AT_NONE] = -Enemy_unit[i]->DefaultElementRes["Lightning"];
+            Enemy_unit[i]->Stats_each_element["Respen"]["Physical"][AT_NONE] = -Enemy_unit[i]->DefaultElementRes["Physical"];
+            Enemy_unit[i]->Stats_each_element["Respen"]["Imaginary"][AT_NONE] = -Enemy_unit[i]->DefaultElementRes["Imaginary"];
         }
 
     

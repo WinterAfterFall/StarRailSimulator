@@ -10,7 +10,7 @@ namespace Erudition_Lightcone{
 
             ptr->Light_cone.Name = "Before_Dawn";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD]["None"] += 30 + 6 * superimpose;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AT_NONE] += 30 + 6 * superimpose;
                 ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG]["Skill"] += 15 + 3 * superimpose;
                 ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG]["Ultimate"] += 15 + 3 * superimpose;
             }));

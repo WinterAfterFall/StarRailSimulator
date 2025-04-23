@@ -58,9 +58,9 @@ namespace Jade{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 12;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P]["None"] += 10;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Wind"]["None"] += 22.4;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 12;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P][AT_NONE] += 10;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Wind"][AT_NONE] += 22.4;
             // relic
             // substats
         }));

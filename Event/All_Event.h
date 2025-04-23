@@ -4,7 +4,7 @@
 void allEventBeforeTurn(){
     shared_ptr<AllyActionData> temp = make_shared<AllyActionData>();
     if(turn->Side=="Enemy"){
-        Dot_trigger(100,Enemy_unit[turn->Unit_num].get(),"None");
+        Dot_trigger(100,Enemy_unit[turn->Unit_num].get(),AT_NONE);
         if(Enemy_unit[turn->Unit_num]->Entanglement != 0){
             temp->Entanglement_set(Ally_unit[Enemy_unit[turn->Unit_num]->Entanglement]->Sub_Unit_ptr[0].get());
             double Const = 0.6*Enemy_unit[turn->Unit_num]->Entanglement_stack;

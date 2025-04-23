@@ -10,7 +10,7 @@ namespace Erudition_Lightcone{
             ptr->Light_cone.Name = "The_Herta_LC";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 10 + 2 * superimpose;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 10 + 2 * superimpose;
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {

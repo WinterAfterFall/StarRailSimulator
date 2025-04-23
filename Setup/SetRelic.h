@@ -9,31 +9,31 @@ function<void(Ally *ptr)> Ally::RelicPairSet(string stats){
     };
     if(stats == ST_ATK_P)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_ATK_P]["None"] += 12;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_ATK_P][AT_NONE] += 12;
     };
     if(stats == ST_HP_P)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P]["None"] += 12;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P][AT_NONE] += 12;
     };
     if(stats == ST_DEF_P)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_P]["None"] += 15;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_P][AT_NONE] += 15;
     };
     if(stats == ST_CR)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 8;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 8;
     };
     if(stats == ST_CD)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD]["None"] += 16;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AT_NONE] += 16;
     };
     if(stats == ST_BE)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"] += 16;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] += 16;
     };
     if(stats == ST_HEALING_OUT)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING_OUT]["None"] += 10;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING_OUT][AT_NONE] += 10;
     };
     if(stats == AT_FUA)
     return [=](Ally *ptr) {
@@ -56,31 +56,31 @@ function<void(Ally *ptr)> Ally::RelicMainStatsSet(string stats){
     };
     if(stats == ST_ATK_P)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_ATK_P]["None"] += 43.2;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_ATK_P][AT_NONE] += 43.2;
     };
     if(stats == ST_HP_P)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P]["None"] += 43.2;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P][AT_NONE] += 43.2;
     };
     if(stats == ST_DEF_P)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_P]["None"] += 54;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_P][AT_NONE] += 54;
     };
     if(stats == ST_CR)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 32.4;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 32.4;
     };
     if(stats == ST_CD)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD]["None"] += 64.8;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AT_NONE] += 64.8;
     };
     if(stats == ST_BE)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"] += 64.8;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] += 64.8;
     };
     if(stats == ST_HEALING_OUT)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING_OUT]["None"] += 34.57;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING_OUT][AT_NONE] += 34.57;
     };
     if(stats == ST_DMG)
     return [=](Ally *ptr) {
@@ -88,7 +88,7 @@ function<void(Ally *ptr)> Ally::RelicMainStatsSet(string stats){
     };
     if(stats == ST_EHR)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_EHR]["None"] += 43.2;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_EHR][AT_NONE] += 43.2;
     };
     if(stats == ST_EnergyRecharge)
     return [=](Ally *ptr) {

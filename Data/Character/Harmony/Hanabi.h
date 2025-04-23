@@ -55,26 +55,26 @@
 
 //     }
 //     void Reset(Ally *ptr){
-//         ptr->Hp_percent["None"]+=28;
-//         ptr->Crit_dam["None"]+=24;
+//         ptr->Hp_percent[AT_NONE]+=28;
+//         ptr->Crit_dam[AT_NONE]+=24;
 
 
 //         //relic
-//         ptr->Crit_dam["None"]+=64.8;
+//         ptr->Crit_dam[AT_NONE]+=64.8;
 //         ptr->Atv_stats->Flat_speed+=25;
-//         ptr->Hp_percent["None"]+=43.2;
+//         ptr->Hp_percent[AT_NONE]+=43.2;
 //         ptr->stats->Energy_recharge+=19.4;
         
 //         //substats
 //         ptr->Atv_stats->Flat_speed+=25.3;
-//         ptr->Crit_dam["None"]+=52.2;
+//         ptr->Crit_dam[AT_NONE]+=52.2;
         
 //     }
 //     void When_Combat(Ally *ptr){
 //         int temp = 0;
 //         for(int i=1;i<=Total_ally;i++){
 //         Ally_unit[i]->stats->Buff_note["Red_Herring_per_stack"] = 6;
-//         Ally_unit[i]->Atk_percent["None"]+=15;
+//         Ally_unit[i]->Atk_percent[AT_NONE]+=15;
 //         for(int k=0;k<Ally_unit[i]->stats->Memosprite_ptr.size();k++){
         
 //         }
@@ -92,19 +92,19 @@
 //         for(int j=0;j<Ally_unit[i]->stats->Element_type.size();j++){
 //         if(Ally_unit[i]->stats->Element_type[j]=="Quantum"){
 //             if(temp>=3){
-//                 Ally_unit[i]->Atk_percent["None"]+=30;
+//                 Ally_unit[i]->Atk_percent[AT_NONE]+=30;
 //             }else if(temp==2){
-//                 Ally_unit[i]->Atk_percent["None"]+=15;
+//                 Ally_unit[i]->Atk_percent[AT_NONE]+=15;
 //             }else if(temp==1){
-//                 Ally_unit[i]->Atk_percent["None"]+=5;
+//                 Ally_unit[i]->Atk_percent[AT_NONE]+=5;
 //             }
 //             for(int k=0;k<Ally_unit[i]->stats->Memosprite_ptr.size();k++){
 //             if(temp>=3){
-//                 Ally_unit[i]->stats->Memosprite_ptr[k]->Atk_percent["None"]+=30;
+//                 Ally_unit[i]->stats->Memosprite_ptr[k]->Atk_percent[AT_NONE]+=30;
 //             }else if(temp==2){
-//                 Ally_unit[i]->stats->Memosprite_ptr[k]->Atk_percent["None"]+=15;
+//                 Ally_unit[i]->stats->Memosprite_ptr[k]->Atk_percent[AT_NONE]+=15;
 //             }else if(temp==1){
-//                 Ally_unit[i]->stats->Memosprite_ptr[k]->Atk_percent["None"]+=5;
+//                 Ally_unit[i]->stats->Memosprite_ptr[k]->Atk_percent[AT_NONE]+=5;
 //             }
 //             }
 //             break;
@@ -129,9 +129,9 @@
 //             auto ally_ptr = dynamic_cast<Ally*>(ptr);
 //             Increase_energy(ally_ptr->stats.get(),30);
 //             Action_forward(Ally_unit[Main_dps_num]->Atv_stats.get(),50);
-//             ally_ptr->stats->Buff_note["Dreamdiver"] = ptr->Crit_dam["None"]*0.24+45;
+//             ally_ptr->stats->Buff_note["Dreamdiver"] = ptr->Crit_dam[AT_NONE]*0.24+45;
 //             if(Ally_unit[Main_dps_num]->stats->Buff_countdown["Dreamdiver"]<=Ally_unit[Main_dps_num]->Atv_stats->turn_cnt){
-//             Ally_unit[Main_dps_num]->Crit_dam["None"]+=ally_ptr->stats->Buff_note["Dreamdiver"];
+//             Ally_unit[Main_dps_num]->Crit_dam[AT_NONE]+=ally_ptr->stats->Buff_note["Dreamdiver"];
 //             }
 //             Ally_unit[Main_dps_num]->stats->Buff_countdown["Dreamdiver"] = Ally_unit[Main_dps_num]->Atv_stats->turn_cnt+2;
             
@@ -157,7 +157,7 @@
 //             if(Ally_unit[i]->stats->Buff_note["Red_Herring_per_stack"]==6){
 //                 Ally_unit[i]->stats->Buff_note["Red_Herring_per_stack"]=16;
 //                 if(ptr->stats->Eidolon>=1){
-//                     Ally_unit[i]->Atk_percent["None"]+=40;
+//                     Ally_unit[i]->Atk_percent[AT_NONE]+=40;
 //                 }
 //             }
             
@@ -168,9 +168,9 @@
 //             }
             
         
-//         Ally_unit[i]->Dmg_bonus["None"] -= Ally_unit[i]->stats->Buff_note["Red_Herring"];
+//         Ally_unit[i]->Dmg_bonus[AT_NONE] -= Ally_unit[i]->stats->Buff_note["Red_Herring"];
 //         Ally_unit[i]->stats->Buff_note["Red_Herring"] = ptr->stats->Stack["Red_Herring"]*16;
-//         Ally_unit[i]->Dmg_bonus["None"] += Ally_unit[i]->stats->Buff_note["Red_Herring"];
+//         Ally_unit[i]->Dmg_bonus[AT_NONE] += Ally_unit[i]->stats->Buff_note["Red_Herring"];
 //         }
 //         Deal_damage();
 //     }
@@ -180,27 +180,27 @@
 //                 ++ptr->stats->Stack["Red_Herring"];
 //                 if(ptr->stats->Eidolon>=2){
 //                 for(int i=1;i<=Total_ally;i++){
-//                 Ally_unit[i]->Def_shred["None"]+=8;
+//                 Ally_unit[i]->Def_shred[AT_NONE]+=8;
 //                 }
 //                 }
 //             }
 //             for(int i=1;i<=Total_ally;i++){
-//                 Ally_unit[i]->Dmg_bonus["None"] -= Ally_unit[i]->stats->Buff_note["Red_Herring"];
+//                 Ally_unit[i]->Dmg_bonus[AT_NONE] -= Ally_unit[i]->stats->Buff_note["Red_Herring"];
 //                 Ally_unit[i]->stats->Buff_note["Red_Herring"] = ptr->stats->Stack["Red_Herring"]*Ally_unit[i]->stats->Buff_note["Red_Herring_per_stack"];
-//                 Ally_unit[i]->Dmg_bonus["None"] += Ally_unit[i]->stats->Buff_note["Red_Herring"];
+//                 Ally_unit[i]->Dmg_bonus[AT_NONE] += Ally_unit[i]->stats->Buff_note["Red_Herring"];
 //                 Ally_unit[i]->stats->Buff_countdown["Red_Herring"] = Ally_unit[i]->Atv_stats->turn_cnt+2;
 //             }
 //         }
 //         ptr->stats->Buff_note["Last_sp"] = sp;
 //         if(turn->Character_num==Main_dps_num&&turn->Side=="Ally"){
 //             if(Ally_unit[Main_dps_num]->stats->Buff_countdown["Dreamdiver"] == Ally_unit[Main_dps_num]->Atv_stats->turn_cnt){
-//                 Ally_unit[Main_dps_num]->Crit_dam["None"]-=ptr->stats->Buff_note["Dreamdiver"];
+//                 Ally_unit[Main_dps_num]->Crit_dam[AT_NONE]-=ptr->stats->Buff_note["Dreamdiver"];
 //             }
 //         }
 //         if(Ally_unit[Main_dps_num]->stats->Buff_countdown["Dreamdiver"]>Ally_unit[Main_dps_num]->Atv_stats->turn_cnt){
-//             Ally_unit[Main_dps_num]->Crit_dam["None"]-=ptr->stats->Buff_note["Dreamdiver"];
-//             ptr->stats->Buff_note["Dreamdiver"] = ptr->Crit_dam["None"]*0.24+45;
-//             Ally_unit[Main_dps_num]->Crit_dam["None"]+=ptr->stats->Buff_note["Dreamdiver"];
+//             Ally_unit[Main_dps_num]->Crit_dam[AT_NONE]-=ptr->stats->Buff_note["Dreamdiver"];
+//             ptr->stats->Buff_note["Dreamdiver"] = ptr->Crit_dam[AT_NONE]*0.24+45;
+//             Ally_unit[Main_dps_num]->Crit_dam[AT_NONE]+=ptr->stats->Buff_note["Dreamdiver"];
 //         }
 //     }
 //     void After_turn(Ally *ptr){
@@ -208,14 +208,14 @@
 //         if(Ally_unit[turn->Character_num]->stats->Buff_countdown["Thousand_Faces"]==Ally_unit[turn->Character_num]->Atv_stats->turn_cnt){
 //             Ally_unit[turn->Character_num]->stats->Buff_note["Red_Herring_per_stack"] = 6;
 //             if(ptr->stats->Eidolon>=1){
-//                     Ally_unit[turn->Character_num]->Atk_percent["None"]+=40;
+//                     Ally_unit[turn->Character_num]->Atk_percent[AT_NONE]+=40;
 //                 }
-//             Ally_unit[turn->Character_num]->Dmg_bonus["None"] -= Ally_unit[turn->Character_num]->stats->Buff_note["Red_Herring"];
+//             Ally_unit[turn->Character_num]->Dmg_bonus[AT_NONE] -= Ally_unit[turn->Character_num]->stats->Buff_note["Red_Herring"];
 //             Ally_unit[turn->Character_num]->stats->Buff_note["Red_Herring"] = ptr->stats->Stack["Red_Herring"]*Ally_unit[turn->Character_num]->stats->Buff_note["Red_Herring_per_stack"];
-//             Ally_unit[turn->Character_num]->Dmg_bonus["None"] += Ally_unit[turn->Character_num]->stats->Buff_note["Red_Herring"];
+//             Ally_unit[turn->Character_num]->Dmg_bonus[AT_NONE] += Ally_unit[turn->Character_num]->stats->Buff_note["Red_Herring"];
 //         }
 //         if( Ally_unit[turn->Character_num]->stats->Buff_countdown["Red_Herring"] == Ally_unit[turn->Character_num]->Atv_stats->turn_cnt){
-//             Ally_unit[turn->Character_num]->Dmg_bonus["None"] -= Ally_unit[turn->Character_num]->stats->Buff_note["Red_Herring"];
+//             Ally_unit[turn->Character_num]->Dmg_bonus[AT_NONE] -= Ally_unit[turn->Character_num]->stats->Buff_note["Red_Herring"];
 //             Ally_unit[turn->Character_num]->stats->Buff_note["Red_Herring"] =0;
 //         }
 //     }
@@ -225,22 +225,22 @@
 //                 ++ptr->stats->Stack["Red_Herring"];
 //                 if(ptr->stats->Eidolon>=2){
 //                 for(int i=1;i<=Total_ally;i++){
-//                 Ally_unit[i]->Def_shred["None"]+=8;
+//                 Ally_unit[i]->Def_shred[AT_NONE]+=8;
 //                 }
 //                 }
 //             }
 //             for(int i=1;i<=Total_ally;i++){
-//                 Ally_unit[i]->Dmg_bonus["None"] -= Ally_unit[i]->stats->Buff_note["Red_Herring"];
+//                 Ally_unit[i]->Dmg_bonus[AT_NONE] -= Ally_unit[i]->stats->Buff_note["Red_Herring"];
 //                 Ally_unit[i]->stats->Buff_note["Red_Herring"] = ptr->stats->Stack["Red_Herring"]*Ally_unit[i]->stats->Buff_note["Red_Herring_per_stack"];
-//                 Ally_unit[i]->Dmg_bonus["None"] += Ally_unit[i]->stats->Buff_note["Red_Herring"];
+//                 Ally_unit[i]->Dmg_bonus[AT_NONE] += Ally_unit[i]->stats->Buff_note["Red_Herring"];
 //                 Ally_unit[i]->stats->Buff_countdown["Red_Herring"] = Ally_unit[i]->Atv_stats->turn_cnt+2;
 //             }
 //         }
 //         ptr->stats->Buff_note["Last_sp"] = sp;
 //         if(Ally_unit[Main_dps_num]->stats->Buff_countdown["Dreamdiver"]>Ally_unit[Main_dps_num]->Atv_stats->turn_cnt){
-//             Ally_unit[Main_dps_num]->Crit_dam["None"]-=ptr->stats->Buff_note["Dreamdiver"];
-//             ptr->stats->Buff_note["Dreamdiver"] = ptr->Crit_dam["None"]*0.24+45;
-//             Ally_unit[Main_dps_num]->Crit_dam["None"]+=ptr->stats->Buff_note["Dreamdiver"];
+//             Ally_unit[Main_dps_num]->Crit_dam[AT_NONE]-=ptr->stats->Buff_note["Dreamdiver"];
+//             ptr->stats->Buff_note["Dreamdiver"] = ptr->Crit_dam[AT_NONE]*0.24+45;
+//             Ally_unit[Main_dps_num]->Crit_dam[AT_NONE]+=ptr->stats->Buff_note["Dreamdiver"];
 //         }
 //     }
 //     void After_attack(Ally *ptr, Combat_data &data_){
@@ -249,22 +249,22 @@
 //                 ++ptr->stats->Stack["Red_Herring"];
 //                 if(ptr->stats->Eidolon>=2){
 //                 for(int i=1;i<=Total_ally;i++){
-//                 Ally_unit[i]->Def_shred["None"]+=8;
+//                 Ally_unit[i]->Def_shred[AT_NONE]+=8;
 //                 }
 //                 }
 //             }
 //             for(int i=1;i<=Total_ally;i++){
-//                 Ally_unit[i]->Dmg_bonus["None"] -= Ally_unit[i]->stats->Buff_note["Red_Herring"];
+//                 Ally_unit[i]->Dmg_bonus[AT_NONE] -= Ally_unit[i]->stats->Buff_note["Red_Herring"];
 //                 Ally_unit[i]->stats->Buff_note["Red_Herring"] = ptr->stats->Stack["Red_Herring"]*Ally_unit[i]->stats->Buff_note["Red_Herring_per_stack"];
-//                 Ally_unit[i]->Dmg_bonus["None"] += Ally_unit[i]->stats->Buff_note["Red_Herring"];
+//                 Ally_unit[i]->Dmg_bonus[AT_NONE] += Ally_unit[i]->stats->Buff_note["Red_Herring"];
 //                 Ally_unit[i]->stats->Buff_countdown["Red_Herring"] = Ally_unit[i]->Atv_stats->turn_cnt+2;
 //             }
 //         }
 //         ptr->stats->Buff_note["Last_sp"] = sp;
 //         if(Ally_unit[Main_dps_num]->stats->Buff_countdown["Dreamdiver"]>Ally_unit[Main_dps_num]->Atv_stats->turn_cnt){
-//             Ally_unit[Main_dps_num]->Crit_dam["None"]-=ptr->stats->Buff_note["Dreamdiver"];
-//             ptr->stats->Buff_note["Dreamdiver"] = ptr->Crit_dam["None"]*0.24+45;
-//             Ally_unit[Main_dps_num]->Crit_dam["None"]+=ptr->stats->Buff_note["Dreamdiver"];
+//             Ally_unit[Main_dps_num]->Crit_dam[AT_NONE]-=ptr->stats->Buff_note["Dreamdiver"];
+//             ptr->stats->Buff_note["Dreamdiver"] = ptr->Crit_dam[AT_NONE]*0.24+45;
+//             Ally_unit[Main_dps_num]->Crit_dam[AT_NONE]+=ptr->stats->Buff_note["Dreamdiver"];
 //         }
 //     }
 //     void Buff_func(Ally *ptr, Combat_data &data_){
@@ -273,22 +273,22 @@
 //                 ++ptr->stats->Stack["Red_Herring"];
 //                 if(ptr->stats->Eidolon>=2){
 //                 for(int i=1;i<=Total_ally;i++){
-//                 Ally_unit[i]->Def_shred["None"]+=8;
+//                 Ally_unit[i]->Def_shred[AT_NONE]+=8;
 //                 }
 //                 }
 //             }
 //             for(int i=1;i<=Total_ally;i++){
-//                 Ally_unit[i]->Dmg_bonus["None"] -= Ally_unit[i]->stats->Buff_note["Red_Herring"];
+//                 Ally_unit[i]->Dmg_bonus[AT_NONE] -= Ally_unit[i]->stats->Buff_note["Red_Herring"];
 //                 Ally_unit[i]->stats->Buff_note["Red_Herring"] = ptr->stats->Stack["Red_Herring"]*Ally_unit[i]->stats->Buff_note["Red_Herring_per_stack"];
-//                 Ally_unit[i]->Dmg_bonus["None"] += Ally_unit[i]->stats->Buff_note["Red_Herring"];
+//                 Ally_unit[i]->Dmg_bonus[AT_NONE] += Ally_unit[i]->stats->Buff_note["Red_Herring"];
 //                 Ally_unit[i]->stats->Buff_countdown["Red_Herring"] = Ally_unit[i]->Atv_stats->turn_cnt+2;
 //             }
 //         }
 //         ptr->stats->Buff_note["Last_sp"] = sp;
 //         if(Ally_unit[Main_dps_num]->stats->Buff_countdown["Dreamdiver"]>Ally_unit[Main_dps_num]->Atv_stats->turn_cnt){
-//             Ally_unit[Main_dps_num]->Crit_dam["None"]-=ptr->stats->Buff_note["Dreamdiver"];
-//             ptr->stats->Buff_note["Dreamdiver"] = ptr->Crit_dam["None"]*0.24+45;
-//             Ally_unit[Main_dps_num]->Crit_dam["None"]+=ptr->stats->Buff_note["Dreamdiver"];
+//             Ally_unit[Main_dps_num]->Crit_dam[AT_NONE]-=ptr->stats->Buff_note["Dreamdiver"];
+//             ptr->stats->Buff_note["Dreamdiver"] = ptr->Crit_dam[AT_NONE]*0.24+45;
+//             Ally_unit[Main_dps_num]->Crit_dam[AT_NONE]+=ptr->stats->Buff_note["Dreamdiver"];
 //         }
 //     }
 //     void Start_game(Ally *ptr){

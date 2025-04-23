@@ -13,7 +13,7 @@ namespace Destruction_Lightcone{
             ptr->Light_cone.Name = "FireFly_LC";
             string debuffName = ptr->getSubUnit()->getUnitName() + " FireFlyLC debuff";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,debuffName]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"] += 50 + 10 * superimpose;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] += 50 + 10 * superimpose;
             }));
             
     

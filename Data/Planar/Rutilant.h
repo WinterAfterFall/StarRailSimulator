@@ -12,7 +12,7 @@ namespace Planar{
         
         ptr->Planar.Name = "Rutilant";
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 8;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 8;
         }));
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {

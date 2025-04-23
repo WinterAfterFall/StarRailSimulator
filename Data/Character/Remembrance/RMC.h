@@ -63,9 +63,9 @@ namespace RMC{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 14;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"]["None"] += 14;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD]["None"] += 37.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 14;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"][AT_NONE] += 14;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AT_NONE] += 37.3;
 
             // relic
 
@@ -85,7 +85,7 @@ namespace RMC{
 
 
         Setup_Memo_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
-            ptr->Sub_Unit_ptr[1]->Stats_type["Flat_Hp"]["None"] += 688;
+            ptr->Sub_Unit_ptr[1]->Stats_type["Flat_Hp"][AT_NONE] += 688;
             ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed = -1;
             ptr->Sub_Unit_ptr[1]->currentHP = 0;
         }));

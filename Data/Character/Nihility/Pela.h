@@ -54,9 +54,9 @@ namespace Pela{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_each_element["Ice"]["None"]["None"] += 22.4;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"]["None"] += 10;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element["Ice"][AT_NONE][AT_NONE] += 22.4;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"][AT_NONE] += 10;
 
             // relic
 
@@ -72,18 +72,18 @@ namespace Pela{
         }));
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            buffAllAlly({{"Ehr", "None", 10}});
+            buffAllAlly({{"Ehr", AT_NONE, 10}});
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (turn->Side == "Enemy") {
                 if (Enemy_unit[turn->Unit_num]->Debuff_time_count["Zone_Suppression"] == Enemy_unit[turn->Unit_num]->Atv_stats->turn_cnt) {
                     Enemy_unit[turn->Unit_num]->Debuff["Zone_Suppression"] = 0;
-                    Enemy_unit[turn->Unit_num]->Stats_type[ST_DEF_SHRED]["None"] -= 42;
+                    Enemy_unit[turn->Unit_num]->Stats_type[ST_DEF_SHRED][AT_NONE] -= 42;
                     --Enemy_unit[turn->Unit_num]->Total_debuff;
                 }
                 if (Enemy_unit[turn->Unit_num]->Debuff_time_count["Pela_Technique"] == turn->turn_cnt) {
-                    Enemy_unit[turn->Unit_num]->Stats_type[ST_DEF_SHRED]["None"] -= 20;
+                    Enemy_unit[turn->Unit_num]->Stats_type[ST_DEF_SHRED][AT_NONE] -= 20;
                     Enemy_unit[turn->Unit_num]->Debuff["Pela_Technique"] = 0;
                     --Enemy_unit[turn->Unit_num]->Total_debuff;
                 }

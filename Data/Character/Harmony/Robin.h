@@ -74,10 +74,10 @@ namespace Robin{
 
                     ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"] = calculateAtkForBuff(ptr->Sub_Unit_ptr[0].get(), 22.8) + 200;
                     buffAllAlly({{"Flat_Atk", AT_TEMP, ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]}});
-                    buffAllAlly({{"Flat_Atk", "None", ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]}});
+                    buffAllAlly({{"Flat_Atk", AT_NONE, ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]}});
 
                     buffAllAlly({{ST_CD, "Fua", 25}});
-                    if(ptr->Eidolon >= 1)buffAllAlly({{"Respen", "None", 24}});
+                    if(ptr->Eidolon >= 1)buffAllAlly({{"Respen", AT_NONE, 24}});
                     if(ptr->Eidolon >= 2)Robinptr->buffAllAllyExcludingBuffer({{ST_SPD,ST_SPD_P,16}});
                     
                     All_Action_forward(100);
@@ -91,8 +91,8 @@ namespace Robin{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 28;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"]["None"] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 28;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"][AT_NONE] += 18;
             ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 5;
 
             // relic
@@ -114,12 +114,12 @@ namespace Robin{
         }));
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
-            buffAllAlly({{ST_CD, "None", 20}});
+            buffAllAlly({{ST_CD, AT_NONE, 20}});
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Robinptr](){
             if(Robinptr->isBuffEnd("Pinion'sAria")){
-                buffAllAlly({{ST_DMG, "None", -50}});
+                buffAllAlly({{ST_DMG, AT_NONE, -50}});
             }
         }));
 
@@ -133,17 +133,17 @@ namespace Robin{
                 double x1 = 0, x2 = 0;
                 data_->Additional_set(ptr->Sub_Unit_ptr[0].get(), "Single_target","Robin Additional");
 
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 100;
-                x1 = ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD]["None"];
-                x2 = Enemy_unit[Main_Enemy_num]->Stats_type[ST_CD]["None"];
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD]["None"] = 150;
-                Enemy_unit[Main_Enemy_num]->Stats_type[ST_CD]["None"] = 0;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 100;
+                x1 = ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AT_NONE];
+                x2 = Enemy_unit[Main_Enemy_num]->Stats_type[ST_CD][AT_NONE];
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AT_NONE] = 150;
+                Enemy_unit[Main_Enemy_num]->Stats_type[ST_CD][AT_NONE] = 0;
 
                 Cal_Additional_damage(data_, Enemy_unit[Main_Enemy_num].get(), {120, 0, 0, 0});
 
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] -= 100;
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD]["None"] = x1;
-                Enemy_unit[Main_Enemy_num]->Stats_type[ST_CD]["None"] = x2;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] -= 100;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AT_NONE] = x1;
+                Enemy_unit[Main_Enemy_num]->Stats_type[ST_CD][AT_NONE] = x2;
             }
         }));
 
@@ -153,7 +153,7 @@ namespace Robin{
             if(StatsType == "Atk%" || StatsType == "Flat_Atk"){
                 double buffValue = calculateAtkForBuff(ptr->Sub_Unit_ptr[0].get(), 22.8) + 200;
                 buffAllAlly({{"Flat_Atk", AT_TEMP, buffValue - ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]}});
-                buffAllAlly({{"Flat_Atk", "None", buffValue - ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]}});
+                buffAllAlly({{"Flat_Atk", AT_NONE, buffValue - ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]}});
                 ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"] = buffValue;
             }
         }));
@@ -170,9 +170,9 @@ namespace Robin{
                 resetTurn(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
                 resetTurn(ptr->Countdown_ptr[0]->Atv_stats.get());
                 buffAllAlly({{"Flat_Atk", AT_TEMP, -ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]}});
-                buffAllAlly({{"Flat_Atk", "None", -ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]}});
+                buffAllAlly({{"Flat_Atk", AT_NONE, -ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]}});
                 buffAllAlly({{ST_CD, "Fua", -25}});
-                if(ptr->Eidolon >= 1)buffAllAlly({{"Respen", "None", -24}});
+                if(ptr->Eidolon >= 1)buffAllAlly({{"Respen", AT_NONE, -24}});
                 if(ptr->Eidolon >= 2)Robinptr->buffAllAllyExcludingBuffer({{ST_SPD,ST_SPD_P,-16}});
                 }
                 Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),100);
@@ -192,7 +192,7 @@ namespace Robin{
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,35);
-            buffAllAlly({{ST_DMG,"None",50}});
+            buffAllAlly({{ST_DMG,AT_NONE,50}});
             ptr->Sub_Unit_ptr[0]->setBuffCheck("Pinion'sAria",true);
             ptr->Sub_Unit_ptr[0]->extendBuffTime("Pinion'sAria", 3);
         };

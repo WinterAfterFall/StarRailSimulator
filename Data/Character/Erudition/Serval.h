@@ -45,8 +45,8 @@ namespace Serval{
         };
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"]["None"] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 18.7;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"][AT_NONE] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 18.7;
 
             // relic
 
@@ -81,7 +81,7 @@ namespace Serval{
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
             if (turn->Unit_Name == "Serval") {
                 if (ptr->Sub_Unit_ptr[0].get()->isBuffEnd("Serval_A6")) {
-                    ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] -= 20;
+                    ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] -= 20;
                 }
             }
             if (turn->Side == "Enemy") {
@@ -97,12 +97,12 @@ namespace Serval{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
             Increase_energy(ptr, 15);
             if (ptr->Eidolon >= 6) {
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG]["None"] += 30;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG][AT_NONE] += 30;
             }
         }));
 
         Dot_List.push_back(TriggerDot_Func(PRIORITY_BUFF, [ptr,Servalptr](Enemy* target, double Dot_ratio, string Dot_type) {
-            if (Dot_type != "None" && Dot_type != "Lightning") return;
+            if (Dot_type != AT_NONE && Dot_type != "Lightning") return;
             if (!target->getDebuff("Serval_Shock")) return;
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
             data_->Dot_set(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Serval Shock");

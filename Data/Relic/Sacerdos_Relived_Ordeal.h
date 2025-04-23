@@ -18,7 +18,7 @@ namespace Relic{
         Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
             if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_->traceType == "Single_target") {
                 for (auto e : data_->Target_Buff) {
-                    Stack_Buff_single_target(e, ST_CD, "None", 18, 1, 2, "Sacerdos");
+                    Stack_Buff_single_target(e, ST_CD, AT_NONE, 18, 1, 2, "Sacerdos");
                     Extend_Buff_single_target(e, "Sacerdos", 2);
                 }
             }
@@ -29,7 +29,7 @@ namespace Relic{
             SubUnit *tempstats = dynamic_cast<SubUnit *>(turn->ptr_to_unit);
             if (!tempstats) return;
             if (Buff_end(tempstats, "Sacerdos")) {
-                Buff_single_target(tempstats, ST_CD, "None", -(tempstats->Stack["Sacerdos"] * 18));
+                Buff_single_target(tempstats, ST_CD, AT_NONE, -(tempstats->Stack["Sacerdos"] * 18));
                 tempstats->Stack["Sacerdos"] = 0;
             }
         }));

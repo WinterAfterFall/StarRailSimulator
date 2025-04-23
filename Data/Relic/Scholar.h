@@ -11,7 +11,7 @@ namespace Relic{
     void Scholar(Ally *ptr){
         ptr->Relic.Name = "Scholar";
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 8;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 8;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG]["Ultimate"] += 20;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG]["Skill"] += 20;
         }));

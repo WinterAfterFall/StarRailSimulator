@@ -12,7 +12,7 @@ namespace Relic{
         ptr->Relic.Name = "Hero_Wreath";
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += 12;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 12;
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
@@ -29,7 +29,7 @@ namespace Relic{
 
         Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
             if (data_->Attacker->Atv_stats->Side == "Ally" && ptr->Sub_Unit_ptr.size() > 1) {
-                Buff_single_with_all_memo_each(ptr, ST_CD, "None", 30, "Hero_Wreath_buff");
+                Buff_single_with_all_memo_each(ptr, ST_CD, AT_NONE, 30, "Hero_Wreath_buff");
             }
             Extend_Buff_single_with_all_memo(ptr, "Hero_Wreath_buff", 2);
         }));

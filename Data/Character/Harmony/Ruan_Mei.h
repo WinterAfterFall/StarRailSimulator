@@ -45,8 +45,8 @@ namespace Ruan_Mei{
             data_->actionFunction = [ptr,RMptr](shared_ptr<AllyActionData> &data_){
                 if(ptr->Print)CharCmd::printUltStart("Ruan Mei");
                 if(RMptr->isHaveToAddBuff("RuanMei_Ult,2")){
-                    buffAllAlly({{"Respen", "None", 25}});
-                    if(ptr->Eidolon >= 1)buffAllAlly({{ST_DEF_SHRED, "None", 20}});
+                    buffAllAlly({{"Respen", AT_NONE, 25}});
+                    if(ptr->Eidolon >= 1)buffAllAlly({{ST_DEF_SHRED, AT_NONE, 20}});
                 }
             };
             Action_bar.push(data_);
@@ -54,8 +54,8 @@ namespace Ruan_Mei{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"] += 37.3;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Def%"]["None"] += 22.5;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] += 37.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Def%"][AT_NONE] += 22.5;
             ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 5;
 
             // relic
@@ -65,7 +65,7 @@ namespace Ruan_Mei{
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
             buffAllAlly({
-                {ST_BE, "None", 20},
+                {ST_BE, AT_NONE, 20},
                 {ST_SPD,ST_SPD_P,10}
             });
         }));
@@ -81,8 +81,8 @@ namespace Ruan_Mei{
                     Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
                     Increase_energy(ptr,30);
                     buffAllAlly({
-                        {ST_DMG,"None",68},
-                        {ST_BREAK_EFF,"None",50},
+                        {ST_DMG,AT_NONE,68},
+                        {ST_BREAK_EFF,AT_NONE,50},
                     });
                     ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Mei_Skill",3);
                 };
@@ -95,15 +95,15 @@ namespace Ruan_Mei{
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMptr](){
             if(RMptr->isBuffEnd("Mei_Skill")){
                 buffAllAlly({
-                    {ST_DMG,"None",-68},
-                    {ST_BREAK_EFF,"None",-50},
+                    {ST_DMG,AT_NONE,-68},
+                    {ST_BREAK_EFF,AT_NONE,-50},
                 });
             }
             if(turn->Char_Name == "Ruan_Mei"){
                 Increase_energy(ptr, 5);
                 if(RMptr->isBuffEnd("RuanMei_Ult")){
-                    buffAllAlly({{"Respen", "None", 25}});
-                    if(ptr->Eidolon >= 1)buffAllAlly({{ST_DEF_SHRED, "None", 20}});
+                    buffAllAlly({{"Respen", AT_NONE, 25}});
+                    if(ptr->Eidolon >= 1)buffAllAlly({{ST_DEF_SHRED, AT_NONE, 20}});
                     if(ptr->Print == 1)CharCmd::printUltEnd("Ruan Mei");
                 }
             }
@@ -111,7 +111,7 @@ namespace Ruan_Mei{
                 if(Enemy_unit[turn->Unit_num]->Debuff["RuanMei_Ult_bloom"] == 1){
                     Turn_Skip = 1;
                     Enemy_unit[turn->Unit_num]->debuffRemove("RuanMei_Ult_bloom");
-                    Action_forward(Enemy_unit[turn->Unit_num]->Atv_stats.get(), -10 - (0.2 * (ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"])));
+                    Action_forward(Enemy_unit[turn->Unit_num]->Atv_stats.get(), -10 - (0.2 * (ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE])));
                     shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
                     data_->Break_dmg_set(ptr->Sub_Unit_ptr[0].get(),"RuanMei Break");
                     double temp = 0.5;
@@ -168,8 +168,8 @@ namespace Ruan_Mei{
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
             buffAllAlly({
-                {ST_DMG,"None",68},
-                {ST_BREAK_EFF,"None",50},
+                {ST_DMG,AT_NONE,68},
+                {ST_BREAK_EFF,AT_NONE,50},
             });
             ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Mei_Skill",3);
         };

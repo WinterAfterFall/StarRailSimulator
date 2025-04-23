@@ -76,7 +76,7 @@ void SubUnit::buffSingle(vector<BuffClass> buffSet){
     for(BuffClass &buff : buffSet){
         if(buff.statsType==ST_SPD)this->speedBuff(buff);
         else this->Stats_type[buff.statsType][buff.actionType] += buff.value;
-        if(buff.actionType=="None")StatsAdjust(this,buff.statsType);
+        if(buff.actionType==AT_NONE)StatsAdjust(this,buff.statsType);
     }
 }
 void SubUnit::buffSingle(vector<BuffClass> buffSet,string buffName,int extend){
@@ -84,7 +84,7 @@ void SubUnit::buffSingle(vector<BuffClass> buffSet,string buffName,int extend){
         for(BuffClass &buff : buffSet){
             if(buff.statsType==ST_SPD)this->speedBuff(buff);
             else this->Stats_type[buff.statsType][buff.actionType] += buff.value;
-            if(buff.actionType=="None")StatsAdjust(this,buff.statsType);
+            if(buff.actionType==AT_NONE)StatsAdjust(this,buff.statsType);
         }
     }
 }

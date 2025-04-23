@@ -186,20 +186,20 @@ void Dot_trigger(double Dot_ratio,Enemy *target,string Dot_type){
     data_->Action_type.second = "Dot";
     data_->traceType = "Single_target";
     
-    if(target->Bleed > 0&&(Dot_type=="None"||"Physical")){
+    if(target->Bleed > 0&&(Dot_type==AT_NONE||"Physical")){
         data_->Attacker=Ally_unit[target->Bleeder]->Sub_Unit_ptr[0].get();
         data_->Damage_element = "Physical";
         data_->Skill_Type.push_back("Bleed");
         Cal_Dot_Toughness_break_damage(data_,target,Dot_ratio*2*(0.5+target->Max_toughness/40));
     }
-    if(target->Burn > 0&&(Dot_type=="None"||"Fire")){
+    if(target->Burn > 0&&(Dot_type==AT_NONE||"Fire")){
         data_->Attacker=Ally_unit[target->Burner]->Sub_Unit_ptr[0].get();
         data_->Damage_element = "Fire";
         data_->Skill_Type.resize(0);
         data_->Skill_Type.push_back("Burn");
         Cal_Dot_Toughness_break_damage(data_,target,Dot_ratio*1);
     }
-    if(target->Shock > 0&&(Dot_type=="None"||"Lightning")){
+    if(target->Shock > 0&&(Dot_type==AT_NONE||"Lightning")){
         data_->Attacker=Ally_unit[target->Shocker]->Sub_Unit_ptr[0].get();
         
         data_->Damage_element = "Lightning";
@@ -207,7 +207,7 @@ void Dot_trigger(double Dot_ratio,Enemy *target,string Dot_type){
         data_->Skill_Type.push_back("Shock");
         Cal_Dot_Toughness_break_damage(data_,target,Dot_ratio*2);
     }
-    if(target->Wind_shear > 0&&(Dot_type=="None"||"Wind")){
+    if(target->Wind_shear > 0&&(Dot_type==AT_NONE||"Wind")){
         data_->Attacker=Ally_unit[target->Wind_shearer]->Sub_Unit_ptr[0].get();
         data_->Skill_Type.resize(0);
         data_->Damage_element = "Wind";

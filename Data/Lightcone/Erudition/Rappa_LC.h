@@ -10,7 +10,7 @@ namespace Erudition_Lightcone{
             ptr->Light_cone.Name = "Rappa_LC";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE]["None"] += 50 + superimpose * 10;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] += 50 + superimpose * 10;
             }));
     
             Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {

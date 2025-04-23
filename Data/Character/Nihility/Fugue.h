@@ -70,16 +70,16 @@
 
 //     }
 //     void Reset(Ally *ptr){
-//         ptr->Hp_percent["None"]+=10;
-//         ptr->Break_effect["None"]+=24;
+//         ptr->Hp_percent[AT_NONE]+=10;
+//         ptr->Break_effect[AT_NONE]+=24;
 //         ptr->Atv_stats->Flat_speed+=14;
 
 
 //         //relic
 //         ptr->Effect_hit_rate+=43.2;
 //         ptr->Atv_stats->Flat_speed+=25;
-//         ptr->Atk_percent["None"]+=43.2;
-//         //ptr->Break_effect["None"]+=64.8;
+//         ptr->Atk_percent[AT_NONE]+=43.2;
+//         //ptr->Break_effect[AT_NONE]+=64.8;
 //         ptr->stats->Energy_recharge+=19.4;
 
 //         //substats
@@ -87,7 +87,7 @@
 //         ptr->Atv_stats->Flat_speed+=ptr->stats->ExtraSpeed;
 
 //         //skill
-//         ptr->Break_effect["None"]+=30;
+//         ptr->Break_effect[AT_NONE]+=30;
 //     }
 //     void Turn_func(Unit *ptr){
 //         auto ally_ptr = dynamic_cast<Ally*>(ptr);
@@ -124,8 +124,8 @@
 
 //         ptr->stats->Buff_check["Fugue_Skill"]=1;
 //         ptr->stats->Buff_check["Fugue_Skill"]=ptr->Atv_stats->turn_cnt+3;
-//         Ally_unit[Main_dps_num]->Break_effect["None"]+=30;
-//         if(ptr->stats->Eidolon>=1)Ally_unit[Main_dps_num]->Weakness_Break_Efficiency["None"]+=50;
+//         Ally_unit[Main_dps_num]->Break_effect[AT_NONE]+=30;
+//         if(ptr->stats->Eidolon>=1)Ally_unit[Main_dps_num]->Weakness_Break_Efficiency[AT_NONE]+=50;
 
 
 //         Combat_data data_;
@@ -171,8 +171,8 @@
 //         if(turn->Name=="Fugue"){
 //             if(ptr->stats->Buff_check["Fugue_Skill"]==ptr->Atv_stats->turn_cnt){
 //                 ptr->stats->Buff_check["Fugue_Skill"]=0;
-//                 Ally_unit[Main_dps_num]->Break_effect["None"]-=30;
-//                 if(ptr->stats->Eidolon>=1)Ally_unit[Main_dps_num]->Weakness_Break_Efficiency["None"]-=50;
+//                 Ally_unit[Main_dps_num]->Break_effect[AT_NONE]-=30;
+//                 if(ptr->stats->Eidolon>=1)Ally_unit[Main_dps_num]->Weakness_Break_Efficiency[AT_NONE]-=50;
 
 //             }
 //         }
@@ -180,7 +180,7 @@
 //     void After_turn(Ally *ptr){
 //         if(turn->Side=="Enemy"){
 //             if(Enemy_unit[turn->Character_num]->stats->Debuff_time_count["Torrid_Scorch"]==Enemy_unit[turn->Character_num]->Atv_stats->turn_cnt){
-//                 Enemy_unit[turn->Character_num]->Def_shred["None"]-=18;
+//                 Enemy_unit[turn->Character_num]->Def_shred[AT_NONE]-=18;
 //                 Enemy_unit[turn->Character_num]->stats->Total_debuff--;
 //                 Enemy_unit[turn->Character_num]->stats->Debuff["Torrid_Scorch"]=0;
 //             }
@@ -191,7 +191,7 @@
 //         }
 //         if(turn->Side=="Ally"&&Ally_unit[turn->Character_num]->Atv_stats->Name!="Fugue"){
 //             if(Ally_unit[turn->Character_num]->stats->Buff_countdown["Phecda Primordia"] == Ally_unit[turn->Character_num]->Atv_stats->turn_cnt){
-//                 Ally_unit[turn->Character_num]->Break_effect["None"]-=18*Ally_unit[turn->Character_num]->stats->Stack["Phecda Primordia"];
+//                 Ally_unit[turn->Character_num]->Break_effect[AT_NONE]-=18*Ally_unit[turn->Character_num]->stats->Stack["Phecda Primordia"];
 //                 Ally_unit[turn->Character_num]->stats->Stack["Phecda Primordia"] = 0;
 //             }
 //         }
@@ -214,7 +214,7 @@
 //                 if(Enemy_unit[i]->stats->Debuff["Torrid_Scorch"]==1)continue;
 //                 Enemy_unit[i]->stats->Total_debuff++;
 //                 Enemy_unit[i]->stats->Debuff["Torrid_Scorch"]=1;
-//                 Enemy_unit[i]->Def_shred["None"]+=18;
+//                 Enemy_unit[i]->Def_shred[AT_NONE]+=18;
 //             }
             
 //             if(0<sz2 && Enemy_unit[i]->stats->Target_type=="Adjacent"){
@@ -223,7 +223,7 @@
 //                 if(Enemy_unit[i]->stats->Debuff["Torrid_Scorch"]==1)continue;
 //                 Enemy_unit[i]->stats->Total_debuff++;
 //                 Enemy_unit[i]->stats->Debuff["Torrid_Scorch"]=1;
-//                 Enemy_unit[i]->Def_shred["None"]+=18;
+//                 Enemy_unit[i]->Def_shred[AT_NONE]+=18;
 //             }
             
 //             if(0<sz3 && Enemy_unit[i]->stats->Target_type=="Other"){
@@ -232,7 +232,7 @@
 //                 if(Enemy_unit[i]->stats->Debuff["Torrid_Scorch"]==1)continue;
 //                 Enemy_unit[i]->stats->Total_debuff++;
 //                 Enemy_unit[i]->stats->Debuff["Torrid_Scorch"]=1;
-//                 Enemy_unit[i]->Def_shred["None"]+=18;
+//                 Enemy_unit[i]->Def_shred[AT_NONE]+=18;
 //             }
             
             
@@ -260,7 +260,7 @@
 //                 if(Enemy_unit[i]->stats->Debuff["Torrid_Scorch"]==1)continue;
 //                 Enemy_unit[i]->stats->Total_debuff++;
 //                 Enemy_unit[i]->stats->Debuff["Torrid_Scorch"]=1;
-//                 Enemy_unit[i]->Def_shred["None"]+=18;
+//                 Enemy_unit[i]->Def_shred[AT_NONE]+=18;
 //             }
 //         }
 //     }
@@ -275,7 +275,7 @@
 //             if(Ally_unit[i]->stats->Stack["Phecda Primordia"]<2){
 //                 Ally_unit[i]->stats->Stack["Phecda Primordia"]++;
                 
-//                 Ally_unit[i]->Break_effect["None"]+=18;
+//                 Ally_unit[i]->Break_effect[AT_NONE]+=18;
 //             }
 //             Ally_unit[i]->stats->Buff_countdown["Phecda Primordia"] = Ally_unit[i]->Atv_stats->turn_cnt+2;
 //         }
