@@ -14,21 +14,20 @@ namespace Erudition_Lightcone{
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                if (Buff_end(ptr->Sub_Unit_ptr[0].get(), "The_Herta_LC_buff")) {
-                    ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Skill"] -= 50 + 10 * superimpose;
-                    ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Ultimate"] -= 50 + 10 * superimpose;
-                    ptr->Sub_Unit_ptr[0]->Buff_check["The_Herta_LC_buff"] = 0;
+                if (ptr->getSubUnit()->isBuffEnd("The_Herta_LC_buff")) {
+                    ptr->getSubUnit()->buffSingle({
+                        {ST_DMG,AT_SKILL,-(50.0 + 10 * superimpose)},
+                        {ST_DMG,AT_ULT,-(50.0 + 10 * superimpose)},
+                });
                 }
             }));
     
             Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 if (data_->Action_type.second == "Ultimate" && data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
-                    if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "The_Herta_LC_buff")) {
-                        ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Skill"] += 50 + 10 * superimpose;
-                        ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Ultimate"] += 50 + 10 * superimpose;
-                        ptr->Sub_Unit_ptr[0]->Buff_check["The_Herta_LC_buff"] = 1;
-                    }
-                    Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "The_Herta_LC_buff", 3);
+                    ptr->getSubUnit()->buffSingle({
+                        {ST_DMG,AT_SKILL,(50.0 + 10 * superimpose)},
+                        {ST_DMG,AT_ULT,(50.0 + 10 * superimpose)},
+                        },"The_Herta_LC_buff",3);
                     if (ptr->Ult_cost >= 140) {
                         Skill_point(ptr->Sub_Unit_ptr[0].get(), 1);
                     }
@@ -37,23 +36,18 @@ namespace Erudition_Lightcone{
     
             Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 if (data_->Action_type.second == "Ultimate" && data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
-                    if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "The_Herta_LC_buff")) {
-                        ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Skill"] += 50 + 10 * superimpose;
-                        ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["Ultimate"] += 50 + 10 * superimpose;
-                        ptr->Sub_Unit_ptr[0]->Buff_check["The_Herta_LC_buff"] = 1;
-                    }
-                    Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "The_Herta_LC_buff", 3);
+                    if (data_->Action_type.second == "Ultimate" && data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
+                    ptr->getSubUnit()->buffSingle({
+                        {ST_DMG,AT_SKILL,(50.0 + 10 * superimpose)},
+                        {ST_DMG,AT_ULT,(50.0 + 10 * superimpose)},
+                        },"The_Herta_LC_buff",3);
                     if (ptr->Ult_cost >= 140) {
                         Skill_point(ptr->Sub_Unit_ptr[0].get(), 1);
                     }
                 }
+                }
             }));
         };
-    }
-    void The_Herta_LC(Ally *ptr){
-
-        
-        
     }
 }
 #endif

@@ -14,10 +14,10 @@ namespace Erudition_Lightcone{
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                if (Buff_end(ptr->Sub_Unit_ptr[0].get(), "Calculus_Speed_buff")) {
-                    Speed_Buff(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), -(6 + 2 * superimpose), 0);
-                    ptr->Sub_Unit_ptr[0]->Buff_check["Calculus_Speed_buff"] = 0;
+                if (ptr->getSubUnit()->isBuffEnd("Calculus_Speed_buff")) {
+                    ptr->getSubUnit()->buffSingle({{ST_SPD,ST_SPD_PERCENT,-(6.0 + 2 * superimpose)}});
                 }
+                
             }));
     
             Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
@@ -26,11 +26,7 @@ namespace Erudition_Lightcone{
     
                 ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += ptr->Sub_Unit_ptr[0]->Buff_note["Calculus_Atk_buff"];
                 if (ptr->Sub_Unit_ptr[0]->Buff_note["Calculus_Atk_buff"] >= 24) {
-                    if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Calculus_Speed_buff")) {
-                        Speed_Buff(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), (6 + 2 * superimpose), 0);
-                        ptr->Sub_Unit_ptr[0]->Buff_check["Calculus_Speed_buff"] = 1;
-                    }
-                    Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Calculus_Speed_buff", 1);
+                    ptr->getSubUnit()->buffSingle({{ST_SPD,ST_SPD_PERCENT,(6.0 + 2 * superimpose)}},"Calculus_Speed_buff",1);
                 }
             }));
         };

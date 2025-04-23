@@ -14,18 +14,13 @@ namespace Erudition_Lightcone{
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                if (Buff_end(ptr->Sub_Unit_ptr[0].get(), "Himeko_LC_buff")) {
+                if (ptr->getSubUnit()->isBuffEnd("Himeko_LC_buff")) {
                     ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["None"] -= 25+superimpose*5;
-                    ptr->Sub_Unit_ptr[0]->Buff_check["Himeko_LC_buff"] = 0;
                 }
             }));
     
             Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](Enemy *target, SubUnit *Breaker) {
-                if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Himeko_LC_buff")) {
-                    ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"]["None"] += 25+superimpose*5;
-                    ptr->Sub_Unit_ptr[0]->Buff_check["Himeko_LC_buff"] = 1;
-                }
-                Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Himeko_LC_buff", 1);
+                ptr->getSubUnit()->buffSingle({{ST_DMG,AT_NONE,(25.0 + superimpose*5)}},"Himeko_LC_buff",1);
             }));
         };
     }

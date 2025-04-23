@@ -28,10 +28,10 @@ public:
     int getNum(){
         return this->Atv_stats->Unit_num;
     }
-    int getUnitName(){
-        return this->Atv_stats->Unit_Name
+    string getUnitName(){
+        return this->Atv_stats->Unit_Name;
     }
-    int getCharName(){
+    string getCharName(){
         return this->Atv_stats->Char_Name;
     }
     void speedBuff(BuffClass buffSet){
