@@ -49,6 +49,8 @@ public:
     unordered_map<string,bool> Default_Weakness_type;
     unordered_map<string,bool> Weakness_type;
     unordered_map<string,double> DefaultElementRes;
+    int defaultWeaknessElementAmount;
+    int currentWeaknessElementAmount;
     
     double Total_toughness_broken_time =0;
     double when_toughness_broken;
@@ -108,6 +110,11 @@ public:
     //create
     void BaAttack(double SkillRatio,double energy);
     void AoeAttack(double SkillRatio,double energy);
+
+    //weaknessapply
+    // string debuffWeaknessapply(SubUnit *ptr, string debuffName);
+    // string debuffWeaknessapply(SubUnit *ptr, string debuffName,int extend);
+    // bool debuffWeaknessEND(string debuffName);
 
     //debuff.h
     bool debuffApply(SubUnit *ptr, string debuffName);

@@ -41,9 +41,12 @@ void SetupEnemy(double speed,double Toughness,pair<double,double> energy,pair<do
     for (auto& e : Enemy_weak) {
         enemyPtr->Weakness_type[e.first] = e.second;
     }
+    int amountweakness = 0;
     for (auto& e : Enemy_weak) {
         enemyPtr->Default_Weakness_type[e.first] = e.second;
+        if(e.second==1)amountweakness++;
     }
+    enemyPtr->defaultWeaknessElementAmount = amountweakness;
     
     for (auto& e : Enemy_res) {
         enemyPtr->DefaultElementRes[e.first] = e.second;
