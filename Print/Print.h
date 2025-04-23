@@ -18,6 +18,9 @@ void Print(){
     cout<<turn->turn_cnt<<" ";
     cout<<Ally_unit[1]->getSubUnit()->Buff_note["Newbud"]<<" ";
     cout<<Ally_unit[2]->Current_energy<<" ";
+    for(int i=1;i<= Total_enemy; i++){
+        cout<<Enemy_unit[i]->Stats_type[ST_DEF_SHRED][AT_NONE]<<" ";
+    }
     // cout<<Ally_unit[1]->Sub_Unit_ptr[0]->Atv_stats->Max_atv<<" ";
     // cout<<Ally_unit[1]->Sub_Unit_ptr[0]->Atv_stats->atv<<" ";
     // cout<<Ally_unit[2]->Sub_Unit_ptr[0]->Atv_stats->Max_atv<<" ";

@@ -73,12 +73,10 @@ void AllyActionData::AllyAction(){
         if(this->actionFunction)this->actionFunction(self);
         if(this->Turn_reset)resetTurn(turn);
         allEventBuff(self);
-        
-        
     }
     
     if(this->healPtr)Heal(*(this->healPtr.get()));
-    if(this->damageNote)Cal_AverageDamage(this->Attacker->ptr_to_unit);
+    if(this->damageNote)Cal_AverageDamage(this->Attacker->ptr_to_unit); 
 }
 void EnemyActionData::EnemyAction(){
     this->actionFunction();

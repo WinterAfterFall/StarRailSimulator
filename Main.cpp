@@ -17,7 +17,7 @@ using std::vector;
 Ally* Char1;
 Ally* Char2;
 Ally* Char3;
-Ally* Char4;
+Ally* Char4; 
 void SetValue(){
     Driver_num = 2;
     Driver_Type = AT_NONE; //Swap_pull Always_pull Double_turn None
@@ -31,7 +31,7 @@ void SetValue(){
     SuperBreak_Formula_check_mode = 0;  
     Break_Formula_check_mode = 0;
     
-    Normal_Damage_Formula_check_mode = 0;
+    Normal_Damage_Formula_check_mode = 1;
     Normal_Damage_check_mode = 0;
     Additional_Damage_Formula_check_mode = 0;
     Additional_Damage_check_mode = 0;
@@ -45,8 +45,9 @@ void SetCharacterPtr(){
     Char3 = Ally_unit[3].get();
     Char4 = Ally_unit[4].get();
 }
+
 int main(){
-    
+
     SetValue();
     The_Herta::Setup(2,Erudition_Lightcone::The_Herta_LC(1),Relic::Scholar,Planar::Izumo);
     // Aglaea::Setup(1,Remembrance_Lightcone::SweatNowCryLess(1),Relic::Hero_Wreath,Planar::The_Wondrous_BananAmusement_Park);
@@ -60,7 +61,9 @@ int main(){
 
     //Sub dps
     // Jade::Setup(0,Erudition_Lightcone::Cosmos_Fell(5),Relic::Grand_Duke,Planar::Izumo);
-    //Serval::Setup(6,Harmony_Lightcone::Meshing_Cogs,Relic::Double_Speed,Planar::Lushaka);
+    Anaxa::Setup(0,Erudition_Lightcone::Anaxa_LC(1),Relic::Eagle_Beaked_Helmet,Planar::Izumo);
+
+    // Serval::Setup(6,Erudition_Lightcone::Passkey(5),Relic::Eagle_Beaked_Helmet,Planar::Lushaka);
     
     //Support
     RMC::Setup(6,Remembrance_Lightcone::Victory_In_Blink(5),Relic::PairSet(ST_SPD_P,ST_SPD_P),Planar::Broken_Keel);
@@ -79,17 +82,22 @@ int main(){
 
     SetCharacterPtr();
     
-    //-----------------------------------------------------------
-    //adjust
-    // Ally_unit[1]->setAdjust("NetherwingLifeSpan",3);
-    // Castorice::DriverCondition(Ally_unit[1].get(),Ally_unit[2].get());
-    // Castorice::HealerCondition(Ally_unit[1].get(),Ally_unit[4].get());
-    // Castorice::CastoriceWithDriver(Ally_unit[1].get(),Ally_unit[2].get());
+    //--------------------- adjust ------------------------
 
-    // CharCmd::Set_Tune_Speed(Ally_unit[2].get(),1);
+
+    // Char2->setSpeedRequire(156); 
 
     // CharCmd::Set_Technique(Ally_unit[2].get(),0);
     CharCmd::Set_Technique(Ally_unit[4].get(),0);
+
+
+
+    //--------------------- Set_Technique ------------------------
+
+
+
+
+
 
     //-----------------------------------------------------------
 

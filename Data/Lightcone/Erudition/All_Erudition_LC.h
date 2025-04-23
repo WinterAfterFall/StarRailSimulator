@@ -7,6 +7,9 @@
 #include"BP_Erudition.h"
 #include"Himeko_LC.h"
 #include"Calculus.h"
+#include"GreatCosmic.h"
+#include"Anaxa_LC.h"
+#include"Passkey.h"
 
 
 

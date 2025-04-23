@@ -132,6 +132,7 @@ namespace Sunday{
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,SDptr]() {
             SubUnit *Temp_stats = turn->canCastToSubUnit();
+            if(!Temp_stats)return;
             if (Temp_stats->isBuffEnd("Benison_of_Paper_and_Rites")) {
                 if (Temp_stats->ptr_to_unit->isAllyHaveSummon()) {
                     Temp_stats->buffSingle({{ST_DMG,AT_NONE,-80}});

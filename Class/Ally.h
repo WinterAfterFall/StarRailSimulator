@@ -103,15 +103,30 @@ public:
         return this->Sub_Unit_ptr[0]->Atv_stats->Unit_num;
     }
 
-    void setRelicMainStats(string Body,string Boot,string Orb,string Rope){
+    void setRelicMainStats(string Body, string Boot, string Orb, string Rope) {
         this->Body = RelicMainStatsSet(Body);
         this->Boot = RelicMainStatsSet(Boot);
-        this->Orb  = RelicMainStatsSet(Orb);
+        this->Orb = RelicMainStatsSet(Orb);
         this->Rope = RelicMainStatsSet(Rope);
     }
     function<void(Ally *ptr)> RelicPairSet(string stats);
     function<void(Ally *ptr)> RelicMainStatsSet(string stats);
 
+    void setSpeed(double speed) {
+        this->SpeedRequire = speed;
+    }
+    void setBody(string stats) {
+        this->Body = RelicMainStatsSet(stats);
+    }
+    void setBoot(string stats) {
+        this->Boot = RelicMainStatsSet(stats);
+    }
+    void setOrb(string stats) {
+        this->Orb = RelicMainStatsSet(stats);
+    }
+    void setRope(string stats) {
+        this->Rope = RelicMainStatsSet(stats);
+    }
     void setTotalSubstats(int Value){
         this->Total_substats=Value;
         this->currentTotalSubstats=Value;

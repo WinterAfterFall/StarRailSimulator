@@ -156,12 +156,19 @@ namespace The_Herta{
     
 
     bool Stack_Herta_Check(Ally *ptr){
-        if(Enemy_unit[Main_Enemy_num]->Debuff["Herta_Stack"]>=42)return true;
-        for(int i=1;i<=Total_enemy;i++){
-            if(i==Main_Enemy_num)continue;
-            if(Enemy_unit[Main_Enemy_num]->Debuff["Herta_Stack"] + Enemy_unit[i]->Debuff["Herta_Stack"]>42)return true;
+        int temp = Enemy_unit[Main_Enemy_num]->Debuff["Herta_Stack"];
+        if(ptr->Eidolon>=1){
+            int mx = -1;
+            for(int i=1;i<=Total_enemy;i++){
+                if(i==Main_Enemy_num)continue;
+                mx = max(mx,Enemy_unit[i]->Debuff["Herta_Stack"]);
+            }
+            temp+=mx;
+
         }
-        return false;
+        if(temp>=42)return true;
+        
+        return true;
     }
     bool Enchance_Skill_Condition(Ally *ptr){
         if(ptr->Eidolon>=2&&Driver_Type=="Double_turn"&&Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->Max_atv < ptr->Sub_Unit_ptr[0]->Atv_stats->Max_atv&&ptr->Sub_Unit_ptr[0]->Atv_stats->Max_atv*0.65<Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv){

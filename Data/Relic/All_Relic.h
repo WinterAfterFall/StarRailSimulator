@@ -9,6 +9,7 @@
 #include"Poet_Dill.h"
 #include"Hero_Wreath.h"
 #include"Eagle_Beaked_Helmet.h"
+#include"GeniusBrilliant.h"
 
 
 #endif
