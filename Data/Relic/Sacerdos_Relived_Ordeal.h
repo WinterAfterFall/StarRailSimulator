@@ -10,27 +10,26 @@ namespace Relic{
     void Sacerdos_Relived_Ordeal(Ally *ptr);
     void Sacerdos_Relived_Ordeal(Ally *ptr){
         ptr->Relic.Name = "Sacerdos_Relived_Ordeal";
+        string Sacerdos = ptr->getSubUnit()->getUnitName() + " Sacerdos";
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Sacerdos]() {
             ptr->Sub_Unit_ptr[0]->Atv_stats->Speed_percent += 6;
         }));
 
-        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
+        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,Sacerdos](shared_ptr<AllyActionData> &data_) {
             if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_->traceType == "Single_target") {
-                for (auto e : data_->Target_Buff) {
-                    Stack_Buff_single_target(e, ST_CD, AT_NONE, 18, 1, 2, "Sacerdos");
-                    Extend_Buff_single_target(e, "Sacerdos", 2);
+                for (auto each : data_->Target_Buff) {
+                    each->buffStackSingle({{ST_CD, AT_NONE, 18}}, 1, 2, Sacerdos,2);
                 }
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Sacerdos]() {
             if (turn->Unit_num != ptr->Sub_Unit_ptr[0]->currentAllyTargetNum) return;
             SubUnit *tempstats = dynamic_cast<SubUnit *>(turn->ptr_to_unit);
             if (!tempstats) return;
-            if (Buff_end(tempstats, "Sacerdos")) {
-                Buff_single_target(tempstats, ST_CD, AT_NONE, -(tempstats->Stack["Sacerdos"] * 18));
-                tempstats->Stack["Sacerdos"] = 0;
+            if (tempstats->isBuffEnd(Sacerdos)) {
+                tempstats->buffResetStack({{ST_CD, AT_NONE, 18}},Sacerdos);
             }
         }));
     }

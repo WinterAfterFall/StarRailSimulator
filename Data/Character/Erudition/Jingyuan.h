@@ -78,7 +78,7 @@ namespace Jingyuan{
             ;
             if (ptr->Eidolon >= 2 && Jingyuanptr->isBuffEnd("Swing_Skies_Squashed")) {
                 Jingyuanptr->buffSingle({
-                    {ST_DMG,AT_BASIC_ATK,-20},
+                    {ST_DMG,AT_BA,-20},
                     {ST_DMG,AT_SKILL,-20},
                     {ST_DMG,AT_ULT,-20}
                 });
@@ -146,7 +146,7 @@ namespace Jingyuan{
                 
                 if(ptr->Eidolon>=2){
                     Jingyuanptr->buffSingle({
-                        {ST_DMG,AT_BASIC_ATK,20},
+                        {ST_DMG,AT_BA,20},
                         {ST_DMG,AT_SKILL,20},
                         {ST_DMG,AT_ULT,20}},
                         "Swing_Skies_Squashed",2

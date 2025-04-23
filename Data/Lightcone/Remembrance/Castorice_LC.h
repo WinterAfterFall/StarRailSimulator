@@ -44,18 +44,15 @@ namespace Remembrance_Lightcone{
                 if((turn->Side=="Memosprite"||turn->Side=="Ally")
                 &&turn->Unit_num==ptr->getSubUnit()->Atv_stats->Unit_num
                 &&target->Atv_stats->Unit_num==ptr->getSubUnit()->Atv_stats->Unit_num){
-                    if(!ptr->getSubUnit()->getBuffCheck("Death Flower"))
-                    Buff_single_with_all_memo(ptr,ST_DEF_SHRED,AT_NONE,25 + 5 * superimpose);
-                    ptr->getSubUnit()->setBuffCheck("Death Flower",1);
-                    Extend_Buff_single_target(ptr->getSubUnit(),"Death Flower",2);
+                    if(ptr->getSubUnit()->isHaveToAddBuff("Death Flower",2))
+                    ptr->buffAlly({{ST_DEF_SHRED, AT_NONE, 25.0 + 5 * superimpose}});
                 }
             }));
 
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr, superimpose]() {
-                if(Buff_end(ptr->getSubUnit(),"Death Flower")){
-                    ptr->getSubUnit()->setBuffCheck("Death Flower",0);
-                    Buff_single_with_all_memo(ptr,ST_DEF_SHRED,AT_NONE,-25 -(5 * superimpose));
+                if(ptr->getSubUnit()->isBuffEnd("Death Flower")){
+                    ptr->buffAlly({{ST_DEF_SHRED, AT_NONE, -(25.0 + 5 * superimpose)}});
                 }
             }));
         };

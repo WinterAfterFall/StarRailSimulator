@@ -126,7 +126,7 @@ namespace Gallagher{
             healData.setHealer(ptr->Sub_Unit_ptr[0].get());
             
 
-            if (data_->Action_type.second == AT_BASIC_ATK && data_->Attacker->Atv_stats->Unit_Name == "Gallagher" && data_->Attacker->Buff_check["Gallagher_enchance_basic_atk"] == 1) {
+            if (data_->Action_type.second == AT_BA && data_->Attacker->Atv_stats->Unit_Name == "Gallagher" && data_->Attacker->Buff_check["Gallagher_enchance_basic_atk"] == 1) {
                 ptr->Sub_Unit_ptr[0]->Buff_check["Gallagher_enchance_basic_atk"] = 0;
                 int cnt = 0;
                 for (Enemy *e : data_->Target_Attack) {

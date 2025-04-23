@@ -20,7 +20,7 @@ namespace Relic{
                 for (int i = 1; i < ptr->Sub_Unit_ptr.size(); i++) {
                     if (ptr->Sub_Unit_ptr[i]->Atv_stats->Base_speed != -1) {
                         ptr->Sub_Unit_ptr[0]->Buff_check["Hero_Wreath"] = 1;
-                        Speed_Buff(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 6, 0);
+                        ptr->Sub_Unit_ptr[0]->buffSingle({{ST_SPD,ST_SPD_P,6}});
                         break;
                     }
                 }
@@ -29,9 +29,8 @@ namespace Relic{
 
         Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
             if (data_->Attacker->Atv_stats->Side == "Ally" && ptr->Sub_Unit_ptr.size() > 1) {
-                Buff_single_with_all_memo_each(ptr, ST_CD, AT_NONE, 30, "Hero_Wreath_buff");
+                ptr->buffAlly({{ST_CD, AT_NONE, 30}}, "Hero_Wreath_buff",2);
             }
-            Extend_Buff_single_with_all_memo(ptr, "Hero_Wreath_buff", 2);
         }));
         
         

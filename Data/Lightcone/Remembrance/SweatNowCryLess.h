@@ -17,9 +17,8 @@ namespace Remembrance_Lightcone{
             }));
     
             Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "SweatNowCryLess") && ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed > -1) {
-                    Buff_single_with_all_memo(ptr, ST_DMG, AT_NONE, 20 + superimpose * 4);
-                    ptr->Sub_Unit_ptr[0]->Buff_check["SweatNowCryLess"] = 1;
+                if (ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed > 0 && ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("SweatNowCryLess")) {
+                    ptr->buffAlly({{ST_DMG, AT_NONE, 20.0 + superimpose * 4}});
                 }
             }));
         };

@@ -19,7 +19,7 @@ namespace Nihility_Lightcone{
             After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 if (data_->Attacker->Atv_stats->Unit_Name != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) return;
                 for (auto e : data_->Target_Attack) {
-                    if (e->Stats_type["Def"][AT_NONE] > 0) {
+                    if (e->Stats_type[ST_DEF_SHRED][AT_NONE] > 0) {
                         Increase_energy(ptr, 3 + superimpose);
                         return;
                     }

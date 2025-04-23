@@ -15,10 +15,10 @@ namespace Remembrance_Lightcone{
             When_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 if (data_->Attacker->Atv_stats->Unit_num == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num) {
                 if (ptr->Sub_Unit_ptr[0]->Stack["Aglaea_LC_stack"] < 6) {
-                    ptr->buffAlly(ST_CD, AT_NONE, 7.5 + 1.5 * superimpose);
+                    ptr->buffAlly({{ST_CD, AT_NONE, 7.5 + 1.5 * superimpose}});
                     ptr->Sub_Unit_ptr[0]->Stack["Aglaea_LC_stack"]++;
                     if (ptr->Sub_Unit_ptr[0]->Stack["Aglaea_LC_stack"] == 6) {
-                    Buff_single_with_all_memo(ptr, ST_DMG, "Basic_Attack", 6 * (7.5 + 1.5 * superimpose));
+                    ptr->buffAlly({{ST_DMG, AT_BA, 6 * (7.5 + 1.5 * superimpose)}});
                     }
                 }
                 }

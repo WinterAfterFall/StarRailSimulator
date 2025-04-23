@@ -18,24 +18,21 @@ namespace Remembrance_Lightcone{
     
             After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_->Action_type.second == "Ultimate") {
-                    Buff_single_with_all_memo_each(ptr, ST_DMG, "Basic_Attack", (15 + superimpose * 5) , "Geniuses_Greetings");
-                    Extend_Buff_single_with_all_memo(ptr, "Geniuses_Greetings", 3);
+                    ptr->buffAlly({{ST_DMG,AT_BA,(15.0 + superimpose * 5)}},"Geniuses_Greetings",3);
                 }
             }));
     
             Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_->Action_type.second == "Ultimate") {
-                    Buff_single_with_all_memo_each(ptr, ST_DMG, "Basic_Attack", (15 + superimpose * 5), "Geniuses_Greetings");
-                    Extend_Buff_single_with_all_memo(ptr, "Geniuses_Greetings", 3);
+                    ptr->buffAlly({{ST_DMG,AT_BA,(15.0 + superimpose * 5)}},"Geniuses_Greetings",3);
                 }
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 SubUnit *tempstats = dynamic_cast<SubUnit *>(turn->ptr_to_unit);
                 if (!tempstats) return;
-                if (Buff_end(tempstats, "Geniuses_Greetings")) {
-                    tempstats->Stats_type[ST_DMG]["Basic_Attack"] -= (15 + superimpose * 5);
-                    tempstats->Buff_check["Geniuses_Greetings"] = 0;
+                if (ptr->getSubUnit()->isBuffEnd("Geniuses_Greetings")) {
+                    ptr->getSubUnit()->buffSingle({{ST_DMG,AT_BA,-(15.0 + superimpose * 5)}});
                 }
             }));
         };

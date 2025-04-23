@@ -51,7 +51,7 @@
 
 #define AT_TEMP "Temporary"
 #define AT_NONE "None"
-#define AT_BASIC_ATK "Basic_Attack"
+#define AT_BA "Basic_Attack"
 #define AT_SKILL "Skill"
 #define AT_ULT "Ultimate"
 #define AT_FUA "Fua"
