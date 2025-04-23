@@ -11,23 +11,23 @@ namespace Nihility_Lightcone{
         return [=](Ally *ptr) {
             ptr->SetAllyBaseStats(953,476,331);
             ptr->Light_cone.Name = "Resolution";
-
+            string ensnared = ptr->getSubUnit()->getUnitName() + " Ensnared";
             ptr->newEhrRequire(50 + superimpose);
 
-            After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+            After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,supersimpose,ensnared](shared_ptr<AllyActionData> &data_) {
                 if (data_->Attacker->Atv_stats->Unit_Name != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) return;
                 for (auto e : data_->Target_Attack) {
-                    if (!e->debuffApply(ptr->Sub_Unit_ptr[0].get(),"Ensnared")) continue;
+                    if (!e->debuffApply(ptr->Sub_Unit_ptr[0].get(),ensnared)) continue;
                     e->Stats_type["Def"]["None"] += 11 + superimpose;
-                    e->Debuff_time_count["Ensnared"] = 1 + e->Atv_stats->turn_cnt;
+                    e->Debuff_time_count[ensnared] = 1 + e->Atv_stats->turn_cnt;
                 }
             }));
     
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,ensnared]() {
                 if (turn->Side == "Enemy") {
-                    if (Enemy_unit[turn->Unit_num]->Debuff_time_count["Ensnared"] == Enemy_unit[turn->Unit_num]->Atv_stats->turn_cnt) {
+                    if (Enemy_unit[turn->Unit_num]->Debuff_time_count[ensnared] == Enemy_unit[turn->Unit_num]->Atv_stats->turn_cnt) {
                         Enemy_unit[turn->Unit_num]->Stats_type["Def"]["None"] -= 11 + superimpose;
-                        Enemy_unit[turn->Unit_num]->Debuff["Ensnared"] = 0;
+                        Enemy_unit[turn->Unit_num]->Debuff[ensnared] = 0;
                         --Enemy_unit[turn->Unit_num]->Total_debuff;
                     }
                 }
