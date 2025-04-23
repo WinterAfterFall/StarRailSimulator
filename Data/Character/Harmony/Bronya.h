@@ -22,7 +22,7 @@ namespace Bronya{
         //substats
         ptr->pushSubstats("Crit_dam");
         ptr->setTotalSubstats(20);
-        ptr->setRelicMainStats(ST_CRIT_DAM,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
+        ptr->setRelicMainStats(ST_CD,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
         ptr->setSpeedRequire(133.4);
 
 
@@ -41,13 +41,13 @@ namespace Bronya{
             data_->Add_Buff_All_Ally();
             data_->actionFunction = [ptr,Bronyaptr](shared_ptr<AllyActionData> &data_){
                 //Ult ATKBUFF
-                buffAllAlly({{ST_ATK_PERCENT,AT_NONE,55}},"Bronya_Ult",2);
+                buffAllAlly({{ST_ATK_P,AT_NONE,55}},"Bronya_Ult",2);
 
                 //Ult CritBuff
                 double temp = calculateCritdamForBuff(ptr->Sub_Unit_ptr[0].get(),16)+20;
                 for(auto e : data_->Target_Buff){
-                    e->buffSingle({{ST_CRIT_DAM,AT_NONE,temp - e->Buff_note["Bronya_Ult"]}});
-                    e->buffSingle({{ST_CRIT_DAM,AT_TEMP,temp - e->Buff_note["Bronya_Ult"]}});
+                    e->buffSingle({{ST_CD,AT_NONE,temp - e->Buff_note["Bronya_Ult"]}});
+                    e->buffSingle({{ST_CD,AT_TEMP,temp - e->Buff_note["Bronya_Ult"]}});
                 }
 
                 //ดักในกรณีที่บัพในเทิร์นตัวละครอื่น
@@ -90,7 +90,7 @@ namespace Bronya{
             }
              //E2 buffend
             if(tempstats->isBuffEnd("Bronya_Skill_E2")){
-                tempstats->buffSingle({{ST_SPD,ST_SPD_PERCENT,-30}});
+                tempstats->buffSingle({{ST_SPD,ST_SPD_P,-30}});
             }
             if(tempstats->isBuffEnd("Bronya_Ult")){
                 tempstats->buffSingle({{"Atk%","None",-55}});
@@ -99,7 +99,7 @@ namespace Bronya{
                 tempstats->Buff_note["Bronya_Ult"] = 0;
             }
             if(tempstats->isBuffEnd("Bronya_A4")){
-                tempstats->buffSingle({{ST_DEF_PERCENT,"None",-20}});
+                tempstats->buffSingle({{ST_DEF_P,"None",-20}});
             }
             if(tempstats->isBuffEnd("Bronya_Technique")){
                 tempstats->buffSingle({{"Atk%","None",-15}});
@@ -164,7 +164,7 @@ namespace Bronya{
 
             //E2 buff Speed
             if(ptr->Eidolon>=2)
-            chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_SPD,ST_SPD_PERCENT,30}},"Bronya_Skill_E2",1  );
+            chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_SPD,ST_SPD_P,30}},"Bronya_Skill_E2",1  );
             
             //E1 คืน Sp
             if(ptr->Eidolon>=1){

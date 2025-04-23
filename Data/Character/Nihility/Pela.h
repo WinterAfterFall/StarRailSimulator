@@ -16,13 +16,13 @@ namespace Pela{
         ptr->SetAllyBaseStats(1087,660,509);
 
         //substats
-        ptr->pushSubstats(ST_CRIT_DAM);
-        ptr->pushSubstats(ST_CRIT_RATE);
-        ptr->pushSubstats(ST_ATK_PERCENT);
+        ptr->pushSubstats(ST_CD);
+        ptr->pushSubstats(ST_CR);
+        ptr->pushSubstats(ST_ATK_P);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(160);
         ptr->setApplyBaseChance(100);
-        ptr->setRelicMainStats(ST_CRIT_RATE,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
+        ptr->setRelicMainStats(ST_CR,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
 
         
         //func

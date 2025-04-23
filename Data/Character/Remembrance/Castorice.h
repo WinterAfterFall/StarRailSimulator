@@ -22,9 +22,9 @@ namespace Castorice{
         ptr->SetAllyBaseStats(1630,524,485);
 
         //substats
-        ptr->pushSubstats(ST_CRIT_DAM);
-        ptr->pushSubstats(ST_CRIT_RATE);
-        ptr->pushSubstats(ST_HP_PERCENT);
+        ptr->pushSubstats(ST_CD);
+        ptr->pushSubstats(ST_CR);
+        ptr->pushSubstats(ST_HP_P);
         ptr->setTotalSubstats(20);
 
 
@@ -32,7 +32,7 @@ namespace Castorice{
         LC(ptr);
         Relic(ptr);
         Planar(ptr);
-        ptr->setRelicMainStats(ST_CRIT_DAM,ST_HP_PERCENT,ST_HP_PERCENT,ST_HP_PERCENT);
+        ptr->setRelicMainStats(ST_CD,ST_HP_P,ST_HP_P,ST_HP_P);
 
         SetMemoStats(ptr,0,0,"Quantum","Netherwing",ALLYTYPE_BACKUP);
         // SetCountdownStats(ptr,"Supreme_Stance");
@@ -133,7 +133,7 @@ namespace Castorice{
 
         
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Casptr,Polluxptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CRIT_DAM]["None"] += 13.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD]["None"] += 13.3;
             ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"] += 18.7;
             ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Quantum"]["None"] += 14.4;
             
@@ -223,7 +223,7 @@ namespace Castorice{
                 ptr->getSubUnit()->Buff_note["Newbud"]=10200;
             }
             if(!ptr->getSubUnit()->getBuffCheck("Inverted Torch")&&ptr->getSubUnit()->currentHP>=ptr->getSubUnit()->totalHP*0.5){
-                Casptr->buffSingle({{ST_SPD,ST_SPD_PERCENT,40}});
+                Casptr->buffSingle({{ST_SPD,ST_SPD_P,40}});
                 ptr->getSubUnit()->setBuffCheck("Inverted Torch",true);
             }
         }));
@@ -244,7 +244,7 @@ namespace Castorice{
             }
             if(target->isSameUnitName("Castorice")){
                 if(!ptr->getSubUnit()->getBuffCheck("Inverted Torch")&&ptr->getSubUnit()->currentHP>=ptr->getSubUnit()->totalHP*0.5){
-                Casptr->buffSingle({{ST_SPD,ST_SPD_PERCENT,40}});
+                Casptr->buffSingle({{ST_SPD,ST_SPD_P,40}});
                 ptr->getSubUnit()->setBuffCheck("Inverted Torch",true);
                 }
             }
@@ -265,7 +265,7 @@ namespace Castorice{
             }
             if(target->isSameUnitName("Castorice")){
                 if(ptr->getSubUnit()->getBuffCheck("Inverted Torch")&&ptr->getSubUnit()->currentHP<ptr->getSubUnit()->totalHP*0.5){
-                    Casptr->buffSingle({{ST_SPD,ST_SPD_PERCENT,-40}});
+                    Casptr->buffSingle({{ST_SPD,ST_SPD_P,-40}});
                     ptr->getSubUnit()->setBuffCheck("Inverted Torch",false);
                 }
             }
@@ -317,7 +317,7 @@ namespace Castorice{
         
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](SubUnit* Target, string StatsType) {
             if(!Target->isSameUnitName("Netherwing"))return;
-            if(StatsType != ST_FLAT_HP && StatsType != ST_HP_PERCENT)return;
+            if(StatsType != ST_FLAT_HP && StatsType != ST_HP_P)return;
             double temp;
             if(ptr->getSubUnit(1)->currentHP==0){
                 temp = -calculateHpOnStats(ptr->getSubUnit(1));

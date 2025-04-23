@@ -279,7 +279,7 @@ void Toughness_break(shared_ptr<AllyActionData> &data_,Enemy* target){
 
     }else if(data_->Damage_element=="Imaginary"){
         Action_forward(target->Atv_stats.get(),-30*Cal_BreakEffect_multiplier(data_,target));
-        target->speedBuff({ST_SPD,ST_SPD_PERCENT,-10});
+        target->speedBuff({ST_SPD,ST_SPD_P,-10});
 
         target->Imprisonment = data_->Attacker->Atv_stats->Unit_num;
         Constant=0.5;

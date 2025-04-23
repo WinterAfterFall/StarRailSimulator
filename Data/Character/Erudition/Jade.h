@@ -28,7 +28,7 @@ namespace Jade{
         ptr->pushSubstats("Crit_rate");
         ptr->pushSubstats("Atk%");
         ptr->setTotalSubstats(20);
-        ptr->setRelicMainStats(ST_CRIT_RATE,ST_ATK_PERCENT,ST_DMG,ST_ATK_PERCENT);
+        ptr->setRelicMainStats(ST_CR,ST_ATK_P,ST_DMG,ST_ATK_P);
 
 
 
@@ -95,7 +95,7 @@ namespace Jade{
             }
             
             if (ptr->Sub_Unit_ptr[0].get()->isBuffEnd("Jade_Skill")) {
-                chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_SPD,ST_SPD_PERCENT,-30}});
+                chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_SPD,ST_SPD_P,-30}});
             }
         }));
 
@@ -152,7 +152,7 @@ namespace Jade{
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             if(ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Jade_Skill",3)){
-                chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_SPD,ST_SPD_PERCENT,30}});
+                chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_SPD,ST_SPD_P,30}});
             }
         };
         Action_bar.push(data_);
@@ -236,11 +236,11 @@ namespace Jade{
     }
     void Jade_Talent(Ally *ptr,int amount){
         ptr->getSubUnit()->buffStackSingle(
-            {{ST_ATK_PERCENT,AT_NONE,0.5},
-            {ST_CRIT_DAM,AT_NONE,2.4}},
+            {{ST_ATK_P,AT_NONE,0.5},
+            {ST_CD,AT_NONE,2.4}},
             amount,50,"Pawned_Asset");
         if(ptr->Eidolon>=2&&ptr->Sub_Unit_ptr[0]->Stack["Pawned_Asset"]>=15&&ptr->getSubUnit()->isHaveToAddBuff("Jade_E2")){
-            ptr->getSubUnit()->buffSingle({{ST_CRIT_RATE,AT_NONE,18}});
+            ptr->getSubUnit()->buffSingle({{ST_CR,AT_NONE,18}});
         }
 
     }

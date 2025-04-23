@@ -63,9 +63,9 @@ int main(){
     //Serval::Setup(6,Harmony_Lightcone::Meshing_Cogs,Relic::Double_Speed,Planar::Lushaka);
     
     //Support
-    RMC::Setup(6,Remembrance_Lightcone::Victory_In_Blink(5),Relic::PairSet(ST_SPD_PERCENT,ST_SPD_PERCENT),Planar::Broken_Keel);
+    RMC::Setup(6,Remembrance_Lightcone::Victory_In_Blink(5),Relic::PairSet(ST_SPD_P,ST_SPD_P),Planar::Broken_Keel);
     Tribbie::Setup(0,Harmony_Lightcone::DDD(5),Relic::Poet_Dill,Planar::Broken_Keel);
-    // Robin::Setup(2,Harmony_Lightcone::For_Tomorrow_Journey(5),Relic::PairSet(ST_ATK_PERCENT,ST_ATK_PERCENT),Planar::Broken_Keel);
+    // Robin::Setup(2,Harmony_Lightcone::For_Tomorrow_Journey(5),Relic::PairSet(ST_ATK_P,ST_ATK_P),Planar::Broken_Keel);
     // Ruan_Mei::Setup(0,Harmony_Lightcone::Memories_of_the_Past(5),Relic::PairSet(ST_BE,ST_BE),Planar::Broken_Keel);
     //Tingyun::Setup(6,Harmony_Lightcone::DDD(5),Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
     
@@ -75,7 +75,7 @@ int main(){
 
     //Sustain
     Gallagher::Setup(6,Abundance_Lightcone::Multiplication(5),Relic::PairSet(ST_HEALING_OUT,ST_BE),Planar::Broken_Keel);
-    // Luocha::Setup(0,Abundance_Lightcone::Multiplication(5),Relic::PairSet(ST_HEALING_OUT,ST_ATK_PERCENT),Planar::Broken_Keel);
+    // Luocha::Setup(0,Abundance_Lightcone::Multiplication(5),Relic::PairSet(ST_HEALING_OUT,ST_ATK_P),Planar::Broken_Keel);
 
     SetCharacterPtr();
     

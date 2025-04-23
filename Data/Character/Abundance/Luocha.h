@@ -19,10 +19,10 @@ namespace Luocha{
         Ally *ptr = SetAllyBasicStats(101,100,100,E,"Imaginary","Abundance","Luocha",TYPE_STD);
         ptr->SetAllyBaseStats(1280,756,363);
 
-        ptr->pushSubstats(ST_ATK_PERCENT);
+        ptr->pushSubstats(ST_ATK_P);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(150);
-        ptr->setRelicMainStats(ST_HEALING_OUT,ST_FLAT_SPD,ST_ATK_PERCENT,ST_EnergyRecharge);
+        ptr->setRelicMainStats(ST_HEALING_OUT,ST_FLAT_SPD,ST_ATK_P,ST_EnergyRecharge);
 
         //func
         LC(ptr);
@@ -67,7 +67,7 @@ namespace Luocha{
             if (turn->Char_Name == "Luocha") {
                 if (Charptr->isBuffEnd("Cycle_of_Life")) {
                     if (ptr->Eidolon >= 1) {
-                        buffAllAlly({{ST_ATK_PERCENT,AT_NONE,-20}});
+                        buffAllAlly({{ST_ATK_P,AT_NONE,-20}});
                     }
                     Charptr->setStack("Abyss_Flower",0);
                 }
@@ -111,7 +111,7 @@ namespace Luocha{
         if(ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"]==2){
             ptr->Sub_Unit_ptr[0]->extendBuffTime("Cycle_of_Life",2);
         if(ptr->Eidolon>=1){
-            buffAllAlly({{ST_ATK_PERCENT,AT_NONE,20}});
+            buffAllAlly({{ST_ATK_P,AT_NONE,20}});
         }
         }
     }

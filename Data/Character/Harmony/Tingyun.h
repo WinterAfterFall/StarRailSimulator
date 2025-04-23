@@ -18,10 +18,10 @@ namespace Tingyun{
         SubUnit *TYptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(847, 529, 397);
         ptr->Technique = 2;
-        ptr->pushSubstats(ST_ATK_PERCENT);
+        ptr->pushSubstats(ST_ATK_P);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(140);
-        ptr->setRelicMainStats(ST_ATK_PERCENT,ST_FLAT_SPD,ST_ATK_PERCENT,ST_EnergyRecharge);
+        ptr->setRelicMainStats(ST_ATK_P,ST_FLAT_SPD,ST_ATK_P,ST_EnergyRecharge);
 
 
         //func
@@ -46,7 +46,7 @@ namespace Tingyun{
             data_->actionFunction = [ptr,TYptr](shared_ptr<AllyActionData> &data_){
                 Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(), 0, (ptr->Eidolon >= 6) ? 60 : 50);
                 if (ptr->Eidolon >= 1)
-                chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_SPD,ST_SPD_PERCENT,20}},"Windfall_of_Lucky_Springs",1);
+                chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_SPD,ST_SPD_P,20}},"Windfall_of_Lucky_Springs",1);
                 
                 if (turn->Char_Name == Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[0]->Atv_stats->Char_Name && Ult_After_Turn == 0)
                 chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_DMG,AT_NONE,56}},"Rejoicing_Clouds",1);
@@ -78,14 +78,14 @@ namespace Tingyun{
             if (!tempUnit) return;
             
             if (tempUnit->isBuffEnd("Nourished_Joviality")) {
-                tempUnit->buffSingle({{ST_SPD,ST_SPD_PERCENT,-20}});
+                tempUnit->buffSingle({{ST_SPD,ST_SPD_P,-20}});
             }
             
             if (tempUnit->isBuffEnd("Benediction")) {
-                tempUnit->buffSingle({{ST_ATK_PERCENT,AT_NONE,-55}});
+                tempUnit->buffSingle({{ST_ATK_P,AT_NONE,-55}});
             }
             if (tempUnit->isBuffEnd("Windfall_of_Lucky_Springs")) {
-                tempUnit->buffSingle({{ST_SPD,ST_SPD_PERCENT,-20}});
+                tempUnit->buffSingle({{ST_SPD,ST_SPD_P,-20}});
             }
             if (tempUnit->isBuffEnd("Rejoicing_Clouds")) {
                 tempUnit->buffSingle({{ST_DMG,AT_NONE,-56}});
@@ -116,7 +116,7 @@ namespace Tingyun{
                 }
             }
             if (data_->Action_type.second == "Skill" && data_->Attacker->Atv_stats->Char_Name == "Tingyun") {
-                ptr->Sub_Unit_ptr[0]->buffSingle({{ST_SPD,ST_SPD_PERCENT,20}},"Nourished_Joviality",1);
+                ptr->Sub_Unit_ptr[0]->buffSingle({{ST_SPD,ST_SPD_P,20}},"Nourished_Joviality",1);
             }
         }));
     
@@ -134,7 +134,7 @@ namespace Tingyun{
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
-            ptr->Sub_Unit_ptr[0]->buffSingle({{ST_ATK_PERCENT,AT_NONE,55}},"Benediction",3);
+            ptr->Sub_Unit_ptr[0]->buffSingle({{ST_ATK_P,AT_NONE,55}},"Benediction",3);
 
         };
         Action_bar.push(data_);

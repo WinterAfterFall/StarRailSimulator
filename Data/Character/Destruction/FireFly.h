@@ -26,7 +26,7 @@ namespace FireFly{
         ptr->pushSubstats(ST_BE);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(150);
-        ptr->setRelicMainStats(ST_ATK_PERCENT,ST_FLAT_SPD,ST_ATK_PERCENT,ST_BE);
+        ptr->setRelicMainStats(ST_ATK_P,ST_FLAT_SPD,ST_ATK_P,ST_BE);
         
 
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr] (){

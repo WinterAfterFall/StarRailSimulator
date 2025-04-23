@@ -13,29 +13,27 @@ namespace Harmony_Lightcone{
             ptr->Light_cone.Name = "Tribbie_LC";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Crit_dam"]["None"] += 30 + 6 * superimpose;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AT_NONE] += 30 + 6 * superimpose;
             }));
     
             Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 Increase_energy(ptr, 21);
-                ptr->Sub_Unit_ptr[0]->Buff_check["Presage"] = 1;
-                Extend_Buff_single_target(ptr->Sub_Unit_ptr[0].get(), "Presage", 2);
-                buffAllAlly("Crit_dam", "None", (36 + 12 * superimpose));
+                if(ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Presage",2)){
+                    buffAllAlly({{ST_CD, AT_NONE, (36.0 + 12 * superimpose)}});
+                }
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                if (Buff_end(ptr->Sub_Unit_ptr[0].get(), "Presage")) {
-                    ptr->Sub_Unit_ptr[0]->Buff_check["Presage"] = 0;
-                    buffAllAlly("Crit_dam", "None", -(36 + 12 * superimpose));
+                if (ptr->getSubUnit()->isBuffEnd("Presage")) {
+                    buffAllAlly({{ST_CD, AT_NONE, -(36.0 + 12 * superimpose)}});
                 }
             }));
     
             After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_->Action_type.second == "Fua") {
                     Increase_energy(ptr, 12);
-                    if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Presage")) {
-                        buffAllAlly("Crit_dam", "None", (36 + 12 * superimpose));
-                        ptr->Sub_Unit_ptr[0]->Buff_check["Presage"] = 1;
+                    if(ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Presage",2)){
+                        buffAllAlly({{ST_CD, AT_NONE, (36.0 + 12 * superimpose)}});
                     }
                 }
             }));
@@ -43,9 +41,8 @@ namespace Harmony_Lightcone{
             Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_->Action_type.second == "Fua") {
                     Increase_energy(ptr, 12);
-                    if (!Buff_check(ptr->Sub_Unit_ptr[0].get(), "Presage")) {
-                        buffAllAlly("Crit_dam", "None", (36 + 12 * superimpose));
-                        ptr->Sub_Unit_ptr[0]->Buff_check["Presage"] = 1;
+                    if(ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Presage",2)){
+                        buffAllAlly({{ST_CD, AT_NONE, (36.0 + 12 * superimpose)}});
                     }
                 }
             }));

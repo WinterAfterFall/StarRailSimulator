@@ -25,7 +25,7 @@ namespace Jade{
         ptr->pushSubstats("Atk%");
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(145);
-        ptr->setRelicMainStats(ST_CRIT_RATE,ST_FLAT_SPD,ST_DMG,ST_ATK_PERCENT);
+        ptr->setRelicMainStats(ST_CR,ST_FLAT_SPD,ST_DMG,ST_ATK_P);
 
 
 
@@ -58,8 +58,8 @@ namespace Jade{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CRIT_RATE]["None"] += 12;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_PERCENT]["None"] += 10;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 12;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P]["None"] += 10;
             ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Wind"]["None"] += 22.4;
             // relic
             // substats

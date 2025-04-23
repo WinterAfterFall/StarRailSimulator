@@ -27,7 +27,7 @@ namespace The_Herta{
         ptr->pushSubstats("Crit_rate");
         ptr->pushSubstats("Atk%");
         ptr->setTotalSubstats(20);
-        ptr->setRelicMainStats(ST_CRIT_RATE,ST_ATK_PERCENT,ST_DMG,ST_ATK_PERCENT);
+        ptr->setRelicMainStats(ST_CR,ST_ATK_P,ST_DMG,ST_ATK_P);
 
 
 
@@ -63,7 +63,7 @@ namespace The_Herta{
                 if (ptr->Eidolon >= 2) {
                     ptr->Sub_Unit_ptr[0]->Buff_note["The_Herta_Skill_Enchance"]++;
                 }
-                Hertaptr->buffSingle({{ST_ATK_PERCENT,AT_NONE,80}},"Ult_The_Herta_Buff",3);
+                Hertaptr->buffSingle({{ST_ATK_P,AT_NONE,80}},"Ult_The_Herta_Buff",3);
 
                 if (ptr->Print)CharCmd::printUltStart("The Herta");
                 Attack(data_);
@@ -100,7 +100,7 @@ namespace The_Herta{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hertaptr]() {
             if (ptr->Technique == 1) {
-                Hertaptr->buffSingle({{ST_ATK_PERCENT,AT_NONE,60}},"The_Herta_Technique",2);
+                Hertaptr->buffSingle({{ST_ATK_P,AT_NONE,60}},"The_Herta_Technique",2);
             }
             Apply_Herta_Stack(ptr, Enemy_unit[Main_Enemy_num].get(), 25);
             for (int i = 1; i <= Total_enemy; i++) {
@@ -110,16 +110,16 @@ namespace The_Herta{
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Hertaptr]() {
             if (Hertaptr->isBuffEnd("The_Herta_Technique")) {
-                Hertaptr->buffSingle({{ST_ATK_PERCENT,AT_NONE,-60}});
+                Hertaptr->buffSingle({{ST_ATK_P,AT_NONE,-60}});
             }
             if (Hertaptr->isBuffEnd("Ult_The_Herta_Buff")) {
-                Hertaptr->buffSingle({{ST_ATK_PERCENT,AT_NONE,-80}});
+                Hertaptr->buffSingle({{ST_ATK_P,AT_NONE,-80}});
             }
         }));
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (ptr->Sub_Unit_ptr[0]->Buff_check["Two_Erudition"] == 1) {
-                buffAllAlly({{ST_CRIT_DAM,AT_NONE,80}});
+                buffAllAlly({{ST_CD,AT_NONE,80}});
             }
         }));
 

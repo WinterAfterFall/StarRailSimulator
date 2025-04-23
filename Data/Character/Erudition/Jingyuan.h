@@ -27,7 +27,7 @@ namespace Jingyuan{
         ptr->pushSubstats("Atk%");
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(135);
-        ptr->setRelicMainStats(ST_CRIT_RATE,ST_FLAT_SPD,ST_DMG,ST_ATK_PERCENT);
+        ptr->setRelicMainStats(ST_CR,ST_FLAT_SPD,ST_DMG,ST_ATK_P);
 
 
 
@@ -73,7 +73,7 @@ namespace Jingyuan{
             if (!(ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num == turn->Unit_num && turn->Side == "Ally")) return;
             
             if (Jingyuanptr->isBuffEnd("War_Marshal")) {
-                Jingyuanptr->buffSingle({{ST_CRIT_RATE,AT_NONE,-10}});
+                Jingyuanptr->buffSingle({{ST_CR,AT_NONE,-10}});
             }
             ;
             if (ptr->Eidolon >= 2 && Jingyuanptr->isBuffEnd("Swing_Skies_Squashed")) {
@@ -201,7 +201,7 @@ namespace Jingyuan{
         data_->actionFunction = [ptr,Jingyuanptr = ptr->getSubUnit()] (shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
-            Jingyuanptr->buffSingle({{ST_CRIT_RATE,AT_NONE,10}},"War_Marshal",2);
+            Jingyuanptr->buffSingle({{ST_CR,AT_NONE,10}},"War_Marshal",2);
             ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]+=2;
             if(ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]>=10){
                 ptr->Summon_ptr[0]->Atv_stats->Flat_Speed=70;

@@ -3,29 +3,29 @@
 #include "../Class/Trigger_Function.h"
 
 function<void(Ally *ptr)> Ally::RelicPairSet(string stats){
-    if(stats == ST_SPD_PERCENT)
+    if(stats == ST_SPD_P)
     return [=](Ally *ptr) {
         ptr->getSubUnit()->Atv_stats->Speed_percent+=6;
     };
-    if(stats == ST_ATK_PERCENT)
+    if(stats == ST_ATK_P)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_ATK_PERCENT]["None"] += 12;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_ATK_P]["None"] += 12;
     };
-    if(stats == ST_HP_PERCENT)
+    if(stats == ST_HP_P)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_PERCENT]["None"] += 12;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P]["None"] += 12;
     };
-    if(stats == ST_DEF_PERCENT)
+    if(stats == ST_DEF_P)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_PERCENT]["None"] += 15;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_P]["None"] += 15;
     };
-    if(stats == ST_CRIT_RATE)
+    if(stats == ST_CR)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_CRIT_RATE]["None"] += 8;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 8;
     };
-    if(stats == ST_CRIT_DAM)
+    if(stats == ST_CD)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_CRIT_DAM]["None"] += 16;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD]["None"] += 16;
     };
     if(stats == ST_BE)
     return [=](Ally *ptr) {
@@ -54,25 +54,25 @@ function<void(Ally *ptr)> Ally::RelicMainStatsSet(string stats){
     return [=](Ally *ptr) {
         ptr->getSubUnit()->Atv_stats->Flat_Speed+=25;
     };
-    if(stats == ST_ATK_PERCENT)
+    if(stats == ST_ATK_P)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_ATK_PERCENT]["None"] += 43.2;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_ATK_P]["None"] += 43.2;
     };
-    if(stats == ST_HP_PERCENT)
+    if(stats == ST_HP_P)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_PERCENT]["None"] += 43.2;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P]["None"] += 43.2;
     };
-    if(stats == ST_DEF_PERCENT)
+    if(stats == ST_DEF_P)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_PERCENT]["None"] += 54;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_P]["None"] += 54;
     };
-    if(stats == ST_CRIT_RATE)
+    if(stats == ST_CR)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_CRIT_RATE]["None"] += 32.4;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["None"] += 32.4;
     };
-    if(stats == ST_CRIT_DAM)
+    if(stats == ST_CD)
     return [=](Ally *ptr) {
-        ptr->Sub_Unit_ptr[0]->Stats_type[ST_CRIT_DAM]["None"] += 64.8;
+        ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD]["None"] += 64.8;
     };
     if(stats == ST_BE)
     return [=](Ally *ptr) {

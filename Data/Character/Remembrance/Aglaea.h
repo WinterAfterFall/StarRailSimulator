@@ -25,12 +25,12 @@ namespace Aglaea{
         SetCountdownStats(ptr,"Supreme_Stance");
 
         //substats
-        ptr->pushSubstats(ST_CRIT_DAM);
-        ptr->pushSubstats(ST_CRIT_RATE);
-        ptr->pushSubstats(ST_ATK_PERCENT);
+        ptr->pushSubstats(ST_CD);
+        ptr->pushSubstats(ST_CR);
+        ptr->pushSubstats(ST_ATK_P);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(135);
-        ptr->setRelicMainStats(ST_CRIT_RATE,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
+        ptr->setRelicMainStats(ST_CR,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
 
 
 
@@ -66,7 +66,7 @@ namespace Aglaea{
                 if (ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed == -1) Summon(ptr);
 
                 if (ptr->Countdown_ptr[0]->Atv_stats->Base_speed == -1) 
-                AGptr->buffSingle({{ST_SPD, ST_SPD_PERCENT, 15.0 * ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"]}});
+                AGptr->buffSingle({{ST_SPD, ST_SPD_P, 15.0 * ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"]}});
                 
                 Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
                 ptr->Countdown_ptr[0]->resetATV(100);
@@ -128,7 +128,7 @@ namespace Aglaea{
                     data_->Attacker->buffSingle({{ST_SPD, ST_FLAT_SPD, 55.0}});
                     data_->Attacker->Stack["Brewed_by_Tears"]++;
                     if (ptr->Countdown_ptr[0]->Atv_stats->Base_speed != -1) {
-                        AGptr->buffSingle({{ST_SPD, ST_SPD_PERCENT, 15.0}});
+                        AGptr->buffSingle({{ST_SPD, ST_SPD_P, 15.0}});
                     }
                 }
             }
@@ -192,7 +192,7 @@ namespace Aglaea{
         };
 
         ptr->Countdown_ptr[0]->Turn_func = [ptr,AGptr](){
-            AGptr->buffSingle({{ST_SPD, ST_SPD_PERCENT, 15.0 * ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"]}});
+            AGptr->buffSingle({{ST_SPD, ST_SPD_P, 15.0 * ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"]}});
             
             ptr->Countdown_ptr[0]->resetATV(-1);
             

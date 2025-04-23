@@ -11,28 +11,25 @@ namespace Harmony_Lightcone{
         return [=](Ally *ptr) {
             ptr->SetAllyBaseStats(1164,476,529);
             ptr->Light_cone.Name = "Sunday_LC";
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            string hymn = ptr->getSubUnit()->getUnitName() +  " Hymn";
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,hymn]() {
                 if (turn->Unit_num != ptr->Sub_Unit_ptr[0]->currentAllyTargetNum) return;
                 SubUnit *tempstats = dynamic_cast<SubUnit*>(turn->ptr_to_unit);
                 if (!tempstats) return;
-                if (Buff_end(tempstats, "Hymn")) {
-                    Buff_single_target(tempstats, "Dmg%", "None", -(tempstats->Stack["Hymn"] * (12.75 + (2.25)*superimpose) ));
-                    tempstats->Stack["Hymn"] = 0;
+                if (tempstats->isBuffEnd(hymn)) {
+                    tempstats->buffResetStack({{ST_DMG,AT_NONE,(12.75 + (2.25)*superimpose)}},hymn);
                 }
             }));
     
-            AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,superimpose](SubUnit* target) {
-                target->setBuffCountdown("Hymn",0);
-                Buff_single_target(target, "Dmg%", "None", -(target->Stack["Hymn"] * (12.75 + (2.25)*superimpose)));
-                target->Stack["Hymn"] = 0;
+            AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,superimpose,hymn](SubUnit* target) {
+                target->buffResetStack({{ST_DMG,AT_NONE,(12.75 + (2.25)*superimpose)}},hymn);
             }));
     
-            Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+            Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,hymn](shared_ptr<AllyActionData> &data_) {
                 if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_->traceType == "Single_target") {
                     Increase_energy(ptr, 5.5 + 0.5 * superimpose);
-                    for (auto e : data_->Target_Buff) {
-                        Stack_Buff_single_target(e, "Dmg%", "None", (12.75 + (2.25)*superimpose), 1, 3, "Hymn");
-                        Extend_Buff_single_target(e, "Hymn", 3);
+                    for (auto each : data_->Target_Buff) {
+                        each->buffStackSingle({{ST_DMG,AT_NONE,(12.75 + (2.25)*superimpose)}},1,3,hymn,3);
                     }
                     ++ptr->Sub_Unit_ptr[0]->Stack["Hymn_cnt"];
                     if (ptr->Sub_Unit_ptr[0]->Stack["Hymn_cnt"] == 2) {

@@ -21,7 +21,7 @@ namespace Harmony_MC{
         ptr->pushSubstats("Break_effect");
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(145);
-        ptr->setRelicMainStats(ST_ATK_PERCENT,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
+        ptr->setRelicMainStats(ST_ATK_P,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
 
 
         //func

@@ -29,7 +29,7 @@ namespace Mydei{
         ptr->pushSubstats("Hp%");
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(135);
-        ptr->setRelicMainStats(ST_HP_PERCENT,ST_FLAT_SPD,ST_DMG,ST_HP_PERCENT);
+        ptr->setRelicMainStats(ST_HP_P,ST_FLAT_SPD,ST_DMG,ST_HP_P);
 
 
 
@@ -76,8 +76,8 @@ namespace Mydei{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CRIT_DAM]["None"] += 37.3;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_PERCENT]["None"] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD]["None"] += 37.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P]["None"] += 18;
             ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 5;
 
             // relic
@@ -91,8 +91,8 @@ namespace Mydei{
             ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] = (floor((ptr->Sub_Unit_ptr[0]->totalHP - 4000) / 100) <= 40) ? floor((ptr->Sub_Unit_ptr[0]->totalHP - 4000) / 100) : 40;
             if (ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] < 0) ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] = 0;
 
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CRIT_RATE][AT_NONE] += ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] * 1.2;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CRIT_RATE][AT_TEMP] += ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] * 1.2;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] * 1.2;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_TEMP] += ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] * 1.2;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING_OUT][AT_NONE] += ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] * 0.75;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING_OUT][AT_TEMP] += ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] * 0.75;
             if (ptr->Eidolon >= 6) {
@@ -105,7 +105,7 @@ namespace Mydei{
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_FLAT_DEF][AT_TEMP] -= 10000;
             
             if (ptr->Eidolon >= 2) Mydeiptr->buffSingle({{ST_DEF_SHRED,AT_NONE,15}});
-            if (ptr->Eidolon >= 4) Mydeiptr->buffSingle({{ST_CRIT_DAM,AT_NONE,30}});
+            if (ptr->Eidolon >= 4) Mydeiptr->buffSingle({{ST_CD,AT_NONE,30}});
             }
 
             allEventAdjustStats(ptr->Sub_Unit_ptr[0].get(), "Hp%");
@@ -124,7 +124,7 @@ namespace Mydei{
 
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTTACK, [ptr,Mydeiptr](SubUnit *target, string StatsType) {
             if (target->Atv_stats->Unit_Name != "Mydei") return;
-            if (StatsType == ST_FLAT_HP || StatsType == ST_HP_PERCENT) {
+            if (StatsType == ST_FLAT_HP || StatsType == ST_HP_P) {
                 
             if (Mydeiptr->getBuffCheck("Mydei_Vendetta")) {
                 double temp = calculateHpForBuff(ptr->Sub_Unit_ptr[0].get(), 50);
@@ -293,7 +293,7 @@ namespace Mydei{
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_FLAT_DEF][AT_NONE] -= 10000;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_FLAT_DEF][AT_TEMP] -= 10000;    
             if (ptr->Eidolon >= 2) ptr->Sub_Unit_ptr[0]->buffSingle({{ST_DEF_SHRED,AT_NONE,15}});
-            if (ptr->Eidolon >= 4) ptr->Sub_Unit_ptr[0]->buffSingle({{ST_CRIT_DAM,AT_NONE,30}});
+            if (ptr->Eidolon >= 4) ptr->Sub_Unit_ptr[0]->buffSingle({{ST_CD,AT_NONE,30}});
             allEventAdjustStats(ptr->Sub_Unit_ptr[0].get(),"Hp%");
         }
         if(ptr->Eidolon>=6){

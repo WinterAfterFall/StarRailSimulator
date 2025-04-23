@@ -16,7 +16,7 @@ namespace Planar{
         }));
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            Buff_single_with_all_memo(ptr, ST_CRIT_DAM, AT_NONE, 28);
+            Buff_single_with_all_memo(ptr, ST_CD, AT_NONE, 28);
         }));
     }
 }

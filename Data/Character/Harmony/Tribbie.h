@@ -27,7 +27,7 @@ namespace Tribbie{
         ptr->pushSubstats("Crit_rate");
         ptr->pushSubstats("Hp%");
         ptr->setTotalSubstats(20);
-        ptr->setRelicMainStats(ST_CRIT_RATE,ST_HP_PERCENT,ST_HP_PERCENT,ST_EnergyRecharge);
+        ptr->setRelicMainStats(ST_CR,ST_HP_P,ST_HP_P,ST_EnergyRecharge);
 
 
 

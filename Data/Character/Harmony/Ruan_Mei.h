@@ -25,7 +25,7 @@ namespace Ruan_Mei{
         ptr->pushSubstats(ST_BE);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(140);
-        ptr->setRelicMainStats(ST_ATK_PERCENT,ST_FLAT_SPD,ST_ATK_PERCENT,ST_EnergyRecharge);
+        ptr->setRelicMainStats(ST_ATK_P,ST_FLAT_SPD,ST_ATK_P,ST_EnergyRecharge);
 
         
         
@@ -66,7 +66,7 @@ namespace Ruan_Mei{
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
             buffAllAlly({
                 {"Break_effect", "None", 20},
-                {ST_SPD,ST_SPD_PERCENT,10}
+                {ST_SPD,ST_SPD_P,10}
             });
         }));
 

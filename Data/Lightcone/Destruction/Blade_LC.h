@@ -13,8 +13,8 @@ namespace Destruction_Lightcone{
             ptr->Light_cone.Name = "Blade_LC";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](){
                         
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_CRIT_RATE][AT_NONE]+=15 + (3*superimpose);
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_PERCENT][AT_NONE]+=15 + (3*superimpose);
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE]+=15 + (3*superimpose);
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P][AT_NONE]+=15 + (3*superimpose);
                 
                 }
             ));

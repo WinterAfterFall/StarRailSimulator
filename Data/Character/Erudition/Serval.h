@@ -125,7 +125,7 @@ namespace Serval{
         }));
 
         Enemy_Death_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,Servalptr](Enemy *target, SubUnit *Killer) {
-            Servalptr->buffSingle({{ST_ATK_PERCENT,AT_NONE,20}},"Serval_A6",2);
+            Servalptr->buffSingle({{ST_ATK_P,AT_NONE,20}},"Serval_A6",2);
         }));
 
 

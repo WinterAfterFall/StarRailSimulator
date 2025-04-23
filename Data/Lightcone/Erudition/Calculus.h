@@ -15,7 +15,7 @@ namespace Erudition_Lightcone{
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 if (ptr->getSubUnit()->isBuffEnd("Calculus_Speed_buff")) {
-                    ptr->getSubUnit()->buffSingle({{ST_SPD,ST_SPD_PERCENT,-(6.0 + 2 * superimpose)}});
+                    ptr->getSubUnit()->buffSingle({{ST_SPD,ST_SPD_P,-(6.0 + 2 * superimpose)}});
                 }
                 
             }));
@@ -26,7 +26,7 @@ namespace Erudition_Lightcone{
     
                 ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"]["None"] += ptr->Sub_Unit_ptr[0]->Buff_note["Calculus_Atk_buff"];
                 if (ptr->Sub_Unit_ptr[0]->Buff_note["Calculus_Atk_buff"] >= 24) {
-                    ptr->getSubUnit()->buffSingle({{ST_SPD,ST_SPD_PERCENT,(6.0 + 2 * superimpose)}},"Calculus_Speed_buff",1);
+                    ptr->getSubUnit()->buffSingle({{ST_SPD,ST_SPD_P,(6.0 + 2 * superimpose)}},"Calculus_Speed_buff",1);
                 }
             }));
         };

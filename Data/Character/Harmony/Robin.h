@@ -21,10 +21,10 @@ namespace Robin{
         Ally *ptr = SetAllyBasicStats(102, 160, 160, E, "Physical", "Harmony", "Robin",TYPE_STD);
         SubUnit *Robinptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1280, 640, 485);
-        ptr->pushSubstats(ST_ATK_PERCENT);
+        ptr->pushSubstats(ST_ATK_P);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(120);
-        ptr->setRelicMainStats(ST_ATK_PERCENT,ST_ATK_PERCENT,ST_ATK_PERCENT,ST_EnergyRecharge);
+        ptr->setRelicMainStats(ST_ATK_P,ST_ATK_P,ST_ATK_P,ST_EnergyRecharge);
 
 
         //func
@@ -78,7 +78,7 @@ namespace Robin{
 
                     buffAllAlly({{"Crit_dam", "Fua", 25}});
                     if(ptr->Eidolon >= 1)buffAllAlly({{"Respen", "None", 24}});
-                    if(ptr->Eidolon >= 2)Robinptr->buffAllAllyExcludingBuffer({{ST_SPD,ST_SPD_PERCENT,16}});
+                    if(ptr->Eidolon >= 2)Robinptr->buffAllAllyExcludingBuffer({{ST_SPD,ST_SPD_P,16}});
                     
                     All_Action_forward(100);
                 };
@@ -173,7 +173,7 @@ namespace Robin{
                 buffAllAlly({{"Flat_Atk", "None", -ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]}});
                 buffAllAlly({{"Crit_dam", "Fua", -25}});
                 if(ptr->Eidolon >= 1)buffAllAlly({{"Respen", "None", -24}});
-                if(ptr->Eidolon >= 2)Robinptr->buffAllAllyExcludingBuffer({{ST_SPD,ST_SPD_PERCENT,-16}});
+                if(ptr->Eidolon >= 2)Robinptr->buffAllAllyExcludingBuffer({{ST_SPD,ST_SPD_P,-16}});
                 }
                 Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),100);
                 if(ptr->Print)CharCmd::printUltEnd("Robin");

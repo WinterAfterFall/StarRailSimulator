@@ -24,7 +24,7 @@ namespace Gallagher{
         ptr->pushSubstats("Break_effect");
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(150);
-        ptr->setRelicMainStats(ST_HEALING_OUT,ST_FLAT_SPD,ST_ATK_PERCENT,ST_EnergyRecharge);
+        ptr->setRelicMainStats(ST_HEALING_OUT,ST_FLAT_SPD,ST_ATK_P,ST_EnergyRecharge);
 
 
         //func
@@ -71,7 +71,7 @@ namespace Gallagher{
 
         Reset_List.push_back({PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type["Break_effect"]["None"] += 13.3;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_PERCENT]["None"] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P]["None"] += 18;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES]["None"] += 18;
 
             // relic

@@ -27,7 +27,7 @@ namespace RMC{
         ptr->pushSubstats("Crit_dam");
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(150);
-        ptr->setRelicMainStats(ST_CRIT_DAM,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
+        ptr->setRelicMainStats(ST_CD,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
 
 
         //func
@@ -53,10 +53,10 @@ namespace RMC{
             data_->Damage_spilt.Other.push_back({264, 0, 0, 20});
             data_->actionFunction = [ptr,RMCptr,Memptr](shared_ptr<AllyActionData> &data_) {
                 Increase_Charge(ptr, 40);
-                Memptr->buffSingle({{ST_CRIT_RATE,AT_NONE,-100}});
+                Memptr->buffSingle({{ST_CR,AT_NONE,-100}});
                 if (ptr->Print) CharCmd::printUltStart("RMC");
                 Attack(data_);
-                Memptr->buffSingle({{ST_CRIT_RATE,AT_NONE,-100}});
+                Memptr->buffSingle({{ST_CR,AT_NONE,-100}});
             };
             Action_bar.push(data_);
             if (!actionBarUse) Deal_damage();
@@ -76,8 +76,8 @@ namespace RMC{
             if (target->Atv_stats->Unit_Name != "Mem") return;
             if (StatsType == "Crit_dam") {
                 double buffValue = (calculateCritdamForBuff(ptr->Sub_Unit_ptr[1].get(), 13.2) + 26.4);
-                buffAllAlly({{ST_CRIT_DAM, AT_TEMP, buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});
-                buffAllAlly({{ST_CRIT_DAM, AT_NONE, buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});
+                buffAllAlly({{ST_CD, AT_TEMP, buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});
+                buffAllAlly({{ST_CD, AT_NONE, buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});
                 ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"] = buffValue;
                 return;
             }
@@ -112,8 +112,8 @@ namespace RMC{
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
             ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"] = calculateCritdamForBuff(ptr->Sub_Unit_ptr[1].get(), 13.2) + 26.4;
-            buffAllAlly({{ST_CRIT_DAM, AT_TEMP,ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});
-            buffAllAlly({{ST_CRIT_DAM, AT_NONE,ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});
+            buffAllAlly({{ST_CD, AT_TEMP,ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});
+            buffAllAlly({{ST_CD, AT_NONE,ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
@@ -125,7 +125,7 @@ namespace RMC{
                 else 
                 chooseCharacterBuff(RMCptr)->buffAlly({{ST_TRUE,AT_NONE, -30 - 2 * floor((chooseCharacterBuff(RMCptr)->Max_energy - 100) / 10)}});
 
-                chooseCharacterBuff(RMCptr)->buffAlly({{ST_CRIT_RATE,AT_NONE,-10}});
+                chooseCharacterBuff(RMCptr)->buffAlly({{ST_CR,AT_NONE,-10}});
             }
         }));
 
@@ -271,7 +271,7 @@ namespace RMC{
                 else 
                 chooseCharacterBuff(RMCptr)->buffAlly({{ST_TRUE,AT_NONE, + 30 + 2 * floor((chooseCharacterBuff(RMCptr)->Max_energy - 100) / 10)}});
 
-                chooseCharacterBuff(RMCptr)->buffAlly({{ST_CRIT_RATE,AT_NONE,10}});
+                chooseCharacterBuff(RMCptr)->buffAlly({{ST_CR,AT_NONE,10}});
             }
             Action_forward(chooseSubUnitBuff(ptr->Sub_Unit_ptr[1].get())->Atv_stats.get(),100);
         };

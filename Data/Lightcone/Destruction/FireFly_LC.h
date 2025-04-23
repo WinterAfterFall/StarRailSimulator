@@ -22,7 +22,7 @@ namespace Destruction_Lightcone{
                 for(Enemy* &e :data_->Target_Attack){
                     e->debuffSingleApply({
                         {ST_VUL,AT_BREAK,20.0 + 4 * superimpose},
-                        {ST_SPD,ST_SPD_PERCENT,-20.0}
+                        {ST_SPD,ST_SPD_P,-20.0}
                     },ptr->Sub_Unit_ptr[0].get(),debuffName,2);
                 } 
             }));
@@ -32,7 +32,7 @@ namespace Destruction_Lightcone{
                     if (Enemy_unit[turn->Unit_num]->isDebuffEnd(debuffName)) {
                         Enemy_unit[turn->Unit_num]->debuffSingle({
                             {ST_VUL,AT_BREAK,-20.0 - 4 * superimpose},
-                            {ST_SPD,ST_SPD_PERCENT,20.0}
+                            {ST_SPD,ST_SPD_P,20.0}
                         });
                     }
                 }

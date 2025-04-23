@@ -20,8 +20,8 @@ namespace TemplateName{
 
         //substats
         ptr->pushSubstats("Crit_dam");
-        ptr->pushSubstats(ST_CRIT_RATE);
-        ptr->pushSubstats(ST_ATK_PERCENT);
+        ptr->pushSubstats(ST_CR);
+        ptr->pushSubstats(ST_ATK_P);
         ptr->setTotalSubstats(20);
 
         //func

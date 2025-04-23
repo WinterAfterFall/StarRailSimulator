@@ -14,15 +14,15 @@
 #define PRIORITY_ACTTACK 0
 #define PRIORITY_ACTION -1
 
-#define ST_HP_PERCENT "Hp%"
+#define ST_HP_P "Hp%"
 #define ST_FLAT_HP "Flat_Hp"
-#define ST_ATK_PERCENT "Atk%"
+#define ST_ATK_P "Atk%"
 #define ST_FLAT_ATK "Flat_Atk"
-#define ST_DEF_PERCENT "Def%"
+#define ST_DEF_P "Def%"
 #define ST_FLAT_DEF "Flat_Def"
 #define ST_DMG "Dmg%"
-#define ST_CRIT_RATE "Crit_rate"
-#define ST_CRIT_DAM "Crit_dam"
+#define ST_CR "Crit_rate"
+#define ST_CD "Crit_dam"
 #define ST_BE "Break_effect"
 #define ST_DEF_SHRED "Def_shred"
 #define ST_RESPEN "Respen"
@@ -37,7 +37,7 @@
 #define ST_SHEILD "SheildBonus"
 #define ST_SPD "Speed"
 #define ST_FLAT_SPD "Flat-Speed"
-#define ST_SPD_PERCENT "Speed%"
+#define ST_SPD_P "Speed%"
 #define ST_BREAK_EFF "Weakness_Break_Efficiency"
 #define ST_TOUGH_REDUCE "Toughness_reduction"
 
