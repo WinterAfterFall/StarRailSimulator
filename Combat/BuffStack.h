@@ -129,14 +129,14 @@ void SubUnit::buffStackExcludingBuffer(vector<BuffElementClass> buffSet , int St
         }
     }
 }
-void SubUnit::buffRemoveStack(vector<BuffClass> buffSet,string Stack_Name){
+void SubUnit::buffResetStack(vector<BuffClass> buffSet,string Stack_Name){
     for(auto &e : buffSet){
         e.value *= -this->getStack(Stack_Name);
     }
     this->setStack(Stack_Name,0);
     this->buffSingle(buffSet);
 }
-void SubUnit::buffRemoveStack(vector<BuffElementClass> buffSet,string Stack_Name){
+void SubUnit::buffResetStack(vector<BuffElementClass> buffSet,string Stack_Name){
     for(auto &e : buffSet){
         e.value *= -this->getStack(Stack_Name);
     }
@@ -145,25 +145,25 @@ void SubUnit::buffRemoveStack(vector<BuffElementClass> buffSet,string Stack_Name
 }
 void Ally::buffResetStack(vector<BuffClass> buffSet,string Stack_Name){
     for(auto &e : this->Sub_Unit_ptr){
-        e->buffRemoveStack(buffSet,Stack_Name);
+        e->buffResetStack(buffSet,Stack_Name);
     }
 }
 void Ally::buffResetStack(vector<BuffElementClass> buffSet,string Stack_Name){
     for(auto &e : this->Sub_Unit_ptr){
-        e->buffRemoveStack(buffSet,Stack_Name);
+        e->buffResetStack(buffSet,Stack_Name);
     }
 }
 void buffResetStackAllAlly(vector<BuffClass> buffSet,string Stack_Name){
     for (int i = 1; i <= Total_ally; i++) {
         for (auto &each : Ally_unit[i]->Sub_Unit_ptr) {
-            each->buffRemoveStack(buffSet,Stack_Name);
+            each->buffResetStack(buffSet,Stack_Name);
         }
     }
 }
 void buffResetStackAllAlly(vector<BuffElementClass> buffSet,string Stack_Name){
     for (int i = 1; i <= Total_ally; i++) {
         for (auto &each : Ally_unit[i]->Sub_Unit_ptr) {
-            each->buffRemoveStack(buffSet,Stack_Name);
+            each->buffResetStack(buffSet,Stack_Name);
         }
     }
 }

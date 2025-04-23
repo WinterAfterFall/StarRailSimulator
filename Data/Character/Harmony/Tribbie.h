@@ -142,7 +142,7 @@ namespace Tribbie{
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr]() {
             if (TBptr->isBuffEnd("Tribbie_A2")) {
-                TBptr->buffRemoveStack({{ST_DMG, AT_NONE, 72}},"Tribbie_A2");
+                TBptr->buffResetStack({{ST_DMG, AT_NONE, 72}},"Tribbie_A2");
             }
         }));
 

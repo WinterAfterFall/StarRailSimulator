@@ -149,7 +149,7 @@ namespace Sunday{
             }
             if (Temp_stats->isBuffEnd("The_Sorrowing_Body")) {
                 if(ptr->Eidolon>=6){
-                    Temp_stats->buffRemoveStack({{ST_CRIT_RATE,AT_NONE,20}},"The_Sorrowing_Body");
+                    Temp_stats->buffResetStack({{ST_CRIT_RATE,AT_NONE,20}},"The_Sorrowing_Body");
                 }else{
                     Temp_stats->buffSingle({{ST_CRIT_RATE,AT_NONE,-20}});
                 }
@@ -215,7 +215,7 @@ namespace Sunday{
                 }
             }
             if(ptr->Eidolon>=6){
-                target->buffRemoveStack({{ST_CRIT_RATE,AT_NONE,20}},"The_Sorrowing_Body");
+                target->buffResetStack({{ST_CRIT_RATE,AT_NONE,20}},"The_Sorrowing_Body");
             }
             else if(target->isBuffGoneByDeath("The_Sorrowing_Body"))
             {

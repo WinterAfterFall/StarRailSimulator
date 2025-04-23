@@ -160,8 +160,8 @@ public:
 
     //Stack.h
     pair<int,int> calStack(int Stack_increase,int StackLimit,string buffName);
-    void buffRemoveStack(vector<BuffClass> buffSet,string Stack_Name);
-    void buffRemoveStack(vector<BuffElementClass> buffSet,string Stack_Name);
+    void buffResetStack(vector<BuffClass> buffSet,string Stack_Name);
+    void buffResetStack(vector<BuffElementClass> buffSet,string Stack_Name);
 
     void buffStackSingle(vector<BuffClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Nam);
     void buffStackSingle(vector<BuffClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Nam,int extend);

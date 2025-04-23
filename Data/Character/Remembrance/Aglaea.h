@@ -19,6 +19,7 @@ namespace Aglaea{
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally *ptr = SetAllyBasicStats(102,350,350,E,"Lightning","Remembrance","Aglaea",TYPE_STD);
+        SubUnit *AGptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1242,699,485);
         SetMemoStats(ptr,66,35,"Lightning","Garmentmaker",TYPE_STD);
         SetCountdownStats(ptr,"Supreme_Stance");
@@ -51,7 +52,7 @@ namespace Aglaea{
             }
         };
         
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,AGptr]() {
             if (ptr->Countdown_ptr[0]->Atv_stats->Base_speed != -1 && 
                 (ptr->Countdown_ptr[0]->Atv_stats->atv > ptr->Sub_Unit_ptr[0]->Atv_stats->atv && 
                 (ptr->Sub_Unit_ptr[0]->Atv_stats->atv != ptr->Sub_Unit_ptr[0]->Atv_stats->Max_atv))) return;
@@ -61,20 +62,19 @@ namespace Aglaea{
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
             data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Buff", "Aglaea Ultimate");
             data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
-            data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_) {
+            data_->actionFunction = [ptr,AGptr](shared_ptr<AllyActionData> &data_) {
                 if (ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed == -1) Summon(ptr);
 
                 if (ptr->Countdown_ptr[0]->Atv_stats->Base_speed == -1) 
-                    Speed_Buff(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 15 * ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"], 0);
+                AGptr->buffSingle({{ST_SPD, ST_SPD_PERCENT, 15.0 * ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"]}});
+                
                 Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
-                ptr->Countdown_ptr[0]->Atv_stats->Base_speed = 100;
-                Update_Max_atv(ptr->Countdown_ptr[0]->Atv_stats.get());
-                resetTurn(ptr->Countdown_ptr[0]->Atv_stats.get());
+                ptr->Countdown_ptr[0]->resetATV(100);
                 double BuffValue = calculateSpeedForBuff(ptr->Sub_Unit_ptr[0].get(), 360) + 
                 calculateSpeedForBuff(ptr->Sub_Unit_ptr[1].get(), 720);
 
-                Buff_single_with_all_memo(ptr, "Flat_Atk", AT_TEMP, BuffValue - ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
-                Buff_single_with_all_memo(ptr, "Flat_Atk", "None", BuffValue - ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
+                ptr->buffAlly({{ST_FLAT_ATK, AT_TEMP, BuffValue - ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]}});
+                ptr->buffAlly({{ST_FLAT_ATK, AT_NONE, BuffValue - ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]}});
                 ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"] =  BuffValue;
                 if (ptr->Print) CharCmd::printUltStart("Aglaea");
             };
@@ -82,7 +82,7 @@ namespace Aglaea{
             if (!actionBarUse) Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type["Def%"]["None"] += 12.5;
             ptr->Sub_Unit_ptr[0]->Stats_type["Crit_rate"]["None"] += 12;
             ptr->Sub_Unit_ptr[0]->Stats_each_element["Dmg%"]["Lightning"]["None"] += 22.4;
@@ -95,13 +95,13 @@ namespace Aglaea{
         }));
 
 
-        Setup_Memo_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Setup_Memo_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr]() {
             ptr->Sub_Unit_ptr[1]->Stats_type["Flat_Hp"]["None"] += 720;
             ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed = -1;
             ptr->Sub_Unit_ptr[1]->currentHP = 0;
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr]() {
             if (ptr->Technique == 1) {
                 shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
                 data_->Technique_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Aglaea Technique");
@@ -109,7 +109,7 @@ namespace Aglaea{
                 data_->Damage_spilt.Main.push_back({100, 0, 0, 20});
                 data_->Damage_spilt.Adjacent.push_back({100, 0, 0, 20});
                 data_->Damage_spilt.Other.push_back({100, 0, 0, 20});
-                data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_) {
+                data_->actionFunction = [ptr,AGptr](shared_ptr<AllyActionData> &data_) {
                     Increase_energy(ptr, 30);
                     ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed = ptr->Sub_Unit_ptr[0]->Atv_stats->Base_speed * 0.35;
                     Update_Max_atv(ptr->Sub_Unit_ptr[1]->Atv_stats.get());
@@ -122,20 +122,20 @@ namespace Aglaea{
             }
         }));
 
-        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyActionData> &data_) {
+        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr,AGptr](shared_ptr<AllyActionData> &data_) {
             if (data_->Attacker->Atv_stats->Unit_Name == "Garmentmaker") {
                 if (data_->Attacker->Stack["Brewed_by_Tears"] < 6) {
-                    Speed_Buff(data_->Attacker->Atv_stats.get(), 0, 55);
+                    data_->Attacker->buffSingle({{ST_SPD, ST_FLAT_SPD, 55.0}});
                     data_->Attacker->Stack["Brewed_by_Tears"]++;
                     if (ptr->Countdown_ptr[0]->Atv_stats->Base_speed != -1) {
-                        Speed_Buff(data_->Attacker->ptr_to_unit->Sub_Unit_ptr[0]->Atv_stats.get(), 15, 0);
+                        AGptr->buffSingle({{ST_SPD, ST_SPD_PERCENT, 15.0}});
                     }
                 }
             }
             if (data_->Attacker->isSameUnitName("Aglaea")) {
-                if (Enemy_unit[Main_Enemy_num]->debuffMark(ptr->getSubUnit(),"Seam_Stitch")) {
+                if (Enemy_unit[Main_Enemy_num]->debuffApply(ptr->getSubUnit(),"Seam_Stitch")) {
                     if (ptr->Eidolon >= 1) {
-                        Enemy_unit[Main_Enemy_num]->debuffSingleApply("Vul", "None", 15);
+                        Enemy_unit[Main_Enemy_num]->debuffSingle({{ST_VUL, AT_NONE, 15}});
                     }
                 }
             }
@@ -149,33 +149,27 @@ namespace Aglaea{
             }
         }));
 
-        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
+        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr](shared_ptr<AllyActionData> &data_) {
             if (ptr->Eidolon >= 2) {
                 if (data_->Attacker->Atv_stats->Unit_Name == "Aglaea" || data_->Attacker->Atv_stats->Unit_Name == "Garmentmaker") {
-                    Stack_Buff_single_with_all_memo(ptr, "Def_shred", "None", 14, 1, 3, "Aglaea_E2");
+                    ptr->buffStackAlly({{ST_DEF_SHRED,AT_NONE,14}},1,3,"Aglaea_E2");
                 } else {
-                    for (int i = 0; i < ptr->Sub_Unit_ptr.size(); i++) {
-                        Buff_single_target(ptr->Sub_Unit_ptr[i].get(), "Def_shred", "None", ptr->Sub_Unit_ptr[i]->Stack["Aglaea_E2"] * (-14));
-                        ptr->Sub_Unit_ptr[i]->Stack["Aglaea_E2"] = 0;
-                    }
+                    ptr->buffResetStack({{ST_DEF_SHRED,AT_NONE,14}},"Aglaea_E2");
                 }
             }
         }));
 
-        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
+        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr](shared_ptr<AllyActionData> &data_) {
             if (ptr->Eidolon >= 2) {
                 if (data_->Attacker->Atv_stats->Unit_Name == "Aglaea" || data_->Attacker->Atv_stats->Unit_Name == "Garmentmaker") {
-                    Stack_Buff_single_with_all_memo(ptr, "Def_shred", "None", 14, 1, 3, "Aglaea_E2");
+                    ptr->buffStackAlly({{ST_DEF_SHRED,AT_NONE,14}},1,3,"Aglaea_E2");
                 } else {
-                    for (int i = 0; i < ptr->Sub_Unit_ptr.size(); i++) {
-                        Buff_single_target(ptr->Sub_Unit_ptr[i].get(), "Def_shred", "None", ptr->Sub_Unit_ptr[i]->Stack["Aglaea_E2"] * (-14));
-                        ptr->Sub_Unit_ptr[i]->Stack["Aglaea_E2"] = 0;
-                    }
+                    ptr->buffResetStack({{ST_DEF_SHRED,AT_NONE,14}},"Aglaea_E2");
                 }
             }
         }));
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](SubUnit *target, string StatsType) {
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,AGptr](SubUnit *target, string StatsType) {
             if (target->Atv_stats->Unit_Name != "Aglaea") return;
             if (ptr->Countdown_ptr[0]->Atv_stats->Base_speed == -1) return;
             if (StatsType == "Speed") {
@@ -183,41 +177,35 @@ namespace Aglaea{
                 double BuffValue = calculateSpeedForBuff(ptr->Sub_Unit_ptr[0].get(), 360) + 
                 calculateSpeedForBuff(ptr->Sub_Unit_ptr[1].get(), 720);
 
-                Buff_single_with_all_memo(ptr, "Flat_Atk", AT_TEMP, BuffValue - ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
-                Buff_single_with_all_memo(ptr, "Flat_Atk", "None", BuffValue - ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
+                ptr->buffAlly({{ST_FLAT_ATK, AT_TEMP, BuffValue - ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]}});
+                ptr->buffAlly({{ST_FLAT_ATK, AT_NONE, BuffValue - ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]}});
                 ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"] =  BuffValue;
                 return;
             }
         }));
 
         
-        ptr->Sub_Unit_ptr[1]->Turn_func = [ptr](){
+        ptr->Sub_Unit_ptr[1]->Turn_func = [ptr,AGptr](){
         
             Memo_Skill(ptr);
             
         };
 
-        ptr->Countdown_ptr[0]->Turn_func = [ptr](){
-            Speed_Buff(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),-15*ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"],0);
+        ptr->Countdown_ptr[0]->Turn_func = [ptr,AGptr](){
+            AGptr->buffSingle({{ST_SPD, ST_SPD_PERCENT, 15.0 * ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"]}});
             
-            ptr->Countdown_ptr[0]->Atv_stats->Base_speed=-1;
-            Update_Max_atv(ptr->Countdown_ptr[0]->Atv_stats.get());
-            resetTurn(ptr->Countdown_ptr[0]->Atv_stats.get());
+            ptr->Countdown_ptr[0]->resetATV(-1);
             
-            Buff_single_with_all_memo(ptr,"Flat_Atk",AT_TEMP,-ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
-            Buff_single_with_all_memo(ptr,"Flat_Atk","None",-ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]);
+            ptr->buffAlly({{ST_FLAT_ATK, AT_TEMP,-ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]}});
+            ptr->buffAlly({{ST_FLAT_ATK, AT_NONE,-ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]}});
     
             ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"] = 0;
-            ptr->Sub_Unit_ptr[1]->currentHP = 0;
-    
-            ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed = -1;
-            Update_Max_atv(ptr->Sub_Unit_ptr[1]->Atv_stats.get());
-            resetTurn(ptr->Sub_Unit_ptr[1]->Atv_stats.get());
+            ptr->Sub_Unit_ptr[1]->Death(); 
             double temp =0;
             if(ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"]>1){
                 temp = ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"]-1;
             }
-            Speed_Buff(ptr->Sub_Unit_ptr[1]->Atv_stats.get(),0,(-55*temp));
+            ptr->Sub_Unit_ptr[1]->buffSingle({{ST_SPD, ST_FLAT_SPD, -55.0 * temp}});
             ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"] = 1;
             Increase_energy(ptr,20);
     
