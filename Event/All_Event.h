@@ -36,7 +36,7 @@ void allEventAfterTurn(){
         }
         if(Enemy_unit[turn->Unit_num]->Imprisonment != 0){
            Enemy_unit[turn->Unit_num]->Imprisonment = 0;
-           Speed_Buff(Enemy_unit[turn->Unit_num]->Atv_stats.get(),10,0);
+           Enemy_unit[turn->Unit_num]->debuffSingle({{ST_SPD,ST_SPD_P,10}});
            --Enemy_unit[turn->Unit_num]->Total_debuff;
         }
         if(Enemy_unit[turn->Unit_num]->Bleed > 0){

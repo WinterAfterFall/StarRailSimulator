@@ -19,6 +19,8 @@ namespace RMC{
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally *ptr = SetAllyBasicStats(103,160,160,E,"Ice","Remembrance","RMC",TYPE_STD);
         ptr->SetAllyBaseStats(1048,543,631);
+        SetMemoStats(ptr,68,0,"Ice","Mem",TYPE_STD);
+        
         SubUnit *RMCptr = ptr->getSubUnit();
         SubUnit *Memptr = ptr->getSubUnit(1);
         //substats
@@ -41,6 +43,14 @@ namespace RMC{
                 Skill(ptr);
             }
         };
+        ptr->Sub_Unit_ptr[1]->Turn_func = [ptr,RMCptr,Memptr](){
+        
+            if(ptr->Sub_Unit_ptr[1]->Buff_check["Mem_Charge"]==1){
+                Memo_Echance_Skill(ptr);
+            }else{
+                Memo_Skill(ptr);
+            }
+        };
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,RMCptr,Memptr]() {
             if (ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Charge"] >= 60 && chooseSubUnitBuff(ptr->Sub_Unit_ptr[1].get())->Atv_stats->atv <= 20) return;
@@ -53,13 +63,15 @@ namespace RMC{
             data_->Damage_spilt.Other.push_back({264, 0, 0, 20});
             data_->actionFunction = [ptr,RMCptr,Memptr](shared_ptr<AllyActionData> &data_) {
                 Increase_Charge(ptr, 40);
-                Memptr->buffSingle({{ST_CR,AT_NONE,-100}});
+                Memptr->buffSingle({{ST_CR,AT_NONE,100.0}});
                 if (ptr->Print) CharCmd::printUltStart("RMC");
+                
                 Attack(data_);
-                Memptr->buffSingle({{ST_CR,AT_NONE,-100}});
+
+                Memptr->buffSingle({{ST_CR,AT_NONE,-100.0}});
             };
             Action_bar.push(data_);
-            if (!actionBarUse) Deal_damage();
+            Deal_damage();
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
@@ -156,15 +168,7 @@ namespace RMC{
 
 
 
-        SetMemoStats(ptr,68,0,"Ice","Mem",TYPE_STD);
-        ptr->Sub_Unit_ptr[1]->Turn_func = [ptr,RMCptr,Memptr](){
         
-            if(ptr->Sub_Unit_ptr[1]->Buff_check["Mem_Charge"]==1){
-                Memo_Echance_Skill(ptr);
-            }else{
-                Memo_Skill(ptr);
-            }
-        };
 
     }
 

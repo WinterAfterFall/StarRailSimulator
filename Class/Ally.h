@@ -12,19 +12,6 @@ class Func_class{
     string Name;
     function<void(Ally *ptr)> Print_Func;
 };
-class BuffClass{
-    public:
-    string statsType;
-    string actionType;
-    double value;
-};
-class BuffElementClass{
-    public:
-    string statsType;
-    string element;
-    string actionType;
-    double value;
-};
 // Enemy stats
 // Ally class, derived from Unit
 class Ally{

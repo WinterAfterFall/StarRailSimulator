@@ -46,5 +46,18 @@ public:
     void resetATV(double baseSpeed);
 
 };
+class BuffClass{
+    public:
+    string statsType;
+    string actionType;
+    double value;
+};
+class BuffElementClass{
+    public:
+    string statsType;
+    string element;
+    string actionType;
+    double value;
+};
 
 #endif
