@@ -28,7 +28,7 @@ namespace RMC{
 
         ptr->pushSubstats(ST_CD);
         ptr->setTotalSubstats(20);
-        ptr->setSpeedRequire(150);
+        ptr->setSpeedRequire(160);
         ptr->setRelicMainStats(ST_CD,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
 
 

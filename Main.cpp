@@ -20,7 +20,7 @@ Ally* Char3;
 Ally* Char4; 
 void SetValue(){
     Driver_num = 2;
-    Driver_Type = AT_NONE; //Swap_pull Always_pull Double_turn None
+    Driver_Type = "None"; //Swap_pull Always_pull Double_turn None
     Sp_status ="Positive"; //Positive Negative       
     //set unit
     
@@ -31,7 +31,7 @@ void SetValue(){
     SuperBreak_Formula_check_mode = 0;  
     Break_Formula_check_mode = 0;
     
-    Normal_Damage_Formula_check_mode = 1;
+    Normal_Damage_Formula_check_mode = 0;
     Normal_Damage_check_mode = 0;
     Additional_Damage_Formula_check_mode = 0;
     Additional_Damage_check_mode = 0;
@@ -54,6 +54,7 @@ int main(){
     // Jingyuan::Setup_Jingyuan(2,Erudition_Lightcone::Before_Dawn,Relic::Grand_Duke,Planar::The_Wondrous_BananAmusement_Park);
     // Castorice::Setup(0,Remembrance_Lightcone::Castorice_LC(1),Relic::Poet_Dill,Planar::Bone_Collection);
     // Mydei::Setup(0,Destruction_Lightcone::Ninja_Record(5),Relic::Scholar,Planar::Bone_Collection);
+    Anaxa::Setup(0,Erudition_Lightcone::Anaxa_LC(1),Relic::GeniusBrilliant,Planar::SpaceSealing);
 
     //Driver
     // Bronya::Setup(0,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
@@ -61,13 +62,11 @@ int main(){
 
     //Sub dps
     // Jade::Setup(0,Erudition_Lightcone::Cosmos_Fell(5),Relic::Grand_Duke,Planar::Izumo);
-    Anaxa::Setup(0,Erudition_Lightcone::Anaxa_LC(1),Relic::Eagle_Beaked_Helmet,Planar::Izumo);
-
     // Serval::Setup(6,Erudition_Lightcone::Passkey(5),Relic::Eagle_Beaked_Helmet,Planar::Lushaka);
     
     //Support
-    RMC::Setup(6,Remembrance_Lightcone::Victory_In_Blink(5),Relic::PairSet(ST_SPD_P,ST_SPD_P),Planar::Broken_Keel);
-    Tribbie::Setup(0,Harmony_Lightcone::DDD(5),Relic::Poet_Dill,Planar::Broken_Keel);
+    // RMC::Setup(6,Remembrance_Lightcone::Victory_In_Blink(5),Relic::PairSet(ST_SPD_P,ST_SPD_P),Planar::Broken_Keel);
+    Tribbie::Setup(0,Harmony_Lightcone::Tribbie_LC(1),Relic::Poet_Dill,Planar::Broken_Keel);
     // Robin::Setup(2,Harmony_Lightcone::For_Tomorrow_Journey(5),Relic::PairSet(ST_ATK_P,ST_ATK_P),Planar::Broken_Keel);
     // Ruan_Mei::Setup(0,Harmony_Lightcone::Memories_of_the_Past(5),Relic::PairSet(ST_BE,ST_BE),Planar::Broken_Keel);
     //Tingyun::Setup(6,Harmony_Lightcone::DDD(5),Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
@@ -85,10 +84,9 @@ int main(){
     //--------------------- adjust ------------------------
 
 
-    // Char2->setSpeedRequire(156); 
-
+    
     // CharCmd::Set_Technique(Ally_unit[2].get(),0);
-    CharCmd::Set_Technique(Ally_unit[4].get(),0);
+    // CharCmd::Set_Technique(Ally_unit[4].get(),0);
 
 
 

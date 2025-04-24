@@ -28,8 +28,8 @@ namespace Anaxa{
         ptr->pushSubstats(ST_CR);
         ptr->pushSubstats("Atk%");
         ptr->setTotalSubstats(20);
-        ptr->setSpeedRequire(145);
-        ptr->setRelicMainStats(ST_CR,ST_FLAT_SPD,ST_DMG,ST_ATK_P);
+        ptr->setSpeedRequire(135);
+        ptr->setRelicMainStats(ST_CR,ST_FLAT_SPD,ST_ATK_P,ST_ATK_P);
 
 
 
