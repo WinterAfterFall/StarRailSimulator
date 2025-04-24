@@ -98,8 +98,7 @@ namespace Tingyun{
 
         When_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr,TYptr](shared_ptr<AllyActionData> &data_) {
             SubUnit* tempUnit = data_->Attacker;
-            if (!tempUnit) return;
-            if (tempUnit->getBuffCheck("Benediction")) {
+            if (chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->getBuffCheck("Benediction")) {
                 if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
                     shared_ptr<AllyActionData> temp = make_shared<AllyActionData>();
                     temp->Additional_set(ptr->Sub_Unit_ptr[0].get(), "Single_target","Tingyun Talent");
@@ -134,8 +133,7 @@ namespace Tingyun{
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
-            ptr->Sub_Unit_ptr[0]->buffSingle({{ST_ATK_P,AT_NONE,55}},"Benediction",3);
-
+            data_->Target_Buff[0]->buffSingle({{ST_ATK_P,AT_NONE,55}},"Benediction",3);
         };
         Action_bar.push(data_);
     }

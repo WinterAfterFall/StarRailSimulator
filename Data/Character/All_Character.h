@@ -20,7 +20,6 @@ void printUltEnd(string name){
 }
 void printText(string text){
     cout<<"------------------------------------------------------- "<<text<<" at "<<Current_atv<<endl;
-
 }
 void Set_LightCone(double HPtemp ,double ATKtemp,double DEFtemp){
     HP = HPtemp;

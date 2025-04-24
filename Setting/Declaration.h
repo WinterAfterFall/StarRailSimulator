@@ -377,6 +377,7 @@ bool Using_Skill(Ally *ptr);
 //bool Enemy_got_hit(Enemy *ptr,Combat_data &data_);
 void printUltStart(string name);
 void printUltEnd(string name);
+void printText(string text);
 void Set_Substats(Ally *ptr,int sub);
 void Set_Substats(Ally *ptr,int index,int sub);
 void Switch_Substats(Ally *ptr,string temp1,string temp2);

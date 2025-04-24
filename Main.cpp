@@ -20,7 +20,7 @@ Ally* Char3;
 Ally* Char4; 
 void SetValue(){
     Driver_num = 2;
-    Driver_Type = "None"; //Swap_pull Always_pull Double_turn None
+    Driver_Type = "Double_turn"; //Swap_pull Always_pull Double_turn None
     Sp_status ="Positive"; //Positive Negative       
     //set unit
     
@@ -28,11 +28,11 @@ void SetValue(){
     Wave[0]+=0.01;
     Print_Atv = 1;
     Formula_check_mode = 0;
-    SuperBreak_Formula_check_mode = 0;  
+    SuperBreak_Formula_check_mode = 0;
     Break_Formula_check_mode = 0;
     
     Normal_Damage_Formula_check_mode = 0;
-    Normal_Damage_check_mode = 0;
+    Normal_Damage_check_mode = 3;
     Additional_Damage_Formula_check_mode = 0;
     Additional_Damage_check_mode = 0;
     // golden ratio
@@ -49,30 +49,30 @@ void SetCharacterPtr(){
 int main(){
 
     SetValue();
-    The_Herta::Setup(2,Erudition_Lightcone::The_Herta_LC(1),Relic::Scholar,Planar::Izumo);
+    // The_Herta::Setup(2,Erudition_Lightcone::The_Herta_LC(1),Relic::Scholar,Planar::Izumo);
     // Aglaea::Setup(1,Remembrance_Lightcone::SweatNowCryLess(1),Relic::Hero_Wreath,Planar::The_Wondrous_BananAmusement_Park);
     // Jingyuan::Setup_Jingyuan(2,Erudition_Lightcone::Before_Dawn,Relic::Grand_Duke,Planar::The_Wondrous_BananAmusement_Park);
     // Castorice::Setup(0,Remembrance_Lightcone::Castorice_LC(1),Relic::Poet_Dill,Planar::Bone_Collection);
     // Mydei::Setup(0,Destruction_Lightcone::Ninja_Record(5),Relic::Scholar,Planar::Bone_Collection);
-    Anaxa::Setup(0,Erudition_Lightcone::Anaxa_LC(1),Relic::GeniusBrilliant,Planar::SpaceSealing);
+    Anaxa::Setup(0,Erudition_Lightcone::Anaxa_LC(1),Relic::Scholar,Planar::SpaceSealing);
 
     //Driver
+    Sunday::Setup(0,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
     // Bronya::Setup(0,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
-    // Sunday::Setup(0,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
 
     //Sub dps
     // Jade::Setup(0,Erudition_Lightcone::Cosmos_Fell(5),Relic::Grand_Duke,Planar::Izumo);
     // Serval::Setup(6,Erudition_Lightcone::Passkey(5),Relic::Eagle_Beaked_Helmet,Planar::Lushaka);
     
     //Support
+    Tribbie::Setup(0,Harmony_Lightcone::DDD(5),Relic::Poet_Dill,Planar::Broken_Keel);
     // RMC::Setup(6,Remembrance_Lightcone::Victory_In_Blink(5),Relic::PairSet(ST_SPD_P,ST_SPD_P),Planar::Broken_Keel);
-    Tribbie::Setup(0,Harmony_Lightcone::Tribbie_LC(1),Relic::Poet_Dill,Planar::Broken_Keel);
-    // Robin::Setup(2,Harmony_Lightcone::For_Tomorrow_Journey(5),Relic::PairSet(ST_ATK_P,ST_ATK_P),Planar::Broken_Keel);
+    // Robin::Setup(0,Harmony_Lightcone::For_Tomorrow_Journey(5),Relic::PairSet(ST_ATK_P,ST_ATK_P),Planar::Lushaka);
     // Ruan_Mei::Setup(0,Harmony_Lightcone::Memories_of_the_Past(5),Relic::PairSet(ST_BE,ST_BE),Planar::Broken_Keel);
-    //Tingyun::Setup(6,Harmony_Lightcone::DDD(5),Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
+    // Tingyun::Setup(6,Harmony_Lightcone::DDD(5),Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
     
     //Debuffer
-    // Pela::Setup(6,Nihility_Lightcone::Before_the_Tutorial(5),Relic::PairSet(ST_SPD_PERCENT,ST_SPD_PERCENT),Planar::Broken_Keel);
+    // Pela::Setup(6,Nihility_Lightcone::Before_the_Tutorial(5),Relic::Eagle_Beaked_Helmet,Planar::Broken_Keel);
 
 
     //Sustain
@@ -115,14 +115,9 @@ int main(){
 
     SetupEnemy(158,160,{10,15},{200,300},{2,3},"Main");
     SetupEnemy(158,10,{10,10},{200,300},{2,3},"Adjacent");
-    SetupEnemy(158,0,{0,0},{200,200},{2,3},"Adjacent");
-    
-    // SetupEnemy(130,0,90,200.0,0,"Other");
-    // SetupEnemy(120,0,90,200.0,0,"Other");
-    
-    //SetupEnemy(1,600,0,30,"Main");
-    //SetupEnemy(2,600,0,30,"Adjacent");
-    // SetupEnemy(3,130,0,90,"Adjacent");
+    // SetupEnemy(158,0,{0,0},{200,200},{2,3},"Adjacent");
+    // SetupEnemy(130,0,{0,0},{0,0},{2,0},"Other");
+    // SetupEnemy(130,0,{0,0},{0,0},{2,0},"Other");
     
 
     

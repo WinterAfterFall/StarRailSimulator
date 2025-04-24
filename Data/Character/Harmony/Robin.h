@@ -26,7 +26,6 @@ namespace Robin{
         ptr->setSpeedRequire(120);
         ptr->setRelicMainStats(ST_ATK_P,ST_ATK_P,ST_ATK_P,ST_EnergyRecharge);
 
-
         //func
         LC(ptr);
         Relic(ptr);
@@ -38,6 +37,7 @@ namespace Robin{
             Basic_Atk(ptr);
             }
         };
+        
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Robinptr](){
             if(Driver_Type=="Double_turn"){
                 if(Double_Turn(ptr))return;
@@ -45,7 +45,7 @@ namespace Robin{
                 //if(Ally_unit[Driver_num]->Atv_stats->atv <= Ally_unit[Main_dps_num]->Atv_stats->atv &&Ally_unit[Main_dps_num]->Sub_Unit_ptr[0]->Summon_ptr==nullptr)return;
             }else if(Driver_Type=="Always_pull"){
                 // if(Ally_unit[Driver_num]->Atv_stats->Name=="Hanabi"){
-                //     if(Ally_unit[Driver_num]->Atv_stats->atv <= Ally_unit[Main_dps_num]->Atv_stats->atv )return;
+                //     if(Ally_unit[Driver_num]->Atv_stats->atv <= Ally_unit[Main_dps_num]->Atv_stats->atv)return;
                 // }
                 // if(Ally_unit[Driver_num]->Atv_stats->Name=="Sunday"){
                 //     if(Ally_unit[Main_dps_num]->Sub_Unit_ptr[0]->Summon_ptr==nullptr){
@@ -60,7 +60,6 @@ namespace Robin{
             }
             if(Ult_Condition(ptr))return;
             if(ptr->Countdown_ptr[0]->Atv_stats->Base_speed != 90 && ptr->Sub_Unit_ptr[0]->Buff_countdown["Pinion'sAria"] > ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt && ultUseCheck(ptr)){
-                
                 shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
                 data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff","Robin Ultimate");
                 data_->Add_Buff_All_Ally();
@@ -84,7 +83,6 @@ namespace Robin{
                 };
                 Action_bar.push(data_);
                 if(ptr->Print)CharCmd::printUltStart("Robin");
-
                 if(!actionBarUse)Deal_damage();
             }
             return;
@@ -94,10 +92,8 @@ namespace Robin{
             ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 28;
             ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"][AT_NONE] += 18;
             ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 5;
-
             // relic
             // substats
-
             ptr->Countdown_ptr[0]->Atv_stats->Base_speed = -1;
             ptr->Sub_Unit_ptr[0]->Atv_stats->Base_speed = 102;
             return;
@@ -196,11 +192,9 @@ namespace Robin{
             ptr->Sub_Unit_ptr[0]->setBuffCheck("Pinion'sAria",true);
             ptr->Sub_Unit_ptr[0]->extendBuffTime("Pinion'sAria", 3);
         };
-
-
-        
         Action_bar.push(data_);
     }
+
     void Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
@@ -215,17 +209,18 @@ namespace Robin{
         };
         Action_bar.push(data_);
     }
+    
     bool Double_Turn(Ally *ptr){
         SubUnit *target =Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[ptr->Sub_Unit_ptr[0]->currentSubUnitTargetNum].get();
 
-        if((Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv<Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->Max_atv*0.2 || target->Atv_stats->atv<target->Atv_stats->Max_atv*0.2))return 1;
+        if((Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv<Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->Max_atv*0.2 || target->Atv_stats->atv == 0))return 1;
         if((Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv < target->Atv_stats->atv))return 1;
-
         return 0;
     }
+
     bool Ult_Condition(Ally *ptr){
         //if(Current_atv<150&&(Ally_unit[Main_dps_num]->Countdown_ptr[0]->Atv_stats->Base_speed==-1))return true;
-            
+
         for(int i=0;i<Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Summon_ptr.size();i++){
             if(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Summon_ptr[i]->Atv_stats->atv==0)return true;
         }

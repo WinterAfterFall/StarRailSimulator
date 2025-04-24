@@ -31,11 +31,14 @@ void SetupEnemy(double speed,double Toughness,pair<double,double> energy,pair<do
         }
 
         ++enemyPtr->AoeCharge;
-        if (AoeCoolDown != 0 && enemyPtr->AoeCharge % AoeCoolDown == AoeStart) {
+        if (AoeCoolDown != 0 && AOEskillRatio!=0&& enemyPtr->AoeCharge % AoeCoolDown == AoeStart) {
             enemyPtr->AoeAttack(AOEskillRatio,AOEenergy);
         } else if (enemyPtr->target){
             enemyPtr->BaAttack(BAskillRatio,BAenergy);
+        }else{
+            resetTurn(turn);
         }
+        
     };
 
     for (auto& e : Enemy_weak) {
