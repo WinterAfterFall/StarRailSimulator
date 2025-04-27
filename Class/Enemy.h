@@ -49,6 +49,7 @@ public:
     unordered_map<string,bool> Default_Weakness_type;
     unordered_map<string,bool> Weakness_type;
     unordered_map<string,double> DefaultElementRes;
+    unordered_map<string,int> Weakness_typeCountdown;
     int defaultWeaknessElementAmount;
     int currentWeaknessElementAmount;
     
@@ -122,6 +123,9 @@ public:
     bool debuffMark(SubUnit *ptr, string debuffName);
     bool debuffMark(SubUnit *ptr, string debuffName,int extend);
     void debuffRemove(string debuffName);
+
+    string weaknessApplyChoose(int extend);
+    void weaknessApply(string Debuff_name ,int extend);
     
     bool isDebuffEnd(string Debuff_name);
     void extendDebuff(string Debuff_name,int Turn_extend);

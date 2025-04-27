@@ -26,9 +26,7 @@ void Ally::EhrRequirment(){
     }
     return ;
 }
-void Ally::newSpeedRequire(double amount){
-    if(this->SpeedRequire<amount)this->SpeedRequire = amount;
-}
+
 
 void Ally::SpeedRequirment(){
     if(this->SpeedRequire==0)return;
@@ -47,8 +45,5 @@ void Ally::SpeedRequirment(){
     return;
 }
 
-void Ally::newEhrRequire(double amount){
-    if(this->ApplyBaseChance<amount)this->ApplyBaseChance = amount;
-}
 
 #endif

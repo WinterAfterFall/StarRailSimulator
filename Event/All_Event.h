@@ -68,7 +68,14 @@ void allEventAfterTurn(){
             --Enemy_unit[turn->Unit_num]->Total_debuff;
            }
         }
+        for(auto &e : Enemy_unit[turn->Unit_num]->Weakness_typeCountdown){
+            if(e.second==turn->turn_cnt&&Enemy_unit[turn->Unit_num]->Default_Weakness_type[e.first]==0){
+                Enemy_unit[turn->Unit_num]->Weakness_type[e.first] = 0;
+                Enemy_unit[turn->Unit_num]->currentWeaknessElementAmount--;
+            }
+        }
     }
+    
     for(TriggerByYourSelf_Func &e : After_turn_List){
         e.Call();
     }

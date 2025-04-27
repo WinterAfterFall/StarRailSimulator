@@ -103,47 +103,9 @@ public:
         return this->Sub_Unit_ptr[0]->Atv_stats->Unit_num;
     }
 
-    void setRelicMainStats(string Body, string Boot, string Orb, string Rope) {
-        this->Body = RelicMainStatsSet(Body);
-        this->Boot = RelicMainStatsSet(Boot);
-        this->Orb = RelicMainStatsSet(Orb);
-        this->Rope = RelicMainStatsSet(Rope);
-    }
-    function<void(Ally *ptr)> RelicPairSet(string stats);
-    function<void(Ally *ptr)> RelicMainStatsSet(string stats);
+    
 
-    void setSpeed(double speed) {
-        this->SpeedRequire = speed;
-    }
-    void setBody(string stats) {
-        this->Body = RelicMainStatsSet(stats);
-    }
-    void setBoot(string stats) {
-        this->Boot = RelicMainStatsSet(stats);
-    }
-    void setOrb(string stats) {
-        this->Orb = RelicMainStatsSet(stats);
-    }
-    void setRope(string stats) {
-        this->Rope = RelicMainStatsSet(stats);
-    }
-    void setTotalSubstats(int Value){
-        this->Total_substats=Value;
-        this->currentTotalSubstats=Value;
-        this->SeparateRatio=Value;
-        this->Substats[0].second = Value;
-        this->Max_damage_Substats.resize(this->Substats.size());
-    }
-    void pushSubstats(string StatsType){
-        this->Substats.push_back({StatsType,0});
-    }
-    void decreaseTotalSubStats(int amount){
-        amount = (this->Total_substats>=amount) ? amount : this->Total_substats;
-        this->Total_substats-=amount;
-        this->currentTotalSubstats-=amount;
-        this->SeparateRatio-=amount;
-        this->Substats[0].second -=amount;
-    }
+    
     bool isAllyHaveSummon(){
         if(this->Summon_ptr.size()!=0||this->Sub_Unit_ptr.size()>1)return true;
         return false;
@@ -234,10 +196,28 @@ public:
     void updateTargetingSubUnits(int newTargetNum);
 
     //Requirement Stats
-    void SpeedRequirment();
+    // Main Stats
+    void setRelicMainStats(string Body, string Boot, string Orb, string Rope);
+    void setBody(string stats);
+    void setBoot(string stats);
+    void setOrb(string stats);
+    void setRope(string stats);
+    function<void(Ally *ptr)> RelicPairSet(string stats);
+    function<void(Ally *ptr)> RelicMainStatsSet(string stats);
+
+    // Set Requirements
+    void setSpeed(double speed);
     void newSpeedRequire(double amount);
-    void EhrRequirment();
     void newEhrRequire(double amount);
+
+    // Set Substats
+    void setTotalSubstats(int Value);
+    void pushSubstats(string StatsType);
+    void decreaseTotalSubStats(int amount);
+    void adjustStats(vector<pair<string,int>> stats);
+
+    void SpeedRequirment();
+    void EhrRequirment();
     void ATKRequirment();
     void HPRequirment();
     void DEFRequirment();

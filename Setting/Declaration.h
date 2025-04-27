@@ -359,6 +359,11 @@ bool AllCombinationReroll(Ally* ptr);
 bool AllPossibleReroll(Ally* ptr);
 
 
+//Print.h
+void printRoundResult();
+void Print();
+void Print_All_Substats();
+void printSummaryResult();
 /*  None 
     Basic_Attack
     Skill

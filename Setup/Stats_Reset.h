@@ -183,6 +183,9 @@ void Basic_reset(){
             Enemy_unit[i]->Stats_each_element["Respen"]["Lightning"][AT_NONE] = -Enemy_unit[i]->DefaultElementRes["Lightning"];
             Enemy_unit[i]->Stats_each_element["Respen"]["Physical"][AT_NONE] = -Enemy_unit[i]->DefaultElementRes["Physical"];
             Enemy_unit[i]->Stats_each_element["Respen"]["Imaginary"][AT_NONE] = -Enemy_unit[i]->DefaultElementRes["Imaginary"];
+            for(auto &e: Enemy_unit[i]->Weakness_typeCountdown){
+                e.second = 0;
+            }
             Enemy_unit[i]->currentWeaknessElementAmount = Enemy_unit[i]->defaultWeaknessElementAmount;
         }
 

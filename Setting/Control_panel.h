@@ -43,7 +43,7 @@ unordered_map<std::string, double> Enemy_res = {
         {"Imaginary", 0.0}
 };
 unordered_map<std::string, bool> Enemy_weak = {
-        {"Fire", 0},
+        {"Fire", 1},
         {"Ice", 1},
         {"Quantum", 1},
         {"Wind", 1},

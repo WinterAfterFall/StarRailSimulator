@@ -71,6 +71,44 @@ void extendDebuffAll(string Debuff_name,int Turn_extend){
         Enemy_unit[i]->extendDebuff(Debuff_name,Turn_extend);
     }
 }
+string Enemy::weaknessApplyChoose(int extend){
+    vector<pair<int,string>> weaknessPriority;
+    string ans;
+    for(int i=1;i<=Total_ally;i++){
+        if(this->Weakness_type[Ally_unit[i]->getSubUnit()->Element_type[0]])continue;
+        if(Ally_unit[i]->Path[0]=="Harmony")weaknessPriority.push_back({Total_ally+4,Ally_unit[i]->getSubUnit()->Element_type[0]});
+        else if(Ally_unit[i]->Path[0]=="Nihility")weaknessPriority.push_back({Total_ally+1,Ally_unit[i]->getSubUnit()->Element_type[0]});
+        else if(Ally_unit[i]->Path[0]=="Abundance")weaknessPriority.push_back({Total_ally+3,Ally_unit[i]->getSubUnit()->Element_type[0]});
+        else if(Ally_unit[i]->Path[0]=="Preservation")weaknessPriority.push_back({Total_ally+2,Ally_unit[i]->getSubUnit()->Element_type[0]});
+        else weaknessPriority.push_back({i,Ally_unit[i]->getSubUnit()->Element_type[0]});
+    }
+    sort(weaknessPriority.begin(),weaknessPriority.end());
+    if(weaknessPriority.size()==0){
+        pair<string,int> mn = {"null",1e9};
+        for(auto &e : this->Weakness_typeCountdown){
+            if(mn.second<e.second){
+                mn.first = e.first;
+                mn.second = e.second;
+            }
+        }
+        ans = mn.first;
+    }else {
+        ans = weaknessPriority[0].second;
+    }
+    this->weaknessApply(ans,extend);
+    return ans;
+}
+void Enemy::weaknessApply(string element ,int extend){
+    if(this->Weakness_type[element] == 0){
+        Enemy_unit[turn->Unit_num]->currentWeaknessElementAmount++;
+    }
+
+    this->Weakness_typeCountdown[element] = 
+    (this->Weakness_typeCountdown[element] > extend + this->Atv_stats->turn_cnt) ?
+    this->Weakness_typeCountdown[element] :
+    extend + this->Atv_stats->turn_cnt;
+}
+
 
 //เป้าเดี่ยว
 void Enemy::debuffSingle(vector<BuffClass> debuffSet) {

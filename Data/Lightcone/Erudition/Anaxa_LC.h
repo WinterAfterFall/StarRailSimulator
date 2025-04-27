@@ -12,12 +12,17 @@ namespace Erudition_Lightcone{
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 ptr->Sub_Unit_ptr[0]->Stats_type["Dmg%"][AT_NONE] += 50 + 10*superimpose;
             }));
-    
+
+            Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+                Increase_energy(ptr,10);
+            }));
+
             When_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 for(auto &each : data_->Target_Attack){
                     each->debuffSingleApply({{ST_DEF_SHRED,AT_NONE,(9.0 + superimpose * 3.0)}},ptr->getSubUnit(),"AnaxaLC_Debuff",2);
                 }
             }));
+
             
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 Enemy *enemy = turn->canCastToEnemy();

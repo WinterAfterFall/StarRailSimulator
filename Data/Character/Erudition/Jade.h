@@ -30,6 +30,8 @@ namespace Jade{
         ptr->setTotalSubstats(20);
         ptr->setRelicMainStats(ST_CR,ST_ATK_P,ST_DMG,ST_ATK_P);
 
+        // ptr->setRelicMainStats(ST_CR,ST_FLAT_SPD,ST_DMG,ST_ATK_P);
+        // ptr->setSpeedRequire(140);
 
 
         //func

@@ -189,11 +189,12 @@ namespace The_Herta{
             
         }
         if(ptr->Sub_Unit_ptr[0]->Buff_note["The_Herta_Skill_Enchance"]>0){
-            if(CharCmd::Using_Skill(ptr)&&Stack_Herta_Check(ptr)){
-                Enchance_Skill(ptr);
-            }else{
-                Basic_Atk(ptr);
-            }
+            // if(CharCmd::Using_Skill(ptr)&&Stack_Herta_Check(ptr)){
+            //     Enchance_Skill(ptr);
+            // }else{
+            //     Basic_Atk(ptr);
+            // }
+            Enchance_Skill(ptr);
             
             return true;
         }
