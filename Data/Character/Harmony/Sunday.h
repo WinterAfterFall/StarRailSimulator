@@ -68,7 +68,7 @@ namespace Sunday{
                 else
                 Increase_energy(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()), 0, 40);
 
-                if (SDptr->isHaveToAddBuff("Ode_to_Caress_and_Cicatrix",3))
+                if (!SDptr->isHaveToAddBuff("Ode_to_Caress_and_Cicatrix",3))
                 {
                     if(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")){
                         for(unique_ptr<SubUnit> &each : ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->Sub_Unit_ptr){

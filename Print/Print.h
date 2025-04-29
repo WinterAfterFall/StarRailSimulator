@@ -16,9 +16,10 @@ void Print(){
     cout<<"Atv = "<<Current_atv<<" ";
     cout<<""<<turn->Char_Name<<" ";
     cout<<turn->turn_cnt<<" ";
-    cout<<Ally_unit[1]->getSubUnit()->Buff_note["Benediction"]<<" ";
+    // cout<<Ally_unit[1]->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"]<<" ";
+    
     // for(int i=1;i<= Total_enemy; i++){
-    //     cout<<Enemy_unit[i]->Stats_type[ST_DEF_SHRED][AT_NONE]<<" ";
+
     // }
 
     

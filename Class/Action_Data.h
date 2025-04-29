@@ -173,9 +173,11 @@ class AllyActionData : public ActionData, public std::enable_shared_from_this<Al
             this->Damage_spilt.Adjacent.push_back(instanceRatio);
             this->Damage_spilt.Other.push_back(instanceRatio);
         }
-        if(extra>=1)
+        if(extra==0)return;
+
         this->Damage_spilt.Main.push_back(instanceRatio);
-        else return;
+        if(extra==1)return;
+
 
         if(extra>2)
         this->Damage_spilt.Adjacent.push_back(instanceRatio);

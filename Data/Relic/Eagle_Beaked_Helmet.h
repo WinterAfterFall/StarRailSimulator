@@ -10,7 +10,7 @@ namespace Relic{
     void Eagle_Beaked_Helmet(Ally *ptr){
         ptr->Relic.Name = "Eagle_Beaked_Helmet";
         ptr->addUltCondition([ptr]() -> bool {
-            if(ptr->getSubUnit()->Atv_stats->atv<=ptr->getSubUnit()->Atv_stats->Max_atv*0.15)return false;
+            if(ptr->getSubUnit()->Atv_stats->atv<=ptr->getSubUnit()->Atv_stats->Max_atv*0.25)return false;
             return true;
         });
 

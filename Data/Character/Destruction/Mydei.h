@@ -23,6 +23,7 @@ namespace Mydei{
         Ally *ptr = SetAllyBasicStats(95,160,160,E,"Imaginary","Destruction","Mydei",TYPE_STD);
         SubUnit *Mydeiptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1552,427,194);
+
         //substats
         ptr->pushSubstats(ST_CD);
         ptr->pushSubstats(ST_CR);
@@ -38,6 +39,7 @@ namespace Mydei{
         LC(ptr);
         Relic(ptr);
         Planar(ptr);
+        
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr](){
             if (ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_Vendetta"] == false) {
             Skill(ptr);

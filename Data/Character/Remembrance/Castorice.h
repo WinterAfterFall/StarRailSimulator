@@ -17,6 +17,7 @@ namespace Castorice{
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
 
         Ally *ptr = SetAllyBasicStats(95,0,0,E,"Quantum","Remembrance","Castorice",TYPE_STD);
+        SetMemoStats(ptr,0,0,"Quantum","Netherwing",ALLYTYPE_BACKUP);
         SubUnit *Casptr = ptr->getSubUnit();
         SubUnit *Polluxptr = ptr->getSubUnit(1);
         ptr->SetAllyBaseStats(1630,524,485);
@@ -34,10 +35,10 @@ namespace Castorice{
         Planar(ptr);
         ptr->setRelicMainStats(ST_CD,ST_HP_P,ST_HP_P,ST_HP_P);
 
-        SetMemoStats(ptr,0,0,"Quantum","Netherwing",ALLYTYPE_BACKUP);
         // SetCountdownStats(ptr,"Supreme_Stance");
         //adjust
-        ptr->Adjust["NetherwingLifeSpan"] = 3;
+        if(ptr->Eidolon>=2)ptr->Adjust["NetherwingLifeSpan"] = 1;
+        else ptr->Adjust["NetherwingLifeSpan"] = 3;
         
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
 

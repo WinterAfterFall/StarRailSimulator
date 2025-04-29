@@ -45,9 +45,10 @@ namespace Bronya{
 
                 //Ult CritBuff
                 double temp = calculateCritdamForBuff(ptr->Sub_Unit_ptr[0].get(),16)+20;
-                for(auto e : data_->Target_Buff){
+                for(auto &e : data_->Target_Buff){
                     e->buffSingle({{ST_CD,AT_NONE,temp - e->Buff_note["Bronya_Ult"]}});
                     e->buffSingle({{ST_CD,AT_TEMP,temp - e->Buff_note["Bronya_Ult"]}});
+                    e->Buff_note["Bronya_Ult"] = temp;
                 }
 
                 //ดักในกรณีที่บัพในเทิร์นตัวละครอื่น

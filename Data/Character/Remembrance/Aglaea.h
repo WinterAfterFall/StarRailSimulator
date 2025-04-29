@@ -192,7 +192,7 @@ namespace Aglaea{
         };
 
         ptr->Countdown_ptr[0]->Turn_func = [ptr,AGptr](){
-            AGptr->buffSingle({{ST_SPD, ST_SPD_P, 15.0 * ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"]}});
+            AGptr->buffSingle({{ST_SPD, ST_SPD_P, -15.0 * ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"]}});
             
             ptr->Countdown_ptr[0]->resetATV(-1);
             

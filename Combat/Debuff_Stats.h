@@ -84,9 +84,9 @@ string Enemy::weaknessApplyChoose(int extend){
     }
     sort(weaknessPriority.begin(),weaknessPriority.end());
     if(weaknessPriority.size()==0){
-        pair<string,int> mn = {"null",1e9};
+        pair<string,int> mn = {"Fire",1e9};
         for(auto &e : this->Weakness_typeCountdown){
-            if(mn.second<e.second){
+            if(mn.second>e.second){
                 mn.first = e.first;
                 mn.second = e.second;
             }
@@ -100,7 +100,8 @@ string Enemy::weaknessApplyChoose(int extend){
 }
 void Enemy::weaknessApply(string element ,int extend){
     if(this->Weakness_type[element] == 0){
-        Enemy_unit[turn->Unit_num]->currentWeaknessElementAmount++;
+        this->currentWeaknessElementAmount++;
+        this->Weakness_type[element] = 1;
     }
 
     this->Weakness_typeCountdown[element] = 
