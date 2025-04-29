@@ -20,7 +20,7 @@ Ally* Char3;
 Ally* Char4; 
 void SetValue(){
     Driver_num = 2;
-    Driver_Type = "None"; //Swap_pull Always_pull Double_turn None
+    Driver_Type = "Double_turn"; //Swap_pull Always_pull Double_turn None
     Sp_status ="Positive"; //Positive Negative       
     //set unit
     
@@ -54,7 +54,7 @@ int main(){
     // Jingyuan::Setup_Jingyuan(0,Erudition_Lightcone::Before_Dawn(1),Relic::Grand_Duke,Planar::The_Wondrous_BananAmusement_Park);
     // Castorice::Setup(2,Remembrance_Lightcone::Castorice_LC(1),Relic::Poet_Dill,Planar::Bone_Collection);
     // Mydei::Setup(2,Destruction_Lightcone::Mydei_LC(1),Relic::Scholar,Planar::Bone_Collection);
-    Anaxa::Setup(0,Erudition_Lightcone::GreatCosmic(5),Relic::Eagle_Beaked_Helmet,Planar::SpaceSealing);
+    Anaxa::Setup(0,Erudition_Lightcone::Anaxa_LC(1),Relic::GeniusBrilliant,Planar::SpaceSealing);
     
     //Driver
     Sunday::Setup(0,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
@@ -72,7 +72,7 @@ int main(){
     // Tingyun::Setup(6,Harmony_Lightcone::DDD(5),Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
     
     //Debuffer
-    // Pela::Setup(6,Nihility_Lightcone::Before_the_Tutorial(5),Relic::Eagle_Beaked_Helmet,Planar::Broken_Keel);
+    Pela::Setup(6,Nihility_Lightcone::Before_the_Tutorial(5),Relic::Eagle_Beaked_Helmet,Planar::Broken_Keel);
 
 
     //Sustain
@@ -83,9 +83,9 @@ int main(){
     
     //--------------------- adjust ------------------------
     
-    // Char1->setBoot(ST_ATK_P);
     // Char1->setSpeedRequire(100);
-    // Char2->setSpeedRequire(160);
+    // Char1->setBoot(ST_ATK_P);
+    // Char1->setRope(ST_EnergyRecharge);
     
     
 

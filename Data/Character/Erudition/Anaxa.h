@@ -6,7 +6,7 @@
 #define S second
 #include "../Library.h"
 
-namespace Anaxa{
+namespace  Anaxa{
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
     void Basic_Atk(Ally *ptr);
     void Skill(Ally *ptr);
@@ -44,6 +44,12 @@ namespace Anaxa{
                 Basic_Atk(ptr);
             }
         };
+        // ptr->addUltCondition([ptr,Anaxaptr]() -> bool {
+        //     SubUnit *Driverptr = Ally_unit[Driver_num]->Sub_Unit_ptr[0].get();
+        //     if(Anaxaptr->Atv_stats->atv - Anaxaptr->Atv_stats->Max_atv*0.25 > Driverptr->Atv_stats->atv&&Anaxaptr->Atv_stats->atv!=0)
+        //     return false;
+        //     return true;
+        // });
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr,Anaxaptr]() {
             if (!ultUseCheck(ptr)) return;
