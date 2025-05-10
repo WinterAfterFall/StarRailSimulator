@@ -97,10 +97,11 @@ vector<TriggerByYourSelf_Func> Before_turn_List;
 vector<TriggerByYourSelf_Func> After_turn_List;
 vector<TriggerByYourSelf_Func> Ultimate_List;
 
-vector<TriggerByAction_Func> Before_attack_List;
-vector<TriggerByAction_Func> After_attack_List;
-vector<TriggerByAction_Func> When_attack_List;
-vector<TriggerByAction_Func> Buff_List;
+vector<TriggerByAction_Func> When_Action_List;
+vector<TriggerByAllyAction_Func> Before_attack_List;
+vector<TriggerByAllyAction_Func> After_attack_List;
+vector<TriggerByAllyAction_Func> When_attack_List;
+vector<TriggerByAllyAction_Func> Buff_List;
 
 vector<TriggerByStats> Stats_Adjust_List;
 vector<TriggerHealing> Healing_List;

@@ -122,7 +122,7 @@ namespace Aglaea{
             }
         }));
 
-        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr,AGptr](shared_ptr<AllyActionData> &data_) {
+        When_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_ACTTACK, [ptr,AGptr](shared_ptr<AllyActionData> &data_) {
             if (data_->Attacker->Atv_stats->Unit_Name == "Garmentmaker") {
                 if (data_->Attacker->Stack["Brewed_by_Tears"] < 6) {
                     data_->Attacker->buffSingle({{ST_SPD, ST_FLAT_SPD, 55.0}});
@@ -149,7 +149,7 @@ namespace Aglaea{
             }
         }));
 
-        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr](shared_ptr<AllyActionData> &data_) {
+        Before_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr](shared_ptr<AllyActionData> &data_) {
             if (ptr->Eidolon >= 2) {
                 if (data_->Attacker->Atv_stats->Unit_Name == "Aglaea" || data_->Attacker->Atv_stats->Unit_Name == "Garmentmaker") {
                     ptr->buffStackAlly({{ST_DEF_SHRED,AT_NONE,14}},1,3,"Aglaea_E2");
@@ -159,7 +159,7 @@ namespace Aglaea{
             }
         }));
 
-        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr](shared_ptr<AllyActionData> &data_) {
+        Buff_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr](shared_ptr<AllyActionData> &data_) {
             if (ptr->Eidolon >= 2) {
                 if (data_->Attacker->Atv_stats->Unit_Name == "Aglaea" || data_->Attacker->Atv_stats->Unit_Name == "Garmentmaker") {
                     ptr->buffStackAlly({{ST_DEF_SHRED,AT_NONE,14}},1,3,"Aglaea_E2");

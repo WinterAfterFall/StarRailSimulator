@@ -12,7 +12,7 @@ namespace Harmony_Lightcone{
             ptr->SetAllyBaseStats(847,318,265);
             ptr->Light_cone.Name = "Meshing_Cogs";
     
-            After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+            After_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
                     Increase_energy(ptr, 3 + superimpose);
                 }

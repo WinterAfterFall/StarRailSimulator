@@ -81,7 +81,7 @@ namespace Luocha{
             }
         }));
 
-        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
+        When_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
             if (ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"] >= 2) {
                 HealRatio healRatio = HealRatio();
                 HealRatio healRatioMain = HealRatio();

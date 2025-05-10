@@ -80,18 +80,23 @@ void allEventAfterTurn(){
         e.Call();
     }
 }
+void allEventWhenAction(shared_ptr<ActionData> &data_){
+    for(TriggerByAction_Func &e : When_Action_List){
+        e.Call(data_);
+    }
+}
 void allEventBuff(shared_ptr<AllyActionData> &data_){
-    for(TriggerByAction_Func &e : Buff_List){
+    for(TriggerByAllyAction_Func &e : Buff_List){
         e.Call(data_);
     }
 }
 void allEventBeforeAttack(shared_ptr<AllyActionData> &data_){
-    for(TriggerByAction_Func &e : Before_attack_List){
+    for(TriggerByAllyAction_Func &e : Before_attack_List){
         e.Call(data_);
     }
 }
 void allEventAfterAttack(shared_ptr<AllyActionData> &data_){
-    for(TriggerByAction_Func &e : After_attack_List){
+    for(TriggerByAllyAction_Func &e : After_attack_List){
         e.Call(data_);
     }
 }
@@ -102,7 +107,7 @@ void allEventWhenAttack(shared_ptr<AllyActionData> &data_){
         }
     }
     
-    for(TriggerByAction_Func &e : When_attack_List){
+    for(TriggerByAllyAction_Func &e : When_attack_List){
         e.Call(data_);
     }
 }

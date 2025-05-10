@@ -16,7 +16,7 @@ namespace Relic{
             ptr->Sub_Unit_ptr[0]->Atv_stats->Speed_percent += 6;
         }));
 
-        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,Sacerdos](shared_ptr<AllyActionData> &data_) {
+        Buff_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,Sacerdos](shared_ptr<AllyActionData> &data_) {
             if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_->traceType == "Single_target") {
                 for (auto each : data_->Target_Buff) {
                     each->buffStackSingle({{ST_CD, AT_NONE, 18}}, 1, 2, Sacerdos,2);

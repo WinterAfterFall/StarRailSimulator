@@ -22,7 +22,7 @@ namespace Erudition_Lightcone{
                 }
             }));
     
-            Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+            Buff_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 if (data_->Action_type.second == "Ultimate" && data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
                     ptr->getSubUnit()->buffSingle({
                         {ST_DMG,AT_SKILL,(50.0 + 10 * superimpose)},
@@ -34,7 +34,7 @@ namespace Erudition_Lightcone{
                 }
             }));
     
-            Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+            Before_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 if (data_->Action_type.second == "Ultimate" && data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
                     if (data_->Action_type.second == "Ultimate" && data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
                     ptr->getSubUnit()->buffSingle({

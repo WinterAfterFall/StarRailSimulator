@@ -166,7 +166,7 @@ namespace Sunday{
             Increase_energy(ptr, 25);
         }));
 
-        Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,SDptr](shared_ptr<AllyActionData> &data_) {
+        Buff_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,SDptr](shared_ptr<AllyActionData> &data_) {
             if (chooseCharacterBuff(ptr->getSubUnit())->getBuffCheck("Ode_to_Caress_and_Cicatrix") && data_->actionName=="Sunday Skill") {
                 Skill_point(ptr->Sub_Unit_ptr[0].get(), 1);
             }

@@ -109,7 +109,7 @@ namespace FireFly{
             allEventAdjustStats(ptr->Sub_Unit_ptr[0].get(), ST_FLAT_ATK);
         }));
         
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr]( shared_ptr<AllyActionData> &data_ ) {
+        After_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_ACTTACK, [ptr]( shared_ptr<AllyActionData> &data_ ) {
 
             if (ptr->Eidolon >= 2 && ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"] > 0 && ptr->Countdown_ptr[0]->Atv_stats->Base_speed == 70) {
             ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"]--;

@@ -10,6 +10,7 @@ using namespace std;
 
 class SubUnit : public Unit {
 public:
+#pragma region Attribute
     double Unit_Speed_Ratio = 0;
     double Unit_Hp_Ratio = 0 ;
     double Base_atk;//*
@@ -46,12 +47,17 @@ public:
     int currentSubUnitTargetNum = 0;
     int Enemy_target_num = Main_Enemy_num;
     Ally* ptr_to_unit = nullptr;
-    //temp 
-    // Constructor now calls the base class constructor to initialize Atv_stats and set ptr_to_unit
+
+#pragma endregion
+#pragma region Constructor
+
     SubUnit() : Unit() {
-          // Call Unit constructor to initialize Atv_stats and set ptr_to_unit  // Using unique_ptr for stats
+
     }
     ~SubUnit() {}
+
+#pragma endregion 
+
     void tauntMtprChange(int value){
         tauntMtpr += value;
         totalTaunt -= taunt;
@@ -90,45 +96,68 @@ public:
         return false;
     }
 
-    //get
-    void setStack(string buffName, int value) {
-        this->Stack[buffName] = value;
-    }
-    void setBuffNote(string buffName, double value) {
-        this->Buff_note[buffName] = value;
-    }
-    void setBuffCountdown(string buffName, int value) {
-        this->Buff_countdown[buffName] = value;
-    }
-    void setBuffCheck(string buffName, bool value) {
-        this->Buff_check[buffName] = value;
-    }
-    void setBuffSubUnitTarget(string buffName, SubUnit* target) {
-        this->buffSubUnitTarget[buffName] = target;
-    }
-    void setBuffAllyTarget(string buffName, Ally* target) {
-        this->buffAllyTarget[buffName] = target;
-    }
+    #pragma region Getters
+        void setStack(string buffName, int value) {
+            this->Stack[buffName] = value;
+        }
+        void setBuffNote(string buffName, double value) {
+            this->Buff_note[buffName] = value;
+        }
+        void setBuffCountdown(string buffName, int value) {
+            this->Buff_countdown[buffName] = value;
+        }
+        void setBuffCheck(string buffName, bool value) {
+            this->Buff_check[buffName] = value;
+        }
+        void setBuffSubUnitTarget(string buffName, SubUnit* target) {
+            this->buffSubUnitTarget[buffName] = target;
+        }
+        void setBuffAllyTarget(string buffName, Ally* target) {
+            this->buffAllyTarget[buffName] = target;
+        }
 
-    //set
-    int getStack(string buffName) {
-        return this->Stack[buffName];
-    }
-    double getBuffNote(string buffName) {
-        return this->Buff_note[buffName];
-    }
-    int getBuffCountdown(string buffName) {
-        return this->Buff_countdown[buffName];
-    }
-    bool getBuffCheck(string buffName) {
-        return this->Buff_check[buffName];
-    }
-    SubUnit* getBuffSubUnitTarget(string buffName) {
-        return this->buffSubUnitTarget[buffName];
-    }
-    Ally* getBuffAllyTarget(string buffName) {
-        return this->buffAllyTarget[buffName];
-    }
+        void setDefaultAllyTargetNum(int value) {
+            this->defaultAllyTargetNum = value;
+        }
+        void setDefaultSubUnitTargetNum(int value) {
+            this->defaultSubUnitTargetNum = value;
+        }
+        void setCurrentAllyTargetNum(int value) {
+            this->currentAllyTargetNum = value;
+        }
+        void setCurrentSubUnitTargetNum(int value) {
+            this->currentSubUnitTargetNum = value;
+        }
+        void setDefaultTargetNum(int ally,int subUnit) {
+            this->defaultAllyTargetNum = ally;
+            this->defaultSubUnitTargetNum = subUnit;
+        }
+        void setCurrentTargetNum(int ally,int subUnit) {
+            this->currentAllyTargetNum = ally;
+            this->currentSubUnitTargetNum = subUnit;
+        }
+    #pragma endregion
+
+    #pragma region Setters
+        int getStack(string buffName) {
+            return this->Stack[buffName];
+        }
+        double getBuffNote(string buffName) {
+            return this->Buff_note[buffName];
+        }
+        int getBuffCountdown(string buffName) {
+            return this->Buff_countdown[buffName];
+        }
+        bool getBuffCheck(string buffName) {
+            return this->Buff_check[buffName];
+        }
+        SubUnit* getBuffSubUnitTarget(string buffName) {
+            return this->buffSubUnitTarget[buffName];
+        }
+        Ally* getBuffAllyTarget(string buffName) {
+            return this->buffAllyTarget[buffName];
+        }
+    #pragma endregion
 
     //add
     void addStack(string buffName,int value) {
@@ -136,7 +165,11 @@ public:
     }
 
     
-    /*--------------------Declaration--------------------*/
+    #pragma region Declaration
+    
+
+
+
     
     /*-----------------Combat-----------------*/
     //ChangeHP
@@ -185,5 +218,7 @@ public:
     void printHpStats();
     void printCritStats();
     //Combat.h
+    #pragma endregion
+
 };
 #endif

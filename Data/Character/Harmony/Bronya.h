@@ -118,7 +118,7 @@ namespace Bronya{
             buffAllAlly({{ST_DMG,AT_NONE,10}});
         }));
 
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_){
+        After_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_){
             if(data_->Action_type.second == "Basic_Attack" && data_->Attacker->Atv_stats->Char_Name == "Bronya"){
                 Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),30);
             }

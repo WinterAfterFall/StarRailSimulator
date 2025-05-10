@@ -292,7 +292,7 @@ namespace Castorice{
             
         }));
 
-        Buff_List.push_back(TriggerByAction_Func(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](shared_ptr<AllyActionData> &data_) {
+        Buff_List.push_back(TriggerByAllyAction_Func(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](shared_ptr<AllyActionData> &data_) {
             for(int i=1;i<=Total_ally;i++){
                 for(unique_ptr<SubUnit> &e : Ally_unit[i]->Sub_Unit_ptr){
                     e->Buff_note["NetherwingHealLimit"] = 0;
@@ -302,7 +302,7 @@ namespace Castorice{
             
         }));
 
-        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](shared_ptr<AllyActionData> &data_) {
+        Before_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](shared_ptr<AllyActionData> &data_) {
             for(int i=1;i<=Total_ally;i++){
                 for(unique_ptr<SubUnit> &e : Ally_unit[i]->Sub_Unit_ptr){
                     e->Buff_note["NetherwingHealLimit"] = 0;
@@ -310,7 +310,7 @@ namespace Castorice{
             }
         }));
 
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](shared_ptr<AllyActionData> &data_) {
+        After_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](shared_ptr<AllyActionData> &data_) {
             if(data_->actionName=="Wings Sweep the Ruins"){
                 
             }

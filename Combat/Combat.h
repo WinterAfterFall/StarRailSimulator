@@ -43,6 +43,7 @@ void Deal_damage(){
     actionBarUse = true;
     while(!Action_bar.empty()){
         shared_ptr<ActionData> temp = Action_bar.front();
+        allEventWhenAction(temp);
         if (auto allyActionData = dynamic_pointer_cast<AllyActionData>(temp)) {
             allyActionData->AllyAction();
         } else if (auto enemyActionData = dynamic_pointer_cast<EnemyActionData>(temp)) {

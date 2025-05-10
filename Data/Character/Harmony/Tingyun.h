@@ -96,7 +96,7 @@ namespace Tingyun{
             Increase_energy(ptr, 0, 50 * ptr->Technique);
         }));
 
-        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr,TYptr](shared_ptr<AllyActionData> &data_) {
+        When_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_ACTTACK, [ptr,TYptr](shared_ptr<AllyActionData> &data_) {
             SubUnit* tempUnit = data_->Attacker;
             if (chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->getBuffCheck("Benediction")) {
                 if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {

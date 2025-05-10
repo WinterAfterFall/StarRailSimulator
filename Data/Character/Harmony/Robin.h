@@ -119,7 +119,7 @@ namespace Robin{
             }
         }));
 
-        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyActionData> &data_){
+        When_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr, 2);
             if(ptr->Eidolon >= 2){
                 Increase_energy(ptr, 1);

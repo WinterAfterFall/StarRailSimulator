@@ -17,21 +17,21 @@ namespace Erudition_Lightcone{
                 Increase_energy(ptr, (27.5 + superimpose * 2.5));
             }));
     
-            Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+            Buff_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 if (data_->Action_type.second == "Ultimate") {
                     ptr->Sub_Unit_ptr[0]->Buff_check["Ration"] = 1;
                     ptr->Sub_Unit_ptr[0]->Stack["Ration"] = 0;
                 }
             }));
     
-            Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+            Before_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 if (data_->Action_type.second == "Ultimate") {
                     ptr->Sub_Unit_ptr[0]->Buff_check["Ration"] = 1;
                     ptr->Sub_Unit_ptr[0]->Stack["Ration"] = 0;
                 }
             }));
     
-            After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+            After_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 if (data_->Action_type.second == "Basic_Attack" && ptr->Sub_Unit_ptr[0]->Buff_check["Ration"] == 1) {
                     ptr->Sub_Unit_ptr[0]->Stack["Ration"]++;
                     if (ptr->Sub_Unit_ptr[0]->Stack["Ration"] == 2) {

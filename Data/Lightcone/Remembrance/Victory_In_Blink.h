@@ -17,7 +17,7 @@ namespace Remembrance_Lightcone{
                 ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AT_NONE] += 9 + 3 * superimpose;
             }));
     
-            Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,VictoryBlink](shared_ptr<AllyActionData> &data_) {
+            Buff_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,VictoryBlink](shared_ptr<AllyActionData> &data_) {
                 if (data_->Attacker->Atv_stats->Side == "Memosprite" &&
                     data_->Attacker->ptr_to_unit->Sub_Unit_ptr[0]->Atv_stats->Char_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Char_Name) {
                     buffAllAlly({{ST_DMG, AT_NONE, (6.0 + 2 * superimpose)}}, VictoryBlink,3);

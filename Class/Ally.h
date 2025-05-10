@@ -16,17 +16,17 @@ class Func_class{
 // Ally class, derived from Unit
 class Ally{
 public:
+    #pragma region attribute
 
-
-    double Max_energy = -1;//*
+    double Max_energy = -1;
     double Current_energy = -1;
     double Energy_recharge = 100;
-    double Ult_cost = -1;//*
-    Func_class Char;//*
-    Func_class Light_cone;//*
-    Func_class Relic;//*
-    Func_class Planar;//*
-    int Eidolon;//*
+    double Ult_cost = -1;
+    Func_class Char;
+    Func_class Light_cone;
+    Func_class Relic;
+    Func_class Planar;
+    int Eidolon;
     //total Damage
     double totalRealTimeDamage =  0;
     vector<double> totalAvgToughnessDamage ;
@@ -90,7 +90,8 @@ public:
     double ExtraEhr = 0;
     double ExtraSpeed = 0;
     
-    // Constructor now calls the base class constructor to initialize Atv_stats and set ptr_to_unit
+    #pragma endregion
+    #pragma region constructor
     Ally() {  // Call Unit constructor to initialize Atv_stats and set ptr_to_unit
         Sub_Unit_ptr.resize(1);
         Sub_Unit_ptr[0] = make_unique<SubUnit>();
@@ -99,24 +100,15 @@ public:
     }
 
     ~Ally() {}
-    int getNum(){
-        return this->Sub_Unit_ptr[0]->Atv_stats->Unit_num;
-    }
-
-    
-
+    #pragma endregion
     
     bool isAllyHaveSummon(){
         if(this->Summon_ptr.size()!=0||this->Sub_Unit_ptr.size()>1)return true;
         return false;
     }
-    SubUnit* getSubUnit(){
-        return this->Sub_Unit_ptr[0].get();
-    }
-    SubUnit* getSubUnit(int num){
-        return this->Sub_Unit_ptr[num].get();
-    }
-    //set
+    
+    #pragma region set_methods
+
     void setStack(string buffName, int value) {
         this->Sub_Unit_ptr[0]->Stack[buffName] = value;
     }
@@ -144,8 +136,19 @@ public:
     void setApplyBaseChance(double value){
         this->ApplyBaseChance = value;
     }
+    void setTargetAlly(int num){
+        this->getSubUnit()->setDefaultAllyTargetNum(num);
+    }
+    void setTargetSubUnit(int num){
+        this->getSubUnit()->setDefaultSubUnitTargetNum(num);
+    }
+    void setTargetBuff(int ally,int subUnit){
+        this->getSubUnit()->setDefaultTargetNum(ally,subUnit);
+    }
 
-    //get
+    #pragma endregion
+
+    #pragma region get_methods
     int getStack(string buffName) {
         return this->Sub_Unit_ptr[0]->Stack[buffName];
     }
@@ -167,6 +170,17 @@ public:
     double getAdjust(string adjustName) {
         return this->Adjust[adjustName];
     }
+    int getNum(){
+        return this->Sub_Unit_ptr[0]->Atv_stats->Unit_num;
+    }
+    SubUnit* getSubUnit(){
+        return this->Sub_Unit_ptr[0].get();
+    }
+    SubUnit* getSubUnit(int num){
+        return this->Sub_Unit_ptr[num].get();
+    }
+    
+    #pragma endregion
 
 
     /*--------------------Declaration--------------------*/

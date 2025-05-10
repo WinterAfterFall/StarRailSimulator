@@ -121,7 +121,7 @@ namespace Gallagher{
             }
         }});
 
-        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_HEAL, [ptr](shared_ptr<AllyActionData> &data_) {
+        When_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_HEAL, [ptr](shared_ptr<AllyActionData> &data_) {
             Heal_data healData = Heal_data();
             healData.setHealer(ptr->Sub_Unit_ptr[0].get());
             

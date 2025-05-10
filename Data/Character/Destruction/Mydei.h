@@ -170,13 +170,13 @@ namespace Mydei{
             ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_E2"] = 0;
         }));
 
-        Before_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyActionData> &data_) {
+        Before_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyActionData> &data_) {
             if (data_->actionName == "GodSlayer") {
             ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_cannot_charge"] = 1;
             }
         }));
 
-        After_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyActionData> &data_) {
+        After_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyActionData> &data_) {
             if (ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_action"]) {
             ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_action"] = 0;
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);

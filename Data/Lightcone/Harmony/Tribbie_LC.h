@@ -29,7 +29,7 @@ namespace Harmony_Lightcone{
                 }
             }));
     
-            After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+            After_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_->Action_type.second == "Fua") {
                     Increase_energy(ptr, 12);
                     if(ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Presage",2)){
@@ -38,7 +38,7 @@ namespace Harmony_Lightcone{
                 }
             }));
     
-            Buff_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+            Buff_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_->Action_type.second == "Fua") {
                     Increase_energy(ptr, 12);
                     if(ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Presage",2)){

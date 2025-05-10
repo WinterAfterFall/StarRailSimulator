@@ -110,7 +110,7 @@ namespace Serval{
             Cal_Dot_damage(data_, target, Dot_ratio);
         }));
 
-        When_attack_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyActionData> &data_) {
+        When_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyActionData> &data_) {
             if (data_->Attacker->Atv_stats->Unit_Name != "Serval") return;
             shared_ptr<AllyActionData> data_temp = make_shared<AllyActionData>();
             data_temp->Additional_set(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Serval Additional Damage");

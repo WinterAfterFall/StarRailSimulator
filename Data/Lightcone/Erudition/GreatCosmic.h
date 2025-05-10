@@ -14,7 +14,7 @@ namespace Erudition_Lightcone{
                 ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG][AT_NONE] += (3+superimpose)*7;
             }));
     
-            // After_attack_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+            // After_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
 
             // }));
         };
