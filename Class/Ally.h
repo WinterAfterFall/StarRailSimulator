@@ -211,16 +211,14 @@ public:
     void newEhrRequire(double amount);
 
     // Set Substats
+    #pragma region SetSubdstats
     void setTotalSubstats(int Value);
     void pushSubstats(string StatsType);
-    void decreaseTotalSubStats(int amount);
-    void adjustStats(vector<pair<string,int>> stats);
-
+    void changeTotalSubStats(int amount);
     void SpeedRequirment();
     void EhrRequirment();
-    void ATKRequirment();
-    void HPRequirment();
-    void DEFRequirment();
+    #pragma endregion
+
 
 };
 

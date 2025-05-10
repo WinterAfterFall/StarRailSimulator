@@ -17,7 +17,7 @@ void Ally::EhrRequirment(){
     temp-=this->Sub_Unit_ptr[0]->Stats_type["Ehr"][AT_NONE];
     if(temp<=0)return ;
     x = ceil(temp/3.888);
-    this->decreaseTotalSubStats(x);
+    this->changeTotalSubStats(-x);
     x = x * 3.888;
     this->ExtraEhr += x;
     this->Sub_Unit_ptr[0]->Stats_type["Ehr"][AT_NONE] += this->ExtraEhr;
@@ -35,7 +35,7 @@ void Ally::SpeedRequirment(){
     double x =0;
     if(temp<=0)return;
     x = ceil(temp/2.3);
-    this->decreaseTotalSubStats(x);
+    this->changeTotalSubStats(-x);
     x = x * 2.3;
     this->ExtraSpeed += x;
     this->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += x;

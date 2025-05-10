@@ -20,11 +20,11 @@ Ally* Char3;
 Ally* Char4; 
 void SetValue(){
     Driver_num = 2;
-    Driver_Type = "Double_turn"; //Swap_pull Always_pull Double_turn None
+    Driver_Type = "None"; //Swap_pull Always_pull Double_turn None
     Sp_status ="Positive"; //Positive Negative       
     //set unit
     
-    Wave[0] = 2000;
+    Wave[0] = 700;
     Wave[0]+=0.01;
     Print_Atv = 1;
     Formula_check_mode = 0;
@@ -50,14 +50,14 @@ int main(){
 
     SetValue();
     // The_Herta::Setup(2,Erudition_Lightcone::The_Herta_LC(1),Relic::Scholar,Planar::Izumo);
-    // Aglaea::Setup(2,Remembrance_Lightcone::Aglaea_LC(1),Relic::Hero_Wreath,Planar::The_Wondrous_BananAmusement_Park);
+    // Aglaea::Setup(0,Remembrance_Lightcone::SweatNowCryLess(5),Relic::Hero_Wreath,Planar::The_Wondrous_BananAmusement_Park);
     // Jingyuan::Setup_Jingyuan(0,Erudition_Lightcone::Before_Dawn(1),Relic::Grand_Duke,Planar::The_Wondrous_BananAmusement_Park);
     // Castorice::Setup(2,Remembrance_Lightcone::Castorice_LC(1),Relic::Poet_Dill,Planar::Bone_Collection);
-    // Mydei::Setup(2,Destruction_Lightcone::Mydei_LC(1),Relic::Scholar,Planar::Bone_Collection);
-    Anaxa::Setup(0,Erudition_Lightcone::Anaxa_LC(1),Relic::GeniusBrilliant,Planar::SpaceSealing);
+    Mydei::Setup(2,Destruction_Lightcone::Mydei_LC(1),Relic::Scholar,Planar::Bone_Collection);
+    Anaxa::Setup(2,Erudition_Lightcone::Anaxa_LC(1),Relic::GeniusBrilliant,Planar::SpaceSealing);
     
     //Driver
-    Sunday::Setup(0,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
+    // Sunday::Setup(0,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
     // Bronya::Setup(0,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
     
     //Sub dps
@@ -66,13 +66,13 @@ int main(){
     
     //Support
     // Tribbie::Setup(0,Harmony_Lightcone::DDD(5),Relic::Poet_Dill,Planar::Broken_Keel);
-    // RMC::Setup(6,Remembrance_Lightcone::Victory_In_Blink(5),Relic::PairSet(ST_SPD_P,ST_SPD_P),Planar::Broken_Keel);
+    RMC::Setup(6,Remembrance_Lightcone::Victory_In_Blink(5),Relic::PairSet(ST_SPD_P,ST_SPD_P),Planar::Broken_Keel);
     // Robin::Setup(0,Harmony_Lightcone::For_Tomorrow_Journey(5),Relic::PairSet(ST_ATK_P,ST_ATK_P),Planar::Lushaka);
     // Ruan_Mei::Setup(1,Harmony_Lightcone::Memories_of_the_Past(5),Relic::PairSet(ST_BE,ST_BE),Planar::Broken_Keel);
     // Tingyun::Setup(6,Harmony_Lightcone::DDD(5),Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
     
     //Debuffer
-    Pela::Setup(6,Nihility_Lightcone::Before_the_Tutorial(5),Relic::Eagle_Beaked_Helmet,Planar::Broken_Keel);
+    // Pela::Setup(6,Nihility_Lightcone::Before_the_Tutorial(5),Relic::Eagle_Beaked_Helmet,Planar::Broken_Keel);
 
 
     //Sustain

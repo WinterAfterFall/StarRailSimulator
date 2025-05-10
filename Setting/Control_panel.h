@@ -85,7 +85,6 @@ double Enemy_effect_res =40;
 
 string rerollSubstatsMode = "Standard"; //Standard AllCombination AllPossible
 function<bool(Ally *ptr)> rerollFunction;
-double HP = 1200,ATK =476 ,DEF =397 ;
 
 //-------- Trigger Function --------//
 vector<TriggerByYourSelf_Func> Reset_List;
