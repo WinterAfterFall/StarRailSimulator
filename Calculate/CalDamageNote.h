@@ -85,7 +85,6 @@ void Cal_DamageSummary(){
         Enemy_unit[i]->toughnessAvgMultiplier = Cal_AvgToughnessMultiplier(Enemy_unit[i].get(),Current_atv);
     }
     for(int i=1;i<=Total_ally;i++){
-
         // Manage Avg Damage Record
         for(int j = 1; j<=Total_enemy;j++){
             sum = 0;
@@ -100,7 +99,7 @@ void Cal_DamageSummary(){
         for(auto &each : Ally_unit[i]->currentRealTimeDmg){
             Ally_unit[i]->currentTotalDmg += each.second.total;
         }
-        for(auto &each : Ally_unit[i]->currentRealTimeDmg){
+        for(auto &each : Ally_unit[i]->currentNonRealTimeDmg){
             for(auto &each2 : each.second.type){
                 each2.second*= each.first.src->toughnessAvgMultiplier;
             }

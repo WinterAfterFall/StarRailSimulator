@@ -117,5 +117,6 @@ vector<TriggerDot_Func> Dot_List;
 vector<TriggerEnergy_Increase_Func> When_Energy_Increase_List;
 vector<TriggerSkill_point_func> Skill_point_List;
 vector<TriggerHit_Count_func> Hit_Count_List;
+vector<TriggerAfterDealDamage> AfterDealingDamage_List;
 
 #endif

@@ -151,7 +151,7 @@ namespace Tribbie{
             buffAllAlly({{"Respen", AT_NONE, 24}});
             TBptr->isHaveToAddBuff("Numinosity", 3);
         }));
-
+        
         When_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr](shared_ptr<AllyActionData> &data_) {
             int temp = data_->Target_Attack.size();
             if (data_->Attacker->Atv_stats->Char_Name == "Tribbie" && data_->Action_type.second == "Fua") {
@@ -202,6 +202,20 @@ namespace Tribbie{
                 return;
             }
         }));  
+        if(ptr->Eidolon>=1){
+            Before_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr](shared_ptr<AllyActionData> &data_) {
+                if(TBptr->getBuffCheck("Tribbie_Zone"))TBptr->setBuffCheck("TB_TrueDmg",1);
+            }));
+            After_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr](shared_ptr<AllyActionData> &data_) {
+                TBptr->setBuffCheck("TB_TrueDmg",0);
+            }));
+            AfterDealingDamage_List.push_back(TriggerAfterDealDamage(PRIORITY_IMMEDIATELY, [ptr,TBptr]
+                (shared_ptr<AllyActionData> &data_, Enemy *src, double damage) {
+                if(!TBptr->getBuffCheck("TB_TrueDmg"))return;
+                Cal_DamageNote(data_,src,Enemy_unit[Main_Enemy_num].get(),damage,24,"TB True" + data_->actionName);
+            }));
+        }
+
     }
 
 

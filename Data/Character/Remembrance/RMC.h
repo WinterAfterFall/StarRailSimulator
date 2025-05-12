@@ -130,19 +130,27 @@ namespace RMC{
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
             if (chooseSubUnitBuff(RMCptr)->isBuffEnd("Mem_Support")) {
-                if(chooseCharacterBuff(ptr->Sub_Unit_ptr[1].get())->Max_energy == 0)
-                chooseCharacterBuff(RMCptr)->buffAlly({{ST_TRUE,AT_NONE,-36}});
-                else if (chooseCharacterBuff(RMCptr)->Max_energy >= 200)
-                chooseCharacterBuff(RMCptr)->buffAlly({{ST_TRUE,AT_NONE,-50}});
-                else 
-                chooseCharacterBuff(RMCptr)->buffAlly({{ST_TRUE,AT_NONE, -30 - 2 * floor((chooseCharacterBuff(RMCptr)->Max_energy - 100) / 10)}});
-
+                chooseCharacterBuff(RMCptr)->setBuffNote("Mem_Support",0);
                 chooseCharacterBuff(RMCptr)->buffAlly({{ST_CR,AT_NONE,-10}});
             }
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
             ptr->Sub_Unit_ptr[1]->Buff_check["RMC_E2"] = 1;
+        }));
+        AfterDealingDamage_List.push_back(TriggerAfterDealDamage(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]
+            (shared_ptr<AllyActionData> &data_, Enemy *src, double damage) {
+            Ally *ptr = data_->Attacker->ptr_to_unit;
+            SubUnit *subUnit ;
+            for(auto &each : ptr->Sub_Unit_ptr){
+                if (each->getBuffCheck("Mem_Support")){
+                    subUnit = each.get();
+                    goto jump;
+                }
+            }
+            return;
+            jump:
+            Cal_DamageNote(data_,src,src,damage,subUnit->getBuffNote("Mem_Support"),"Mem True" + data_->actionName);
         }));
 
         When_Energy_Increase_List.push_back(TriggerEnergy_Increase_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr](Ally *target, double Energy) {
@@ -269,11 +277,11 @@ namespace RMC{
             if(ptr->Print)CharCmd::printUltStart("Mem");
             if(chooseSubUnitBuff(RMCptr)->isHaveToAddBuff("Mem_Support",3)){
                 if(chooseCharacterBuff(ptr->Sub_Unit_ptr[1].get())->Max_energy == 0)
-                chooseCharacterBuff(RMCptr)->buffAlly({{ST_TRUE,AT_NONE,36}});
+                chooseCharacterBuff(RMCptr)->setBuffNote("Mem_Support",36);
                 else if (chooseCharacterBuff(RMCptr)->Max_energy >= 200)
-                chooseCharacterBuff(RMCptr)->buffAlly({{ST_TRUE,AT_NONE,50}});
+                chooseCharacterBuff(RMCptr)->setBuffNote("Mem_Support",50);
                 else 
-                chooseCharacterBuff(RMCptr)->buffAlly({{ST_TRUE,AT_NONE, + 30 + 2 * floor((chooseCharacterBuff(RMCptr)->Max_energy - 100) / 10)}});
+                chooseCharacterBuff(RMCptr)->setBuffNote("Mem_Support",30 + 2 * floor((chooseCharacterBuff(RMCptr)->Max_energy - 100) / 10));
 
                 chooseCharacterBuff(RMCptr)->buffAlly({{ST_CR,AT_NONE,10}});
             }

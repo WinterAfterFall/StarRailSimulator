@@ -59,12 +59,10 @@ bool Reroll_substats(){
     
 }
 bool StandardReroll(Ally *ptr){
-    if(ptr->getSubUnit()->getUnitName()=="Sunday"){
-        cout<<"Hello"<<" ";
-        cout<<ptr->AvgDmgRecord[0].maxDmgRecord<<" ";
-        cout<<ptr->AvgDmgRecord[0].currentDmgRecord<<" ";
-    }
+
     if(0 == ptr->Reroll_check) return false;
+    
+
     if(changeMaxDamage(ptr))ptr->Stop_reroll = 0;
     if(ptr->Substats.size()==1){
         ptr->Reroll_check = 0;

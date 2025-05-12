@@ -104,4 +104,10 @@ class TriggerHit_Count_func : public TriggerFunc{
     TriggerHit_Count_func(int priority, function<void(shared_ptr<AllyActionData> &data_, int Hit_cnt, int Total_Hit_cnt)> Call) 
     : TriggerFunc(priority), Call(Call) {}
 };
+class TriggerAfterDealDamage : public TriggerFunc{
+    public:
+    function<void(shared_ptr<AllyActionData> &data_,Enemy *src,double damage)> Call;
+    TriggerAfterDealDamage(int priority, function<void(shared_ptr<AllyActionData> &data_,Enemy *src,double damage)> Call) 
+    : TriggerFunc(priority), Call(Call) {}
+};
 #endif

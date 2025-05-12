@@ -20,7 +20,6 @@ void Print(){
     cout<<Ally_unit[3]->AvgDmgRecord[1].avgDmgInstance.size()<<" ";
     if(Ally_unit[3]->AvgDmgRecord[1].avgDmgInstance.size()>=1)
     cout<<Ally_unit[3]->AvgDmgRecord[1].avgDmgInstance[Ally_unit[3]->AvgDmgRecord[1].avgDmgInstance.size()-1]<<" ";
-    // cout<<Ally_unit[1]->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"]<<" ";
     
     // for(int i=1;i<= Total_enemy; i++){
 

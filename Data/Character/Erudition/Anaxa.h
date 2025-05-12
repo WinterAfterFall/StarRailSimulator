@@ -27,7 +27,7 @@ namespace  Anaxa{
         ptr->pushSubstats(ST_CD);
         ptr->pushSubstats(ST_CR);
         ptr->pushSubstats("Atk%");
-        ptr->setTotalSubstats(15);
+        ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(135);
         ptr->setRelicMainStats(ST_CR,ST_FLAT_SPD,ST_ATK_P,ST_ATK_P);
 

@@ -35,8 +35,6 @@
 #define ST_RES "Res"
 #define ST_EHR "Ehr"
 #define ST_EnergyRecharge "Energy_recharge"
-#define ST_TRUE "True_Damage"
-#define ST_TOTAL_TRUE "True_Damage_From_Total"
 #define ST_HEALING_OUT "outGoingHeal"
 #define ST_HEALING_IN "inComingHeal"
 #define ST_SHEILD "SheildBonus"
@@ -145,6 +143,7 @@ class TriggerDot_Func;
 class TriggerEnergy_Increase_Func;
 class TriggerSkill_point_func;
 class TriggerHit_Count_func;
+class TriggerAfterDealDamage;
 #pragma region StatsSet
 Ally* SetAllyBasicStats(double BaseSpeed,double Max_Energy,double Ult_cost,int Eidolon,string Element_type,string Path,string Name,string UnitType);
 void SetMemoStats(Ally *ptr,double Hp_ratio,double Speed_ratio,string Element_type,string Name,string UnitType);
@@ -276,7 +275,6 @@ void Cal_Dot_damage(shared_ptr<AllyActionData> &data_, Enemy* target, double Dot
 void Cal_Dot_Toughness_break_damage(shared_ptr<AllyActionData> &data_, Enemy* target, double Dot_ratio);
 void Cal_Superbreak_damage(shared_ptr<AllyActionData> &data_, Enemy* target, double Superbreak_ratio);
 void Cal_Additional_damage(shared_ptr<AllyActionData> &data_, Enemy* target, Ratio_data Skill_mtpr);
-void Cal_TrueDamage(shared_ptr<AllyActionData> &data_,Enemy *target,double Damage);
 double Cal_Total_Toughness_Reduce(shared_ptr<AllyActionData> &data_, Enemy* target, double Base_Toughness_reduce);
 #pragma endregion
 
@@ -352,6 +350,7 @@ void allEventAdjustStats(SubUnit *ptr,string ST);
 void allEventApplyDebuff(SubUnit* ptr, Enemy* target);
 void allEventWhenEnemyDeath(SubUnit* Killer, Enemy* target);
 void allEventWhenAllyDeath(SubUnit *Target);
+void allEventAfterDealingDamage(shared_ptr<AllyActionData> &data_, Enemy *src, double damage);
 #pragma endregion
 
 #pragma endregion

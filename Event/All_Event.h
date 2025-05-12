@@ -172,5 +172,9 @@ void allEventWhenAllyDeath(SubUnit *Target){
         e.Call(Target);
     }
 }
-
+void allEventAfterDealingDamage(shared_ptr<AllyActionData> &data_, Enemy *src, double damage) {
+    for (TriggerAfterDealDamage &e : AfterDealingDamage_List) {
+        e.Call(data_, src, damage);
+    }
+}
 #endif
