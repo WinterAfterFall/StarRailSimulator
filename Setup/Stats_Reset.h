@@ -129,7 +129,7 @@ void Basic_reset(){
 
             Enemy_unit[i]->Current_toughness=Enemy_unit[i]->Max_toughness;
             Enemy_unit[i]->Total_debuff=0;
-            Enemy_unit[i]->target=nullptr;
+            Enemy_unit[i]->tauntList.clear();
             Enemy_unit[i]->atkPercent = 0;
             Enemy_unit[i]->dmgPercent = 0;
             Enemy_unit[i]->AoeCharge = 0;

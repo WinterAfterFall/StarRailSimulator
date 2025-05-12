@@ -13,6 +13,17 @@ void Enemy::BaAttack(double SkillRatio,double energy){
     data_->setBaAttack(this,SkillRatio,energy);
     Action_bar.push(data_);
 }
+void Enemy::addTaunt(SubUnit* ptr){
+    this->tauntList.push_back(ptr);
+}
+void Enemy::removeTaunt(string name){
+    for (auto it = this->tauntList.begin(); it != this->tauntList.end(); ++it) {
+        if ((*it)->isSameCharName(name)) {
+            this->tauntList.erase(it); // Remove the pointer from the vector
+            break; // Exit the loop after removing the taunt
+        }
+    }
+}
 
 // void EnemyHit(Enemy *Attacker,double energy){
 //     vector<SubUnit*> vec;

@@ -422,6 +422,28 @@ class EnemyActionData : public ActionData{
         };
     }
     void setBaAttack(Enemy* enemy,double SkillRatio,double energy){
+        if(enemy->tauntList.size()>0)
+        this->actionFunction = [enemy,SkillRatio,energy](){
+            vector<SubUnit*> vec;
+            for(auto &each : enemy->tauntList){
+                if(each->Atv_stats->Type == ALLYTYPE_BACKUP)continue;
+                if(each->currentHP==0)continue;
+                enemy->AttackCoolDown[each->Atv_stats->Char_Name] += each->calHitChance();
+                if(enemy->AttackCoolDown[each->Atv_stats->Char_Name]>100)enemy->AttackCoolDown[each->Atv_stats->Char_Name]-=100;
+                else continue;
+                Increase_energy(each,energy);
+                vec.push_back(each);
+            }
+            allEventWhenEnemyHit(enemy,vec);
+            decreaseHPCount++;
+            for(SubUnit* e : vec){
+                double damageDeal = calculateDmgReceive(enemy,e,SkillRatio);
+                if(e->currentHP<=0)return;
+                DecreaseCurrentHP(e,damageDeal);
+                allEventChangeHP(enemy,e,damageDeal);
+            }
+        };
+        else
         this->actionFunction = [enemy,SkillRatio,energy](){
             vector<SubUnit*> vec;
             for(int i=1;i<=Total_ally;i++){

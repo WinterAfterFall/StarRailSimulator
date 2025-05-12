@@ -32,8 +32,7 @@ public:
     string Target_type = "";//*
     unordered_map<string,double> AttackCoolDown;
     int AoeCharge = 0;
-
-    SubUnit *target = nullptr;
+    vector<SubUnit*> tauntList;
 
     int Bleed = 0,Bleeder = 0;
     int Burn = 0,Burner = 0;
@@ -108,6 +107,8 @@ public:
     //create
     void BaAttack(double SkillRatio,double energy);
     void AoeAttack(double SkillRatio,double energy);
+    void addTaunt(SubUnit* ptr);
+    void removeTaunt(string name);
 
     //weaknessapply
     // string debuffWeaknessapply(SubUnit *ptr, string debuffName);

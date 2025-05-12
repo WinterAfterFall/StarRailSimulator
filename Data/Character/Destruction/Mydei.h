@@ -59,7 +59,7 @@ namespace Mydei{
             
             data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_) {
                 for (Enemy* e : data_->Target_Attack) {
-                    e->target = ptr->Sub_Unit_ptr[0].get();
+                    e->addTaunt(ptr->Sub_Unit_ptr[0].get());
                     e->debuffApply(ptr->Sub_Unit_ptr[0].get(),"Mydei_Taunt");
                 }
 
