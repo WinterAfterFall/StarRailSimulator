@@ -10,20 +10,17 @@ using namespace std;
 class Enemy : public Unit {
 public:
     
-    //*
+    #pragma region Damage Record
+    double avgDmgRecord = 0;
+    double totalDmgRecord = 0;
+    unordered_map<string,double> dmgRecordEachType;
+    #pragma endregion
    
     int Total_debuff = 0;
     unordered_map<string,int> Debuff;
     unordered_map<string,double> DebuffNote;
     unordered_map<string,int> Stack;
     unordered_map<string,int> Debuff_time_count;
-
-    vector<unordered_map<string,double>> damageAvgNote;
-    vector<unordered_map<string,double>> damageRealTimeNote;
-
-    //Max Damage
-    vector<unordered_map<string,double>> maxDamageAvgNote;
-    vector<unordered_map<string,double>> maxDamageRealTimeNote;
 
     double ATK = 718;
     double atkPercent = 0;
@@ -152,7 +149,14 @@ public:
     void debuffStackSingle(vector<BuffClass>,SubUnit *ptr, int Stack_increase, int Stack_limit, string Stack_Name,int extend);
     void debuffStackSingle(vector<BuffElementClass>,SubUnit *ptr, int Stack_increase, int Stack_limit, string Stack_Name,int extend);
 
-};  
-//check if it is ally unit
+}; 
+// Define DamageSrc cmp
+bool DamageSrc::operator<(const DamageSrc& other) const {
+    if (recv && other.recv) {
+        return recv->getNum() < other.recv->getNum();
+    }
+    // fallback: nullptr considered less
+    return recv < other.recv;
+}
 
 #endif

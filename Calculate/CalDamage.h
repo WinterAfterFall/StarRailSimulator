@@ -46,7 +46,7 @@ void Cal_Damage(shared_ptr<AllyActionData> &data_,Enemy *target,Ratio_data Skill
     
     
 
-    Cal_DamageNote(data_,target,Total_dmg);
+    Cal_DamageNote(data_,target,target,Total_dmg,100,data_->actionName);
     Cal_TrueDamage(data_,target,Total_dmg);
 
 }
@@ -73,7 +73,7 @@ void Cal_Break_damage(shared_ptr<AllyActionData> &data_,Enemy *target,double &Co
     Total_dmg = Total_dmg*Cal_Vul_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Mitigation_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Toughness_multiplier(data_,target);
-    Cal_DamageNote(data_,target,Total_dmg);
+    Cal_DamageNote(data_,target,target,Total_dmg,100,data_->actionName);
     Cal_TrueDamage(data_,target,Total_dmg);
     
 }
@@ -86,7 +86,7 @@ void Cal_Freeze_damage(shared_ptr<AllyActionData> &data_,Enemy *target){
     Total_dmg = Total_dmg*Cal_Vul_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Mitigation_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Toughness_multiplier(data_,target);
-    Cal_DamageNote(data_,target,Total_dmg);
+    Cal_DamageNote(data_,target,target,Total_dmg,100,data_->actionName);
     Cal_TrueDamage(data_,target,Total_dmg);
 
 }
@@ -102,7 +102,7 @@ void Cal_Dot_damage(shared_ptr<AllyActionData> &data_,Enemy *target,double Dot_r
     Total_dmg = Total_dmg*Cal_Vul_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Toughness_multiplier(data_,target);
     
-    Cal_DamageNote(data_,target,Total_dmg);
+    Cal_DamageNote(data_,target,target,Total_dmg,100,data_->actionName);
     Cal_TrueDamage(data_,target,Total_dmg);   
 }
 void Cal_Dot_Toughness_break_damage(shared_ptr<AllyActionData> &data_,Enemy *target,double Dot_ratio){
@@ -114,7 +114,7 @@ void Cal_Dot_Toughness_break_damage(shared_ptr<AllyActionData> &data_,Enemy *tar
     Total_dmg = Total_dmg*Cal_Vul_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Mitigation_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Toughness_multiplier(data_,target);
-    Cal_DamageNote(data_,target,Total_dmg);
+    Cal_DamageNote(data_,target,target,Total_dmg,100,data_->actionName);
     Cal_TrueDamage(data_,target,Total_dmg);
 }
 void Cal_Superbreak_damage(shared_ptr<AllyActionData> &data_,Enemy *target,double Superbreak_ratio){
@@ -135,7 +135,7 @@ void Cal_Superbreak_damage(shared_ptr<AllyActionData> &data_,Enemy *target,doubl
     Total_dmg = Total_dmg*Cal_Respen_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Vul_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Mitigation_multiplier(data_,target);
-    Cal_DamageNote(data_,target,Total_dmg);
+    Cal_DamageNote(data_,target,target,Total_dmg,100,data_->actionName);
     Cal_TrueDamage(data_,target,Total_dmg);
 }
 void Cal_Additional_damage(shared_ptr<AllyActionData> &data_,Enemy *target,Ratio_data Skill_mtpr){
@@ -172,7 +172,7 @@ void Cal_Additional_damage(shared_ptr<AllyActionData> &data_,Enemy *target,Ratio
     Total_dmg = Total_dmg*Cal_Mitigation_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Toughness_multiplier(data_,target);
     
-    Cal_DamageNote(data_,target,Total_dmg);
+    Cal_DamageNote(data_,target,target,Total_dmg,100,data_->actionName);
     Cal_TrueDamage(data_,target,Total_dmg);
 
     if(Additional_Damage_check_mode==data_->Attacker->Atv_stats->Unit_num){
@@ -186,8 +186,8 @@ void Cal_TrueDamage(shared_ptr<AllyActionData> &data_,Enemy *target,double Damag
     for(int i = 0, sz = data_->Skill_Type.size(); i < sz; i++){
         totalTrueDamage += data_->Attacker->Stats_type[ST_TRUE][data_->Skill_Type[i]] + target->Stats_type[ST_TRUE][data_->Skill_Type[i]];
     }
-    totalTrueDamage = (totalTrueDamage / 100 < 0) ? 0 : totalTrueDamage / 100;
-    Cal_DamageNote(data_,target,Damage*totalTrueDamage);
+    totalTrueDamage = (totalTrueDamage < 0) ? 0 : totalTrueDamage;
+    Cal_DamageNote(data_,target,target,Damage,totalTrueDamage,data_->actionName);
 }
 void Cal_Toughness_reduction(shared_ptr<AllyActionData> &data_,Enemy* target,double Toughness_reduce){
     if(target->Weakness_type[data_->Damage_element]==0&& 0 == data_->Dont_care_weakness&&target->Current_toughness>0)return ;

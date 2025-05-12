@@ -77,7 +77,7 @@ void AllyActionData::AllyAction(){
     }
     
     if(this->healPtr)Heal(*(this->healPtr.get()));
-    if(this->damageNote)Cal_AverageDamage(this->Attacker->ptr_to_unit); 
+    if(this->damageNote)Cal_AverageDamage(this->Attacker->ptr_to_unit,this->Target_Attack); 
 }
 void EnemyActionData::EnemyAction(){
     this->actionFunction();

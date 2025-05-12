@@ -24,21 +24,22 @@ void Setup(){
     sort(Before_turn_List.begin(), Before_turn_List.end(), TriggerFunc::Trigger_cmp);
     sort(After_turn_List.begin(), After_turn_List.end(), TriggerFunc::Trigger_cmp);
     sort(Ultimate_List.begin(), Ultimate_List.end(), TriggerFunc::Trigger_cmp);
-    
+
+    sort(When_Action_List.begin(), When_Action_List.end(), TriggerFunc::Trigger_cmp);
     sort(Before_attack_List.begin(), Before_attack_List.end(), TriggerFunc::Trigger_cmp);
     sort(After_attack_List.begin(), After_attack_List.end(), TriggerFunc::Trigger_cmp);
     sort(When_attack_List.begin(), When_attack_List.end(), TriggerFunc::Trigger_cmp);
     sort(Buff_List.begin(), Buff_List.end(), TriggerFunc::Trigger_cmp);
-    
+
     sort(Stats_Adjust_List.begin(), Stats_Adjust_List.end(), TriggerFunc::Trigger_cmp);
     sort(Healing_List.begin(), Healing_List.end(), TriggerFunc::Trigger_cmp);
     sort(HPDecrease_List.begin(), HPDecrease_List.end(), TriggerFunc::Trigger_cmp);
     sort(AllyDeath_List.begin(), AllyDeath_List.end(), TriggerFunc::Trigger_cmp);
-    
+
     sort(Toughness_break_List.begin(), Toughness_break_List.end(), TriggerFunc::Trigger_cmp);
     sort(Apply_debuff_List.begin(), Apply_debuff_List.end(), TriggerFunc::Trigger_cmp);
     sort(Enemy_Death_List.begin(), Enemy_Death_List.end(), TriggerFunc::Trigger_cmp);
-    
+
     sort(Enemy_hit_List.begin(), Enemy_hit_List.end(), TriggerFunc::Trigger_cmp);
     sort(Dot_List.begin(), Dot_List.end(), TriggerFunc::Trigger_cmp);
     sort(When_Energy_Increase_List.begin(), When_Energy_Increase_List.end(), TriggerFunc::Trigger_cmp);
@@ -75,7 +76,7 @@ void Setup(){
         Ally_unit[i]->TotalSubstats_Compare_MAX_MIN.second = 1e9;
 
 
-        Ally_unit[i]->totalAvgToughnessDamage.resize(Total_enemy+1);
+        Ally_unit[i]->AvgDmgRecord.resize(Total_enemy+1);
 
 
 

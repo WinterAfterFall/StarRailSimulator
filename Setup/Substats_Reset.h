@@ -59,7 +59,11 @@ bool Reroll_substats(){
     
 }
 bool StandardReroll(Ally *ptr){
-    
+    if(ptr->getSubUnit()->getUnitName()=="Sunday"){
+        cout<<"Hello"<<" ";
+        cout<<ptr->AvgDmgRecord[0].maxDmgRecord<<" ";
+        cout<<ptr->AvgDmgRecord[0].currentDmgRecord<<" ";
+    }
     if(0 == ptr->Reroll_check) return false;
     if(changeMaxDamage(ptr))ptr->Stop_reroll = 0;
     if(ptr->Substats.size()==1){
@@ -109,7 +113,7 @@ bool StandardReroll(Ally *ptr){
 
 }
 bool AllCombinationReroll(Ally *ptr){
-    if(0 == ptr->Reroll_check&&ptr->Max_Average_Damage>=0)return false;
+    if(0 == ptr->Reroll_check&&ptr->AvgDmgRecord[0].maxDmgRecord>=0)return false;
     changeMaxDamage(ptr);
     if(ptr->Substats.size()<=1||ptr->Reroll_check==0){
         ptr->Reroll_check = 0;
@@ -120,7 +124,7 @@ bool AllCombinationReroll(Ally *ptr){
         for(int i=0;i<ptr->Substats.size();i++){
             index+= ptr->Substats[i].second*pow(ptr->Total_substats+1,i);
         }
-        ptr->Damage_data[index] = ptr->Average_Damage;
+        ptr->Damage_data[index] = ptr->AvgDmgRecord[0].currentDmgRecord;
          
         if(ptr->Substats[ptr->Substats.size()-1].second==ptr->currentTotalSubstats){
         ptr->Reroll_check = 0;
@@ -153,7 +157,7 @@ bool AllPossibleReroll(Ally *ptr){
         for(int i=0;i<ptr->Substats.size();i++){
             index+= ptr->Substats[i].second*pow(ptr->Total_substats+1,i);
         }
-        ptr->Damage_data[index] = ptr->Average_Damage;
+        ptr->Damage_data[index] = ptr->AvgDmgRecord[0].currentDmgRecord;
     
     // When Reroll with all Combination it will decrease total substats
     if(ptr->Substats[ptr->Substats.size()-1].second==ptr->currentTotalSubstats){

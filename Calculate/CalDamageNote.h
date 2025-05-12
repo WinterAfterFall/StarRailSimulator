@@ -4,25 +4,27 @@
 
 bool changeMaxDamage(Ally *ptr){
     
-    if(ptr->Max_Average_Damage < ptr->Average_Damage){
-        ptr->maxDamage = ptr->totalDamage;
-        ptr->Max_Average_Damage = ptr->Average_Damage;
-
-        for(std::pair<const std::string, double> &e : ptr->damageAvgNote){
-            ptr->maxDamageAvgNote[e.first] = e.second;
-        }
-        for(std::pair<const std::string, double> &e : ptr->damageRealTimeNote){
-            ptr->maxDamageRealTimeNote[e.first] = e.second;
-        }
-        for(int i=1;i<=Total_enemy;i++){
-            for(std::pair<const std::string, double> &e : Enemy_unit[i]->damageAvgNote[ptr->getNum()]){
-                Enemy_unit[i]->maxDamageAvgNote[ptr->getNum()][e.first] = e.second;
-            }
-            for(std::pair<const std::string, double> &e : Enemy_unit[i]->damageRealTimeNote[ptr->getNum()]){
-                Enemy_unit[i]->maxDamageRealTimeNote[ptr->getNum()][e.first] = e.second;
-            }
-        }
+    if(ptr->AvgDmgRecord[0].maxDmgRecord < ptr->AvgDmgRecord[0].currentDmgRecord){
+        ptr->maxTotalDmg = ptr->currentTotalDmg;
         
+        for(auto &each : ptr->AvgDmgRecord){
+            each.maxDmgRecord = each.currentDmgRecord;
+        }
+
+        for(auto &each1 : ptr->currentRealTimeDmg){
+            ptr->maxRealTimeDmg[each1.first].total = each1.second.total;
+            for(auto &each2 : each1.second.type){
+                ptr->maxRealTimeDmg[each1.first].type[each2.first] = each2.second;
+            }
+        }
+
+        for(auto &each1 : ptr->currentNonRealTimeDmg){
+            ptr->maxNonRealTimeDmg[each1.first].total = each1.second.total;
+            for(auto &each2 : each1.second.type){
+                ptr->maxNonRealTimeDmg[each1.first].type[each2.first] = each2.second;
+            }
+        }
+
         for(int i=0,sz = ptr->Max_damage_Substats.size();i<sz;i++){
             ptr->Max_damage_Substats[i] = ptr->Substats[i].second;    
         }
@@ -31,17 +33,30 @@ bool changeMaxDamage(Ally *ptr){
     }
     return false;
 }
-void Cal_AverageDamage(Ally *ptr){
+void Cal_AverageDamage(Ally *ptr,vector<Enemy*> enemyList){
     if(Current_atv<100)return;
-    double Temp = ptr->totalRealTimeDamage;
-    for(int i=1;i<=Total_enemy;i++)
-    Temp += ptr->totalAvgToughnessDamage[i]*Cal_AvgToughnessMultiplier(Enemy_unit[i].get(),Current_atv);
-    if(Current_atv < ptr->Last_note+20){
-        ptr->averageDamageInstance[ptr->averageDamageInstance.size()-1] = Temp/Current_atv;
-    }else{
-        ptr->Last_note = Current_atv;
-        ptr->averageDamageInstance.push_back(Temp/Current_atv);
-    }    
+    for(auto &enemy : enemyList){
+        double rec = 0;
+        enemy->toughnessAvgMultiplier = Cal_AvgToughnessMultiplier(enemy,Current_atv);
+
+        for(auto &each : ptr->currentRealTimeDmg){
+            if(each.first.recv->getNum() != enemy->getNum())continue;
+            rec += each.second.total;
+        }
+        for(auto &each : ptr->currentNonRealTimeDmg){
+            if(each.first.recv->getNum() != enemy->getNum())continue;
+            rec += each.second.total*enemy->toughnessAvgMultiplier;
+        }
+        
+        if(Current_atv < ptr->AvgDmgRecord[enemy->getNum()].lastNote +20){
+            ptr->AvgDmgRecord[enemy->getNum()].
+            avgDmgInstance[ptr->AvgDmgRecord[enemy->getNum()].avgDmgInstance.size()-1] = rec/Current_atv;
+        }else{
+            ptr->AvgDmgRecord[enemy->getNum()].lastNote = Current_atv;
+            ptr->AvgDmgRecord[enemy->getNum()].avgDmgInstance.push_back(rec/Current_atv);
+        }    
+
+    }
 }
 double Cal_AvgToughnessMultiplier(Enemy *target,double Total_atv){
     double temp=0;
@@ -52,46 +67,47 @@ double Cal_AvgToughnessMultiplier(Enemy *target,double Total_atv){
     
     return temp;
 }
-void Cal_DamageNote(shared_ptr<AllyActionData> &data_,Enemy *target,double damage){
+void Cal_DamageNote(shared_ptr<AllyActionData> &data_,Enemy *src,Enemy *recv,double damage,double ratio,string name){
     Ally *ptr = data_->Attacker->ptr_to_unit;
     if(data_->toughnessAvgCalculate){
-        ptr->totalAvgToughnessDamage[target->getNum()] += damage;
-        target->damageAvgNote[ptr->getNum()][data_->actionName] += damage;
+        ptr->currentNonRealTimeDmg[{src,recv}].total += damage * ratio/100 ;
+        ptr->currentNonRealTimeDmg[{src,recv}].type[name] += damage * ratio/100;
     }else{
-        ptr->totalRealTimeDamage += damage;
-        target->damageRealTimeNote[ptr->getNum()][data_->actionName] += damage;
+        ptr->currentRealTimeDmg[{src,recv}].total += damage * ratio/100;
+        ptr->currentRealTimeDmg[{src,recv}].type[name] += damage * ratio/100;
     }
     if(Normal_Damage_check_mode==data_->Attacker->getNum())
-    cout<<data_->Attacker->Atv_stats->Unit_Name<<" "<<data_->actionName<<" "<<damage<<endl;
+    cout<<data_->Attacker->Atv_stats->Unit_Name<<" "<<name<<" "<<damage<<endl;
 }
 void Cal_DamageSummary(){
-    int sum;
+    double sum;
     for(int i = 1; i<=Total_enemy ; i++ ){
         Enemy_unit[i]->toughnessAvgMultiplier = Cal_AvgToughnessMultiplier(Enemy_unit[i].get(),Current_atv);
-        for(unordered_map<string,double> &e :Enemy_unit[i]->damageAvgNote){
-            for(std::pair<const std::string, double> &f : e){
-                f.second *= Enemy_unit[i]->toughnessAvgMultiplier;
-            }
-        }
     }
     for(int i=1;i<=Total_ally;i++){
-        sum = 0;
-        for(auto &e:Ally_unit[i]->averageDamageInstance){
-            sum += e;
-        }
-        Ally_unit[i]->Average_Damage = sum/Ally_unit[i]->averageDamageInstance.size();  
-        Ally_unit[i]->totalDamage = Ally_unit[i]->totalRealTimeDamage;
 
-        for(int j = 1; j<=Total_enemy ; j++ ){
-            Ally_unit[i]->totalDamage += Ally_unit[i]->totalAvgToughnessDamage[j]*Enemy_unit[j]->toughnessAvgMultiplier;
-            for(std::pair<const std::string, double> &e :Enemy_unit[j]->damageRealTimeNote[i]){
-                Ally_unit[i]->damageRealTimeNote[e.first]  += e.second;
+        // Manage Avg Damage Record
+        for(int j = 1; j<=Total_enemy;j++){
+            sum = 0;
+            for(auto &each : Ally_unit[i]->AvgDmgRecord[j].avgDmgInstance){
+                sum += each;
             }
-            for(std::pair<const std::string, double> &e :Enemy_unit[j]->damageAvgNote[i]){
-                Ally_unit[i]->damageAvgNote[e.first]  += e.second;
-            }
-
+            if(sum == 0)continue;
+            Ally_unit[i]->AvgDmgRecord[j].currentDmgRecord = sum/Ally_unit[i]->AvgDmgRecord[j].avgDmgInstance.size();
+            Ally_unit[i]->AvgDmgRecord[0].currentDmgRecord += Ally_unit[i]->AvgDmgRecord[j].currentDmgRecord;
         }
+
+        for(auto &each : Ally_unit[i]->currentRealTimeDmg){
+            Ally_unit[i]->currentTotalDmg += each.second.total;
+        }
+        for(auto &each : Ally_unit[i]->currentRealTimeDmg){
+            for(auto &each2 : each.second.type){
+                each2.second*= each.first.src->toughnessAvgMultiplier;
+            }
+            each.second.total *= each.first.src->toughnessAvgMultiplier;
+            Ally_unit[i]->currentTotalDmg += each.second.total;
+        }
+        
     }
 }
 #endif

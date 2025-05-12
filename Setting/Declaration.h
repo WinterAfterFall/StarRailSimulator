@@ -92,6 +92,7 @@ using std::setprecision;
 using std::fixed;
 using std::vector;
 using std::string;
+using std::map;
 using std::unordered_map;
 using std::queue;
 using std::priority_queue;
@@ -132,6 +133,7 @@ class EnemyActionData;
 //Trigger_Function
 class TriggerFunc;
 class TriggerByYourSelf_Func;
+class TriggerByAction_Func;
 class TriggerByAllyAction_Func;
 class TriggerByStats;
 class TriggerAllyDeath;
@@ -306,10 +308,25 @@ double calculateBreakEffectForBuff(SubUnit* ptr, double ratio);
 
 #pragma region CalDamageNote
 bool changeMaxDamage(Ally *ptr);
-void Cal_AverageDamage(Ally *ptr);
+void Cal_AverageDamage(Ally *ptr,vector<Enemy*> enemyList);
 double Cal_AvgToughnessMultiplier(Enemy* target, double Total_atv);
 void Cal_DamageSummary();
-void Cal_DamageNote(shared_ptr<AllyActionData> &data_,Enemy *target,double damage);
+void Cal_DamageNote(shared_ptr<AllyActionData> &data_,Enemy *src,Enemy *recv,double damage,double ratio,string name);
+#pragma endregion
+
+#pragma region CalHeal
+double calculateHeal(Heal_data& Healptr, HealRatio healRatio, SubUnit *target);
+double calculateHeal(HealRatio healRatio, SubUnit *Healer, SubUnit *target);
+double calculateHealFromLostHP(SubUnit *target, double percent);
+double calculateHealFromTotalHP(SubUnit *target, double percent);
+#pragma endregion
+
+#pragma region CalHealStats
+double Cal_Atk_multiplier(Heal_data& healData);
+double Cal_Hp_multiplier(Heal_data& healData);
+double Cal_Def_multiplier(Heal_data& healData);
+double Cal_HealBonus_multiplier(Heal_data& healData, SubUnit* target);
+double Cal_HealBonus_multiplier(SubUnit* Healer, SubUnit* target);
 #pragma endregion
 
 #pragma endregion

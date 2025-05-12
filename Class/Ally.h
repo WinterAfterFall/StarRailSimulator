@@ -12,38 +12,59 @@ class Func_class{
     string Name;
     function<void(Ally *ptr)> Print_Func;
 };
-// Enemy stats
-// Ally class, derived from Unit
+class DamageSrc {
+    public:
+        Enemy* src;
+        Enemy* recv;
+    
+        // เปรียบเทียบตาม recv->getNum()
+        bool operator<(const DamageSrc& other) const;
+    };
+class DamageRecord{
+    public:
+    double total;
+    unordered_map<string,double> type;
+};
+class DamageAvgRecord{
+    public:
+    double lastNote = 0;
+    vector<double> avgDmgInstance;
+    double currentDmgRecord = 0;
+    double maxDmgRecord = -1e9;
+};
+
 class Ally{
 public:
     #pragma region attribute
-
-    double Max_energy = -1;
-    double Current_energy = -1;
-    double Energy_recharge = 100;
-    double Ult_cost = -1;
+    #pragma region status
+    double Max_energy;
+    double Current_energy = 0; /**/
+    double Ult_cost;
+    double Energy_recharge = 100; /**/
+    int Eidolon;
+    #pragma endregion
+    #pragma region Build
     Func_class Char;
     Func_class Light_cone;
     Func_class Relic;
     Func_class Planar;
-    int Eidolon;
-    //total Damage
-    double totalRealTimeDamage =  0;
-    vector<double> totalAvgToughnessDamage ;
-    double totalDamage = 0;
+    #pragma endregion
     
-    unordered_map<string,double> damageAvgNote;
-    unordered_map<string,double> damageRealTimeNote;
+    #pragma region DmgRecord
+    //record total damage
+    double maxTotalDmg = -1e9;
+    double currentTotalDmg = 0;
 
-    vector<double> averageDamageInstance;
-    double Average_Damage = 0;
-    double Last_note = 0;
+    //record damage type
+    map<DamageSrc,DamageRecord> currentRealTimeDmg;
+    map<DamageSrc,DamageRecord> currentNonRealTimeDmg;
+    map<DamageSrc,DamageRecord> maxRealTimeDmg;
+    map<DamageSrc,DamageRecord> maxNonRealTimeDmg;
 
-    //Max Damage
-    double maxDamage = -1e9;
-    unordered_map<string,double> maxDamageAvgNote;
-    unordered_map<string,double> maxDamageRealTimeNote;
-    double Max_Average_Damage = -1e9;
+    //record Average damage
+    vector<DamageAvgRecord> AvgDmgRecord; //ตามจำนวน Enemy
+
+    #pragma endregion
     
     //Temp
     unordered_map<string,double> Adjust;

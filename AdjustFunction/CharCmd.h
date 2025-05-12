@@ -21,6 +21,7 @@ namespace CharCmd{
         for(int i = 1; i<= Total_ally;i++){
             if(Ally_unit[i]->getSubUnit()->Atv_stats->Char_Name == name)return Ally_unit[i].get();
         }
+        return nullptr;
     }
     
     void Set_Technique(Ally *ptr,int tech){

@@ -55,20 +55,27 @@ void Basic_reset(){
             for(std::pair<const std::string, Ally *> &e : Ally_unit[i]->Sub_Unit_ptr[0]->buffAllyTarget){
                 e.second = nullptr;
             }
-            for(std::pair<const std::string, double> &e :Ally_unit[i]->damageAvgNote){
-                e.second = 0;
+
+            Ally_unit[i]->currentTotalDmg = 0;
+            for(auto &each : Ally_unit[i]->AvgDmgRecord){
+                each.avgDmgInstance.clear();
+                each.lastNote = 0;
+                each.currentDmgRecord = 0;
             }
-            for(std::pair<const std::string, double> &e :Ally_unit[i]->damageRealTimeNote){
-                e.second = 0;
+            for(auto &each : Ally_unit[i]->currentRealTimeDmg){
+                each.second.total = 0;
+                for(auto &each2 : each.second.type){
+                    each2.second = 0;
+                }
             }
-            Ally_unit[i]->totalRealTimeDamage = 0;
-            for(double &e : Ally_unit[i]->totalAvgToughnessDamage){
-                e = 0;
+            for(auto &each : Ally_unit[i]->currentNonRealTimeDmg){
+                each.second.total = 0;
+                for(auto &each2 : each.second.type){
+                    each2.second = 0;
+                }
             }
-            Ally_unit[i]->totalDamage = 0;
-            Ally_unit[i]->Average_Damage = 0;
-            Ally_unit[i]->averageDamageInstance.clear();
-            Ally_unit[i]->Last_note = 0;
+
+
             
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 3.888*2;
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Flat_Atk"][AT_NONE] += 352.8+38;
@@ -118,6 +125,8 @@ void Basic_reset(){
             Enemy_unit[i]->Atv_stats->turn_cnt = 0;
             Enemy_unit[i]->Atv_stats->priority = 0;
             Enemy_unit[i]->Toughness_status=1;
+            Enemy_unit[i]->toughnessAvgMultiplier = 0;
+
             Enemy_unit[i]->Current_toughness=Enemy_unit[i]->Max_toughness;
             Enemy_unit[i]->Total_debuff=0;
             Enemy_unit[i]->target=nullptr;
@@ -127,10 +136,6 @@ void Basic_reset(){
             for(auto &e: Enemy_unit[i]->AttackCoolDown){
                 e.second = 0;
             }
-            Enemy_unit[i]->damageAvgNote.resize(Total_ally+1);
-            Enemy_unit[i]->damageRealTimeNote.resize(Total_ally+1);
-            Enemy_unit[i]->maxDamageAvgNote.resize(Total_ally+1);
-            Enemy_unit[i]->maxDamageRealTimeNote.resize(Total_ally+1);
             
             
             for(auto &e: Enemy_unit[i]->Weakness_type){
@@ -148,16 +153,6 @@ void Basic_reset(){
             }
             for(auto &e: Enemy_unit[i]->Debuff_time_count){
                 e.second = 0;
-            }
-            for(unordered_map<string,double> &e :Enemy_unit[i]->damageAvgNote){
-                for(std::pair<const std::string, double> &f : e){
-                    f.second = 0;
-                }
-            }
-            for(unordered_map<string,double> &e :Enemy_unit[i]->damageRealTimeNote){
-                for(std::pair<const std::string, double> &f : e){
-                    f.second = 0;
-                }
             }
 
             Enemy_unit[i]->Bleed=0;
