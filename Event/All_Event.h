@@ -80,8 +80,13 @@ void allEventAfterTurn(){
         e.Call();
     }
 }
-void allEventWhenAction(shared_ptr<ActionData> &data_){
-    for(TriggerByAction_Func &e : When_Action_List){
+void allEventBeforeAction(shared_ptr<ActionData> &data_){
+    for(TriggerByAction_Func &e : BeforeAction_List){
+        e.Call(data_);
+    }
+}
+void allEventAfterAction(shared_ptr<ActionData> &data_){
+    for(TriggerByAction_Func &e : AfterAction_List){
         e.Call(data_);
     }
 }

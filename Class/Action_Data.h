@@ -50,6 +50,10 @@ class HealRatio{
         this->healFromTotalHP = healFromTotalHP;
         this->healFromLostHP = healFromLostHP;
     }
+    bool isHeal(){
+        if(ATK==0&&HP==0&&DEF==0&&fixHeal==0&&healFromTotalHP==0&&healFromLostHP==0)return false;
+        return true;
+    }
 
 };
 class Heal_data{
@@ -68,10 +72,11 @@ class Heal_data{
 };
 class Ratio_data{
     public:
-    double Atk_ratio;
-    double Hp_ratio;
-    double Def_ratio;
-    double Toughness_ratio;
+    double Atk_ratio = 0;
+    double Hp_ratio = 0;
+    double Def_ratio = 0;
+    double Toughness_ratio = 0;
+    double fixDmg = 0;
 };
 class Hit_spilt{
     public:
@@ -82,6 +87,8 @@ class Hit_spilt{
 class ActionData{
     public:
     virtual ~ActionData() {}
+
+    AllyActionData* castToAllyActionData();
 };
 class AllyActionData : public ActionData, public std::enable_shared_from_this<AllyActionData> {
     public:
@@ -110,6 +117,7 @@ class AllyActionData : public ActionData, public std::enable_shared_from_this<Al
 
     string actionName = "";
 
+    
     void AllyAction();
 
     void Add_Buff_Single_Target(SubUnit* ptr){
@@ -468,5 +476,9 @@ class EnemyActionData : public ActionData{
         };
     }
 };
+
+AllyActionData* ActionData::castToAllyActionData(){
+        return dynamic_cast<AllyActionData*>(this);
+}
 
 #endif

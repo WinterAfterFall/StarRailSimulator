@@ -69,6 +69,7 @@ void IncreaseCurrentHP(SubUnit *ptr,double Value){
     ptr->currentHP = (ptr->currentHP + Value > ptr->totalHP) ? ptr->totalHP : ptr->currentHP + Value;
 }
 void IncreaseHP(SubUnit *Healer,SubUnit *target,double Value){
+    if(Value==0)return;
     IncreaseCurrentHP(target,Value);
     allEventHeal(Healer,target,Value);
 }

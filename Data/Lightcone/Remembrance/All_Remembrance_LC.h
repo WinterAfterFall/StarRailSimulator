@@ -8,5 +8,6 @@ namespace Remembrance_Lightcone{
 #include"Geniuses_Greetings.h"
 #include"Reminiscence.h"
 #include"Castorice_LC.h"
+#include"RemembranceHertaShop.h"
 
 #endif

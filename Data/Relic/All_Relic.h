@@ -10,6 +10,7 @@
 #include"Hero_Wreath.h"
 #include"Eagle_Beaked_Helmet.h"
 #include"GeniusBrilliant.h"
+#include"Goddess of Sun and Thunder.h"
 
 
 #endif

@@ -97,7 +97,8 @@ vector<TriggerByYourSelf_Func> Before_turn_List;
 vector<TriggerByYourSelf_Func> After_turn_List;
 vector<TriggerByYourSelf_Func> Ultimate_List;
 
-vector<TriggerByAction_Func> When_Action_List;
+vector<TriggerByAction_Func> BeforeAction_List;
+vector<TriggerByAction_Func> AfterAction_List;
 vector<TriggerByAllyAction_Func> Before_attack_List;
 vector<TriggerByAllyAction_Func> After_attack_List;
 vector<TriggerByAllyAction_Func> When_attack_List;

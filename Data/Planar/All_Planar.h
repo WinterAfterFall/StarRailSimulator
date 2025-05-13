@@ -12,6 +12,9 @@
 #include"Talia.h"
 #include"Kalpagni_Lantern.h"
 
+//Heal
+#include"GiantTree.h"
+
 //Suport
 #include"Broken_Keel.h"
 #include"Lushaka.h"

@@ -9,12 +9,14 @@
 
 #pragma region priority
 
+#define PRIORITY_First 1000
 #define PRIORITY_HEAL 101
 #define PRIORITY_IMMEDIATELY 100
 #define PRIORITY_BUFF 3
 #define PRIORITY_DEBUFF 2
 #define PRIORITY_ACTTACK 0
 #define PRIORITY_ACTION -1
+#define PRIORITY_Last -1000
 
 #pragma endregion
 #pragma region StatsType
@@ -338,7 +340,8 @@ void allEventBuff(shared_ptr<AllyActionData> &data_);
 void allEventBeforeAttack(shared_ptr<AllyActionData> &data_);
 void allEventAfterAttack(shared_ptr<AllyActionData> &data_);
 void allEventWhenAttack(shared_ptr<AllyActionData> &data_);
-void allEventWhenAction(shared_ptr<ActionData> &data_);
+void allEventBeforeAction(shared_ptr<ActionData> &data_);
+void allEventAfterAction(shared_ptr<ActionData> &data_);
 void allEventHeal(SubUnit *Healer,SubUnit *target,double Value);
 void allEventChangeHP(Unit *Trigger,SubUnit *target,double Value);
 void allEventWhenToughnessBreak(shared_ptr<AllyActionData> &data_, Enemy* target);
