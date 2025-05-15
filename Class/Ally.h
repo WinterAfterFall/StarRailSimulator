@@ -66,6 +66,16 @@ public:
 
     #pragma endregion
     
+    #pragma region CalCheck
+
+    bool checkDamage = 0;
+    bool checkDamageFormula = 0;
+    bool checkHeal = 0;
+    bool checkHealFormula = 0;
+    bool checkHpChange = 0;
+    bool checkHpChangeFormula = 0;
+
+    #pragma endregion
     //Temp
     unordered_map<string,double> Adjust;
 
@@ -204,6 +214,8 @@ public:
     #pragma endregion
 
 
+    
+
     /*--------------------Declaration--------------------*/
     void SetAllyBaseStats(double BaseHp,double BaseAtk,double BaseDef);
     /*-----------------Combat-----------------*/
@@ -254,7 +266,15 @@ public:
     void EhrRequirment();
     #pragma endregion
 
+    #pragma region FormulaCheck
 
+    void enableCheckDamage();
+    void enableCheckDamageFormula();
+    void enableCheckHeal();
+    void enableCheckHealFormula();
+    void enableCheckHpChange();
+    void enableCheckHpChangeFormula();
+    #pragma endregion
 };
 
 #endif

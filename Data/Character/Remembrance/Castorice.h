@@ -239,9 +239,7 @@ namespace Castorice{
                 ptr->getSubUnit()->Buff_note["Newbud"]+=Value;
             }
             else {
-                HealRatio healRatio = HealRatio();
-                healRatio.setRatio(0,0,0,Value,0,0);
-                Healing(healRatio,ptr->getSubUnit(1),ptr->getSubUnit(1));
+                Healing({0,0,0,Value,0,0},ptr->getSubUnit(1),ptr->getSubUnit(1));
             }
             if(target->isSameUnitName("Castorice")){
                 if(!ptr->getSubUnit()->getBuffCheck("Inverted Torch")&&ptr->getSubUnit()->currentHP>=ptr->getSubUnit()->totalHP*0.5){
@@ -256,9 +254,7 @@ namespace Castorice{
             if(ptr->getSubUnit(1)->currentHP==0){
                 ptr->getSubUnit()->Buff_note["Newbud"]+=Value;
             }else {
-                HealRatio healRatio = HealRatio();
-                healRatio.setRatio(0,0,0,Value,0,0);
-                Healing(healRatio,ptr->getSubUnit(1),ptr->getSubUnit(1));
+                Healing({0,0,0,Value,0,0},ptr->getSubUnit(1),ptr->getSubUnit(1));
             }
             if(ptr->getSubUnit()->Buff_note["CastoriceTalentBuff"]!=decreaseHPCount){
                 ptr->getSubUnit()->Buff_note["CastoriceTalentBuff"] = decreaseHPCount;
@@ -424,9 +420,7 @@ namespace Castorice{
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,0);
             Attack(data_);
-            HealRatio healRatio = HealRatio();
-            healRatio.setRatio(0,6,0,800,0,0);
-            Healing(healRatio,ptr->getSubUnit(0));
+            Healing({0,6,0,800,0,0},ptr->getSubUnit(0));
             for(int i=1;i<=Total_enemy;i++){
                 Enemy_unit[i]->debuffRemove("Lost Netherland"); 
                 Enemy_unit[i]->debuffSingle({{ST_RESPEN,AT_NONE,-20}});

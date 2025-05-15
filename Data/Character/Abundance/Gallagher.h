@@ -122,10 +122,7 @@ namespace Gallagher{
         }});
 
         When_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_HEAL, [ptr](shared_ptr<AllyActionData> &data_) {
-            Heal_data healData = Heal_data();
-            healData.setHealer(ptr->Sub_Unit_ptr[0].get());
             
-
             if (data_->Action_type.second == AT_BA && data_->Attacker->Atv_stats->Unit_Name == "Gallagher" && data_->Attacker->Buff_check["Gallagher_enchance_basic_atk"] == 1) {
                 ptr->Sub_Unit_ptr[0]->Buff_check["Gallagher_enchance_basic_atk"] = 0;
                 int cnt = 0;
@@ -135,10 +132,7 @@ namespace Gallagher{
                         
                     }
                 }
-                healData.main.setRatio(0, 0, 0, 707*cnt, 0, 0);
-                healData.adjacent.setRatio(0, 0, 0, 707*cnt, 0, 0);
-                healData.other.setRatio(0, 0, 0, 707*cnt, 0, 0);
-                Healing(healData);
+                Healing({0, 0, 0, 707.0*cnt, 0, 0},ptr->getSubUnit());
             } else {
                 int cnt = 0;
                 for (Enemy *e : data_->Target_Attack) {
@@ -146,8 +140,7 @@ namespace Gallagher{
                         cnt++;           
                     }
                 }
-                healData.main.setRatio(0, 0, 0, 707*cnt, 0, 0);
-                Healing(healData.main, ptr->Sub_Unit_ptr[0].get(), data_->Attacker);
+                Healing({0, 0, 0, 707.0*cnt, 0, 0}, ptr->Sub_Unit_ptr[0].get(), data_->Attacker);
             }
         }));
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_HEAL, [ptr](SubUnit* Target, string StatsType) {
@@ -215,10 +208,8 @@ namespace Gallagher{
         data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Heal","Gallagher Skill");
         data_->Add_Buff_Single_Target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
         data_->turnResetTrue();
-        data_->createHealRatio();
-        data_->healPtr->setHealer(ptr->Sub_Unit_ptr[0].get());
-        data_->healPtr->main.setRatio(0,0,0,1768,0,0);
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
+            Healing(data_->Attacker,{0,0,0,1768,0,0},{},{});
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
 

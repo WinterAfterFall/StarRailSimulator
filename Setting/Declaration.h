@@ -122,7 +122,6 @@ typedef unordered_map<string,double> Common_stats;
 typedef unordered_map<string,Common_stats> Common_stats_type; 
 typedef unordered_map<string,Common_stats_type> Common_stats_each_element;
 //Action_Data
-class Heal_data;
 class HealRatio;
 class PointerWithValue;
 class Ratio_data;
@@ -231,7 +230,6 @@ void debuffStackAll(vector<BuffElementClass> debuffSet, SubUnit* ptr, int Stack_
 void Take_action();
 void Deal_damage();
 void Attack(shared_ptr<AllyActionData> &data_);
-void Heal(Heal_data& Healptr);
 void Skill_point(SubUnit *ptr,int p);
 void Superbreak_trigger(shared_ptr<AllyActionData> &data_, double Superbreak_ratio);
 void Dot_trigger(double Dot_ratio, Enemy* target, std::string Dot_type);
@@ -239,7 +237,7 @@ void Toughness_break(shared_ptr<AllyActionData> &data_, Enemy* target);
 #pragma endregion
 
 #pragma region ChangeHP
-void Healing(Heal_data& Healptr);
+void Healing(SubUnit *healer,HealRatio main,HealRatio adjacent,HealRatio other);
 void Healing(HealRatio& Healptr,SubUnit *Healer,SubUnit *target);
 void Healing(HealRatio& healRatio,SubUnit *Healer);
 void Healing(HealRatio& healRatioMain,HealRatio& healRatio,SubUnit *Healer,SubUnit *target);
@@ -315,17 +313,12 @@ void Cal_DamageNote(shared_ptr<AllyActionData> &data_,Enemy *src,Enemy *recv,dou
 #pragma endregion
 
 #pragma region CalHeal
-double calculateHeal(Heal_data& Healptr, HealRatio healRatio, SubUnit *target);
 double calculateHeal(HealRatio healRatio, SubUnit *Healer, SubUnit *target);
 double calculateHealFromLostHP(SubUnit *target, double percent);
 double calculateHealFromTotalHP(SubUnit *target, double percent);
 #pragma endregion
 
 #pragma region CalHealStats
-double Cal_Atk_multiplier(Heal_data& healData);
-double Cal_Hp_multiplier(Heal_data& healData);
-double Cal_Def_multiplier(Heal_data& healData);
-double Cal_HealBonus_multiplier(Heal_data& healData, SubUnit* target);
 double Cal_HealBonus_multiplier(SubUnit* Healer, SubUnit* target);
 #pragma endregion
 

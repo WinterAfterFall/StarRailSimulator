@@ -83,13 +83,7 @@ namespace Luocha{
 
         When_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
             if (ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"] >= 2) {
-                HealRatio healRatio = HealRatio();
-                HealRatio healRatioMain = HealRatio();
-
-                healRatioMain.setRatio(18, 0, 0, 240, 0, 0);
-                healRatio.setRatio(7, 0, 0, 93, 0, 0);
-
-                Healing(healRatioMain, healRatio, ptr->Sub_Unit_ptr[0].get(), data_->Attacker);
+                Healing({18, 0, 0, 240, 0, 0}, {7, 0, 0, 93, 0, 0}, ptr->Sub_Unit_ptr[0].get(), data_->Attacker);
             }
         }));
         
@@ -100,10 +94,7 @@ namespace Luocha{
     void Talent(Ally *ptr){
         Increase_energy(ptr,30);
         ++ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"];
-        Heal_data healData = Heal_data();
-        healData.setHealer(ptr->Sub_Unit_ptr[0].get());
-        healData.main.setRatio(60,0,0,800,0,0);
-        Healing(healData);
+        Healing(ptr->getSubUnit(),{60,0,0,800,0,0},{},{});
         Abyss_Flower(ptr);
         
     }

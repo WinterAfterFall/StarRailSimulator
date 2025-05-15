@@ -70,10 +70,8 @@ namespace Hyacine{
                 SummonIca(ptr);
                 HealRatio otherhealptr;
                 HealRatio Icahealptr;
-                otherhealptr.setRatio(0,10,0,200,0,0);
-                Icahealptr.setRatio(0,12,0,240,0,0);
                 BeforeHycHeal();
-                Healing(Icahealptr,otherhealptr,ptr->getSubUnit(),ptr->getSubUnit(1));
+                Healing({0,12,0,240,0,0},{0,10,0,200,0,0},ptr->getSubUnit(),ptr->getSubUnit(1));
                 AfterHycHeal();
                 if(Hycptr->isHaveToAddBuff("After Rain",3)){
                     buffAllAlly({
@@ -103,9 +101,8 @@ namespace Hyacine{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr]() {
             if(ptr->Technique){
                 HealRatio healptr;
-                healptr.setRatio(0,30,0,600,0,0);
                 BeforeHycHeal();
-                Healing(healptr,ptr->getSubUnit());
+                Healing({0,30,0,600,0,0},ptr->getSubUnit());
                 AfterHycHeal();
                 buffAllAlly({
                         {ST_HP_P,AT_NONE,20}
@@ -168,17 +165,13 @@ namespace Hyacine{
             
             if(!Hycptr->getBuffCheck("Ica Talent Trigger"))return;
             DecreaseHP(Icaptr,Icaptr,0,4,0);
-            HealRatio otherhealptr;
-            HealRatio gotHithealptr;
-            otherhealptr.setRatio(0,2,0,20,0,0);
-            gotHithealptr.setRatio(0,4,0,40,0,0);
             BeforeHycHeal();
             for(int i=1;i<=Total_ally;i++){
                 for(auto &each : Ally_unit[i]->Sub_Unit_ptr){
                     if(each->getBuffCheck("Ica Talent Heal"))
-                    Healing(gotHithealptr,Icaptr);
+                    Healing({0,4,0,40,0,0},Icaptr);
                     else
-                    Healing(otherhealptr,Icaptr);
+                    Healing({0,2,0,20,0,0},Icaptr);
                     healCount--;
                 }
             }
@@ -279,12 +272,8 @@ namespace Hyacine{
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             SummonIca(ptr);
-            HealRatio otherhealptr;
-            HealRatio Icahealptr;
-            otherhealptr.setRatio(0,8,0,160,0,0);
-            Icahealptr.setRatio(0,10,0,200,0,0);
             BeforeHycHeal();
-            Healing(Icahealptr,otherhealptr,ptr->getSubUnit(),ptr->getSubUnit(1));
+            Healing({0,10,0,200,0,0},{0,8,0,160,0,0},ptr->getSubUnit(),ptr->getSubUnit(1));
             AfterHycHeal();
             IcaAttack(ptr);
         };

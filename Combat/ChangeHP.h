@@ -2,7 +2,7 @@
 #define CHANGEHP_H
 #include "../Class/Trigger_Function.h"
 
-void Healing(Heal_data& Healptr){
+void Healing(SubUnit *healer,HealRatio main,HealRatio adjacent,HealRatio other){
     healCount++;
     priority_queue<PointerWithValue, vector<PointerWithValue>, decltype(&PointerWithValue::Greater_cmp)> pq(&PointerWithValue::Less_cmp);
     
@@ -12,9 +12,9 @@ void Healing(Heal_data& Healptr){
             pq.push(PointerWithValue(Ally_unit[i]->Sub_Unit_ptr[j].get(),calculateHPLost(Ally_unit[i]->Sub_Unit_ptr[j].get())));
             if(pq.size()>3){
                 double totalHeal = 0;
-                if(Healptr.other.ATK!=0||Healptr.other.HP!=0||Healptr.other.DEF!=0||Healptr.other.fixHeal!=0||Healptr.other.healFromTotalHP!=0||Healptr.other.healFromLostHP!=0){
-                    totalHeal = calculateHeal(Healptr,Healptr.other,pq.top().ptr);
-                    IncreaseHP(Healptr.Healer,pq.top().ptr,totalHeal);
+                if(other.ATK!=0||other.HP!=0||other.DEF!=0||other.fixHeal!=0||other.healFromTotalHP!=0||other.healFromLostHP!=0){
+                    totalHeal = calculateHeal(other,healer,pq.top().ptr);
+                    IncreaseHP(healer,pq.top().ptr,totalHeal);
                 }
                 pq.pop();
             }
@@ -24,24 +24,24 @@ void Healing(Heal_data& Healptr){
     while(!pq.empty()){
         double totalHeal = 0;
         if(pq.size()==1){
-            totalHeal = calculateHeal(Healptr,Healptr.main,pq.top().ptr);
+            totalHeal = calculateHeal(main,healer,pq.top().ptr);
         }else{
-            totalHeal = calculateHeal(Healptr,Healptr.adjacent,pq.top().ptr);
+            totalHeal = calculateHeal(adjacent,healer,pq.top().ptr);
         }
-        IncreaseHP(Healptr.Healer,pq.top().ptr,totalHeal);
+        IncreaseHP(healer,pq.top().ptr,totalHeal);
         pq.pop();
     }
     
 }
 //heal เดี่ยว
-void Healing(HealRatio& Healptr,SubUnit *Healer,SubUnit *target){
+void Healing(HealRatio Healptr,SubUnit *Healer,SubUnit *target){
     healCount++;
     double totalHeal = calculateHeal(Healptr,Healer,target);
     IncreaseHP(Healer,target,totalHeal);
 
 }
 //heal ทั้งทีมแบบเท่าเที่ยม
-void Healing(HealRatio& healRatio,SubUnit *Healer){
+void Healing(HealRatio healRatio,SubUnit *Healer){
     healCount++;
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
@@ -52,7 +52,7 @@ void Healing(HealRatio& healRatio,SubUnit *Healer){
     }
 }
 //heal ทั้งทีมแบบฮีลคนนึงเยอะสุด
-void Healing(HealRatio& healRatioMain,HealRatio& healRatio,SubUnit *Healer,SubUnit *target){
+void Healing(HealRatio healRatioMain,HealRatio healRatio,SubUnit *Healer,SubUnit *target){
     healCount++;
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){

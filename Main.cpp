@@ -84,7 +84,7 @@ int main(){
     
     //--------------------- adjust ------------------------
     
-    
+    Char4->enableCheckHealFormula();
     
     
 
@@ -100,10 +100,10 @@ int main(){
 
     //-----------------------------------------------------------
 
-    // CharCmd::Set_Reroll_check(Ally_unit[1].get(),0);
-    // CharCmd::Set_Reroll_check(Ally_unit[2].get(),0);
-    // CharCmd::Set_Reroll_check(Ally_unit[3].get(),0);
-    // CharCmd::Set_Reroll_check(Ally_unit[4].get(),0);
+    CharCmd::Set_Reroll_check(Ally_unit[1].get(),0);
+    CharCmd::Set_Reroll_check(Ally_unit[2].get(),0);
+    CharCmd::Set_Reroll_check(Ally_unit[3].get(),0);
+    CharCmd::Set_Reroll_check(Ally_unit[4].get(),0);
 
 
     CharCmd::Timing_print(Ally_unit[1].get());

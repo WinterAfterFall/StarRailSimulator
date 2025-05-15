@@ -56,20 +56,6 @@ class HealRatio{
     }
 
 };
-class Heal_data{
-    public :
-    
-    SubUnit* Healer = nullptr; //
-    HealRatio main;
-    HealRatio adjacent;
-    HealRatio other;
-    AllyActionData *Combat_dataPtr = nullptr;
-    void setHealer(SubUnit* ptr){   
-        this->Healer = ptr;
-    }
-
-
-};
 class Ratio_data{
     public:
     double Atk_ratio = 0;
@@ -113,7 +99,6 @@ class AllyActionData : public ActionData, public std::enable_shared_from_this<Al
     string Damage_element = "";//Physical Fire Ice Lightning Wind Quantum Imaginary
 
     string traceType = "";// Aoe Single_target Bounce
-    shared_ptr<Heal_data> healPtr;
 
     string actionName = "";
 
@@ -335,10 +320,10 @@ class AllyActionData : public ActionData, public std::enable_shared_from_this<Al
         traceType = target_type;
         actionName = name;
     }
-    void createHealRatio(){
-        this->healPtr = make_shared<Heal_data>();
-        this->healPtr->Combat_dataPtr = this;
-    }
+    // void createHealRatio(){
+    //     this->healPtr = make_shared<Heal_data>();
+    //     this->healPtr->Combat_dataPtr = this;
+    // }
     void turnResetTrue(){
         this->Turn_reset = true;
     }

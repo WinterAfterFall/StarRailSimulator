@@ -77,7 +77,6 @@ void AllyActionData::AllyAction(){
         allEventBuff(self);
     }
     
-    if(this->healPtr)Heal(*(this->healPtr.get()));
     if(this->damageNote)Cal_AverageDamage(this->Attacker->ptr_to_unit,this->Target_Attack); 
 }
 void EnemyActionData::EnemyAction(){
@@ -129,9 +128,6 @@ void Attack(shared_ptr<AllyActionData> &data_){
         }
     }
     if(data_->Turn_reset)resetTurn(turn);
-}
-void Heal(Heal_data& Healptr){
-    Healing(Healptr);
 }
 void Skill_point(SubUnit *ptr,int p){
     
