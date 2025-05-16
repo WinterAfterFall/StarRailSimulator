@@ -24,14 +24,14 @@ void SetValue(){
     Sp_status ="Positive"; //Positive Negative       
     //set unit
     
-    Wave[0] = 3000;
+    Wave[0] = 700;
     Wave[0]+=0.01;
     Print_Atv = 1;
     Formula_check_mode = 0;
     SuperBreak_Formula_check_mode = 0;
     Break_Formula_check_mode = 0;
     
-    Normal_Damage_Formula_check_mode = 4;
+    Normal_Damage_Formula_check_mode = 0;
     Normal_Damage_check_mode = 0;
     Additional_Damage_Formula_check_mode = 0;
     Additional_Damage_check_mode = 0;
@@ -52,7 +52,7 @@ int main(){
     // The_Herta::Setup(2,Erudition_Lightcone::The_Herta_LC(1),Relic::Scholar,Planar::Izumo);
     // Aglaea::Setup(0,Remembrance_Lightcone::SweatNowCryLess(5),Relic::Hero_Wreath,Planar::The_Wondrous_BananAmusement_Park);
     // Jingyuan::Setup_Jingyuan(0,Erudition_Lightcone::Before_Dawn(1),Relic::Grand_Duke,Planar::The_Wondrous_BananAmusement_Park);
-    Castorice::Setup(0,Remembrance_Lightcone::Castorice_LC(1),Relic::Poet_Dill,Planar::Bone_Collection);
+    Castorice::Setup(2,Remembrance_Lightcone::Castorice_LC(1),Relic::Poet_Dill,Planar::Bone_Collection);
     // Mydei::Setup(2,Destruction_Lightcone::Mydei_LC(1),Relic::Scholar,Planar::Bone_Collection);
     // Anaxa::Setup(2,Erudition_Lightcone::Anaxa_LC(1),Relic::GeniusBrilliant,Planar::SpaceSealing);
     
@@ -84,7 +84,8 @@ int main(){
     
     //--------------------- adjust ------------------------
     
-    Char4->enableCheckHealFormula();
+    // Char4->enableCheckHealFormula();
+    // Char4->enableCheckHeal();
     
     
 
@@ -100,22 +101,22 @@ int main(){
 
     //-----------------------------------------------------------
 
-    CharCmd::Set_Reroll_check(Ally_unit[1].get(),0);
-    CharCmd::Set_Reroll_check(Ally_unit[2].get(),0);
-    CharCmd::Set_Reroll_check(Ally_unit[3].get(),0);
-    CharCmd::Set_Reroll_check(Ally_unit[4].get(),0);
+    // CharCmd::Set_Reroll_check(Ally_unit[1].get(),0);
+    // CharCmd::Set_Reroll_check(Ally_unit[2].get(),0);
+    // CharCmd::Set_Reroll_check(Ally_unit[3].get(),0);
+    // CharCmd::Set_Reroll_check(Ally_unit[4].get(),0);
 
 
-    CharCmd::Timing_print(Ally_unit[1].get());
-    CharCmd::Timing_print(Ally_unit[2].get());
-    CharCmd::Timing_print(Ally_unit[3].get());
-    CharCmd::Timing_print(Ally_unit[4].get());
+    // CharCmd::Timing_print(Ally_unit[1].get());
+    // CharCmd::Timing_print(Ally_unit[2].get());
+    // CharCmd::Timing_print(Ally_unit[3].get());
+    // CharCmd::Timing_print(Ally_unit[4].get());
 
 
 
-    EnemyCmd::setEnemyWeakness(0,1,0,1,0,1,0);
-    SetupEnemy(158,160,{10,30},{200,300},{2,3},"Main");
-    SetupEnemy(158,10,{10,20},{200,300},{2,3},"Adjacent");  
+    // EnemyCmd::setEnemyWeakness(0,1,0,1,0,1,0);
+    SetupEnemy(158,160,{10,15},{200,300},{2,3},2,"Main");
+    SetupEnemy(158,10,{10,10},{200,300},{2,3},2,"Adjacent");  
     // SetupEnemy(158,0,{0,0},{200,200},{2,3},"Adjacent");
     // SetupEnemy(130,0,{0,0},{0,0},{2,0},"Other");
     // SetupEnemy(130,0,{0,0},{0,0},{2,0},"Other");

@@ -31,17 +31,17 @@ namespace Hyacine{
         //substats
         
 
-        ptr->pushSubstats(ST_CD);
+        // ptr->pushSubstats(ST_CD);
         ptr->pushSubstats(ST_HP_P);
         ptr->setTotalSubstats(20);
-        ptr->setSpeedRequire(150);
+        ptr->setSpeedRequire(193.4);
         ptr->setRelicMainStats(ST_HEALING_OUT,ST_FLAT_SPD,ST_HP_P,ST_EnergyRecharge);
 
 
         //func
         
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,Hycptr,Icaptr](){
-            if(sp>Sp_Safety||Icaptr->currentHP==0){
+            if(sp>Sp_Safety||Icaptr->currentHP==0||1){
                 Skill(ptr);
             }else{
                 Basic_Atk(ptr);
@@ -68,8 +68,6 @@ namespace Hyacine{
             data_->actionFunction = [ptr,Hycptr](shared_ptr<AllyActionData> &data_){
                 if(ptr->Print)CharCmd::printUltStart("Hyacine");
                 SummonIca(ptr);
-                HealRatio otherhealptr;
-                HealRatio Icahealptr;
                 BeforeHycHeal();
                 Healing({0,12,0,240,0,0},{0,10,0,200,0,0},ptr->getSubUnit(),ptr->getSubUnit(1));
                 AfterHycHeal();
@@ -100,7 +98,6 @@ namespace Hyacine{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr]() {
             if(ptr->Technique){
-                HealRatio healptr;
                 BeforeHycHeal();
                 Healing({0,30,0,600,0,0},ptr->getSubUnit());
                 AfterHycHeal();
@@ -159,19 +156,23 @@ namespace Hyacine{
                     each->setBuffCheck("Ica Talent Heal",0);
                 }
             }
+            if(data_->castToEnemyActionData()){
+            Hycptr->setBuffCheck("Ica Talent Trigger",1);
+            }
         }));
 
         AfterAction_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](shared_ptr<ActionData> &data_) {
             
             if(!Hycptr->getBuffCheck("Ica Talent Trigger"))return;
+            Hycptr->setBuffCheck("Ica Talent Trigger",0);
             DecreaseHP(Icaptr,Icaptr,0,4,0);
             BeforeHycHeal();
             for(int i=1;i<=Total_ally;i++){
                 for(auto &each : Ally_unit[i]->Sub_Unit_ptr){
                     if(each->getBuffCheck("Ica Talent Heal"))
-                    Healing({0,4,0,40,0,0},Icaptr);
+                    Healing({0,4,0,40,0,0},Icaptr,each.get());
                     else
-                    Healing({0,2,0,20,0,0},Icaptr);
+                    Healing({0,2,0,20,0,0},Icaptr,each.get());
                     healCount--;
                 }
             }
@@ -235,17 +236,6 @@ namespace Hyacine{
     }
 
 
-    void Increase_Charge(Ally *ptr,double charge){
-        if(ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed==-1)return;
-        ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Charge"]+=charge;
-        if(ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Charge"]>=100){
-            ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Charge"]= 0;
-            ptr->Sub_Unit_ptr[1]->Buff_check["Mem_Charge"]=1;
-            Action_forward(ptr->Sub_Unit_ptr[1]->Atv_stats.get(),100);
-        }
-    }
-
-
     void Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
@@ -292,7 +282,7 @@ namespace Hyacine{
         data_->Damage_spilt.Main.push_back({0,0,0,10,ptr->getSubUnit(1)->getBuffNote("Tally Healing")*0.2});
         data_->Damage_spilt.Adjacent.push_back({0,0,0,10,ptr->getSubUnit(1)->getBuffNote("Tally Healing")*0.2});
         data_->Damage_spilt.Other.push_back({0,0,0,10,ptr->getSubUnit(1)->getBuffNote("Tally Healing")*0.2});
-        ptr->getSubUnit(1)->Buff_note["Tally Healing"] *=0.5;
+        ptr->getSubUnit(1)->Buff_note["Tally Healing"] *= 0.5;
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,5);
             Attack(data_);

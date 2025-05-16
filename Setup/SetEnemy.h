@@ -17,12 +17,11 @@ Enemy* createNewEnemy(double speed,double Toughness,string type){
     Enemy_unit[num]->Atv_stats->ptr_to_unit = Enemy_unit[num].get();
     return Enemy_unit[num].get();
 }
-void SetupEnemy(double speed,double Toughness,pair<double,double> energy,pair<double,double> skillRatio,pair<int,int> attackCooldown,string type) {
-    Enemy *enemyPtr = createNewEnemy(speed,Toughness,type);
+void SetupEnemy(double speed,double Toughness,pair<double,double> energy,pair<double,double> skillRatio,pair<int,int> attackCooldown,int action,string type){    Enemy *enemyPtr = createNewEnemy(speed,Toughness,type);
     // Define the lambda function for Turn_func
     enemyPtr->Turn_func = [enemyPtr,AoeStart = attackCooldown.first,AoeCoolDown = attackCooldown.second
         ,BAskillRatio = skillRatio.first,AOEskillRatio = skillRatio.second
-        ,BAenergy = energy.first,AOEenergy = energy.second]() {
+        ,BAenergy = energy.first,AOEenergy = energy.second,action]() {
         
         if (enemyPtr->Toughness_status == 0) {
             enemyPtr->Toughness_status = 1;
@@ -30,12 +29,14 @@ void SetupEnemy(double speed,double Toughness,pair<double,double> energy,pair<do
             enemyPtr->Total_toughness_broken_time += (Current_atv - enemyPtr->when_toughness_broken);
         }
 
-        ++enemyPtr->AoeCharge;
-        if (AoeCoolDown != 0 && AOEskillRatio!=0&& enemyPtr->AoeCharge % AoeCoolDown == AoeStart) {
-            enemyPtr->AoeAttack(AOEskillRatio,AOEenergy);
-        } else{
-            enemyPtr->BaAttack(BAskillRatio,BAenergy);
-        }
+        for(int i=1;i<=action;i++){
+            ++enemyPtr->AoeCharge;
+            if (AoeCoolDown != 0 && AOEskillRatio!=0&& enemyPtr->AoeCharge % AoeCoolDown == AoeStart) {
+                enemyPtr->AoeAttack(AOEskillRatio,AOEenergy);
+            } else{
+                enemyPtr->BaAttack(BAskillRatio,BAenergy);
+            }
+        }   
         
     };
 

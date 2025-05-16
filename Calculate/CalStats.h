@@ -101,7 +101,6 @@ double Cal_Atk_multiplier(shared_ptr<AllyActionData> &data_,Enemy *target){
     
     Atk_percent_mtpr += data_->source->Stats_type["Atk%"][AT_NONE] + target->Stats_type["Atk%"][AT_NONE];
     Flat_atk_mtpr += data_->source->Stats_type["Flat_Atk"][AT_NONE] + target->Stats_type["Flat_Atk"][AT_NONE];
-
     for(int i=0,sz=data_->Skill_Type.size();i<sz;i++){
             Atk_percent_mtpr+= data_->source->Stats_type["Atk%"][data_->Skill_Type[i]];
             Atk_percent_mtpr+= target->Stats_type["Atk%"][data_->Skill_Type[i]];
@@ -163,7 +162,8 @@ double Cal_Bonus_dmg_multiplier(shared_ptr<AllyActionData> &data_,Enemy *target)
         Bonus_dmg_mtpr += data_->Attacker->Stats_type[ST_DMG][data_->Skill_Type[i]] + data_->Attacker->Stats_each_element[ST_DMG][data_->Damage_element][data_->Skill_Type[i]];
         Bonus_dmg_mtpr += target->Stats_type[ST_DMG][data_->Skill_Type[i]] + target->Stats_each_element[ST_DMG][data_->Damage_element][data_->Skill_Type[i]];
     }
-    return (Bonus_dmg_mtpr / 100 < 0) ? 0 : Bonus_dmg_mtpr / 100;
+    return Bonus_dmg_mtpr / 100;
+    // return (Bonus_dmg_mtpr / 100 < 0) ? 0 : Bonus_dmg_mtpr / 100;
 }
 double Cal_Crit_multiplier(shared_ptr<AllyActionData> &data_,Enemy *target){
     double Crit_rate_mtpr;

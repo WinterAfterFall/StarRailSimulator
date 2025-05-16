@@ -9,6 +9,10 @@
 using std::cout ;
 using std::vector;
 #include"../Class/Trigger_Function.h"
+#include "../Data/Character/All_Character.h"
+#include "../Data/Lightcone/All_Lighcone.h"
+#include "../Data/Planar/All_Planar.h"
+#include"../Data/Relic/All_Relic.h"
 
 void printRoundResult();
 void Print(){
@@ -16,11 +20,8 @@ void Print(){
     cout<<"Atv = "<<Current_atv<<" ";
     cout<<""<<turn->Char_Name<<" ";
     cout<<turn->turn_cnt<<" ";
-    cout<<Ally_unit[3]->AvgDmgRecord[1].lastNote<<" ";
-    cout<<Ally_unit[3]->AvgDmgRecord[1].avgDmgInstance.size()<<" ";
-    if(Ally_unit[3]->AvgDmgRecord[1].avgDmgInstance.size()>=1)
-    cout<<Ally_unit[3]->AvgDmgRecord[1].avgDmgInstance[Ally_unit[3]->AvgDmgRecord[1].avgDmgInstance.size()-1]<<" ";
-    
+    cout<<Ally_unit[4]->getSubUnit()->Stats_type[ST_HEALING_OUT][AT_NONE]<<" ";
+    // cout<<Ally_unit[4]->getSubUnit(1)->Buff_note["Tally Healing"]<<" ";
     // for(int i=1;i<= Total_enemy; i++){
 
     // }

@@ -14,9 +14,10 @@ double calculateHeal(HealRatio healRatio, SubUnit *Healer, SubUnit *target) {
     TotalHeal *= Cal_HealBonus_multiplier(Healer, target);
 
     if(Healer->ptr_to_unit->checkHeal){
-        cout<<"Healing : "<<healCount<<endl;
-        cout<<Healer->getCharName()<<" heal ";
-        cout<<target->getCharName()<<" "<<TotalHeal<<endl;
+        // cout<<"Healing : "<<healCount<<endl;
+        // cout<<Healer->getCharName()<<" heal ";
+        // cout<<target->getCharName()<<" ";
+        cout<<TotalHeal<<endl;
     }
     if(Healer->ptr_to_unit->checkHealFormula){
         cout<<"---"<<endl;

@@ -67,6 +67,13 @@ public:
     double calHitChance(){
         return (taunt/totalTaunt*100.0);
     }
+    double calHitChance(vector<SubUnit*> target){
+        double total = 0;
+        for(auto &each : target){
+            total += each->taunt;
+        }
+        return (taunt/totalTaunt*100.0);
+    }
 
     
 

@@ -27,15 +27,15 @@ namespace Remembrance_Lightcone{
                 SubUnit *allyptr = turn->canCastToSubUnit();
                 if(!allyptr)return;
                 if(allyptr->isBuffEnd("Curtain Never Falls")){
-                    buffAllAlly({
+                    allyptr->buffSingle({
                         {ST_DMG,AT_NONE,-(6.0 + 2* superimpose)}
                     });
                 }
             }));
 
             AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,superimpose](SubUnit* target) {
-                if(target->isBuffEnd("Curtain Never Falls")){
-                    buffAllAlly({
+                if(target->isBuffGoneByDeath("Curtain Never Falls")){
+                    target->buffSingle({
                         {ST_DMG,AT_NONE,-(6.0 + 2* superimpose)}
                     });
                 }

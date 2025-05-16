@@ -39,17 +39,9 @@ class HealRatio{
     double ATK = 0;
     double HP = 0;
     double DEF = 0;
+    double fixHeal = 0;
     double healFromTotalHP = 0;
     double healFromLostHP = 0;
-    double fixHeal = 0;
-    void setRatio(double Atk,double Hp,double Def,double fixHeal,double healFromTotalHP,double healFromLostHP){
-        this->ATK = Atk;
-        this->HP = Hp;
-        this->DEF = Def;
-        this->fixHeal = fixHeal;
-        this->healFromTotalHP = healFromTotalHP;
-        this->healFromLostHP = healFromLostHP;
-    }
     bool isHeal(){
         if(ATK==0&&HP==0&&DEF==0&&fixHeal==0&&healFromTotalHP==0&&healFromLostHP==0)return false;
         return true;
@@ -75,6 +67,7 @@ class ActionData{
     virtual ~ActionData() {}
 
     AllyActionData* castToAllyActionData();
+    EnemyActionData* castToEnemyActionData();
 };
 class AllyActionData : public ActionData, public std::enable_shared_from_this<AllyActionData> {
     public:
@@ -421,7 +414,6 @@ class EnemyActionData : public ActionData{
             for(auto &each : enemy->tauntList){
                 if(each->Atv_stats->Type == ALLYTYPE_BACKUP)continue;
                 if(each->currentHP==0)continue;
-                enemy->AttackCoolDown[each->Atv_stats->Char_Name] += each->calHitChance();
                 if(enemy->AttackCoolDown[each->Atv_stats->Char_Name]>100)enemy->AttackCoolDown[each->Atv_stats->Char_Name]-=100;
                 else continue;
                 Increase_energy(each,energy);
@@ -444,6 +436,7 @@ class EnemyActionData : public ActionData{
                     if(e->Atv_stats->Type == ALLYTYPE_BACKUP)continue;
                     if(e->currentHP==0)continue;
                     enemy->AttackCoolDown[e->Atv_stats->Char_Name] += e->calHitChance();
+                    cout<<enemy->Atv_stats->Char_Name<<" "<<e->Atv_stats->Char_Name<<" "<<enemy->AttackCoolDown[e->Atv_stats->Char_Name]<<endl;
                     if(enemy->AttackCoolDown[e->Atv_stats->Char_Name]>100)enemy->AttackCoolDown[e->Atv_stats->Char_Name]-=100;
                     else continue;
                     Increase_energy(Ally_unit[i].get(),energy);
@@ -464,6 +457,9 @@ class EnemyActionData : public ActionData{
 
 AllyActionData* ActionData::castToAllyActionData(){
         return dynamic_cast<AllyActionData*>(this);
+}
+EnemyActionData* ActionData::castToEnemyActionData(){
+        return dynamic_cast<EnemyActionData*>(this);
 }
 
 #endif

@@ -47,6 +47,7 @@ void Deal_damage(){
         if (auto allyActionData = dynamic_pointer_cast<AllyActionData>(temp)) {
             allyActionData->AllyAction();
         } else if (auto enemyActionData = dynamic_pointer_cast<EnemyActionData>(temp)) {
+            cout<<Current_atv<<" enemy"<<endl;
             enemyActionData->EnemyAction();
         }
         allEventAfterAction(temp);

@@ -38,7 +38,7 @@ namespace Castorice{
         // SetCountdownStats(ptr,"Supreme_Stance");
         //adjust
         if(ptr->Eidolon>=2)ptr->Adjust["NetherwingLifeSpan"] = 1;
-        else ptr->Adjust["NetherwingLifeSpan"] = 3;
+        else ptr->Adjust["NetherwingLifeSpan"] = 1;
         
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
 
@@ -322,7 +322,7 @@ namespace Castorice{
                 temp = 34000 - calculateHpOnStats(ptr->getSubUnit(1));
             }
              
-            Polluxptr->buffSingle({{ST_DMG,AT_NONE,temp}});
+            Polluxptr->buffSingle({{ST_FLAT_HP,AT_NONE,temp}});
         }));
 
         AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](SubUnit* target) {

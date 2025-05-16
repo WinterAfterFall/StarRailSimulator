@@ -92,6 +92,7 @@ void Reset(){
     Current_atv = 0;
     healCount = 0;
     decreaseHPCount = 0;
+    totalTaunt = 0;
     Basic_reset();
     Summon_reset();
     Countdown_reset();
@@ -119,6 +120,7 @@ void Reset(){
         Ally_unit[i]->Sub_Unit_ptr[j]->totalATK = calculateAtkOnStats(Ally_unit[i]->Sub_Unit_ptr[0].get());
         Ally_unit[i]->Sub_Unit_ptr[j]->totalHP = calculateHpOnStats(Ally_unit[i]->Sub_Unit_ptr[j].get());
         Ally_unit[i]->Sub_Unit_ptr[j]->totalDEF = calculateDefOnStats(Ally_unit[i]->Sub_Unit_ptr[j].get());
+        totalTaunt += Ally_unit[i]->Sub_Unit_ptr[j]->taunt;
         }
         Ally_unit[i]->Sub_Unit_ptr[0]->currentHP = Ally_unit[i]->Sub_Unit_ptr[0]->totalHP;
     }

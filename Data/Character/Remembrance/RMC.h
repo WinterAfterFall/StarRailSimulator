@@ -19,6 +19,9 @@ namespace RMC{
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally *ptr = SetAllyBasicStats(103,160,160,E,"Ice","Remembrance","RMC",TYPE_STD);
         ptr->SetAllyBaseStats(1048,543,631);
+        LC(ptr);
+        Relic(ptr);
+        Planar(ptr);
         SetMemoStats(ptr,68,0,"Ice","Mem",TYPE_STD);
         
         SubUnit *RMCptr = ptr->getSubUnit();
@@ -33,9 +36,7 @@ namespace RMC{
 
 
         //func
-        LC(ptr);
-        Relic(ptr);
-        Planar(ptr);
+        
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,RMCptr,Memptr](){
             if(ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt%3!=1){
                 Basic_Atk(ptr);
