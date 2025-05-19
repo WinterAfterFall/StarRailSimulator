@@ -31,17 +31,17 @@ namespace RMC{
 
         ptr->pushSubstats(ST_CD);
         ptr->setTotalSubstats(20);
-        ptr->setSpeedRequire(150);
+        ptr->setSpeedRequire(160);
         ptr->setRelicMainStats(ST_CD,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
 
 
         //func
         
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,RMCptr,Memptr](){
-            if(ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt%3!=1){
-                Basic_Atk(ptr);
-            }else{
+            if(ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt==1){
                 Skill(ptr);
+            }else{
+                Basic_Atk(ptr);
             }
         };
         ptr->Sub_Unit_ptr[1]->Turn_func = [ptr,RMCptr,Memptr](){
@@ -124,9 +124,10 @@ namespace RMC{
         }));
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
-            ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"] = calculateCritdamForBuff(ptr->Sub_Unit_ptr[1].get(), 13.2) + 26.4;
-            buffAllAlly({{ST_CD, AT_TEMP,ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});
-            buffAllAlly({{ST_CD, AT_NONE,ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});
+            double buffValue = (calculateCritdamForBuff(ptr->Sub_Unit_ptr[1].get(), 13.2) + 26.4);
+            buffAllAlly({{ST_CD, AT_TEMP, buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});
+            buffAllAlly({{ST_CD, AT_NONE, buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});
+            ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"] = buffValue;
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
@@ -151,7 +152,7 @@ namespace RMC{
             }
             return;
             jump:
-            Cal_DamageNote(data_,src,src,damage,subUnit->getBuffNote("Mem_Support"),"Mem True" + data_->actionName);
+            Cal_DamageNote(data_,src,src,damage,subUnit->getBuffNote("Mem_Support"),"Mem True " + data_->actionName);
         }));
 
         When_Energy_Increase_List.push_back(TriggerEnergy_Increase_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr](Ally *target, double Energy) {
@@ -219,9 +220,7 @@ namespace RMC{
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             if(ptr->Sub_Unit_ptr[1]->currentHP == 0){
                 ptr->Sub_Unit_ptr[1]->currentHP = ptr->Sub_Unit_ptr[1]->totalHP;
-                ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed = 130;
-                Update_Max_atv(ptr->Sub_Unit_ptr[1]->Atv_stats.get());
-                resetTurn(ptr->Sub_Unit_ptr[1]->Atv_stats.get());
+                ptr->Sub_Unit_ptr[1]->resetATV(130);
                 Increase_Charge(ptr,90);
             }
         };

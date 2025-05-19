@@ -9,5 +9,6 @@ namespace Remembrance_Lightcone{
 #include"Reminiscence.h"
 #include"Castorice_LC.h"
 #include"RemembranceHertaShop.h"
+#include"Hyacnine_LC.h"
 
 #endif

@@ -132,7 +132,7 @@ namespace Gallagher{
                         
                     }
                 }
-                Healing({0, 0, 0, 707.0*cnt, 0, 0},ptr->getSubUnit());
+                RestoreHP({0, 0, 0, 707.0*cnt, 0, 0},ptr->getSubUnit());
             } else {
                 int cnt = 0;
                 for (Enemy *e : data_->Target_Attack) {
@@ -140,7 +140,7 @@ namespace Gallagher{
                         cnt++;           
                     }
                 }
-                Healing({0, 0, 0, 707.0*cnt, 0, 0}, ptr->Sub_Unit_ptr[0].get(), data_->Attacker);
+                RestoreHP({0, 0, 0, 707.0*cnt, 0, 0}, ptr->Sub_Unit_ptr[0].get(), data_->Attacker);
             }
         }));
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_HEAL, [ptr](SubUnit* Target, string StatsType) {
@@ -209,7 +209,7 @@ namespace Gallagher{
         data_->Add_Buff_Single_Target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
         data_->turnResetTrue();
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
-            Healing(data_->Attacker,{0,0,0,1768,0,0},{},{});
+            RestoreHP(data_->Attacker,{0,0,0,1768,0,0},{},{});
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
 

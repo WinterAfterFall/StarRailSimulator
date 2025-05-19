@@ -34,14 +34,14 @@ namespace Hyacine{
         // ptr->pushSubstats(ST_CD);
         ptr->pushSubstats(ST_HP_P);
         ptr->setTotalSubstats(20);
-        ptr->setSpeedRequire(193.4);
+        ptr->setSpeedRequire(210);
         ptr->setRelicMainStats(ST_HEALING_OUT,ST_FLAT_SPD,ST_HP_P,ST_EnergyRecharge);
 
 
         //func
         
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,Hycptr,Icaptr](){
-            if(sp>Sp_Safety||Icaptr->currentHP==0||1){
+            if(sp>Sp_Safety||Icaptr->currentHP==0){
                 Skill(ptr);
             }else{
                 Basic_Atk(ptr);
@@ -69,13 +69,19 @@ namespace Hyacine{
                 if(ptr->Print)CharCmd::printUltStart("Hyacine");
                 SummonIca(ptr);
                 BeforeHycHeal();
-                Healing({0,12,0,240,0,0},{0,10,0,200,0,0},ptr->getSubUnit(),ptr->getSubUnit(1));
+                RestoreHP({0,12,0,240,0,0},{0,10,0,200,0,0},ptr->getSubUnit(),ptr->getSubUnit(1));
                 AfterHycHeal();
                 if(Hycptr->isHaveToAddBuff("After Rain",3)){
                     buffAllAlly({
                         {ST_HP_P,AT_NONE,30},
                         {ST_FLAT_HP,AT_NONE,600},
                     });
+                    if(ptr->Eidolon>=1)
+                    buffAllAlly({
+                        {ST_HP_P,AT_NONE,50},
+                    });
+                    
+
                 }
                 IcaAttack(ptr);
             };
@@ -99,7 +105,7 @@ namespace Hyacine{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr]() {
             if(ptr->Technique){
                 BeforeHycHeal();
-                Healing({0,30,0,600,0,0},ptr->getSubUnit());
+                RestoreHP({0,30,0,600,0,0},ptr->getSubUnit());
                 AfterHycHeal();
                 buffAllAlly({
                         {ST_HP_P,AT_NONE,20}
@@ -107,6 +113,7 @@ namespace Hyacine{
             }
             double spd = calculateSpeedForBuff(Hycptr,100);
             double healout = floor((spd-200.0));
+            if(healout <= 0)healout = 0;
             if(spd >= 200&&!Hycptr->getBuffCheck("Hyc A6 MaxHP")){
                 ptr->buffAlly({
                     {ST_HP_P,AT_NONE,20}
@@ -119,9 +126,15 @@ namespace Hyacine{
                 Hycptr->setBuffCheck("Hyc A6 MaxHP",0);
             }
             ptr->buffAlly({
+                    {ST_HEALING_OUT,AT_TEMP,healout - Hycptr->getBuffNote("Hyc A6 Healout")},
                     {ST_HEALING_OUT,AT_NONE,healout - Hycptr->getBuffNote("Hyc A6 Healout")},
-                    {ST_HEALING_OUT,AT_TEMP,healout - Hycptr->getBuffNote("Hyc A6 Healout")}
             });
+            if(ptr->Eidolon>=4)
+            ptr->buffAlly({
+                {ST_CD,AT_TEMP,(healout - Hycptr->getBuffNote("Hyc A6 Healout"))*2},
+                {ST_CD,AT_NONE,(healout - Hycptr->getBuffNote("Hyc A6 Healout"))*2},
+            });
+
             Hycptr->setBuffNote("Hyc A6 Healout",healout);
 
         }));
@@ -134,6 +147,10 @@ namespace Hyacine{
                 buffAllAlly({
                         {ST_HP_P,AT_NONE,-30},
                         {ST_FLAT_HP,AT_NONE,-600},
+                });
+                if(ptr->Eidolon>=1)
+                buffAllAlly({
+                    {ST_HP_P,AT_NONE,-50}
                 });
             }
         }));
@@ -170,9 +187,9 @@ namespace Hyacine{
             for(int i=1;i<=Total_ally;i++){
                 for(auto &each : Ally_unit[i]->Sub_Unit_ptr){
                     if(each->getBuffCheck("Ica Talent Heal"))
-                    Healing({0,4,0,40,0,0},Icaptr,each.get());
+                    RestoreHP({0,4,0,40,0,0},Icaptr,each.get());
                     else
-                    Healing({0,2,0,20,0,0},Icaptr,each.get());
+                    RestoreHP({0,2,0,20,0,0},Icaptr,each.get());
                     healCount--;
                 }
             }
@@ -197,7 +214,7 @@ namespace Hyacine{
                 Icaptr->buffStackSingle({
                     {ST_DMG,AT_NONE,80}
                 },1,3,"First Light Heals the World",2);
-                Icaptr->Buff_note["Tally Healing"] += Value;
+                Icaptr->Buff_note["Tally RestoreHP"] += Value;
             }
         }));
         
@@ -208,9 +225,11 @@ namespace Hyacine{
         }));
 
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](SubUnit* Target, string StatsType) {
+            if(!Target->isSameUnitName("Hyacine"))return;
             if(StatsType!=ST_SPD)return;
             double spd = calculateSpeedForBuff(Hycptr,100);
             double healout = floor((spd-200.0));
+            if(healout<=0)healout = 0;
             if(spd >= 200&&!Hycptr->getBuffCheck("Hyc A6 MaxHP")){
                 ptr->buffAlly({
                     {ST_HP_P,AT_NONE,20}
@@ -223,12 +242,47 @@ namespace Hyacine{
                 Hycptr->setBuffCheck("Hyc A6 MaxHP",0);
             }
             ptr->buffAlly({
-                    {ST_HEALING_OUT,AT_NONE,healout - Hycptr->getBuffNote("Hyc A6 Healout")},
-                    {ST_HEALING_OUT,AT_TEMP,healout - Hycptr->getBuffNote("Hyc A6 Healout")}
+                {ST_HEALING_OUT,AT_TEMP,healout - Hycptr->getBuffNote("Hyc A6 Healout")},
+                {ST_HEALING_OUT,AT_NONE,healout - Hycptr->getBuffNote("Hyc A6 Healout")},
             });
+            if(ptr->Eidolon>=4)
+            ptr->buffAlly({
+                {ST_CD,AT_TEMP,(healout - Hycptr->getBuffNote("Hyc A6 Healout"))*2},
+                {ST_CD,AT_NONE,(healout - Hycptr->getBuffNote("Hyc A6 Healout"))*2},
+            });
+
             Hycptr->setBuffNote("Hyc A6 Healout",healout);
         }));
-        
+
+        //Eidolon
+        if(ptr->Eidolon>=1)
+        When_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](shared_ptr<AllyActionData> &data_) {
+            if(Hycptr->getBuffCheck("After Rain")){
+                RestoreHP({0,8,0,0,0,0},Hycptr,data_->Attacker);
+            }
+        }));
+
+        if(ptr->Eidolon>=2){
+            HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](Unit *Trigger, SubUnit *target, double Value) {
+                target->buffSingle({{ST_SPD,ST_SPD_P,30}},"Hyacine E2",2);
+            }));
+
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr]() {
+                SubUnit *allyptr = turn->canCastToSubUnit();
+                if(allyptr&&allyptr->isBuffEnd("Hyacine E2")){
+                    allyptr->buffSingle({{ST_SPD,ST_SPD_P,-30}});
+                }
+            }));    
+        }
+
+        if(ptr->Eidolon>=6)
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr]() {
+            buffAllAlly({
+                {ST_RESPEN,AT_NONE,20}
+            });
+        }));
+
+
 
 
         
@@ -263,7 +317,7 @@ namespace Hyacine{
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             SummonIca(ptr);
             BeforeHycHeal();
-            Healing({0,10,0,200,0,0},{0,8,0,160,0,0},ptr->getSubUnit(),ptr->getSubUnit(1));
+            RestoreHP({0,10,0,200,0,0},{0,8,0,160,0,0},ptr->getSubUnit(),ptr->getSubUnit(1));
             AfterHycHeal();
             IcaAttack(ptr);
         };
@@ -279,10 +333,13 @@ namespace Hyacine{
         data_->Add_Target_Other();
         data_->Skill_Type.push_back("Summon");
         data_->Turn_reset=true;
-        data_->Damage_spilt.Main.push_back({0,0,0,10,ptr->getSubUnit(1)->getBuffNote("Tally Healing")*0.2});
-        data_->Damage_spilt.Adjacent.push_back({0,0,0,10,ptr->getSubUnit(1)->getBuffNote("Tally Healing")*0.2});
-        data_->Damage_spilt.Other.push_back({0,0,0,10,ptr->getSubUnit(1)->getBuffNote("Tally Healing")*0.2});
-        ptr->getSubUnit(1)->Buff_note["Tally Healing"] *= 0.5;
+        data_->Damage_spilt.Main.push_back({0,0,0,10,ptr->getSubUnit(1)->getBuffNote("Tally RestoreHP")*0.2});
+        data_->Damage_spilt.Adjacent.push_back({0,0,0,10,ptr->getSubUnit(1)->getBuffNote("Tally RestoreHP")*0.2});
+        data_->Damage_spilt.Other.push_back({0,0,0,10,ptr->getSubUnit(1)->getBuffNote("Tally RestoreHP")*0.2});
+        if(ptr->Eidolon>=6)
+        ptr->getSubUnit(1)->Buff_note["Tally RestoreHP"] *= 0.88;
+        else
+        ptr->getSubUnit(1)->Buff_note["Tally RestoreHP"] *= 0.5;
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,5);
             Attack(data_);
@@ -328,9 +385,13 @@ namespace Hyacine{
                     each->buffSingle({
                         {ST_HEALING_IN,AT_NONE,-25}
                     });
+                    each->setBuffCheck("Hyc A2",0);
                 }
             }
         }
+    }
+    namespace setting{
+
     }
 }
 #endif

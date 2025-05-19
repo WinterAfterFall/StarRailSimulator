@@ -63,7 +63,7 @@ namespace Mydei{
                     e->debuffApply(ptr->Sub_Unit_ptr[0].get(),"Mydei_Taunt");
                 }
 
-                Healing({0, 0, 0, 0, 20, 0}, ptr->Sub_Unit_ptr[0].get(), ptr->Sub_Unit_ptr[0].get());
+                RestoreHP({0, 0, 0, 0, 20, 0}, ptr->Sub_Unit_ptr[0].get(), ptr->Sub_Unit_ptr[0].get());
                 ChargePoint(ptr, 20);
                 Attack(data_);
                 if(ptr->Print) CharCmd::printUltStart("Mydei");
@@ -98,7 +98,7 @@ namespace Mydei{
             if (ptr->Eidolon >= 6) {
             ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_Vendetta"] = true;
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
-            Healing({0, 0, 0, 0, 25, 0}, ptr->Sub_Unit_ptr[0].get(), ptr->Sub_Unit_ptr[0].get());
+            RestoreHP({0, 0, 0, 0, 25, 0}, ptr->Sub_Unit_ptr[0].get(), ptr->Sub_Unit_ptr[0].get());
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_FLAT_DEF][AT_NONE] -= 10000;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_FLAT_DEF][AT_TEMP] -= 10000;
             
@@ -157,7 +157,7 @@ namespace Mydei{
             }
             return;
         jump:
-            Healing({0, 0, 0, 0, 10, 0}, ptr->Sub_Unit_ptr[0].get(), ptr->Sub_Unit_ptr[0].get());
+            RestoreHP({0, 0, 0, 0, 10, 0}, ptr->Sub_Unit_ptr[0].get(), ptr->Sub_Unit_ptr[0].get());
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
@@ -283,7 +283,7 @@ namespace Mydei{
             ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_Vendetta"]=true;
             ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Charge_point"]-=100;
             ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_action"]=1;
-            Healing({0,0,0,0,25,0},ptr->Sub_Unit_ptr[0].get(),ptr->Sub_Unit_ptr[0].get());
+            RestoreHP({0,0,0,0,25,0},ptr->Sub_Unit_ptr[0].get(),ptr->Sub_Unit_ptr[0].get());
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_FLAT_DEF][AT_NONE] -= 10000;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_FLAT_DEF][AT_TEMP] -= 10000;    
             if (ptr->Eidolon >= 2) ptr->Sub_Unit_ptr[0]->buffSingle({{ST_DEF_SHRED,AT_NONE,15}});

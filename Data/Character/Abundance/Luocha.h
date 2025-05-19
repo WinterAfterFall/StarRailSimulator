@@ -83,7 +83,7 @@ namespace Luocha{
 
         When_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
             if (ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"] >= 2) {
-                Healing({18, 0, 0, 240, 0, 0}, {7, 0, 0, 93, 0, 0}, ptr->Sub_Unit_ptr[0].get(), data_->Attacker);
+                RestoreHP({18, 0, 0, 240, 0, 0}, {7, 0, 0, 93, 0, 0}, ptr->Sub_Unit_ptr[0].get(), data_->Attacker);
             }
         }));
         
@@ -94,7 +94,7 @@ namespace Luocha{
     void Talent(Ally *ptr){
         Increase_energy(ptr,30);
         ++ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"];
-        Healing(ptr->getSubUnit(),{60,0,0,800,0,0},{},{});
+        RestoreHP(ptr->getSubUnit(),{60,0,0,800,0,0},{},{});
         Abyss_Flower(ptr);
         
     }

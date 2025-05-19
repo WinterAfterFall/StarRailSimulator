@@ -6,6 +6,7 @@
 double Cal_HealBonus_multiplier(SubUnit* Healer, SubUnit* target) {
     double mtpr = 100;
     mtpr += Healer->Stats_type[ST_HEALING_OUT][AT_NONE];
+    mtpr += target->Stats_type[ST_HEALING_IN][AT_NONE];
     return mtpr / 100 < 0 ? 0 : mtpr / 100;
 }
 

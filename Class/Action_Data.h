@@ -436,7 +436,6 @@ class EnemyActionData : public ActionData{
                     if(e->Atv_stats->Type == ALLYTYPE_BACKUP)continue;
                     if(e->currentHP==0)continue;
                     enemy->AttackCoolDown[e->Atv_stats->Char_Name] += e->calHitChance();
-                    cout<<enemy->Atv_stats->Char_Name<<" "<<e->Atv_stats->Char_Name<<" "<<enemy->AttackCoolDown[e->Atv_stats->Char_Name]<<endl;
                     if(enemy->AttackCoolDown[e->Atv_stats->Char_Name]>100)enemy->AttackCoolDown[e->Atv_stats->Char_Name]-=100;
                     else continue;
                     Increase_energy(Ally_unit[i].get(),energy);

@@ -237,10 +237,10 @@ void Toughness_break(shared_ptr<AllyActionData> &data_, Enemy* target);
 #pragma endregion
 
 #pragma region ChangeHP
-void Healing(SubUnit *healer,HealRatio main,HealRatio adjacent,HealRatio other);
-void Healing(HealRatio& Healptr,SubUnit *Healer,SubUnit *target);
-void Healing(HealRatio& healRatio,SubUnit *Healer);
-void Healing(HealRatio& healRatioMain,HealRatio& healRatio,SubUnit *Healer,SubUnit *target);
+void RestoreHP(SubUnit *healer,HealRatio main,HealRatio adjacent,HealRatio other);
+void RestoreHP(HealRatio Healptr,SubUnit *Healer,SubUnit *target);
+void RestoreHP(HealRatio healRatio,SubUnit *Healer);
+void RestoreHP(HealRatio healRatioMain,HealRatio healRatio,SubUnit *Healer,SubUnit *target);
 void IncreaseCurrentHP(SubUnit *ptr,double Value);
 void IncreaseHP(SubUnit *Healer,SubUnit *target,double Value);
 void DecreaseCurrentHP(SubUnit *ptr,double Value);

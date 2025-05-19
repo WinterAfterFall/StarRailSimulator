@@ -18,7 +18,7 @@ void Cal_Damage(shared_ptr<AllyActionData> &data_,Enemy *target,Ratio_data Skill
         cout<<data_->source->Base_atk<<" ";
         cout<<Cal_Atk_multiplier(data_,target)<<" * ";
         cout<<Skill_mtpr.Atk_ratio<<" ";
-        cout<<data_->Attacker->totalHP<<" ";
+        cout<<data_->source->Base_hp<<" ";
         cout<<Cal_Hp_multiplier(data_,target)<<" * ";
         cout<<Skill_mtpr.Hp_ratio<<" ";
         cout<<data_->source->Base_def<<" ";
@@ -140,7 +140,7 @@ void Cal_Superbreak_damage(shared_ptr<AllyActionData> &data_,Enemy *target,doubl
     allEventAfterDealingDamage(data_,target,Total_dmg);
 }
 void Cal_Additional_damage(shared_ptr<AllyActionData> &data_,Enemy *target,Ratio_data Skill_mtpr){
-    double Total_dmg = 0;
+    double Total_dmg = Skill_mtpr.fixDmg;
     if(Additional_Damage_Formula_check_mode&&data_->Attacker->Atv_stats->Unit_num==Additional_Damage_Formula_check_mode){
         cout<<data_->Attacker->Atv_stats->Char_Name<<" :"<<endl;
         cout<<data_->Attacker->Base_atk<<" ";

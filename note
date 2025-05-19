@@ -7,3 +7,5 @@ tech serval
 แก้ให้แยกประเภทดาเมจ atk def hp fixdamage แยกกัน
 set max substats ทุกตัว
 แก้ระบบ taunt
+แก้การคำนวณ dot
+เพื่ม true damage ใน rmc

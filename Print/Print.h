@@ -20,8 +20,7 @@ void Print(){
     cout<<"Atv = "<<Current_atv<<" ";
     cout<<""<<turn->Char_Name<<" ";
     cout<<turn->turn_cnt<<" ";
-    cout<<Ally_unit[4]->getSubUnit()->Stats_type[ST_HEALING_OUT][AT_NONE]<<" ";
-    // cout<<Ally_unit[4]->getSubUnit(1)->Buff_note["Tally Healing"]<<" ";
+    // cout<<Ally_unit[4]->getSubUnit(1)->Buff_note["Tally RestoreHP"]<<" ";
     // for(int i=1;i<= Total_enemy; i++){
 
     // }
