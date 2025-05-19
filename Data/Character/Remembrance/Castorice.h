@@ -20,6 +20,9 @@ namespace Castorice{
         SetMemoStats(ptr,0,0,"Quantum","Netherwing",ALLYTYPE_BACKUP);
         SubUnit *Casptr = ptr->getSubUnit();
         SubUnit *Polluxptr = ptr->getSubUnit(1);
+        LC(ptr);
+        Relic(ptr);
+        Planar(ptr);
         ptr->SetAllyBaseStats(1630,524,485);
 
         //substats
@@ -30,9 +33,7 @@ namespace Castorice{
 
 
         //func
-        LC(ptr);
-        Relic(ptr);
-        Planar(ptr);
+        
         ptr->setRelicMainStats(ST_CD,ST_HP_P,ST_HP_P,ST_HP_P);
 
         // SetCountdownStats(ptr,"Supreme_Stance");

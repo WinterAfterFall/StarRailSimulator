@@ -21,6 +21,9 @@ namespace Aglaea{
         Ally *ptr = SetAllyBasicStats(102,350,350,E,"Lightning","Remembrance","Aglaea",TYPE_STD);
         SubUnit *AGptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1242,699,485);
+        LC(ptr);
+        Relic(ptr);
+        Planar(ptr);
         SetMemoStats(ptr,66,35,"Lightning","Garmentmaker",TYPE_STD);
         SetCountdownStats(ptr,"Supreme_Stance");
 
@@ -36,9 +39,7 @@ namespace Aglaea{
 
 
         //func
-        LC(ptr);
-        Relic(ptr);
-        Planar(ptr);
+        
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
             if (allyPtr->Atv_stats->Base_speed == -1) {
                 Skill(ptr);
