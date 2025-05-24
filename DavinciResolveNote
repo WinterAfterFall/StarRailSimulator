@@ -1,0 +1,4 @@
+(1 - LeftMargin - RightMargin) / (Max - Min) * (Value - Min) 
+(1-TopMargin-BottomMargin)/Rows*(1-Padding)
+Point(LeftMargin + Width/2, 1-TopMargin-(1 - TopMargin - BottomMargin) / Rows * (Position - 1) - Height/2)
+Point(Rectangle1.LeftMargin + Rectangle1.Width,Rectangle1.Center.Y)

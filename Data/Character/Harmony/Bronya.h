@@ -25,6 +25,7 @@ namespace Bronya{
         ptr->setRelicMainStats(ST_CD,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
         ptr->setSpeedRequire(133.4);
 
+        Driver_num = Bronyaptr->Atv_stats->Unit_num;
 
         //func
         LC(ptr);
