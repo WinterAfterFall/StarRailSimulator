@@ -1,7 +1,7 @@
 #ifndef Trigger_H
 #define Trigger_H
-#include<bits/stdc++.h>
-#include"Action_Data.h"
+
+#include"../ActionData/Library.h"
 
 #define endl '\n'
 #define F first

@@ -230,9 +230,8 @@ namespace Aglaea{
 
         data_->Damage_spilt.Adjacent.push_back({90,0,0,5});
         data_->Damage_spilt.Adjacent.push_back({90,0,0,5});
-        data_->All_Attacker.push_back(ptr->Sub_Unit_ptr[1].get());
-        data_->Attack_trigger++;
-        data_->Joint.push_back(AttackSource(1,ptr->Sub_Unit_ptr[1].get()));
+        data_->attackerList.push_back(ptr->Sub_Unit_ptr[1].get());
+        data_->switchAttacker.push_back(AttackSource(1,ptr->Sub_Unit_ptr[1].get()));
         data_->actionFunction =[ptr](shared_ptr<AllyActionData> &data_ ){
             Increase_energy(ptr,20);
             Attack(data_);

@@ -1,7 +1,7 @@
 #ifndef FormulaCheck_H
 #define FormulaCheck_H
 
-#include "../Class/Trigger_Function.h"
+#include "../Class/ClassLibrary.h"
 
 void Ally::enableCheckDamage() {
     checkDamage = 1;

@@ -1,7 +1,7 @@
 #ifndef EnemyCmd_H
 #define EnemyCmd_H
 
-#include "../Class/Trigger_Function.h"
+#include "../Class/ClassLibrary.h"
 namespace EnemyCmd{
     void setEnemyWeakness(bool Physical,bool Fire,bool Ice,bool Wind,bool Lightning,bool Quantum,bool Imaginary){
         Enemy_weak = {

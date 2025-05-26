@@ -1,7 +1,7 @@
 #ifndef RelicAdjust_H
 #define RelicAdjust_H
 
-#include "../Class/Trigger_Function.h"
+#include "../Class/ClassLibrary.h"
 
 
 //SetReuqirements

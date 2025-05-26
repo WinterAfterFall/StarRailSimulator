@@ -8,7 +8,7 @@
 #define DMG_CAL 12
 using std::cout ;
 using std::vector;
-#include"../Class/Trigger_Function.h"
+#include"../Class/ClassLibrary.h"
 #include "../Data/Character/All_Character.h"
 #include "../Data/Lightcone/All_Lighcone.h"
 #include "../Data/Planar/All_Planar.h"

@@ -1,7 +1,7 @@
 #ifndef MainStatsRelic_H
 #define MainStatsRelic_H
 
-#include "../Class/Trigger_Function.h"
+#include "../Class/ClassLibrary.h"
 
 //Main Stats
 void Ally::setRelicMainStats(string Body, string Boot, string Orb, string Rope) {

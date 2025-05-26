@@ -1,6 +1,6 @@
 #ifndef Cal_Heal_H
 #define Cal_Heal_H
-#include "../Class/Trigger_Function.h"
+#include "../Class/ClassLibrary.h"
 
 double calculateHeal(HealRatio healRatio, SubUnit *Healer, SubUnit *target) {
     double TotalHeal = 0;

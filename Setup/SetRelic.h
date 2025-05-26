@@ -1,6 +1,6 @@
 #ifndef SetRelic_H
 #define SetRelic_H
-#include "../Class/Trigger_Function.h"
+#include "../Class/ClassLibrary.h"
 
 function<void(Ally *ptr)> Ally::RelicPairSet(string stats){
     if(stats == ST_SPD_P)

@@ -1,7 +1,7 @@
 #ifndef STATSSET_H
 #define STATSSET_H
 #include "Enemy.h"
-// #include "Stats.h"
+
 void Ally::SetAllyBaseStats(double BaseHp,double BaseAtk,double BaseDef){
         this->getSubUnit()->Base_hp +=BaseHp;
         this->getSubUnit()->Base_atk +=BaseAtk;

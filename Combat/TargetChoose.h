@@ -1,7 +1,7 @@
 #ifndef TARGET_CHOOSE_H
 #define TARGET_CHOOSE_H
 #include<bits/stdc++.h>
-#include "../Class/Trigger_Function.h"
+#include "../Class/ClassLibrary.h"
 #define endl '\n'
 #define F first
 #define S second

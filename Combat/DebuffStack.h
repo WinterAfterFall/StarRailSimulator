@@ -1,6 +1,6 @@
 #ifndef DEBUFF_STACK_H
 #define DEBUFF_STACK_H
-#include "../Class/Trigger_Function.h"
+#include "../Class/ClassLibrary.h"
 using namespace std;
 #define endl '\n'
 #define F first

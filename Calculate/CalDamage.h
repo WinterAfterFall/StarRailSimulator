@@ -1,7 +1,7 @@
 #ifndef Cal_damage_H
 #define Cal_damage_H
 #include<bits/stdc++.h>
-#include "../Class/Trigger_Function.h"
+#include "../Class/ClassLibrary.h"
 
 #define endl '\n'
 #define F first

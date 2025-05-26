@@ -1,6 +1,6 @@
 #ifndef Cal_DMG_RECEIVE_H
 #define Cal_DMG_RECEIVE_H
-#include "../Class/Trigger_Function.h"
+#include "../Class/ClassLibrary.h"
 
 double calculateDmgReceive(Enemy *Attacker, SubUnit *ptr, double ratio) {
     double Damage = ratio / 100;

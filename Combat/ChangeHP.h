@@ -1,6 +1,6 @@
 #ifndef CHANGEHP_H
 #define CHANGEHP_H
-#include "../Class/Trigger_Function.h"
+#include "../Class/ClassLibrary.h"
 
 void RestoreHP(SubUnit *healer,HealRatio main,HealRatio adjacent,HealRatio other){
     healCount++;

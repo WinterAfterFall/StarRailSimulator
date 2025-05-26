@@ -1,7 +1,7 @@
 #ifndef COMBAT_H
 #define COMBAT_H
 #include<bits/stdc++.h>
-#include "../Class/Trigger_Function.h"
+#include "../Class/ClassLibrary.h"
 #define endl '\n'
 #define F first
 #define S second
@@ -63,12 +63,12 @@ void AllyActionData::AllyAction(){
         if(this->actionFunction)this->actionFunction(self);
         else Attack(self);    
         
-        for(int i = 0; i < this->Attack_trigger; i++){
-            this->Attacker = this->All_Attacker[i];
+        for(int i = 0; i < this->attackerList.size() ; i++){
+            this->Attacker = this->attackerList[i];
             allEventWhenAttack(self);
         }
         
-        this->Attacker = this->All_Attacker[0];
+        this->Attacker = this->attackerList[0];
         allEventAfterAttack(self);  
 
     }else if(this->Action_type.first == "Buff"){
@@ -91,9 +91,9 @@ void Attack(shared_ptr<AllyActionData> &data_){
     
 
     for(int i=0, sz1 = data_->Damage_spilt.Main.size(),sz2 = data_->Damage_spilt.Adjacent.size(),sz3 = data_->Damage_spilt.Other.size();i<sz1;i++){
-        if(temp!=data_->Joint.size()&&data_->Joint[temp].changeWhen==i){
-            data_->Attacker = data_->Joint[temp].attacker;
-            data_->source = data_->Joint[temp].source;
+        if(temp!=data_->switchAttacker.size()&&data_->switchAttacker[temp].changeWhen==i){
+            data_->Attacker = data_->switchAttacker[temp].attacker;
+            data_->source = data_->switchAttacker[temp].source;
             Current_Attack_Name = data_->Attacker->Atv_stats->Char_Name;
             ++temp;
         }

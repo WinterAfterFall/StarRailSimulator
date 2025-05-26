@@ -1,6 +1,6 @@
 #ifndef Setup_Stats_H
 #define Setup_Stats_H
-#include "../Class/Trigger_Function.h"
+#include "../Class/ClassLibrary.h"
 
 void Basic_reset(){
     

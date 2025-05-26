@@ -362,9 +362,8 @@ namespace Castorice{
         data_->Damage_spilt.Main.push_back({0,50,0,10});
         data_->Damage_spilt.Adjacent.push_back({0,50,0,10});
         data_->Damage_spilt.Other.push_back({0,50,0,10});
-        data_->All_Attacker.push_back(ptr->Sub_Unit_ptr[1].get());
-        data_->Attack_trigger++;
-        data_->Joint.push_back(AttackSource(1,ptr->Sub_Unit_ptr[1].get(),ptr->Sub_Unit_ptr[0].get()));
+        data_->attackerList.push_back(ptr->Sub_Unit_ptr[1].get());
+        data_->switchAttacker.push_back(AttackSource(1,ptr->Sub_Unit_ptr[1].get(),ptr->Sub_Unit_ptr[0].get()));
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),"Netherwing",0,0,40);

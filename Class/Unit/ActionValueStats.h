@@ -1,7 +1,7 @@
 #ifndef ACTION_VALUE_STATS_H
 #define ACTION_VALUE_STATS_H
 #include <bits/stdc++.h>
-#include "../Setting/Control_panel.h"
+#include "../../Setting/Control_panel.h"
 using namespace std;
 #define endl '\n'
 #define F first

@@ -1,6 +1,6 @@
 #ifndef Cal_Stats_HEAL_H
 #define Cal_Stats_HEAL_H
-#include "../Class/Trigger_Function.h"
+#include "../Class/ClassLibrary.h"
 
 
 double Cal_HealBonus_multiplier(SubUnit* Healer, SubUnit* target) {

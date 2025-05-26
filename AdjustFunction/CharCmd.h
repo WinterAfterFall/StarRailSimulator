@@ -1,7 +1,7 @@
 #ifndef CharCmd_H
 #define CharCmd_H
 
-#include "../Class/Trigger_Function.h"
+#include "../Class/ClassLibrary.h"
 
 namespace CharCmd{
 
