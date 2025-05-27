@@ -2,44 +2,73 @@
 #define AllyAttackAction_H
 #include "AllyActionData.h"
 
-enum class SrcType {
+enum class DmgSrcType {
     ATK,
     HP,
     DEF,
     CONST
 };
+class DmgSrc{
+    double ATK = 0;
+    double HP = 0;
+    double DEF = 0;
+    double constDmg = 0;
+    double toughnessReduce = 0;
+
+    DmgSrc(){}
+    DmgSrc(double ATK, double HP, double DEF, double constDmg, double toughnessReduce)
+        : ATK(ATK), HP(HP), DEF(DEF), constDmg(constDmg), toughnessReduce(toughnessReduce)
+    {}
+    
+    DmgSrc(DmgSrcType type, double value, double toughnessReduce)
+        : toughnessReduce(toughnessReduce)
+    {
+        switch(type) {
+            case DmgSrcType::ATK:
+                ATK = value;
+                break;
+            case DmgSrcType::HP:
+                HP = value;
+                break;
+            case DmgSrcType::DEF:
+                DEF = value;
+                break;
+            case DmgSrcType::CONST:
+                constDmg = value;
+                break;    
+        }
+        
+    }
+
+};
 class Damage{
 public:
-    double atkRatio = 0;
-    double hpRatio = 0;
-    double defRatio = 0;
-    double constDamage = 0;
-    double toughnessReduce = 0;
+    DmgSrc dmgSrc;
     Enemy* target = nullptr;
 
     Damage(){}
 
-    Damage(SrcType type, double value, double toughnessReduce, Enemy* target)
+    Damage(DmgSrcType type, double value, double toughnessReduce, Enemy* target)
         : target(target), toughnessReduce(toughnessReduce)
     {
         switch(type) {
-            case SrcType::ATK:
+            case DmgSrcType::ATK:
                 atkRatio = value;
                 break;
-            case SrcType::HP:
+            case DmgSrcType::HP:
                 hpRatio = value;
                 break;
-            case SrcType::DEF:
+            case DmgSrcType::DEF:
                 defRatio = value;
                 break;
-            case SrcType::CONST:
+            case DmgSrcType::CONST:
                 constDamage = value;
                 break;    
         }
         
     }
 };
-typedef vector<vector<Damage>> DaamageSplit;
+typedef vector<vector<Damage>> DamageSplit;
 class AllyAttackAction : public AllyActionData {
     public:
     
@@ -47,12 +76,18 @@ class AllyAttackAction : public AllyActionData {
     bool damageNote = 1;
     double Dont_care_weakness = 0;
 
-    
+    DamageSplit damageSplit;
+
     vector<Enemy*> Target_Attack;
     Hit_spilt Damage_spilt;
     vector<AttackSource> switchAttacker;
     vector<SubUnit*> attackerList;//
     string Damage_element = "";//Physical Fire Ice Lightning Wind Quantum Imaginary
+
+
+    void setDamage(){
+
+    }
 
     #pragma region addEnemyTarget
     void addEnemyTarget(Enemy* ptr){
