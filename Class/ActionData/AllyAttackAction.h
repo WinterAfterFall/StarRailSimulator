@@ -2,9 +2,15 @@
 #define AllyAttackAction_H
 #include "AllyActionData.h"
 
+enum class SourceType {
+    ATK,
+    HP,
+    DEF,
+    CONST,
+};
 
 class Damage{
-    public:
+public:
     double atkRatio = 0;
     double hpRatio = 0;
     double defRatio = 0;
@@ -13,13 +19,26 @@ class Damage{
     Enemy* target = nullptr;
 
     Damage(){}
-    Damage(string type,double toughnessReduce,Enemy* target)
-    :
-    {}
-    
 
-
-
+    Damage(SourceType type, double value, double toughnessReduce, Enemy* target)
+        : target(target), toughnessReduce(toughnessReduce)
+    {
+        switch(type) {
+            case SourceType::ATK:
+                atkRatio = value;
+                break;
+            case SourceType::HP:
+                hpRatio = value;
+                break;
+            case SourceType::DEF:
+                defRatio = value;
+                break;
+            case SourceType::CONST:
+                constDamage = value;
+                break;    
+        }
+        
+    }
 };
 typedef vector<vector<Damage>> DaamageSplit;
 class AllyAttackAction : public AllyActionData {
