@@ -42,7 +42,7 @@ namespace Rappa{
             if (!ultUseCheck(ptr)) return;
             
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Buff", "Rappa Ultimate");
+            data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Buff", "Rappa Ultimate");
             data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
             data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
                 if (ptr->Print)CharCmd::printUltStart("Rappa");
@@ -54,9 +54,9 @@ namespace Rappa{
                 
 
                 shared_ptr<AllyActionData> data_2 = make_shared<AllyActionData>();
-                data_2->Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(), "Blast", "Rappa Enchance BasicAttack");
+                data_2->setBasicAttack(ptr->Sub_Unit_ptr[0].get(), "Blast", "Rappa Enchance BasicAttack");
                 data_->Dont_care_weakness = 50;
-                data_2->Add_Target_Other();
+                data_2->addEnemyOtherTarget();
                 data_2->Damage_spilt.Main.push_back({100, 0, 0, 10});
                 data_2->Damage_spilt.Main.push_back({100, 0, 0, 10});
                 data_2->Damage_spilt.Main.push_back({100, 0, 0, 5});
@@ -135,7 +135,7 @@ namespace Rappa{
                     Superbreak_trigger(data_,60);
 
                     shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-                    data_->Break_dmg_set(ptr->Sub_Unit_ptr[0].get(),"Rappa Break Talent");
+                    data_->setBreakDmg(ptr->Sub_Unit_ptr[0].get(),"Rappa Break Talent");
                     double temp = ptr->Sub_Unit_ptr[0]->Buff_note["Rappa_Talent"];
 
                     for(int i=1;i<=Total_enemy;i++){
@@ -153,7 +153,7 @@ namespace Rappa{
                 for (int i = 1; i <= Total_enemy; i++) {
                     shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
                     double temp;
-                    data_->Break_dmg_set(ptr->Sub_Unit_ptr[0].get(), "Rappa Technique");
+                    data_->setBreakDmg(ptr->Sub_Unit_ptr[0].get(), "Rappa Technique");
 
                     if (Enemy_unit[i]->Target_type == "Main") {
                         temp = 2;
@@ -163,8 +163,8 @@ namespace Rappa{
                         Cal_Break_damage(data_, Enemy_unit[i].get(), temp);
                     }
                     shared_ptr<AllyActionData> data_2 = make_shared<AllyActionData>();
-                    data_2->Technique_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Rappa Technique");
-                    data_2->Add_Target_Other();
+                    data_2->setTechnique(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Rappa Technique");
+                    data_2->addEnemyOtherTarget();
                     Cal_Toughness_reduction(data_2, Enemy_unit[i].get(), 30);
                 }
             }
@@ -190,8 +190,8 @@ namespace Rappa{
     void Enchance_Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Blast","Rappa Enchance BasicAttack");
-        data_->Add_Target_Other();
+        data_->setBasicAttack(ptr->Sub_Unit_ptr[0].get(),"Blast","Rappa Enchance BasicAttack");
+        data_->addEnemyOtherTarget();
         data_->Turn_reset = 1;
         data_->Dont_care_weakness = 50;
         data_->Damage_spilt.Main.push_back({100,0,0,10});
@@ -222,8 +222,8 @@ namespace Rappa{
     void Skill_func(Ally *ptr){
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Aoe","Rappa Skill");
-        data_->Add_Target_Other();
+        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Aoe","Rappa Skill");
+        data_->addEnemyOtherTarget();
         data_->Turn_reset = 1;
         data_->Damage_spilt.Main.push_back({60,0,0,5});
         data_->Damage_spilt.Main.push_back({60,0,0,5});

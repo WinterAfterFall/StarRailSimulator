@@ -43,7 +43,7 @@ namespace Remembrance_Lightcone{
                     &&data_->Attacker->Atv_stats->Unit_num==ptr->getSubUnit()->Atv_stats->Unit_num
                     &&data_->Action_type.second == AT_SKILL){
                         shared_ptr<AllyActionData> addtionaldmg = make_shared<AllyActionData>();
-                        addtionaldmg->Additional_set(data_->Attacker,TT_SINGLE,"Hyc LC Additonal dmg");
+                        addtionaldmg->setAdditonal(data_->Attacker,TT_SINGLE,"Hyc LC Additonal dmg");
                     Cal_Additional_damage(addtionaldmg, Enemy_unit[Main_Enemy_num].get(), {0, 0, 0, 0,ptr->getSubUnit()->Buff_note["Hyacnine_LC Note"] * (1.875 + 0.625 * superimpose)});
                     ptr->getSubUnit()->setBuffNote("Hyacnine_LC Note",0);
                 }

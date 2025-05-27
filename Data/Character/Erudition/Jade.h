@@ -50,8 +50,8 @@ namespace Jade{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","Jade Ultimate");
-            data_->Add_Target_Other();
+            data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Aoe","Jade Ultimate");
+            data_->addEnemyOtherTarget();
             data_->Damage_spilt.Main.push_back({240, 0, 0, 20});
             data_->Damage_spilt.Adjacent.push_back({240, 0, 0, 20});
             data_->Damage_spilt.Other.push_back({240, 0, 0, 20});
@@ -77,8 +77,8 @@ namespace Jade{
             if (ptr->Technique == 1) {
                 
                 shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-                data_->Technique_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","Jade Technique");
-                data_->Add_Target_Other();
+                data_->setTechnique(ptr->Sub_Unit_ptr[0].get(), "Aoe","Jade Technique");
+                data_->addEnemyOtherTarget();
                 data_->Damage_spilt.Main.push_back({50, 0, 0, 0});
                 data_->Damage_spilt.Adjacent.push_back({50, 0, 0, 0});
                 data_->Damage_spilt.Other.push_back({50, 0, 0, 0});
@@ -130,8 +130,8 @@ namespace Jade{
     void Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Blast","Jade BasicAtttack");
-        data_->Add_Target_Adjacent();
+        data_->setBasicAttack(ptr->Sub_Unit_ptr[0].get(),"Blast","Jade BasicAtttack");
+        data_->addEnemyAdjacentTarget();
         data_->Turn_reset=true;
         data_->Damage_spilt.Main.push_back({90,0,0,10});
         data_->Damage_spilt.Adjacent.push_back({30,0,0,5});
@@ -145,7 +145,7 @@ namespace Jade{
     void Skill(Ally *ptr){
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Jade Skill");
+        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Jade Skill");
         data_->Add_Buff_Single_Target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
         data_->Turn_reset=true;
         
@@ -179,8 +179,8 @@ namespace Jade{
     }
     void Fua(Ally *ptr){
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Fua_set(ptr->Sub_Unit_ptr[0].get(),"Aoe","Jade Fua");
-        data_->Add_Target_Other();
+        data_->setFua(ptr->Sub_Unit_ptr[0].get(),"Aoe","Jade Fua");
+        data_->addEnemyOtherTarget();
         data_->Damage_spilt.Main.push_back({18,0,0,10});
         data_->Damage_spilt.Main.push_back({18,0,0,10});
         data_->Damage_spilt.Main.push_back({18,0,0,10});
@@ -209,8 +209,8 @@ namespace Jade{
     }
     void Fua_Enchance(Ally *ptr){
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Fua_set(ptr->Sub_Unit_ptr[0].get(),"Aoe","Jade Enchance Fua");
-        data_->Add_Target_Other();
+        data_->setFua(ptr->Sub_Unit_ptr[0].get(),"Aoe","Jade Enchance Fua");
+        data_->addEnemyOtherTarget();
         data_->Damage_spilt.Main.push_back({20,0,0,10});
         data_->Damage_spilt.Main.push_back({20,0,0,10});
         data_->Damage_spilt.Main.push_back({20,0,0,10});

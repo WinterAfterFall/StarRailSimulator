@@ -37,8 +37,8 @@ namespace Luocha{
             if (ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"] >= 2) return;
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","Luocha Ultimate");
-            data_->Add_Target_Other();
+            data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Aoe","Luocha Ultimate");
+            data_->addEnemyOtherTarget();
             data_->Damage_spilt.Main.push_back({200, 0, 0, 20});
             data_->Damage_spilt.Adjacent.push_back({200, 0, 0, 20});
             data_->Damage_spilt.Other.push_back({200, 0, 0, 20});
@@ -109,8 +109,8 @@ namespace Luocha{
     void Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Luocha Basic_Atk");
-        data_->Add_Target_Main();
+        data_->setBasicAttack(ptr->Sub_Unit_ptr[0].get(),"Single_target","Luocha Basic_Atk");
+        data_->addEnemyMainTarget();
         data_->Turn_reset = 1;
         data_->Damage_spilt.Main.push_back({30,0,0,3});
         data_->Damage_spilt.Main.push_back({30,0,0,3});

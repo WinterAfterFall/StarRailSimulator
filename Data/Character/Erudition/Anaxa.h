@@ -54,8 +54,8 @@ namespace  Anaxa{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr,Anaxaptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            data_->Ultimate_set(Anaxaptr,TT_AOE,"Anaxa Ult");
-            data_->Add_Target_Other();
+            data_->setUltimate(Anaxaptr,TT_AOE,"Anaxa Ult");
+            data_->addEnemyOtherTarget();
             data_->Damage_spilt.Main.push_back({160,0,0,20});
             data_->Damage_spilt.Adjacent.push_back({160,0,0,20});
             data_->Damage_spilt.Other.push_back({160,0,0,20});
@@ -202,8 +202,8 @@ namespace  Anaxa{
     void Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),TT_SINGLE,"Anaxa BA");
-        data_->Add_Target_Adjacent();
+        data_->setBasicAttack(ptr->Sub_Unit_ptr[0].get(),TT_SINGLE,"Anaxa BA");
+        data_->addEnemyAdjacentTarget();
         data_->Turn_reset=true;
         data_->Damage_spilt.Main.push_back({100,0,0,10});
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
@@ -235,8 +235,8 @@ namespace  Anaxa{
     }
     void Skill(Ally *ptr){
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),TT_BOUNCE,"Anaxa Skill");
-        data_->Add_Target_FairBounce(5,{70,0,0,10});
+        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),TT_BOUNCE,"Anaxa Skill");
+        data_->addEnemyFairBounce(5,{70,0,0,10});
         data_->Turn_reset=true;     
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
@@ -286,8 +286,8 @@ namespace  Anaxa{
     void AdditionalSkill(Ally *ptr){
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),TT_BOUNCE,"Anaxa AdditionalSkill");
-        data_->Add_Target_FairBounce(5,{70,0,0,10});
+        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),TT_BOUNCE,"Anaxa AdditionalSkill");
+        data_->addEnemyFairBounce(5,{70,0,0,10});
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
 

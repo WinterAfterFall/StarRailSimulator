@@ -48,8 +48,8 @@ namespace Gallagher{
             
 
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Gallagher Ultimate");
-            data_->Add_Target_Other();
+            data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Gallagher Ultimate");
+            data_->addEnemyOtherTarget();
             data_->Damage_spilt.Main.push_back({165, 0, 0, 20});
             data_->Damage_spilt.Adjacent.push_back({165, 0, 0, 20});
             data_->Damage_spilt.Other.push_back({165, 0, 0, 20});
@@ -108,7 +108,7 @@ namespace Gallagher{
             Charptr->buffSingle({{ST_HEALING_OUT,AT_NONE,Charptr->getBuffNote("Novel Concoction")}});
             if (ptr->Technique) {
                 shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-                data_->Technique_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","gallagher Technique");
+                data_->setTechnique(ptr->Sub_Unit_ptr[0].get(), "Aoe","gallagher Technique");
                 data_->Damage_spilt.Main.push_back({50, 0, 0, 20});
                 data_->Damage_spilt.Adjacent.push_back({50, 0, 0, 20});
                 data_->Damage_spilt.Other.push_back({50, 0, 0, 20});
@@ -164,8 +164,8 @@ namespace Gallagher{
     void Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Gallagher Basic_Atk");
-        data_->Add_Target_Main();
+        data_->setBasicAttack(ptr->Sub_Unit_ptr[0].get(),"Single_target","Gallagher Basic_Atk");
+        data_->addEnemyMainTarget();
         data_->Turn_reset = 1;
         data_->Damage_spilt.Main.push_back({55,0,0,5});
         data_->Damage_spilt.Main.push_back({55,0,0,5});
@@ -181,8 +181,8 @@ namespace Gallagher{
         
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Nectar Blitz");
-        data_->Add_Target_Main();
+        data_->setBasicAttack(ptr->Sub_Unit_ptr[0].get(),"Single_target","Nectar Blitz");
+        data_->addEnemyMainTarget();
         data_->Turn_reset = 1;
         data_->Damage_spilt.Main.push_back({62.5,0,0,7.5});
         data_->Damage_spilt.Main.push_back({37.5,0,0,4.5});
@@ -205,7 +205,7 @@ namespace Gallagher{
 
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Heal","Gallagher Skill");
+        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Single_target","Heal","Gallagher Skill");
         data_->Add_Buff_Single_Target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
         data_->turnResetTrue();
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){

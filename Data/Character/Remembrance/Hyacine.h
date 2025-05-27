@@ -62,7 +62,7 @@ namespace Hyacine{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Hycptr,Icaptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","Heal", "Hyc Ult");
+            data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Aoe","Heal", "Hyc Ult");
             data_->Add_Buff_All_Ally();
             data_->Buff_type.push_back("Summon");
             data_->actionFunction = [ptr,Hycptr](shared_ptr<AllyActionData> &data_){
@@ -293,8 +293,8 @@ namespace Hyacine{
     void Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Hyc BA");
-        data_->Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
+        data_->setBasicAttack(ptr->Sub_Unit_ptr[0].get(),"Single_target","Hyc BA");
+        data_->addEnemyTarget(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
         data_->Turn_reset=true;
         data_->Damage_spilt.Main.push_back({0,50,0,10});
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
@@ -308,7 +308,7 @@ namespace Hyacine{
     void Skill(Ally *ptr){
 
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),TT_AOE,"Heal","Hyc Skill");
+        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),TT_AOE,"Heal","Hyc Skill");
         data_->Add_Buff_All_Ally();
         data_->Turn_reset=true;
         data_->Buff_type.push_back("Summon");
@@ -329,8 +329,8 @@ namespace Hyacine{
 
     void Memo_Skill(Ally *ptr){
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Skill_set(ptr->Sub_Unit_ptr[1].get(),"Aoe","Ica Skill");
-        data_->Add_Target_Other();
+        data_->setSkill(ptr->Sub_Unit_ptr[1].get(),"Aoe","Ica Skill");
+        data_->addEnemyOtherTarget();
         data_->Skill_Type.push_back("Summon");
         data_->Turn_reset=true;
         data_->Damage_spilt.Main.push_back({0,0,0,10,ptr->getSubUnit(1)->getBuffNote("Tally RestoreHP")*0.2});

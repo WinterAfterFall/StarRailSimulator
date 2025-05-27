@@ -70,6 +70,8 @@
 #define AT_DOT "Dot"
 #define AT_BREAK "Break_dmg"
 #define AT_SPB "Super_break"
+#define AT_ADD "Additional"
+#define AT_TECH "Technique"
 
 #pragma endregion
 #pragma region TargetType
@@ -110,6 +112,7 @@ using std::right;
 
 /*------Unit------*/
 //Stats
+class Damage;
 class Func_class;
 class BuffClass;
 class BuffElementClass;

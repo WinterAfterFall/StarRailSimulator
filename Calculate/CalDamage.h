@@ -11,19 +11,19 @@
 
 
 void Cal_Damage(shared_ptr<AllyActionData> &data_,Enemy *target,Ratio_data Skill_mtpr){
-    double Total_dmg = Skill_mtpr.fixDmg;
+    double Total_dmg = Skill_mtpr.constDamage;
     if(Normal_Damage_Formula_check_mode&&data_->Attacker->Atv_stats->Unit_num==Normal_Damage_Formula_check_mode){
         cout<<data_->Attacker->Atv_stats->Char_Name<<" :"<<endl;
-        cout<<Skill_mtpr.fixDmg<<" ";
+        cout<<Skill_mtpr.constDamage<<" ";
         cout<<data_->source->Base_atk<<" ";
         cout<<Cal_Atk_multiplier(data_,target)<<" * ";
-        cout<<Skill_mtpr.Atk_ratio<<" ";
+        cout<<Skill_mtpr.atkRatio<<" ";
         cout<<data_->source->Base_hp<<" ";
         cout<<Cal_Hp_multiplier(data_,target)<<" * ";
-        cout<<Skill_mtpr.Hp_ratio<<" ";
+        cout<<Skill_mtpr.hpRatio<<" ";
         cout<<data_->source->Base_def<<" ";
         cout<<Cal_Def_multiplier(data_,target)<<" * ";
-        cout<<Skill_mtpr.Def_ratio<<" ";
+        cout<<Skill_mtpr.defRatio<<" ";
         cout<<Cal_Bonus_dmg_multiplier(data_,target)<<" ";
         cout<<Cal_Crit_rate_multiplier(data_,target)<<" ";
         cout<<Cal_Crit_dam_multiplier(data_,target)<<" ";
@@ -34,9 +34,9 @@ void Cal_Damage(shared_ptr<AllyActionData> &data_,Enemy *target,Ratio_data Skill
         cout<<Cal_Toughness_multiplier(data_,target)<<" ";
         cout<<endl;
     }
-    Total_dmg += Cal_Atk_multiplier(data_,target)*Skill_mtpr.Atk_ratio/100;
-    Total_dmg += Cal_Hp_multiplier(data_,target)*Skill_mtpr.Hp_ratio/100;
-    Total_dmg += Cal_Def_multiplier(data_,target)*Skill_mtpr.Def_ratio/100;
+    Total_dmg += Cal_Atk_multiplier(data_,target)*Skill_mtpr.atkRatio/100;
+    Total_dmg += Cal_Hp_multiplier(data_,target)*Skill_mtpr.hpRatio/100;
+    Total_dmg += Cal_Def_multiplier(data_,target)*Skill_mtpr.defRatio/100;
     Total_dmg = Total_dmg*Cal_Bonus_dmg_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Crit_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Def_shred_multiplier(data_,target);
@@ -140,18 +140,18 @@ void Cal_Superbreak_damage(shared_ptr<AllyActionData> &data_,Enemy *target,doubl
     allEventAfterDealingDamage(data_,target,Total_dmg);
 }
 void Cal_Additional_damage(shared_ptr<AllyActionData> &data_,Enemy *target,Ratio_data Skill_mtpr){
-    double Total_dmg = Skill_mtpr.fixDmg;
+    double Total_dmg = Skill_mtpr.constDamage;
     if(Additional_Damage_Formula_check_mode&&data_->Attacker->Atv_stats->Unit_num==Additional_Damage_Formula_check_mode){
         cout<<data_->Attacker->Atv_stats->Char_Name<<" :"<<endl;
         cout<<data_->Attacker->Base_atk<<" ";
         cout<<Cal_Atk_multiplier(data_,target)<<" * ";
-        cout<<Skill_mtpr.Atk_ratio<<" ";
+        cout<<Skill_mtpr.atkRatio<<" ";
         cout<<data_->Attacker->Base_hp<<" ";
         cout<<Cal_Hp_multiplier(data_,target)<<" * ";
-        cout<<Skill_mtpr.Hp_ratio<<" ";
+        cout<<Skill_mtpr.hpRatio<<" ";
         cout<<data_->Attacker->Base_def<<" ";
         cout<<Cal_Def_multiplier(data_,target)<<" * ";
-        cout<<Skill_mtpr.Def_ratio<<" ";
+        cout<<Skill_mtpr.defRatio<<" ";
         cout<<Cal_Bonus_dmg_multiplier(data_,target)<<" ";
         cout<<Cal_Crit_rate_multiplier(data_,target)<<" ";
         cout<<Cal_Crit_dam_multiplier(data_,target)<<" ";
@@ -162,9 +162,9 @@ void Cal_Additional_damage(shared_ptr<AllyActionData> &data_,Enemy *target,Ratio
         cout<<Cal_Toughness_multiplier(data_,target)<<" ";
         cout<<endl;
     }
-    Total_dmg += Cal_Atk_multiplier(data_,target)*Skill_mtpr.Atk_ratio/100;
-    Total_dmg += Cal_Hp_multiplier(data_,target)*Skill_mtpr.Hp_ratio/100;
-    Total_dmg += Cal_Def_multiplier(data_,target)*Skill_mtpr.Def_ratio/100;
+    Total_dmg += Cal_Atk_multiplier(data_,target)*Skill_mtpr.atkRatio/100;
+    Total_dmg += Cal_Hp_multiplier(data_,target)*Skill_mtpr.hpRatio/100;
+    Total_dmg += Cal_Def_multiplier(data_,target)*Skill_mtpr.defRatio/100;
     Total_dmg = Total_dmg*Cal_Bonus_dmg_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Crit_multiplier(data_,target);
     Total_dmg = Total_dmg*Cal_Def_shred_multiplier(data_,target);

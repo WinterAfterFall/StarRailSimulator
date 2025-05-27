@@ -45,11 +45,11 @@ class HealRatio{
 };
 class Ratio_data{
     public:
-    double Atk_ratio = 0;
-    double Hp_ratio = 0;
-    double Def_ratio = 0;
+    double atkRatio = 0;
+    double hpRatio = 0;
+    double defRatio = 0;
     double Toughness_ratio = 0;
-    double fixDmg = 0;
+    double constDamage = 0;
 };
 class Hit_spilt{
     public:

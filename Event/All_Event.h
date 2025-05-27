@@ -6,13 +6,13 @@ void allEventBeforeTurn(){
     if(turn->Side=="Enemy"){
         Dot_trigger(100,Enemy_unit[turn->Unit_num].get(),AT_NONE);
         if(Enemy_unit[turn->Unit_num]->Entanglement != 0){
-            temp->Entanglement_set(Ally_unit[Enemy_unit[turn->Unit_num]->Entanglement]->Sub_Unit_ptr[0].get());
+            temp->setEntanglement(Ally_unit[Enemy_unit[turn->Unit_num]->Entanglement]->Sub_Unit_ptr[0].get());
             double Const = 0.6*Enemy_unit[turn->Unit_num]->Entanglement_stack;
             Cal_Break_damage(temp,Enemy_unit[turn->Unit_num].get(),Const);
         }
         if(Enemy_unit[turn->Unit_num]->Freeze != 0){
             
-            temp->Freeze_set(Ally_unit[Enemy_unit[turn->Unit_num]->Freeze]->Sub_Unit_ptr[0].get());
+            temp->setFreeze(Ally_unit[Enemy_unit[turn->Unit_num]->Freeze]->Sub_Unit_ptr[0].get());
             
             Cal_Freeze_damage(temp,Enemy_unit[turn->Unit_num].get());
             Action_forward(Enemy_unit[turn->Unit_num]->Atv_stats.get(),-50);

@@ -40,7 +40,7 @@ namespace Ruan_Mei{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,RMptr](){
             if(!ultUseCheck(ptr)) return;
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff","RuanMei Ult");
+            data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff","RuanMei Ult");
             data_->Add_Buff_All_Ally();
             data_->actionFunction = [ptr,RMptr](shared_ptr<AllyActionData> &data_){
                 if(ptr->Print)CharCmd::printUltStart("Ruan Mei");
@@ -75,7 +75,7 @@ namespace Ruan_Mei{
                 
 
                 shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-                data_->Skill_set(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Buff","RuanMei Skill");
+                data_->setSkill(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Buff","RuanMei Skill");
                 data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
                 data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
                     Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
@@ -113,7 +113,7 @@ namespace Ruan_Mei{
                     Enemy_unit[turn->Unit_num]->debuffRemove("RuanMei_Ult_bloom");
                     Action_forward(Enemy_unit[turn->Unit_num]->Atv_stats.get(), -10 - (0.2 * (ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE])));
                     shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-                    data_->Break_dmg_set(ptr->Sub_Unit_ptr[0].get(),"RuanMei Break");
+                    data_->setBreakDmg(ptr->Sub_Unit_ptr[0].get(),"RuanMei Break");
                     double temp = 0.5;
                     Cal_Break_damage(data_, Enemy_unit[turn->Unit_num].get(), temp);
                 }
@@ -134,7 +134,7 @@ namespace Ruan_Mei{
         Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, SubUnit *Breaker){
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
             double temp;
-            data_->Break_dmg_set(ptr->Sub_Unit_ptr[0].get(),"RuanMei Break");
+            data_->setBreakDmg(ptr->Sub_Unit_ptr[0].get(),"RuanMei Break");
             temp = 1.2;
             Cal_Break_damage(data_, target, temp);
         }));
@@ -146,8 +146,8 @@ namespace Ruan_Mei{
     void Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","RuanMei BasicAttack");
-        data_->Add_Target_Main();
+        data_->setBasicAttack(ptr->Sub_Unit_ptr[0].get(),"Single_target","RuanMei BasicAttack");
+        data_->addEnemyMainTarget();
         data_->Turn_reset = 1;
         data_->Damage_spilt.Main.push_back({100,0,0,10});
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
@@ -161,7 +161,7 @@ namespace Ruan_Mei{
         
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","RuanMei Skill");
+        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","RuanMei Skill");
         data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
         data_->Turn_reset = 1;
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){

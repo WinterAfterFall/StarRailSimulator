@@ -38,7 +38,7 @@ namespace Bronya{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Bronyaptr](){
             if(!ultUseCheck(ptr)) return;
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(),"Aoe","Buff","Bronya Ult");
+            data_->setUltimate(ptr->Sub_Unit_ptr[0].get(),"Aoe","Buff","Bronya Ult");
             data_->Add_Buff_All_Ally();
             data_->actionFunction = [ptr,Bronyaptr](shared_ptr<AllyActionData> &data_){
                 //Ult ATKBUFF
@@ -125,8 +125,8 @@ namespace Bronya{
             }
             if(ptr->Eidolon >= 4 && data_->Action_type.second == "Basic_Attack" && data_->Attacker->Atv_stats->Char_Name != "Bronya" && ptr->Sub_Unit_ptr[0]->Buff_check["Bronya_E4"] == 0){
                 shared_ptr<AllyActionData> data_temp = make_shared<AllyActionData>();
-                data_temp->Fua_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Bronya E4");
-                data_temp->Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
+                data_temp->setFua(ptr->Sub_Unit_ptr[0].get(),"Single_target","Bronya E4");
+                data_temp->addEnemyTarget(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
                 data_temp->Damage_spilt.Main.push_back({80,0,0,10});
                 Increase_energy(ptr,5);
                 ptr->Sub_Unit_ptr[0]->Buff_check["Bronya_E4"] = 1;
@@ -149,7 +149,7 @@ namespace Bronya{
     void Skill(Ally *ptr){
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Bronya Skill");
+        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Bronya Skill");
         data_->Add_Buff_Single_Target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
         data_->Turn_reset=true;
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){

@@ -140,7 +140,7 @@ void Skill_point(SubUnit *ptr,int p){
 }
 void Superbreak_trigger(shared_ptr<AllyActionData> &data_, double Superbreak_ratio){
     shared_ptr<AllyActionData> data_2 = make_shared<AllyActionData>();
-    data_2->SuperBreak_set(data_->Attacker,data_->traceType);
+    data_2->setSuperBreak(data_->Attacker,data_->traceType);
     
     for(int i=1;i<=Total_enemy;i++){
         double toughness_reduce=0;
@@ -226,7 +226,7 @@ void Toughness_break(shared_ptr<AllyActionData> &data_,Enemy* target){
     }
     double Constant = 0;
     shared_ptr<AllyActionData> data_2 = make_shared<AllyActionData>();
-    data_2->Break_dmg_set(data_->Attacker,"Break");
+    data_2->setBreakDmg(data_->Attacker,"Break");
     ++target->Total_debuff;
     allEventApplyDebuff(data_->Attacker,target);
     

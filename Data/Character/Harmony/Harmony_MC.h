@@ -41,7 +41,7 @@ namespace Harmony_MC{
             
             
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff", "HMC Ultimate");
+            data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff", "HMC Ultimate");
             data_->Add_Buff_All_Ally();
             data_->actionFunction = [ptr,HMCptr](shared_ptr<AllyActionData> &data_){
                 if(HMCptr->isHaveToAddBuff("Harmony_MC_ult",3))
@@ -120,8 +120,8 @@ namespace Harmony_MC{
 void Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","HMC BasicAttack");
-        data_->Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
+        data_->setBasicAttack(ptr->Sub_Unit_ptr[0].get(),"Single_target","HMC BasicAttack");
+        data_->addEnemyTarget(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
         data_->Turn_reset = 1;
         data_->Damage_spilt.Main.push_back({110,0,0,10});
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
@@ -134,8 +134,8 @@ void Basic_Atk(Ally *ptr){
     void Skill_func(Ally *ptr){
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Bounce","HMC Skill");
-        data_->Add_Target_Adjacent();
+        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Bounce","HMC Skill");
+        data_->addEnemyAdjacentTarget();
         data_->Turn_reset = 1;
         data_->Damage_spilt.Main.push_back({55,0,0,10});
         data_->Damage_spilt.Main.push_back({55,0,0,5});

@@ -52,8 +52,8 @@ namespace The_Herta{
             if (!ultUseCheck(ptr)) return;
 
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","The Herta Ultimate");
-            data_->Add_Target_Other();
+            data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Aoe","The Herta Ultimate");
+            data_->addEnemyOtherTarget();
             data_->actionFunction = [ptr,Hertaptr](shared_ptr<AllyActionData> &data_){
                 double Increase_mtpr = ptr->Sub_Unit_ptr[0]->Stack["The_Herta_A6"];
                 data_->Damage_spilt.Main.push_back({200 + Increase_mtpr, 0, 0, 20});
@@ -203,8 +203,8 @@ namespace The_Herta{
 
     void Basic_Atk(Ally *ptr){
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","The Herta BasicAttack");
-        data_->Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
+        data_->setBasicAttack(ptr->Sub_Unit_ptr[0].get(),"Single_target","The Herta BasicAttack");
+        data_->addEnemyTarget(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
         data_->Turn_reset=true;
         data_->Damage_spilt.Main.push_back({100,0,0,10});
         data_->actionFunction =[ptr](shared_ptr<AllyActionData> &data_){
@@ -218,8 +218,8 @@ namespace The_Herta{
         
 
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Blast","The Herta Skill");
-        data_->Add_Target_Other();
+        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Blast","The Herta Skill");
+        data_->addEnemyOtherTarget();
         data_->Damage_spilt.Main.push_back({70,0,0,5});
         data_->Damage_spilt.Main.push_back({70,0,0,5});
         data_->Damage_spilt.Main.push_back({70,0,0,5});
@@ -242,8 +242,8 @@ namespace The_Herta{
     }
     void Enchance_Skill(Ally *ptr){
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Aoe","The Herta EnchanceSkill");
-        data_->Add_Target_Other();
+        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Aoe","The Herta EnchanceSkill");
+        data_->addEnemyOtherTarget();
         data_->Turn_reset=true;
         data_->actionFunction =[ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,30);

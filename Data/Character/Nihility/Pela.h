@@ -39,8 +39,8 @@ namespace Pela{
             }
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Pela Ultimate");
-            data_->Add_Target_Other();
+            data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Pela Ultimate");
+            data_->addEnemyOtherTarget();
             data_->Turn_reset = true;
             data_->Damage_spilt.Main.push_back({108, 0, 0, 20});
             data_->Damage_spilt.Adjacent.push_back({108, 0, 0, 20});
@@ -101,7 +101,7 @@ namespace Pela{
 
             if (ptr->Eidolon >= 6) {
                 shared_ptr<AllyActionData> temp = make_shared<AllyActionData>();
-                temp->Additional_set(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Pela E6");
+                temp->setAdditonal(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Pela E6");
                 for (auto e : data_->Target_Attack) {
                     Cal_Additional_damage(temp, e, {40, 0, 0, 0});
                 }
@@ -113,8 +113,8 @@ namespace Pela{
 
     void Basic_Atk(Ally *ptr){
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Pela BasicAttack");
-        data_->Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
+        data_->setBasicAttack(ptr->Sub_Unit_ptr[0].get(),"Single_target","Pela BasicAttack");
+        data_->addEnemyTarget(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
         data_->Turn_reset=true;
         data_->Damage_spilt.Main.push_back({55,0,0,5});
         data_->Damage_spilt.Main.push_back({55,0,0,5});

@@ -51,8 +51,8 @@ namespace Mydei{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Blast","Mydei Ult");
-            data_->Add_Target_Adjacent();
+            data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Blast","Mydei Ult");
+            data_->addEnemyAdjacentTarget();
             data_->Damage_spilt.Main.push_back({0, 160, 0, 20});
             data_->Damage_spilt.Adjacent.push_back({0, 100, 0, 20});
             
@@ -109,8 +109,8 @@ namespace Mydei{
             allEventAdjustStats(ptr->Sub_Unit_ptr[0].get(), "Hp%");
             if (ptr->Technique) {
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            data_->Technique_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Mydei Technique");
-            data_->Add_Target_Other();
+            data_->setTechnique(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Mydei Technique");
+            data_->addEnemyOtherTarget();
             data_->Damage_spilt.Main.push_back({0, 80, 0, 0});
             data_->Damage_spilt.Adjacent.push_back({0, 80, 0, 0});
             data_->Damage_spilt.Other.push_back({0, 80, 0, 0});
@@ -199,8 +199,8 @@ namespace Mydei{
     void Skill(Ally *ptr){
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Blast","Mydei Skill");
-        data_->Add_Target_Adjacent();
+        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Blast","Mydei Skill");
+        data_->addEnemyAdjacentTarget();
         data_->turnResetTrue();
         data_->Damage_spilt.Main.push_back({0,90,0,20});
         data_->Damage_spilt.Adjacent.push_back({0,50,0,10});
@@ -215,8 +215,8 @@ namespace Mydei{
     void Enchance_Skill(Ally *ptr){
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Blast","KingSlayer");
-        data_->Add_Target_Adjacent();
+        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Blast","KingSlayer");
+        data_->addEnemyAdjacentTarget();
         data_->turnResetTrue();
         data_->Damage_spilt.Main.push_back({0,110,0,20});
         data_->Damage_spilt.Adjacent.push_back({0,66,0,10});
@@ -231,8 +231,8 @@ namespace Mydei{
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         if(ptr->Eidolon>=1){
-            data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Aoe","GodSlayer");
-            data_->Add_Target_Other();
+            data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Aoe","GodSlayer");
+            data_->addEnemyOtherTarget();
             data_->Damage_spilt.Main.push_back({0,155,0,15});
             data_->Damage_spilt.Main.push_back({0,155,0,15});
             data_->Damage_spilt.Adjacent.push_back({0,155,0,10});
@@ -240,8 +240,8 @@ namespace Mydei{
             data_->Damage_spilt.Other.push_back({0,155,0,10});
             data_->Damage_spilt.Other.push_back({0,155,0,10});
         }else{
-            data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Blast","GodSlayer");
-            data_->Add_Target_Adjacent();
+            data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Blast","GodSlayer");
+            data_->addEnemyAdjacentTarget();
             data_->Damage_spilt.Main.push_back({0,140,0,15});
             data_->Damage_spilt.Main.push_back({0,140,0,15});
             data_->Damage_spilt.Adjacent.push_back({0,84,0,10});

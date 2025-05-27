@@ -61,7 +61,7 @@ namespace Robin{
             if(Ult_Condition(ptr))return;
             if(ptr->Countdown_ptr[0]->Atv_stats->Base_speed != 90 && ptr->Sub_Unit_ptr[0]->Buff_countdown["Pinion'sAria"] > ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt && ultUseCheck(ptr)){
                 shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-                data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff","Robin Ultimate");
+                data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff","Robin Ultimate");
                 data_->Add_Buff_All_Ally();
                 data_->actionFunction = [ptr,Robinptr](shared_ptr<AllyActionData> &data_){
                     ptr->Countdown_ptr[0]->Atv_stats->Base_speed = 90;
@@ -127,7 +127,7 @@ namespace Robin{
             if(ptr->Countdown_ptr[0]->Atv_stats->Base_speed == 90){
                 shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
                 double x1 = 0, x2 = 0;
-                data_->Additional_set(ptr->Sub_Unit_ptr[0].get(), "Single_target","Robin Additional");
+                data_->setAdditonal(ptr->Sub_Unit_ptr[0].get(), "Single_target","Robin Additional");
 
                 ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 100;
                 x1 = ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AT_NONE];
@@ -182,7 +182,7 @@ namespace Robin{
     void Skill(Ally *ptr){
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Robin Skill");
+        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Robin Skill");
         data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
         data_->Turn_reset = 1;
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
@@ -198,8 +198,8 @@ namespace Robin{
     void Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Robin BasicAttack");
-        data_->Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
+        data_->setBasicAttack(ptr->Sub_Unit_ptr[0].get(),"Single_target","Robin BasicAttack");
+        data_->addEnemyTarget(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
         data_->Turn_reset = 1;
         data_->Damage_spilt.Main.push_back({100,0,0,10});
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){

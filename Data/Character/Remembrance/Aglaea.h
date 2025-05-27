@@ -61,7 +61,7 @@ namespace Aglaea{
             if (!ultUseCheck(ptr)) return;
 
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Buff", "Aglaea Ultimate");
+            data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Buff", "Aglaea Ultimate");
             data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
             data_->actionFunction = [ptr,AGptr](shared_ptr<AllyActionData> &data_) {
                 if (ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed == -1) Summon(ptr);
@@ -105,8 +105,8 @@ namespace Aglaea{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr]() {
             if (ptr->Technique == 1) {
                 shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-                data_->Technique_set(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Aglaea Technique");
-                data_->Add_Target_Other();
+                data_->setTechnique(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Aglaea Technique");
+                data_->addEnemyOtherTarget();
                 data_->Damage_spilt.Main.push_back({100, 0, 0, 20});
                 data_->Damage_spilt.Adjacent.push_back({100, 0, 0, 20});
                 data_->Damage_spilt.Other.push_back({100, 0, 0, 20});
@@ -142,7 +142,7 @@ namespace Aglaea{
             }
             if (data_->Attacker->Atv_stats->Unit_num == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num) {
                 shared_ptr<AllyActionData> data_Additional = make_shared<AllyActionData>();
-                data_Additional->Additional_set(data_->Attacker, "Single_target", "Aglaea Additional Damage");
+                data_Additional->setAdditonal(data_->Attacker, "Single_target", "Aglaea Additional Damage");
                 Cal_Additional_damage(data_Additional, Enemy_unit[Main_Enemy_num].get(), {30, 0, 0, 0});
                 if (ptr->Eidolon >= 1) {
                     Increase_energy(ptr, 20);
@@ -222,8 +222,8 @@ namespace Aglaea{
     void Enchance_Basic_Atk(Ally *ptr){
        
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Blast","Aglaea Joint Attack");
-        data_->Add_Target_Adjacent();
+        data_->setBasicAttack(ptr->Sub_Unit_ptr[0].get(),"Blast","Aglaea Joint Attack");
+        data_->addEnemyAdjacentTarget();
         data_->Turn_reset=true;
         data_->Damage_spilt.Main.push_back({200,0,0,10});
         data_->Damage_spilt.Main.push_back({200,0,0,10});
@@ -242,8 +242,8 @@ namespace Aglaea{
     void Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Aglaea BasicAttack");
-        data_->Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
+        data_->setBasicAttack(ptr->Sub_Unit_ptr[0].get(),"Single_target","Aglaea BasicAttack");
+        data_->addEnemyTarget(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
         data_->Turn_reset=true;
         data_->Damage_spilt.Main.push_back({100,0,0,10});
         data_->actionFunction =[ptr](shared_ptr<AllyActionData> &data_ ){
@@ -255,7 +255,7 @@ namespace Aglaea{
     }
     void Skill(Ally *ptr){
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Aglaea Skill");
+        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Aglaea Skill");
         data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
         data_->Turn_reset=true;
         data_->Buff_type.push_back("Summon");
@@ -285,8 +285,8 @@ namespace Aglaea{
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
 
-        data_->Skill_set(ptr->Sub_Unit_ptr[1].get(),"Blast","Garmentmaker Skill");
-        data_->Add_Target_Adjacent();
+        data_->setSkill(ptr->Sub_Unit_ptr[1].get(),"Blast","Garmentmaker Skill");
+        data_->addEnemyAdjacentTarget();
         data_->Skill_Type.push_back("Summon");
         data_->Turn_reset=true;
         data_->Damage_spilt.Main.push_back({110,0,0,10});

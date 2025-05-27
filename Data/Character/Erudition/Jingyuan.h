@@ -47,8 +47,8 @@ namespace Jingyuan{
             if (((turn->Char_Name != "Jingyuan" || Ult_After_Turn == 1)) || !ultUseCheck(ptr)) return;
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
             
-            data_->Ultimate_set(ptr->Sub_Unit_ptr[0].get(), "Aoe","Jingyuan Ultimate");
-            data_->Add_Target_Other();
+            data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Aoe","Jingyuan Ultimate");
+            data_->addEnemyOtherTarget();
             data_->Damage_spilt.Main.push_back({200, 0, 0, 20});
             data_->Damage_spilt.Adjacent.push_back({200, 0, 0, 20});
             data_->Damage_spilt.Other.push_back({200, 0, 0, 20});
@@ -116,8 +116,8 @@ namespace Jingyuan{
         ptr->Summon_ptr[0]->Turn_func = [ptr,Jingyuanptr](){
             
             shared_ptr<AllyActionData> temp = make_shared<AllyActionData>();
-            temp->Fua_set(ptr->Sub_Unit_ptr[0].get(),"Bounce","LL Attack");
-            temp->Add_Target_Adjacent();
+            temp->setFua(ptr->Sub_Unit_ptr[0].get(),"Bounce","LL Attack");
+            temp->addEnemyAdjacentTarget();
             temp->Skill_Type.push_back("Summon");
             temp->Turn_reset = 1;
             temp->actionFunction = [ptr,Jingyuanptr](shared_ptr<AllyActionData> &data_){
@@ -169,8 +169,8 @@ namespace Jingyuan{
     void Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Basic_Attack_set(ptr->Sub_Unit_ptr[0].get(),"Single_target","Jingyuan BasicAtttack");
-        data_->Add_Target(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
+        data_->setBasicAttack(ptr->Sub_Unit_ptr[0].get(),"Single_target","Jingyuan BasicAtttack");
+        data_->addEnemyTarget(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
         data_->Turn_reset=true;
         data_->Damage_spilt.Main.push_back({55,0,0,5.5});
         data_->Damage_spilt.Main.push_back({45,0,0,4.5});
@@ -184,8 +184,8 @@ namespace Jingyuan{
     void Skill(Ally *ptr){
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->Skill_set(ptr->Sub_Unit_ptr[0].get(),"Aoe","Jingyuan Skill");
-        data_->Add_Target_Other();
+        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Aoe","Jingyuan Skill");
+        data_->addEnemyOtherTarget();
         data_->Turn_reset=true;
         data_->Damage_spilt.Main.push_back({40,0,0,4});
         data_->Damage_spilt.Main.push_back({30,0,0,3});
