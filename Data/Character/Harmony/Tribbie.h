@@ -153,7 +153,7 @@ namespace Tribbie{
         }));
         
         When_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr](shared_ptr<AllyActionData> &data_) {
-            int temp = data_->Target_Attack.size();
+            int temp = data_->targetList.size();
             if (data_->Attacker->Atv_stats->Char_Name == "Tribbie" && data_->Action_type.second == "Fua") {
                 TBptr->buffStackSingle({{ST_DMG, AT_NONE, 72}},1,3,"Tribbie_A2",3);
             }
@@ -239,7 +239,7 @@ namespace Tribbie{
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Aoe","Buff","Tribbie Skill");
-        data_->Add_Buff_All_Ally();
+        data_->addBuffAllAllies();
         data_->Turn_reset=true;
         data_->actionFunction =[ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,30);

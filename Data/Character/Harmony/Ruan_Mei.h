@@ -41,7 +41,7 @@ namespace Ruan_Mei{
             if(!ultUseCheck(ptr)) return;
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
             data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff","RuanMei Ult");
-            data_->Add_Buff_All_Ally();
+            data_->addBuffAllAllies();
             data_->actionFunction = [ptr,RMptr](shared_ptr<AllyActionData> &data_){
                 if(ptr->Print)CharCmd::printUltStart("Ruan Mei");
                 if(RMptr->isHaveToAddBuff("RuanMei_Ult,2")){
@@ -76,7 +76,7 @@ namespace Ruan_Mei{
 
                 shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
                 data_->setSkill(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Buff","RuanMei Skill");
-                data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
+                data_->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
                 data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
                     Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
                     Increase_energy(ptr,30);
@@ -125,7 +125,7 @@ namespace Ruan_Mei{
 
         After_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,RMptr](shared_ptr<AllyActionData> &data_){
             if(RMptr->getBuffCheck("RuanMei_Ult")){
-                for(Enemy * &e : data_->Target_Attack){
+                for(Enemy * &e : data_->targetList){
                     e->debuffApply(ptr->Sub_Unit_ptr[0].get(),"RuanMei_Ult_bloom");
                 }
             }
@@ -162,7 +162,7 @@ namespace Ruan_Mei{
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","RuanMei Skill");
-        data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
+        data_->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
         data_->Turn_reset = 1;
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);

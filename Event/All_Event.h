@@ -106,7 +106,7 @@ void allEventAfterAttack(shared_ptr<AllyActionData> &data_){
     }
 }
 void allEventWhenAttack(shared_ptr<AllyActionData> &data_){
-    for(Enemy* &e : data_->Target_Attack){
+    for(Enemy* &e : data_->targetList){
         if(e->Entanglement != 0){
             e->Entanglement_stack++;
         }

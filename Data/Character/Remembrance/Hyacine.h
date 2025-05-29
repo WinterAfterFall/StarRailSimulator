@@ -63,8 +63,8 @@ namespace Hyacine{
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
             data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Aoe","Heal", "Hyc Ult");
-            data_->Add_Buff_All_Ally();
-            data_->Buff_type.push_back("Summon");
+            data_->addBuffAllAllies();
+            data_->buffType.push_back("Summon");
             data_->actionFunction = [ptr,Hycptr](shared_ptr<AllyActionData> &data_){
                 if(ptr->Print)CharCmd::printUltStart("Hyacine");
                 SummonIca(ptr);
@@ -309,9 +309,9 @@ namespace Hyacine{
 
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->setSkill(ptr->Sub_Unit_ptr[0].get(),TT_AOE,"Heal","Hyc Skill");
-        data_->Add_Buff_All_Ally();
+        data_->addBuffAllAllies();
         data_->Turn_reset=true;
-        data_->Buff_type.push_back("Summon");
+        data_->buffType.push_back("Summon");
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
@@ -331,7 +331,7 @@ namespace Hyacine{
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->setSkill(ptr->Sub_Unit_ptr[1].get(),"Aoe","Ica Skill");
         data_->addEnemyOtherTarget();
-        data_->Skill_Type.push_back("Summon");
+        data_->abilityType.push_back("Summon");
         data_->Turn_reset=true;
         data_->Damage_spilt.Main.push_back({0,0,0,10,ptr->getSubUnit(1)->getBuffNote("Tally RestoreHP")*0.2});
         data_->Damage_spilt.Adjacent.push_back({0,0,0,10,ptr->getSubUnit(1)->getBuffNote("Tally RestoreHP")*0.2});

@@ -42,7 +42,7 @@ namespace Harmony_MC{
             
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
             data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff", "HMC Ultimate");
-            data_->Add_Buff_All_Ally();
+            data_->addBuffAllAllies();
             data_->actionFunction = [ptr,HMCptr](shared_ptr<AllyActionData> &data_){
                 if(HMCptr->isHaveToAddBuff("Harmony_MC_ult",3))
                 buffAllAlly({{ST_BE,AT_NONE,33}});

@@ -62,7 +62,7 @@ namespace Aglaea{
 
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
             data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Buff", "Aglaea Ultimate");
-            data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
+            data_->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
             data_->actionFunction = [ptr,AGptr](shared_ptr<AllyActionData> &data_) {
                 if (ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed == -1) Summon(ptr);
 
@@ -231,7 +231,7 @@ namespace Aglaea{
         data_->Damage_spilt.Adjacent.push_back({90,0,0,5});
         data_->Damage_spilt.Adjacent.push_back({90,0,0,5});
         data_->attackerList.push_back(ptr->Sub_Unit_ptr[1].get());
-        data_->switchAttacker.push_back(AttackSource(1,ptr->Sub_Unit_ptr[1].get()));
+        data_->switchAttacker.push_back(SwitchAtk(1,ptr->Sub_Unit_ptr[1].get()));
         data_->actionFunction =[ptr](shared_ptr<AllyActionData> &data_ ){
             Increase_energy(ptr,20);
             Attack(data_);
@@ -256,9 +256,9 @@ namespace Aglaea{
     void Skill(Ally *ptr){
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Aglaea Skill");
-        data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
+        data_->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
         data_->Turn_reset=true;
-        data_->Buff_type.push_back("Summon");
+        data_->buffType.push_back("Summon");
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
@@ -287,7 +287,7 @@ namespace Aglaea{
 
         data_->setSkill(ptr->Sub_Unit_ptr[1].get(),"Blast","Garmentmaker Skill");
         data_->addEnemyAdjacentTarget();
-        data_->Skill_Type.push_back("Summon");
+        data_->abilityType.push_back("Summon");
         data_->Turn_reset=true;
         data_->Damage_spilt.Main.push_back({110,0,0,10});
         data_->Damage_spilt.Adjacent.push_back({66,0,0,5});

@@ -18,7 +18,7 @@ namespace Erudition_Lightcone{
             }));
 
             When_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
-                for(auto &each : data_->Target_Attack){
+                for(auto &each : data_->targetList){
                     each->debuffSingleApply({{ST_DEF_SHRED,AT_NONE,(9.0 + superimpose * 3.0)}},ptr->getSubUnit(),"AnaxaLC_Debuff",2);
                 }
             }));

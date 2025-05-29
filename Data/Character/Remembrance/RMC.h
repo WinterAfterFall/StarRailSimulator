@@ -212,9 +212,9 @@ namespace RMC{
 
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","RMC Skill");
-        data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
+        data_->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
         data_->Turn_reset=true;
-        data_->Buff_type.push_back("Summon");
+        data_->buffType.push_back("Summon");
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
@@ -234,7 +234,7 @@ namespace RMC{
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->setSkill(ptr->Sub_Unit_ptr[1].get(),"Aoe","Mem Skill");
         data_->addEnemyAdjacentTarget();
-        data_->Skill_Type.push_back("Summon");
+        data_->abilityType.push_back("Summon");
         data_->Turn_reset=true;
         if(Total_enemy==1){
             data_->Damage_spilt.Main.push_back({39.6,0,0,5});
@@ -267,9 +267,9 @@ namespace RMC{
         ptr->Sub_Unit_ptr[1]->Buff_check["Mem_Charge"]=0;
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->setSkill(ptr->Sub_Unit_ptr[1].get(),"Single","Buff","Mem Buff");
-        data_->Add_Buff_Single_Target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[1].get()));
+        data_->addBuffSingleTarget(chooseSubUnitBuff(ptr->Sub_Unit_ptr[1].get()));
         data_->Turn_reset=true;
-        data_->Skill_Type.push_back("Summon");
+        data_->abilityType.push_back("Summon");
         
         
         data_->actionFunction = [ptr,RMCptr = ptr->Sub_Unit_ptr[1].get()](shared_ptr<AllyActionData> &data_){

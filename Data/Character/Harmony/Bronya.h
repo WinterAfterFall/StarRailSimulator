@@ -39,14 +39,14 @@ namespace Bronya{
             if(!ultUseCheck(ptr)) return;
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
             data_->setUltimate(ptr->Sub_Unit_ptr[0].get(),"Aoe","Buff","Bronya Ult");
-            data_->Add_Buff_All_Ally();
+            data_->addBuffAllAllies();
             data_->actionFunction = [ptr,Bronyaptr](shared_ptr<AllyActionData> &data_){
                 //Ult ATKBUFF
                 buffAllAlly({{ST_ATK_P,AT_NONE,55}},"Bronya_Ult",2);
 
                 //Ult CritBuff
                 double temp = calculateCritdamForBuff(ptr->Sub_Unit_ptr[0].get(),16)+20;
-                for(auto &e : data_->Target_Buff){
+                for(auto &e : data_->buffTargetList){
                     e->buffSingle({{ST_CD,AT_NONE,temp - e->Buff_note["Bronya_Ult"]}});
                     e->buffSingle({{ST_CD,AT_TEMP,temp - e->Buff_note["Bronya_Ult"]}});
                     e->Buff_note["Bronya_Ult"] = temp;
@@ -150,7 +150,7 @@ namespace Bronya{
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Bronya Skill");
-        data_->Add_Buff_Single_Target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
+        data_->addBuffSingleTarget(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
         data_->Turn_reset=true;
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,30);

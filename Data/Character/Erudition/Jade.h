@@ -109,7 +109,7 @@ namespace Jade{
             if (ptr->Sub_Unit_ptr[0]->Buff_check["Jade_Skill"] == 0) return;
             if (data_->Attacker->Atv_stats->Unit_Name != "Jade" && data_->Attacker->Atv_stats->Unit_Name != chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats->Unit_Name) return;
 
-            int temp = data_->Target_Attack.size();
+            int temp = data_->targetList.size();
             if (ptr->Eidolon >= 1 && temp < 3) temp = 3;
             ptr->Sub_Unit_ptr[0]->Stack["Jade_Talent"] += temp;
             Jade_Fua(ptr);
@@ -146,7 +146,7 @@ namespace Jade{
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Jade Skill");
-        data_->Add_Buff_Single_Target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
+        data_->addBuffSingleTarget(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
         data_->Turn_reset=true;
         
         

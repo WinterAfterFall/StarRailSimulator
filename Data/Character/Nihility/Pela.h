@@ -93,7 +93,7 @@ namespace Pela{
         After_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
             if (data_->Attacker->Atv_stats->Char_Name != "Pela") return;
 
-            for (auto e : data_->Target_Attack) {
+            for (auto e : data_->targetList) {
                 if (e->Total_debuff == 0) continue;
                 Increase_energy(ptr, 11);
                 break;
@@ -102,7 +102,7 @@ namespace Pela{
             if (ptr->Eidolon >= 6) {
                 shared_ptr<AllyActionData> temp = make_shared<AllyActionData>();
                 temp->setAdditonal(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Pela E6");
-                for (auto e : data_->Target_Attack) {
+                for (auto e : data_->targetList) {
                     Cal_Additional_damage(temp, e, {40, 0, 0, 0});
                 }
             }

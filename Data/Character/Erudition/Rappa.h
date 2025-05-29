@@ -43,7 +43,7 @@ namespace Rappa{
             
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
             data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Buff", "Rappa Ultimate");
-            data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
+            data_->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
             data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
                 if (ptr->Print)CharCmd::printUltStart("Rappa");
                 ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"] = 1;

@@ -50,7 +50,7 @@ namespace Sunday{
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
             data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Buff", "Single_target","Sunday Ultimate");
-            data_->Add_Buff_Single_Target(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()));
+            data_->addBuffAlly(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()));
             data_->actionFunction = [ptr,SDptr](shared_ptr<AllyActionData> &data_){
                 if (ptr->Print)CharCmd::printUltStart("Sunday");
                 if (ptr->Eidolon >= 2) {
@@ -237,7 +237,7 @@ namespace Sunday{
     void Skill(Ally *ptr){
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Sunday Skill");
-        data_->Add_Buff_Single_Target(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()));
+        data_->addBuffAlly(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()));
         data_->Turn_reset=true;
         data_->actionFunction = [ptr,SDptr = ptr->getSubUnit()](shared_ptr<AllyActionData> &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);

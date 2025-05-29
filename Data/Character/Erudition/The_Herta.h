@@ -133,7 +133,7 @@ namespace The_Herta{
             for(auto e : data_->Attacker->ptr_to_unit->Path){
                 if(e == "Erudition") Erudition_check = 1;
             }
-            for(auto e : data_->Target_Attack){
+            for(auto e : data_->targetList){
                 Apply_Herta_Stack(ptr, e, 1);
             }
             if(Erudition_check){
@@ -141,7 +141,7 @@ namespace The_Herta{
             } else {
                 Apply_Herta_Stack(ptr, Enemy_unit[Main_Enemy_num].get(), 1);
             }
-            int energy_gen = data_->Target_Attack.size();
+            int energy_gen = data_->targetList.size();
             if(energy_gen < 9) energy_gen = 9;
             Increase_energy(ptr, 0, energy_gen);
         }));

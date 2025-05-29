@@ -77,7 +77,7 @@ void AllyActionData::AllyAction(){
         allEventBuff(self);
     }
     
-    if(this->damageNote)Cal_AverageDamage(this->Attacker->ptr_to_unit,this->Target_Attack); 
+    if(this->damageNote)Cal_AverageDamage(this->Attacker->ptr_to_unit,this->targetList); 
 }
 void EnemyActionData::EnemyAction(){
     this->actionFunction();
@@ -97,7 +97,7 @@ void Attack(shared_ptr<AllyActionData> &data_){
             Current_Attack_Name = data_->Attacker->Atv_stats->Char_Name;
             ++temp;
         }
-        for(auto Enemy_target : data_->Target_Attack){
+        for(auto Enemy_target : data_->targetList){
             if(Enemy_target->Target_type=="Main"&&(data_->Damage_spilt.Main[i].Atk_ratio!=0||data_->Damage_spilt.Main[i].Hp_ratio!=0||data_->Damage_spilt.Main[i].Def_ratio!=0)){
                 Total_hit++;
                 Total_hit_each[Current_Attack_Name]++;
@@ -110,7 +110,7 @@ void Attack(shared_ptr<AllyActionData> &data_){
             }
         }
         allEventAttackHitCount(data_,Total_hit_each[Current_Attack_Name],Total_hit);
-        for(auto Enemy_target : data_->Target_Attack){
+        for(auto Enemy_target : data_->targetList){
             if(Enemy_target->Target_type=="Main"){
             Cal_Damage(data_,Enemy_target,data_->Damage_spilt.Main[i]);
             Cal_Toughness_reduction(data_,Enemy_target,data_->Damage_spilt.Main[i].Toughness_ratio);
@@ -176,7 +176,7 @@ void Superbreak_trigger(shared_ptr<AllyActionData> &data_, double Superbreak_rat
 }
 void Dot_trigger(double Dot_ratio,Enemy *target,string Dot_type){
     shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-    data_->Skill_Type.push_back("Dot");
+    data_->abilityType.push_back("Dot");
     
     data_->Action_type.first = "Attack";
     data_->Action_type.second = "Dot";
@@ -185,29 +185,29 @@ void Dot_trigger(double Dot_ratio,Enemy *target,string Dot_type){
     if(target->Bleed > 0&&(Dot_type==AT_NONE||"Physical")){
         data_->Attacker=Ally_unit[target->Bleeder]->Sub_Unit_ptr[0].get();
         data_->Damage_element = "Physical";
-        data_->Skill_Type.push_back("Bleed");
+        data_->abilityType.push_back("Bleed");
         Cal_Dot_Toughness_break_damage(data_,target,Dot_ratio*2*(0.5+target->Max_toughness/40));
     }
     if(target->Burn > 0&&(Dot_type==AT_NONE||"Fire")){
         data_->Attacker=Ally_unit[target->Burner]->Sub_Unit_ptr[0].get();
         data_->Damage_element = "Fire";
-        data_->Skill_Type.resize(0);
-        data_->Skill_Type.push_back("Burn");
+        data_->abilityType.resize(0);
+        data_->abilityType.push_back("Burn");
         Cal_Dot_Toughness_break_damage(data_,target,Dot_ratio*1);
     }
     if(target->Shock > 0&&(Dot_type==AT_NONE||"Lightning")){
         data_->Attacker=Ally_unit[target->Shocker]->Sub_Unit_ptr[0].get();
         
         data_->Damage_element = "Lightning";
-        data_->Skill_Type.resize(0);
-        data_->Skill_Type.push_back("Shock");
+        data_->abilityType.resize(0);
+        data_->abilityType.push_back("Shock");
         Cal_Dot_Toughness_break_damage(data_,target,Dot_ratio*2);
     }
     if(target->Wind_shear > 0&&(Dot_type==AT_NONE||"Wind")){
         data_->Attacker=Ally_unit[target->Wind_shearer]->Sub_Unit_ptr[0].get();
-        data_->Skill_Type.resize(0);
+        data_->abilityType.resize(0);
         data_->Damage_element = "Wind";
-        data_->Skill_Type.push_back("Wind_shear");
+        data_->abilityType.push_back("Wind_shear");
         Cal_Dot_Toughness_break_damage(data_,target,Dot_ratio*1*target->Wind_shear_stack);
     }
     for(TriggerDot_Func &e : Dot_List){

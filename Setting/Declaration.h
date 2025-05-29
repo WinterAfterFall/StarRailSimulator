@@ -72,7 +72,24 @@
 #define AT_SPB "Super_break"
 #define AT_ADD "Additional"
 #define AT_TECH "Technique"
-
+#define AT_FRZ "Freeze"
+#define AT_ENT "Entanglement"
+enum class ActionType {
+    TEMPORARY,
+    NONE,
+    BASIC_ATTACK,
+    SKILL,
+    ULTIMATE,
+    FUA,
+    SUMMON,
+    DOT,
+    BREAK_DMG,
+    SUPER_BREAK,
+    ADDITIONAL,
+    TECHNIQUE,
+    ENTANGLEMENT,
+    FREEZE
+};
 #pragma endregion
 #pragma region TargetType
 
@@ -87,6 +104,23 @@
 #define TYPE_STD "Standard"
 #define ALLYTYPE_BACKUP "Backup"
 
+#pragma endregion
+
+#pragma region SrcType
+enum class DmgSrcType {
+    ATK,
+    HP,
+    DEF,
+    CONST
+};
+enum class HealSrcType {
+    ATK,
+    HP,
+    DEF,
+    TOTAL_HP,
+    LOST_HP,
+    CONST
+};
 #pragma endregion
 
 using std::cout;
@@ -124,13 +158,17 @@ class Enemy;
 typedef unordered_map<string,double> Common_stats; 
 typedef unordered_map<string,Common_stats> Common_stats_type; 
 typedef unordered_map<string,Common_stats_type> Common_stats_each_element;
+//CombatData
+class HealSrc;
+class DmgSrc;
+class Damage;
+
 //Action_Data
-class HealRatio;
 class PointerWithValue;
-class Ratio_data;
-class Hit_spilt;
 class ActionData;
 class AllyActionData;
+class AllyAttackAction;
+class AllySupportAction;
 class EnemyActionData;
 //Trigger_Function
 class TriggerFunc;
@@ -240,10 +278,10 @@ void Toughness_break(shared_ptr<AllyActionData> &data_, Enemy* target);
 #pragma endregion
 
 #pragma region ChangeHP
-void RestoreHP(SubUnit *healer,HealRatio main,HealRatio adjacent,HealRatio other);
-void RestoreHP(HealRatio Healptr,SubUnit *Healer,SubUnit *target);
-void RestoreHP(HealRatio healRatio,SubUnit *Healer);
-void RestoreHP(HealRatio healRatioMain,HealRatio healRatio,SubUnit *Healer,SubUnit *target);
+void RestoreHP(SubUnit *healer,HealSrc main,HealSrc adjacent,HealSrc other);
+void RestoreHP(HealSrc Healptr,SubUnit *Healer,SubUnit *target);
+void RestoreHP(HealSrc healRatio,SubUnit *Healer);
+void RestoreHP(HealSrc healRatioMain,HealSrc healRatio,SubUnit *Healer,SubUnit *target);
 void IncreaseCurrentHP(SubUnit *ptr,double Value);
 void IncreaseHP(SubUnit *Healer,SubUnit *target,double Value);
 void DecreaseCurrentHP(SubUnit *ptr,double Value);
@@ -316,7 +354,7 @@ void Cal_DamageNote(shared_ptr<AllyActionData> &data_,Enemy *src,Enemy *recv,dou
 #pragma endregion
 
 #pragma region CalHeal
-double calculateHeal(HealRatio healRatio, SubUnit *Healer, SubUnit *target);
+double calculateHeal(HealSrc healRatio, SubUnit *Healer, SubUnit *target);
 double calculateHealFromLostHP(SubUnit *target, double percent);
 double calculateHealFromTotalHP(SubUnit *target, double percent);
 #pragma endregion

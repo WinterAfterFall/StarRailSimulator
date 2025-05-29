@@ -42,7 +42,7 @@ namespace Tingyun{
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
             data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Buff","Tingyun Ultimate");
-            data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
+            data_->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
             data_->actionFunction = [ptr,TYptr](shared_ptr<AllyActionData> &data_){
                 Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(), 0, (ptr->Eidolon >= 6) ? 60 : 50);
                 if (ptr->Eidolon >= 1)
@@ -128,12 +128,12 @@ namespace Tingyun{
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Tingyun Skill");
-        data_->Add_Buff_Single_Target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
+        data_->addBuffSingleTarget(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
         data_->Turn_reset = 1;
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
-            data_->Target_Buff[0]->buffSingle({{ST_ATK_P,AT_NONE,55}},"Benediction",3);
+            data_->buffTargetList[0]->buffSingle({{ST_ATK_P,AT_NONE,55}},"Benediction",3);
         };
         Action_bar.push(data_);
     }

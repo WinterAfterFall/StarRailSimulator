@@ -2,7 +2,7 @@
 #define CHANGEHP_H
 #include "../Class/ClassLibrary.h"
 
-void RestoreHP(SubUnit *healer,HealRatio main,HealRatio adjacent,HealRatio other){
+void RestoreHP(SubUnit *healer,HealSrc main,HealSrc adjacent,HealSrc other){
     healCount++;
     priority_queue<PointerWithValue, vector<PointerWithValue>, decltype(&PointerWithValue::Greater_cmp)> pq(&PointerWithValue::Less_cmp);
     
@@ -12,7 +12,7 @@ void RestoreHP(SubUnit *healer,HealRatio main,HealRatio adjacent,HealRatio other
             pq.push(PointerWithValue(Ally_unit[i]->Sub_Unit_ptr[j].get(),calculateHPLost(Ally_unit[i]->Sub_Unit_ptr[j].get())));
             if(pq.size()>3){
                 double totalHeal = 0;
-                if(other.ATK!=0||other.HP!=0||other.DEF!=0||other.fixHeal!=0||other.healFromTotalHP!=0||other.healFromLostHP!=0){
+                if(other.ATK!=0||other.HP!=0||other.DEF!=0||other.constHeal!=0||other.healFromTotalHP!=0||other.healFromLostHP!=0){
                     totalHeal = calculateHeal(other,healer,pq.top().ptr);
                     IncreaseHP(healer,pq.top().ptr,totalHeal);
                 }
@@ -34,14 +34,14 @@ void RestoreHP(SubUnit *healer,HealRatio main,HealRatio adjacent,HealRatio other
     
 }
 //heal เดี่ยว
-void RestoreHP(HealRatio Healptr,SubUnit *Healer,SubUnit *target){
+void RestoreHP(HealSrc Healptr,SubUnit *Healer,SubUnit *target){
     healCount++;
     double totalHeal = calculateHeal(Healptr,Healer,target);
     IncreaseHP(Healer,target,totalHeal);
 
 }
 //heal ทั้งทีมแบบเท่าเที่ยม
-void RestoreHP(HealRatio healRatio,SubUnit *Healer){
+void RestoreHP(HealSrc healRatio,SubUnit *Healer){
     healCount++;
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
@@ -52,7 +52,7 @@ void RestoreHP(HealRatio healRatio,SubUnit *Healer){
     }
 }
 //heal ทั้งทีมแบบฮีลคนนึงเยอะสุด
-void RestoreHP(HealRatio healRatioMain,HealRatio healRatio,SubUnit *Healer,SubUnit *target){
+void RestoreHP(HealSrc healRatioMain,HealSrc healRatio,SubUnit *Healer,SubUnit *target){
     healCount++;
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){

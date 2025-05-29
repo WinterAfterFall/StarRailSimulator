@@ -118,7 +118,7 @@ namespace Jingyuan{
             shared_ptr<AllyActionData> temp = make_shared<AllyActionData>();
             temp->setFua(ptr->Sub_Unit_ptr[0].get(),"Bounce","LL Attack");
             temp->addEnemyAdjacentTarget();
-            temp->Skill_Type.push_back("Summon");
+            temp->abilityType.push_back("Summon");
             temp->Turn_reset = 1;
             temp->actionFunction = [ptr,Jingyuanptr](shared_ptr<AllyActionData> &data_){
                 if(ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]>=6){

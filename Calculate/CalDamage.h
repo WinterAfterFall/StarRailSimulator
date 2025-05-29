@@ -206,12 +206,12 @@ double Cal_Total_Toughness_Reduce(shared_ptr<AllyActionData> &data_,Enemy *targe
     Toughness_reduction_mtpr += data_->Attacker->Stats_type["Toughness_reduction"][AT_NONE] + target->Stats_type["Toughness_reduction"][AT_NONE];
     Weakness_Break_Efficiency_mtpr += data_->Attacker->Stats_type["Weakness_Break_Efficiency"][AT_NONE] + target->Stats_type["Weakness_Break_Efficiency"][AT_NONE];
     
-    for(int i=0,sz=data_->Skill_Type.size();i<sz;i++){
-            Toughness_reduction_mtpr += data_->Attacker->Stats_type["Toughness_reduction"][data_->Skill_Type[i]] + target->Stats_type["Toughness_reduction"][data_->Skill_Type[i]];
+    for(int i=0,sz=data_->abilityType.size();i<sz;i++){
+            Toughness_reduction_mtpr += data_->Attacker->Stats_type["Toughness_reduction"][data_->abilityType[i]] + target->Stats_type["Toughness_reduction"][data_->abilityType[i]];
 
         }
-    for(int i=0,sz=data_->Skill_Type.size();i<sz;i++){
-            Weakness_Break_Efficiency_mtpr += data_->Attacker->Stats_type["Weakness_Break_Efficiency"][data_->Skill_Type[i]] + target->Stats_type["Weakness_Break_Efficiency"][data_->Skill_Type[i]];
+    for(int i=0,sz=data_->abilityType.size();i<sz;i++){
+            Weakness_Break_Efficiency_mtpr += data_->Attacker->Stats_type["Weakness_Break_Efficiency"][data_->abilityType[i]] + target->Stats_type["Weakness_Break_Efficiency"][data_->abilityType[i]];
 
         }
      

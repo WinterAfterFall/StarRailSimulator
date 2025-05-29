@@ -18,7 +18,7 @@ namespace Erudition_Lightcone{
             Before_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name &&
                     ptr->Sub_Unit_ptr[0]->Stack["Somnus_Corpus"] == 1) {
-                    for (auto e : data_->Skill_Type) {
+                    for (auto e : data_->abilityType) {
                         if (e == "Fua") {
                             ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG]["Fua"] += 40 + 8 * superimpose;
                             break;
@@ -30,7 +30,7 @@ namespace Erudition_Lightcone{
             After_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 if (data_->Attacker->Atv_stats->Unit_Name != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) return;
     
-                for (auto e : data_->Skill_Type) {
+                for (auto e : data_->abilityType) {
                     if (e == "Skill" || e == "Ultimate") {
                         ptr->Sub_Unit_ptr[0]->Stack["Somnus_Corpus"] = 1;
                         break;
@@ -39,7 +39,7 @@ namespace Erudition_Lightcone{
     
                 if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name &&
                     ptr->Sub_Unit_ptr[0]->Stack["Somnus_Corpus"] == 1) {
-                    for (auto e : data_->Skill_Type) {
+                    for (auto e : data_->abilityType) {
                         if (e == "Fua") {
                             ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG]["Fua"] -= 40 + 8 * superimpose;
                             ptr->Sub_Unit_ptr[0]->Stack["Somnus_Corpus"] = 0;

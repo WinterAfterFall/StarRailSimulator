@@ -77,6 +77,7 @@ bool Turn_Skip=0;
 string Territory = AT_NONE;
 int healCount;
 int decreaseHPCount;
+bool bestBounce = 0;;
 
 
 int Sp_Safety = 1;

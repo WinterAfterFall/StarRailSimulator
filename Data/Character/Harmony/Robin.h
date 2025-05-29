@@ -62,7 +62,7 @@ namespace Robin{
             if(ptr->Countdown_ptr[0]->Atv_stats->Base_speed != 90 && ptr->Sub_Unit_ptr[0]->Buff_countdown["Pinion'sAria"] > ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt && ultUseCheck(ptr)){
                 shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
                 data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff","Robin Ultimate");
-                data_->Add_Buff_All_Ally();
+                data_->addBuffAllAllies();
                 data_->actionFunction = [ptr,Robinptr](shared_ptr<AllyActionData> &data_){
                     ptr->Countdown_ptr[0]->Atv_stats->Base_speed = 90;
                     ptr->Sub_Unit_ptr[0]->Atv_stats->Base_speed = -1;
@@ -183,7 +183,7 @@ namespace Robin{
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Robin Skill");
-        data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
+        data_->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
         data_->Turn_reset = 1;
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);

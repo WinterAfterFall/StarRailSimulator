@@ -18,7 +18,7 @@ namespace Relic{
             if (data_->Attacker->Atv_stats->Unit_Name != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) return;
 
             bool check = false;
-            for (auto e : data_->Skill_Type) {
+            for (auto e : data_->abilityType) {
                 if (e == "Fua") {
                     check = true;
                     break;

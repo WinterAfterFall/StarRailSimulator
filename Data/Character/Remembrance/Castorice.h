@@ -55,7 +55,7 @@ namespace Castorice{
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
             data_->setSkill(ptr->getSubUnit(1),"Aoe","Breath Scorches the Shadow");
             data_->addEnemyOtherTarget();
-            data_->Skill_Type.push_back("Summon");
+            data_->abilityType.push_back("Summon");
             data_->turnResetTrue();
             if(ptr->Eidolon>=6)data_->Dont_care_weakness = 100;
             data_->source = ptr->getSubUnit();
@@ -161,7 +161,7 @@ namespace Castorice{
 
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
             data_->setUltimate(ptr->Sub_Unit_ptr[0].get(),"Single_target","Summon","Castorice Ultimate");
-            data_->Add_Buff_Single_Target(ptr->Sub_Unit_ptr[0].get());
+            data_->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
             data_->actionFunction = [ptr,Casptr,Polluxptr](shared_ptr<AllyActionData> &data_) {
                 if(ptr->Print)CharCmd::printUltStart("Castorice");
                 debuffAllEnemyMark({{ST_RESPEN,AT_NONE,20}},Polluxptr,"Lost Netherland");
@@ -363,7 +363,7 @@ namespace Castorice{
         data_->Damage_spilt.Adjacent.push_back({0,50,0,10});
         data_->Damage_spilt.Other.push_back({0,50,0,10});
         data_->attackerList.push_back(ptr->Sub_Unit_ptr[1].get());
-        data_->switchAttacker.push_back(AttackSource(1,ptr->Sub_Unit_ptr[1].get(),ptr->Sub_Unit_ptr[0].get()));
+        data_->switchAttacker.push_back(SwitchAtk(1,ptr->Sub_Unit_ptr[1].get(),ptr->Sub_Unit_ptr[0].get()));
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(ptr,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),"Netherwing",0,0,40);
@@ -380,7 +380,7 @@ namespace Castorice{
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->setSkill(ptr->getSubUnit(1),"Aoe","Wings Sweep the Ruins");
         data_->addEnemyOtherTarget();
-        data_->Skill_Type.push_back("Summon");
+        data_->abilityType.push_back("Summon");
         data_->source = ptr->getSubUnit();
         if(ptr->Eidolon>=6)data_->Dont_care_weakness = 100;
         data_->Damage_spilt.Main.push_back({0,40,0,5});

@@ -16,7 +16,7 @@ namespace Nihility_Lightcone{
 
             After_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,ensnared](shared_ptr<AllyActionData> &data_) {
                 if (data_->Attacker->Atv_stats->Unit_Name != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) return;
-                for (auto e : data_->Target_Attack) {
+                for (auto e : data_->targetList) {
                     if (!e->debuffApply(ptr->Sub_Unit_ptr[0].get(),ensnared)) continue;
                     e->Stats_type[ST_DEF_SHRED][AT_NONE] += 11 + superimpose;
                     e->Debuff_time_count[ensnared] = 1 + e->Atv_stats->turn_cnt;

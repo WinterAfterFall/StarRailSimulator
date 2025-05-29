@@ -2,7 +2,7 @@
 #define Cal_Heal_H
 #include "../Class/ClassLibrary.h"
 
-double calculateHeal(HealRatio healRatio, SubUnit *Healer, SubUnit *target) {
+double calculateHeal(HealSrc healRatio, SubUnit *Healer, SubUnit *target) {
     double TotalHeal = 0;
 
     TotalHeal += Healer->totalATK * healRatio.ATK / 100; 
@@ -10,7 +10,7 @@ double calculateHeal(HealRatio healRatio, SubUnit *Healer, SubUnit *target) {
     TotalHeal += Healer->totalDEF * healRatio.DEF / 100; 
     TotalHeal += calculateHealFromLostHP(target, healRatio.healFromLostHP);
     TotalHeal += calculateHealFromTotalHP(target, healRatio.healFromTotalHP);
-    TotalHeal += healRatio.fixHeal;
+    TotalHeal += healRatio.constHeal;
     TotalHeal *= Cal_HealBonus_multiplier(Healer, target);
 
     if(Healer->ptr_to_unit->checkHeal){
@@ -29,7 +29,7 @@ double calculateHeal(HealRatio healRatio, SubUnit *Healer, SubUnit *target) {
         cout<<"DEF : "<<Healer->totalDEF<<" DEF Mtpr : "<<healRatio.DEF<<" Total : "<<Healer->totalDEF * healRatio.DEF / 100<<endl;
         cout<<"Percent From Lost HP: "<<healRatio.healFromLostHP<<" Total : "<<calculateHealFromLostHP(target, healRatio.healFromTotalHP)<<endl;
         cout<<"Percent From Total HP: "<<healRatio.healFromTotalHP<<" Total : "<<calculateHealFromTotalHP(target, healRatio.healFromTotalHP)<<endl;
-        cout<<"Fix Heal : "<<healRatio.fixHeal<<endl;
+        cout<<"Fix Heal : "<<healRatio.constHeal<<endl;
         cout<<"RestoreHP Bonus : "<<Cal_HealBonus_multiplier(Healer, target)<<endl;
         cout<<"---"<<endl;
 

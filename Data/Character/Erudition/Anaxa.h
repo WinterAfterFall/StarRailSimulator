@@ -62,7 +62,7 @@ namespace  Anaxa{
 
             data_->actionFunction = [ptr,Anaxaptr](shared_ptr<AllyActionData> &data_) {
                 if(ptr->Print)CharCmd::printUltStart("Anaxa");
-                for(auto &each : data_->Target_Attack){
+                for(auto &each : data_->targetList){
                     each->debuffApply(Anaxaptr,"Sublimation",1);
                     each->weaknessApply(ET_FIRE,1);
                     each->weaknessApply(ET_ICE,1);
@@ -72,7 +72,7 @@ namespace  Anaxa{
                     each->weaknessApply(ET_IMG,1);
                     each->weaknessApply(ET_PHY,1);
                 }
-                for(auto &each : data_->Target_Attack){
+                for(auto &each : data_->targetList){
                     each->DebuffNote["AnaxaA6"] = each->currentWeaknessElementAmount*4;
                     each->debuffSingle({{ST_DEF_SHRED,AT_NONE,each->DebuffNote["AnaxaA6"]}});
                     if(each->currentWeaknessElementAmount>=5){
@@ -83,7 +83,7 @@ namespace  Anaxa{
     
                 Attack(data_);
     
-                for(auto &each : data_->Target_Attack){
+                for(auto &each : data_->targetList){
                     each->debuffSingle({{ST_DEF_SHRED,AT_NONE, -each->DebuffNote["AnaxaA6"]}});
                     each->debuffSingle({{ST_DMG,AT_NONE, -each->DebuffNote["AnaxaDmgBonus"]}});
                     each->DebuffNote["AnaxaDmgBonus"] = 0;
@@ -186,7 +186,7 @@ namespace  Anaxa{
 
         After_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr](shared_ptr<AllyActionData> &data_) {
             if((data_->actionName=="Anaxa BA"||data_->actionName=="Anaxa Skill")){
-                for(auto &each : data_->Target_Attack){
+                for(auto &each : data_->targetList){
                     if(each->currentWeaknessElementAmount>=5){
                         AdditionalSkill(ptr);
                         break;
@@ -209,11 +209,11 @@ namespace  Anaxa{
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
-            for(auto &each : data_->Target_Attack){
+            for(auto &each : data_->targetList){
                 AnaxaDebuff(ptr,each);
             }
 
-            for(auto &each : data_->Target_Attack){
+            for(auto &each : data_->targetList){
                 each->DebuffNote["AnaxaA6"] = each->currentWeaknessElementAmount*4;
                 each->debuffSingle({{ST_DEF_SHRED,AT_NONE,each->DebuffNote["AnaxaA6"]}});
                 if(each->currentWeaknessElementAmount>=5){
@@ -224,7 +224,7 @@ namespace  Anaxa{
 
             Attack(data_);
 
-            for(auto &each : data_->Target_Attack){
+            for(auto &each : data_->targetList){
                 each->debuffSingle({{ST_DEF_SHRED,AT_NONE, -each->DebuffNote["AnaxaA6"]}});
                 each->debuffSingle({{ST_DMG,AT_NONE, -each->DebuffNote["AnaxaDmgBonus"]}});
                 each->DebuffNote["AnaxaDmgBonus"] = 0;
@@ -252,7 +252,7 @@ namespace  Anaxa{
             if(ptr->Eidolon>=4)data_->Attacker->buffStackSingle({{ST_ATK_P,AT_NONE,30}},1,2,"AnaxaE4",2);
             int cnt = 5;
             while(1){
-                for(auto &each : data_->Target_Attack){
+                for(auto &each : data_->targetList){
                     AnaxaDebuff(ptr,each);
                     --cnt;
                     if(ptr->Eidolon>=1)each->debuffSingleApply({{ST_DEF_SHRED,AT_NONE,16}},ptr->getSubUnit(),"AnaxaE1",2);
@@ -261,7 +261,7 @@ namespace  Anaxa{
                 if(cnt==0)break;    
             }
             
-            for(auto &each : data_->Target_Attack){
+            for(auto &each : data_->targetList){
                 each->DebuffNote["AnaxaA6"] = each->currentWeaknessElementAmount*4;
                 each->debuffSingle({{ST_DEF_SHRED,AT_NONE,each->DebuffNote["AnaxaA6"]}});
                 if(each->currentWeaknessElementAmount>=5){
@@ -272,7 +272,7 @@ namespace  Anaxa{
 
             Attack(data_);
 
-            for(auto &each : data_->Target_Attack){
+            for(auto &each : data_->targetList){
                 each->debuffSingle({{ST_DEF_SHRED,AT_NONE, -each->DebuffNote["AnaxaA6"]}});
                 each->debuffSingle({{ST_DMG,AT_NONE, -each->DebuffNote["AnaxaDmgBonus"]}});
                 each->DebuffNote["AnaxaDmgBonus"] = 0;
@@ -296,7 +296,7 @@ namespace  Anaxa{
             int cnt = 5;
             //เติม Debuff
             while(1){
-                for(auto &each : data_->Target_Attack){
+                for(auto &each : data_->targetList){
                     AnaxaDebuff(ptr,each);
                     --cnt;
                     if(ptr->Eidolon>=1)each->debuffSingleApply({{ST_DEF_SHRED,AT_NONE,16}},ptr->getSubUnit(),"AnaxaE1",2);
@@ -305,7 +305,7 @@ namespace  Anaxa{
                 if(cnt==0)break;    
             }
 
-            for(auto &each : data_->Target_Attack){
+            for(auto &each : data_->targetList){
                 each->DebuffNote["AnaxaA6"] = each->currentWeaknessElementAmount*4;
                 each->debuffSingle({{ST_DEF_SHRED,AT_NONE,each->DebuffNote["AnaxaA6"]}});
                 if(each->currentWeaknessElementAmount>=5){
@@ -316,7 +316,7 @@ namespace  Anaxa{
 
             Attack(data_);
 
-            for(auto &each : data_->Target_Attack){
+            for(auto &each : data_->targetList){
                 each->debuffSingle({{ST_DEF_SHRED,AT_NONE, -each->DebuffNote["AnaxaA6"]}});
                 each->debuffSingle({{ST_DMG,AT_NONE, -each->DebuffNote["AnaxaDmgBonus"]}});
                 each->DebuffNote["AnaxaDmgBonus"] = 0;

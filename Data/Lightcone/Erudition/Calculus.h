@@ -22,7 +22,7 @@ namespace Erudition_Lightcone{
     
             Before_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] -= ptr->Sub_Unit_ptr[0]->Buff_note["Calculus_Atk_buff"];
-                ptr->Sub_Unit_ptr[0]->Buff_note["Calculus_Atk_buff"] = data_->Target_Attack.size() * 3 + superimpose;
+                ptr->Sub_Unit_ptr[0]->Buff_note["Calculus_Atk_buff"] = data_->targetList.size() * 3 + superimpose;
     
                 ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += ptr->Sub_Unit_ptr[0]->Buff_note["Calculus_Atk_buff"];
                 if (ptr->Sub_Unit_ptr[0]->Buff_note["Calculus_Atk_buff"] >= 24) {

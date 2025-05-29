@@ -126,7 +126,7 @@ namespace Gallagher{
             if (data_->Action_type.second == AT_BA && data_->Attacker->Atv_stats->Unit_Name == "Gallagher" && data_->Attacker->Buff_check["Gallagher_enchance_basic_atk"] == 1) {
                 ptr->Sub_Unit_ptr[0]->Buff_check["Gallagher_enchance_basic_atk"] = 0;
                 int cnt = 0;
-                for (Enemy *e : data_->Target_Attack) {
+                for (Enemy *e : data_->targetList) {
                     if (e->getDebuff("Besotted")) {
                         cnt++;
                         
@@ -135,7 +135,7 @@ namespace Gallagher{
                 RestoreHP({0, 0, 0, 707.0*cnt, 0, 0},ptr->getSubUnit());
             } else {
                 int cnt = 0;
-                for (Enemy *e : data_->Target_Attack) {
+                for (Enemy *e : data_->targetList) {
                     if (e->getDebuff("Besotted")) {
                         cnt++;           
                     }
@@ -190,7 +190,7 @@ namespace Gallagher{
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
-            for(Enemy* &target : data_->Target_Attack){
+            for(Enemy* &target : data_->targetList){
                 target->debuffApply(data_->Attacker,"Nectar_Blitz");
                 target->atkPercent -= 16;
                 target->extendDebuff("Nectar_Blitz",2);
@@ -206,7 +206,7 @@ namespace Gallagher{
         
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Single_target","Heal","Gallagher Skill");
-        data_->Add_Buff_Single_Target(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
+        data_->addBuffSingleTarget(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
         data_->turnResetTrue();
         data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
             RestoreHP(data_->Attacker,{0,0,0,1768,0,0},{},{});

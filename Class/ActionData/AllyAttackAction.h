@@ -2,75 +2,27 @@
 #define AllyAttackAction_H
 #include "AllyActionData.h"
 
-enum class DmgSrcType {
-    ATK,
-    HP,
-    DEF,
-    CONST
-};
-class DmgSrc{
-    double ATK = 0;
-    double HP = 0;
-    double DEF = 0;
-    double constDmg = 0;
-    double toughnessReduce = 0;
 
-    DmgSrc(){}
-    DmgSrc(double ATK, double HP, double DEF, double constDmg, double toughnessReduce)
-        : ATK(ATK), HP(HP), DEF(DEF), constDmg(constDmg), toughnessReduce(toughnessReduce)
-    {}
-    
-    DmgSrc(DmgSrcType type, double value, double toughnessReduce)
-        : toughnessReduce(toughnessReduce)
-    {
-        switch(type) {
-            case DmgSrcType::ATK:
-                ATK = value;
-                break;
-            case DmgSrcType::HP:
-                HP = value;
-                break;
-            case DmgSrcType::DEF:
-                DEF = value;
-                break;
-            case DmgSrcType::CONST:
-                constDmg = value;
-                break;    
-        }
-        
-    }
 
-};
-class Damage{
-public:
-    DmgSrc dmgSrc;
-    Enemy* target = nullptr;
-
-    Damage(){}
-
-    Damage(DmgSrcType type, double value, double toughnessReduce, Enemy* target)
-        : target(target), toughnessReduce(toughnessReduce)
-    {
-        switch(type) {
-            case DmgSrcType::ATK:
-                atkRatio = value;
-                break;
-            case DmgSrcType::HP:
-                hpRatio = value;
-                break;
-            case DmgSrcType::DEF:
-                defRatio = value;
-                break;
-            case DmgSrcType::CONST:
-                constDamage = value;
-                break;    
-        }
-        
-    }
-};
-typedef vector<vector<Damage>> DamageSplit;
 class AllyAttackAction : public AllyActionData {
     public:
+    class SwitchAtk{
+    public : 
+    SubUnit* attacker = nullptr;
+    SubUnit* source = nullptr;
+    int changeWhen = 0;
+    int changeSkillType = 0;
+    SwitchAtk(int changeWhen , SubUnit* attacker)
+        : attacker(attacker), source(attacker), changeWhen(changeWhen) {}
+    SwitchAtk(int changeWhen , SubUnit* attacker, SubUnit* source)
+        : attacker(attacker), source(source), changeWhen(changeWhen) {}
+
+    SwitchAtk(int changeWhen , SubUnit* attacker,int changeSkillType)
+        : attacker(attacker), source(attacker), changeWhen(changeWhen), changeSkillType(changeSkillType) {}
+    SwitchAtk(int changeWhen , SubUnit* attacker, SubUnit* source,int changeSkillType)
+        : attacker(attacker), source(source), changeWhen(changeWhen), changeSkillType(changeSkillType) {}
+
+    };
     
     bool toughnessAvgCalculate = 1;
     bool damageNote = 1;
@@ -78,195 +30,155 @@ class AllyAttackAction : public AllyActionData {
 
     DamageSplit damageSplit;
 
-    vector<Enemy*> Target_Attack;
-    Hit_spilt Damage_spilt;
-    vector<AttackSource> switchAttacker;
+    vector<Enemy*> targetList;
+    vector<SwitchAtk> switchAttacker;
     vector<SubUnit*> attackerList;//
+
     string Damage_element = "";//Physical Fire Ice Lightning Wind Quantum Imaginary
 
 
-    void setDamage(){
+    void addDamageIns(DmgSrc main,DmgSrc adjacent,DmgSrc other){
+            damageSplit.emplace_back();
+            for(int i = 1;i<= Total_enemy;i++){
+                if(Enemy_unit[i]->Target_type == "Main")
+                    damageSplit.back().emplace_back(main, Enemy_unit[i].get());
+                else if(Enemy_unit[i]->Target_type == "Adjacent")
+                    damageSplit.back().emplace_back(adjacent, Enemy_unit[i].get());
+                else
+                    damageSplit.back().emplace_back(other, Enemy_unit[i].get());
+            }
 
+    }
+    public:
+        template<typename... Args>
+        void addDamageIns(Args... args) {
+            static_assert(sizeof...(Args) % 2 == 0, "ต้องส่ง argument เป็นคู่ DmgSrc, Enemy*");
+
+            damageSplit.emplace_back();
+            auto& row = damageSplit.back();
+
+            addPairs(row, args...);
+        }
+
+    private:
+        // recursive function เพื่อประมวลผล args ทีละ 2 ตัว
+        void addPairs(std::vector<Damage>&) {} // base case
+
+        template<typename D, typename E, typename... Rest>
+        void addPairs(std::vector<Damage>& row, D dmg, E* enemy, Rest... rest) {
+            static_assert(std::is_same_v<D, DmgSrc>, "expected DmgSrc");
+            static_assert(std::is_same_v<E*, Enemy*>, "expected Enemy*");
+
+            row.emplace_back(dmg, enemy);
+            addPairs(row, rest...); // ทำซ้ำ
+        }
+        
+    public:
+    void addDamage(DmgSrc dmgSrc,Enemy* target){
+        damageSplit.back().emplace_back(dmgSrc, target);
     }
 
     #pragma region addEnemyTarget
-    void addEnemyTarget(Enemy* ptr){
-        Target_Attack.push_back(ptr);
-    }
-    // void addEnemyTarget(Enemy* ptr){
-    //     Target_Attack.push_back(ptr);
-    // }
-    void addEnemyMainTarget(){
-        for(int i=1;i<=Total_enemy;i++){
-            if(Enemy_unit[i]->Target_type=="Main"){
-                Target_Attack.push_back(Enemy_unit[i].get());
-                return;
+    void addToActionBar(){
+        std::shared_ptr<AllyActionData> self = shared_from_this();
+        if(this->traceType == "Bounce"){
+            Action_bar.push(self);
+            return;
+        }
+        vector<bool> check(Total_enemy, false);
+        for (size_t i = 0; i < damageSplit.size(); ++i) {
+            for (size_t j = 0; j < damageSplit[i].size(); ++j) {
+                Damage& dmg = damageSplit[i][j];
+                if (dmg.target == nullptr)continue;
+                if(check[dmg.target->Atv_stats->Unit_num])continue; // สมมติว่า Enemy มี field index
+                check[dmg.target->Atv_stats->Unit_num] = true;
+                targetList.emplace_back(dmg.target);
+                
             }
         }
+        Action_bar.push(self);
     }
-    void addEnemyAdjacentTarget(){
-        for(int i=1;i<=Total_enemy;i++){
-            if(Enemy_unit[i]->Target_type!="Other"){
-                Target_Attack.push_back(Enemy_unit[i].get());
-            }
+    void addEnemyBounce(DmgSrc ins,int amount){
+        for(int i = 1;i<= Total_enemy;i++){
+                if(Enemy_unit[i]->Target_type == "Main"||(Enemy_unit[i]->Target_type == "Adjacent"&&!bestBounce))
+                    this->targetList.push_back(Enemy_unit[i].get());
         }
-    }
-    void addEnemyOtherTarget(){
-        for(int i=1;i<=Total_enemy;i++){
-            Target_Attack.push_back(Enemy_unit[i].get());
-            
+        for(int i = 0;i< amount;i++){
+                damageSplit.emplace_back();
+                damageSplit.back().emplace_back(ins,targetList[i%targetList.size()]);
         }
     }
-    void addEnemyBounce(int amount,Ratio_data instanceRatio){
-        this->addEnemyAdjacentTarget();
-        int loop = amount/this->Target_Attack.size();
-        int extra = amount%this->Target_Attack.size();
-        while(loop--){
-            this->Damage_spilt.Main.push_back(instanceRatio);
-            this->Damage_spilt.Adjacent.push_back(instanceRatio);
+    void addEnemyFairBounce(DmgSrc ins,int amount){
+        for(int i = 1;i<= Total_enemy;i++){
+                if(!bestBounce||Enemy_unit[i]->Target_type == "Main")
+                    this->targetList.push_back(Enemy_unit[i].get());
         }
-        while(extra--){
-            this->Damage_spilt.Main.push_back(instanceRatio);
+        for(int i = 0;i< amount;i++){
+                damageSplit.emplace_back();
+                damageSplit.back().emplace_back(ins,targetList[i%targetList.size()]);
         }
-    }
-    void addEnemyFairBounce(int amount,Ratio_data instanceRatio){
-        this->addEnemyOtherTarget();
-        int loop = amount/this->Target_Attack.size();
-        int extra = amount%this->Target_Attack.size();
-        while(loop--){
-            this->Damage_spilt.Main.push_back(instanceRatio);
-            this->Damage_spilt.Adjacent.push_back(instanceRatio);
-            this->Damage_spilt.Other.push_back(instanceRatio);
-        }
-        if(extra==0)return;
-
-        this->Damage_spilt.Main.push_back(instanceRatio);
-        if(extra==1)return;
-
-
-        if(extra>2)
-        this->Damage_spilt.Adjacent.push_back(instanceRatio);
-        else
-        this->Damage_spilt.Main.push_back(instanceRatio);
-
-        if(extra==4)
-        this->Damage_spilt.Other.push_back(instanceRatio);
 
     }
 
     #pragma endregion
 
     #pragma region setAction
-    void setBasicAttack(SubUnit* ptr, string target_type, string name) {
+    AllyAttackAction(){}
+    AllyAttackAction(ActionType actionType,SubUnit* ptr,string traceType,string name,function<void(shared_ptr<AllyActionData> &data_)> actionFunction)
+    {
         Attacker = ptr;
         source = ptr;
+        this->actionName = name;
+        this->actionFunction = actionFunction;
         attackerList.push_back(ptr);
-        Skill_Type.push_back(AT_BA);
         Damage_element = ptr->Element_type[0];
-        traceType = target_type;
-        actionName = name;
+        this->traceType = traceType;
+        addActionType(actionType);
     }
-    void setSkill(SubUnit* ptr, string target_type, string name) {
-        Attacker = ptr;
-        source = ptr;
-        attackerList.push_back(ptr);
-        Skill_Type.push_back(AT_SKILL);
-        Damage_element = ptr->Element_type[0];
-        traceType = target_type;
-        actionName = name;
-    }
-    void setUltimate(SubUnit* ptr, string target_type, string name) {
-        Attacker = ptr;
-        source = ptr;
-        attackerList.push_back(ptr);
-        Skill_Type.push_back(AT_ULT);
-        Damage_element = ptr->Element_type[0];
-        traceType = target_type;
-        actionName = name;
-    }
-    void setFua(SubUnit* ptr, string target_type, string name) {
-        Attacker = ptr;
-        source = ptr;
-        attackerList.push_back(ptr);
-        Skill_Type.push_back(AT_FUA);
-        Damage_element = ptr->Element_type[0];
-        traceType = target_type;
-        actionName = name;
-    }
-    void setAdditonal(SubUnit* ptr, string target_type, string name) {
-        Attacker = ptr;
-        source = ptr;
-        attackerList.push_back(ptr);
-        Skill_Type.push_back(AT_ADD);
-        Damage_element = ptr->Element_type[0];
-        traceType = target_type;
-        actionName = name;
-    }
-    void setDot(SubUnit* ptr, string target_type, string name) {
-        Attacker = ptr;
-        source = ptr;
-        attackerList.push_back(ptr);
-        Skill_Type.push_back(AT_DOT);
-        Damage_element = ptr->Element_type[0];
-        traceType = target_type;
-        actionName = name;
-    }
-    void setTechnique(SubUnit* ptr, string target_type, string name) {
-        Attacker = ptr;
-        source = ptr;
-        toughnessAvgCalculate = 0;
-        attackerList.push_back(ptr);
-        Skill_Type.push_back(AT_TECH);
-        Damage_element = ptr->Element_type[0];
-        traceType = target_type;
-        actionName = name;
-    }
-    void setEntanglement(SubUnit* ptr){
-        Attacker = ptr;
-        source = ptr; 
-        toughnessAvgCalculate = 0;
-        attackerList.push_back(ptr);
-        Skill_Type.push_back("Entanglement");
-        Damage_element = "Quantum";
 
-        traceType = "Single_target";
-        actionName = "Entanglement";
-
-    }
-    void setFreeze(SubUnit* ptr){
-        Attacker = ptr;
-        source = ptr; 
-        toughnessAvgCalculate = 0;
-        attackerList.push_back(ptr);
-        Skill_Type.push_back("Freeze");
-        Damage_element = "Ice";
-
-        traceType = "Single_target";
-        actionName = "Freeze";
-
-    }
-    void setSuperBreak(SubUnit* ptr,string target_type){
-        Attacker = ptr;
-        source = ptr;
-        toughnessAvgCalculate = 0;
-        attackerList.push_back(ptr);
-        Skill_Type.push_back("Break_dmg");
-        Skill_Type.push_back("Super_break");
-        Damage_element = ptr->Element_type[0];
-        traceType =target_type;
-        actionName = "SuperBreak";
-
-    }
-    void setBreakDmg(SubUnit* ptr,string name){
-        Attacker = ptr;
-        source = ptr; 
-        toughnessAvgCalculate = 0;
-        attackerList.push_back(ptr);
-        Skill_Type.push_back("Break_dmg");
-        Damage_element = ptr->Element_type[0];
-        traceType ="Single_target";
-        actionName = name;
-
+    void addActionType(ActionType actionType){
+        switch(actionType) {
+            case ActionType::BASIC_ATTACK:
+                abilityType.push_back(AT_BA);
+                break;
+            case ActionType::SKILL:
+                abilityType.push_back(AT_SKILL);
+                break;
+            case ActionType::ULTIMATE:
+                abilityType.push_back(AT_ULT);
+                break;
+            case ActionType::FUA:
+                abilityType.push_back(AT_FUA);
+                break;
+            case ActionType::DOT:
+                abilityType.push_back(AT_DOT);
+                break;
+            case ActionType::BREAK_DMG:
+                abilityType.push_back(AT_BREAK);
+                toughnessAvgCalculate = 0;
+                break;
+            case ActionType::SUPER_BREAK:
+                abilityType.push_back(AT_SPB);
+                toughnessAvgCalculate = 0;
+                break;
+            case ActionType::ADDITIONAL:
+                abilityType.push_back(AT_ADD);
+                break;
+            case ActionType::TECHNIQUE:
+                abilityType.push_back(AT_TECH);
+                toughnessAvgCalculate = 0;
+                break;
+            case ActionType::FREEZE:
+                abilityType.push_back("Freeze");
+                toughnessAvgCalculate = 0;
+                break;
+            case ActionType::ENTANGLEMENT:
+                abilityType.push_back("Entanglement");
+                toughnessAvgCalculate = 0;
+                break;
+            default:
+                break;
+        }
     }
     
     #pragma endregion
@@ -280,4 +192,8 @@ class AllyAttackAction : public AllyActionData {
     }
     #pragma endregion
 };
+AllyAttackAction* AllyActionData::castToAllyAttackAction(){
+        return dynamic_cast<AllyAttackAction*>(this);
+}
+
 #endif
