@@ -100,10 +100,11 @@ vector<TriggerByYourSelf_Func> Ultimate_List;
 
 vector<TriggerByAction_Func> BeforeAction_List;
 vector<TriggerByAction_Func> AfterAction_List;
-vector<TriggerByAllyAction_Func> Before_attack_List;
-vector<TriggerByAllyAction_Func> After_attack_List;
-vector<TriggerByAllyAction_Func> When_attack_List;
-vector<TriggerByAllyAction_Func> Buff_List;
+vector<TriggerByAllyAttackAction_Func> Before_attack_List;
+vector<TriggerByAllyAttackAction_Func> After_attack_List;
+vector<TriggerByAllyAttackAction_Func> When_attack_List;
+vector<TriggerByAllyAttackAction_Func> Hit_Count_List;
+vector<TriggerByAllyBuffAction_Func> Buff_List;
 
 vector<TriggerByStats> Stats_Adjust_List;
 vector<TriggerHealing> Healing_List;
@@ -118,7 +119,6 @@ vector<TriggerByEnemyHit> Enemy_hit_List;
 vector<TriggerDot_Func> Dot_List;
 vector<TriggerEnergy_Increase_Func> When_Energy_Increase_List;
 vector<TriggerSkill_point_func> Skill_point_List;
-vector<TriggerHit_Count_func> Hit_Count_List;
 vector<TriggerAfterDealDamage> AfterDealingDamage_List;
 
 #endif

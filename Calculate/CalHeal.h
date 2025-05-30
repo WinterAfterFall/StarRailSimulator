@@ -13,13 +13,13 @@ double calculateHeal(HealSrc healRatio, SubUnit *Healer, SubUnit *target) {
     TotalHeal += healRatio.constHeal;
     TotalHeal *= Cal_HealBonus_multiplier(Healer, target);
 
-    if(Healer->ptr_to_unit->checkHeal){
+    if(Healer->ptrToChar->checkHeal){
         // cout<<"RestoreHP : "<<healCount<<endl;
         // cout<<Healer->getCharName()<<" heal ";
         // cout<<target->getCharName()<<" ";
         cout<<TotalHeal<<endl;
     }
-    if(Healer->ptr_to_unit->checkHealFormula){
+    if(Healer->ptrToChar->checkHealFormula){
         cout<<"---"<<endl;
         cout<<"RestoreHP : "<<healCount<<endl;
         cout<<Healer->getCharName()<<" heal ";

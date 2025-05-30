@@ -101,7 +101,7 @@ namespace Jade{
             }
         }));
 
-        When_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
+        When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
             if (data_->Attacker->Atv_stats->Unit_Name == "Jade" && data_->Action_type.second == "Fua") {
                 Jade_Talent(ptr, 5);
                 return;

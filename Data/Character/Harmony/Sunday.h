@@ -134,7 +134,7 @@ namespace Sunday{
             SubUnit *Temp_stats = turn->canCastToSubUnit();
             if(!Temp_stats)return;
             if (Temp_stats->isBuffEnd("Benison_of_Paper_and_Rites")) {
-                if (Temp_stats->ptr_to_unit->isAllyHaveSummon()) {
+                if (Temp_stats->ptrToChar->isAllyHaveSummon()) {
                     Temp_stats->buffSingle({{ST_DMG,AT_NONE,-80}});
                 } else {
                     Temp_stats->buffSingle({{ST_DMG,AT_NONE,-30}});
@@ -166,7 +166,7 @@ namespace Sunday{
             Increase_energy(ptr, 25);
         }));
 
-        Buff_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,SDptr](shared_ptr<AllyActionData> &data_) {
+        Buff_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,SDptr](shared_ptr<AllyActionData> &data_) {
             if (chooseCharacterBuff(ptr->getSubUnit())->getBuffCheck("Ode_to_Caress_and_Cicatrix") && data_->actionName=="Sunday Skill") {
                 Skill_point(ptr->Sub_Unit_ptr[0].get(), 1);
             }
@@ -201,7 +201,7 @@ namespace Sunday{
                 target->buffSingle({{ST_DMG, AT_NONE, -30}});
             }
             if (target->isBuffGoneByDeath("Benison_of_Paper_and_Rites")){
-                if (target->ptr_to_unit->isAllyHaveSummon()) {
+                if (target->ptrToChar->isAllyHaveSummon()) {
                     target->buffSingle({{ST_DMG,AT_NONE,-80}});
                 } else {
                     target->buffSingle({{ST_DMG,AT_NONE,-30}});

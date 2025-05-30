@@ -152,7 +152,7 @@ namespace Tribbie{
             TBptr->isHaveToAddBuff("Numinosity", 3);
         }));
         
-        When_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr](shared_ptr<AllyActionData> &data_) {
+        When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr](shared_ptr<AllyActionData> &data_) {
             int temp = data_->targetList.size();
             if (data_->Attacker->Atv_stats->Char_Name == "Tribbie" && data_->Action_type.second == "Fua") {
                 TBptr->buffStackSingle({{ST_DMG, AT_NONE, 72}},1,3,"Tribbie_A2",3);
@@ -203,10 +203,10 @@ namespace Tribbie{
             }
         }));  
         if(ptr->Eidolon>=1){
-            Before_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr](shared_ptr<AllyActionData> &data_) {
+            Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr](shared_ptr<AllyActionData> &data_) {
                 if(TBptr->getBuffCheck("Tribbie_Zone"))TBptr->setBuffCheck("TB_TrueDmg",1);
             }));
-            After_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr](shared_ptr<AllyActionData> &data_) {
+            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr](shared_ptr<AllyActionData> &data_) {
                 TBptr->setBuffCheck("TB_TrueDmg",0);
             }));
             AfterDealingDamage_List.push_back(TriggerAfterDealDamage(PRIORITY_IMMEDIATELY, [ptr,TBptr]

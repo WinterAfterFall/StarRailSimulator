@@ -42,8 +42,8 @@ void SetMemoStats(Ally *ptr,double Hp_ratio,double Speed_ratio,string Element_ty
         ptr->Sub_Unit_ptr[num]->Atv_stats->Unit_Name = Name;
         ptr->Sub_Unit_ptr[num]->Atv_stats->Side = "Memosprite";
         ptr->Sub_Unit_ptr[num]->Atv_stats->Type = UnitType;
-        ptr->Sub_Unit_ptr[num]->Atv_stats->ptr_to_unit = ptr->Sub_Unit_ptr[num].get();
-        ptr->Sub_Unit_ptr[num]->ptr_to_unit = ptr;
+        ptr->Sub_Unit_ptr[num]->Atv_stats->ptrToChar = ptr->Sub_Unit_ptr[num].get();
+        ptr->Sub_Unit_ptr[num]->ptrToChar = ptr;
         ptr->Sub_Unit_ptr[num]->tauntBase = tauntValueEachPath[ptr->Path[0]];
 
 }
@@ -57,7 +57,7 @@ void SetCountdownStats(Ally *ptr,string Name){
         ptr->Countdown_ptr[num]->Atv_stats->Char_Name = Name;
         ptr->Countdown_ptr[num]->Atv_stats->Unit_Name = Name;
         ptr->Countdown_ptr[num]->Atv_stats->Side = "Countdown";
-        ptr->Countdown_ptr[num]->Atv_stats->ptr_to_unit = ptr->Countdown_ptr[num].get();
+        ptr->Countdown_ptr[num]->Atv_stats->ptrToChar = ptr->Countdown_ptr[num].get();
 }
 void SetSummonStats(Ally *ptr,double BaseSpeed,string Name){
         int num = ptr->Summon_ptr.size();
@@ -69,7 +69,7 @@ void SetSummonStats(Ally *ptr,double BaseSpeed,string Name){
         ptr->Summon_ptr[num]->Atv_stats->Char_Name = Name;
         ptr->Summon_ptr[num]->Atv_stats->Unit_Name = ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name;
         ptr->Summon_ptr[num]->Atv_stats->Side = "Summon";
-        ptr->Summon_ptr[num]->Atv_stats->ptr_to_unit = ptr->Summon_ptr[num].get();
+        ptr->Summon_ptr[num]->Atv_stats->ptrToChar = ptr->Summon_ptr[num].get();
 }
 
 #endif

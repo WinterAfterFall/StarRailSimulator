@@ -90,7 +90,7 @@ namespace Pela{
             }
         }));
         
-        After_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
+        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
             if (data_->Attacker->Atv_stats->Char_Name != "Pela") return;
 
             for (auto e : data_->targetList) {

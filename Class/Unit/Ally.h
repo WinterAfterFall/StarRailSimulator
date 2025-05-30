@@ -123,10 +123,10 @@ public:
     
     #pragma endregion
     #pragma region constructor
-    Ally() {  // Call Unit constructor to initialize Atv_stats and set ptr_to_unit
+    Ally() {  // Call Unit constructor to initialize Atv_stats and set ptrToChar
         Sub_Unit_ptr.resize(1);
         Sub_Unit_ptr[0] = make_unique<SubUnit>();
-        Sub_Unit_ptr[0]->ptr_to_unit = this;
+        Sub_Unit_ptr[0]->ptrToChar = this;
           // Using unique_ptr for stats
     }
 

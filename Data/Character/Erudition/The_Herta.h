@@ -123,14 +123,14 @@ namespace The_Herta{
             }
         }));
 
-        After_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_BUFF, [ptr,Hertaptr](shared_ptr<AllyActionData> &data_){
+        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_BUFF, [ptr,Hertaptr](shared_ptr<AllyActionData> &data_){
             if(data_->actionName=="The Herta EnchanceSkill"){
                 Hertaptr->buffSingle({{ST_DMG,AT_NONE,-50}});
                 if(ptr->Eidolon >= 2)Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),35);
             }
             bool Erudition_check = 0;
 
-            for(auto e : data_->Attacker->ptr_to_unit->Path){
+            for(auto e : data_->Attacker->ptrToChar->Path){
                 if(e == "Erudition") Erudition_check = 1;
             }
             for(auto e : data_->targetList){

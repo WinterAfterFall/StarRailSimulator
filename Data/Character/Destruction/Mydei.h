@@ -50,14 +50,9 @@ namespace Mydei{
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
             if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Blast","Mydei Ult");
-            data_->addEnemyAdjacentTarget();
-            data_->Damage_spilt.Main.push_back({0, 160, 0, 20});
-            data_->Damage_spilt.Adjacent.push_back({0, 100, 0, 20});
-            
-            
-            data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_) {
+            shared_ptr<AllyAttackAction> data_ = 
+            make_shared<AllyAttackAction>(ActionType::Ult,ptr->getSubUnit(),TT_BLAST,"Mydei Ult",
+            [ptr](shared_ptr<AllyAttackAction> data_){
                 for (Enemy* e : data_->targetList) {
                     e->addTaunt(ptr->Sub_Unit_ptr[0].get());
                     e->debuffApply(ptr->Sub_Unit_ptr[0].get(),"Mydei_Taunt");
@@ -67,12 +62,13 @@ namespace Mydei{
                 ChargePoint(ptr, 20);
                 Attack(data_);
                 if(ptr->Print) CharCmd::printUltStart("Mydei");
-            };
-            
-            
-
-            Action_bar.push(data_);
-            if (!actionBarUse) Deal_damage();
+            });
+            data_->addDamageIns(
+                DmgSrc(DmgSrcType::HP,160,20),
+                DmgSrc(DmgSrcType::HP,100,20)
+            );
+            data_->addToActionBar();
+            Deal_damage();
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
@@ -108,15 +104,19 @@ namespace Mydei{
 
             allEventAdjustStats(ptr->Sub_Unit_ptr[0].get(), "Hp%");
             if (ptr->Technique) {
-            shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            data_->setTechnique(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Mydei Technique");
-            data_->addEnemyOtherTarget();
-            data_->Damage_spilt.Main.push_back({0, 80, 0, 0});
-            data_->Damage_spilt.Adjacent.push_back({0, 80, 0, 0});
-            data_->Damage_spilt.Other.push_back({0, 80, 0, 0});
-            ChargePoint(ptr, 50);
-            Action_bar.push(data_);
-            if (!actionBarUse) Deal_damage();
+            shared_ptr<AllyAttackAction> data_ = 
+            make_shared<AllyAttackAction>(ActionType::Technique,ptr->getSubUnit(),TT_AOE,"Mydei Tech",
+            [ptr](shared_ptr<AllyAttackAction> data_){
+                ChargePoint(ptr, 50);
+                Attack(data_);
+            });
+            data_->addDamageIns(
+                DmgSrc(DmgSrcType::HP,80,20),
+                DmgSrc(DmgSrcType::HP,80,20),
+                DmgSrc(DmgSrcType::HP,80,20)
+            );
+            data_->addToActionBar();
+            Deal_damage();
             }
         }));
 
@@ -164,13 +164,13 @@ namespace Mydei{
             ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_E2"] = 0;
         }));
 
-        Before_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyActionData> &data_) {
+        Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &data_) {
             if (data_->actionName == "GodSlayer") {
             ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_cannot_charge"] = 1;
             }
         }));
 
-        After_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyActionData> &data_) {
+        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &data_) {
             if (ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_action"]) {
             ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_action"] = 0;
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
@@ -198,63 +198,67 @@ namespace Mydei{
     }
     void Skill(Ally *ptr){
         
-        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Blast","Mydei Skill");
-        data_->addEnemyAdjacentTarget();
-        data_->turnResetTrue();
-        data_->Damage_spilt.Main.push_back({0,90,0,20});
-        data_->Damage_spilt.Adjacent.push_back({0,50,0,10});
-        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
+        shared_ptr<AllyAttackAction> data_ = 
+        make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BLAST,"Mydei Skill",
+        [ptr](shared_ptr<AllyAttackAction> data_){
             Increase_energy(ptr,30,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),ptr->Sub_Unit_ptr[0].get(),0,0,50);
             Attack(data_);
-        };
-        
-        Action_bar.push(data_);
+        });
+        data_->addDamageIns(
+            DmgSrc(DmgSrcType::HP,90,20),
+            DmgSrc(DmgSrcType::HP,50,10)
+        );
+        data_->addToActionBar();
     }
     void Enchance_Skill(Ally *ptr){
         
-        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Blast","KingSlayer");
-        data_->addEnemyAdjacentTarget();
-        data_->turnResetTrue();
-        data_->Damage_spilt.Main.push_back({0,110,0,20});
-        data_->Damage_spilt.Adjacent.push_back({0,66,0,10});
-        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
+        shared_ptr<AllyAttackAction> data_ = 
+        make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BLAST,"KingSlayer",
+        [ptr](shared_ptr<AllyAttackAction> data_){
             Increase_energy(ptr,30,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),ptr->Sub_Unit_ptr[0].get(),0,0,35);
             Attack(data_);
-        };
-        Action_bar.push(data_);
+        });
+        data_->addDamageIns(
+            DmgSrc(DmgSrcType::HP,110,20),
+            DmgSrc(DmgSrcType::HP,66,10)
+        );
+        data_->addToActionBar();
     }
     void GodSlayer(Ally *ptr){
         
-        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        if(ptr->Eidolon>=1){
-            data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Aoe","GodSlayer");
-            data_->addEnemyOtherTarget();
-            data_->Damage_spilt.Main.push_back({0,155,0,15});
-            data_->Damage_spilt.Main.push_back({0,155,0,15});
-            data_->Damage_spilt.Adjacent.push_back({0,155,0,10});
-            data_->Damage_spilt.Adjacent.push_back({0,155,0,10});
-            data_->Damage_spilt.Other.push_back({0,155,0,10});
-            data_->Damage_spilt.Other.push_back({0,155,0,10});
-        }else{
-            data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Blast","GodSlayer");
-            data_->addEnemyAdjacentTarget();
-            data_->Damage_spilt.Main.push_back({0,140,0,15});
-            data_->Damage_spilt.Main.push_back({0,140,0,15});
-            data_->Damage_spilt.Adjacent.push_back({0,84,0,10});
-            data_->Damage_spilt.Adjacent.push_back({0,84,0,10});
-        }
-        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
-            
-            Increase_energy(ptr,10,0);
+        shared_ptr<AllyAttackAction> data_ = 
+        make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BLAST,"GodSlayer",
+        [ptr](shared_ptr<AllyAttackAction> data_){
+            Increase_energy(ptr,10);
             Attack(data_);
-        };
-        
-        Action_bar.push(data_);
-        if(!actionBarUse)Deal_damage();
+        });
+
+        if(ptr->Eidolon>=1){
+            data_->traceType = TT_AOE;
+            data_->addDamageIns(
+                DmgSrc(DmgSrcType::HP,155,15),
+                DmgSrc(DmgSrcType::HP,155,10),
+                DmgSrc(DmgSrcType::HP,155,10)
+            );
+            data_->addDamageIns(
+                DmgSrc(DmgSrcType::HP,155,15),
+                DmgSrc(DmgSrcType::HP,155,10),
+                DmgSrc(DmgSrcType::HP,155,10)
+            );
+        }else{
+            data_->addDamageIns(
+                DmgSrc(DmgSrcType::HP,140,15),
+                DmgSrc(DmgSrcType::HP,84,10)
+            );
+            data_->addDamageIns(
+                DmgSrc(DmgSrcType::HP,140,15),
+                DmgSrc(DmgSrcType::HP,84,10)
+            );
+        }
+        data_->addToActionBar();
+        Deal_damage();
     }
 
 

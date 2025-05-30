@@ -27,7 +27,7 @@ public:
     string Char_Name;
     string Unit_Name;//ชื่อเจ้าของเทิร์น
 
-    Unit* ptr_to_unit = nullptr; //* // This will be set to point back to the unit (Ally or Enemy)
+    Unit* ptrToChar = nullptr; //* // This will be set to point back to the unit (Ally or Enemy)
 
     bool isSameCharName(string name){
         if(this->Char_Name == name)return true;

@@ -67,8 +67,8 @@ double Cal_AvgToughnessMultiplier(Enemy *target,double Total_atv){
     
     return temp;
 }
-void Cal_DamageNote(shared_ptr<AllyActionData> &data_,Enemy *src,Enemy *recv,double damage,double ratio,string name){
-    Ally *ptr = data_->Attacker->ptr_to_unit;
+void Cal_DamageNote(shared_ptr<AllyAttackAction> &data_,Enemy *src,Enemy *recv,double damage,double ratio,string name){
+    Ally *ptr = data_->Attacker->ptrToChar;
     if(data_->toughnessAvgCalculate){
         ptr->currentNonRealTimeDmg[{src,recv}].total += damage * ratio/100 ;
         ptr->currentNonRealTimeDmg[{src,recv}].type[name] += damage * ratio/100;

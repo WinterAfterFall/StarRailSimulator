@@ -15,10 +15,10 @@ bool ActionValueStats::isSameUnit(SubUnit *ptr){
 }
 
 SubUnit* ActionValueStats::canCastToSubUnit(){
-    return dynamic_cast<SubUnit*>(this->ptr_to_unit);
+    return dynamic_cast<SubUnit*>(this->ptrToChar);
 }
 Enemy* ActionValueStats::canCastToEnemy(){
-    return dynamic_cast<Enemy*>(this->ptr_to_unit);
+    return dynamic_cast<Enemy*>(this->ptrToChar);
 }
 SubUnit* Unit::canCastToSubUnit() {
     return dynamic_cast<SubUnit*>(this);

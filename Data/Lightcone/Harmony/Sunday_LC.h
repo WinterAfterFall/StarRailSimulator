@@ -14,7 +14,7 @@ namespace Harmony_Lightcone{
             string hymn = ptr->getSubUnit()->getUnitName() +  " Hymn";
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,hymn]() {
                 if (turn->Unit_num != ptr->Sub_Unit_ptr[0]->currentAllyTargetNum) return;
-                SubUnit *tempstats = dynamic_cast<SubUnit*>(turn->ptr_to_unit);
+                SubUnit *tempstats = dynamic_cast<SubUnit*>(turn->ptrToChar);
                 if (!tempstats) return;
                 if (tempstats->isBuffEnd(hymn)) {
                     tempstats->buffResetStack({{ST_DMG,AT_NONE,(12.75 + (2.25)*superimpose)}},hymn);
@@ -25,7 +25,7 @@ namespace Harmony_Lightcone{
                 target->buffResetStack({{ST_DMG,AT_NONE,(12.75 + (2.25)*superimpose)}},hymn);
             }));
     
-            Buff_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,hymn](shared_ptr<AllyActionData> &data_) {
+            Buff_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,hymn](shared_ptr<AllyActionData> &data_) {
                 if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_->traceType == "Single_target") {
                     Increase_energy(ptr, 5.5 + 0.5 * superimpose);
                     for (auto each : data_->buffTargetList) {

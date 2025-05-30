@@ -24,6 +24,14 @@ void Enemy::removeTaunt(string name){
         }
     }
 }
+void Enemy::removeTaunt(SubUnit *ptr){
+    for (auto it = this->tauntList.begin(); it != this->tauntList.end(); ++it) {
+        if ((*it)->isSameUnit(ptr)) {
+            this->tauntList.erase(it); // Remove the pointer from the vector
+            break; // Exit the loop after removing the taunt
+        }
+    }
+}
 
 // void EnemyHit(Enemy *Attacker,double energy){
 //     vector<SubUnit*> vec;
@@ -40,7 +48,7 @@ void Enemy::removeTaunt(string name){
 //     double damageDeal;
 //     allEventWhenEnemyHit(Attacker,target);
 //     for(SubUnit* e : target){
-//         Increase_energy(e->ptr_to_unit,energy);
+//         Increase_energy(e->ptrToChar,energy);
 //     }
 //     DamageFormEnemy(Attacker,target);
 // }

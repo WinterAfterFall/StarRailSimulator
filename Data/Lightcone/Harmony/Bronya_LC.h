@@ -16,7 +16,7 @@ namespace Harmony_Lightcone{
                 ptr->Energy_recharge += 8 + 2 * superimpose;
             }));
     
-            After_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
                     if (data_->Action_type.second == "Skill") {
                         ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff"] = 1;
@@ -31,7 +31,7 @@ namespace Harmony_Lightcone{
                 }
             }));
     
-            Buff_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+            Buff_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
                     if (data_->Action_type.second == "Skill") {
                         ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff"] = 1;
@@ -47,7 +47,7 @@ namespace Harmony_Lightcone{
             }));
     
             Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                SubUnit *tempstats = dynamic_cast<SubUnit *>(turn->ptr_to_unit);
+                SubUnit *tempstats = dynamic_cast<SubUnit *>(turn->ptrToChar);
                 if (!tempstats) return;
                 if (ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff"] == 1) {
                     tempstats->Stats_type[ST_DMG][AT_NONE] += 25 + 5 * superimpose;
@@ -57,7 +57,7 @@ namespace Harmony_Lightcone{
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                SubUnit *tempstats = dynamic_cast<SubUnit *>(turn->ptr_to_unit);
+                SubUnit *tempstats = dynamic_cast<SubUnit *>(turn->ptrToChar);
                 if (!tempstats) return;
                 if (ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff_check"] == 1) {
                     tempstats->Stats_type[ST_DMG][AT_NONE] -= 25 + 5 * superimpose;

@@ -2,76 +2,68 @@
 #define Event_H
 #include "../Class/ClassLibrary.h"
 void allEventBeforeTurn(){
-    shared_ptr<AllyActionData> temp = make_shared<AllyActionData>();
     if(turn->Side=="Enemy"){
-        Dot_trigger(100,Enemy_unit[turn->Unit_num].get(),AT_NONE);
-        if(Enemy_unit[turn->Unit_num]->Entanglement != 0){
-            temp->setEntanglement(Ally_unit[Enemy_unit[turn->Unit_num]->Entanglement]->Sub_Unit_ptr[0].get());
-            double Const = 0.6*Enemy_unit[turn->Unit_num]->Entanglement_stack;
-            Cal_Break_damage(temp,Enemy_unit[turn->Unit_num].get(),Const);
+        shared_ptr<AllyAttackAction> data_;
+        Enemy *target = turn->canCastToEnemy();
+        Dot_trigger(100, target, AT_NONE);
+        for(auto &each : target->breakEngist){
+            data_ = make_shared<AllyAttackAction>(ActionType::Entanglement, each.ptr, TT_SINGLE, "Entanglement");
+            double Const = 0.6 * each.stack;
+            Cal_Break_damage(data_, target, Const);
         }
-        if(Enemy_unit[turn->Unit_num]->Freeze != 0){
-            
-            temp->setFreeze(Ally_unit[Enemy_unit[turn->Unit_num]->Freeze]->Sub_Unit_ptr[0].get());
-            
-            Cal_Freeze_damage(temp,Enemy_unit[turn->Unit_num].get());
-            Action_forward(Enemy_unit[turn->Unit_num]->Atv_stats.get(),-50);
-            Turn_Skip=1;
+        if(!Turn_Skip)
+        for(auto itr = target->breakFrzist.begin(); itr != target->breakFrzist.end();){
+            data_ = make_shared<AllyAttackAction>(ActionType::Freeze, itr->ptr, TT_SINGLE, "Freeze");
+            Cal_Freeze_damage(data_, target);
+            Action_forward(target->Atv_stats.get(), -50);
+            --target->Total_debuff;
+            Turn_Skip = 1;
+            itr = target->breakFrzist.erase(itr);
+            break;
         }
     }
+
     for(TriggerByYourSelf_Func &e : Before_turn_List){
         e.Call();
     }
 }
 void allEventAfterTurn(){
     if(turn->Side=="Enemy"){
-        if(Enemy_unit[turn->Unit_num]->Entanglement != 0){
-           Enemy_unit[turn->Unit_num]->Entanglement = 0;
-           Enemy_unit[turn->Unit_num]->Entanglement_stack = 0;
-           --Enemy_unit[turn->Unit_num]->Total_debuff;
+        shared_ptr<AllyAttackAction> data_;
+        Enemy *target = turn->canCastToEnemy();
+        Dot_trigger(100, target, AT_NONE);
+        for (auto itr = target->breakDotList.begin(); itr != target->breakDotList.end(); ) {
+            if(itr->countdown!=turn->turn_cnt){
+                itr++;
+                continue;
+            }
+            itr = target->breakDotList.erase(itr);
+            --target->Total_debuff;
+            
         }
-        if(Enemy_unit[turn->Unit_num]->Freeze != 0){
-            Enemy_unit[turn->Unit_num]->Freeze = 0;
-           --Enemy_unit[turn->Unit_num]->Total_debuff;
+        for (auto itr = target->breakEngist.begin(); itr != target->breakEngist.end(); ) {
+            if(itr->countdown!=turn->turn_cnt){
+                itr++;
+                continue;
+            }
+            itr = target->breakEngist.erase(itr);
+            --target->Total_debuff;
+            
         }
-        if(Enemy_unit[turn->Unit_num]->Imprisonment != 0){
-           Enemy_unit[turn->Unit_num]->Imprisonment = 0;
-           Enemy_unit[turn->Unit_num]->debuffSingle({{ST_SPD,ST_SPD_P,10}});
-           --Enemy_unit[turn->Unit_num]->Total_debuff;
+        for (auto itr = target->breakImsList.begin(); itr != target->breakImsList.end(); ) {
+            if(itr->countdown!=turn->turn_cnt){
+                itr++;
+                continue;
+            }
+            itr = target->breakImsList.erase(itr);
+            target->debuffSingle({{ST_SPD,ST_SPD_P,10}});
+            --target->Total_debuff;
+            
         }
-        if(Enemy_unit[turn->Unit_num]->Bleed > 0){
-           Enemy_unit[turn->Unit_num]->Bleed--;
-           if(Enemy_unit[turn->Unit_num]->Bleed==0){
-            Enemy_unit[turn->Unit_num]->Bleeder = 0;
-            --Enemy_unit[turn->Unit_num]->Total_debuff;
-           }
-        }
-        if(Enemy_unit[turn->Unit_num]->Burn > 0){
-           Enemy_unit[turn->Unit_num]->Burn--;
-           if(Enemy_unit[turn->Unit_num]->Burn==0){
-            Enemy_unit[turn->Unit_num]->Burner = 0;
-            --Enemy_unit[turn->Unit_num]->Total_debuff;
-           }
-        }
-        if(Enemy_unit[turn->Unit_num]->Shock > 0){
-           Enemy_unit[turn->Unit_num]->Shock--;
-           if(Enemy_unit[turn->Unit_num]->Shock==0){
-            Enemy_unit[turn->Unit_num]->Shocker = 0;
-            --Enemy_unit[turn->Unit_num]->Total_debuff;
-           }
-        }
-        if(Enemy_unit[turn->Unit_num]->Wind_shear > 0){
-           Enemy_unit[turn->Unit_num]->Wind_shear--;
-           if(Enemy_unit[turn->Unit_num]->Wind_shear==0){
-            Enemy_unit[turn->Unit_num]->Wind_shearer = 0;
-            Enemy_unit[turn->Unit_num]->Wind_shear_stack = 0;
-            --Enemy_unit[turn->Unit_num]->Total_debuff;
-           }
-        }
-        for(auto &e : Enemy_unit[turn->Unit_num]->Weakness_typeCountdown){
-            if(e.second==turn->turn_cnt&&Enemy_unit[turn->Unit_num]->Default_Weakness_type[e.first]==0){
-                Enemy_unit[turn->Unit_num]->Weakness_type[e.first] = 0;
-                Enemy_unit[turn->Unit_num]->currentWeaknessElementAmount--;
+        for(auto &e : target->Weakness_typeCountdown){
+            if(e.second==turn->turn_cnt&&target->Default_Weakness_type[e.first]==0){
+                target->Weakness_type[e.first] = 0;
+                target->currentWeaknessElementAmount--;
             }
         }
     }
@@ -90,29 +82,35 @@ void allEventAfterAction(shared_ptr<ActionData> &data_){
         e.Call(data_);
     }
 }
-void allEventBuff(shared_ptr<AllyActionData> &data_){
-    for(TriggerByAllyAction_Func &e : Buff_List){
+void allEventBuff(shared_ptr<AllyBuffAction> &data_){
+    for(TriggerByAllyBuffAction_Func &e : Buff_List){
         e.Call(data_);
     }
 }
-void allEventBeforeAttack(shared_ptr<AllyActionData> &data_){
-    for(TriggerByAllyAction_Func &e : Before_attack_List){
+void allEventBeforeAttack(shared_ptr<AllyAttackAction> &data_){
+    for(TriggerByAllyAttackAction_Func &e : Before_attack_List){
         e.Call(data_);
     }
 }
-void allEventAfterAttack(shared_ptr<AllyActionData> &data_){
-    for(TriggerByAllyAction_Func &e : After_attack_List){
+void allEventAfterAttack(shared_ptr<AllyAttackAction> &data_){
+    for(TriggerByAllyAttackAction_Func &e : After_attack_List){
         e.Call(data_);
     }
 }
-void allEventWhenAttack(shared_ptr<AllyActionData> &data_){
+void allEventWhenAttack(shared_ptr<AllyAttackAction> &data_){
     for(Enemy* &e : data_->targetList){
-        if(e->Entanglement != 0){
-            e->Entanglement_stack++;
+        for (auto &each : e->breakEngist) {
+            if(each.stack>=5)continue;
+            each.stack++;
         }
     }
     
-    for(TriggerByAllyAction_Func &e : When_attack_List){
+    for(TriggerByAllyAttackAction_Func &e : When_attack_List){
+        e.Call(data_);
+    }
+}
+void allEventAttackHitCount(shared_ptr<AllyAttackAction> &data_){
+    for(TriggerByAllyAttackAction_Func &e : Hit_Count_List){
         e.Call(data_);
     }
 }
@@ -126,7 +124,7 @@ void allEventChangeHP(Unit *Trigger,SubUnit *target,double Value){
         e.Call(Trigger,target,Value);
     }
 }
-void allEventWhenToughnessBreak(shared_ptr<AllyActionData> &data_,Enemy *target){
+void allEventWhenToughnessBreak(shared_ptr<AllyAttackAction> &data_,Enemy *target){
     for(TriggerBySomeAlly_Func &e : Toughness_break_List){
         e.Call(target,data_->Attacker);
     }
@@ -150,11 +148,6 @@ void allEventSkillPoint(SubUnit *ptr,int p){
     }
     return ;
 }
-void allEventAttackHitCount(shared_ptr<AllyActionData> &data_,int Hit_cnt,int Total_Hit_cnt){
-    for(TriggerHit_Count_func &e : Hit_Count_List){
-        e.Call(data_,Hit_cnt,Total_Hit_cnt);
-    }
-}
 void allEventAdjustStats(SubUnit *ptr,string statsType){
     AdjustCheck = 1;
     for(TriggerByStats &e : Stats_Adjust_List){
@@ -177,7 +170,7 @@ void allEventWhenAllyDeath(SubUnit *Target){
         e.Call(Target);
     }
 }
-void allEventAfterDealingDamage(shared_ptr<AllyActionData> &data_, Enemy *src, double damage) {
+void allEventAfterDealingDamage(shared_ptr<AllyAttackAction> &data_, Enemy *src, double damage) {
     for (TriggerAfterDealDamage &e : AfterDealingDamage_List) {
         e.Call(data_, src, damage);
     }

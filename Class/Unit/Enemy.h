@@ -7,6 +7,37 @@ using namespace std;
 #define F first
 #define S second
 #define DMG_CAL 12
+
+enum BreakSEType{
+            Bleed,
+            Burn,
+            Shock,
+            WindShear,
+            Freeze,
+            Entanglement,
+            Imprisonment
+};
+class BreakSideEffect{
+        public:
+        BreakSEType type;
+        SubUnit *ptr = nullptr;
+        int countdown = 0;
+        int stack = 0;
+        
+        
+        BreakSideEffect(BreakSEType type, SubUnit *ptr, int countdown,int stack) 
+            : type(type), countdown(countdown), ptr(ptr), stack(stack) {}
+        BreakSideEffect(BreakSEType type, SubUnit *ptr, int countdown) 
+            : type(type), countdown(countdown), ptr(ptr) {}
+
+            bool operator<(const BreakSideEffect& other) const {
+            if ((countdown >= 0) != (other.countdown >= 0)) {
+                return countdown >= 0; // non-negative comes first
+            }
+            return countdown < other.countdown;
+        }
+};
+
 class Enemy : public Unit {
 public:
     
@@ -33,15 +64,57 @@ public:
     unordered_map<string,double> AttackCoolDown;
     int AoeCharge = 0;
     vector<SubUnit*> tauntList;
+    double toughnessReduceNote = 0;
+    int hitCount = 0;
 
-    int Bleed = 0,Bleeder = 0;
-    int Burn = 0,Burner = 0;
-    int Shock = 0,Shocker = 0;
-    int Wind_shear = 0,Wind_shearer = 0;
-    int  Wind_shear_stack = 0;
-    int Freeze = 0;
-    int Entanglement= 0,Entanglement_stack = 0;
-    int Imprisonment = 0;
+    
+    std::vector<BreakSideEffect> breakDotList;
+    std::vector<BreakSideEffect> breakImsList;
+    std::vector<BreakSideEffect> breakEngist;
+    std::vector<BreakSideEffect> breakFrzist;
+
+    bool addBreakSEList(BreakSideEffect input) {
+        if(input.type == BreakSEType::Freeze) {
+            for(auto itr = breakFrzist.begin(); itr != breakFrzist.end();) {
+                if(itr->ptr->isSameUnit(input.ptr)) {
+                    itr->countdown = input.countdown;
+                    return false;
+                } else {
+                    ++itr;
+                }
+            }
+        } else if(input.type == BreakSEType::Imprisonment) {
+            for(auto itr = breakImsList.begin(); itr != breakImsList.end();) {
+                if(itr->ptr->isSameUnit(input.ptr)) {
+                    itr->countdown = input.countdown;
+                    return false;
+                } else {
+                    ++itr;
+                }
+            }
+        } else if(input.type == BreakSEType::Entanglement) {
+            for(auto itr = breakEngist.begin(); itr != breakEngist.end();) {
+                if(itr->ptr->isSameUnit(input.ptr)) {
+                    itr->countdown = input.countdown;
+                    return false;
+                } else {
+                    ++itr;
+                }
+            }
+        }else{
+            for(auto itr = breakDotList.begin(); itr != breakDotList.end();) {
+                if(itr->ptr->isSameUnit(input.ptr)) {
+                    itr->countdown = input.countdown;
+                    itr->stack += input.stack;
+                    return false;
+                } else {
+                    ++itr;
+                }
+            }
+        }
+        breakDotList.push_back(input);
+        return true;
+    }
     unordered_map<string,bool> Default_Weakness_type;
     unordered_map<string,bool> Weakness_type;
     unordered_map<string,double> DefaultElementRes;
@@ -52,8 +125,8 @@ public:
     double Total_toughness_broken_time =0;
     double when_toughness_broken;
  
-    //Constructor now calls the base class constructor to initialize Atv_stats and set ptr_to_unit
-    Enemy() : Unit() {  // Call Unit constructor to initialize Atv_stats and set ptr_to_unit
+    //Constructor now calls the base class constructor to initialize Atv_stats and set ptrToChar
+    Enemy() : Unit() {  // Call Unit constructor to initialize Atv_stats and set ptrToChar
     
     }
 
@@ -109,6 +182,7 @@ public:
     void AoeAttack(double SkillRatio,double energy);
     void addTaunt(SubUnit* ptr);
     void removeTaunt(string name);
+    void removeTaunt(SubUnit* ptr);
 
     //weaknessapply
     // string debuffWeaknessapply(SubUnit *ptr, string debuffName);

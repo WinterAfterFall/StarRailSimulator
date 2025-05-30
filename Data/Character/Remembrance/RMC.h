@@ -142,7 +142,7 @@ namespace RMC{
         }));
         AfterDealingDamage_List.push_back(TriggerAfterDealDamage(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]
             (shared_ptr<AllyActionData> &data_, Enemy *src, double damage) {
-            Ally *ptr = data_->Attacker->ptr_to_unit;
+            Ally *ptr = data_->Attacker->ptrToChar;
             SubUnit *subUnit ;
             for(auto &each : ptr->Sub_Unit_ptr){
                 if (each->getBuffCheck("Mem_Support")){
@@ -169,7 +169,7 @@ namespace RMC{
             ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Energy_cnt"] -= floor(ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Energy_cnt"] / 10) * 10;
         }));
 
-        After_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr](shared_ptr<AllyActionData> &data_) {
+        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr](shared_ptr<AllyActionData> &data_) {
             if (data_->Attacker->Atv_stats->Unit_Name != "Mem" && data_->Attacker->Atv_stats->Side == "Memosprite" && ptr->Sub_Unit_ptr[1]->Buff_check["RMC_E2"] == 1) {
                 Increase_energy(ptr, 8);
                 ptr->Sub_Unit_ptr[1]->Buff_check["RMC_E2"] = 0;
@@ -234,7 +234,7 @@ namespace RMC{
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->setSkill(ptr->Sub_Unit_ptr[1].get(),"Aoe","Mem Skill");
         data_->addEnemyAdjacentTarget();
-        data_->abilityType.push_back("Summon");
+        data_->abilityTypeList.push_back("Summon");
         data_->Turn_reset=true;
         if(Total_enemy==1){
             data_->Damage_spilt.Main.push_back({39.6,0,0,5});
@@ -269,7 +269,7 @@ namespace RMC{
         data_->setSkill(ptr->Sub_Unit_ptr[1].get(),"Single","Buff","Mem Buff");
         data_->addBuffSingleTarget(chooseSubUnitBuff(ptr->Sub_Unit_ptr[1].get()));
         data_->Turn_reset=true;
-        data_->abilityType.push_back("Summon");
+        data_->abilityTypeList.push_back("Summon");
         
         
         data_->actionFunction = [ptr,RMCptr = ptr->Sub_Unit_ptr[1].get()](shared_ptr<AllyActionData> &data_){

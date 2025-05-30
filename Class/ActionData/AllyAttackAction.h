@@ -27,16 +27,237 @@ class AllyAttackAction : public AllyActionData {
     bool toughnessAvgCalculate = 1;
     bool damageNote = 1;
     double Dont_care_weakness = 0;
+    function<void(shared_ptr<AllyAttackAction> &data_)> actionFunction;
 
     DamageSplit damageSplit;
 
     vector<Enemy*> targetList;
     vector<SwitchAtk> switchAttacker;
     vector<SubUnit*> attackerList;//
+    vector<vector<string>> AbilitySetList;//
 
     string Damage_element = "";//Physical Fire Ice Lightning Wind Quantum Imaginary
 
+     #pragma region setAction
+    AllyAttackAction(){}
+    AllyAttackAction(ActionType actionType,SubUnit* ptr,string traceType,string name)
+    {
+        Attacker = ptr;
+        source = ptr;
+        this->actionName = name;
+        attackerList.push_back(ptr);
+        Damage_element = ptr->Element_type[0];
+        this->traceType = traceType;
+        addActionType(actionType);
+        switch(actionType) {
+            case ActionType::BA:
+                Turn_reset = 1;
+                break;
+            case ActionType::SKILL:
+                Turn_reset = 1;
+                break;
+            case ActionType::Break:
+                toughnessAvgCalculate = 0;
+                break;
+            case ActionType::SPB:
+                toughnessAvgCalculate = 0;
+                break;
+            case ActionType::Technique:
+                toughnessAvgCalculate = 0;
+                break;
+            case ActionType::Freeze:
+                toughnessAvgCalculate = 0;
+                break;
+            case ActionType::Entanglement:
+                toughnessAvgCalculate = 0;
+                break;
+            default:
+                break;
+        }
+    }
+    AllyAttackAction(ActionType actionType,SubUnit* ptr,string traceType,string name,function<void(shared_ptr<AllyAttackAction> &data_)> actionFunction)
+    {
+        Attacker = ptr;
+        source = ptr;
+        this->actionName = name;
+        this->actionFunction = actionFunction;
+        attackerList.push_back(ptr);
+        Damage_element = ptr->Element_type[0];
+        this->traceType = traceType;
+        addActionType(actionType);
+        switch(actionType) {
+            case ActionType::BA:
+                Turn_reset = 1;
+                break;
+            case ActionType::SKILL:
+                Turn_reset = 1;
+                break;
+            case ActionType::Break:
+                toughnessAvgCalculate = 0;
+                break;
+            case ActionType::SPB:
+                toughnessAvgCalculate = 0;
+                break;
+            case ActionType::Technique:
+                toughnessAvgCalculate = 0;
+                break;
+            case ActionType::Freeze:
+                toughnessAvgCalculate = 0;
+                break;
+            case ActionType::Entanglement:
+                toughnessAvgCalculate = 0;
+                break;
+            default:
+                break;
+        }
+    }
+    
+    #pragma endregion
 
+
+    #pragma region checkMethod
+
+    bool isSameUnit(SubUnit *ptr)override{
+        for (auto& each : attackerList){
+            if (each->isSameUnit(ptr))return true;
+        }
+        return false;
+    }
+    bool isSameUnitName(string name)override{
+        for (auto& each : attackerList){
+            if (each->isSameUnitName(name))return true;
+        }
+        return false;
+    }
+
+    bool isSameAbility(string ability) override {
+        if (AbilitySetList.empty()) {
+            for (const auto& abilityName : abilityTypeList) {
+                if (abilityName == ability) {
+                    return true;
+                }
+            }
+        } else {
+            for (const auto& abilityVec : AbilitySetList) {
+                for (const auto& abilityName : abilityVec) {
+                    if (abilityName == ability) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    bool isSameAbility(string name, string ability) override {
+        for (auto& each : attackerList) {
+            if (each->isSameUnitName(name)) {
+                if (AbilitySetList.empty()) {
+                    for (const auto& abilityName : abilityTypeList) {
+                        if (abilityName == ability) {
+                            return true;
+                        }
+                    }
+                } else {
+                    for (const auto& abilityVec : AbilitySetList) {
+                        for (const auto& abilityName : abilityVec) {
+                            if (abilityName == ability) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+        }
+        return false;
+    }
+
+    bool isSameAbility(SubUnit *ptr, string ability) override {
+        for (auto& each : attackerList) {
+            if (each->isSameUnit(ptr)) {
+                if (AbilitySetList.empty()) {
+                    for (const auto& abilityName : abilityTypeList) {
+                        if (abilityName == ability) {
+                            return true;
+                        }
+                    }
+                } else {
+                    for (const auto& abilityVec : AbilitySetList) {
+                        for (const auto& abilityName : abilityVec) {
+                            if (abilityName == ability) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+        }
+        return false;
+    }
+    
+    #pragma endregion
+
+    void setJoint() {
+        copyAbilityList(2);
+        AbilitySetList[1].push_back(AT_SUMMON);
+    }
+
+    void copyAbilityList() {
+        copyAbilityList(1);
+    }
+    void copyAbilityList(int amount) {
+        for (int i = 0; i < amount; ++i) {
+            AbilitySetList.push_back(this->abilityTypeList);
+        }
+    }
+    void addAbilityType(string abilityName){
+        if (!abilityName.empty()) {
+            this->abilityTypeList.push_back(abilityName);
+        }
+    }
+    void deleteAbilityType(string abilityName){
+        auto it = std::find(this->abilityTypeList.begin(), this->abilityTypeList.end(), abilityName);
+        if (it != this->abilityTypeList.end()) {
+            this->abilityTypeList.erase(it);
+        }
+    }
+    void addAbilityType(int index, string abilityName) {
+        if (index >= 0 && index < AbilitySetList.size() && !abilityName.empty()) {
+            AbilitySetList[index].push_back(abilityName);
+        }
+    }
+    void deleteAbilityType(int index, string abilityName) {
+        if (index >= 0 && index < AbilitySetList.size()) {
+            auto& abilityVec = AbilitySetList[index];
+            auto it = std::find(abilityVec.begin(), abilityVec.end(), abilityName);
+            if (it != abilityVec.end()) {
+                abilityVec.erase(it);
+            }
+        }
+    }
+    
+
+
+    void addDamageIns(DmgSrc main){
+            damageSplit.emplace_back();
+            for(int i = 1;i<= Total_enemy;i++){
+                if(Enemy_unit[i]->Target_type == "Main"){
+                    damageSplit.back().emplace_back(main, Enemy_unit[i].get());
+                    break;
+                }
+            }
+    }
+    void addDamageIns(DmgSrc main,DmgSrc adjacent){
+            damageSplit.emplace_back();
+            for(int i = 1;i<= Total_enemy;i++){
+                if(Enemy_unit[i]->Target_type == "Main")
+                    damageSplit.back().emplace_back(main, Enemy_unit[i].get());
+                else if(Enemy_unit[i]->Target_type == "Adjacent")
+                    damageSplit.back().emplace_back(adjacent, Enemy_unit[i].get());
+            }
+
+    }
     void addDamageIns(DmgSrc main,DmgSrc adjacent,DmgSrc other){
             damageSplit.emplace_back();
             for(int i = 1;i<= Total_enemy;i++){
@@ -49,7 +270,7 @@ class AllyAttackAction : public AllyActionData {
             }
 
     }
-    public:
+    
         template<typename... Args>
         void addDamageIns(Args... args) {
             static_assert(sizeof...(Args) % 2 == 0, "ต้องส่ง argument เป็นคู่ DmgSrc, Enemy*");
@@ -120,67 +341,6 @@ class AllyAttackAction : public AllyActionData {
 
     }
 
-    #pragma endregion
-
-    #pragma region setAction
-    AllyAttackAction(){}
-    AllyAttackAction(ActionType actionType,SubUnit* ptr,string traceType,string name,function<void(shared_ptr<AllyActionData> &data_)> actionFunction)
-    {
-        Attacker = ptr;
-        source = ptr;
-        this->actionName = name;
-        this->actionFunction = actionFunction;
-        attackerList.push_back(ptr);
-        Damage_element = ptr->Element_type[0];
-        this->traceType = traceType;
-        addActionType(actionType);
-    }
-
-    void addActionType(ActionType actionType){
-        switch(actionType) {
-            case ActionType::BASIC_ATTACK:
-                abilityType.push_back(AT_BA);
-                break;
-            case ActionType::SKILL:
-                abilityType.push_back(AT_SKILL);
-                break;
-            case ActionType::ULTIMATE:
-                abilityType.push_back(AT_ULT);
-                break;
-            case ActionType::FUA:
-                abilityType.push_back(AT_FUA);
-                break;
-            case ActionType::DOT:
-                abilityType.push_back(AT_DOT);
-                break;
-            case ActionType::BREAK_DMG:
-                abilityType.push_back(AT_BREAK);
-                toughnessAvgCalculate = 0;
-                break;
-            case ActionType::SUPER_BREAK:
-                abilityType.push_back(AT_SPB);
-                toughnessAvgCalculate = 0;
-                break;
-            case ActionType::ADDITIONAL:
-                abilityType.push_back(AT_ADD);
-                break;
-            case ActionType::TECHNIQUE:
-                abilityType.push_back(AT_TECH);
-                toughnessAvgCalculate = 0;
-                break;
-            case ActionType::FREEZE:
-                abilityType.push_back("Freeze");
-                toughnessAvgCalculate = 0;
-                break;
-            case ActionType::ENTANGLEMENT:
-                abilityType.push_back("Entanglement");
-                toughnessAvgCalculate = 0;
-                break;
-            default:
-                break;
-        }
-    }
-    
     #pragma endregion
 
     #pragma region adjust

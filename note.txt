@@ -8,4 +8,4 @@ tech serval
 set max substats ทุกตัว
 แก้ระบบ taunt
 แก้การคำนวณ dot
-เพื่ม true damage ใน rmc
+แก้ระบบคำนวณ break

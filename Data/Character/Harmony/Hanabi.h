@@ -35,8 +35,8 @@
 //         Ally_unit[num]->Atv_stats->Character_num = num;
 //         Ally_unit[num]->Atv_stats->Name = "Hanabi";
 //         Ally_unit[num]->Atv_stats->Side = "Ally";
-//         Ally_unit[num]->Atv_stats->ptr_to_unit = Ally_unit[num].get();
-//         unit[num] = Ally_unit[num]->Atv_stats->ptr_to_unit;
+//         Ally_unit[num]->Atv_stats->ptrToChar = Ally_unit[num].get();
+//         unit[num] = Ally_unit[num]->Atv_stats->ptrToChar;
 //         Ally_unit[num]->stats->Ult_priority +=3;
 //         Max_sp+=2;
 

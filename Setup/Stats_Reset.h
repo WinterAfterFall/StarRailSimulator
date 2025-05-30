@@ -154,22 +154,14 @@ void Basic_reset(){
             for(auto &e: Enemy_unit[i]->Debuff_time_count){
                 e.second = 0;
             }
-
-            Enemy_unit[i]->Bleed=0;
-            Enemy_unit[i]->Bleeder=0;
-            Enemy_unit[i]->Burn=0;
-            Enemy_unit[i]->Burner=0;
-            Enemy_unit[i]->Shock=0;
-            Enemy_unit[i]->Shocker=0;
-            Enemy_unit[i]->Wind_shear=0;
-            Enemy_unit[i]->Wind_shear_stack=0;
-            Enemy_unit[i]->Wind_shearer=0;
-            Enemy_unit[i]->Freeze=0;
-            Enemy_unit[i]->Entanglement=0;
-            Enemy_unit[i]->Entanglement_stack=0;
-            Enemy_unit[i]->Imprisonment=0;
+            
+            
             Enemy_unit[i]->Total_toughness_broken_time =0;
             Enemy_unit[i]->when_toughness_broken = 0;
+            Enemy_unit[i]->breakDotList.clear();
+            Enemy_unit[i]->breakEngist.clear();
+            Enemy_unit[i]->breakFrzist.clear();
+            Enemy_unit[i]->breakImsList.clear();
             
             Enemy_unit[i]->Stats_each_element["Respen"]["Fire"][AT_NONE] = - Enemy_unit[i]->DefaultElementRes["Fire"];
             Enemy_unit[i]->Stats_each_element["Respen"]["Ice"][AT_NONE] = -Enemy_unit[i]->DefaultElementRes["Ice"];

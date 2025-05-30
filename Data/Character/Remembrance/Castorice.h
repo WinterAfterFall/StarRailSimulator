@@ -55,7 +55,7 @@ namespace Castorice{
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
             data_->setSkill(ptr->getSubUnit(1),"Aoe","Breath Scorches the Shadow");
             data_->addEnemyOtherTarget();
-            data_->abilityType.push_back("Summon");
+            data_->abilityTypeList.push_back("Summon");
             data_->turnResetTrue();
             if(ptr->Eidolon>=6)data_->Dont_care_weakness = 100;
             data_->source = ptr->getSubUnit();
@@ -289,7 +289,7 @@ namespace Castorice{
             
         }));
 
-        Buff_List.push_back(TriggerByAllyAction_Func(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](shared_ptr<AllyActionData> &data_) {
+        Buff_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](shared_ptr<AllyActionData> &data_) {
             for(int i=1;i<=Total_ally;i++){
                 for(unique_ptr<SubUnit> &e : Ally_unit[i]->Sub_Unit_ptr){
                     e->Buff_note["NetherwingHealLimit"] = 0;
@@ -299,7 +299,7 @@ namespace Castorice{
             
         }));
 
-        Before_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](shared_ptr<AllyActionData> &data_) {
+        Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](shared_ptr<AllyActionData> &data_) {
             for(int i=1;i<=Total_ally;i++){
                 for(unique_ptr<SubUnit> &e : Ally_unit[i]->Sub_Unit_ptr){
                     e->Buff_note["NetherwingHealLimit"] = 0;
@@ -380,7 +380,7 @@ namespace Castorice{
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->setSkill(ptr->getSubUnit(1),"Aoe","Wings Sweep the Ruins");
         data_->addEnemyOtherTarget();
-        data_->abilityType.push_back("Summon");
+        data_->abilityTypeList.push_back("Summon");
         data_->source = ptr->getSubUnit();
         if(ptr->Eidolon>=6)data_->Dont_care_weakness = 100;
         data_->Damage_spilt.Main.push_back({0,40,0,5});

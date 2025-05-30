@@ -123,7 +123,7 @@ namespace Aglaea{
             }
         }));
 
-        When_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_ACTTACK, [ptr,AGptr](shared_ptr<AllyActionData> &data_) {
+        When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr,AGptr](shared_ptr<AllyActionData> &data_) {
             if (data_->Attacker->Atv_stats->Unit_Name == "Garmentmaker") {
                 if (data_->Attacker->Stack["Brewed_by_Tears"] < 6) {
                     data_->Attacker->buffSingle({{ST_SPD, ST_FLAT_SPD, 55.0}});
@@ -150,7 +150,7 @@ namespace Aglaea{
             }
         }));
 
-        Before_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr](shared_ptr<AllyActionData> &data_) {
+        Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr](shared_ptr<AllyActionData> &data_) {
             if (ptr->Eidolon >= 2) {
                 if (data_->Attacker->Atv_stats->Unit_Name == "Aglaea" || data_->Attacker->Atv_stats->Unit_Name == "Garmentmaker") {
                     ptr->buffStackAlly({{ST_DEF_SHRED,AT_NONE,14}},1,3,"Aglaea_E2");
@@ -160,7 +160,7 @@ namespace Aglaea{
             }
         }));
 
-        Buff_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr](shared_ptr<AllyActionData> &data_) {
+        Buff_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr](shared_ptr<AllyActionData> &data_) {
             if (ptr->Eidolon >= 2) {
                 if (data_->Attacker->Atv_stats->Unit_Name == "Aglaea" || data_->Attacker->Atv_stats->Unit_Name == "Garmentmaker") {
                     ptr->buffStackAlly({{ST_DEF_SHRED,AT_NONE,14}},1,3,"Aglaea_E2");
@@ -287,7 +287,7 @@ namespace Aglaea{
 
         data_->setSkill(ptr->Sub_Unit_ptr[1].get(),"Blast","Garmentmaker Skill");
         data_->addEnemyAdjacentTarget();
-        data_->abilityType.push_back("Summon");
+        data_->abilityTypeList.push_back("Summon");
         data_->Turn_reset=true;
         data_->Damage_spilt.Main.push_back({110,0,0,10});
         data_->Damage_spilt.Adjacent.push_back({66,0,0,5});

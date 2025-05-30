@@ -36,20 +36,19 @@ namespace Luocha{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_DEBUFF, [ptr]() {
             if (ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"] >= 2) return;
             if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Aoe","Luocha Ultimate");
-            data_->addEnemyOtherTarget();
-            data_->Damage_spilt.Main.push_back({200, 0, 0, 20});
-            data_->Damage_spilt.Adjacent.push_back({200, 0, 0, 20});
-            data_->Damage_spilt.Other.push_back({200, 0, 0, 20});
-            data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_) {
-                Attack(data_);
-                ++ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"];
-                Abyss_Flower(ptr);
-            };
-
-            Action_bar.push(data_);
-            if(!actionBarUse)Deal_damage();
+            shared_ptr<AllyAttackAction> data_ = 
+            make_shared<AllyAttackAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"Luocha Ult",
+        [ptr](shared_ptr<AllyAttackAction> data_){
+            Attack(data_);
+            ++ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"];
+            Abyss_Flower(ptr);
+        });
+            data_->addDamageIns(
+                DmgSrc(DmgSrcType::ATK,200,20),
+                DmgSrc(DmgSrcType::ATK,200,20),
+                DmgSrc(DmgSrcType::ATK,200,20));
+            data_->addToActionBar();
+            Deal_damage();
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
@@ -81,7 +80,7 @@ namespace Luocha{
             }
         }));
 
-        When_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
+        When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &data_) {
             if (ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"] >= 2) {
                 RestoreHP({18, 0, 0, 240, 0, 0}, {7, 0, 0, 93, 0, 0}, ptr->Sub_Unit_ptr[0].get(), data_->Attacker);
             }
@@ -100,7 +99,7 @@ namespace Luocha{
     }
     void Abyss_Flower(Ally *ptr){
         if(ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"]==2){
-            ptr->Sub_Unit_ptr[0]->extendBuffTime("Cycle_of_Life",2);
+            ptr->Sub_Unit_ptr[0]->extendBuffTime("Cycle _of_Life",2);
         if(ptr->Eidolon>=1){
             buffAllAlly({{ST_ATK_P,AT_NONE,20}});
         }
@@ -108,23 +107,21 @@ namespace Luocha{
     }
     void Basic_Atk(Ally *ptr){
         
-        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->setBasicAttack(ptr->Sub_Unit_ptr[0].get(),"Single_target","Luocha Basic_Atk");
-        data_->addEnemyMainTarget();
-        data_->Turn_reset = 1;
-        data_->Damage_spilt.Main.push_back({30,0,0,3});
-        data_->Damage_spilt.Main.push_back({30,0,0,3});
-        data_->Damage_spilt.Main.push_back({40,0,0,4});
-        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
+        shared_ptr<AllyAttackAction> data_ = 
+        make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Luocha BA",
+        [ptr](shared_ptr<AllyAttackAction> data_){
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(data_);
             if(ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt%2==1){
                 Talent(ptr);
             }
-        };
-        Action_bar.push(data_);
-        
+        });
+        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,30,3));
+        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,30,3));
+        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,40,4));
+        data_->addToActionBar();
+
     }
 
 

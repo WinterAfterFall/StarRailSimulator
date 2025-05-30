@@ -2,10 +2,12 @@
 #define AllySupportAction_H
 #include "AllyActionData.h"
 
-class AllySupportAction : public AllyActionData {
+class AllyBuffAction : public AllyActionData {
     public:
     vector<SubUnit*> buffTargetList;
-    vector<string> buffType;//Buff Shield 
+    function<void(shared_ptr<AllyBuffAction> &data_)> actionFunction;
+
+
 
     void addBuffSingleTarget(SubUnit* ptr){
         buffTargetList.push_back(ptr);
@@ -23,8 +25,30 @@ class AllySupportAction : public AllyActionData {
             }
         }
     }
-    AllySupportAction(){}
-    AllySupportAction(ActionType actionType,SubUnit* ptr,string traceType, string name,function<void(shared_ptr<AllyActionData> &data_)> actionFunction)
+    void addToActionBar(){
+        std::shared_ptr<AllyActionData> self = shared_from_this();
+        Action_bar.push(self);
+    }
+    AllyBuffAction(){}
+    AllyBuffAction(ActionType actionType,SubUnit* ptr,string traceType, string name)
+    {
+        Attacker = ptr;
+        source = ptr;
+        this->actionName = name;
+        this->traceType = traceType;
+        addActionType(actionType);
+        switch(actionType) {
+            case ActionType::BA:
+                Turn_reset = 1;
+                break;
+            case ActionType::SKILL:
+                Turn_reset = 1;
+                break;
+            default:
+                break;
+        }
+    }
+    AllyBuffAction(ActionType actionType,SubUnit* ptr,string traceType, string name,function<void(shared_ptr<AllyBuffAction> &data_)> actionFunction)
     {
         Attacker = ptr;
         source = ptr;
@@ -32,49 +56,21 @@ class AllySupportAction : public AllyActionData {
         this->actionFunction = actionFunction;
         this->traceType = traceType;
         addActionType(actionType);
-    }
-    void addActionType(ActionType actionType){
         switch(actionType) {
-            case ActionType::BASIC_ATTACK:
-                abilityType.push_back(AT_BA);
+            case ActionType::BA:
+                Turn_reset = 1;
                 break;
             case ActionType::SKILL:
-                abilityType.push_back(AT_SKILL);
-                break;
-            case ActionType::ULTIMATE:
-                abilityType.push_back(AT_ULT);
-                break;
-            case ActionType::FUA:
-                abilityType.push_back(AT_FUA);
-                break;
-            case ActionType::DOT:
-                abilityType.push_back(AT_DOT);
-                break;
-            case ActionType::BREAK_DMG:
-                abilityType.push_back(AT_BREAK);
-                break;
-            case ActionType::SUPER_BREAK:
-                abilityType.push_back(AT_SPB);
-                break;
-            case ActionType::ADDITIONAL:
-                abilityType.push_back(AT_ADD);
-                break;
-            case ActionType::TECHNIQUE:
-                abilityType.push_back(AT_TECH);
-                break;
-            case ActionType::FREEZE:
-                abilityType.push_back("Freeze");
-                break;
-            case ActionType::ENTANGLEMENT:
-                abilityType.push_back("Entanglement");
+                Turn_reset = 1;
                 break;
             default:
                 break;
         }
     }
+    
 
 };
-AllySupportAction* AllyActionData::castToAllySupportAction(){
-        return dynamic_cast<AllySupportAction*>(this);
+AllyBuffAction* AllyActionData::castToAllyBuffAction(){
+        return dynamic_cast<AllyBuffAction*>(this);
 }
 #endif

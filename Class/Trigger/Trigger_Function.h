@@ -30,10 +30,16 @@ class TriggerByAction_Func : public TriggerFunc{
     TriggerByAction_Func(int priority, function<void(shared_ptr<ActionData> &data_)> Call) 
     : TriggerFunc(priority), Call(Call) {}
 };
-class TriggerByAllyAction_Func : public TriggerFunc{
+class TriggerByAllyAttackAction_Func : public TriggerFunc{
     public:
-    function<void(shared_ptr<AllyActionData> &data_)> Call;
-    TriggerByAllyAction_Func(int priority, function<void(shared_ptr<AllyActionData> &data_)> Call) 
+    function<void(shared_ptr<AllyAttackAction> &data_)> Call;
+    TriggerByAllyAttackAction_Func(int priority, function<void(shared_ptr<AllyAttackAction> &data_)> Call) 
+    : TriggerFunc(priority), Call(Call) {}
+};
+class TriggerByAllyBuffAction_Func : public TriggerFunc{
+    public:
+    function<void(shared_ptr<AllyBuffAction> &data_)> Call;
+    TriggerByAllyBuffAction_Func(int priority, function<void(shared_ptr<AllyBuffAction> &data_)> Call) 
     : TriggerFunc(priority), Call(Call) {}
 };
 
@@ -98,16 +104,10 @@ class TriggerSkill_point_func : public TriggerFunc{
     : TriggerFunc(priority), Call(Call) {}
 };
 
-class TriggerHit_Count_func : public TriggerFunc{
-    public:
-    function<void(shared_ptr<AllyActionData> &data_, int Hit_cnt, int Total_Hit_cnt)> Call;
-    TriggerHit_Count_func(int priority, function<void(shared_ptr<AllyActionData> &data_, int Hit_cnt, int Total_Hit_cnt)> Call) 
-    : TriggerFunc(priority), Call(Call) {}
-};
 class TriggerAfterDealDamage : public TriggerFunc{
     public:
-    function<void(shared_ptr<AllyActionData> &data_,Enemy *src,double damage)> Call;
-    TriggerAfterDealDamage(int priority, function<void(shared_ptr<AllyActionData> &data_,Enemy *src,double damage)> Call) 
+    function<void(shared_ptr<AllyAttackAction> &data_,Enemy *src,double damage)> Call;
+    TriggerAfterDealDamage(int priority, function<void(shared_ptr<AllyAttackAction> &data_,Enemy *src,double damage)> Call) 
     : TriggerFunc(priority), Call(Call) {}
 };
 #endif

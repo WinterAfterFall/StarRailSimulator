@@ -18,10 +18,10 @@ public:
     function<void()> Turn_func ;
     Common_stats_each_element Stats_each_element;//Ice Quantum
     Common_stats_type Stats_type;// Atk% Flat_Atk Def% Dmg% Crit_rate Crit_dam Def_shred Respen Vul Break_effect Weakness_Break_Efficiency HealingBonus 
-    // Constructor to initialize Atv_stats and set ptr_to_unit to 'this'
+    // Constructor to initialize Atv_stats and set ptrToChar to 'this'
     Unit() {
         Atv_stats = make_unique<ActionValueStats>();  // Create Atv_stats in Unit
-        Atv_stats->ptr_to_unit = this;  // Set ptr_to_unit to this object (Unit, Ally, or Enemy)
+        Atv_stats->ptrToChar = this;  // Set ptrToChar to this object (Unit, Ally, or Enemy)
     }
        
     //double Mitigation = 0;

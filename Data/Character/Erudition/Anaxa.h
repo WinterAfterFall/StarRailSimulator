@@ -161,7 +161,7 @@ namespace  Anaxa{
             }
         }));
 
-        Before_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr](shared_ptr<AllyActionData> &data_) {
+        Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr](shared_ptr<AllyActionData> &data_) {
             if(data_->Attacker->isSameUnitName("Anaxa")){
                 if(ptr->Eidolon>=6){
                     for(auto &each : data_->Damage_spilt.Main){
@@ -184,7 +184,7 @@ namespace  Anaxa{
 
         }));
 
-        After_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr](shared_ptr<AllyActionData> &data_) {
+        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr](shared_ptr<AllyActionData> &data_) {
             if((data_->actionName=="Anaxa BA"||data_->actionName=="Anaxa Skill")){
                 for(auto &each : data_->targetList){
                     if(each->currentWeaknessElementAmount>=5){

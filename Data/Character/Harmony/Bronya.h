@@ -54,7 +54,7 @@ namespace Bronya{
 
                 //ดักในกรณีที่บัพในเทิร์นตัวละครอื่น
                 if(Ult_After_Turn == 0 && (turn->Side == "Memosprite" || turn->Side == "Ally")){
-                    SubUnit *temp = dynamic_cast<SubUnit*>(turn->ptr_to_unit);
+                    SubUnit *temp = dynamic_cast<SubUnit*>(turn->ptrToChar);
                     temp->extendBuffTime("Bronya_Ult",1);
                 }
                 if(ptr->Print)CharCmd::printUltStart("Bronya");
@@ -78,7 +78,7 @@ namespace Bronya{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Bronyaptr](){
-            SubUnit *tempstats = dynamic_cast<SubUnit*>(turn->ptr_to_unit);
+            SubUnit *tempstats = dynamic_cast<SubUnit*>(turn->ptrToChar);
             if(!tempstats) return;
             
             //BuffEND Skill
@@ -119,7 +119,7 @@ namespace Bronya{
             buffAllAlly({{ST_DMG,AT_NONE,10}});
         }));
 
-        After_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_){
+        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_){
             if(data_->Action_type.second == "Basic_Attack" && data_->Attacker->Atv_stats->Char_Name == "Bronya"){
                 Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),30);
             }

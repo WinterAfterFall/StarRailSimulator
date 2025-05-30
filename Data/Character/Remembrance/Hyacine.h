@@ -256,7 +256,7 @@ namespace Hyacine{
 
         //Eidolon
         if(ptr->Eidolon>=1)
-        When_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](shared_ptr<AllyActionData> &data_) {
+        When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](shared_ptr<AllyActionData> &data_) {
             if(Hycptr->getBuffCheck("After Rain")){
                 RestoreHP({0,8,0,0,0,0},Hycptr,data_->Attacker);
             }
@@ -331,7 +331,7 @@ namespace Hyacine{
         shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
         data_->setSkill(ptr->Sub_Unit_ptr[1].get(),"Aoe","Ica Skill");
         data_->addEnemyOtherTarget();
-        data_->abilityType.push_back("Summon");
+        data_->abilityTypeList.push_back("Summon");
         data_->Turn_reset=true;
         data_->Damage_spilt.Main.push_back({0,0,0,10,ptr->getSubUnit(1)->getBuffNote("Tally RestoreHP")*0.2});
         data_->Damage_spilt.Adjacent.push_back({0,0,0,10,ptr->getSubUnit(1)->getBuffNote("Tally RestoreHP")*0.2});

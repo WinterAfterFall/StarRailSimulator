@@ -20,11 +20,11 @@ void Increase_energy(Ally *ptr,double Energy ){
     return ;
 }
 void Increase_energy(SubUnit *ptr,double Energy ){
-    allEventWhenEnergyIncrease(ptr->ptr_to_unit,Energy*ptr->ptr_to_unit->Energy_recharge/100);
-    if(ptr->ptr_to_unit->Current_energy+Energy*ptr->ptr_to_unit->Energy_recharge/100 > ptr->ptr_to_unit->Max_energy){
-        ptr->ptr_to_unit->Current_energy = ptr->ptr_to_unit->Max_energy;
+    allEventWhenEnergyIncrease(ptr->ptrToChar,Energy*ptr->ptrToChar->Energy_recharge/100);
+    if(ptr->ptrToChar->Current_energy+Energy*ptr->ptrToChar->Energy_recharge/100 > ptr->ptrToChar->Max_energy){
+        ptr->ptrToChar->Current_energy = ptr->ptrToChar->Max_energy;
     }else{
-        ptr->ptr_to_unit->Current_energy +=  Energy*ptr->ptr_to_unit->Energy_recharge/100;
+        ptr->ptrToChar->Current_energy +=  Energy*ptr->ptrToChar->Energy_recharge/100;
     }
     
     return ;
@@ -40,11 +40,11 @@ void Increase_energy(Ally *ptr,double Energy_percent,double Flat_energy){
     return;
 }
 void Increase_energy(SubUnit *ptr,double Energy_percent,double Flat_energy){
-    allEventWhenEnergyIncrease(ptr->ptr_to_unit,Energy_percent/100*ptr->ptr_to_unit->Max_energy+Flat_energy);
-    if(ptr->ptr_to_unit->Current_energy+Flat_energy+Energy_percent/100*ptr->ptr_to_unit->Max_energy > ptr->ptr_to_unit->Max_energy){
-        ptr->ptr_to_unit->Current_energy = ptr->ptr_to_unit->Max_energy;
+    allEventWhenEnergyIncrease(ptr->ptrToChar,Energy_percent/100*ptr->ptrToChar->Max_energy+Flat_energy);
+    if(ptr->ptrToChar->Current_energy+Flat_energy+Energy_percent/100*ptr->ptrToChar->Max_energy > ptr->ptrToChar->Max_energy){
+        ptr->ptrToChar->Current_energy = ptr->ptrToChar->Max_energy;
     }else{
-        ptr->ptr_to_unit->Current_energy += Flat_energy+Energy_percent/100*ptr->ptr_to_unit->Max_energy;
+        ptr->ptrToChar->Current_energy += Flat_energy+Energy_percent/100*ptr->ptrToChar->Max_energy;
     }
     
     return;

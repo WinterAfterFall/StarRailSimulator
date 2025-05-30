@@ -46,7 +46,9 @@ public:
     int currentAllyTargetNum = Main_dps_num;
     int currentSubUnitTargetNum = 0;
     int Enemy_target_num = Main_Enemy_num;
-    Ally* ptr_to_unit = nullptr;
+    Ally* ptrToChar = nullptr;
+    int hitCount = 0;
+
 
 #pragma endregion
 #pragma region Constructor

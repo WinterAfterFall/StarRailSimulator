@@ -12,7 +12,7 @@ namespace Remembrance_Lightcone{
             ptr->SetAllyBaseStats(1058,635,397);
             ptr->Light_cone.Name = "Aglaea_LC";
             ptr->Sub_Unit_ptr[0]->Atv_stats->Base_speed+= 10 + superimpose * 2;
-            When_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+            When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
                 if (data_->Attacker->Atv_stats->Unit_num == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num) {
                 if (ptr->Sub_Unit_ptr[0]->Stack["Aglaea_LC_stack"] < 6) {
                     ptr->buffAlly({{ST_CD, AT_NONE, 7.5 + 1.5 * superimpose}});

@@ -17,7 +17,7 @@ namespace Destruction_Lightcone{
             }));
             
     
-            After_attack_List.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,debuffName](shared_ptr<AllyActionData> &data_) {
+            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,debuffName](shared_ptr<AllyActionData> &data_) {
                 if (data_->Attacker->Atv_stats->Unit_num != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num && data_->Attacker->Atv_stats->Side != "Ally") return;
                 for(Enemy* &e :data_->targetList){
                     e->debuffSingleApply({
