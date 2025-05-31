@@ -163,6 +163,7 @@ typedef unordered_map<string,Common_stats_type> Common_stats_each_element;
 class HealSrc;
 class DmgSrc;
 class Damage;
+class SwitchAtk;
 
 //Action_Data
 class PointerWithValue;

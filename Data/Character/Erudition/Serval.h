@@ -45,8 +45,9 @@ namespace Serval{
         };
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"][AT_NONE] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_EHR][AT_NONE] += 18;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 18.7;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES][AT_NONE] += 10;
 
             // relic
 

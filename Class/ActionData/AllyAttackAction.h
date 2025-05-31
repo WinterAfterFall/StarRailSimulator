@@ -3,26 +3,28 @@
 #include "AllyActionData.h"
 
 
-
-class AllyAttackAction : public AllyActionData {
-    public:
-    class SwitchAtk{
+class SwitchAtk{
     public : 
     SubUnit* attacker = nullptr;
     SubUnit* source = nullptr;
-    int changeWhen = 0;
-    int changeSkillType = 0;
-    SwitchAtk(int changeWhen , SubUnit* attacker)
+    int changeWhen = -1;
+    int changeSkillType = -1;
+    SwitchAtk(SubUnit* attacker,int changeWhen)
         : attacker(attacker), source(attacker), changeWhen(changeWhen) {}
-    SwitchAtk(int changeWhen , SubUnit* attacker, SubUnit* source)
+    SwitchAtk(SubUnit* attacker, SubUnit* source,int changeWhen)
         : attacker(attacker), source(source), changeWhen(changeWhen) {}
 
-    SwitchAtk(int changeWhen , SubUnit* attacker,int changeSkillType)
+    SwitchAtk(SubUnit* attacker,int changeWhen,int changeSkillType)
         : attacker(attacker), source(attacker), changeWhen(changeWhen), changeSkillType(changeSkillType) {}
-    SwitchAtk(int changeWhen , SubUnit* attacker, SubUnit* source,int changeSkillType)
+    SwitchAtk(SubUnit* attacker, SubUnit* source,int changeWhen,int changeSkillType)
         : attacker(attacker), source(source), changeWhen(changeWhen), changeSkillType(changeSkillType) {}
 
-    };
+
+};
+
+class AllyAttackAction : public AllyActionData {
+    public:
+    
     
     bool toughnessAvgCalculate = 1;
     bool damageNote = 1;
@@ -201,6 +203,17 @@ class AllyAttackAction : public AllyActionData {
     void setJoint() {
         copyAbilityList(2);
         AbilitySetList[1].push_back(AT_SUMMON);
+        attackerList.push_back(
+            Attacker->ptrToChar->getSubUnit(1)
+        );
+    }
+
+    void setJoint(SubUnit *ptr) {
+        copyAbilityList(2);
+        AbilitySetList[1].push_back(AT_SUMMON);
+        attackerList.push_back(
+            ptr
+        );
     }
 
     void copyAbilityList() {

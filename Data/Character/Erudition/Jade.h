@@ -66,6 +66,7 @@ namespace Jade{
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES][AT_NONE] += 10;
             ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Quantum"][AT_NONE] += 22.4;
 
             // relic

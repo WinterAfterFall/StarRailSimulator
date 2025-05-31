@@ -96,7 +96,8 @@ void Attack(shared_ptr<AllyAttackAction> &data_){
         if(dmgIns!=data_->switchAttacker.size()&&data_->switchAttacker[dmgIns].changeWhen==i){
             data_->Attacker = data_->switchAttacker[dmgIns].attacker;
             data_->source = data_->switchAttacker[dmgIns].source;
-            data_->abilityTypeList = data_->AbilitySetList[data_->switchAttacker[dmgIns].changeSkillType];
+            if(data_->switchAttacker[dmgIns].changeSkillType>=0)
+                data_->abilityTypeList = data_->AbilitySetList[data_->switchAttacker[dmgIns].changeSkillType];
             ++dmgIns;
         }
         data_->Attacker->hitCount += data_->damageSplit[i].size();
