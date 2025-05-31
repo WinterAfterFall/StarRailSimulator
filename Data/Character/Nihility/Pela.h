@@ -32,25 +32,29 @@ namespace Pela{
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
             Basic_Atk(ptr);
         };
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
+        
+        ptr->addUltCondition([ptr]() -> bool {
             for (int i = 1; i <= Total_enemy; i++) {
-                if (Enemy_unit[i]->Debuff["Zone_Suppression"] == 0) break;
-                if (i == Total_enemy) return;
+                if (Enemy_unit[i]->Debuff["Zone_Suppression"] == 0) return true;
             }
+            return false;
+        });
+
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
             if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Pela Ultimate");
-            data_->addEnemyOtherTarget();
-            data_->Turn_reset = true;
-            data_->Damage_spilt.Main.push_back({108, 0, 0, 20});
-            data_->Damage_spilt.Adjacent.push_back({108, 0, 0, 20});
-            data_->Damage_spilt.Other.push_back({108, 0, 0, 20});
-            data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_) {
+            shared_ptr<AllyAttackAction> data_ = 
+            make_shared<AllyAttackAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"Pela Ult",
+            [ptr](shared_ptr<AllyAttackAction> &data_){
                 debuffAllEnemyApply({{ST_DEF_SHRED, AT_NONE, 42}},ptr->Sub_Unit_ptr[0].get(), "Zone_Suppression",2);
                 Attack(data_);
-            };
-            Action_bar.push(data_);
-            if (!actionBarUse) Deal_damage();
+            });
+            data_->addDamageIns(
+                DmgSrc(DmgSrcType::ATK,108,20),
+                DmgSrc(DmgSrcType::ATK,108,20),
+                DmgSrc(DmgSrcType::ATK,108,20)
+            );
+            data_->addToActionBar();
+            Deal_damage();
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
@@ -90,7 +94,7 @@ namespace Pela{
             }
         }));
         
-        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
+        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &data_) {
             if (data_->Attacker->Atv_stats->Char_Name != "Pela") return;
 
             for (auto e : data_->targetList) {
@@ -100,10 +104,10 @@ namespace Pela{
             }
 
             if (ptr->Eidolon >= 6) {
-                shared_ptr<AllyActionData> temp = make_shared<AllyActionData>();
-                temp->setAdditonal(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Pela E6");
+                shared_ptr<AllyAttackAction> addDmg = 
+                make_shared<AllyAttackAction>(ActionType::Addtional,ptr->getSubUnit(),TT_SINGLE,"Pela E6");
                 for (auto e : data_->targetList) {
-                    Cal_Additional_damage(temp, e, {40, 0, 0, 0});
+                    Cal_Additional_damage(addDmg, e, DmgSrc(DmgSrcType::ATK,40,0));
                 }
             }
         }));
@@ -112,18 +116,20 @@ namespace Pela{
 
 
     void Basic_Atk(Ally *ptr){
-        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->setBasicAttack(ptr->Sub_Unit_ptr[0].get(),"Single_target","Pela BasicAttack");
-        data_->addEnemyTarget(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
-        data_->Turn_reset=true;
-        data_->Damage_spilt.Main.push_back({55,0,0,5});
-        data_->Damage_spilt.Main.push_back({55,0,0,5});
-        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
+        shared_ptr<AllyAttackAction> data_ = 
+        make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Pela BA",
+        [ptr](shared_ptr<AllyAttackAction> &data_){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(data_);
-        };
-        Action_bar.push(data_);
+        });
+        data_->addDamageIns(
+            DmgSrc(DmgSrcType::ATK,55,5)
+        );
+        data_->addDamageIns(
+            DmgSrc(DmgSrcType::ATK,55,5)
+        );
+        data_->addToActionBar();
     }
     
 
