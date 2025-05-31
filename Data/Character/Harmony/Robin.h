@@ -60,10 +60,9 @@ namespace Robin{
             }
             if(Ult_Condition(ptr))return;
             if(ptr->Countdown_ptr[0]->Atv_stats->Base_speed != 90 && ptr->Sub_Unit_ptr[0]->Buff_countdown["Pinion'sAria"] > ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt && ultUseCheck(ptr)){
-                shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-                data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff","Robin Ultimate");
-                data_->addBuffAllAllies();
-                data_->actionFunction = [ptr,Robinptr](shared_ptr<AllyActionData> &data_){
+                shared_ptr<AllyBuffAction> data_ = 
+                make_shared<AllyBuffAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"RB Ult",
+                [ptr,Robinptr](shared_ptr<AllyBuffAction> &data_){
                     ptr->Countdown_ptr[0]->Atv_stats->Base_speed = 90;
                     ptr->Sub_Unit_ptr[0]->Atv_stats->Base_speed = -1;
                     Update_Max_atv(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
@@ -80,10 +79,11 @@ namespace Robin{
                     if(ptr->Eidolon >= 2)Robinptr->buffAllAllyExcludingBuffer({{ST_SPD,ST_SPD_P,16}});
                     
                     All_Action_forward(100);
-                };
-                Action_bar.push(data_);
+                });
+                data_->addBuffAllAllies();
+                data_->addToActionBar();
                 if(ptr->Print)CharCmd::printUltStart("Robin");
-                if(!actionBarUse)Deal_damage();
+                Deal_damage();
             }
             return;
         }));
@@ -119,15 +119,15 @@ namespace Robin{
             }
         }));
 
-        When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyActionData> &data_){
+        When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &data_){
             Increase_energy(ptr, 2);
             if(ptr->Eidolon >= 2){
                 Increase_energy(ptr, 1);
             }
             if(ptr->Countdown_ptr[0]->Atv_stats->Base_speed == 90){
-                shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+                shared_ptr<AllyAttackAction> newAct = 
+                make_shared<AllyAttackAction>(ActionType::Addtional,ptr->getSubUnit(),TT_SINGLE,"RB AddDmg");
                 double x1 = 0, x2 = 0;
-                data_->setAdditonal(ptr->Sub_Unit_ptr[0].get(), "Single_target","Robin Additional");
 
                 ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 100;
                 x1 = ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AT_NONE];
@@ -135,7 +135,7 @@ namespace Robin{
                 ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AT_NONE] = 150;
                 Enemy_unit[Main_Enemy_num]->Stats_type[ST_CD][AT_NONE] = 0;
 
-                Cal_Additional_damage(data_, Enemy_unit[Main_Enemy_num].get(), {120, 0, 0, 0});
+                Cal_Additional_damage(newAct, Enemy_unit[Main_Enemy_num].get(), DmgSrc(DmgSrcType::ATK,120,0));
 
                 ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] -= 100;
                 ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AT_NONE] = x1;
@@ -180,34 +180,29 @@ namespace Robin{
 
 
     void Skill(Ally *ptr){
-        
-        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Robin Skill");
-        data_->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
-        data_->Turn_reset = 1;
-        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
+        shared_ptr<AllyBuffAction> data_ = 
+        make_shared<AllyBuffAction>(ActionType::SKILL,ptr->getSubUnit(),TT_SINGLE,"RB Skill",
+        [ptr](shared_ptr<AllyBuffAction> &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,35);
             buffAllAlly({{ST_DMG,AT_NONE,50}});
             ptr->Sub_Unit_ptr[0]->setBuffCheck("Pinion'sAria",true);
             ptr->Sub_Unit_ptr[0]->extendBuffTime("Pinion'sAria", 3);
-        };
-        Action_bar.push(data_);
+        });
+        data_->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
+        data_->addToActionBar();
     }
 
     void Basic_Atk(Ally *ptr){
-        
-        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->setBasicAttack(ptr->Sub_Unit_ptr[0].get(),"Single_target","Robin BasicAttack");
-        data_->addEnemyTarget(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
-        data_->Turn_reset = 1;
-        data_->Damage_spilt.Main.push_back({100,0,0,10});
-        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
+        shared_ptr<AllyAttackAction> data_ = 
+        make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"RB BA",
+        [ptr](shared_ptr<AllyAttackAction> &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
             Attack(data_);
-        };
-        Action_bar.push(data_);
+        });
+        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,100,10));
+        data_->addToActionBar();
     }
     
     bool Double_Turn(Ally *ptr){

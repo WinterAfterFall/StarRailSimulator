@@ -48,10 +48,9 @@ namespace Sunday{
         // });
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,SDptr]() {
             if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Buff", "Single_target","Sunday Ultimate");
-            data_->addBuffAlly(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()));
-            data_->actionFunction = [ptr,SDptr](shared_ptr<AllyActionData> &data_){
+            shared_ptr<AllyBuffAction> data_ = 
+            make_shared<AllyBuffAction>(ActionType::Ult,ptr->getSubUnit(),TT_SINGLE,"SD Ult",
+            [ptr,SDptr](shared_ptr<AllyBuffAction> &data_){
                 if (ptr->Print)CharCmd::printUltStart("Sunday");
                 if (ptr->Eidolon >= 2) {
                     if (ptr->Sub_Unit_ptr[0]->Buff_check["Ult_first_time"] == 0) {
@@ -93,8 +92,9 @@ namespace Sunday{
                     if (ptr->Eidolon >= 2)
                     each->buffSingle({{ST_DMG, AT_NONE, 30}});
                 }
-            };
-            Action_bar.push(data_);
+            });
+            data_->addBuffAlly(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()));
+            data_->addToActionBar();
             Deal_damage();
         }));
 
@@ -166,7 +166,7 @@ namespace Sunday{
             Increase_energy(ptr, 25);
         }));
 
-        Buff_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,SDptr](shared_ptr<AllyActionData> &data_) {
+        Buff_List.push_back(TriggerByAllyBuffAction_Func(PRIORITY_IMMEDIATELY, [ptr,SDptr](shared_ptr<AllyBuffAction> &data_) {
             if (chooseCharacterBuff(ptr->getSubUnit())->getBuffCheck("Ode_to_Caress_and_Cicatrix") && data_->actionName=="Sunday Skill") {
                 Skill_point(ptr->Sub_Unit_ptr[0].get(), 1);
             }
@@ -235,11 +235,9 @@ namespace Sunday{
 
     
     void Skill(Ally *ptr){
-        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","Sunday Skill");
-        data_->addBuffAlly(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()));
-        data_->Turn_reset=true;
-        data_->actionFunction = [ptr,SDptr = ptr->getSubUnit()](shared_ptr<AllyActionData> &data_){
+        shared_ptr<AllyBuffAction> data_ = 
+        make_shared<AllyBuffAction>(ActionType::SKILL,ptr->getSubUnit(),TT_SINGLE,"SD Skill",
+        [ptr,SDptr=ptr->getSubUnit()](shared_ptr<AllyBuffAction> &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
             if(ptr->Eidolon>=6){
@@ -276,9 +274,9 @@ namespace Sunday{
                 Action_forward(chooseCharacterBuff(ptr->getSubUnit())->getSubUnit(i)->Atv_stats.get(),100);
             }
             Action_forward(chooseCharacterBuff(ptr->getSubUnit())->getSubUnit()->Atv_stats.get(),100);
-        };
-        Action_bar.push(data_);
-        
+        });
+        data_->addBuffAlly(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()));
+        data_->addToActionBar();
     }
 
 

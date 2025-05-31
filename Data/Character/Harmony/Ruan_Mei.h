@@ -39,17 +39,18 @@ namespace Ruan_Mei{
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,RMptr](){
             if(!ultUseCheck(ptr)) return;
-            shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff","RuanMei Ult");
-            data_->addBuffAllAllies();
-            data_->actionFunction = [ptr,RMptr](shared_ptr<AllyActionData> &data_){
+
+            shared_ptr<AllyBuffAction> data_ = 
+            make_shared<AllyBuffAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"RM Ult",
+            [ptr,RMptr](shared_ptr<AllyBuffAction> &data_){
                 if(ptr->Print)CharCmd::printUltStart("Ruan Mei");
                 if(RMptr->isHaveToAddBuff("RuanMei_Ult,2")){
                     buffAllAlly({{"Respen", AT_NONE, 25}});
                     if(ptr->Eidolon >= 1)buffAllAlly({{ST_DEF_SHRED, AT_NONE, 20}});
                 }
-            };
-            Action_bar.push(data_);
+            });
+            data_->addBuffAllAllies();
+            data_->addToActionBar();
             Deal_damage();
         }));
 
@@ -72,12 +73,10 @@ namespace Ruan_Mei{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTION, [ptr](){
             if(ptr->Technique == 1){
-                
-
-                shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-                data_->setSkill(ptr->Sub_Unit_ptr[0].get(), "Single_target", "Buff","RuanMei Skill");
-                data_->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
-                data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
+            
+                shared_ptr<AllyBuffAction> data_ = 
+                make_shared<AllyBuffAction>(ActionType::SKILL,ptr->getSubUnit(),TT_SINGLE,"RM SKill",
+                [ptr](shared_ptr<AllyBuffAction> &data_){
                     Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
                     Increase_energy(ptr,30);
                     buffAllAlly({
@@ -85,8 +84,10 @@ namespace Ruan_Mei{
                         {ST_BREAK_EFF,AT_NONE,50},
                     });
                     ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Mei_Skill",3);
-                };
-                Action_bar.push(data_);
+                });
+                data_->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
+                data_->setTurnReset(false);
+                data_->addToActionBar();
                 Deal_damage();
                 return;
             }
@@ -112,8 +113,8 @@ namespace Ruan_Mei{
                     Turn_Skip = 1;
                     Enemy_unit[turn->Unit_num]->debuffRemove("RuanMei_Ult_bloom");
                     Action_forward(Enemy_unit[turn->Unit_num]->Atv_stats.get(), -10 - (0.2 * (ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE])));
-                    shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-                    data_->setBreakDmg(ptr->Sub_Unit_ptr[0].get(),"RuanMei Break");
+                    shared_ptr<AllyAttackAction> data_ = 
+                    make_shared<AllyAttackAction>(ActionType::Break,ptr->getSubUnit(),TT_SINGLE,"RM Ult Break");
                     double temp = 0.5;
                     Cal_Break_damage(data_, Enemy_unit[turn->Unit_num].get(), temp);
                 }
@@ -123,7 +124,7 @@ namespace Ruan_Mei{
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
         }));
 
-        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,RMptr](shared_ptr<AllyActionData> &data_){
+        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,RMptr](shared_ptr<AllyAttackAction> &data_){
             if(RMptr->getBuffCheck("RuanMei_Ult")){
                 for(Enemy * &e : data_->targetList){
                     e->debuffApply(ptr->Sub_Unit_ptr[0].get(),"RuanMei_Ult_bloom");
@@ -132,9 +133,9 @@ namespace Ruan_Mei{
         }));
 
         Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, SubUnit *Breaker){
-            shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
+            shared_ptr<AllyAttackAction> data_ = 
+            make_shared<AllyAttackAction>(ActionType::Break,ptr->getSubUnit(),TT_SINGLE,"RM Talent Break");
             double temp;
-            data_->setBreakDmg(ptr->Sub_Unit_ptr[0].get(),"RuanMei Break");
             temp = 1.2;
             Cal_Break_damage(data_, target, temp);
         }));
@@ -144,27 +145,20 @@ namespace Ruan_Mei{
 
 
     void Basic_Atk(Ally *ptr){
-        
-        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->setBasicAttack(ptr->Sub_Unit_ptr[0].get(),"Single_target","RuanMei BasicAttack");
-        data_->addEnemyMainTarget();
-        data_->Turn_reset = 1;
-        data_->Damage_spilt.Main.push_back({100,0,0,10});
-        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
+        shared_ptr<AllyAttackAction> data_ = 
+        make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"RM BA",
+        [ptr](shared_ptr<AllyAttackAction> &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
             Attack(data_);
-        };
-        Action_bar.push(data_);
+        });
+        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,100,10));
+        data_->addToActionBar();
     }
     void Skill_func(Ally *ptr){
-        
-        
-        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Single_target","Buff","RuanMei Skill");
-        data_->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
-        data_->Turn_reset = 1;
-        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
+        shared_ptr<AllyBuffAction> data_ = 
+        make_shared<AllyBuffAction>(ActionType::SKILL,ptr->getSubUnit(),TT_SINGLE,"RM Skill",
+        [ptr](shared_ptr<AllyBuffAction> &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
             buffAllAlly({
@@ -172,8 +166,9 @@ namespace Ruan_Mei{
                 {ST_BREAK_EFF,AT_NONE,50},
             });
             ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Mei_Skill",3);
-        };
-        Action_bar.push(data_);
+        });
+        data_->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
+        data_->addToActionBar();
     }
 
 

@@ -39,17 +39,16 @@ namespace Harmony_MC{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,HMCptr](){
             if(!ultUseCheck(ptr)) return;
             
-            
-            shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Aoe", "Buff", "HMC Ultimate");
-            data_->addBuffAllAllies();
-            data_->actionFunction = [ptr,HMCptr](shared_ptr<AllyActionData> &data_){
+            shared_ptr<AllyBuffAction> data_ = 
+            make_shared<AllyBuffAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"HMC Ult",
+            [ptr,HMCptr](shared_ptr<AllyBuffAction> &data_){
                 if(HMCptr->isHaveToAddBuff("Harmony_MC_ult",3))
                 buffAllAlly({{ST_BE,AT_NONE,33}});
-            };
+            });
+            data_->addBuffAllAllies();
 
-            Action_bar.push(data_);
-            if(!actionBarUse)Deal_damage();
+            data_->addToActionBar();
+            Deal_damage();
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
@@ -92,9 +91,9 @@ namespace Harmony_MC{
             }
         }));
 
-        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyActionData> &data_){
+        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &data_){
             if(ptr->Sub_Unit_ptr[0]->Buff_check["Harmony_MC_ult"] == 1){
-                Superbreak_trigger(data_, 100 * (1.7 - (0.1 * Total_enemy)));
+                Superbreak_trigger(data_, 100 * (1.7 - (0.1 * Total_enemy)),"HMC");
             }
         }));
 
@@ -118,50 +117,27 @@ namespace Harmony_MC{
 
 
 void Basic_Atk(Ally *ptr){
-        
-        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->setBasicAttack(ptr->Sub_Unit_ptr[0].get(),"Single_target","HMC BasicAttack");
-        data_->addEnemyTarget(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
-        data_->Turn_reset = 1;
-        data_->Damage_spilt.Main.push_back({110,0,0,10});
-        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
+        shared_ptr<AllyAttackAction> data_ = 
+        make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"HMC BA",
+        [ptr](shared_ptr<AllyAttackAction> &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
             Attack(data_);
-        };
-        Action_bar.push(data_);
+        });
+        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,110,10));
+        data_->addToActionBar();
     }
     void Skill_func(Ally *ptr){
-        
-        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Bounce","HMC Skill");
-        data_->addEnemyAdjacentTarget();
-        data_->Turn_reset = 1;
-        data_->Damage_spilt.Main.push_back({55,0,0,10});
-        data_->Damage_spilt.Main.push_back({55,0,0,5});
-        data_->Damage_spilt.Main.push_back({55,0,0,5});
-        
-        if(Total_enemy==1){
-            data_->Damage_spilt.Main.push_back({55,0,0,5});
-            data_->Damage_spilt.Main.push_back({55,0,0,5});
-            data_->Damage_spilt.Main.push_back({55,0,0,5});
-            data_->Damage_spilt.Main.push_back({55,0,0,5});
-        }else if(Total_enemy==2){
-            data_->Damage_spilt.Main.push_back({55,0,0,5});
-            data_->Damage_spilt.Adjacent.push_back({55,0,0,5});
-            data_->Damage_spilt.Adjacent.push_back({55,0,0,5});
-            data_->Damage_spilt.Adjacent.push_back({55,0,0,5});
-        }else if(Total_enemy>=3){
-            data_->Damage_spilt.Adjacent.push_back({55,0,0,5});
-            data_->Damage_spilt.Adjacent.push_back({55,0,0,5});
-        }
-        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
+        shared_ptr<AllyAttackAction> data_ = 
+        make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BOUNCE,"RMC Skill",
+        [ptr](shared_ptr<AllyAttackAction> &data_){
             if(ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt!=1)Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);     
             Increase_energy(ptr,30);
             Attack(data_);
-        };
-        
-        Action_bar.push(data_);
+        });
+        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,55,10));
+        data_->addEnemyBounce(DmgSrc(DmgSrcType::ATK,55,5),6);
+        data_->addToActionBar();
     }
 
 
