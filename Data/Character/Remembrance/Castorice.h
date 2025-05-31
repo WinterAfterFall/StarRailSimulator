@@ -51,6 +51,7 @@ namespace Castorice{
                 Enchance_Skill(ptr);
             }
         };
+        
         ptr->Sub_Unit_ptr[1]->Turn_func = [ptr,Casptr,Polluxptr](){
             shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
             data_->setSkill(ptr->getSubUnit(1),"Aoe","Breath Scorches the Shadow");

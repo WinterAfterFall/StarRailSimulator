@@ -52,7 +52,7 @@ namespace Mydei{
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> data_ = 
             make_shared<AllyAttackAction>(ActionType::Ult,ptr->getSubUnit(),TT_BLAST,"Mydei Ult",
-            [ptr](shared_ptr<AllyAttackAction> data_){
+            [ptr](shared_ptr<AllyAttackAction> &data_){
                 for (Enemy* e : data_->targetList) {
                     e->addTaunt(ptr->Sub_Unit_ptr[0].get());
                     e->debuffApply(ptr->Sub_Unit_ptr[0].get(),"Mydei_Taunt");
@@ -106,7 +106,7 @@ namespace Mydei{
             if (ptr->Technique) {
             shared_ptr<AllyAttackAction> data_ = 
             make_shared<AllyAttackAction>(ActionType::Technique,ptr->getSubUnit(),TT_AOE,"Mydei Tech",
-            [ptr](shared_ptr<AllyAttackAction> data_){
+            [ptr](shared_ptr<AllyAttackAction> &data_){
                 ChargePoint(ptr, 50);
                 Attack(data_);
             });
@@ -200,7 +200,7 @@ namespace Mydei{
         
         shared_ptr<AllyAttackAction> data_ = 
         make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BLAST,"Mydei Skill",
-        [ptr](shared_ptr<AllyAttackAction> data_){
+        [ptr](shared_ptr<AllyAttackAction> &data_){
             Increase_energy(ptr,30,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),ptr->Sub_Unit_ptr[0].get(),0,0,50);
             Attack(data_);
@@ -215,7 +215,7 @@ namespace Mydei{
         
         shared_ptr<AllyAttackAction> data_ = 
         make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BLAST,"KingSlayer",
-        [ptr](shared_ptr<AllyAttackAction> data_){
+        [ptr](shared_ptr<AllyAttackAction> &data_){
             Increase_energy(ptr,30,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),ptr->Sub_Unit_ptr[0].get(),0,0,35);
             Attack(data_);
@@ -230,7 +230,7 @@ namespace Mydei{
         
         shared_ptr<AllyAttackAction> data_ = 
         make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BLAST,"GodSlayer",
-        [ptr](shared_ptr<AllyAttackAction> data_){
+        [ptr](shared_ptr<AllyAttackAction> &data_){
             Increase_energy(ptr,10);
             Attack(data_);
         });

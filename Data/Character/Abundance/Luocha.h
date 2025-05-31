@@ -38,7 +38,7 @@ namespace Luocha{
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> data_ = 
             make_shared<AllyAttackAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"Luocha Ult",
-        [ptr](shared_ptr<AllyAttackAction> data_){
+        [ptr](shared_ptr<AllyAttackAction> &data_){
             Attack(data_);
             ++ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"];
             Abyss_Flower(ptr);
@@ -109,7 +109,7 @@ namespace Luocha{
         
         shared_ptr<AllyAttackAction> data_ = 
         make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Luocha BA",
-        [ptr](shared_ptr<AllyAttackAction> data_){
+        [ptr](shared_ptr<AllyAttackAction> &data_){
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(data_);

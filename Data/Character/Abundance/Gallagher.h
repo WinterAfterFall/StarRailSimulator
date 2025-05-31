@@ -170,7 +170,7 @@ namespace Gallagher{
         
         shared_ptr<AllyAttackAction> data_ = 
         make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Gall BA",
-        [ptr](shared_ptr<AllyAttackAction> data_){
+        [ptr](shared_ptr<AllyAttackAction> &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
             Attack(data_);
@@ -182,7 +182,7 @@ namespace Gallagher{
     void Enchance_Basic_Atk(Ally *ptr){
        shared_ptr<AllyAttackAction> data_ = 
         make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Gall EBA",
-        [ptr](shared_ptr<AllyAttackAction> data_){
+        [ptr](shared_ptr<AllyAttackAction> &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
             for(Enemy* &target : data_->targetList){

@@ -18,7 +18,7 @@ namespace Jingyuan{
 
     void Setup_Jingyuan(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally *ptr = SetAllyBasicStats(99, 130, 130, E, "Lightning", "Erudition", "Jingyuan",TYPE_STD);
-        SubUnit *Jingyuanptr = ptr->getSubUnit();
+        SubUnit *JYptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1164, 698, 485);
 
         //substats
@@ -43,16 +43,11 @@ namespace Jingyuan{
             }
         };
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr,Jingyuanptr]() {
-            if (((turn->Char_Name != "Jingyuan" || Ult_After_Turn == 1)) || !ultUseCheck(ptr)) return;
-            shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            
-            data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Aoe","Jingyuan Ultimate");
-            data_->addEnemyOtherTarget();
-            data_->Damage_spilt.Main.push_back({200, 0, 0, 20});
-            data_->Damage_spilt.Adjacent.push_back({200, 0, 0, 20});
-            data_->Damage_spilt.Other.push_back({200, 0, 0, 20});
-            data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr,JYptr]() {
+            if (!ultUseCheck(ptr)) return;
+            shared_ptr<AllyAttackAction> data_ = 
+            make_shared<AllyAttackAction>(ActionType::Ult,JYptr,TT_AOE,"JY Ult",
+            [ptr,JYptr](shared_ptr<AllyAttackAction> &data_){
                 Attack(data_);
                 if (ptr->Print)CharCmd::printUltStart("Jingyuan");
                 ptr->Sub_Unit_ptr[0]->Stack["LL_stack"] += 3;
@@ -62,22 +57,26 @@ namespace Jingyuan{
                 } else {
                     ptr->Summon_ptr[0]->speedBuff({ST_SPD,ST_FLAT_SPD,30});
                 }
-            };
-            
-            Action_bar.push(data_);
-            if(!actionBarUse)Deal_damage();
+            });
+            data_->addDamageIns(
+                DmgSrc(DmgSrcType::ATK,200,20),
+                DmgSrc(DmgSrcType::ATK,200,20),
+                DmgSrc(DmgSrcType::ATK,200,20)
+            );
+            data_->addToActionBar();
+            Deal_damage();
         }));
         
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Jingyuanptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,JYptr]() {
             if (!(ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num == turn->Unit_num && turn->Side == "Ally")) return;
             
-            if (Jingyuanptr->isBuffEnd("War_Marshal")) {
-                Jingyuanptr->buffSingle({{ST_CR,AT_NONE,-10}});
+            if (JYptr->isBuffEnd("War_Marshal")) {
+                JYptr->buffSingle({{ST_CR,AT_NONE,-10}});
             }
             ;
-            if (ptr->Eidolon >= 2 && Jingyuanptr->isBuffEnd("Swing_Skies_Squashed")) {
-                Jingyuanptr->buffSingle({
+            if (ptr->Eidolon >= 2 && JYptr->isBuffEnd("Swing_Skies_Squashed")) {
+                JYptr->buffSingle({
                     {ST_DMG,AT_BA,-20},
                     {ST_DMG,AT_SKILL,-20},
                     {ST_DMG,AT_ULT,-20}
@@ -101,7 +100,7 @@ namespace Jingyuan{
             ptr->Summon_ptr[0]->Atv_stats->Speed_percent = 0;
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Jingyuanptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,JYptr]() {
             if (ptr->Technique == 1) {
                 ptr->Sub_Unit_ptr[0]->Stack["LL_stack"] += 3;
                 ptr->Summon_ptr[0]->speedBuff({ST_SPD,ST_FLAT_SPD,30});
@@ -113,25 +112,26 @@ namespace Jingyuan{
 
         //LL
         SetSummonStats(ptr, 60, "LL");
-        ptr->Summon_ptr[0]->Turn_func = [ptr,Jingyuanptr](){
+        ptr->Summon_ptr[0]->Turn_func = [ptr,JYptr](){
             
-            shared_ptr<AllyActionData> temp = make_shared<AllyActionData>();
-            temp->setFua(ptr->Sub_Unit_ptr[0].get(),"Bounce","LL Attack");
-            temp->addEnemyAdjacentTarget();
-            temp->abilityTypeList.push_back("Summon");
-            temp->Turn_reset = 1;
-            temp->actionFunction = [ptr,Jingyuanptr](shared_ptr<AllyActionData> &data_){
+            shared_ptr<AllyAttackAction> temp = 
+            make_shared<AllyAttackAction>(ActionType::Fua,JYptr,TT_SINGLE,"LL Fua",
+            [ptr,JYptr](shared_ptr<AllyAttackAction> &data_){
                 if(ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]>=6){
                     ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["Summon"]+=25;
                 }
 
                 for(int i=1;i<=ptr->Sub_Unit_ptr[0]->Stack["LL_stack"];i++){
-                    data_->Damage_spilt.Main.push_back({66,0,0,5});
-                    if(ptr->Eidolon>=1){
-                        data_->Damage_spilt.Adjacent.push_back({33,0,0,0});
-                    }else{
-                        data_->Damage_spilt.Adjacent.push_back({66*0.25,0,0,0});
-                    }
+                    if(ptr->Eidolon>=1)
+                        data_->addDamageIns(
+                            DmgSrc(DmgSrcType::ATK,66,5),
+                            DmgSrc(DmgSrcType::ATK,33,5)
+                        );
+                    else
+                        data_->addDamageIns(
+                            DmgSrc(DmgSrcType::ATK,66,5),
+                            DmgSrc(DmgSrcType::ATK,66*0.25,5)
+                        );
                     
                 }
                 Attack(data_);
@@ -145,63 +145,42 @@ namespace Jingyuan{
                 
                 
                 if(ptr->Eidolon>=2){
-                    Jingyuanptr->buffSingle({
+                    JYptr->buffSingle({
                         {ST_DMG,AT_BA,20},
                         {ST_DMG,AT_SKILL,20},
                         {ST_DMG,AT_ULT,20}},
                         "Swing_Skies_Squashed",2
                     );
                 }
-            };
-            
-            Action_bar.push(temp);
+            });
+            temp->addActionType(ActionType::Summon);
+            temp->setTurnReset(true);
+            temp->addToActionBar();
             
 
         };
-
-        
-        
-
-         
-            
     }
 
     void Basic_Atk(Ally *ptr){
         
-        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->setBasicAttack(ptr->Sub_Unit_ptr[0].get(),"Single_target","Jingyuan BasicAtttack");
-        data_->addEnemyTarget(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
-        data_->Turn_reset=true;
-        data_->Damage_spilt.Main.push_back({55,0,0,5.5});
-        data_->Damage_spilt.Main.push_back({45,0,0,4.5});
-        data_->actionFunction = [ptr] (shared_ptr<AllyActionData> &data_){
+        shared_ptr<AllyAttackAction> data_ = 
+        make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"JY BA",
+        [ptr](shared_ptr<AllyAttackAction> &data_){
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(data_);
-        };
-        Action_bar.push(data_);
+        });
+        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,55,5.5));
+        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,45,4.5));
+        data_->addToActionBar();
     }
     void Skill(Ally *ptr){
-        
-        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Aoe","Jingyuan Skill");
-        data_->addEnemyOtherTarget();
-        data_->Turn_reset=true;
-        data_->Damage_spilt.Main.push_back({40,0,0,4});
-        data_->Damage_spilt.Main.push_back({30,0,0,3});
-        data_->Damage_spilt.Main.push_back({30,0,0,3});
-
-        data_->Damage_spilt.Adjacent.push_back({40,0,0,4});
-        data_->Damage_spilt.Adjacent.push_back({30,0,0,3});
-        data_->Damage_spilt.Adjacent.push_back({30,0,0,3});
-
-        data_->Damage_spilt.Other.push_back({40,0,0,4});
-        data_->Damage_spilt.Other.push_back({30,0,0,3});
-        data_->Damage_spilt.Other.push_back({30,0,0,3});
-        data_->actionFunction = [ptr,Jingyuanptr = ptr->getSubUnit()] (shared_ptr<AllyActionData> &data_){
+        shared_ptr<AllyAttackAction> data_ = 
+        make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_AOE,"JY Skill",
+        [ptr,JYptr = ptr->getSubUnit()](shared_ptr<AllyAttackAction> &data_){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
-            Jingyuanptr->buffSingle({{ST_CR,AT_NONE,10}},"War_Marshal",2);
+            JYptr->buffSingle({{ST_CR,AT_NONE,10}},"War_Marshal",2);
             ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]+=2;
             if(ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]>=10){
                 ptr->Summon_ptr[0]->Atv_stats->Flat_Speed=70;
@@ -210,9 +189,23 @@ namespace Jingyuan{
                 ptr->Summon_ptr[0]->speedBuff({ST_SPD,ST_FLAT_SPD,20});
             }
             Attack(data_);
-        };
-        Action_bar.push(data_);
-        
+        });
+        data_->addDamageIns(
+            DmgSrc(DmgSrcType::ATK,40,4),
+            DmgSrc(DmgSrcType::ATK,40,4),
+            DmgSrc(DmgSrcType::ATK,40,4)
+        );
+        data_->addDamageIns(
+            DmgSrc(DmgSrcType::ATK,30,3),
+            DmgSrc(DmgSrcType::ATK,30,3),
+            DmgSrc(DmgSrcType::ATK,30,3)
+        );
+        data_->addDamageIns(
+            DmgSrc(DmgSrcType::ATK,30,3),
+            DmgSrc(DmgSrcType::ATK,30,3),
+            DmgSrc(DmgSrcType::ATK,30,3)
+        );
+        data_->addToActionBar();
     }
 
 

@@ -238,7 +238,7 @@ class AllyAttackAction : public AllyActionData {
     }
     
 
-
+    //data_->addDamageIns(DmgSrc(DmgSrcType::ATK,120,6));
     void addDamageIns(DmgSrc main){
             damageSplit.emplace_back();
             for(int i = 1;i<= Total_enemy;i++){
@@ -248,6 +248,17 @@ class AllyAttackAction : public AllyActionData {
                 }
             }
     }
+    /**
+     * Example usage:
+     *   data_->addDamageIns(
+     *       DmgSrc(DmgSrcType::ATK,120,6),
+     *       DmgSrc(DmgSrcType::ATK,120,6)
+     *   );
+     *
+     * @brief Add damage for main, adjacent, and other targets.
+     * @param main Damage for main target.
+     * @param adjacent Damage for adjacent targets.
+     */
     void addDamageIns(DmgSrc main,DmgSrc adjacent){
             damageSplit.emplace_back();
             for(int i = 1;i<= Total_enemy;i++){
@@ -258,6 +269,19 @@ class AllyAttackAction : public AllyActionData {
             }
 
     }
+    /**
+     * Example usage:
+     *   data_->addDamageIns(
+     *       DmgSrc(DmgSrcType::ATK,120,6),
+     *       DmgSrc(DmgSrcType::ATK,120,6),
+     *       DmgSrc(DmgSrcType::ATK,120,6)
+     *   );
+     *
+     * @brief Add damage for main, adjacent, and other targets.
+     * @param main Damage for main target.
+     * @param adjacent Damage for adjacent targets.
+     * @param other Damage for other targets.
+     */
     void addDamageIns(DmgSrc main,DmgSrc adjacent,DmgSrc other){
             damageSplit.emplace_back();
             for(int i = 1;i<= Total_enemy;i++){
@@ -270,6 +294,7 @@ class AllyAttackAction : public AllyActionData {
             }
 
     }
+
     
         template<typename... Args>
         void addDamageIns(Args... args) {

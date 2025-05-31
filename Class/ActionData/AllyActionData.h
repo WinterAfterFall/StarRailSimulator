@@ -28,6 +28,14 @@ class AllyActionData : public ActionData, public std::enable_shared_from_this<Al
     
     #pragma endregion
 
+    #pragma region setMethod
+
+    string setTurnReset(bool arg){
+        Turn_reset = arg;
+    }
+    
+    #pragma endregion
+
     #pragma region checkMethod
 
     virtual bool isSameUnit(SubUnit *ptr){

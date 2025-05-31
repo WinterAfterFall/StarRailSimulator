@@ -47,18 +47,22 @@ namespace The_Herta{
             }
         };
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr,Hertaptr]() {
-            if ((ptr->Sub_Unit_ptr[0]->Atv_stats->atv < ptr->Sub_Unit_ptr[0]->Atv_stats->Max_atv * 0.3)) return;
-            if (!ultUseCheck(ptr)) return;
+        ptr->addUltCondition([ptr]() -> bool {
+            if ((ptr->Sub_Unit_ptr[0]->Atv_stats->atv < ptr->Sub_Unit_ptr[0]->Atv_stats->Max_atv * 0.2)) return false;
+            return true;
+        });
 
-            shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            data_->setUltimate(ptr->Sub_Unit_ptr[0].get(), "Aoe","The Herta Ultimate");
-            data_->addEnemyOtherTarget();
-            data_->actionFunction = [ptr,Hertaptr](shared_ptr<AllyActionData> &data_){
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr,Hertaptr]() {
+            if (!ultUseCheck(ptr)) return;
+            shared_ptr<AllyAttackAction> data_ = 
+            make_shared<AllyAttackAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"THerta Ult",
+            [ptr,Hertaptr](shared_ptr<AllyAttackAction> &data_){
                 double Increase_mtpr = ptr->Sub_Unit_ptr[0]->Stack["The_Herta_A6"];
-                data_->Damage_spilt.Main.push_back({200 + Increase_mtpr, 0, 0, 20});
-                data_->Damage_spilt.Adjacent.push_back({200 + Increase_mtpr, 0, 0, 20});
-                data_->Damage_spilt.Other.push_back({200 + Increase_mtpr, 0, 0, 20});
+                data_->addDamageIns(
+                    DmgSrc(DmgSrcType::ATK,200 + Increase_mtpr,20),
+                    DmgSrc(DmgSrcType::ATK,200 + Increase_mtpr,20),
+                    DmgSrc(DmgSrcType::ATK,200 + Increase_mtpr,20)
+                );
                 ptr->Sub_Unit_ptr[0]->Buff_note["The_Herta_Skill_Enchance"]++;
                 if (ptr->Eidolon >= 2) {
                     ptr->Sub_Unit_ptr[0]->Buff_note["The_Herta_Skill_Enchance"]++;
@@ -70,11 +74,9 @@ namespace The_Herta{
 
                 Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
                 Herta_reset_Stack();
-            };
-            
-
-            Action_bar.push(data_);
-            if(!actionBarUse)Deal_damage();
+            });
+            data_->addToActionBar();
+            Deal_damage();
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
@@ -123,7 +125,7 @@ namespace The_Herta{
             }
         }));
 
-        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_BUFF, [ptr,Hertaptr](shared_ptr<AllyActionData> &data_){
+        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_BUFF, [ptr,Hertaptr](shared_ptr<AllyAttackAction> &data_){
             if(data_->actionName=="The Herta EnchanceSkill"){
                 Hertaptr->buffSingle({{ST_DMG,AT_NONE,-50}});
                 if(ptr->Eidolon >= 2)Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),35);
@@ -202,50 +204,43 @@ namespace The_Herta{
     }
 
     void Basic_Atk(Ally *ptr){
-        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->setBasicAttack(ptr->Sub_Unit_ptr[0].get(),"Single_target","The Herta BasicAttack");
-        data_->addEnemyTarget(chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
-        data_->Turn_reset=true;
-        data_->Damage_spilt.Main.push_back({100,0,0,10});
-        data_->actionFunction =[ptr](shared_ptr<AllyActionData> &data_){
+        shared_ptr<AllyAttackAction> data_ = 
+        make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"THerta BA",
+        [ptr](shared_ptr<AllyAttackAction> &data_){
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(data_);
-        };
-        Action_bar.push(data_);
+        });
+        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,100,10));
+        data_->addToActionBar();
     }
+
     void Skill(Ally *ptr){
-        
-
-        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Blast","The Herta Skill");
-        data_->addEnemyOtherTarget();
-        data_->Damage_spilt.Main.push_back({70,0,0,5});
-        data_->Damage_spilt.Main.push_back({70,0,0,5});
-        data_->Damage_spilt.Main.push_back({70,0,0,5});
-
-        data_->Damage_spilt.Adjacent.push_back({0,0,0,0});
-        data_->Damage_spilt.Adjacent.push_back({70,0,0,5});
-        data_->Damage_spilt.Adjacent.push_back({70,0,0,5});
-
-        data_->Damage_spilt.Other.push_back({0,0,0,0});
-        data_->Damage_spilt.Other.push_back({0,0,0,0});
-        data_->Damage_spilt.Other.push_back({70,0,0,5});
-        data_->Turn_reset=true;
-        data_->actionFunction =[ptr](shared_ptr<AllyActionData> &data_){
+        shared_ptr<AllyAttackAction> data_ = 
+        make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BLAST,"THerta Skill",
+        [ptr](shared_ptr<AllyAttackAction> &data_){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Apply_Herta_Stack(ptr,Enemy_unit[Main_Enemy_num].get(),1);
             Attack(data_);
-        };
-        Action_bar.push(data_);
+        });
+        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,70,5));
+        data_->addDamageIns(
+            DmgSrc(DmgSrcType::ATK,70,5),
+            DmgSrc(DmgSrcType::ATK,70,5)
+        );
+        data_->addDamageIns(
+            DmgSrc(DmgSrcType::ATK,70,5),
+            DmgSrc(DmgSrcType::ATK,70,5),
+            DmgSrc(DmgSrcType::ATK,70,5)
+        );
+        data_->addToActionBar();
     }
+
     void Enchance_Skill(Ally *ptr){
-        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),"Aoe","The Herta EnchanceSkill");
-        data_->addEnemyOtherTarget();
-        data_->Turn_reset=true;
-        data_->actionFunction =[ptr](shared_ptr<AllyActionData> &data_){
+        shared_ptr<AllyAttackAction> data_ = 
+        make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_AOE,"THerta ESkill",
+        [ptr](shared_ptr<AllyAttackAction> &data_){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             double Increase_mtpr = Enemy_unit[Main_Enemy_num]->Debuff["Herta_Stack"];
@@ -262,22 +257,21 @@ namespace The_Herta{
             if(ptr->Sub_Unit_ptr[0]->Buff_check["Two_Erudition"]==1){
                 Increase_mtpr*=2;
             }
-            data_->Damage_spilt.Main.push_back({80,0,0,5});
-            data_->Damage_spilt.Main.push_back({80,0,0,5});
-            data_->Damage_spilt.Main.push_back({80,0,0,5});
-            data_->Damage_spilt.Main.push_back({40+Increase_mtpr*8,0,0,5});
-
-
-            data_->Damage_spilt.Adjacent.push_back({0,0,0,0});
-            data_->Damage_spilt.Adjacent.push_back({80,0,0,5});
-            data_->Damage_spilt.Adjacent.push_back({80,0,0,5});
-            data_->Damage_spilt.Adjacent.push_back({40+Increase_mtpr*4,0,0,5});
-
-
-            data_->Damage_spilt.Other.push_back({0,0,0,0});
-            data_->Damage_spilt.Other.push_back({0,0,0,0});
-            data_->Damage_spilt.Other.push_back({80,0,0,5});
-            data_->Damage_spilt.Other.push_back({40+Increase_mtpr*4,0,0,5});
+            data_->addDamageIns(DmgSrc(DmgSrcType::ATK,80,5));
+            data_->addDamageIns(
+                DmgSrc(DmgSrcType::ATK,80,5),
+                DmgSrc(DmgSrcType::ATK,80,5)
+            );
+            data_->addDamageIns(
+                DmgSrc(DmgSrcType::ATK,80,5),
+                DmgSrc(DmgSrcType::ATK,80,5),
+                DmgSrc(DmgSrcType::ATK,80,5)
+            );
+            data_->addDamageIns(
+                DmgSrc(DmgSrcType::ATK,40+Increase_mtpr*8,5),
+                DmgSrc(DmgSrcType::ATK,40+Increase_mtpr*4,5),
+                DmgSrc(DmgSrcType::ATK,40+Increase_mtpr*4,5)
+            );
             ptr->Sub_Unit_ptr[0]->Buff_note["The_Herta_Skill_Enchance"]--;
 
             Enemy_unit[Main_Enemy_num]->Debuff["Herta_Stack"] = 1;
@@ -289,9 +283,8 @@ namespace The_Herta{
             Apply_Herta_Stack(ptr,Enemy_unit[Main_Enemy_num].get(),1);
             ptr->getSubUnit()->buffSingle({{ST_DMG,AT_NONE,50}});
             Attack(data_);
-        };
-        
-        Action_bar.push(data_);
+        });
+        data_->addToActionBar();
     }
 
     

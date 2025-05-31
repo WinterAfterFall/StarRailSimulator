@@ -53,14 +53,9 @@ namespace  Anaxa{
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr,Anaxaptr]() {
             if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-            data_->setUltimate(Anaxaptr,TT_AOE,"Anaxa Ult");
-            data_->addEnemyOtherTarget();
-            data_->Damage_spilt.Main.push_back({160,0,0,20});
-            data_->Damage_spilt.Adjacent.push_back({160,0,0,20});
-            data_->Damage_spilt.Other.push_back({160,0,0,20});
-
-            data_->actionFunction = [ptr,Anaxaptr](shared_ptr<AllyActionData> &data_) {
+            shared_ptr<AllyAttackAction> data_ = 
+            make_shared<AllyAttackAction>(ActionType::Ult,Anaxaptr,TT_AOE,"Anaxa Ult",
+            [ptr,Anaxaptr](shared_ptr<AllyAttackAction> &data_){
                 if(ptr->Print)CharCmd::printUltStart("Anaxa");
                 for(auto &each : data_->targetList){
                     each->debuffApply(Anaxaptr,"Sublimation",1);
@@ -89,8 +84,13 @@ namespace  Anaxa{
                     each->DebuffNote["AnaxaDmgBonus"] = 0;
                     each->DebuffNote["AnaxaA6"] = 0;
                 }
-            };
-            Action_bar.push(data_);
+            });
+            data_->addDamageIns(
+                DmgSrc(DmgSrcType::ATK,160,20),
+                DmgSrc(DmgSrcType::ATK,160,20),
+                DmgSrc(DmgSrcType::ATK,160,20)
+            );
+            data_->addToActionBar();
             Deal_damage();
         }));
 
@@ -161,30 +161,23 @@ namespace  Anaxa{
             }
         }));
 
-        Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr](shared_ptr<AllyActionData> &data_) {
+        Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr](shared_ptr<AllyAttackAction> &data_) {
             if(data_->Attacker->isSameUnitName("Anaxa")){
                 if(ptr->Eidolon>=6){
-                    for(auto &each : data_->Damage_spilt.Main){
-                        each.Atk_ratio*=1.3;
-                        each.Hp_ratio*=1.3;
-                        each.Def_ratio*=1.3;
-                    }
-                    for(auto &each : data_->Damage_spilt.Adjacent){
-                        each.Atk_ratio*=1.3;
-                        each.Hp_ratio*=1.3;
-                        each.Def_ratio*=1.3;
-                    }
-                    for(auto &each : data_->Damage_spilt.Other){
-                        each.Atk_ratio*=1.3;
-                        each.Hp_ratio*=1.3;
-                        each.Def_ratio*=1.3;
+                    for(auto &each1 : data_->damageSplit){
+                        for(auto &each2 : each1){
+                            each2.dmgSrc.ATK *=1.3;
+                            each2.dmgSrc.HP *=1.3;
+                            each2.dmgSrc.DEF *=1.3;
+                            each2.dmgSrc.constDmg *=1.3;
+                        }
                     }
                 }
             }
 
         }));
 
-        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr](shared_ptr<AllyActionData> &data_) {
+        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr](shared_ptr<AllyAttackAction> &data_) {
             if((data_->actionName=="Anaxa BA"||data_->actionName=="Anaxa Skill")){
                 for(auto &each : data_->targetList){
                     if(each->currentWeaknessElementAmount>=5){
@@ -201,12 +194,9 @@ namespace  Anaxa{
 
     void Basic_Atk(Ally *ptr){
         
-        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->setBasicAttack(ptr->Sub_Unit_ptr[0].get(),TT_SINGLE,"Anaxa BA");
-        data_->addEnemyAdjacentTarget();
-        data_->Turn_reset=true;
-        data_->Damage_spilt.Main.push_back({100,0,0,10});
-        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
+        shared_ptr<AllyAttackAction> data_ = 
+        make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Anaxa BA",
+        [ptr](shared_ptr<AllyAttackAction> &data_){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             for(auto &each : data_->targetList){
@@ -230,15 +220,16 @@ namespace  Anaxa{
                 each->DebuffNote["AnaxaDmgBonus"] = 0;
                 each->DebuffNote["AnaxaA6"] = 0;
             }
-        };
-        Action_bar.push(data_);
+        });
+        data_->addDamageIns(
+            DmgSrc(DmgSrcType::ATK,100,10)
+        );
+        data_->addToActionBar();
     }
     void Skill(Ally *ptr){
-        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),TT_BOUNCE,"Anaxa Skill");
-        data_->addEnemyFairBounce(5,{70,0,0,10});
-        data_->Turn_reset=true;     
-        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
+        shared_ptr<AllyAttackAction> data_ = 
+        make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BOUNCE,"Anaxa Skill",
+        [ptr](shared_ptr<AllyAttackAction> &data_){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             if(ptr->getSubUnit()->Atv_stats->turn_cnt==1){
@@ -279,22 +270,26 @@ namespace  Anaxa{
                 each->DebuffNote["AnaxaA6"] = 0;
             }
             data_->Attacker->buffSingle({{ST_DMG,AT_NONE,-20.0 * Total_enemy}});
-
-        };
-        Action_bar.push(data_);
+        });
+        data_->addEnemyFairBounce(DmgSrc(DmgSrcType::ATK,70,10),5);
+        data_->addToActionBar();
     }
     void AdditionalSkill(Ally *ptr){
-        
-        shared_ptr<AllyActionData> data_ = make_shared<AllyActionData>();
-        data_->setSkill(ptr->Sub_Unit_ptr[0].get(),TT_BOUNCE,"Anaxa AdditionalSkill");
-        data_->addEnemyFairBounce(5,{70,0,0,10});
-        data_->actionFunction = [ptr](shared_ptr<AllyActionData> &data_){
+        shared_ptr<AllyAttackAction> data_ = 
+        make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BOUNCE,"Anaxa Skill",
+        [ptr](shared_ptr<AllyAttackAction> &data_){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
+            Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
+            if(ptr->getSubUnit()->Atv_stats->turn_cnt==1){
+                Increase_energy(ptr,30);
+                if(ptr->Eidolon>=1){
+                    Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
+                }
+            }
 
             data_->Attacker->buffSingle({{ST_DMG,AT_NONE,20.0 * Total_enemy}});
             if(ptr->Eidolon>=4)data_->Attacker->buffStackSingle({{ST_ATK_P,AT_NONE,30}},1,2,"AnaxaE4",2);
             int cnt = 5;
-            //เติม Debuff
             while(1){
                 for(auto &each : data_->targetList){
                     AnaxaDebuff(ptr,each);
@@ -304,7 +299,7 @@ namespace  Anaxa{
                 }
                 if(cnt==0)break;    
             }
-
+            
             for(auto &each : data_->targetList){
                 each->DebuffNote["AnaxaA6"] = each->currentWeaknessElementAmount*4;
                 each->debuffSingle({{ST_DEF_SHRED,AT_NONE,each->DebuffNote["AnaxaA6"]}});
@@ -323,8 +318,10 @@ namespace  Anaxa{
                 each->DebuffNote["AnaxaA6"] = 0;
             }
             data_->Attacker->buffSingle({{ST_DMG,AT_NONE,-20.0 * Total_enemy}});
-        };
-        Action_bar.push(data_);
+        });
+        data_->addEnemyFairBounce(DmgSrc(DmgSrcType::ATK,70,10),5);
+        data_->setTurnReset(false);
+        data_->addToActionBar();
         Deal_damage();
     }
     void AnaxaDebuff(Ally *ptr, Enemy *enemy) {

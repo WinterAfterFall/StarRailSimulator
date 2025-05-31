@@ -97,7 +97,7 @@ namespace FireFly{
             if (ptr->Technique == 1) {
             shared_ptr<AllyAttackAction> data_ = 
             make_shared<AllyAttackAction>(ActionType::Technique,ptr->getSubUnit(),"Aoe","FF Tech",
-            [ptr](shared_ptr<AllyAttackAction> data_){
+            [ptr](shared_ptr<AllyAttackAction> &data_){
                 Attack(data_);
             });
             data_->addDamageIns(
@@ -149,7 +149,7 @@ namespace FireFly{
     void Skill_func(Ally *ptr){   
         shared_ptr<AllyAttackAction> data_ = 
         make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_SINGLE,"FF Skill",
-        [ptr](shared_ptr<AllyAttackAction> data_){
+        [ptr](shared_ptr<AllyAttackAction> &data_){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,60,0);
             Attack(data_);
@@ -164,7 +164,7 @@ namespace FireFly{
     void Enchance_Skill_func(Ally *ptr){
         shared_ptr<AllyAttackAction> data_ = 
         make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BLAST,"FF ESkill",
-        [ptr](shared_ptr<AllyAttackAction> data_){
+        [ptr](shared_ptr<AllyAttackAction> &data_){
             if(ptr->Eidolon<1)Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             double skill_dmg = 0;
             if(ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE]>=360){
