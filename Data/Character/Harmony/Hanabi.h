@@ -15,10 +15,10 @@
 //     void Ult_func(Ally *ptr);//*
 //     void Before_turn(Ally *ptr);
 //     void After_turn(Ally *ptr);
-//     void Before_attack(Ally *ptr, Combat_data &data_);
-//     void After_attack(Ally *ptr, Combat_data &data_);
+//     void Before_attack(Ally *ptr, Combat_data &act);
+//     void After_attack(Ally *ptr, Combat_data &act);
 //     void Start_game(Ally *ptr);
-//     void Buff_func(Ally *ptr, Combat_data &data_);
+//     void Buff_func(Ally *ptr, Combat_data &act);
     
 //     void Setup(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
 //         Ally_unit[num] = make_unique<Ally>();
@@ -114,18 +114,18 @@
 //         }
 //     }
 //     void Turn_func(Unit *ptr){
-//         Combat_data data_;
+//         Combat_data act;
 //             Skill_point(-1);
-//             data_.num = ptr->Atv_stats->Character_num;
-//             data_.Turn_reset = 1;
+//             act.num = ptr->Atv_stats->Character_num;
+//             act.Turn_reset = 1;
 
-//             data_.Action_type.first="Buff";
-//             data_.Action_type.second = "Skill";
+//             act.Action_type.first="Buff";
+//             act.Action_type.second = "Skill";
 
-//             data_.Buff_type.push_back("Buff");
+//             act.Buff_type.push_back("Buff");
 
-//             data_.Target_type="Single_target";
-//             Action_bar.push(data_);
+//             act.Target_type="Single_target";
+//             Action_bar.push(act);
 //             auto ally_ptr = dynamic_cast<Ally*>(ptr);
 //             Increase_energy(ally_ptr->stats.get(),30);
 //             Action_forward(Ally_unit[Main_dps_num]->Atv_stats.get(),50);
@@ -141,16 +141,16 @@
 //         if(turn->Character_num!=Main_dps_num||turn->Side!="Ally"||Ult_After_Turn==1)return;
 
 //         if(!Ult_use_check(ptr))return;
-//         Combat_data data_;
-//         data_.num = ptr->Atv_stats->Character_num;
+//         Combat_data act;
+//         act.num = ptr->Atv_stats->Character_num;
 
-//         data_.Action_type.first="Buff";
-//         data_.Action_type.second = "Ultimate";
+//         act.Action_type.first="Buff";
+//         act.Action_type.second = "Ultimate";
 
-//         data_.Buff_type.push_back("Buff");
+//         act.Buff_type.push_back("Buff");
 
-//         data_.Target_type="Aoe";
-//         Action_bar.push(data_);
+//         act.Target_type="Aoe";
+//         Action_bar.push(act);
 //         Skill_point(4);
 
 //         for(int i=1;i<=Total_ally;i++){
@@ -219,7 +219,7 @@
 //             Ally_unit[turn->Character_num]->stats->Buff_note["Red_Herring"] =0;
 //         }
 //     }
-//     void Before_attack(Ally *ptr, Combat_data &data_){
+//     void Before_attack(Ally *ptr, Combat_data &act){
 //         if(ptr->stats->Buff_note["Last_sp"]>sp){
 //             if(ptr->stats->Stack["Red_Herring"]<3){
 //                 ++ptr->stats->Stack["Red_Herring"];
@@ -243,7 +243,7 @@
 //             Ally_unit[Main_dps_num]->Crit_dam[AT_NONE]+=ptr->stats->Buff_note["Dreamdiver"];
 //         }
 //     }
-//     void After_attack(Ally *ptr, Combat_data &data_){
+//     void After_attack(Ally *ptr, Combat_data &act){
 //         if(ptr->stats->Buff_note["Last_sp"]>sp){
 //             if(ptr->stats->Stack["Red_Herring"]<3){
 //                 ++ptr->stats->Stack["Red_Herring"];
@@ -267,7 +267,7 @@
 //             Ally_unit[Main_dps_num]->Crit_dam[AT_NONE]+=ptr->stats->Buff_note["Dreamdiver"];
 //         }
 //     }
-//     void Buff_func(Ally *ptr, Combat_data &data_){
+//     void Buff_func(Ally *ptr, Combat_data &act){
 //         if(ptr->stats->Buff_note["Last_sp"]>sp){
 //             if(ptr->stats->Stack["Red_Herring"]<3){
 //                 ++ptr->stats->Stack["Red_Herring"];

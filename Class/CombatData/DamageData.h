@@ -15,7 +15,23 @@ class DmgSrc{
     DmgSrc(double ATK, double HP, double DEF, double constDmg, double toughnessReduce)
         : ATK(ATK), HP(HP), DEF(DEF), constDmg(constDmg), toughnessReduce(toughnessReduce)
     {}
-    
+    DmgSrc(DmgSrcType type,double value)
+    {
+        switch(type) {
+            case DmgSrcType::ATK:
+                ATK = value;
+                break;
+            case DmgSrcType::HP:
+                HP = value;
+                break;
+            case DmgSrcType::DEF:
+                DEF = value;
+                break;
+            case DmgSrcType::CONST:
+                constDmg = value;
+                break;    
+        }
+    }
     DmgSrc(DmgSrcType type, double value, double toughnessReduce)
         : toughnessReduce(toughnessReduce)
     {

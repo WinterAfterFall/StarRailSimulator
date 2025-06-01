@@ -31,7 +31,7 @@ class AllyAttackAction : public AllyActionData {
     bool toughnessAvgCalculate = 1;
     bool damageNote = 1;
     double Dont_care_weakness = 0;
-    function<void(shared_ptr<AllyAttackAction> &data_)> actionFunction;
+    function<void(shared_ptr<AllyAttackAction> &act)> actionFunction;
 
     DamageSplit damageSplit;
 
@@ -54,7 +54,7 @@ class AllyAttackAction : public AllyActionData {
         setupActionType(actionType);
         AttackSetList.emplace_back(Attacking(ptr,this->actionTypeList));
     }
-    AllyAttackAction(ActionType actionType,SubUnit* ptr,string traceType,string name,function<void(shared_ptr<AllyAttackAction> &data_)> actionFunction)
+    AllyAttackAction(ActionType actionType,SubUnit* ptr,string traceType,string name,function<void(shared_ptr<AllyAttackAction> &act)> actionFunction)
     {
         Attacker = ptr;
         source = ptr;
@@ -223,7 +223,7 @@ class AllyAttackAction : public AllyActionData {
 
     
 
-    //data_->addDamageIns(DmgSrc(DmgSrcType::ATK,120,6));
+    //act->addDamageIns(DmgSrc(DmgSrcType::ATK,120,6));
     void addDamageIns(DmgSrc main){
             damageSplit.emplace_back();
             for(int i = 1;i<= Total_enemy;i++){
@@ -235,7 +235,7 @@ class AllyAttackAction : public AllyActionData {
     }
     /**
      * Example usage:
-     *   data_->addDamageIns(
+     *   act->addDamageIns(
      *       DmgSrc(DmgSrcType::ATK,120,6),
      *       DmgSrc(DmgSrcType::ATK,120,6)
      *   );
@@ -256,7 +256,7 @@ class AllyAttackAction : public AllyActionData {
     }
     /**
      * Example usage:
-     *   data_->addDamageIns(
+     *   act->addDamageIns(
      *       DmgSrc(DmgSrcType::ATK,120,6),
      *       DmgSrc(DmgSrcType::ATK,120,6),
      *       DmgSrc(DmgSrcType::ATK,120,6)

@@ -95,17 +95,17 @@ namespace FireFly{
 
         Start_wave_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
             if (ptr->Technique == 1) {
-            shared_ptr<AllyAttackAction> data_ = 
+            shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(ActionType::Technique,ptr->getSubUnit(),"Aoe","FF Tech",
-            [ptr](shared_ptr<AllyAttackAction> &data_){
-                Attack(data_);
+            [ptr](shared_ptr<AllyAttackAction> &act){
+                Attack(act);
             });
-            data_->addDamageIns(
+            act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,200,20),
                 DmgSrc(DmgSrcType::ATK,200,20),
                 DmgSrc(DmgSrcType::ATK,200,20)
             );
-            data_->addToActionBar();
+            act->addToActionBar();
             Deal_damage();
             }
         }));
@@ -113,17 +113,17 @@ namespace FireFly{
             allEventAdjustStats(ptr->Sub_Unit_ptr[0].get(), ST_FLAT_ATK);
         }));
         
-        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr]( shared_ptr<AllyAttackAction> &data_ ) {
+        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr]( shared_ptr<AllyAttackAction> &act ) {
 
             if (ptr->Eidolon >= 2 && ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"] > 0 && ptr->Countdown_ptr[0]->Atv_stats->Base_speed == 70) {
             ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"]--;
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
             }
-            if (data_->isSameUnitName("FireFly")) {
+            if (act->isSameUnitName("FireFly")) {
             if (ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] >= 360) {
-                Superbreak_trigger(data_, 50,"");
+                Superbreak_trigger(act, 50,"");
             } else if (ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] >= 200) {
-                Superbreak_trigger(data_, 35,"");
+                Superbreak_trigger(act, 35,"");
             }
             }
         }));
@@ -147,24 +147,24 @@ namespace FireFly{
     }
     
     void Skill_func(Ally *ptr){   
-        shared_ptr<AllyAttackAction> data_ = 
+        shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_SINGLE,"FF Skill",
-        [ptr](shared_ptr<AllyAttackAction> &data_){
+        [ptr](shared_ptr<AllyAttackAction> &act){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,60,0);
-            Attack(data_);
+            Attack(act);
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 25);
         });
-        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,40,8));
-        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,60,12));
-        data_->addToActionBar();
+        act->addDamageIns(DmgSrc(DmgSrcType::ATK,40,8));
+        act->addDamageIns(DmgSrc(DmgSrcType::ATK,60,12));
+        act->addToActionBar();
 
 
     }
     void Enchance_Skill_func(Ally *ptr){
-        shared_ptr<AllyAttackAction> data_ = 
+        shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BLAST,"FF ESkill",
-        [ptr](shared_ptr<AllyAttackAction> &data_){
+        [ptr](shared_ptr<AllyAttackAction> &act){
             if(ptr->Eidolon<1)Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             double skill_dmg = 0;
             if(ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE]>=360){
@@ -173,14 +173,14 @@ namespace FireFly{
                 skill_dmg = 200 + (ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE])*0.2;
             }
 
-            data_->addDamageIns(DmgSrc(DmgSrcType::ATK,0.15*skill_dmg,4.5),DmgSrc(DmgSrcType::ATK,0.15*0.5*skill_dmg,2.25));
-            data_->addDamageIns(DmgSrc(DmgSrcType::ATK,0.15*skill_dmg,4.5),DmgSrc(DmgSrcType::ATK,0.15*0.5*skill_dmg,2.25));
-            data_->addDamageIns(DmgSrc(DmgSrcType::ATK,0.15*skill_dmg,4.5),DmgSrc(DmgSrcType::ATK,0.15*0.5*skill_dmg,2.25));
-            data_->addDamageIns(DmgSrc(DmgSrcType::ATK,0.15*skill_dmg,4.5),DmgSrc(DmgSrcType::ATK,0.15*0.5*skill_dmg,2.25));
-            data_->addDamageIns(DmgSrc(DmgSrcType::ATK,4*skill_dmg,12),DmgSrc(DmgSrcType::ATK,2*skill_dmg,6));
-            Attack(data_);
+            act->addDamageIns(DmgSrc(DmgSrcType::ATK,0.15*skill_dmg,4.5),DmgSrc(DmgSrcType::ATK,0.15*0.5*skill_dmg,2.25));
+            act->addDamageIns(DmgSrc(DmgSrcType::ATK,0.15*skill_dmg,4.5),DmgSrc(DmgSrcType::ATK,0.15*0.5*skill_dmg,2.25));
+            act->addDamageIns(DmgSrc(DmgSrcType::ATK,0.15*skill_dmg,4.5),DmgSrc(DmgSrcType::ATK,0.15*0.5*skill_dmg,2.25));
+            act->addDamageIns(DmgSrc(DmgSrcType::ATK,0.15*skill_dmg,4.5),DmgSrc(DmgSrcType::ATK,0.15*0.5*skill_dmg,2.25));
+            act->addDamageIns(DmgSrc(DmgSrcType::ATK,4*skill_dmg,12),DmgSrc(DmgSrcType::ATK,2*skill_dmg,6));
+            Attack(act);
         });
-        data_->addToActionBar();
+        act->addToActionBar();
     }
     
 

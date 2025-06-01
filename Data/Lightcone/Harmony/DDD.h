@@ -12,8 +12,8 @@ namespace Harmony_Lightcone{
             ptr->SetAllyBaseStats(953,423,397);
             ptr->Light_cone.Name = "DDD";
 
-            AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &data_){
-                if (data_->isSameAction(ptr->getSubUnit(),AT_ULT)){
+            AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
+                if (act->isSameAction(ptr->getSubUnit(),AT_ULT)){
                 All_Action_forward(14 + 2 * superimpose);
                 }
             }));

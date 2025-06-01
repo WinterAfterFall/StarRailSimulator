@@ -13,8 +13,8 @@ namespace Remembrance_Lightcone{
                 ptr->Sub_Unit_ptr[0]->Atv_stats->Speed_percent += 4.5 + 1.5 * superimpose;
             }));
     
-            AfterAction_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<ActionData> &data_) {
-                AllyActionData *allyData_ = data_->castToAllyActionData();
+            AfterAction_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<ActionData> &act) {
+                AllyActionData *allyData_ = act->castToAllyActionData();
                 if(!allyData_)return;
                 if(allyData_->isSameAction(ptr->getSubUnit(),AT_SKILL)){
                     buffAllAlly({

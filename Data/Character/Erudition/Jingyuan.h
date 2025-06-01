@@ -45,10 +45,10 @@ namespace Jingyuan{
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr,JYptr]() {
             if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyAttackAction> data_ = 
+            shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(ActionType::Ult,JYptr,TT_AOE,"JY Ult",
-            [ptr,JYptr](shared_ptr<AllyAttackAction> &data_){
-                Attack(data_);
+            [ptr,JYptr](shared_ptr<AllyAttackAction> &act){
+                Attack(act);
                 if (ptr->Print)CharCmd::printUltStart("Jingyuan");
                 ptr->Sub_Unit_ptr[0]->Stack["LL_stack"] += 3;
                 if (ptr->Sub_Unit_ptr[0]->Stack["LL_stack"] >= 10) {
@@ -58,12 +58,12 @@ namespace Jingyuan{
                     ptr->Summon_ptr[0]->speedBuff({ST_SPD,ST_FLAT_SPD,30});
                 }
             });
-            data_->addDamageIns(
+            act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,200,20),
                 DmgSrc(DmgSrcType::ATK,200,20),
                 DmgSrc(DmgSrcType::ATK,200,20)
             );
-            data_->addToActionBar();
+            act->addToActionBar();
             Deal_damage();
         }));
         
@@ -116,25 +116,25 @@ namespace Jingyuan{
             
             shared_ptr<AllyAttackAction> temp = 
             make_shared<AllyAttackAction>(ActionType::Fua,JYptr,TT_SINGLE,"LL Fua",
-            [ptr,JYptr](shared_ptr<AllyAttackAction> &data_){
+            [ptr,JYptr](shared_ptr<AllyAttackAction> &act){
                 if(ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]>=6){
                     ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["Summon"]+=25;
                 }
 
                 for(int i=1;i<=ptr->Sub_Unit_ptr[0]->Stack["LL_stack"];i++){
                     if(ptr->Eidolon>=1)
-                        data_->addDamageIns(
+                        act->addDamageIns(
                             DmgSrc(DmgSrcType::ATK,66,5),
                             DmgSrc(DmgSrcType::ATK,33,5)
                         );
                     else
-                        data_->addDamageIns(
+                        act->addDamageIns(
                             DmgSrc(DmgSrcType::ATK,66,5),
                             DmgSrc(DmgSrcType::ATK,66*0.25,5)
                         );
                     
                 }
-                Attack(data_);
+                Attack(act);
 
                 if(ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]>=6){
                     ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["Summon"]-=25;
@@ -163,21 +163,21 @@ namespace Jingyuan{
 
     void Basic_Atk(Ally *ptr){
         
-        shared_ptr<AllyAttackAction> data_ = 
+        shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"JY BA",
-        [ptr](shared_ptr<AllyAttackAction> &data_){
+        [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
-            Attack(data_);
+            Attack(act);
         });
-        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,55,5.5));
-        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,45,4.5));
-        data_->addToActionBar();
+        act->addDamageIns(DmgSrc(DmgSrcType::ATK,55,5.5));
+        act->addDamageIns(DmgSrc(DmgSrcType::ATK,45,4.5));
+        act->addToActionBar();
     }
     void Skill(Ally *ptr){
-        shared_ptr<AllyAttackAction> data_ = 
+        shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_AOE,"JY Skill",
-        [ptr,JYptr = ptr->getSubUnit()](shared_ptr<AllyAttackAction> &data_){
+        [ptr,JYptr = ptr->getSubUnit()](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             JYptr->buffSingle({{ST_CR,AT_NONE,10}},"War_Marshal",2);
@@ -188,24 +188,24 @@ namespace Jingyuan{
             }else{
                 ptr->Summon_ptr[0]->speedBuff({ST_SPD,ST_FLAT_SPD,20});
             }
-            Attack(data_);
+            Attack(act);
         });
-        data_->addDamageIns(
+        act->addDamageIns(
             DmgSrc(DmgSrcType::ATK,40,4),
             DmgSrc(DmgSrcType::ATK,40,4),
             DmgSrc(DmgSrcType::ATK,40,4)
         );
-        data_->addDamageIns(
+        act->addDamageIns(
             DmgSrc(DmgSrcType::ATK,30,3),
             DmgSrc(DmgSrcType::ATK,30,3),
             DmgSrc(DmgSrcType::ATK,30,3)
         );
-        data_->addDamageIns(
+        act->addDamageIns(
             DmgSrc(DmgSrcType::ATK,30,3),
             DmgSrc(DmgSrcType::ATK,30,3),
             DmgSrc(DmgSrcType::ATK,30,3)
         );
-        data_->addToActionBar();
+        act->addToActionBar();
     }
 
 

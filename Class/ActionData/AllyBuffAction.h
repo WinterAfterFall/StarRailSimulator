@@ -5,7 +5,7 @@
 class AllyBuffAction : public AllyActionData {
     public:
     vector<SubUnit*> buffTargetList;
-    function<void(shared_ptr<AllyBuffAction> &data_)> actionFunction;
+    function<void(shared_ptr<AllyBuffAction> &act)> actionFunction;
 
 
     #pragma region checkMethod
@@ -129,7 +129,7 @@ class AllyBuffAction : public AllyActionData {
         this->traceType = traceType;
         setupActionType(actionType);
     }
-    AllyBuffAction(ActionType actionType,SubUnit* ptr,string traceType, string name,function<void(shared_ptr<AllyBuffAction> &data_)> actionFunction)
+    AllyBuffAction(ActionType actionType,SubUnit* ptr,string traceType, string name,function<void(shared_ptr<AllyBuffAction> &act)> actionFunction)
     {
         Attacker = ptr;
         source = ptr;

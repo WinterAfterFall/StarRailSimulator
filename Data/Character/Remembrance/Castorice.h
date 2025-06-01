@@ -53,36 +53,36 @@ namespace Castorice{
         };
         
         ptr->Sub_Unit_ptr[1]->Turn_func = [ptr,Casptr,Polluxptr](){
-            shared_ptr<AllyAttackAction> data_ = 
+            shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(1),TT_AOE,"Pollux Skill",
-            [ptr,Casptr,Polluxptr](shared_ptr<AllyAttackAction> &data_){
+            [ptr,Casptr,Polluxptr](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,0);
                 while(ptr->getSubUnit(1)->currentHP>8500){
                     if(ptr->getSubUnit(1)->Stack["Breath Scorches the Shadow"]==0){
-                        for(auto &each : data_->damageSplit[0]){
+                        for(auto &each : act->damageSplit[0]){
                             each.dmgSrc.HP = 24;
                         }
                     }
                     else
                     if(ptr->getSubUnit(1)->Stack["Breath Scorches the Shadow"]==1){
-                        for(auto &each : data_->damageSplit[0]){
+                        for(auto &each : act->damageSplit[0]){
                             each.dmgSrc.HP = 28;
                         }
                     }
                     else
                     {
-                        for(auto &each : data_->damageSplit[0]){
+                        for(auto &each : act->damageSplit[0]){
                             each.dmgSrc.HP = 34;
                         }
                     }
                     if(ptr->Eidolon>=1){
-                        for(auto &each : data_->damageSplit[0]){
+                        for(auto &each : act->damageSplit[0]){
                             each.dmgSrc.HP *= 1.239;
                         }
                     }
                     ptr->getSubUnit(1)->Stack["Breath Scorches the Shadow"]++;
                     Polluxptr->buffStackSingle({{ST_DMG,AT_NONE,30}},1,6,"Where The West Wind Dwells");
-                    Attack(data_);
+                    Attack(act);
                     if(ptr->getSubUnit(1)->getStack("Ardent Will")>0)
                     ptr->getSubUnit(1)->Stack["Ardent Will"]--;
                     else 
@@ -90,44 +90,44 @@ namespace Castorice{
                 }
                 if(Polluxptr->isBuffEnd("NetherwingLifeSpan")){
                     if(ptr->getSubUnit(1)->Stack["Breath Scorches the Shadow"]==0){
-                        for(auto &each : data_->damageSplit[0]){
+                        for(auto &each : act->damageSplit[0]){
                             each.dmgSrc.HP = 24;
                         }
                     }
                     else
                     if(ptr->getSubUnit(1)->Stack["Breath Scorches the Shadow"]==1){
-                        for(auto &each : data_->damageSplit[0]){
+                        for(auto &each : act->damageSplit[0]){
                             each.dmgSrc.HP = 28;
                         }
                     }
                     else
                     {
-                        for(auto &each : data_->damageSplit[0]){
+                        for(auto &each : act->damageSplit[0]){
                             each.dmgSrc.HP = 34;
                         }
                     }
                     Polluxptr->buffStackSingle({{ST_DMG,AT_NONE,30}},1,6,"Where The West Wind Dwells");
                 }else{
-                    for(auto &each : data_->damageSplit[0]){
+                    for(auto &each : act->damageSplit[0]){
                             each.dmgSrc.HP = 40;
                         }
                 }
                 if(ptr->Eidolon>=1){
-                    for(auto &each : data_->damageSplit[0]){
+                    for(auto &each : act->damageSplit[0]){
                         each.dmgSrc.HP *= 1.239;
                     }
                 }
-                Attack(data_);
+                Attack(act);
             });
-            data_->addActionType(ActionType::Summon);
-            if(ptr->Eidolon>=6)data_->Dont_care_weakness = 100;
-            data_->source = ptr->getSubUnit();
-            data_->addDamageIns(
+            act->addActionType(ActionType::Summon);
+            if(ptr->Eidolon>=6)act->Dont_care_weakness = 100;
+            act->source = ptr->getSubUnit();
+            act->addDamageIns(
                 DmgSrc(DmgSrcType::HP,24,10),
                 DmgSrc(DmgSrcType::HP,24,10),
                 DmgSrc(DmgSrcType::HP,24,10)
             );
-            data_->addToActionBar();
+            act->addToActionBar();
         };
 
         
@@ -150,9 +150,9 @@ namespace Castorice{
             if(!ultUseCheck(ptr))return;
             ptr->getSubUnit()->Buff_note["Newbud"] = 0;
 
-            shared_ptr<AllyBuffAction> data_ = 
+            shared_ptr<AllyBuffAction> act = 
             make_shared<AllyBuffAction>(ActionType::Ult,ptr->getSubUnit(),TT_SINGLE,"Cas Ult",
-            [ptr,Casptr,Polluxptr](shared_ptr<AllyBuffAction> &data_){
+            [ptr,Casptr,Polluxptr](shared_ptr<AllyBuffAction> &act){
                 if(ptr->Print)CharCmd::printUltStart("Castorice");
                 debuffAllEnemyMark({{ST_RESPEN,AT_NONE,20}},Polluxptr,"Lost Netherland");
                 ptr->getSubUnit(1)->currentHP = 34000;
@@ -167,8 +167,8 @@ namespace Castorice{
                     ptr->getSubUnit()->Buff_note["Newbud"] = 10200;
                 }
             });
-            data_->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
-            data_->addToActionBar();
+            act->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
+            act->addToActionBar();
             Deal_damage();
         }));
         
@@ -280,7 +280,7 @@ namespace Castorice{
             
         }));
 
-        Buff_List.push_back(TriggerByAllyBuffAction_Func(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](shared_ptr<AllyBuffAction> &data_) {
+        Buff_List.push_back(TriggerByAllyBuffAction_Func(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](shared_ptr<AllyBuffAction> &act) {
             for(int i=1;i<=Total_ally;i++){
                 for(unique_ptr<SubUnit> &e : Ally_unit[i]->Sub_Unit_ptr){
                     e->Buff_note["NetherwingHealLimit"] = 0;
@@ -290,7 +290,7 @@ namespace Castorice{
             
         }));
 
-        Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](shared_ptr<AllyAttackAction> &data_) {
+        Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](shared_ptr<AllyAttackAction> &act) {
             for(int i=1;i<=Total_ally;i++){
                 for(unique_ptr<SubUnit> &e : Ally_unit[i]->Sub_Unit_ptr){
                     e->Buff_note["NetherwingHealLimit"] = 0;
@@ -318,66 +318,66 @@ namespace Castorice{
         }));
     }
     void BasicAttack(Ally *ptr){
-        shared_ptr<AllyAttackAction> data_ = 
+        shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Cas BA",
-        [ptr](shared_ptr<AllyAttackAction> &data_){
-            Attack(data_);
+        [ptr](shared_ptr<AllyAttackAction> &act){
+            Attack(act);
         });
-        data_->addDamageIns(
+        act->addDamageIns(
             DmgSrc(DmgSrcType::HP,50,10)
         );
-        data_->addToActionBar();
+        act->addToActionBar();
     }
     void Skill(Ally *ptr){
-        shared_ptr<AllyAttackAction> data_ = 
+        shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BLAST,"Cas Skill",
-        [ptr](shared_ptr<AllyAttackAction> &data_){
+        [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),"Netherwing",0,0,30);
-            Attack(data_);
+            Attack(act);
         });
-        data_->addDamageIns(
+        act->addDamageIns(
             DmgSrc(DmgSrcType::HP,50,20),
             DmgSrc(DmgSrcType::HP,30,10)
         );
         
-        data_->addToActionBar();
+        act->addToActionBar();
     }
     void Enchance_Skill(Ally *ptr){
-        shared_ptr<AllyAttackAction> data_ = 
+        shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_AOE,"Cas ESkill",
-        [ptr](shared_ptr<AllyAttackAction> &data_){
+        [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),"Netherwing",0,0,40);
             if(ptr->Eidolon>=1){
-                for(auto &each1 : data_->damageSplit){
+                for(auto &each1 : act->damageSplit){
                     for(auto &each2 : each1){
                         each2.dmgSrc.HP *= 1.239;
                     }
                 }
             }
-            Attack(data_);
+            Attack(act);
         });
-        data_->addDamageIns(
+        act->addDamageIns(
             DmgSrc(DmgSrcType::HP,30,10),
             DmgSrc(DmgSrcType::HP,30,10),
             DmgSrc(DmgSrcType::HP,30,10)
         );
-        data_->addDamageIns(
+        act->addDamageIns(
             DmgSrc(DmgSrcType::HP,50,10),
             DmgSrc(DmgSrcType::HP,50,10),
             DmgSrc(DmgSrcType::HP,50,10)
         );
-        data_->setJoint();
-        data_->switchAttacker.push_back(SwitchAtk(1,ptr->getSubUnit(),1));
-        data_->addToActionBar();
+        act->setJoint();
+        act->switchAttacker.push_back(SwitchAtk(1,ptr->getSubUnit(),1));
+        act->addToActionBar();
     }
     void Kamikaze(Ally *ptr){
-        shared_ptr<AllyAttackAction> data_ = 
+        shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(1),TT_BOUNCE,"Pullux Kamikaze",
-        [ptr](shared_ptr<AllyAttackAction> &data_){
+        [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,0);
-            Attack(data_);
+            Attack(act);
             ptr->getSubUnit()->RestoreHP(HealSrc(HealSrcType::HP,6,HealSrcType::CONST,800));
             for(int i=1;i<=Total_enemy;i++){
                 Enemy_unit[i]->debuffRemove("Lost Netherland"); 
@@ -388,22 +388,22 @@ namespace Castorice{
             ptr->getSubUnit(1)->setStack("Breath Scorches the Shadow",0);
             if(ptr->Print)CharCmd::printUltEnd("Castorice");
         });
-        data_->addActionType(ActionType::Summon);
-        data_->source = ptr->getSubUnit();
+        act->addActionType(ActionType::Summon);
+        act->source = ptr->getSubUnit();
         if(ptr->Eidolon>=6){
-            data_->addEnemyBounce(DmgSrc(DmgSrcType::HP,40,5),9);
-            data_->Dont_care_weakness = 100;
+            act->addEnemyBounce(DmgSrc(DmgSrcType::HP,40,5),9);
+            act->Dont_care_weakness = 100;
         }else{
-            data_->addEnemyBounce(DmgSrc(DmgSrcType::HP,40,5),6);
+            act->addEnemyBounce(DmgSrc(DmgSrcType::HP,40,5),6);
         }
         if(ptr->Eidolon>=1){
-            for(auto &each1 : data_->damageSplit){
+            for(auto &each1 : act->damageSplit){
                 for(auto &each2 : each1){
                     each2.dmgSrc.HP *= 1.239;
                 }
             }
         }
-        data_->addToActionBar();
+        act->addToActionBar();
         Deal_damage();
         
     }

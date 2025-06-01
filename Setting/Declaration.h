@@ -273,11 +273,11 @@ void debuffStackAll(vector<BuffElementClass> debuffSet, SubUnit* ptr, int Stack_
 #pragma region CombatActions
 void Take_action();
 void Deal_damage();
-void Attack(shared_ptr<AllyAttackAction> &data_);
+void Attack(shared_ptr<AllyAttackAction> &act);
 void Skill_point(SubUnit *ptr,int p);
-void Superbreak_trigger(shared_ptr<AllyAttackAction> &data_, double Superbreak_ratio,string triggerName);
+void Superbreak_trigger(shared_ptr<AllyAttackAction> &act, double Superbreak_ratio,string triggerName);
 void Dot_trigger(double Dot_ratio, Enemy* target, std::string Dot_type);
-void Toughness_break(shared_ptr<AllyAttackAction> &data_, Enemy* target);
+void Toughness_break(shared_ptr<AllyAttackAction> &act, Enemy* target);
 #pragma endregion
 
 #pragma region ChangeHP
@@ -307,14 +307,14 @@ Enemy* chooseEnemyTarget(SubUnit* ptr);
 #pragma region Calculate
 
 #pragma region Calculate_damage
-void Cal_Damage(shared_ptr<AllyAttackAction> &data_,Enemy *target,DmgSrc abilityRatio);
-void Cal_Toughness_reduction(shared_ptr<AllyAttackAction> &data_, Enemy* target, double Toughness_reduce);
-void Cal_Break_damage(shared_ptr<AllyAttackAction> &data_, Enemy* target, double& Constant);
-void Cal_Freeze_damage(shared_ptr<AllyAttackAction> &data_, Enemy* target);
-void Cal_Dot_damage(shared_ptr<AllyAttackAction> &data_, Enemy* target, double Dot_ratio);
-void Cal_Dot_Toughness_break_damage(shared_ptr<AllyAttackAction> &data_, Enemy* target, double Dot_ratio);
-void Cal_Superbreak_damage(shared_ptr<AllyAttackAction> &data_, Enemy* target, double Superbreak_ratio);
-double Cal_Total_Toughness_Reduce(shared_ptr<AllyAttackAction> &data_, Enemy* target, double Base_Toughness_reduce);
+void calDamage(shared_ptr<AllyAttackAction> &act,Enemy *target,DmgSrc abilityRatio);
+void Cal_Toughness_reduction(shared_ptr<AllyAttackAction> &act, Enemy* target, double Toughness_reduce);
+void Cal_Break_damage(shared_ptr<AllyAttackAction> &act, Enemy* target, double& Constant);
+void Cal_Freeze_damage(shared_ptr<AllyAttackAction> &act, Enemy* target);
+void Cal_Dot_damage(shared_ptr<AllyAttackAction> &act, Enemy* target, double Dot_ratio);
+void Cal_Dot_Toughness_break_damage(shared_ptr<AllyAttackAction> &act, Enemy* target, double Dot_ratio);
+void Cal_Superbreak_damage(shared_ptr<AllyAttackAction> &act, Enemy* target, double Superbreak_ratio);
+double Cal_Total_Toughness_Reduce(shared_ptr<AllyAttackAction> &act, Enemy* target, double Base_Toughness_reduce);
 #pragma endregion
 
 #pragma region CalDmgReceive
@@ -348,7 +348,7 @@ bool changeMaxDamage(Ally *ptr);
 void Cal_AverageDamage(Ally *ptr,vector<Enemy*> enemyList);
 double Cal_AvgToughnessMultiplier(Enemy* target, double Total_atv);
 void Cal_DamageSummary();
-void Cal_DamageNote(shared_ptr<AllyAttackAction> &data_,Enemy *src,Enemy *recv,double damage,double ratio,string name);
+void Cal_DamageNote(shared_ptr<AllyAttackAction> &act,Enemy *src,Enemy *recv,double damage,double ratio,string name);
 #pragma endregion
 
 #pragma region CalHeal
@@ -368,17 +368,17 @@ double Cal_HealBonus_multiplier(SubUnit* Healer, SubUnit* target);
 #pragma region EventFunctions
 void allEventBeforeTurn();
 void allEventAfterTurn();
-void allEventBuff(shared_ptr<AllyBuffAction> &data_);
-void allEventBeforeAttack(shared_ptr<AllyAttackAction> &data_);
-void allEventAfterAttack(shared_ptr<AllyAttackAction> &data_);
-void allEventWhenAttack(shared_ptr<AllyAttackAction> &data_);
-void allEventWhenAllyAction(shared_ptr<AllyActionData> &data_);
-void allEventAttackHitCount(shared_ptr<AllyAttackAction> &data_);
-void allEventBeforeAction(shared_ptr<ActionData> &data_);
-void allEventAfterAction(shared_ptr<ActionData> &data_);
+void allEventBuff(shared_ptr<AllyBuffAction> &act);
+void allEventBeforeAttack(shared_ptr<AllyAttackAction> &act);
+void allEventAfterAttack(shared_ptr<AllyAttackAction> &act);
+void allEventWhenAttack(shared_ptr<AllyAttackAction> &act);
+void allEventWhenAllyAction(shared_ptr<AllyActionData> &act);
+void allEventAttackHitCount(shared_ptr<AllyAttackAction> &act);
+void allEventBeforeAction(shared_ptr<ActionData> &act);
+void allEventAfterAction(shared_ptr<ActionData> &act);
 void allEventHeal(SubUnit *Healer,SubUnit *target,double Value);
 void allEventChangeHP(Unit *Trigger,SubUnit *target,double Value);
-void allEventWhenToughnessBreak(shared_ptr<AllyAttackAction> &data_, Enemy* target);
+void allEventWhenToughnessBreak(shared_ptr<AllyAttackAction> &act, Enemy* target);
 void allEventWhenEnemyHit(Enemy* Attacker,vector<SubUnit*> vec);
 void allEventWhenEnergyIncrease(Ally* target, double Energy);
 void allEventSkillPoint(SubUnit* ptr, int p);
@@ -386,7 +386,7 @@ void allEventAdjustStats(SubUnit *ptr,string ST);
 void allEventApplyDebuff(SubUnit* ptr, Enemy* target);
 void allEventWhenEnemyDeath(SubUnit* Killer, Enemy* target);
 void allEventWhenAllyDeath(SubUnit *Target);
-void allEventAfterDealingDamage(shared_ptr<AllyAttackAction> &data_, Enemy *src, double damage);
+void allEventAfterDealingDamage(shared_ptr<AllyAttackAction> &act, Enemy *src, double damage);
 #pragma endregion
 
 #pragma endregion

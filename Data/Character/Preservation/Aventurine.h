@@ -13,7 +13,7 @@
 //     void Turn_func(Unit *ptr);
 //     void Ult_func(Ally *ptr);//*
 //     void After_turn(Ally *ptr);
-//     void Before_attack(Ally *ptr, Combat_data &data_);
+//     void Before_attack(Ally *ptr, Combat_data &act);
 //     void Enemy_hit_func(Ally *ptr, Enemy *target);
 
 //     void Set_up(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
@@ -215,8 +215,8 @@
 //             --Enemy_unit[turn->Character_num]->stats->Total_debuff;
 //         }
 //     }
-//     void Before_attack(Ally *ptr, Combat_data &data_){
-//         if(Ally_unit[data_.num]->Atv_stats->Name=="Aventurine"){
+//     void Before_attack(Ally *ptr, Combat_data &act){
+//         if(Ally_unit[act.num]->Atv_stats->Name=="Aventurine"){
 //             ptr->Crit_rate[AT_NONE]-=ptr->stats->Buff_note["Leverage"];
 //             if(((ptr->Def_percent[AT_NONE]*ptr->stats->Base_def)+ptr->Def_flat[AT_NONE])>=1600);
 //             ptr->stats->Buff_note["Leverage"] = floor(((ptr->Def_percent[AT_NONE]*ptr->stats->Base_def)+ptr->Def_flat[AT_NONE]-1600)/100)*2;

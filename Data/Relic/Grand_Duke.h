@@ -14,11 +14,11 @@ namespace Relic{
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG]["Fua"] += 20;
         }));
 
-        Hit_Count_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &data_) {
-            if (data_->Attacker->Atv_stats->Unit_Name != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) return;
+        Hit_Count_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
+            if (act->Attacker->Atv_stats->Unit_Name != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) return;
 
             bool check = false;
-            for (auto e : data_->actionTypeList) {
+            for (auto e : act->actionTypeList) {
                 if (e == "Fua") {
                     check = true;
                     break;
@@ -26,14 +26,14 @@ namespace Relic{
             }
             int hitCnt = 0;
             if (check) {
-                hitCnt += data_->Attacker->hitCount;
+                hitCnt += act->Attacker->hitCount;
                 if (hitCnt > 8) {
                     hitCnt = 8;
                 }
-                data_->Attacker->Stats_type["Atk%"][AT_NONE] -= data_->Attacker->Stack["Grand_Duke"] * 6;
-                data_->Attacker->Stack["Grand_Duke"] = hitCnt;
-                data_->Attacker->Stats_type["Atk%"][AT_NONE] += data_->Attacker->Stack["Grand_Duke"] * 6;
-                data_->Attacker->extendBuffTime("Grand_Duke", 3);
+                act->Attacker->Stats_type["Atk%"][AT_NONE] -= act->Attacker->Stack["Grand_Duke"] * 6;
+                act->Attacker->Stack["Grand_Duke"] = hitCnt;
+                act->Attacker->Stats_type["Atk%"][AT_NONE] += act->Attacker->Stack["Grand_Duke"] * 6;
+                act->Attacker->extendBuffTime("Grand_Duke", 3);
             }
         }));
 

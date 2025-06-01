@@ -15,8 +15,8 @@ namespace Remembrance_Lightcone{
                 ptr->Sub_Unit_ptr[0]->Atv_stats->Speed_percent += 15 + 3 * superimpose;
             }));
 
-            BeforeAction_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<ActionData> &data_) {
-                AllyActionData *allyaction = data_->castToAllyActionData();
+            BeforeAction_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<ActionData> &act) {
+                AllyActionData *allyaction = act->castToAllyActionData();
                 if(!allyaction)return;
                 if(allyaction->Attacker->Atv_stats->Side == "Memosprite"
                     &&allyaction->Attacker->Atv_stats->Unit_num==ptr->getSubUnit()->Atv_stats->Unit_num
@@ -38,16 +38,16 @@ namespace Remembrance_Lightcone{
                 }
             }));
 
-            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &data_) {
-                if(data_->Attacker->Atv_stats->Side == "Memosprite"
-                    &&data_->Attacker->Atv_stats->Unit_num==ptr->getSubUnit()->Atv_stats->Unit_num
-                    &&data_->isSameAction(AT_SKILL)){
+            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
+                if(act->Attacker->Atv_stats->Side == "Memosprite"
+                    &&act->Attacker->Atv_stats->Unit_num==ptr->getSubUnit()->Atv_stats->Unit_num
+                    &&act->isSameAction(AT_SKILL)){
                         shared_ptr<AllyAttackAction> addtionaldmg = 
-                        make_shared<AllyAttackAction>(ActionType::Addtional,data_->Attacker,TT_SINGLE,"Hyc LC AddDmg");
+                        make_shared<AllyAttackAction>(ActionType::Addtional,act->Attacker,TT_SINGLE,"Hyc LC AddDmg");
+                        act->addDamageIns(DmgSrc(DmgSrcType::CONST,ptr->getSubUnit()->Buff_note["Hyacnine_LC Note"] * (1.875 + 0.625 * superimpose),0));
+                        Attack(addtionaldmg);
                         
-                    Cal_Additional_damage(addtionaldmg, Enemy_unit[Main_Enemy_num].get(),
-                    DmgSrc(DmgSrcType::CONST,ptr->getSubUnit()->Buff_note["Hyacnine_LC Note"] * (1.875 + 0.625 * superimpose),0));
-                    ptr->getSubUnit()->setBuffNote("Hyacnine_LC Note",0);
+                        ptr->getSubUnit()->setBuffNote("Hyacnine_LC Note",0);
                 }
             }));
 

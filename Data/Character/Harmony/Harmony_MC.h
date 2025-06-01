@@ -39,15 +39,15 @@ namespace Harmony_MC{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,HMCptr](){
             if(!ultUseCheck(ptr)) return;
             
-            shared_ptr<AllyBuffAction> data_ = 
+            shared_ptr<AllyBuffAction> act = 
             make_shared<AllyBuffAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"HMC Ult",
-            [ptr,HMCptr](shared_ptr<AllyBuffAction> &data_){
+            [ptr,HMCptr](shared_ptr<AllyBuffAction> &act){
                 if(HMCptr->isHaveToAddBuff("Harmony_MC_ult",3))
                 buffAllAlly({{ST_BE,AT_NONE,33}});
             });
-            data_->addBuffAllAllies();
+            act->addBuffAllAllies();
 
-            data_->addToActionBar();
+            act->addToActionBar();
             Deal_damage();
         }));
 
@@ -91,9 +91,9 @@ namespace Harmony_MC{
             }
         }));
 
-        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &data_){
+        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act){
             if(ptr->Sub_Unit_ptr[0]->Buff_check["Harmony_MC_ult"] == 1){
-                Superbreak_trigger(data_, 100 * (1.7 - (0.1 * Total_enemy)),"HMC");
+                Superbreak_trigger(act, 100 * (1.7 - (0.1 * Total_enemy)),"HMC");
             }
         }));
 
@@ -117,27 +117,27 @@ namespace Harmony_MC{
 
 
 void Basic_Atk(Ally *ptr){
-        shared_ptr<AllyAttackAction> data_ = 
+        shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"HMC BA",
-        [ptr](shared_ptr<AllyAttackAction> &data_){
+        [ptr](shared_ptr<AllyAttackAction> &act){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
-            Attack(data_);
+            Attack(act);
         });
-        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,110,10));
-        data_->addToActionBar();
+        act->addDamageIns(DmgSrc(DmgSrcType::ATK,110,10));
+        act->addToActionBar();
     }
     void Skill_func(Ally *ptr){
-        shared_ptr<AllyAttackAction> data_ = 
+        shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BOUNCE,"RMC Skill",
-        [ptr](shared_ptr<AllyAttackAction> &data_){
+        [ptr](shared_ptr<AllyAttackAction> &act){
             if(ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt!=1)Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);     
             Increase_energy(ptr,30);
-            Attack(data_);
+            Attack(act);
         });
-        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,55,10));
-        data_->addEnemyBounce(DmgSrc(DmgSrcType::ATK,55,5),6);
-        data_->addToActionBar();
+        act->addDamageIns(DmgSrc(DmgSrcType::ATK,55,10));
+        act->addEnemyBounce(DmgSrc(DmgSrcType::ATK,55,5),6);
+        act->addToActionBar();
     }
 
 

@@ -37,15 +37,15 @@ namespace Bronya{
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Bronyaptr](){
             if(!ultUseCheck(ptr)) return;
-            shared_ptr<AllyBuffAction> data_ = 
+            shared_ptr<AllyBuffAction> act = 
             make_shared<AllyBuffAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"Bronya Ult",
-            [ptr](shared_ptr<AllyBuffAction> &data_){
+            [ptr](shared_ptr<AllyBuffAction> &act){
                 //Ult ATKBUFF
                 buffAllAlly({{ST_ATK_P,AT_NONE,55}},"Bronya_Ult",2);
 
                 //Ult CritBuff
                 double temp = calculateCritdamForBuff(ptr->Sub_Unit_ptr[0].get(),16)+20;
-                for(auto &e : data_->buffTargetList){
+                for(auto &e : act->buffTargetList){
                     e->buffSingle({{ST_CD,AT_NONE,temp - e->Buff_note["Bronya_Ult"]}});
                     e->buffSingle({{ST_CD,AT_TEMP,temp - e->Buff_note["Bronya_Ult"]}});
                     e->Buff_note["Bronya_Ult"] = temp;
@@ -58,8 +58,8 @@ namespace Bronya{
                 }
                 if(ptr->Print)CharCmd::printUltStart("Bronya");
             });
-            data_->addBuffAllAllies();
-            data_->addToActionBar();
+            act->addBuffAllAllies();
+            act->addToActionBar();
             Deal_damage();
         }));
 
@@ -118,16 +118,16 @@ namespace Bronya{
             buffAllAlly({{ST_DMG,AT_NONE,10}});
         }));
 
-        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &data_){
-            if(data_->isSameAttack("Bronya",AT_BA)){
+        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act){
+            if(act->isSameAttack("Bronya",AT_BA)){
                 Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),30);
             }
-            if(ptr->Eidolon >= 4 && data_->isSameAttack(AT_BA)&&!data_->isSameUnitName("Bronya")&& ptr->Sub_Unit_ptr[0]->Buff_check["Bronya_E4"] == 0){
+            if(ptr->Eidolon >= 4 && act->isSameAttack(AT_BA)&&!act->isSameUnitName("Bronya")&& ptr->Sub_Unit_ptr[0]->Buff_check["Bronya_E4"] == 0){
                 shared_ptr<AllyAttackAction> newAct = 
                 make_shared<AllyAttackAction>(ActionType::Fua,ptr->getSubUnit(),TT_SINGLE,"Bronya E4",
-                [ptr](shared_ptr<AllyAttackAction> &data_){
+                [ptr](shared_ptr<AllyAttackAction> &act){
                     Increase_energy(ptr,5);
-                    Attack(data_);
+                    Attack(act);
                 });
                 newAct->addDamageIns(DmgSrc(DmgSrcType::ATK,80,10));
                 ptr->Sub_Unit_ptr[0]->Buff_check["Bronya_E4"] = 1;
@@ -143,9 +143,9 @@ namespace Bronya{
 
     
     void Skill(Ally *ptr){
-        shared_ptr<AllyBuffAction> data_ = 
+        shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(ActionType::SKILL,ptr->getSubUnit(),TT_SINGLE,"Bronya Skill",
-        [ptr](shared_ptr<AllyBuffAction> &data_){
+        [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
 
@@ -170,8 +170,8 @@ namespace Bronya{
                 ptr->Sub_Unit_ptr[0]->Stack["Bronya_Skill_E1"]++;
             }
         });
-        data_->addBuffSingleTarget(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
-        data_->addToActionBar();
+        act->addBuffSingleTarget(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
+        act->addToActionBar();
     }
 
 

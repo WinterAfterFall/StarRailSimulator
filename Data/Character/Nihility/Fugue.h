@@ -16,8 +16,8 @@
 //     void Ult_func(Ally *ptr);//*
 //     void Before_turn(Ally *ptr);
 //     void After_turn(Ally *ptr);
-//     void Before_attack(Ally *ptr, Combat_data &data_);
-//     void After_attack(Ally *ptr, Combat_data &data_);
+//     void Before_attack(Ally *ptr, Combat_data &act);
+//     void After_attack(Ally *ptr, Combat_data &act);
 //     void Start_game(Ally *ptr);
 //     void Tune_stats(Ally *ptr);
 //     void Toughness_break_func(Ally *ptr,Enemy *target,Ally *Breaker);
@@ -100,20 +100,20 @@
 //     void Enchance_Basic_Atk(Ally *ptr){
 //         Skill_point(1);
 //         Increase_energy(ptr->stats.get(),20);
-//         Combat_data data_;
-//         data_.num = ptr->Atv_stats->Character_num;
-//         data_.Turn_reset = 1;
+//         Combat_data act;
+//         act.num = ptr->Atv_stats->Character_num;
+//         act.Turn_reset = 1;
 
-//         data_.Action_type.first="Attack";
-//         data_.Action_type.second = "Basic_Attack";
+//         act.Action_type.first="Attack";
+//         act.Action_type.second = "Basic_Attack";
 
-//         data_.Damage_element="Fire";
-//         data_.Damage_type.push_back("Basic_Attack");
+//         act.Damage_element="Fire";
+//         act.Damage_type.push_back("Basic_Attack");
 
-//         data_.Target_type="Blast";
-//         data_.Damage_spilt.Main.push_back({100,0,0,10});
-//         data_.Damage_spilt.Adjacent.push_back({50,0,0,5});
-//         Action_bar.push(data_);
+//         act.Target_type="Blast";
+//         act.Damage_spilt.Main.push_back({100,0,0,10});
+//         act.Damage_spilt.Adjacent.push_back({50,0,0,5});
+//         Action_bar.push(act);
         
         
 //     }
@@ -128,17 +128,17 @@
 //         if(ptr->stats->Eidolon>=1)Ally_unit[Main_dps_num]->Weakness_Break_Efficiency[AT_NONE]+=50;
 
 
-//         Combat_data data_;
-//         data_.num = ptr->Atv_stats->Character_num;
-//         data_.Turn_reset = 1;
+//         Combat_data act;
+//         act.num = ptr->Atv_stats->Character_num;
+//         act.Turn_reset = 1;
 
-//         data_.Action_type.first="Buff";
-//         data_.Action_type.second = "Skill";
+//         act.Action_type.first="Buff";
+//         act.Action_type.second = "Skill";
 
-//         data_.Buff_type.push_back("Buff");
+//         act.Buff_type.push_back("Buff");
 
-//         data_.Target_type="Single_target";
-//         Action_bar.push(data_);
+//         act.Target_type="Single_target";
+//         Action_bar.push(act);
 //     }
 //     void Ult_func(Ally *ptr){
 //         if(!Ult_use_check(ptr))return;
@@ -146,20 +146,20 @@
 //         All_Action_forward(24,1,Total_ally);
 //         if(ptr->Print)cout<<" ------------------------------------- Fugue ult at "<<Current_atv<<endl;
 //         }
-//         Combat_data data_;
-//         data_.num = ptr->Atv_stats->Character_num;
+//         Combat_data act;
+//         act.num = ptr->Atv_stats->Character_num;
 
-//         data_.Action_type.first="Attack";
-//         data_.Action_type.second = "Ultimate";
+//         act.Action_type.first="Attack";
+//         act.Action_type.second = "Ultimate";
 
-//         data_.Damage_element="Fire";
-//         data_.Damage_type.push_back("Ultimate");
+//         act.Damage_element="Fire";
+//         act.Damage_type.push_back("Ultimate");
 
-//         data_.Target_type="Aoe";
-//         data_.Damage_spilt.Main.push_back({200,0,0,20});
-//         data_.Damage_spilt.Adjacent.push_back({200,0,0,20});
-//         data_.Damage_spilt.Other.push_back({200,0,0,20});
-//         Action_bar.push(data_);
+//         act.Target_type="Aoe";
+//         act.Damage_spilt.Main.push_back({200,0,0,20});
+//         act.Damage_spilt.Adjacent.push_back({200,0,0,20});
+//         act.Damage_spilt.Other.push_back({200,0,0,20});
+//         Action_bar.push(act);
 //         Deal_damage();
         
 //     }
@@ -196,16 +196,16 @@
 //             }
 //         }
 //     }
-//     void Before_attack(Ally *ptr, Combat_data &data_){
-//         if(Main_dps_num==data_.num){
+//     void Before_attack(Ally *ptr, Combat_data &act){
+//         if(Main_dps_num==act.num){
             
 //             if(ptr->stats->Buff_check["Fugue_Skill"]==1){
-//             if(data_.Dont_care_weakness<50){
-//                 data_.Dont_care_weakness=50;
+//             if(act.Dont_care_weakness<50){
+//                 act.Dont_care_weakness=50;
 //             }
             
-//             int sz2 = data_.Damage_spilt.Adjacent.size();
-//             int sz3 = data_.Damage_spilt.Other.size();
+//             int sz2 = act.Damage_spilt.Adjacent.size();
+//             int sz3 = act.Damage_spilt.Other.size();
 //             for(int i=1;i<=Total_enemy;i++){
 
 //             if(Enemy_unit[i]->stats->Target_type=="Main"){
@@ -240,12 +240,12 @@
 //         }
 //         }
 //     }
-//     void After_attack(Ally *ptr, Combat_data &data_){
-//         Superbreak_trigger(data_,100);
+//     void After_attack(Ally *ptr, Combat_data &act){
+//         Superbreak_trigger(act,100);
 //         for(int i=1;i<=Total_enemy;i++){
 //             if(Enemy_unit[i]->stats->Debuff["Cloudflame_Luster"]==1&&Enemy_unit[i]->stats->Current_toughness*(-1)>=Enemy_unit[i]->stats->Max_toughness*0.4){
 
-//                 Toughness_break(data_,Enemy_unit[i].get());
+//                 Toughness_break(act,Enemy_unit[i].get());
 //                 Enemy_unit[i]->stats->Debuff["Cloudflame_Luster"]=0;
 //             }
 //         }

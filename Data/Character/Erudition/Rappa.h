@@ -44,9 +44,9 @@ namespace Rappa{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
             if (!ultUseCheck(ptr)) return;
             
-            shared_ptr<AllyBuffAction> data_ = 
+            shared_ptr<AllyBuffAction> act = 
             make_shared<AllyBuffAction>(ActionType::Ult,ptr->getSubUnit(),TT_SINGLE,"Rappa Ult",
-            [ptr](shared_ptr<AllyBuffAction> &data_){
+            [ptr](shared_ptr<AllyBuffAction> &act){
                 if (ptr->Print)CharCmd::printUltStart("Rappa");
                 ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"] = 1;
                 ptr->Sub_Unit_ptr[0]->Stack["Rappa_Ult"] = 2;
@@ -82,8 +82,8 @@ namespace Rappa{
                 data_2->addToActionBar();
                 Deal_damage();
             });
-            data_->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
-            data_->addToActionBar();
+            act->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
+            act->addToActionBar();
             Deal_damage();
         }));
 
@@ -128,16 +128,16 @@ namespace Rappa{
         }));
 
 
-        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &data_){
-            if(data_->Attacker->Atv_stats->Char_Name=="Rappa"){
+        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act){
+            if(act->Attacker->Atv_stats->Char_Name=="Rappa"){
                 if(ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"]==1){
-                    Superbreak_trigger(data_,60,"");
+                    Superbreak_trigger(act,60,"");
 
                     shared_ptr<AllyAttackAction> data_2 = 
                     make_shared<AllyAttackAction>(ActionType::Break,ptr->getSubUnit(),TT_AOE,"Rappa Talent");
                     double temp = ptr->Sub_Unit_ptr[0]->Buff_note["Rappa_Talent"];
                     for(int i=1;i<=Total_enemy;i++){
-                        Cal_Break_damage(data_,Enemy_unit[i].get(),temp);
+                        Cal_Break_damage(act,Enemy_unit[i].get(),temp);
                     }
                     ptr->Sub_Unit_ptr[0]->Buff_note["Rappa_Talent"] = 0;
                 }
@@ -148,7 +148,7 @@ namespace Rappa{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
             if (ptr->Technique == 1) {
                 Increase_energy(ptr, 10);
-                shared_ptr<AllyAttackAction> data_ = 
+                shared_ptr<AllyAttackAction> act = 
                 make_shared<AllyAttackAction>(ActionType::Break,ptr->getSubUnit(),TT_AOE,"Rappa Tech");
                 shared_ptr<AllyAttackAction> data_2 = 
                 make_shared<AllyAttackAction>(ActionType::Technique,ptr->getSubUnit(),TT_AOE,"Rappa Tech");
@@ -157,10 +157,10 @@ namespace Rappa{
                    
                     if (Enemy_unit[i]->Target_type == "Main") {
                         temp = 2;
-                        Cal_Break_damage(data_, Enemy_unit[i].get(), temp);
+                        Cal_Break_damage(act, Enemy_unit[i].get(), temp);
                     } else {
                         temp = 1.8;
-                        Cal_Break_damage(data_, Enemy_unit[i].get(), temp);
+                        Cal_Break_damage(act, Enemy_unit[i].get(), temp);
                     }
                     Cal_Toughness_reduction(data_2, Enemy_unit[i].get(), 30);
                 }
@@ -186,53 +186,53 @@ namespace Rappa{
 
     void Enchance_Basic_Atk(Ally *ptr){
         
-        shared_ptr<AllyAttackAction> data_ = 
+        shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_BLAST,"Rappa BA",
-        [ptr](shared_ptr<AllyAttackAction> &data_){
+        [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr, 20);
-            Attack(data_);
+            Attack(act);
         });
         double temp = ptr->Sub_Unit_ptr[0]->Stack["Rappa_Talent"]+2;
         ptr->Sub_Unit_ptr[0]->Buff_note["Rappa_Talent"] = ptr->Sub_Unit_ptr[0]->Stack["Rappa_Talent"]*0.5+0.6;
         ptr->Sub_Unit_ptr[0]->Stack["Rappa_Talent"] = 0;
 
-        data_->Dont_care_weakness = 50;
-        data_->addDamageIns(
+        act->Dont_care_weakness = 50;
+        act->addDamageIns(
             DmgSrc(DmgSrcType::ATK, 100, 10),
             DmgSrc(DmgSrcType::ATK, 50, 5)
         );
-        data_->addDamageIns(
+        act->addDamageIns(
             DmgSrc(DmgSrcType::ATK, 100, 10),
             DmgSrc(DmgSrcType::ATK, 50, 5)
         );
-        data_->addDamageIns(
+        act->addDamageIns(
             DmgSrc(DmgSrcType::ATK, 100, 5.0 + temp),
             DmgSrc(DmgSrcType::ATK, 100, 5.0 + temp),
             DmgSrc(DmgSrcType::ATK, 100, 5.0 + temp) 
         );
-        data_->addToActionBar();
+        act->addToActionBar();
         ptr->Sub_Unit_ptr[0]->Stack["Rappa_Ult"]--;
     }
     void Skill_func(Ally *ptr){
         
-        shared_ptr<AllyAttackAction> data_ = 
+        shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_AOE,"Rappa Skill",
-        [ptr](shared_ptr<AllyAttackAction> &data_){
+        [ptr](shared_ptr<AllyAttackAction> &act){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
-            Attack(data_);
+            Attack(act);
         });
-        data_->addDamageIns(
+        act->addDamageIns(
             DmgSrc(DmgSrcType::ATK, 60, 5),
             DmgSrc(DmgSrcType::ATK, 60, 5),
             DmgSrc(DmgSrcType::ATK, 60, 5) 
         );
-        data_->addDamageIns(
+        act->addDamageIns(
             DmgSrc(DmgSrcType::ATK, 60, 5),
             DmgSrc(DmgSrcType::ATK, 60, 5),
             DmgSrc(DmgSrcType::ATK, 60, 5) 
         );
-        data_->addToActionBar();
+        act->addToActionBar();
     }
     
 

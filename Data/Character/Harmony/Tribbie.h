@@ -54,9 +54,9 @@ namespace Tribbie{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,TBptr]() {
             if (!ultUseCheck(ptr)) return;
             
-            shared_ptr<AllyAttackAction> data_ = 
+            shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"TB Ult",
-            [ptr,TBptr](shared_ptr<AllyAttackAction> &data_){
+            [ptr,TBptr](shared_ptr<AllyAttackAction> &act){
                 if (TBptr->isHaveToAddBuff("Tribbie_Zone",2)) {
                         debuffAllEnemyMark({{ST_VUL,AT_NONE,30}},ptr->Sub_Unit_ptr[0].get(),"Tribbie_Zone");
     
@@ -80,15 +80,15 @@ namespace Tribbie{
                     if (i == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num) continue;
                     Ally_unit[i]->Sub_Unit_ptr[0]->Buff_check["Tribbie_ult_launch"] = 0;
                 }
-                Attack(data_);
+                Attack(act);
                 
                 if (ptr->Print)CharCmd::printUltStart("Tribbie");
                 if (ptr->Eidolon >= 6) {
                     shared_ptr<AllyAttackAction> data_2 = 
                     make_shared<AllyAttackAction>(ActionType::Fua,ptr->getSubUnit(),TT_AOE,"TB Fua",
-                    [ptr](shared_ptr<AllyAttackAction> &data_){
+                    [ptr](shared_ptr<AllyAttackAction> &act){
                         Increase_energy(ptr, 5);
-                        Attack(data_);
+                        Attack(act);
                     });
                     data_2->addDamageIns(
                         DmgSrc(DmgSrcType::HP,18,5),
@@ -99,12 +99,12 @@ namespace Tribbie{
                     Deal_damage();
                 }
             });
-            data_->addDamageIns(
+            act->addDamageIns(
                 DmgSrc(DmgSrcType::HP,30,20),
                 DmgSrc(DmgSrcType::HP,30,20),
                 DmgSrc(DmgSrcType::HP,30,20)
             );
-            data_->addToActionBar();
+            act->addToActionBar();
             Deal_damage();
         }));
 
@@ -159,9 +159,9 @@ namespace Tribbie{
             TBptr->isHaveToAddBuff("Numinosity", 3);
         }));
         
-        When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr](shared_ptr<AllyAttackAction> &data_) {
-            int temp = data_->targetList.size();
-            if (data_->isSameAttack("Tribbie",AT_FUA)) {
+        When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr](shared_ptr<AllyAttackAction> &act) {
+            int temp = act->targetList.size();
+            if (act->isSameAttack("Tribbie",AT_FUA)) {
                 TBptr->buffStackSingle({{ST_DMG, AT_NONE, 72}},1,3,"Tribbie_A2",3);
             }
             Increase_energy(ptr, (1.5) * temp);
@@ -169,18 +169,20 @@ namespace Tribbie{
                 shared_ptr<AllyAttackAction> data_1 = 
                 make_shared<AllyAttackAction>(ActionType::Addtional,ptr->getSubUnit(),TT_SINGLE,"TB AddDmg");
                 if (ptr->Eidolon >= 2) {
-                    Cal_Additional_damage(data_1, chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()), DmgSrc(DmgSrcType::HP,14.4,0));
+                    data_1->addDamageIns(DmgSrc(DmgSrcType::HP,14.4));
                 } else {
-                    Cal_Additional_damage(data_1, chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()), DmgSrc(DmgSrcType::HP,12,0));
+                    data_1->addDamageIns(DmgSrc(DmgSrcType::HP,12));
                 }
+
+                Attack(data_1);
             }
-            if (data_->isSameAttack(AT_ULT)&& data_->Attacker->getBuffCheck("Tribbie_ult_launch") == 0 && data_->Attacker->Atv_stats->Char_Name != "Tribbie" && data_->Attacker->Atv_stats->Side == "Ally") {
-                data_->Attacker->Buff_check["Tribbie_ult_launch"] = 1;
+            if (act->isSameAttack(AT_ULT)&& act->Attacker->getBuffCheck("Tribbie_ult_launch") == 0 && act->Attacker->Atv_stats->Char_Name != "Tribbie" && act->Attacker->Atv_stats->Side == "Ally") {
+                act->Attacker->Buff_check["Tribbie_ult_launch"] = 1;
                 shared_ptr<AllyAttackAction> data_2 = 
                 make_shared<AllyAttackAction>(ActionType::Fua,ptr->getSubUnit(),TT_AOE,"TB Fua",
-                [ptr](shared_ptr<AllyAttackAction> &data_){
+                [ptr](shared_ptr<AllyAttackAction> &act){
                     Increase_energy(ptr, 5);
-                    Attack(data_);
+                    Attack(act);
                 });
                 data_2->addDamageIns(
                     DmgSrc(DmgSrcType::HP,18,5),
@@ -209,16 +211,16 @@ namespace Tribbie{
             }
         }));  
         if(ptr->Eidolon>=1){
-            Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr](shared_ptr<AllyAttackAction> &data_) {
+            Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr](shared_ptr<AllyAttackAction> &act) {
                 if(TBptr->getBuffCheck("Tribbie_Zone"))TBptr->setBuffCheck("TB_TrueDmg",1);
             }));
-            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr](shared_ptr<AllyAttackAction> &data_) {
+            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr](shared_ptr<AllyAttackAction> &act) {
                 TBptr->setBuffCheck("TB_TrueDmg",0);
             }));
             AfterDealingDamage_List.push_back(TriggerAfterDealDamage(PRIORITY_IMMEDIATELY, [ptr,TBptr]
-                (shared_ptr<AllyAttackAction> &data_, Enemy *src, double damage) {
+                (shared_ptr<AllyAttackAction> &act, Enemy *src, double damage) {
                 if(!TBptr->getBuffCheck("TB_TrueDmg"))return;
-                Cal_DamageNote(data_,src,Enemy_unit[Main_Enemy_num].get(),damage,24,"TB True" + data_->actionName);
+                Cal_DamageNote(act,src,Enemy_unit[Main_Enemy_num].get(),damage,24,"TB True" + act->actionName);
             }));
         }
 
@@ -226,31 +228,31 @@ namespace Tribbie{
 
 
     void Basic_Atk(Ally *ptr){
-        shared_ptr<AllyAttackAction> data_ = 
+        shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_BLAST,"TB BA",
-        [ptr](shared_ptr<AllyAttackAction> &data_){
+        [ptr](shared_ptr<AllyAttackAction> &act){
                         Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
-            Attack(data_);
+            Attack(act);
         });
-        data_->addDamageIns(
+        act->addDamageIns(
             DmgSrc(DmgSrcType::HP,30,10),
             DmgSrc(DmgSrcType::HP,15,5)
         );
-        data_->addToActionBar();
+        act->addToActionBar();
     }
     
     void Skill(Ally *ptr){
-        shared_ptr<AllyBuffAction> data_ = 
+        shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(ActionType::SKILL,ptr->getSubUnit(),TT_AOE,"TB Skill",
-        [ptr](shared_ptr<AllyBuffAction> &data_){
+        [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             buffAllAlly({{"Respen",AT_NONE,24}});
             ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Numinosity", 3);
         });
-        data_->addBuffAllAllies();
-        data_->addToActionBar();
+        act->addBuffAllAllies();
+        act->addToActionBar();
     }
 
 

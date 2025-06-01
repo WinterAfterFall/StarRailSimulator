@@ -16,11 +16,11 @@ namespace Harmony_Lightcone{
                 ptr->Energy_recharge += 8 + 2 * superimpose;
             }));
 
-            AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &data_){
-                if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
-                    if (data_->isSameAction(AT_SKILL)) {
+            AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
+                if (act->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
+                    if (act->isSameAction(AT_SKILL)) {
                         ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff"] = 1;
-                    } else if (data_->isSameAction(AT_ULT)) {
+                    } else if (act->isSameAction(AT_ULT)) {
                         if (ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_cnt"] == 0) {
                             ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_cnt"] = true;
                             Skill_point(ptr->Sub_Unit_ptr[0].get(), 1);

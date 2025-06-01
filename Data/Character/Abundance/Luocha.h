@@ -36,18 +36,18 @@ namespace Luocha{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_DEBUFF, [ptr]() {
             if (ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"] >= 2) return;
             if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyAttackAction> data_ = 
+            shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"Luocha Ult",
-        [ptr](shared_ptr<AllyAttackAction> &data_){
-            Attack(data_);
+        [ptr](shared_ptr<AllyAttackAction> &act){
+            Attack(act);
             ++ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"];
             Abyss_Flower(ptr);
         });
-            data_->addDamageIns(
+            act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,200,20),
                 DmgSrc(DmgSrcType::ATK,200,20),
                 DmgSrc(DmgSrcType::ATK,200,20));
-            data_->addToActionBar();
+            act->addToActionBar();
             Deal_damage();
         }));
 
@@ -80,10 +80,10 @@ namespace Luocha{
             }
         }));
 
-        When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &data_) {
+        When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
             if (ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"] >= 2) {
                 ptr->getSubUnit()->RestoreHP(
-                    data_->Attacker,
+                    act->Attacker,
                     HealSrc(HealSrcType::ATK,18,HealSrcType::CONST,240),
                     HealSrc(HealSrcType::ATK,7,HealSrcType::CONST,93)
                 );
@@ -112,20 +112,20 @@ namespace Luocha{
     }
     void Basic_Atk(Ally *ptr){
         
-        shared_ptr<AllyAttackAction> data_ = 
+        shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Luocha BA",
-        [ptr](shared_ptr<AllyAttackAction> &data_){
+        [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
-            Attack(data_);
+            Attack(act);
             if(ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt%2==1){
                 Talent(ptr);
             }
         });
-        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,30,3));
-        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,30,3));
-        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,40,4));
-        data_->addToActionBar();
+        act->addDamageIns(DmgSrc(DmgSrcType::ATK,30,3));
+        act->addDamageIns(DmgSrc(DmgSrcType::ATK,30,3));
+        act->addDamageIns(DmgSrc(DmgSrcType::ATK,40,4));
+        act->addToActionBar();
 
     }
 

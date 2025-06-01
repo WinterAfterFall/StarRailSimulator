@@ -56,10 +56,10 @@ namespace Serval{
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
             if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyAttackAction> data_ = 
+            shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"Serval Ult",
-            [ptr](shared_ptr<AllyAttackAction> &data_){
-                Attack(data_);
+            [ptr](shared_ptr<AllyAttackAction> &act){
+                Attack(act);
                 if (ptr->Eidolon >= 4){
                     for (int i = 1; i <= Total_enemy; i++) {
                         if (Enemy_unit[i]->debuffApply(ptr->getSubUnit(),"Serval_Shock")) {
@@ -69,12 +69,12 @@ namespace Serval{
                     extendDebuffAll("Serval_Shock", 2);
                 }
             });
-            data_->addDamageIns(
+            act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,194,20),
                 DmgSrc(DmgSrcType::ATK,194,20),
                 DmgSrc(DmgSrcType::ATK,194,20)
             );
-            data_->addToActionBar();
+            act->addToActionBar();
             Deal_damage();
         }));
 
@@ -104,19 +104,20 @@ namespace Serval{
         Dot_List.push_back(TriggerDot_Func(PRIORITY_BUFF, [ptr,Servalptr](Enemy* target, double Dot_ratio, string Dot_type) {
             if (!target->getDebuff("Serval_Shock")) return;
             if (Dot_type != AT_NONE && Dot_type != "Lightning") return;
-            shared_ptr<AllyAttackAction> data_ = 
+            shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(ActionType::Dot,ptr->getSubUnit(),TT_SINGLE,"Serval Shock");
-            data_->addDamageIns(DmgSrc(DmgSrcType::ATK,114,0));
-            dotDamage(data_,Dot_ratio);
+            act->addDamageIns(DmgSrc(DmgSrcType::ATK,114),target);
+            dotDamage(act,Dot_ratio);
         }));
 
-        When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &data_) {
-            if (data_->Attacker->Atv_stats->Unit_Name != "Serval") return;
+        When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act) {
+            if (act->Attacker->Atv_stats->Unit_Name != "Serval") return;
             shared_ptr<AllyAttackAction> data_2 = 
             make_shared<AllyAttackAction>(ActionType::Addtional,ptr->getSubUnit(),TT_SINGLE,"Serval AddDmg");
             for (int i = 1; i <= Total_enemy; i++) {
                 if (Enemy_unit[i]->getDebuff("Serval_Shock")) {
-                    Cal_Additional_damage(data_2, Enemy_unit[i].get(),DmgSrc(DmgSrcType::ATK,79,0));
+                    data_2->addDamageIns(DmgSrc(DmgSrcType::ATK,79));
+                    Attack(data_2);
                     if (ptr->Eidolon >= 2) {
                         Increase_energy(ptr, 4);
                     }
@@ -135,27 +136,27 @@ namespace Serval{
 
 
     void Basic_Atk(Ally *ptr){
-        shared_ptr<AllyAttackAction> data_ = 
+        shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Serval BA",
-        [ptr](shared_ptr<AllyAttackAction> &data_){
+        [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
-            Attack(data_);
+            Attack(act);
         });
-        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,110,10),chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
+        act->addDamageIns(DmgSrc(DmgSrcType::ATK,110,10),chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
         if(Total_enemy>=2&&ptr->Eidolon>=1){
             if(ptr->Sub_Unit_ptr[0]->Enemy_target_num==1){
-                data_->addDamage(DmgSrc(DmgSrcType::ATK,60,0),Enemy_unit[2].get());
+                act->addDamage(DmgSrc(DmgSrcType::ATK,60,0),Enemy_unit[2].get());
             }else{
-                data_->addDamage(DmgSrc(DmgSrcType::ATK,60,0),Enemy_unit[1].get());
+                act->addDamage(DmgSrc(DmgSrcType::ATK,60,0),Enemy_unit[1].get());
             }
         }
-        data_->addToActionBar();
+        act->addToActionBar();
     }
     void Skill(Ally *ptr){
-        shared_ptr<AllyAttackAction> data_ = 
+        shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BLAST,"Serval Skill",
-        [ptr](shared_ptr<AllyAttackAction> &data_){
+        [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             for (int i = 1; i <= Total_enemy; i++) {
@@ -164,13 +165,13 @@ namespace Serval{
                 }
             }
             extendDebuffAll("Serval_Shock", 2);
-            Attack(data_);
+            Attack(act);
         });
-        data_->addDamageIns(
+        act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,154,20),
                 DmgSrc(DmgSrcType::ATK,66,10)
             );
-        data_->addToActionBar();
+        act->addToActionBar();
         
     }
 

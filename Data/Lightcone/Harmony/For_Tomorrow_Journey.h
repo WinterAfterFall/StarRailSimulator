@@ -16,8 +16,8 @@ namespace Harmony_Lightcone{
                 ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 12 + 4 * superimpose;
             }));
 
-            AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &data_){
-                if (data_->isSameAction(ptr->getSubUnit(),AT_ULT)) {
+            AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
+                if (act->isSameAction(ptr->getSubUnit(),AT_ULT)) {
                     ptr->getSubUnit()->buffSingle({
                         {ST_DMG,AT_NONE,(15.0 + 3 * superimpose)}
                     },"For_Tomorrow_Journey_Buff",1);

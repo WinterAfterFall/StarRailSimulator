@@ -29,8 +29,8 @@ namespace Harmony_Lightcone{
                 }
             }));
 
-            AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &data_){
-                if (data_->isSameAction(ptr->getSubUnit(),AT_FUA)) {
+            AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
+                if (act->isSameAction(ptr->getSubUnit(),AT_FUA)) {
                     Increase_energy(ptr, 12);
                     if(ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Presage",2)){
                         buffAllAlly({{ST_CD, AT_NONE, (36.0 + 12 * superimpose)}});

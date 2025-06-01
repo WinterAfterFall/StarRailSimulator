@@ -4,14 +4,14 @@
 #include "../Class/ClassLibrary.h"
 
 void Enemy::AoeAttack(double SkillRatio,double energy){
-    shared_ptr<EnemyActionData> data_ = make_shared<EnemyActionData>();
-    data_->setAoeAttack(this,SkillRatio,energy);
-    Action_bar.push(data_);
+    shared_ptr<EnemyActionData> act = make_shared<EnemyActionData>();
+    act->setAoeAttack(this,SkillRatio,energy);
+    Action_bar.push(act);
 }
 void Enemy::BaAttack(double SkillRatio,double energy){
-    shared_ptr<EnemyActionData> data_ = make_shared<EnemyActionData>();
-    data_->setBaAttack(this,SkillRatio,energy);
-    Action_bar.push(data_);
+    shared_ptr<EnemyActionData> act = make_shared<EnemyActionData>();
+    act->setBaAttack(this,SkillRatio,energy);
+    Action_bar.push(act);
 }
 void Enemy::addTaunt(SubUnit* ptr){
     this->tauntList.push_back(ptr);

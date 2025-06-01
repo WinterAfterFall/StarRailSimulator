@@ -47,9 +47,9 @@ namespace Gallagher{
             if (Ult_After_Turn == 0 || ptr->Sub_Unit_ptr[0]->Atv_stats->atv == 0 || !ultUseCheck(ptr)) return;
             
 
-            shared_ptr<AllyAttackAction> data_ = 
+            shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(ActionType::Ult,Charptr,"Aoe","Gall Ult",
-                [ptr,Charptr](shared_ptr<AllyAttackAction> &data_){
+                [ptr,Charptr](shared_ptr<AllyAttackAction> &act){
                     Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
                     ptr->Sub_Unit_ptr[0]->Buff_check["Gallagher_enchance_basic_atk"] = 1;
                     debuffAllEnemyApply({{ST_VUL,AT_TEMP,13.2}},Charptr,"Besotted");  
@@ -58,15 +58,15 @@ namespace Gallagher{
                     } else {
                         extendDebuffAll("Besotted", 2);
                     }
-                    Attack(data_);
+                    Attack(act);
                 });
-            data_->addDamageIns(
+            act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,165,20),
                 DmgSrc(DmgSrcType::ATK,165,20),
                 DmgSrc(DmgSrcType::ATK,165,20)
             );
 
-            data_->addToActionBar();
+            act->addToActionBar();
             if(!actionBarUse)Deal_damage();
             if (ptr->Print) CharCmd::printUltStart("Gallagher");
         }});
@@ -109,28 +109,28 @@ namespace Gallagher{
             Charptr->buffSingle({{ST_HEALING_OUT,AT_NONE,temp - Charptr->getBuffNote("Novel Concoction")}});
             ptr->getSubUnit()->Buff_note["Novel Concoction"] = temp;
             if (ptr->Technique) {
-                shared_ptr<AllyAttackAction> data_ = 
+                shared_ptr<AllyAttackAction> act = 
                 make_shared<AllyAttackAction>(ActionType::Technique,Charptr,"Aoe","Gall Tech",
-                [ptr,Charptr](shared_ptr<AllyAttackAction> &data_){
+                [ptr,Charptr](shared_ptr<AllyAttackAction> &act){
                     debuffAllEnemyApply({{ST_VUL, "Break_dmg", 13.2}},Charptr,"Besotted",2);
-                    Attack(data_);
+                    Attack(act);
                 });
-                data_->addDamageIns(
+                act->addDamageIns(
                     DmgSrc(DmgSrcType::ATK,50,20),
                     DmgSrc(DmgSrcType::ATK,50,20),
                     DmgSrc(DmgSrcType::ATK,50,20)
                 );
-                data_->addToActionBar();
+                act->addToActionBar();
                 Deal_damage();
             }
         }});
 
-        When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_HEAL, [ptr](shared_ptr<AllyAttackAction> &data_) {
+        When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_HEAL, [ptr](shared_ptr<AllyAttackAction> &act) {
             
-            if(data_->isSameAttack("Gallagher",AT_BA)&&data_->Attacker->Buff_check["Gallagher_enchance_basic_atk"] == 1){
+            if(act->isSameAttack("Gallagher",AT_BA)&&act->Attacker->Buff_check["Gallagher_enchance_basic_atk"] == 1){
                 ptr->Sub_Unit_ptr[0]->Buff_check["Gallagher_enchance_basic_atk"] = 0;
                 int cnt = 0;
-                for (Enemy *e : data_->targetList) {
+                for (Enemy *e : act->targetList) {
                     if (e->getDebuff("Besotted")) {
                         cnt++;
                         
@@ -139,12 +139,12 @@ namespace Gallagher{
                 ptr->getSubUnit()->RestoreHP(HealSrc(HealSrcType::CONST,707.0*cnt));
             } else {
                 int cnt = 0;
-                for (Enemy *e : data_->targetList) {
+                for (Enemy *e : act->targetList) {
                     if (e->getDebuff("Besotted")) {
                         cnt++;           
                     }
                 }
-                ptr->getSubUnit()->RestoreHP(data_->Attacker,HealSrc(HealSrcType::CONST,707.0*cnt));
+                ptr->getSubUnit()->RestoreHP(act->Attacker,HealSrc(HealSrcType::CONST,707.0*cnt));
             }
         }));
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_HEAL, [ptr](SubUnit* Target, string StatsType) {
@@ -167,47 +167,47 @@ namespace Gallagher{
 
     void Basic_Atk(Ally *ptr){
         
-        shared_ptr<AllyAttackAction> data_ = 
+        shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Gall BA",
-        [ptr](shared_ptr<AllyAttackAction> &data_){
+        [ptr](shared_ptr<AllyAttackAction> &act){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
-            Attack(data_);
+            Attack(act);
         });
-        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,55,5));
-        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,55,5));
-        data_->addToActionBar();
+        act->addDamageIns(DmgSrc(DmgSrcType::ATK,55,5));
+        act->addDamageIns(DmgSrc(DmgSrcType::ATK,55,5));
+        act->addToActionBar();
     }
     void Enchance_Basic_Atk(Ally *ptr){
-       shared_ptr<AllyAttackAction> data_ = 
+       shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Gall EBA",
-        [ptr](shared_ptr<AllyAttackAction> &data_){
+        [ptr](shared_ptr<AllyAttackAction> &act){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
-            for(Enemy* &target : data_->targetList){
-                target->debuffApply(data_->Attacker,"Nectar_Blitz");
+            for(Enemy* &target : act->targetList){
+                target->debuffApply(act->Attacker,"Nectar_Blitz");
                 target->atkPercent -= 16;
                 target->extendDebuff("Nectar_Blitz",2);
             }
-            Attack(data_);
+            Attack(act);
         });
-        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,62.5,7.5));
-        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,37.5,4.5));
-        data_->addDamageIns(DmgSrc(DmgSrcType::ATK,150,18));
-        data_->addToActionBar();
+        act->addDamageIns(DmgSrc(DmgSrcType::ATK,62.5,7.5));
+        act->addDamageIns(DmgSrc(DmgSrcType::ATK,37.5,4.5));
+        act->addDamageIns(DmgSrc(DmgSrcType::ATK,150,18));
+        act->addToActionBar();
 
     }
     void Skill_func(Ally *ptr){
 
-        shared_ptr<AllyBuffAction> data_ = 
+        shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(ActionType::SKILL,ptr->getSubUnit(),TT_SINGLE,"Gall Skill",
-        [ptr](shared_ptr<AllyBuffAction> data_){
+        [ptr](shared_ptr<AllyBuffAction> act){
             ptr->getSubUnit()->RestoreHP(HealSrc(HealSrcType::CONST,1768),HealSrc(),HealSrc());
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
         });
-        data_->addBuffSingleTarget(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
-        data_->addToActionBar();
+        act->addBuffSingleTarget(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
+        act->addToActionBar();
     }
 }
 #endif

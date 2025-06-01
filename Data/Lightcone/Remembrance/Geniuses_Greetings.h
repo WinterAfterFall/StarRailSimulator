@@ -16,8 +16,8 @@ namespace Remembrance_Lightcone{
                 ptr->Sub_Unit_ptr[0]->Stats_type["ATK%"][AT_NONE] += 12 + 4 * superimpose;
             }));
 
-            AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &data_){
-                if (data_->isSameAction(ptr->getSubUnit(),AT_ULT)) {
+            AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
+                if (act->isSameAction(ptr->getSubUnit(),AT_ULT)) {
                     ptr->buffAlly({{ST_DMG,AT_BA,(15.0 + superimpose * 5)}},"Geniuses_Greetings",3);
                 }
             }));

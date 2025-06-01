@@ -20,9 +20,9 @@ namespace Erudition_Lightcone{
                 
             }));
     
-            Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &data_) {
+            Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
                 ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] -= ptr->Sub_Unit_ptr[0]->Buff_note["Calculus_Atk_buff"];
-                ptr->Sub_Unit_ptr[0]->Buff_note["Calculus_Atk_buff"] = data_->targetList.size() * 3 + superimpose;
+                ptr->Sub_Unit_ptr[0]->Buff_note["Calculus_Atk_buff"] = act->targetList.size() * 3 + superimpose;
     
                 ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += ptr->Sub_Unit_ptr[0]->Buff_note["Calculus_Atk_buff"];
                 if (ptr->Sub_Unit_ptr[0]->Buff_note["Calculus_Atk_buff"] >= 24) {

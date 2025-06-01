@@ -40,12 +40,12 @@ namespace TemplateName{
 
             if (!ultUseCheck(ptr)) return;
 
-            AllyActionData data_ = AllyActionData();
-            // data_.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),);
-            data_.actionFunction = [ptr](shared_ptr<AllyActionData> &data_) {
+            AllyActionData act = AllyActionData();
+            // act.Ultimate_set(ptr->Sub_Unit_ptr[0].get(),);
+            act.actionFunction = [ptr](shared_ptr<AllyActionData> &act) {
 
             };
-            Action_bar.push(data_);
+            Action_bar.push(act);
             if (!actionBarUse) Deal_damage();
         }));
 
