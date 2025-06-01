@@ -176,6 +176,7 @@ class EnemyActionData;
 class TriggerFunc;
 class TriggerByYourSelf_Func;
 class TriggerByAction_Func;
+class TriggerByAllyAction_Func;
 class TriggerByAllyAttackAction_Func;
 class TriggerByAllyBuffAction_Func;
 class TriggerByStats;
@@ -280,10 +281,6 @@ void Toughness_break(shared_ptr<AllyAttackAction> &data_, Enemy* target);
 #pragma endregion
 
 #pragma region ChangeHP
-void RestoreHP(SubUnit *healer,HealSrc main,HealSrc adjacent,HealSrc other);
-void RestoreHP(HealSrc Healptr,SubUnit *Healer,SubUnit *target);
-void RestoreHP(HealSrc healRatio,SubUnit *Healer);
-void RestoreHP(HealSrc healRatioMain,HealSrc healRatio,SubUnit *Healer,SubUnit *target);
 void IncreaseCurrentHP(SubUnit *ptr,double Value);
 void IncreaseHP(SubUnit *Healer,SubUnit *target,double Value);
 void DecreaseCurrentHP(SubUnit *ptr,double Value);
@@ -375,6 +372,7 @@ void allEventBuff(shared_ptr<AllyBuffAction> &data_);
 void allEventBeforeAttack(shared_ptr<AllyAttackAction> &data_);
 void allEventAfterAttack(shared_ptr<AllyAttackAction> &data_);
 void allEventWhenAttack(shared_ptr<AllyAttackAction> &data_);
+void allEventWhenAllyAction(shared_ptr<AllyActionData> &data_);
 void allEventAttackHitCount(shared_ptr<AllyAttackAction> &data_);
 void allEventBeforeAction(shared_ptr<ActionData> &data_);
 void allEventAfterAction(shared_ptr<ActionData> &data_);

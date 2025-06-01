@@ -14,7 +14,7 @@ namespace Nihility_Lightcone{
             string ensnared = ptr->getSubUnit()->getUnitName() + " Ensnared";
             ptr->newEhrRequire(50 + superimpose);
 
-            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,ensnared](shared_ptr<AllyActionData> &data_) {
+            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,ensnared](shared_ptr<AllyAttackAction> &data_) {
                 if (data_->Attacker->Atv_stats->Unit_Name != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) return;
                 for (auto e : data_->targetList) {
                     if (!e->debuffApply(ptr->Sub_Unit_ptr[0].get(),ensnared)) continue;

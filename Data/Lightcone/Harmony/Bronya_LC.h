@@ -15,27 +15,12 @@ namespace Harmony_Lightcone{
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 ptr->Energy_recharge += 8 + 2 * superimpose;
             }));
-    
-            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+
+            AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &data_){
                 if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
-                    if (data_->Action_type.second == "Skill") {
+                    if (data_->isSameAction(AT_SKILL)) {
                         ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff"] = 1;
-                    } else if (data_->Action_type.second == "Ultimate") {
-                        if (ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_cnt"] == 0) {
-                            ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_cnt"] = true;
-                            Skill_point(ptr->Sub_Unit_ptr[0].get(), 1);
-                        } else {
-                            ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_cnt"] = false;
-                        }
-                    }
-                }
-            }));
-    
-            Buff_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
-                if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
-                    if (data_->Action_type.second == "Skill") {
-                        ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff"] = 1;
-                    } else if (data_->Action_type.second == "Ultimate") {
+                    } else if (data_->isSameAction(AT_ULT)) {
                         if (ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_cnt"] == 0) {
                             ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_cnt"] = true;
                             Skill_point(ptr->Sub_Unit_ptr[0].get(), 1);

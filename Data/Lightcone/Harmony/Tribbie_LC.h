@@ -28,24 +28,16 @@ namespace Harmony_Lightcone{
                     buffAllAlly({{ST_CD, AT_NONE, -(36.0 + 12 * superimpose)}});
                 }
             }));
-    
-            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
-                if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_->Action_type.second == "Fua") {
+
+            AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &data_){
+                if (data_->isSameAction(ptr->getSubUnit(),AT_FUA)) {
                     Increase_energy(ptr, 12);
                     if(ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Presage",2)){
                         buffAllAlly({{ST_CD, AT_NONE, (36.0 + 12 * superimpose)}});
                     }
                 }
             }));
-    
-            Buff_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
-                if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_->Action_type.second == "Fua") {
-                    Increase_energy(ptr, 12);
-                    if(ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Presage",2)){
-                        buffAllAlly({{ST_CD, AT_NONE, (36.0 + 12 * superimpose)}});
-                    }
-                }
-            }));
+
         };
     }
 }

@@ -21,9 +21,9 @@ namespace Erudition_Lightcone{
                 });
                 }
             }));
-    
-            Buff_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
-                if (data_->Action_type.second == "Ultimate" && data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
+
+            AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &data_){
+                if (data_->isSameAction(ptr->getSubUnit(),AT_ULT)) {
                     ptr->getSubUnit()->buffSingle({
                         {ST_DMG,AT_SKILL,(50.0 + 10 * superimpose)},
                         {ST_DMG,AT_ULT,(50.0 + 10 * superimpose)},
@@ -33,20 +33,7 @@ namespace Erudition_Lightcone{
                     }
                 }
             }));
-    
-            Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
-                if (data_->Action_type.second == "Ultimate" && data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
-                    if (data_->Action_type.second == "Ultimate" && data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
-                    ptr->getSubUnit()->buffSingle({
-                        {ST_DMG,AT_SKILL,(50.0 + 10 * superimpose)},
-                        {ST_DMG,AT_ULT,(50.0 + 10 * superimpose)},
-                        },"The_Herta_LC_buff",3);
-                    if (ptr->Ult_cost >= 140) {
-                        Skill_point(ptr->Sub_Unit_ptr[0].get(), 1);
-                    }
-                }
-                }
-            }));
+            
         };
     }
 }

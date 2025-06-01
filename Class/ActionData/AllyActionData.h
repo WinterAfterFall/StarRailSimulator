@@ -7,7 +7,7 @@ class AllyActionData : public ActionData, public std::enable_shared_from_this<Al
     bool Turn_reset = 0;
     SubUnit* Attacker = nullptr;
     SubUnit* source = nullptr; 
-    vector<string> abilityTypeList;//  None Basic_Attack Skill Ultimate  Dot  Fua  Summon  Break_dmg  Super_break Additional
+    vector<string> actionTypeList;//  None Basic_Attack Skill Ultimate  Dot  Fua  Summon  Break_dmg  Super_break Additional
     string traceType = "";// Aoe Single_target Bounce
     
 
@@ -16,21 +16,21 @@ class AllyActionData : public ActionData, public std::enable_shared_from_this<Al
     #pragma region getMethod
 
     string getActionType(){
-        return abilityTypeList[0];
+        return actionTypeList[0];
     }
     
     string getActionType(int index){
-        if(index < 0 || index >= abilityTypeList.size()) {
+        if(index < 0 || index >= actionTypeList.size()) {
             return "Invalid index";
         }
-        return abilityTypeList[index];
+        return actionTypeList[index];
     }
     
     #pragma endregion
 
     #pragma region setMethod
 
-    string setTurnReset(bool arg){
+    void setTurnReset(bool arg){
         Turn_reset = arg;
     }
     
@@ -38,91 +38,60 @@ class AllyActionData : public ActionData, public std::enable_shared_from_this<Al
 
     #pragma region checkMethod
 
-    virtual bool isSameUnit(SubUnit *ptr){
-        if (Attacker->isSameUnit(ptr))return true;
-        return false;
-    }
-    virtual bool isSameUnitName(string name){
-        if (Attacker->isSameUnitName(name))return true;
-        return false;
-    }
-
-    virtual bool isSameAbility(string ability){
-        for (const auto& abilityName : abilityTypeList) {
-                if (abilityName == ability) {
-                    return true;
-                }
-        }
-        return false;
-    }
+    bool isSameUnit(SubUnit *ptr);
+    bool isSameAlly(Ally *ptr);
+    bool isSameUnitName(string name);
+    bool isSameAction(string ability);
+    bool isSameAction(SubUnit *ptr,string ability);
+    bool isSameAction(string name,string ability);
+    bool isSameAction(Ally *ptr,string ability);
 
 
-    virtual bool isSameAbility(string name,string ability){
-        if (Attacker->isSameUnitName(name)) {
-            for (const auto& abilityName : abilityTypeList) {
-                if (abilityName == ability) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    virtual bool isSameAbility(SubUnit *ptr,string ability){
-        if (Attacker->isSameUnit(ptr)) {
-            for (const auto& abilityName : abilityTypeList) {
-                if (abilityName == ability) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
     
     #pragma endregion
+
 
     void AllyAction();
     void turnResetTrue(){
         this->Turn_reset = true;
     }
     string getAbitlityType(){
-        return this->abilityTypeList[0];
+        return this->actionTypeList[0];
     }
-    void addActionType(ActionType actionType){
+    virtual void addActionType(ActionType actionType){
         switch(actionType) {
             case ActionType::BA:
-                abilityTypeList.push_back(AT_BA);
+                actionTypeList.push_back(AT_BA);
                 break;
             case ActionType::SKILL:
-                abilityTypeList.push_back(AT_SKILL);
+                actionTypeList.push_back(AT_SKILL);
                 break;
             case ActionType::Ult:
-                abilityTypeList.push_back(AT_ULT);
+                actionTypeList.push_back(AT_ULT);
                 break;
             case ActionType::Fua:
-                abilityTypeList.push_back(AT_FUA);
+                actionTypeList.push_back(AT_FUA);
                 break;
             case ActionType::Dot:
-                abilityTypeList.push_back(AT_DOT);
+                actionTypeList.push_back(AT_DOT);
                 break;
             case ActionType::Break:
-                abilityTypeList.push_back(AT_BREAK);
+                actionTypeList.push_back(AT_BREAK);
                 break;
             case ActionType::SPB:
-                abilityTypeList.push_back(AT_SPB);
-                abilityTypeList.push_back(AT_BREAK);
+                actionTypeList.push_back(AT_SPB);
                 break;
             case ActionType::Addtional:
-                abilityTypeList.push_back(AT_ADD);
+                actionTypeList.push_back(AT_ADD);
                 break;
             case ActionType::Technique:
-                abilityTypeList.push_back(AT_TECH);
+                actionTypeList.push_back(AT_TECH);
                 break;
             case ActionType::Freeze:
-                abilityTypeList.push_back("Freeze");
+                actionTypeList.push_back("Freeze");
                 break;
             case ActionType::Entanglement:
-                abilityTypeList.push_back("Entanglement");
+                actionTypeList.push_back("Entanglement");
                 break;
             default:
                 break;

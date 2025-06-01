@@ -67,7 +67,10 @@ namespace Hyacine{
                 if(ptr->Print)CharCmd::printUltStart("Hyacine");
                 SummonIca(ptr);
                 BeforeHycHeal();
-                RestoreHP({0,12,0,240,0,0},{0,10,0,200,0,0},ptr->getSubUnit(),ptr->getSubUnit(1));
+                ptr->getSubUnit()->RestoreHP(ptr->getSubUnit(1),
+                HealSrc(HealSrcType::HP,12,HealSrcType::CONST,240),
+                HealSrc(HealSrcType::HP,10,HealSrcType::CONST,200)
+                );
                 AfterHycHeal();
                 if(Hycptr->isHaveToAddBuff("After Rain",3)){
                     buffAllAlly({
@@ -105,7 +108,7 @@ namespace Hyacine{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr]() {
             if(ptr->Technique){
                 BeforeHycHeal();
-                RestoreHP({0,30,0,600,0,0},ptr->getSubUnit());
+                ptr->getSubUnit()->RestoreHP(HealSrc(HealSrcType::HP,30,HealSrcType::CONST,600));
                 AfterHycHeal();
                 buffAllAlly({
                         {ST_HP_P,AT_NONE,20}
@@ -187,9 +190,9 @@ namespace Hyacine{
             for(int i=1;i<=Total_ally;i++){
                 for(auto &each : Ally_unit[i]->Sub_Unit_ptr){
                     if(each->getBuffCheck("Ica Talent Heal"))
-                    RestoreHP({0,4,0,40,0,0},Icaptr,each.get());
+                    Icaptr->RestoreHP(each.get(),HealSrc(HealSrcType::HP,4,HealSrcType::CONST,40));
                     else
-                    RestoreHP({0,2,0,20,0,0},Icaptr,each.get());
+                    Icaptr->RestoreHP(each.get(),HealSrc(HealSrcType::HP,2,HealSrcType::CONST,20));
                     healCount--;
                 }
             }
@@ -258,7 +261,9 @@ namespace Hyacine{
         if(ptr->Eidolon>=1)
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](shared_ptr<AllyAttackAction> &data_) {
             if(Hycptr->getBuffCheck("After Rain")){
-                RestoreHP({0,8,0,0,0,0},Hycptr,data_->Attacker);
+                ptr->getSubUnit()->RestoreHP(data_->Attacker,
+                HealSrc(HealSrcType::HP,8)
+                );
             }
         }));
 
@@ -310,7 +315,10 @@ namespace Hyacine{
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             SummonIca(ptr);
             BeforeHycHeal();
-            RestoreHP({0,10,0,200,0,0},{0,8,0,160,0,0},ptr->getSubUnit(),ptr->getSubUnit(1));
+            ptr->getSubUnit()->RestoreHP(ptr->getSubUnit(1),
+            HealSrc(HealSrcType::HP,10,HealSrcType::CONST,200),
+            HealSrc(HealSrcType::HP,8,HealSrcType::CONST,160)
+            );
             AfterHycHeal();
             IcaAttack(ptr);
         });

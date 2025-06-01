@@ -16,9 +16,9 @@ namespace Destruction_Lightcone{
                 ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING_OUT][AT_NONE] += 15 + 5 * superimpose;
             }));
     
-            Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+            Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &data_) {
                 if (!data_->Attacker->isSameUnit(ptr->Sub_Unit_ptr[0].get())) return;
-                if (data_->Action_type.second == AT_SKILL || data_->Action_type.second == AT_ULT) {
+                if (data_->isSameAttack(AT_SKILL)||data_->isSameAttack(AT_ULT)) {
                     ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_LC_Mark"]++;
                     ptr->getSubUnit()->buffSingle({{ST_DMG, AT_NONE, (25.0 + 5 * superimpose)}});
                     if (ptr->Sub_Unit_ptr[0]->currentHP >= 50000.0 / (5.5 + 0.5 * superimpose)) {
@@ -29,7 +29,7 @@ namespace Destruction_Lightcone{
                 }
             }));
     
-            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &data_) {
                 if (!data_->Attacker->isSameUnit(ptr->Sub_Unit_ptr[0].get())) return;
                 ptr->getSubUnit()->buffSingle({{ST_DMG, AT_NONE, -(25 + 5 * superimpose) * ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_LC_Mark"]}});
                 ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_LC_Mark"] = 0;

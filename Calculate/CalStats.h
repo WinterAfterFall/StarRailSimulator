@@ -101,12 +101,12 @@ double Cal_Atk_multiplier(shared_ptr<AllyAttackAction> &data_,Enemy *target){
     
     Atk_percent_mtpr += data_->source->Stats_type["Atk%"][AT_NONE] + target->Stats_type["Atk%"][AT_NONE];
     Flat_atk_mtpr += data_->source->Stats_type["Flat_Atk"][AT_NONE] + target->Stats_type["Flat_Atk"][AT_NONE];
-    for(int i=0,sz=data_->abilityTypeList.size();i<sz;i++){
-            Atk_percent_mtpr+= data_->source->Stats_type["Atk%"][data_->abilityTypeList[i]];
-            Atk_percent_mtpr+= target->Stats_type["Atk%"][data_->abilityTypeList[i]];
+    for(int i=0,sz=data_->actionTypeList.size();i<sz;i++){
+            Atk_percent_mtpr+= data_->source->Stats_type["Atk%"][data_->actionTypeList[i]];
+            Atk_percent_mtpr+= target->Stats_type["Atk%"][data_->actionTypeList[i]];
 
-            Flat_atk_mtpr += data_->source->Stats_type["Flat_Atk"][data_->abilityTypeList[i]];
-            Flat_atk_mtpr += target->Stats_type["Flat_Atk"][data_->abilityTypeList[i]];
+            Flat_atk_mtpr += data_->source->Stats_type["Flat_Atk"][data_->actionTypeList[i]];
+            Flat_atk_mtpr += target->Stats_type["Flat_Atk"][data_->actionTypeList[i]];
     }
     
 
@@ -120,12 +120,12 @@ double Cal_Hp_multiplier(shared_ptr<AllyAttackAction> &data_,Enemy *target){
     Hp_percent_mtpr += data_->source->Stats_type["Hp%"][AT_NONE] + target->Stats_type["Hp%"][AT_NONE];
     Flat_hp_mtpr += data_->source->Stats_type["Flat_Hp"][AT_NONE] + target->Stats_type["Flat_Hp"][AT_NONE];
 
-    for(int i=0,sz=data_->abilityTypeList.size();i<sz;i++){
-            Hp_percent_mtpr+= data_->source->Stats_type["Hp%"][data_->abilityTypeList[i]];
-            Hp_percent_mtpr+= target->Stats_type["Hp%"][data_->abilityTypeList[i]];
+    for(int i=0,sz=data_->actionTypeList.size();i<sz;i++){
+            Hp_percent_mtpr+= data_->source->Stats_type["Hp%"][data_->actionTypeList[i]];
+            Hp_percent_mtpr+= target->Stats_type["Hp%"][data_->actionTypeList[i]];
 
-            Flat_hp_mtpr += data_->source->Stats_type["Flat_Hp"][data_->abilityTypeList[i]];
-            Flat_hp_mtpr += target->Stats_type["Flat_Hp"][data_->abilityTypeList[i]];
+            Flat_hp_mtpr += data_->source->Stats_type["Flat_Hp"][data_->actionTypeList[i]];
+            Flat_hp_mtpr += target->Stats_type["Flat_Hp"][data_->actionTypeList[i]];
     }
     
 
@@ -141,12 +141,12 @@ double Cal_Def_multiplier(shared_ptr<AllyAttackAction> &data_,Enemy *target){
     Def_percent_mtpr += data_->source->Stats_type["Def%"][AT_NONE] + target->Stats_type["Def%"][AT_NONE];
     Flat_def_mtpr += data_->source->Stats_type["Flat_Def"][AT_NONE] + target->Stats_type["Flat_Def"][AT_NONE];
 
-    for(int i=0,sz=data_->abilityTypeList.size();i<sz;i++){
-            Def_percent_mtpr+= data_->source->Stats_type["Def%"][data_->abilityTypeList[i]];
-            Def_percent_mtpr+= target->Stats_type["Def%"][data_->abilityTypeList[i]];
+    for(int i=0,sz=data_->actionTypeList.size();i<sz;i++){
+            Def_percent_mtpr+= data_->source->Stats_type["Def%"][data_->actionTypeList[i]];
+            Def_percent_mtpr+= target->Stats_type["Def%"][data_->actionTypeList[i]];
 
-            Flat_def_mtpr += data_->source->Stats_type["Flat_Def"][data_->abilityTypeList[i]];
-            Flat_def_mtpr += target->Stats_type["Flat_Def"][data_->abilityTypeList[i]];
+            Flat_def_mtpr += data_->source->Stats_type["Flat_Def"][data_->actionTypeList[i]];
+            Flat_def_mtpr += target->Stats_type["Flat_Def"][data_->actionTypeList[i]];
     }
     
 
@@ -158,9 +158,9 @@ double Cal_Bonus_dmg_multiplier(shared_ptr<AllyAttackAction> &data_,Enemy *targe
     
     Bonus_dmg_mtpr += data_->Attacker->Stats_type[ST_DMG][AT_NONE] + target->Stats_type[ST_DMG][AT_NONE] + data_->Attacker->Stats_each_element[ST_DMG][data_->Damage_element][AT_NONE] + target->Stats_each_element[ST_DMG][data_->Damage_element][AT_NONE];
 
-    for(int i = 0, sz = data_->abilityTypeList.size(); i < sz; i++){
-        Bonus_dmg_mtpr += data_->Attacker->Stats_type[ST_DMG][data_->abilityTypeList[i]] + data_->Attacker->Stats_each_element[ST_DMG][data_->Damage_element][data_->abilityTypeList[i]];
-        Bonus_dmg_mtpr += target->Stats_type[ST_DMG][data_->abilityTypeList[i]] + target->Stats_each_element[ST_DMG][data_->Damage_element][data_->abilityTypeList[i]];
+    for(int i = 0, sz = data_->actionTypeList.size(); i < sz; i++){
+        Bonus_dmg_mtpr += data_->Attacker->Stats_type[ST_DMG][data_->actionTypeList[i]] + data_->Attacker->Stats_each_element[ST_DMG][data_->Damage_element][data_->actionTypeList[i]];
+        Bonus_dmg_mtpr += target->Stats_type[ST_DMG][data_->actionTypeList[i]] + target->Stats_each_element[ST_DMG][data_->Damage_element][data_->actionTypeList[i]];
     }
     return Bonus_dmg_mtpr / 100;
     // return (Bonus_dmg_mtpr / 100 < 0) ? 0 : Bonus_dmg_mtpr / 100;
@@ -171,9 +171,9 @@ double Cal_Crit_multiplier(shared_ptr<AllyAttackAction> &data_,Enemy *target){
 
     Crit_rate_mtpr = data_->Attacker->Stats_type[ST_CR][AT_NONE] + target->Stats_type[ST_CR][AT_NONE];
     Crit_dam_mtpr = data_->Attacker->Stats_type[ST_CD][AT_NONE] + target->Stats_type[ST_CD][AT_NONE];
-    for(int i=0,sz=data_->abilityTypeList.size();i<sz;i++){
-            Crit_rate_mtpr += data_->Attacker->Stats_type[ST_CR][data_->abilityTypeList[i]] + target->Stats_type[ST_CR][data_->abilityTypeList[i]];
-            Crit_dam_mtpr += data_->Attacker->Stats_type[ST_CD][data_->abilityTypeList[i]] + target->Stats_type[ST_CD][data_->abilityTypeList[i]];
+    for(int i=0,sz=data_->actionTypeList.size();i<sz;i++){
+            Crit_rate_mtpr += data_->Attacker->Stats_type[ST_CR][data_->actionTypeList[i]] + target->Stats_type[ST_CR][data_->actionTypeList[i]];
+            Crit_dam_mtpr += data_->Attacker->Stats_type[ST_CD][data_->actionTypeList[i]] + target->Stats_type[ST_CD][data_->actionTypeList[i]];
     }
     
 
@@ -187,8 +187,8 @@ double Cal_Crit_rate_multiplier(shared_ptr<AllyAttackAction> &data_,Enemy *targe
     double Crit_rate_mtpr;
 
     Crit_rate_mtpr = data_->Attacker->Stats_type[ST_CR][AT_NONE] + target->Stats_type[ST_CR][AT_NONE];
-    for (int i = 0, sz = data_->abilityTypeList.size(); i < sz; i++) {
-        Crit_rate_mtpr += data_->Attacker->Stats_type[ST_CR][data_->abilityTypeList[i]] + target->Stats_type[ST_CR][data_->abilityTypeList[i]];
+    for (int i = 0, sz = data_->actionTypeList.size(); i < sz; i++) {
+        Crit_rate_mtpr += data_->Attacker->Stats_type[ST_CR][data_->actionTypeList[i]] + target->Stats_type[ST_CR][data_->actionTypeList[i]];
     }
 
     return (Crit_rate_mtpr < 0) ? 0 : Crit_rate_mtpr;
@@ -198,8 +198,8 @@ double Cal_Crit_dam_multiplier(shared_ptr<AllyAttackAction> &data_,Enemy *target
     double Crit_dam_mtpr;
 
     Crit_dam_mtpr = data_->Attacker->Stats_type[ST_CD][AT_NONE] + target->Stats_type[ST_CD][AT_NONE];
-    for (int i = 0, sz = data_->abilityTypeList.size(); i < sz; i++) {
-        Crit_dam_mtpr += data_->Attacker->Stats_type[ST_CD][data_->abilityTypeList[i]] + target->Stats_type[ST_CD][data_->abilityTypeList[i]];
+    for (int i = 0, sz = data_->actionTypeList.size(); i < sz; i++) {
+        Crit_dam_mtpr += data_->Attacker->Stats_type[ST_CD][data_->actionTypeList[i]] + target->Stats_type[ST_CD][data_->actionTypeList[i]];
     }
 
     return (Crit_dam_mtpr < 0) ? 0 : Crit_dam_mtpr;
@@ -208,8 +208,8 @@ double Cal_Def_shred_multiplier(shared_ptr<AllyAttackAction> &data_,Enemy *targe
     double Def_shred_mtpr;
     
     Def_shred_mtpr = data_->Attacker->Stats_type[ST_DEF_SHRED][AT_NONE] + target->Stats_type[ST_DEF_SHRED][AT_NONE];
-    for(int i=0,sz=data_->abilityTypeList.size();i<sz;i++){
-            Def_shred_mtpr += data_->Attacker->Stats_type[ST_DEF_SHRED][data_->abilityTypeList[i]] + target->Stats_type[ST_DEF_SHRED][data_->abilityTypeList[i]];
+    for(int i=0,sz=data_->actionTypeList.size();i<sz;i++){
+            Def_shred_mtpr += data_->Attacker->Stats_type[ST_DEF_SHRED][data_->actionTypeList[i]] + target->Stats_type[ST_DEF_SHRED][data_->actionTypeList[i]];
     }
 
     
@@ -224,9 +224,9 @@ double Cal_Respen_multiplier(shared_ptr<AllyAttackAction> &data_,Enemy *target){
     
     Respen_mtpr += data_->Attacker->Stats_type["Respen"][AT_NONE] + target->Stats_type["Respen"][AT_NONE] + data_->Attacker->Stats_each_element["Respem"][data_->Damage_element][AT_NONE] + target->Stats_each_element["Respem"][data_->Damage_element][AT_NONE];
 
-    for(int i = 0, sz = data_->abilityTypeList.size(); i < sz; i++){
-        Respen_mtpr += data_->Attacker->Stats_type["Respen"][data_->abilityTypeList[i]] + data_->Attacker->Stats_each_element["Respem"][data_->Damage_element][data_->abilityTypeList[i]];
-        Respen_mtpr += target->Stats_type["Respen"][data_->abilityTypeList[i]] + target->Stats_each_element["Respem"][data_->Damage_element][data_->abilityTypeList[i]];
+    for(int i = 0, sz = data_->actionTypeList.size(); i < sz; i++){
+        Respen_mtpr += data_->Attacker->Stats_type["Respen"][data_->actionTypeList[i]] + data_->Attacker->Stats_each_element["Respem"][data_->Damage_element][data_->actionTypeList[i]];
+        Respen_mtpr += target->Stats_type["Respen"][data_->actionTypeList[i]] + target->Stats_each_element["Respem"][data_->Damage_element][data_->actionTypeList[i]];
     }
     return (Respen_mtpr / 100 < 0) ? 0 : Respen_mtpr / 100;
 }
@@ -234,8 +234,8 @@ double Cal_Vul_multiplier(shared_ptr<AllyAttackAction> &data_,Enemy *target){
     double Vul_mtpr = 100;
     
     Vul_mtpr += data_->Attacker->Stats_type["Vul"][AT_NONE] + target->Stats_type["Vul"][AT_NONE];
-    for(int i = 0, sz = data_->abilityTypeList.size(); i < sz; i++){
-        Vul_mtpr += data_->Attacker->Stats_type["Vul"][data_->abilityTypeList[i]] + target->Stats_type["Vul"][data_->abilityTypeList[i]];
+    for(int i = 0, sz = data_->actionTypeList.size(); i < sz; i++){
+        Vul_mtpr += data_->Attacker->Stats_type["Vul"][data_->actionTypeList[i]] + target->Stats_type["Vul"][data_->actionTypeList[i]];
     }
     return (Vul_mtpr / 100 < 0) ? 0 : Vul_mtpr / 100;
 }
@@ -243,8 +243,8 @@ double Cal_BreakEffect_multiplier(shared_ptr<AllyAttackAction> &data_,Enemy *tar
     double BreakEffect_mtpr = 100;
   
     BreakEffect_mtpr += data_->Attacker->Stats_type[ST_BE][AT_NONE] + target->Stats_type[ST_BE][AT_NONE];
-    for(int i = 0, sz = data_->abilityTypeList.size(); i < sz; i++){
-        BreakEffect_mtpr += data_->Attacker->Stats_type[ST_BE][data_->abilityTypeList[i]] + target->Stats_type[ST_BE][data_->abilityTypeList[i]];
+    for(int i = 0, sz = data_->actionTypeList.size(); i < sz; i++){
+        BreakEffect_mtpr += data_->Attacker->Stats_type[ST_BE][data_->actionTypeList[i]] + target->Stats_type[ST_BE][data_->actionTypeList[i]];
     }
     return (BreakEffect_mtpr / 100 < 0) ? 0 : BreakEffect_mtpr / 100;
 }
@@ -264,8 +264,8 @@ double Cal_Mitigation_multiplier(shared_ptr<AllyAttackAction> &data_,Enemy *targ
     double Mitigation_mtpr = 100;
 
     Mitigation_mtpr += data_->Attacker->Stats_type["Mitigation"][AT_NONE] + target->Stats_type["Mitigation"][AT_NONE];
-    for(int i = 0, sz = data_->abilityTypeList.size(); i < sz; i++){
-        Mitigation_mtpr += data_->Attacker->Stats_type["Mitigation"][data_->abilityTypeList[i]] + target->Stats_type["Mitigation"][data_->abilityTypeList[i]];
+    for(int i = 0, sz = data_->actionTypeList.size(); i < sz; i++){
+        Mitigation_mtpr += data_->Attacker->Stats_type["Mitigation"][data_->actionTypeList[i]] + target->Stats_type["Mitigation"][data_->actionTypeList[i]];
     }
     return (Mitigation_mtpr / 100 < 0) ? 0 : Mitigation_mtpr / 100;
 }

@@ -15,15 +15,9 @@ namespace Remembrance_Lightcone{
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 ptr->Sub_Unit_ptr[0]->Stats_type["ATK%"][AT_NONE] += 12 + 4 * superimpose;
             }));
-    
-            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
-                if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_->Action_type.second == "Ultimate") {
-                    ptr->buffAlly({{ST_DMG,AT_BA,(15.0 + superimpose * 5)}},"Geniuses_Greetings",3);
-                }
-            }));
-    
-            Buff_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
-                if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_->Action_type.second == "Ultimate") {
+
+            AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &data_){
+                if (data_->isSameAction(ptr->getSubUnit(),AT_ULT)) {
                     ptr->buffAlly({{ST_DMG,AT_BA,(15.0 + superimpose * 5)}},"Geniuses_Greetings",3);
                 }
             }));

@@ -235,7 +235,7 @@ namespace Aglaea{
             DmgSrc(DmgSrcType::ATK,90,5)
         );
         data_->setJoint();
-        data_->switchAttacker.push_back(SwitchAtk(ptr->Sub_Unit_ptr[1].get(),1,1));
+        data_->switchAttacker.push_back(SwitchAtk(1,1));
         data_->addToActionBar();
     }
     void Basic_Atk(Ally *ptr){

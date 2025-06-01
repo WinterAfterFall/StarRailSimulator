@@ -213,6 +213,13 @@ public:
     
     #pragma endregion
 
+    #pragma region checkMethod
+
+    bool isSameAlly(SubUnit *ptr){
+        if(ptr->ptrToChar->getSubUnit()->isSameUnit(this->getSubUnit()))return true;
+        return false;
+    }
+    #pragma endregion
 
     
 

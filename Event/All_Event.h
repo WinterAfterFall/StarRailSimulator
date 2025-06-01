@@ -77,6 +77,11 @@ void allEventBeforeAction(shared_ptr<ActionData> &data_){
         e.Call(data_);
     }
 }
+void allEventWhenAllyAction(shared_ptr<AllyActionData> &data_){
+    for(TriggerByAllyAction_Func &e : AllyActionList){
+        e.Call(data_);
+    }
+}
 void allEventAfterAction(shared_ptr<ActionData> &data_){
     for(TriggerByAction_Func &e : AfterAction_List){
         e.Call(data_);

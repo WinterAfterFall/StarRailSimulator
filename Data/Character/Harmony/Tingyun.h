@@ -119,9 +119,6 @@ namespace Tingyun{
                     
                 }
             }
-            if (data_->isSameAbility("Tingyun",AT_FUA)){
-                ptr->Sub_Unit_ptr[0]->buffSingle({{ST_SPD,ST_SPD_P,20}},"Nourished_Joviality",1);
-            }
         }));
     
 
@@ -136,6 +133,8 @@ namespace Tingyun{
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
             data_->buffTargetList[0]->buffSingle({{ST_ATK_P,AT_NONE,55}},"Benediction",3);
+            ptr->Sub_Unit_ptr[0]->buffSingle({{ST_SPD,ST_SPD_P,20}},"Nourished_Joviality",1);
+
         });
         data_->addBuffSingleTarget(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
         data_->addToActionBar();

@@ -11,21 +11,11 @@ namespace Abundance_Lightcone{
         return [=](Ally *ptr) {
             ptr->SetAllyBaseStats(953,318,198);
             ptr->Light_cone.Name = "Multiplication";
-            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_){
-                        
-                if(data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_->Action_type.second == "Basic_Attack"){
+            AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &data_){
+                if(data_->isSameAction(ptr->getSubUnit(),AT_BA)){
                     Action_forward(turn, 10+2*superimpose);
                 }
-            
             }));
-            Buff_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_){
-
-                if(data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && data_->Action_type.second == "Basic_Attack"){
-                    Action_forward(turn, 10+2*superimpose);
-                }
-
-                }
-            ));
         };
     }
 }

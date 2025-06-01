@@ -17,15 +17,8 @@ namespace Erudition_Lightcone{
                 if(turn->isSameCharName(ptr->Sub_Unit_ptr[0]->Atv_stats->Char_Name))ptr->getSubUnit()->setBuffCheck("Passkey",0);
             }));
 
-            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
-                if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name&&data_->Action_type.second==AT_SKILL&&!ptr->getSubUnit()->getBuffCheck("Passkey")) {
-                    Increase_energy(ptr, 7 + superimpose);
-                    ptr->getSubUnit()->setBuffCheck("Passkey",1);
-                }
-            }));
-    
-            Buff_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
-                if (data_->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name&&data_->Action_type.second==AT_SKILL&&!ptr->getSubUnit()->getBuffCheck("Passkey")) {
+            AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &data_){
+                if (data_->isSameAction(ptr->getSubUnit(),AT_SKILL)&&!ptr->getSubUnit()->getBuffCheck("Passkey")) {
                     Increase_energy(ptr, 7 + superimpose);
                     ptr->getSubUnit()->setBuffCheck("Passkey",1);
                 }

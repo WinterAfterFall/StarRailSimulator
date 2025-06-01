@@ -2,7 +2,7 @@
 #define CHANGEHP_H
 #include "../Class/ClassLibrary.h"
 
-void RestoreHP(SubUnit *healer,HealSrc main,HealSrc adjacent,HealSrc other){
+void SubUnit::RestoreHP(HealSrc main,HealSrc adjacent,HealSrc other){
     healCount++;
     priority_queue<PointerWithValue, vector<PointerWithValue>, decltype(&PointerWithValue::Greater_cmp)> pq(&PointerWithValue::Less_cmp);
     
@@ -13,8 +13,8 @@ void RestoreHP(SubUnit *healer,HealSrc main,HealSrc adjacent,HealSrc other){
             if(pq.size()>3){
                 double totalHeal = 0;
                 if(other.ATK!=0||other.HP!=0||other.DEF!=0||other.constHeal!=0||other.healFromTotalHP!=0||other.healFromLostHP!=0){
-                    totalHeal = calculateHeal(other,healer,pq.top().ptr);
-                    IncreaseHP(healer,pq.top().ptr,totalHeal);
+                    totalHeal = calculateHeal(other,this,pq.top().ptr);
+                    IncreaseHP(this,pq.top().ptr,totalHeal);
                 }
                 pq.pop();
             }
@@ -24,44 +24,44 @@ void RestoreHP(SubUnit *healer,HealSrc main,HealSrc adjacent,HealSrc other){
     while(!pq.empty()){
         double totalHeal = 0;
         if(pq.size()==1){
-            totalHeal = calculateHeal(main,healer,pq.top().ptr);
+            totalHeal = calculateHeal(main,this,pq.top().ptr);
         }else{
-            totalHeal = calculateHeal(adjacent,healer,pq.top().ptr);
+            totalHeal = calculateHeal(adjacent,this,pq.top().ptr);
         }
-        IncreaseHP(healer,pq.top().ptr,totalHeal);
+        IncreaseHP(this,pq.top().ptr,totalHeal);
         pq.pop();
     }
     
 }
 //heal เดี่ยว
-void RestoreHP(HealSrc Healptr,SubUnit *Healer,SubUnit *target){
+void SubUnit::RestoreHP(SubUnit *target,HealSrc Healptr){
     healCount++;
-    double totalHeal = calculateHeal(Healptr,Healer,target);
-    IncreaseHP(Healer,target,totalHeal);
+    double totalHeal = calculateHeal(Healptr,this,target);
+    IncreaseHP(this,target,totalHeal);
 
 }
 //heal ทั้งทีมแบบเท่าเที่ยม
-void RestoreHP(HealSrc healRatio,SubUnit *Healer){
+void SubUnit::RestoreHP(HealSrc healSrc){
     healCount++;
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
             if(Ally_unit[i]->Sub_Unit_ptr[j]->currentHP==0)continue;
-            double totalHeal = calculateHeal(healRatio,Healer,Ally_unit[i]->Sub_Unit_ptr[j].get());
-            IncreaseHP(Healer,Ally_unit[i]->Sub_Unit_ptr[j].get(),totalHeal);
+            double totalHeal = calculateHeal(healSrc,this,Ally_unit[i]->Sub_Unit_ptr[j].get());
+            IncreaseHP(this,Ally_unit[i]->Sub_Unit_ptr[j].get(),totalHeal);
         }
     }
 }
 //heal ทั้งทีมแบบฮีลคนนึงเยอะสุด
-void RestoreHP(HealSrc healRatioMain,HealSrc healRatio,SubUnit *Healer,SubUnit *target){
+void SubUnit::RestoreHP(SubUnit *target,HealSrc main,HealSrc other){
     healCount++;
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
             if(Ally_unit[i]->Sub_Unit_ptr[j]->currentHP==0)continue;
             double totalHeal = (target->Atv_stats->Unit_Name == Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->Unit_Name) ? 
-            calculateHeal(healRatioMain,Healer,Ally_unit[i]->Sub_Unit_ptr[j].get())
+            calculateHeal(main,this,Ally_unit[i]->Sub_Unit_ptr[j].get())
             :
-            calculateHeal(healRatio,Healer,Ally_unit[i]->Sub_Unit_ptr[j].get());
-            IncreaseHP(Healer,Ally_unit[i]->Sub_Unit_ptr[j].get(),totalHeal);
+            calculateHeal(other,this,Ally_unit[i]->Sub_Unit_ptr[j].get());
+            IncreaseHP(this,Ally_unit[i]->Sub_Unit_ptr[j].get(),totalHeal);
         }
     }
 }

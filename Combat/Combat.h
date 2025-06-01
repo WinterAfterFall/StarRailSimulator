@@ -45,6 +45,7 @@ void Deal_damage(){
         shared_ptr<ActionData> temp = Action_bar.front();
         allEventBeforeAction(temp);
         if (auto allyActionData = dynamic_pointer_cast<AllyActionData>(temp)) {
+            allEventWhenAllyAction(allyActionData);
             allyActionData->AllyAction();
         } else if (auto enemyActionData = dynamic_pointer_cast<EnemyActionData>(temp)) {
             enemyActionData->EnemyAction();
@@ -64,12 +65,16 @@ void AllyActionData::AllyAction(){
         if(attackAction->actionFunction)attackAction->actionFunction(attackAction);
         else Attack(attackAction);    
         
-        for(int i = 0; i < attackAction->attackerList.size() ; i++){
-            attackAction->Attacker = attackAction->attackerList[i];
+        for(int i = 0; i < attackAction->AttackSetList.size() ; i++){
+            attackAction->Attacker = attackAction->AttackSetList[i].attacker;
+            attackAction->actionTypeList = attackAction->AttackSetList[i].actionTypeList;
+            attackAction->damageTypeList = attackAction->AttackSetList[i].damageTypeList;
             allEventWhenAttack(attackAction);
         }
         
-        this->Attacker = attackAction->attackerList[0];
+        attackAction->Attacker = attackAction->AttackSetList[0].attacker;
+        attackAction->actionTypeList = attackAction->AttackSetList[0].actionTypeList;
+        attackAction->damageTypeList = attackAction->AttackSetList[0].damageTypeList;
         allEventAfterAttack(attackAction); 
         if(attackAction->damageNote)Cal_AverageDamage(attackAction->Attacker->ptrToChar,attackAction->targetList); 
 
@@ -86,18 +91,20 @@ void EnemyActionData::EnemyAction(){
 }
 void Attack(shared_ptr<AllyAttackAction> &data_){
     int dmgIns = 0;
-    for(auto &each : data_->attackerList){
-        each->hitCount = 0;
+    for(auto &each : data_->AttackSetList){
+        each.attacker->hitCount = 0;
     }
     for(auto &each : data_->targetList){
         each->hitCount = 0;
     }
     for(int i = 0;i<data_->damageSplit.size();i++){
         if(dmgIns!=data_->switchAttacker.size()&&data_->switchAttacker[dmgIns].changeWhen==i){
-            data_->Attacker = data_->switchAttacker[dmgIns].attacker;
-            data_->source = data_->switchAttacker[dmgIns].source;
-            if(data_->switchAttacker[dmgIns].changeSkillType>=0)
-                data_->abilityTypeList = data_->AbilitySetList[data_->switchAttacker[dmgIns].changeSkillType];
+            SwitchAtk &SwitchAtk = data_->switchAttacker[dmgIns];
+            data_->Attacker = data_->AttackSetList[SwitchAtk.changeTo].attacker;
+            if(SwitchAtk.source)data_->source = SwitchAtk.source;
+            else data_->source = data_->Attacker;
+            data_->actionTypeList = data_->AttackSetList[SwitchAtk.changeTo].actionTypeList;
+            data_->damageTypeList = data_->AttackSetList[SwitchAtk.changeTo].damageTypeList;
             ++dmgIns;
         }
         data_->Attacker->hitCount += data_->damageSplit[i].size();
@@ -154,7 +161,7 @@ void Dot_trigger(double Dot_ratio,Enemy *target,string Dot_type){
                     shared_ptr<AllyAttackAction> data_ = 
                     make_shared<AllyAttackAction>
                     (ActionType::Dot,each.ptr,TT_SINGLE, "Bleed");
-                    data_->abilityTypeList.push_back("Bleed");
+                    data_->actionTypeList.push_back("Bleed");
                     Cal_Dot_Toughness_break_damage(data_, target, 
                         Dot_ratio * 2 * (0.5 + target->Max_toughness/40));
                 }
@@ -165,7 +172,7 @@ void Dot_trigger(double Dot_ratio,Enemy *target,string Dot_type){
                     shared_ptr<AllyAttackAction> data_ = 
                     make_shared<AllyAttackAction>
                     (ActionType::Dot,each.ptr,TT_SINGLE, "Burn");
-                    data_->abilityTypeList.push_back("Burn");
+                    data_->actionTypeList.push_back("Burn");
                     Cal_Dot_Toughness_break_damage(data_, target, Dot_ratio * 1);
                 }
                 break;
@@ -175,7 +182,7 @@ void Dot_trigger(double Dot_ratio,Enemy *target,string Dot_type){
                     shared_ptr<AllyAttackAction> data_ = 
                     make_shared<AllyAttackAction>
                     (ActionType::Dot,each.ptr,TT_SINGLE, "Shock");
-                    data_->abilityTypeList.push_back("Shock");
+                    data_->actionTypeList.push_back("Shock");
                     Cal_Dot_Toughness_break_damage(data_, target, Dot_ratio * 2);
                 }
                 break;
@@ -185,7 +192,7 @@ void Dot_trigger(double Dot_ratio,Enemy *target,string Dot_type){
                     shared_ptr<AllyAttackAction> data_ = 
                     make_shared<AllyAttackAction>
                     (ActionType::Dot,each.ptr,TT_SINGLE, "WindShear");
-                    data_->abilityTypeList.push_back("WindShear");
+                    data_->actionTypeList.push_back("WindShear");
                     Cal_Dot_Toughness_break_damage(data_, target, 
                         Dot_ratio * 1 * each.stack);
                 }
@@ -202,8 +209,8 @@ void Dot_trigger(double Dot_ratio,Enemy *target,string Dot_type){
     
 }
 void dotDamage(shared_ptr<AllyAttackAction> &data_,double Dot_ratio){
-    for(auto &each : data_->attackerList){
-        each->hitCount = 0;
+    for(auto &each : data_->AttackSetList){
+        each.attacker->hitCount = 0;
     }
     for(auto &each : data_->targetList){
         each->hitCount = 0;
@@ -219,7 +226,7 @@ void dotDamage(shared_ptr<AllyAttackAction> &data_,double Dot_ratio){
         }
     }
 }
-void Toughness_break(shared_ptr<AllyActionData> &data_,Enemy* target){
+void Toughness_break(shared_ptr<AllyAttackAction> &data_,Enemy* target){
     shared_ptr<AllyAttackAction> data_2;
     double Constant = 0;
     if(Force_break)

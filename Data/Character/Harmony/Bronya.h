@@ -119,10 +119,10 @@ namespace Bronya{
         }));
 
         After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &data_){
-            if(data_->isSameAbility("Bronya",AT_BA)){
+            if(data_->isSameAttack("Bronya",AT_BA)){
                 Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),30);
             }
-            if(ptr->Eidolon >= 4 && data_->isSameAbility(AT_BA)&&!data_->isSameUnitName("Bronya")&& ptr->Sub_Unit_ptr[0]->Buff_check["Bronya_E4"] == 0){
+            if(ptr->Eidolon >= 4 && data_->isSameAttack(AT_BA)&&!data_->isSameUnitName("Bronya")&& ptr->Sub_Unit_ptr[0]->Buff_check["Bronya_E4"] == 0){
                 shared_ptr<AllyAttackAction> newAct = 
                 make_shared<AllyAttackAction>(ActionType::Fua,ptr->getSubUnit(),TT_SINGLE,"Bronya E4",
                 [ptr](shared_ptr<AllyAttackAction> &data_){

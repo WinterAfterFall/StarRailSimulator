@@ -23,6 +23,12 @@ class ActionData{
     string actionName = "";
     virtual ~ActionData() {}
 
+    string getActionName(){
+        return actionName;
+    }
+    void getActionName(string name){
+        actionName = name;
+    }
     AllyActionData* castToAllyActionData();
     EnemyActionData* castToEnemyActionData();
 };

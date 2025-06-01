@@ -127,7 +127,7 @@ namespace Gallagher{
 
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_HEAL, [ptr](shared_ptr<AllyAttackAction> &data_) {
             
-            if(data_->isSameAbility("Gallagher",AT_BA)&&data_->Attacker->Buff_check["Gallagher_enchance_basic_atk"] == 1){
+            if(data_->isSameAttack("Gallagher",AT_BA)&&data_->Attacker->Buff_check["Gallagher_enchance_basic_atk"] == 1){
                 ptr->Sub_Unit_ptr[0]->Buff_check["Gallagher_enchance_basic_atk"] = 0;
                 int cnt = 0;
                 for (Enemy *e : data_->targetList) {
@@ -136,7 +136,7 @@ namespace Gallagher{
                         
                     }
                 }
-                RestoreHP({0, 0, 0, 707.0*cnt, 0, 0},ptr->getSubUnit());
+                ptr->getSubUnit()->RestoreHP(HealSrc(HealSrcType::CONST,707.0*cnt));
             } else {
                 int cnt = 0;
                 for (Enemy *e : data_->targetList) {
@@ -144,8 +144,7 @@ namespace Gallagher{
                         cnt++;           
                     }
                 }
-                
-                RestoreHP({0, 0, 0, 707.0*cnt, 0, 0}, ptr->Sub_Unit_ptr[0].get(), data_->Attacker);
+                ptr->getSubUnit()->RestoreHP(data_->Attacker,HealSrc(HealSrcType::CONST,707.0*cnt));
             }
         }));
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_HEAL, [ptr](SubUnit* Target, string StatsType) {
@@ -203,7 +202,7 @@ namespace Gallagher{
         shared_ptr<AllyBuffAction> data_ = 
         make_shared<AllyBuffAction>(ActionType::SKILL,ptr->getSubUnit(),TT_SINGLE,"Gall Skill",
         [ptr](shared_ptr<AllyBuffAction> data_){
-            RestoreHP(data_->Attacker,{0,0,0,1768,0,0},{},{});
+            ptr->getSubUnit()->RestoreHP(HealSrc(HealSrcType::CONST,1768),HealSrc(),HealSrc());
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
         });

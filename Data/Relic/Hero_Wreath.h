@@ -27,7 +27,7 @@ namespace Relic{
             }
         }));
 
-        Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyActionData> &data_) {
+        Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &data_) {
             if (data_->Attacker->Atv_stats->Side == "Ally" && ptr->Sub_Unit_ptr.size() > 1) {
                 ptr->buffAlly({{ST_CD, AT_NONE, 30}}, "Hero_Wreath_buff",2);
             }

@@ -161,7 +161,7 @@ namespace Tribbie{
         
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr](shared_ptr<AllyAttackAction> &data_) {
             int temp = data_->targetList.size();
-            if (data_->isSameAbility("Tribbie",AT_FUA)) {
+            if (data_->isSameAttack("Tribbie",AT_FUA)) {
                 TBptr->buffStackSingle({{ST_DMG, AT_NONE, 72}},1,3,"Tribbie_A2",3);
             }
             Increase_energy(ptr, (1.5) * temp);
@@ -174,7 +174,7 @@ namespace Tribbie{
                     Cal_Additional_damage(data_1, chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()), DmgSrc(DmgSrcType::HP,12,0));
                 }
             }
-            if (data_->isSameAbility(AT_ULT)&& data_->Attacker->getBuffCheck("Tribbie_ult_launch") == 0 && data_->Attacker->Atv_stats->Char_Name != "Tribbie" && data_->Attacker->Atv_stats->Side == "Ally") {
+            if (data_->isSameAttack(AT_ULT)&& data_->Attacker->getBuffCheck("Tribbie_ult_launch") == 0 && data_->Attacker->Atv_stats->Char_Name != "Tribbie" && data_->Attacker->Atv_stats->Side == "Ally") {
                 data_->Attacker->Buff_check["Tribbie_ult_launch"] = 1;
                 shared_ptr<AllyAttackAction> data_2 = 
                 make_shared<AllyAttackAction>(ActionType::Fua,ptr->getSubUnit(),TT_AOE,"TB Fua",

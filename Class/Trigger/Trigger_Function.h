@@ -30,6 +30,12 @@ class TriggerByAction_Func : public TriggerFunc{
     TriggerByAction_Func(int priority, function<void(shared_ptr<ActionData> &data_)> Call) 
     : TriggerFunc(priority), Call(Call) {}
 };
+class TriggerByAllyAction_Func : public TriggerFunc{
+    public:
+    function<void(shared_ptr<AllyActionData> &data_)> Call;
+    TriggerByAllyAction_Func(int priority, function<void(shared_ptr<AllyActionData> &data_)> Call) 
+    : TriggerFunc(priority), Call(Call) {}
+};
 class TriggerByAllyAttackAction_Func : public TriggerFunc{
     public:
     function<void(shared_ptr<AllyAttackAction> &data_)> Call;

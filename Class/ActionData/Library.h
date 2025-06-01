@@ -4,7 +4,8 @@
 #include "ActionData.h"
 #include "AllyActionData.h"
 #include "AllyAttackAction.h"
-#include "AllySupportAction.h"
+#include "AllyBuffAction.h"
 #include "EnemyActionData.h"
+#include "ActionDataDefine.h"
 
 #endif

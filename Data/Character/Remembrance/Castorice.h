@@ -231,7 +231,7 @@ namespace Castorice{
                 ptr->getSubUnit()->Buff_note["Newbud"]+=Value;
             }
             else {
-                RestoreHP({0,0,0,Value,0,0},ptr->getSubUnit(1),ptr->getSubUnit(1));
+                ptr->getSubUnit(1)->RestoreHP(ptr->getSubUnit(1),HealSrc(HealSrcType::CONST,Value));
             }
             if(target->isSameUnitName("Castorice")){
                 if(!ptr->getSubUnit()->getBuffCheck("Inverted Torch")&&ptr->getSubUnit()->currentHP>=ptr->getSubUnit()->totalHP*0.5){
@@ -246,7 +246,7 @@ namespace Castorice{
             if(ptr->getSubUnit(1)->currentHP==0){
                 ptr->getSubUnit()->Buff_note["Newbud"]+=Value;
             }else {
-                RestoreHP({0,0,0,Value,0,0},ptr->getSubUnit(1),ptr->getSubUnit(1));
+                ptr->getSubUnit(1)->RestoreHP(ptr->getSubUnit(1),HealSrc(HealSrcType::CONST,Value));
             }
             if(ptr->getSubUnit()->Buff_note["CastoriceTalentBuff"]!=decreaseHPCount){
                 ptr->getSubUnit()->Buff_note["CastoriceTalentBuff"] = decreaseHPCount;
@@ -369,7 +369,7 @@ namespace Castorice{
             DmgSrc(DmgSrcType::HP,50,10)
         );
         data_->setJoint();
-        data_->switchAttacker.push_back(SwitchAtk(ptr->getSubUnit(1),ptr->getSubUnit(),1,1));
+        data_->switchAttacker.push_back(SwitchAtk(1,ptr->getSubUnit(),1));
         data_->addToActionBar();
     }
     void Kamikaze(Ally *ptr){
@@ -378,7 +378,7 @@ namespace Castorice{
         [ptr](shared_ptr<AllyAttackAction> &data_){
             Increase_energy(ptr,0);
             Attack(data_);
-            RestoreHP({0,6,0,800,0,0},ptr->getSubUnit(0));
+            ptr->getSubUnit()->RestoreHP(HealSrc(HealSrcType::HP,6,HealSrcType::CONST,800));
             for(int i=1;i<=Total_enemy;i++){
                 Enemy_unit[i]->debuffRemove("Lost Netherland"); 
                 Enemy_unit[i]->debuffSingle({{ST_RESPEN,AT_NONE,-20}});

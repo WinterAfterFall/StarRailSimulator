@@ -20,13 +20,13 @@ namespace Remembrance_Lightcone{
                 if(!allyaction)return;
                 if(allyaction->Attacker->Atv_stats->Side == "Memosprite"
                     &&allyaction->Attacker->Atv_stats->Unit_num==ptr->getSubUnit()->Atv_stats->Unit_num
-                    &&allyaction->Action_type.second == AT_SKILL){
+                    &&allyaction->isSameAction(AT_SKILL)){
                         debuffAllEnemyApply({{ST_VUL,AT_NONE,(13.5 + 4.5 * superimpose)}},allyaction->Attacker,"Hyacnine_LC Debuff",2);
                 }
                 if(!ptr->getSubUnit()->isSameUnitName(allyaction->Attacker->Atv_stats->Unit_Name))return;
-                if(allyaction->Action_type.second == AT_BA
-                ||allyaction->Action_type.second == AT_SKILL
-                ||allyaction->Action_type.second == AT_ULT){
+                if(allyaction->isSameAction(AT_BA)
+                ||allyaction->isSameAction(AT_SKILL)
+                ||allyaction->isSameAction(AT_ULT)){
                     double temp = 0;
                     for(int i=1;i<=Total_ally;i++){
                         for(auto &each : Ally_unit[i]->Sub_Unit_ptr){
@@ -38,13 +38,15 @@ namespace Remembrance_Lightcone{
                 }
             }));
 
-            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &data_) {
+            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &data_) {
                 if(data_->Attacker->Atv_stats->Side == "Memosprite"
                     &&data_->Attacker->Atv_stats->Unit_num==ptr->getSubUnit()->Atv_stats->Unit_num
-                    &&data_->Action_type.second == AT_SKILL){
-                        shared_ptr<AllyActionData> addtionaldmg = make_shared<AllyActionData>();
-                        addtionaldmg->setAdditonal(data_->Attacker,TT_SINGLE,"Hyc LC Additonal dmg");
-                    Cal_Additional_damage(addtionaldmg, Enemy_unit[Main_Enemy_num].get(), {0, 0, 0, 0,ptr->getSubUnit()->Buff_note["Hyacnine_LC Note"] * (1.875 + 0.625 * superimpose)});
+                    &&data_->isSameAction(AT_SKILL)){
+                        shared_ptr<AllyAttackAction> addtionaldmg = 
+                        make_shared<AllyAttackAction>(ActionType::Addtional,data_->Attacker,TT_SINGLE,"Hyc LC AddDmg");
+                        
+                    Cal_Additional_damage(addtionaldmg, Enemy_unit[Main_Enemy_num].get(),
+                    DmgSrc(DmgSrcType::CONST,ptr->getSubUnit()->Buff_note["Hyacnine_LC Note"] * (1.875 + 0.625 * superimpose),0));
                     ptr->getSubUnit()->setBuffNote("Hyacnine_LC Note",0);
                 }
             }));

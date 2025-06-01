@@ -221,6 +221,11 @@ public:
     void addTargetChangeConditionImmediately(function<bool()> condition);
     void updateTargetingSubUnits(int newTargetNum);
 
+    //Healing
+    void RestoreHP(HealSrc main,HealSrc adjacent,HealSrc other);
+    void RestoreHP(SubUnit *target,HealSrc Healptr);
+    void RestoreHP(HealSrc healSrc);
+    void RestoreHP(SubUnit *target,HealSrc main,HealSrc other);
     /*-----------------Print-----------------*/
     //PrintStats.h
     void printAtkStats();

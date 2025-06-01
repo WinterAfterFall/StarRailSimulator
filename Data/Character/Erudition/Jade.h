@@ -104,7 +104,7 @@ namespace Jade{
         }));
 
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &data_) {
-            if (data_->isSameAbility("Jade",AT_FUA)) {
+            if (data_->isSameAttack("Jade",AT_FUA)) {
                 Jade_Talent(ptr, 5);
                 return;
             }
