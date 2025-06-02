@@ -20,7 +20,7 @@ namespace Harmony_Lightcone{
     
             Enemy_hit_List.push_back(TriggerByEnemyHit(PRIORITY_IMMEDIATELY, [ptr,superimpose](Enemy *Attacker, vector<SubUnit*> target) {
                 for (SubUnit* e : target) {
-                    if (e->Atv_stats->Unit_num == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num) {
+                    if (e->Atv_stats->num == ptr->Sub_Unit_ptr[0]->Atv_stats->num) {
                         Increase_energy(ptr, 3 + superimpose);
                     }
                 }

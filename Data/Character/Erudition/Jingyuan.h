@@ -36,7 +36,7 @@ namespace Jingyuan{
         Relic(ptr);
         Planar(ptr);
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
-            if ((sp <= Sp_Safety) || allyPtr->Atv_stats->turn_cnt == 1 && Sp_status == "Negative") {
+            if ((sp <= Sp_Safety) || allyPtr->Atv_stats->turnCnt == 1 && Sp_status == "Negative") {
                 Basic_Atk(ptr);
             } else {
                 Skill(ptr);
@@ -52,7 +52,7 @@ namespace Jingyuan{
                 if (ptr->Print)CharCmd::printUltStart("Jingyuan");
                 ptr->Sub_Unit_ptr[0]->Stack["LL_stack"] += 3;
                 if (ptr->Sub_Unit_ptr[0]->Stack["LL_stack"] >= 10) {
-                    ptr->Summon_ptr[0]->Atv_stats->Flat_Speed = 70;
+                    ptr->Summon_ptr[0]->Atv_stats->flatSpeed = 70;
                     ptr->Summon_ptr[0]->speedBuff({ST_SPD,ST_FLAT_SPD,0});
                 } else {
                     ptr->Summon_ptr[0]->speedBuff({ST_SPD,ST_FLAT_SPD,30});
@@ -69,7 +69,7 @@ namespace Jingyuan{
         
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,JYptr]() {
-            if (!(ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num == turn->Unit_num && turn->Side == "Ally")) return;
+            if (!(ptr->Sub_Unit_ptr[0]->Atv_stats->num == turn->num && turn->Side == "Ally")) return;
             
             if (JYptr->isBuffEnd("War_Marshal")) {
                 JYptr->buffSingle({{ST_CR,AT_NONE,-10}});
@@ -96,8 +96,8 @@ namespace Jingyuan{
 
             // LL
             ptr->Sub_Unit_ptr[0]->Stack["LL_stack"] = 3;
-            ptr->Summon_ptr[0]->Atv_stats->Flat_Speed = 0;
-            ptr->Summon_ptr[0]->Atv_stats->Speed_percent = 0;
+            ptr->Summon_ptr[0]->Atv_stats->flatSpeed = 0;
+            ptr->Summon_ptr[0]->Atv_stats->speedPercent = 0;
         }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,JYptr]() {
@@ -140,7 +140,7 @@ namespace Jingyuan{
                     ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["Summon"]-=25;
                 }
         
-                turn->Flat_Speed = 0;
+                turn->flatSpeed = 0;
                 ptr->Sub_Unit_ptr[0]->Stack["LL_stack"] = 3;
                 
                 
@@ -183,7 +183,7 @@ namespace Jingyuan{
             JYptr->buffSingle({{ST_CR,AT_NONE,10}},"War_Marshal",2);
             ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]+=2;
             if(ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]>=10){
-                ptr->Summon_ptr[0]->Atv_stats->Flat_Speed=70;
+                ptr->Summon_ptr[0]->Atv_stats->flatSpeed=70;
                 ptr->Summon_ptr[0]->speedBuff({ST_SPD,ST_FLAT_SPD,0});
             }else{
                 ptr->Summon_ptr[0]->speedBuff({ST_SPD,ST_FLAT_SPD,20});

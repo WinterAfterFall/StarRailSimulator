@@ -15,27 +15,27 @@
 
 
 double calculateAtkOnStats(SubUnit *ptr){
-    double ans = ptr->Base_atk;
+    double ans = ptr->baseAtk;
     ans*= (100+ptr->Stats_type["Atk%"][AT_NONE])/100.0;
     ans+= ptr->Stats_type["Flat_Atk"][AT_NONE];
     return (ans < 0) ? 0 : ans;
 }
 double calculateHpOnStats(SubUnit *ptr){
-    double ans = ptr->Base_hp;
+    double ans = ptr->baseHp;
     ans*= (100+ptr->Stats_type["Hp%"][AT_NONE])/100.0;
     ans+= ptr->Stats_type["Flat_Hp"][AT_NONE];
     return (ans < 0) ? 0 : ans;
 }
 double calculateDefOnStats(SubUnit *ptr){
-    double ans = ptr->Base_def;
+    double ans = ptr->baseDef;
     ans*= (100+ptr->Stats_type["Def%"][AT_NONE])/100.0;
     ans+= ptr->Stats_type["Flat_Def"][AT_NONE];
     return (ans < 0) ? 0 : ans;
 }
 double calculateSpeedOnStats(SubUnit *ptr){
-    double ans = ptr->Atv_stats->Base_speed;
-    ans*= (100 + ptr->Atv_stats->Speed_percent)/100.0;
-    ans+= ptr->Atv_stats->Flat_Speed;
+    double ans = ptr->Atv_stats->baseSpeed;
+    ans*= (100 + ptr->Atv_stats->speedPercent)/100.0;
+    ans+= ptr->Atv_stats->flatSpeed;
     return (ans < 0) ? 0 : ans;
 }
 double calculateCritrateOnStats(SubUnit *ptr){
@@ -57,27 +57,27 @@ double calculateHPLost(SubUnit *ptr){
 }
 
 double calculateAtkForBuff(SubUnit *ptr,double ratio){
-    double ans = ptr->Base_atk;
+    double ans = ptr->baseAtk;
     ans*= (100+ptr->Stats_type["Atk%"][AT_NONE]-ptr->Stats_type["Atk%"][AT_TEMP])/100.0;
     ans+= ptr->Stats_type["Flat_Atk"][AT_NONE]-ptr->Stats_type["Flat_Atk"][AT_TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 double calculateHpForBuff(SubUnit *ptr,double ratio){
-    double ans = ptr->Base_hp;
+    double ans = ptr->baseHp;
     ans*= (100+ptr->Stats_type["Hp%"][AT_NONE]-ptr->Stats_type["Hp%"][AT_TEMP])/100.0;
     ans+= ptr->Stats_type["Flat_Hp"][AT_NONE]-ptr->Stats_type["Flat_Hp"][AT_TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 double calculateDefForBuff(SubUnit *ptr,double ratio){
-    double ans = ptr->Base_def;
+    double ans = ptr->baseDef;
     ans*= (100+ptr->Stats_type["Def%"][AT_NONE]-ptr->Stats_type["Def%"][AT_TEMP])/100.0;
     ans+= ptr->Stats_type["Flat_Def"][AT_NONE]-ptr->Stats_type["Flat_Def"][AT_TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 double calculateSpeedForBuff(SubUnit *ptr,double ratio){
-    double ans = ptr->Atv_stats->Base_speed;
-    ans*= (100 + ptr->Atv_stats->Speed_percent - ptr->Stats_type["Speed%"][AT_TEMP])/100.0;
-    ans+= ptr->Atv_stats->Flat_Speed - ptr->Stats_type["Flat_Speed"][AT_TEMP];
+    double ans = ptr->Atv_stats->baseSpeed;
+    ans*= (100 + ptr->Atv_stats->speedPercent - ptr->Stats_type["Speed%"][AT_TEMP])/100.0;
+    ans+= ptr->Atv_stats->flatSpeed - ptr->Stats_type["Flat_Speed"][AT_TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 
 }
@@ -95,7 +95,7 @@ double calculateBreakEffectForBuff(SubUnit *ptr,double ratio){
 }
 
 double calAtkMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
-    double ans = act->source->Base_atk;
+    double ans = act->source->baseAtk;
     double Atk_percent_mtpr = 100;
     double Flat_atk_mtpr = 0;
     
@@ -114,7 +114,7 @@ double calAtkMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
     return (ans < 0) ? 0 : ans;
 }
 double calHpMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
-    double ans = act->source->Base_hp;
+    double ans = act->source->baseHp;
     double Hp_percent_mtpr = 100;
     double Flat_hp_mtpr = 0;
     Hp_percent_mtpr += act->source->Stats_type["Hp%"][AT_NONE] + target->Stats_type["Hp%"][AT_NONE];
@@ -134,7 +134,7 @@ double calHpMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
 }
 
 double calDefMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
-    double ans = act->source->Base_def;
+    double ans = act->source->baseDef;
     double Def_percent_mtpr = 100;
     double Flat_def_mtpr = 0;
 

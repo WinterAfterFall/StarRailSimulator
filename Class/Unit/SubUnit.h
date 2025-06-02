@@ -11,35 +11,48 @@ using namespace std;
 class SubUnit : public Unit {
 public:
 #pragma region Attribute
+
+#pragma region Stats
+    double baseAtk;
+    double baseHp;
+    double baseDef;
+    double baseTaunt = 0;
+    vector<string> Element_type ;
+    // * 
+    double totalATK;    
+    double totalHP;     
+    double totalDEF;    
+    double currentHP;   
+    double currentSheild;  
+    int hitCount = 0;
+    double taunt = 0;
+    double tauntMtpr = 1;
+
+    // * 
+#pragma endregion
+    
+#pragma region AdjustStats
     double Unit_Speed_Ratio = 0;
     double Unit_Hp_Ratio = 0 ;
-    double Base_atk;//*
-    double Base_hp;//*
-    double Base_def;//*
+#pragma endregion
 
-    double totalATK;
-    double totalHP;
-    double totalDEF;
-
-    double currentHP;
-    double currentSheild;
-    
+#pragma region Record Buff Value
     unordered_map<string,int> Stack;
     unordered_map<string,double> Buff_note;
     unordered_map<string,int> Buff_countdown;
     unordered_map<string,bool> Buff_check;
     unordered_map<string,SubUnit*> buffSubUnitTarget;
     unordered_map<string,Ally*> buffAllyTarget;
+#pragma endregion
 
-    vector<function<bool()>> changeTargetCondition;
-    vector<function<bool()>> changeTargetImmediatelyCondtion;
 
-    
-    vector<string> Element_type ;//*
-    
-    double tauntBase = 0;
-    double taunt = 0;
-    double tauntMtpr = 1;
+
+
+
+
+
+
+
     //string Target_Buff = "Ally";
     int defaultAllyTargetNum = Main_dps_num;
     int defaultSubUnitTargetNum = 0;
@@ -47,7 +60,6 @@ public:
     int currentSubUnitTargetNum = 0;
     int Enemy_target_num = Main_Enemy_num;
     Ally* ptrToChar = nullptr;
-    int hitCount = 0;
 
 
 #pragma endregion
@@ -63,7 +75,7 @@ public:
     void tauntMtprChange(int value){
         tauntMtpr += value;
         totalTaunt -= taunt;
-        taunt = tauntBase * tauntMtpr/100.0;
+        taunt = baseTaunt * tauntMtpr/100.0;
         totalTaunt += taunt;
     }
     double calHitChance(){
@@ -97,11 +109,11 @@ public:
         return false;
     }
     bool isSameNum(SubUnit *ptr){
-        if(this->Atv_stats->Unit_num == ptr->Atv_stats->Unit_num)return true;
+        if(this->Atv_stats->num == ptr->Atv_stats->num)return true;
         return false;
     }
     bool isSameNum(int num){
-        if(this->Atv_stats->Unit_num == num)return true;
+        if(this->Atv_stats->num == num)return true;
         return false;
     }
 
@@ -217,9 +229,6 @@ public:
 
     
     //TargetChoose.h
-    void addTargetChangeCondition(function<bool()> condition);
-    void addTargetChangeConditionImmediately(function<bool()> condition);
-    void updateTargetingSubUnits(int newTargetNum);
 
     //Healing
     void RestoreHP(HealSrc main,HealSrc adjacent,HealSrc other);

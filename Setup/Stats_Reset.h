@@ -25,16 +25,16 @@ void Basic_reset(){
         
         
         //ally edit
-            Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed = 0;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Speed_percent = 0;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->turn_cnt = 0;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->flatSpeed = 0;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->speedPercent = 0;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->turnCnt = 0;
             Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->priority = 0;
             Ally_unit[i]->Energy_recharge = 100;
             Ally_unit[i]->Current_energy = Ally_unit[i]->Max_energy/2;
             Ally_unit[i]->Sub_Unit_ptr[0]->currentAllyTargetNum = Ally_unit[i]->Sub_Unit_ptr[0]->defaultAllyTargetNum;
             Ally_unit[i]->Sub_Unit_ptr[0]->currentSubUnitTargetNum = Ally_unit[i]->Sub_Unit_ptr[0]->defaultSubUnitTargetNum;
             Ally_unit[i]->Sub_Unit_ptr[0]->tauntMtpr = 100;
-            Ally_unit[i]->Sub_Unit_ptr[0]->taunt = Ally_unit[i]->Sub_Unit_ptr[0]->tauntBase;
+            Ally_unit[i]->Sub_Unit_ptr[0]->taunt = Ally_unit[i]->Sub_Unit_ptr[0]->baseTaunt;
             Ally_unit[i]->Sub_Unit_ptr[0]->currentSheild = 0;
             
             for(auto &e:Ally_unit[i]->Sub_Unit_ptr[0]->Stack){
@@ -90,7 +90,7 @@ void Basic_reset(){
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_HEALING_OUT][AT_NONE] += 0;
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_RES][AT_NONE] += 4.32*2;
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Ehr"][AT_NONE] += 3.888*2;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 2.3*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 2.3*2;
 
 
             Ally_unit[i]->Body(Ally_unit[i].get());
@@ -98,7 +98,7 @@ void Basic_reset(){
             Ally_unit[i]->Orb(Ally_unit[i].get());
             Ally_unit[i]->Rope(Ally_unit[i].get());
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Ehr"][AT_NONE] += Ally_unit[i]->ExtraEhr;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += Ally_unit[i]->ExtraSpeed;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += Ally_unit[i]->ExtraSpeed;
     }
 
 
@@ -120,9 +120,9 @@ void Basic_reset(){
                 }
 
         }
-            Enemy_unit[i]->Atv_stats->Flat_Speed = 0;
-            Enemy_unit[i]->Atv_stats->Speed_percent = 0;
-            Enemy_unit[i]->Atv_stats->turn_cnt = 0;
+            Enemy_unit[i]->Atv_stats->flatSpeed = 0;
+            Enemy_unit[i]->Atv_stats->speedPercent = 0;
+            Enemy_unit[i]->Atv_stats->turnCnt = 0;
             Enemy_unit[i]->Atv_stats->priority = 0;
             Enemy_unit[i]->Toughness_status=1;
             Enemy_unit[i]->toughnessAvgMultiplier = 0;
@@ -233,10 +233,10 @@ void Memosprite_reset(){
                 e.second = nullptr;
             }
             
-        Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->turn_cnt = 0;
+        Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->turnCnt = 0;
         Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->priority = 0;
-        Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->Flat_Speed = Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed*(Ally_unit[i]->Sub_Unit_ptr[j]->Unit_Speed_Ratio/100);
-        if(Ally_unit[i]->Sub_Unit_ptr[j]->Unit_Speed_Ratio!=0)Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->Speed_percent = Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Speed_percent;
+        Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->flatSpeed = Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->flatSpeed*(Ally_unit[i]->Sub_Unit_ptr[j]->Unit_Speed_Ratio/100);
+        if(Ally_unit[i]->Sub_Unit_ptr[j]->Unit_Speed_Ratio!=0)Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->speedPercent = Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->speedPercent;
         Ally_unit[i]->Sub_Unit_ptr[j]->currentAllyTargetNum = Ally_unit[i]->Sub_Unit_ptr[j]->defaultAllyTargetNum;
         Ally_unit[i]->Sub_Unit_ptr[j]->currentSubUnitTargetNum = Ally_unit[i]->Sub_Unit_ptr[j]->defaultSubUnitTargetNum;
         Ally_unit[i]->Sub_Unit_ptr[j]->currentSheild = 0;
@@ -250,9 +250,9 @@ void Summon_reset(){
         for(int j=0,sz = Ally_unit[i]->Summon_ptr.size();j<sz;j++){  
         
         //speed
-        Ally_unit[i]->Summon_ptr[j]->Atv_stats->Speed_percent=0;
-        Ally_unit[i]->Summon_ptr[j]->Atv_stats->Flat_Speed=0;
-        Ally_unit[i]->Summon_ptr[j]->Atv_stats->turn_cnt = 0;
+        Ally_unit[i]->Summon_ptr[j]->Atv_stats->speedPercent=0;
+        Ally_unit[i]->Summon_ptr[j]->Atv_stats->flatSpeed=0;
+        Ally_unit[i]->Summon_ptr[j]->Atv_stats->turnCnt = 0;
         Ally_unit[i]->Summon_ptr[j]->Atv_stats->priority = 0;
 
         
@@ -266,11 +266,11 @@ void Countdown_reset(){
         for(int j=0,sz = Ally_unit[i]->Countdown_ptr.size();j<sz;j++){  
         
         //speed
-        Ally_unit[i]->Countdown_ptr[j]->Atv_stats->Speed_percent=0;
-        Ally_unit[i]->Countdown_ptr[j]->Atv_stats->Flat_Speed=0;
-        Ally_unit[i]->Countdown_ptr[j]->Atv_stats->turn_cnt = 0;
+        Ally_unit[i]->Countdown_ptr[j]->Atv_stats->speedPercent=0;
+        Ally_unit[i]->Countdown_ptr[j]->Atv_stats->flatSpeed=0;
+        Ally_unit[i]->Countdown_ptr[j]->Atv_stats->turnCnt = 0;
         Ally_unit[i]->Countdown_ptr[j]->Atv_stats->priority = 0;
-        Ally_unit[i]->Countdown_ptr[j]->Atv_stats->Base_speed = -1;
+        Ally_unit[i]->Countdown_ptr[j]->Atv_stats->baseSpeed = -1;
         }
     }
 }

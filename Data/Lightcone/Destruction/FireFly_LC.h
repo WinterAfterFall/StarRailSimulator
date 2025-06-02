@@ -18,7 +18,7 @@ namespace Destruction_Lightcone{
             
     
             After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,debuffName](shared_ptr<AllyAttackAction> &act) {
-                if (act->Attacker->Atv_stats->Unit_num != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num && act->Attacker->Atv_stats->Side != "Ally") return;
+                if (act->Attacker->Atv_stats->num != ptr->Sub_Unit_ptr[0]->Atv_stats->num && act->Attacker->Atv_stats->Side != "Ally") return;
                 for(Enemy* &e :act->targetList){
                     e->debuffSingleApply({
                         {ST_VUL,AT_BREAK,20.0 + 4 * superimpose},
@@ -29,8 +29,8 @@ namespace Destruction_Lightcone{
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,debuffName]() {
                 if (turn != nullptr && turn->Side == "Enemy") {
-                    if (Enemy_unit[turn->Unit_num]->isDebuffEnd(debuffName)) {
-                        Enemy_unit[turn->Unit_num]->debuffSingle({
+                    if (Enemy_unit[turn->num]->isDebuffEnd(debuffName)) {
+                        Enemy_unit[turn->num]->debuffSingle({
                             {ST_VUL,AT_BREAK,-20.0 - 4 * superimpose},
                             {ST_SPD,ST_SPD_P,20.0}
                         });

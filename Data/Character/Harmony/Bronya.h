@@ -25,7 +25,7 @@ namespace Bronya{
         ptr->setRelicMainStats(ST_CD,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
         ptr->setSpeedRequire(133.4);
 
-        Driver_num = Bronyaptr->Atv_stats->Unit_num;
+        Driver_num = Bronyaptr->Atv_stats->num;
 
         //func
         LC(ptr);
@@ -111,7 +111,7 @@ namespace Bronya{
             if(turn->Char_Name == "Bronya"){
                 ptr->Sub_Unit_ptr[0]->Buff_check["Bronya_E4"] = 0;
             }
-            if(ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num != Driver_num) return;
+            if(ptr->Sub_Unit_ptr[0]->Atv_stats->num != Driver_num) return;
         }));
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){

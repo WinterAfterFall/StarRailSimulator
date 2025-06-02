@@ -37,7 +37,7 @@ void calDamage(shared_ptr<AllyAttackAction> &act,Enemy *target,DmgSrc abilityRat
 
 void Cal_Break_damage(shared_ptr<AllyAttackAction> &act,Enemy *target,double &Constant){
     double Total_dmg = Constant *Level_multiplier;
-    if(Break_Formula_check_mode&&Break_Formula_check_mode==act->Attacker->Atv_stats->Unit_num){
+    if(Break_Formula_check_mode&&Break_Formula_check_mode==act->Attacker->Atv_stats->num){
         cout<<act->Attacker->Atv_stats->Char_Name<<" ";
         cout<<(0.5+target->Max_toughness/40)<<" ";
         cout<<calBreakEffectMultiplier(act,target)<<" ";
@@ -87,7 +87,7 @@ void Cal_Dot_Toughness_break_damage(shared_ptr<AllyAttackAction> &act,Enemy *tar
 }
 void Cal_Superbreak_damage(shared_ptr<AllyAttackAction> &act,Enemy *target,double Superbreak_ratio){
     double Total_dmg = Level_multiplier*Superbreak_ratio/100;
-    if(SuperBreak_Formula_check_mode&&SuperBreak_Formula_check_mode==act->Attacker->Atv_stats->Unit_num){
+    if(SuperBreak_Formula_check_mode&&SuperBreak_Formula_check_mode==act->Attacker->Atv_stats->num){
         cout<<act->Attacker->Atv_stats->Char_Name<<" ";
         cout<<Superbreak_ratio<<" ";
         cout<<calBreakEffectMultiplier(act,target)<<" ";

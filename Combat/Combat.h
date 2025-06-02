@@ -11,7 +11,7 @@
 
 void Take_action(){
     
-    ++(turn->turn_cnt);
+    ++(turn->turnCnt);
     Ult_After_Turn = 0;
     After_Turn_Check = 0;
     allEventBeforeTurn();
@@ -246,37 +246,37 @@ void Toughness_break(shared_ptr<AllyAttackAction> &act,Enemy* target){
 
     if(data_2->Damage_element=="Physical"){
         Action_forward(target->Atv_stats.get(),-25);
-        target->addBreakSEList(BreakSideEffect(BreakSEType::Bleed,data_2->Attacker,target->Atv_stats->turn_cnt + 2));
+        target->addBreakSEList(BreakSideEffect(BreakSEType::Bleed,data_2->Attacker,target->Atv_stats->turnCnt + 2));
         Constant=2;
 
     }else if(data_2->Damage_element=="Fire"){
         Action_forward(target->Atv_stats.get(),-25);
-        target->addBreakSEList(BreakSideEffect(BreakSEType::Burn,data_2->Attacker,target->Atv_stats->turn_cnt + 2));
+        target->addBreakSEList(BreakSideEffect(BreakSEType::Burn,data_2->Attacker,target->Atv_stats->turnCnt + 2));
         Constant=2;
 
     }else if(data_2->Damage_element=="Ice"){
         Action_forward(target->Atv_stats.get(),-25);
-        target->addBreakSEList(BreakSideEffect(BreakSEType::Freeze,data_2->Attacker,target->Atv_stats->turn_cnt + 1));
+        target->addBreakSEList(BreakSideEffect(BreakSEType::Freeze,data_2->Attacker,target->Atv_stats->turnCnt + 1));
         Constant=1;
 
     }else if(data_2->Damage_element=="Lightning"){
         Action_forward(target->Atv_stats.get(),-25);
-        target->addBreakSEList(BreakSideEffect(BreakSEType::Shock,data_2->Attacker,target->Atv_stats->turn_cnt + 2));
+        target->addBreakSEList(BreakSideEffect(BreakSEType::Shock,data_2->Attacker,target->Atv_stats->turnCnt + 2));
         Constant=1;
 
     }else if(data_2->Damage_element=="Wind"){
         Action_forward(target->Atv_stats.get(),-25);
-        target->addBreakSEList(BreakSideEffect(BreakSEType::WindShear,data_2->Attacker,target->Atv_stats->turn_cnt + 2,3));
+        target->addBreakSEList(BreakSideEffect(BreakSEType::WindShear,data_2->Attacker,target->Atv_stats->turnCnt + 2,3));
         Constant=1.5;
 
     }else if(data_2->Damage_element=="Quantum"){
         Action_forward(target->Atv_stats.get(),-20*calBreakEffectMultiplier(data_2,target));
-        target->addBreakSEList(BreakSideEffect(BreakSEType::Entanglement,data_2->Attacker,target->Atv_stats->turn_cnt + 1));
+        target->addBreakSEList(BreakSideEffect(BreakSEType::Entanglement,data_2->Attacker,target->Atv_stats->turnCnt + 1));
         Constant=0.5;
 
     }else if(data_2->Damage_element=="Imaginary"){
         Action_forward(target->Atv_stats.get(),-30*calBreakEffectMultiplier(data_2,target));
-        if(target->addBreakSEList(BreakSideEffect(BreakSEType::Imprisonment,data_2->Attacker,target->Atv_stats->turn_cnt + 1)))
+        if(target->addBreakSEList(BreakSideEffect(BreakSEType::Imprisonment,data_2->Attacker,target->Atv_stats->turnCnt + 1)))
         target->speedBuff({ST_SPD,ST_SPD_P,-10});
         Constant=0.5;
     }

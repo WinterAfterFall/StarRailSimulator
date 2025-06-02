@@ -20,7 +20,7 @@ namespace Remembrance_Lightcone{
                     }
                 }
     
-                if (turn->Unit_num == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num && turn->Side == "Memosprite") {
+                if (turn->num == ptr->Sub_Unit_ptr[0]->Atv_stats->num && turn->Side == "Memosprite") {
                     ptr->buffStackAlly({{ST_DMG,AT_NONE,7.0 + superimpose}}, 1, 4,"Reminiscence");
                 }
             }));

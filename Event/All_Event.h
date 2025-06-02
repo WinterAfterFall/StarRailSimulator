@@ -33,7 +33,7 @@ void allEventAfterTurn(){
         Enemy *target = turn->canCastToEnemy();
         Dot_trigger(100, target, AT_NONE);
         for (auto itr = target->breakDotList.begin(); itr != target->breakDotList.end(); ) {
-            if(itr->countdown!=turn->turn_cnt){
+            if(itr->countdown!=turn->turnCnt){
                 itr++;
                 continue;
             }
@@ -42,7 +42,7 @@ void allEventAfterTurn(){
             
         }
         for (auto itr = target->breakEngist.begin(); itr != target->breakEngist.end(); ) {
-            if(itr->countdown!=turn->turn_cnt){
+            if(itr->countdown!=turn->turnCnt){
                 itr++;
                 continue;
             }
@@ -51,7 +51,7 @@ void allEventAfterTurn(){
             
         }
         for (auto itr = target->breakImsList.begin(); itr != target->breakImsList.end(); ) {
-            if(itr->countdown!=turn->turn_cnt){
+            if(itr->countdown!=turn->turnCnt){
                 itr++;
                 continue;
             }
@@ -61,7 +61,7 @@ void allEventAfterTurn(){
             
         }
         for(auto &e : target->Weakness_typeCountdown){
-            if(e.second==turn->turn_cnt&&target->Default_Weakness_type[e.first]==0){
+            if(e.second==turn->turnCnt&&target->Default_Weakness_type[e.first]==0){
                 target->Weakness_type[e.first] = 0;
                 target->currentWeaknessElementAmount--;
             }

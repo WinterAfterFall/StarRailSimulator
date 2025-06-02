@@ -134,7 +134,7 @@ namespace Jade{
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_BLAST,"Jade BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),20);
+            Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(act);
         });
@@ -149,7 +149,7 @@ namespace Jade{
         shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(ActionType::SKILL,ptr->getSubUnit(),TT_SINGLE,"Jade Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
-            Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
+            Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             if(ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Jade_Skill",3)){
                 chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_SPD,ST_SPD_P,30}});

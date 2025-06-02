@@ -30,7 +30,7 @@ namespace FireFly{
         
 
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr] (){
-            if(ptr->Countdown_ptr[0]->Atv_stats->Base_speed==-1){
+            if(ptr->Countdown_ptr[0]->Atv_stats->baseSpeed==-1){
                 Skill_func(ptr);
             }else {
                 Enchance_Skill_func(ptr);
@@ -39,7 +39,7 @@ namespace FireFly{
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] += 37.3;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES][AT_NONE] += 18;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 5;
+            ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 5;
 
             // relic
 
@@ -49,7 +49,7 @@ namespace FireFly{
             if (ptr->Eidolon >= 1) {
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_SHRED][AT_NONE] += 15;
             }
-            ptr->Countdown_ptr[0]->Atv_stats->Base_speed = -1;
+            ptr->Countdown_ptr[0]->Atv_stats->baseSpeed = -1;
             if (ptr->Eidolon >= 2) {
             ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"] = 2;
             }
@@ -74,7 +74,7 @@ namespace FireFly{
             if (target->Atv_stats->Unit_Name != "FireFly") return;
             if (StatsType == "Atk%" || StatsType == "Flat_Atk") {
             double temp = 0;
-            temp = floor(((ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] / 100 * ptr->Sub_Unit_ptr[0]->Base_atk + ptr->Sub_Unit_ptr[0]->Base_atk) + ptr->Sub_Unit_ptr[0]->Stats_type["Flat_Atk"][AT_NONE] - 1800) / 100) * 0.8;
+            temp = floor(((ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] / 100 * ptr->Sub_Unit_ptr[0]->baseAtk + ptr->Sub_Unit_ptr[0]->baseAtk) + ptr->Sub_Unit_ptr[0]->Stats_type["Flat_Atk"][AT_NONE] - 1800) / 100) * 0.8;
             if (ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"] <= 0)temp = 0;
             FFptr->buffSingle(
                 {
@@ -87,7 +87,7 @@ namespace FireFly{
         }));
 
         Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr] (Enemy *target, SubUnit *Breaker) {
-            if (ptr->Eidolon >= 2 && ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num == Breaker->Atv_stats->Unit_num && ptr->Countdown_ptr[0]->Atv_stats->Base_speed == 70) {
+            if (ptr->Eidolon >= 2 && ptr->Sub_Unit_ptr[0]->Atv_stats->num == Breaker->Atv_stats->num && ptr->Countdown_ptr[0]->Atv_stats->baseSpeed == 70) {
                 ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"]++;
             }
             }
@@ -115,7 +115,7 @@ namespace FireFly{
         
         After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr]( shared_ptr<AllyAttackAction> &act ) {
 
-            if (ptr->Eidolon >= 2 && ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"] > 0 && ptr->Countdown_ptr[0]->Atv_stats->Base_speed == 70) {
+            if (ptr->Eidolon >= 2 && ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"] > 0 && ptr->Countdown_ptr[0]->Atv_stats->baseSpeed == 70) {
             ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"]--;
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
             }

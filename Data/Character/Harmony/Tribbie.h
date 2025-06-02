@@ -77,7 +77,7 @@ namespace Tribbie{
                     }
                 }
                 for (int i = 1; i <= Total_ally; i++) {
-                    if (i == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num) continue;
+                    if (i == ptr->Sub_Unit_ptr[0]->Atv_stats->num) continue;
                     Ally_unit[i]->Sub_Unit_ptr[0]->Buff_check["Tribbie_ult_launch"] = 0;
                 }
                 Attack(act);
@@ -268,7 +268,7 @@ namespace Tribbie{
         cout<<ptr->Sub_Unit_ptr[0]->Stack["Tribbie_A2"]<<" ";
         cout<<ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]<<" ";
         for(int i=1;i<=Total_ally;i++){
-                if(i==ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num)continue;
+                if(i==ptr->Sub_Unit_ptr[0]->Atv_stats->num)continue;
                 cout<<Ally_unit[i]->Sub_Unit_ptr[0]->Buff_check["Tribbie_ult_launch"]<<" ";
             }
 

@@ -30,7 +30,7 @@ void Ally::EhrRequirment(){
 
 void Ally::SpeedRequirment(){
     if(this->SpeedRequire==0)return;
-    double temp = this->Sub_Unit_ptr[0]->Atv_stats->Base_speed+this->Sub_Unit_ptr[0]->Atv_stats->Base_speed*this->Sub_Unit_ptr[0]->Atv_stats->Speed_percent/100 + this->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed;
+    double temp = this->Sub_Unit_ptr[0]->Atv_stats->baseSpeed+this->Sub_Unit_ptr[0]->Atv_stats->baseSpeed*this->Sub_Unit_ptr[0]->Atv_stats->speedPercent/100 + this->Sub_Unit_ptr[0]->Atv_stats->flatSpeed;
     temp = this->SpeedRequire - temp;
     double x =0;
     if(temp<=0)return;
@@ -38,9 +38,9 @@ void Ally::SpeedRequirment(){
     this->changeTotalSubStats(-x);
     x = x * 2.3;
     this->ExtraSpeed += x;
-    this->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += x;
+    this->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += x;
     for(int i=1,sz = this->Sub_Unit_ptr.size();i<sz;i++){
-        this->Sub_Unit_ptr[i]->Atv_stats->Flat_Speed+=x*(this->Sub_Unit_ptr[i]->Unit_Speed_Ratio/100);
+        this->Sub_Unit_ptr[i]->Atv_stats->flatSpeed+=x*(this->Sub_Unit_ptr[i]->Unit_Speed_Ratio/100);
     }
     return;
 }

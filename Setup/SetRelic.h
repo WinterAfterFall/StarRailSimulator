@@ -5,7 +5,7 @@
 function<void(Ally *ptr)> Ally::RelicPairSet(string stats){
     if(stats == ST_SPD_P)
     return [=](Ally *ptr) {
-        ptr->getSubUnit()->Atv_stats->Speed_percent+=6;
+        ptr->getSubUnit()->Atv_stats->speedPercent+=6;
     };
     if(stats == ST_ATK_P)
     return [=](Ally *ptr) {

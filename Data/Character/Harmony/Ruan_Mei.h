@@ -57,7 +57,7 @@ namespace Ruan_Mei{
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] += 37.3;
             ptr->Sub_Unit_ptr[0]->Stats_type["Def%"][AT_NONE] += 22.5;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 5;
+            ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 5;
 
             // relic
 
@@ -109,14 +109,14 @@ namespace Ruan_Mei{
                 }
             }
             if(turn->Side == "Enemy" && Turn_Skip == 0){
-                if(Enemy_unit[turn->Unit_num]->Debuff["RuanMei_Ult_bloom"] == 1){
+                if(Enemy_unit[turn->num]->Debuff["RuanMei_Ult_bloom"] == 1){
                     Turn_Skip = 1;
-                    Enemy_unit[turn->Unit_num]->debuffRemove("RuanMei_Ult_bloom");
-                    Action_forward(Enemy_unit[turn->Unit_num]->Atv_stats.get(), -10 - (0.2 * (ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE])));
+                    Enemy_unit[turn->num]->debuffRemove("RuanMei_Ult_bloom");
+                    Action_forward(Enemy_unit[turn->num]->Atv_stats.get(), -10 - (0.2 * (ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE])));
                     shared_ptr<AllyAttackAction> act = 
                     make_shared<AllyAttackAction>(ActionType::Break,ptr->getSubUnit(),TT_SINGLE,"RM Ult Break");
                     double temp = 0.5;
-                    Cal_Break_damage(act, Enemy_unit[turn->Unit_num].get(), temp);
+                    Cal_Break_damage(act, Enemy_unit[turn->num].get(), temp);
                 }
             }
         }));

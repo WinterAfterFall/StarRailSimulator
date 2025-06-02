@@ -19,8 +19,8 @@
 //     void Set_up(int num ,int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
 //         Ally_unit[num] = make_unique<Ally>();
 
-//         Ally_unit[num]->stats->Base_hp = 1203;
-//         Ally_unit[num]->stats->Base_atk = 446;
+//         Ally_unit[num]->stats->baseHp = 1203;
+//         Ally_unit[num]->stats->baseAtk = 446;
 //         Ally_unit[num]->stats->Base_def = 655;
 //         Ally_unit[num]->Atv_stats->Base_speed = 106;
 //         Ally_unit[num]->stats->Max_energy = 110;

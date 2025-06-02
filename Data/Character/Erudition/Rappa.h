@@ -90,7 +90,7 @@ namespace Rappa{
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 28;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] += 13.3;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 9;
+            ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 9;
 
             // relic
 

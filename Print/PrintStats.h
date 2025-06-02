@@ -13,7 +13,7 @@ void SubUnit::printHpStats(){
     cout<<this->Atv_stats->Unit_Name<<" ";
     cout << "Current HP: " << this->currentHP << " ";
     cout << "Total HP: " << this->totalHP << " ";
-    cout << "Base HP: " << this->Base_hp << " ";
+    cout << "Base HP: " << this->baseHp << " ";
     cout << "HP Percent: " << this->Stats_type[ST_HP_P][AT_NONE] << " ";
     cout << "Flat HP: " << this->Stats_type[ST_FLAT_HP][AT_NONE] << " ";
     cout<<endl;

@@ -25,7 +25,7 @@ void Ally::setRope(string stats) {
 function<void(Ally *ptr)> Ally::RelicMainStatsSet(string stats){
     if(stats == ST_FLAT_SPD)
     return [=](Ally *ptr) {
-        ptr->getSubUnit()->Atv_stats->Flat_Speed+=25;
+        ptr->getSubUnit()->Atv_stats->flatSpeed+=25;
     };
     if(stats == ST_ATK_P)
     return [=](Ally *ptr) {

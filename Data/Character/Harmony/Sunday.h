@@ -21,7 +21,7 @@ namespace Sunday{
         ptr->setSpeedRequire(133.4);
         ptr->setRelicMainStats(ST_HP_P,ST_FLAT_SPD,ST_HP_P,ST_EnergyRecharge);
 
-        Driver_num = SDptr->Atv_stats->Unit_num;
+        Driver_num = SDptr->Atv_stats->num;
         //func
         LC(ptr);
         Relic(ptr);

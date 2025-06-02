@@ -55,7 +55,7 @@ void Enemy::debuffRemove(string debuffName){
 }
 
 bool Enemy::isDebuffEnd(string Debuff_name){
-    if(this->Atv_stats->turn_cnt==this->Debuff_time_count[Debuff_name]&&turn->Char_Name==this->Atv_stats->Char_Name){
+    if(this->Atv_stats->turnCnt==this->Debuff_time_count[Debuff_name]&&turn->Char_Name==this->Atv_stats->Char_Name){
         if(!this->getStack(Debuff_name))this->debuffRemove(Debuff_name);
         return true;
     }
@@ -63,7 +63,7 @@ bool Enemy::isDebuffEnd(string Debuff_name){
 }
 
 void Enemy::extendDebuff(string Debuff_name,int Turn_extend){
-    this->Debuff_time_count[Debuff_name] = this->Atv_stats->turn_cnt+Turn_extend;
+    this->Debuff_time_count[Debuff_name] = this->Atv_stats->turnCnt+Turn_extend;
 }
 
 void extendDebuffAll(string Debuff_name,int Turn_extend){
@@ -105,9 +105,9 @@ void Enemy::weaknessApply(string element ,int extend){
     }
 
     this->Weakness_typeCountdown[element] = 
-    (this->Weakness_typeCountdown[element] > extend + this->Atv_stats->turn_cnt) ?
+    (this->Weakness_typeCountdown[element] > extend + this->Atv_stats->turnCnt) ?
     this->Weakness_typeCountdown[element] :
-    extend + this->Atv_stats->turn_cnt;
+    extend + this->Atv_stats->turnCnt;
 }
 
 

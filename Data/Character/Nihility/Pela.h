@@ -81,15 +81,15 @@ namespace Pela{
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (turn->Side == "Enemy") {
-                if (Enemy_unit[turn->Unit_num]->Debuff_time_count["Zone_Suppression"] == Enemy_unit[turn->Unit_num]->Atv_stats->turn_cnt) {
-                    Enemy_unit[turn->Unit_num]->Debuff["Zone_Suppression"] = 0;
-                    Enemy_unit[turn->Unit_num]->Stats_type[ST_DEF_SHRED][AT_NONE] -= 42;
-                    --Enemy_unit[turn->Unit_num]->Total_debuff;
+                if (Enemy_unit[turn->num]->Debuff_time_count["Zone_Suppression"] == Enemy_unit[turn->num]->Atv_stats->turnCnt) {
+                    Enemy_unit[turn->num]->Debuff["Zone_Suppression"] = 0;
+                    Enemy_unit[turn->num]->Stats_type[ST_DEF_SHRED][AT_NONE] -= 42;
+                    --Enemy_unit[turn->num]->Total_debuff;
                 }
-                if (Enemy_unit[turn->Unit_num]->Debuff_time_count["Pela_Technique"] == turn->turn_cnt) {
-                    Enemy_unit[turn->Unit_num]->Stats_type[ST_DEF_SHRED][AT_NONE] -= 20;
-                    Enemy_unit[turn->Unit_num]->Debuff["Pela_Technique"] = 0;
-                    --Enemy_unit[turn->Unit_num]->Total_debuff;
+                if (Enemy_unit[turn->num]->Debuff_time_count["Pela_Technique"] == turn->turnCnt) {
+                    Enemy_unit[turn->num]->Stats_type[ST_DEF_SHRED][AT_NONE] -= 20;
+                    Enemy_unit[turn->num]->Debuff["Pela_Technique"] = 0;
+                    --Enemy_unit[turn->num]->Total_debuff;
                 }
             }
         }));
@@ -120,7 +120,7 @@ namespace Pela{
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Pela BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),20);
+            Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(act);
         });

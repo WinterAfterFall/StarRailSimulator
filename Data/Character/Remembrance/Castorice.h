@@ -183,11 +183,11 @@ namespace Castorice{
         }));
 
         Setup_Memo_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Casptr,Polluxptr]() {
-            ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed = -1;
-            ptr->getSubUnit(1)->Atv_stats->Flat_Speed = 0;
-            ptr->getSubUnit(1)->Atv_stats->Speed_percent = 0;
+            ptr->Sub_Unit_ptr[1]->Atv_stats->baseSpeed = -1;
+            ptr->getSubUnit(1)->Atv_stats->flatSpeed = 0;
+            ptr->getSubUnit(1)->Atv_stats->speedPercent = 0;
             ptr->Sub_Unit_ptr[1]->currentHP = 0;
-            ptr->Sub_Unit_ptr[1]->Base_hp = 0;
+            ptr->Sub_Unit_ptr[1]->baseHp = 0;
         }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Casptr,Polluxptr]() {

@@ -38,7 +38,7 @@ namespace  Anaxa{
         Relic(ptr);
         Planar(ptr);
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
-            if (sp>Sp_Safety||turn->turn_cnt==1) {
+            if (sp>Sp_Safety||turn->turnCnt==1) {
                 Skill(ptr);
             } else {
                 Basic_Atk(ptr);
@@ -197,7 +197,7 @@ namespace  Anaxa{
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Anaxa BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
+            Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             for(auto &each : act->targetList){
                 AnaxaDebuff(ptr,each);
@@ -230,9 +230,9 @@ namespace  Anaxa{
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BOUNCE,"Anaxa Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
+            Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
-            if(ptr->getSubUnit()->Atv_stats->turn_cnt==1){
+            if(ptr->getSubUnit()->Atv_stats->turnCnt==1){
                 Increase_energy(ptr,30);
                 if(ptr->Eidolon>=1){
                     Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
@@ -278,9 +278,9 @@ namespace  Anaxa{
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BOUNCE,"Anaxa Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),30);
+            Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
-            if(ptr->getSubUnit()->Atv_stats->turn_cnt==1){
+            if(ptr->getSubUnit()->Atv_stats->turnCnt==1){
                 Increase_energy(ptr,30);
                 if(ptr->Eidolon>=1){
                     Skill_point(ptr->Sub_Unit_ptr[0].get(),1);

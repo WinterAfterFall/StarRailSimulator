@@ -10,8 +10,8 @@
 
 void ActionValueStats::speedBuff(double spd_percent ,double flat_spd){
     double x = this->Max_atv;
-    this->Flat_Speed += flat_spd;
-    this->Speed_percent += spd_percent;
+    this->flatSpeed += flat_spd;
+    this->speedPercent += spd_percent;
     Update_Max_atv(this);
     this->atv=this->atv/x*this->Max_atv;
 }
@@ -19,11 +19,11 @@ bool compareActionValueStats(ActionValueStats* a, ActionValueStats* b) {
     return a->atv > b->atv; // Sort by `atv` in descending order
 }
 void Update_Max_atv(ActionValueStats *ptr) {
-    if(ptr->Base_speed<=0){
+    if(ptr->baseSpeed<=0){
         ptr->Max_atv = 1e6;
         return;
     }
-    ptr->Max_atv = K_const / (ptr->Base_speed + ptr->Base_speed * ptr->Speed_percent/100 + ptr->Flat_Speed);
+    ptr->Max_atv = K_const / (ptr->baseSpeed + ptr->baseSpeed * ptr->speedPercent/100 + ptr->flatSpeed);
     
 }
 void ActionValueStats::resetATV(){
@@ -31,7 +31,7 @@ void ActionValueStats::resetATV(){
     resetTurn(this);
 }
 void ActionValueStats::resetATV(double baseSpeed){
-    this->Base_speed = baseSpeed;
+    this->baseSpeed = baseSpeed;
     Update_Max_atv(this);
     resetTurn(this);
 }
@@ -68,8 +68,8 @@ void All_atv_reset() {
     
 }
 void Action_forward(ActionValueStats *ptr,double fwd) {
-    if(ptr->Base_speed<=0)return;
-    if(ptr->Unit_num==0){
+    if(ptr->baseSpeed<=0)return;
+    if(ptr->num==0){
         return ;
     }
     if (ptr->atv <= ptr->Max_atv*fwd/100 ) {

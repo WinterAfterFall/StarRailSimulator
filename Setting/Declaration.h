@@ -1,6 +1,7 @@
 #ifndef Define_H
 #define Define_H
 #include <bits/stdc++.h>
+#include "Enum.h"
 
 #define endl '\n'
 #define F first
@@ -74,22 +75,7 @@
 #define AT_TECH "Technique"
 #define AT_FRZ "Freeze"
 #define AT_ENT "Entanglement"
-enum class ActionType {
-    TEMPORARY,
-    None,
-    BA,
-    SKILL,
-    Ult,
-    Fua,
-    Summon,
-    Dot,
-    Break,
-    SPB,
-    Addtional,
-    Technique,
-    Entanglement,
-    Freeze
-};
+
 #pragma endregion
 #pragma region TargetType
 
@@ -106,22 +92,7 @@ enum class ActionType {
 
 #pragma endregion
 
-#pragma region SrcType
-enum class DmgSrcType {
-    ATK,
-    HP,
-    DEF,
-    CONST
-};
-enum class HealSrcType {
-    ATK,
-    HP,
-    DEF,
-    TOTAL_HP,
-    LOST_HP,
-    CONST
-};
-#pragma endregion
+
 
 using std::cout;
 using std::setprecision;
@@ -291,9 +262,6 @@ void DecreaseHP(Unit *Trigger,string Name,double Value,double percentFromTotalHP
 #pragma endregion
 
 #pragma region EnemyCombat
-void EnemyHit(Enemy *Attacker,double energy);
-void EnemyHit(Enemy *Attacker,vector<SubUnit*> target,double energy);
-void DamageFormEnemy(Enemy *Attacker,vector<SubUnit*> target);
 #pragma endregion
 
 #pragma region ChooseChar
@@ -311,7 +279,6 @@ void calDamage(shared_ptr<AllyAttackAction> &act,Enemy *target,DmgSrc abilityRat
 void Cal_Toughness_reduction(shared_ptr<AllyAttackAction> &act, Enemy* target, double Toughness_reduce);
 void Cal_Break_damage(shared_ptr<AllyAttackAction> &act, Enemy* target, double& Constant);
 void Cal_Freeze_damage(shared_ptr<AllyAttackAction> &act, Enemy* target);
-void Cal_Dot_damage(shared_ptr<AllyAttackAction> &act, Enemy* target, double Dot_ratio);
 void Cal_Dot_Toughness_break_damage(shared_ptr<AllyAttackAction> &act, Enemy* target, double Dot_ratio);
 void Cal_Superbreak_damage(shared_ptr<AllyAttackAction> &act, Enemy* target, double Superbreak_ratio);
 double Cal_Total_Toughness_Reduce(shared_ptr<AllyAttackAction> &act, Enemy* target, double Base_Toughness_reduce);
@@ -358,7 +325,10 @@ double calculateHealFromTotalHP(SubUnit *target, double percent);
 #pragma endregion
 
 #pragma region CalHealStats
-double Cal_HealBonus_multiplier(SubUnit* Healer, SubUnit* target);
+double calAtkMultiplier(SubUnit* Healer, SubUnit* target);
+double calHpMultiplier(SubUnit* Healer, SubUnit* target);
+double calDefMultiplier(SubUnit* Healer, SubUnit* target);
+double calHealBonusMultiplier(SubUnit* Healer, SubUnit* target);
 #pragma endregion
 
 #pragma endregion

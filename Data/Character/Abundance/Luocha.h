@@ -118,7 +118,7 @@ namespace Luocha{
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(act);
-            if(ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt%2==1){
+            if(ptr->Sub_Unit_ptr[0]->Atv_stats->turnCnt%2==1){
                 Talent(ptr);
             }
         });

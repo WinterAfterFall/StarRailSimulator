@@ -51,13 +51,9 @@ void Increase_energy(SubUnit *ptr,double Energy_percent,double Flat_energy){
 }
 bool ultUseCheck(Ally *ptr){
     if(ptr->Ult_cost>ptr->Current_energy)return false;
-    for(function<bool()> &e : ptr->ultImmediatelyUseCondtion){
-        if(e()) goto jumpto;
-    }
     for(function<bool()> &e : ptr->ultCondition){
         if(!e()) return false;
     }
-    jumpto:
     ptr->Current_energy = ptr->Current_energy - ptr->Ult_cost;
     Increase_energy(ptr,5);
     return true;
@@ -69,9 +65,5 @@ void allUltimateCheck(){
 }
 void Ally::addUltCondition(function<bool()> condition) {
     ultCondition.push_back(condition);
-}
-
-void Ally::addUltImmediatelyUseCondition(function<bool()> condition) {
-    ultImmediatelyUseCondtion.push_back(condition);
 }
 #endif

@@ -33,7 +33,7 @@ namespace Gallagher{
         Planar(ptr);
         
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr]() {
-            if (ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt % 8 == 1) {
+            if (ptr->Sub_Unit_ptr[0]->Atv_stats->turnCnt % 8 == 1) {
                 Skill_func(ptr);
             } else {
                 if (ptr->Sub_Unit_ptr[0]->Buff_check["Gallagher_enchance_basic_atk"] == 1) {

@@ -106,7 +106,6 @@ public:
     int Technique = 1;
     //Ult condition
     vector<function<bool()>> ultCondition;
-    vector<function<bool()>> ultImmediatelyUseCondtion;
     
     
     bool Print =0;
@@ -202,7 +201,7 @@ public:
         return this->Adjust[adjustName];
     }
     int getNum(){
-        return this->Sub_Unit_ptr[0]->Atv_stats->Unit_num;
+        return this->Sub_Unit_ptr[0]->Atv_stats->num;
     }
     SubUnit* getSubUnit(){
         return this->Sub_Unit_ptr[0].get();
@@ -244,7 +243,6 @@ public:
 
     //Energy.h
     void addUltCondition(function<bool()> condition);
-    void addUltImmediatelyUseCondition(function<bool()> condition);
 
     //TargetChoose.h
     void updateTargetingSubUnits(int newTargetNum);

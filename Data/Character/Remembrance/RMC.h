@@ -38,7 +38,7 @@ namespace RMC{
         //func
         
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,RMCptr,Memptr](){
-            if(ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt==1){
+            if(ptr->Sub_Unit_ptr[0]->Atv_stats->turnCnt==1){
                 Skill(ptr);
             }else{
                 Basic_Atk(ptr);
@@ -105,7 +105,7 @@ namespace RMC{
 
         Setup_Memo_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
             ptr->Sub_Unit_ptr[1]->Stats_type["Flat_Hp"][AT_NONE] += 688;
-            ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed = -1;
+            ptr->Sub_Unit_ptr[1]->Atv_stats->baseSpeed = -1;
             ptr->Sub_Unit_ptr[1]->currentHP = 0;
         }));
 
@@ -163,7 +163,7 @@ namespace RMC{
         }));
 
         When_Energy_Increase_List.push_back(TriggerEnergy_Increase_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr](Ally *target, double Energy) {
-            if (ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed == -1) return;
+            if (ptr->Sub_Unit_ptr[1]->Atv_stats->baseSpeed == -1) return;
             if(Energy==0){
                 Increase_Charge(ptr,3);
                 return;
@@ -191,7 +191,7 @@ namespace RMC{
 
 
     void Increase_Charge(Ally *ptr,double charge){
-        if(ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed==-1)return;
+        if(ptr->Sub_Unit_ptr[1]->Atv_stats->baseSpeed==-1)return;
         ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Charge"]+=charge;
         if(ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Charge"]>=100){
             ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Charge"]= 0;

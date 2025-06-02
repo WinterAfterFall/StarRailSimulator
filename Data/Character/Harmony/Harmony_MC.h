@@ -29,7 +29,7 @@ namespace Harmony_MC{
         Relic(ptr);
         Planar(ptr);
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr](){
-            if(sp > Sp_Safety || ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt == 1){
+            if(sp > Sp_Safety || ptr->Sub_Unit_ptr[0]->Atv_stats->turnCnt == 1){
                 Skill_func(ptr);           
             } else {
                 Basic_Atk(ptr);
@@ -81,12 +81,12 @@ namespace Harmony_MC{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr](){
-            if(turn->Char_Name == "Harmony_MC" && turn->turn_cnt == 3){
+            if(turn->Char_Name == "Harmony_MC" && turn->turnCnt == 3){
                 ptr->Energy_recharge -= 25;
             }
             if(turn->Side == "Ally" || turn->Side == "Memosprite"){
-                if(turn->turn_cnt == 2 && ptr->Technique == 1){
-                    Ally_unit[turn->Unit_num]->Sub_Unit_ptr[0]->buffSingle({{ST_BE,AT_NONE,-30}});
+                if(turn->turnCnt == 2 && ptr->Technique == 1){
+                    Ally_unit[turn->num]->Sub_Unit_ptr[0]->buffSingle({{ST_BE,AT_NONE,-30}});
                 }
             }
         }));
@@ -131,7 +131,7 @@ void Basic_Atk(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BOUNCE,"RMC Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            if(ptr->Sub_Unit_ptr[0]->Atv_stats->turn_cnt!=1)Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);     
+            if(ptr->Sub_Unit_ptr[0]->Atv_stats->turnCnt!=1)Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);     
             Increase_energy(ptr,30);
             Attack(act);
         });

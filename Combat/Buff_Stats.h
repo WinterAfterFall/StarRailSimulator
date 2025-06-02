@@ -12,7 +12,7 @@ using namespace std;
 
 //check if it is ally uni
 bool SubUnit::isBuffEnd(string Buff_name){
-    if(this->Atv_stats->turn_cnt==this->Buff_countdown[Buff_name]&&turn->Char_Name==this->Atv_stats->Char_Name){
+    if(this->Atv_stats->turnCnt==this->Buff_countdown[Buff_name]&&turn->Char_Name==this->Atv_stats->Char_Name){
         this->Buff_check[Buff_name] = 0;
         return true;
     }
@@ -43,7 +43,7 @@ bool SubUnit::isHaveToAddBuff(string Buff_name,int extend){
 }
 //Extend
 void SubUnit::extendBuffTime(string Buff_name,int Turn_extend){
-    this->Buff_countdown[Buff_name] = this->Atv_stats->turn_cnt+Turn_extend;
+    this->Buff_countdown[Buff_name] = this->Atv_stats->turnCnt+Turn_extend;
 }
 void Ally::extendBuffTime(string Buff_name,int Turn_extend){
     for(int i=0;i<this->Sub_Unit_ptr.size();i++){

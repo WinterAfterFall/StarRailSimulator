@@ -321,8 +321,8 @@ class AllyAttackAction : public AllyActionData {
             for (size_t j = 0; j < damageSplit[i].size(); ++j) {
                 Damage& dmg = damageSplit[i][j];
                 if (dmg.target == nullptr)continue;
-                if(check[dmg.target->Atv_stats->Unit_num])continue; // สมมติว่า Enemy มี field index
-                check[dmg.target->Atv_stats->Unit_num] = true;
+                if(check[dmg.target->Atv_stats->num])continue; // สมมติว่า Enemy มี field index
+                check[dmg.target->Atv_stats->num] = true;
                 targetList.emplace_back(dmg.target);
                 
             }

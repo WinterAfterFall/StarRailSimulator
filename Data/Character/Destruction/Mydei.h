@@ -76,7 +76,7 @@ namespace Mydei{
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AT_NONE] += 37.3;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P][AT_NONE] += 18;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 5;
+            ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 5;
 
             // relic
 

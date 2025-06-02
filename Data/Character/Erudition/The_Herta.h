@@ -82,7 +82,7 @@ namespace The_Herta{
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 18;
             ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Ice"][AT_NONE] += 22.4;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 5;
+            ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 5;
 
             // relic
 

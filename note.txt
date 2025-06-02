@@ -1,11 +1,7 @@
-driver แบบ auto
 ทำให้ formula mode แต่ละตัวแยกกัน
-็Hit cnt function แก้ไข
 รวมถึง LC ที่เกี่ยวข้องกับการแปะธาตุ
 tech serval
 แก้ healfunction
-แก้ให้แยกประเภทดาเมจ atk def hp fixdamage แยกกัน
 set max substats ทุกตัว
-แก้ระบบ taunt
 แก้การคำนวณ dot
 แก้ระบบคำนวณ break

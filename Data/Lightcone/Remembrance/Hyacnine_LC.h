@@ -12,14 +12,14 @@ namespace Remembrance_Lightcone{
             ptr->SetAllyBaseStats(1164,476,529);
             ptr->Light_cone.Name = "Hyacnine_LC";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Atv_stats->Speed_percent += 15 + 3 * superimpose;
+                ptr->Sub_Unit_ptr[0]->Atv_stats->speedPercent += 15 + 3 * superimpose;
             }));
 
             BeforeAction_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<ActionData> &act) {
                 AllyActionData *allyaction = act->castToAllyActionData();
                 if(!allyaction)return;
                 if(allyaction->Attacker->Atv_stats->Side == "Memosprite"
-                    &&allyaction->Attacker->Atv_stats->Unit_num==ptr->getSubUnit()->Atv_stats->Unit_num
+                    &&allyaction->Attacker->Atv_stats->num==ptr->getSubUnit()->Atv_stats->num
                     &&allyaction->isSameAction(AT_SKILL)){
                         debuffAllEnemyApply({{ST_VUL,AT_NONE,(13.5 + 4.5 * superimpose)}},allyaction->Attacker,"Hyacnine_LC Debuff",2);
                 }
@@ -40,7 +40,7 @@ namespace Remembrance_Lightcone{
 
             After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
                 if(act->Attacker->Atv_stats->Side == "Memosprite"
-                    &&act->Attacker->Atv_stats->Unit_num==ptr->getSubUnit()->Atv_stats->Unit_num
+                    &&act->Attacker->Atv_stats->num==ptr->getSubUnit()->Atv_stats->num
                     &&act->isSameAction(AT_SKILL)){
                         shared_ptr<AllyAttackAction> addtionaldmg = 
                         make_shared<AllyAttackAction>(ActionType::Addtional,act->Attacker,TT_SINGLE,"Hyc LC AddDmg");

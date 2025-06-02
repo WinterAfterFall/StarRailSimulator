@@ -14,13 +14,13 @@ using namespace std;
 // Action value stats for a unit (atv)
 class ActionValueStats {
 public:
-    double Base_speed = 0.01;//*
-    double Flat_Speed = 0;
-    double Speed_percent = 0;
-    double atv ;//*
-    double Max_atv;//*
-    int turn_cnt = 0;
-    int Unit_num = 0;//*
+    double baseSpeed = 0.01;
+    double flatSpeed = 0;
+    double speedPercent = 0;
+    double atv;
+    double Max_atv;
+    int turnCnt = 0;
+    int num = 0;
     string Side;//Memosprite Ally Summon
     string Type;
     int priority = 0;
@@ -29,23 +29,117 @@ public:
 
     Unit* ptrToChar = nullptr; //* // This will be set to point back to the unit (Ally or Enemy)
 
-    bool isSameCharName(string name){
-        if(this->Char_Name == name)return true;
-        return false;
+#pragma region Get Method
+    double getBaseSpeed() const {
+        return baseSpeed;
     }
-    bool isSameUnitName(string name){
-        if(this->Unit_Name == name)return true;
-        return false;
+    double getFlatSpeed() const {
+        return flatSpeed;
     }
-    bool isSameUnit(SubUnit *ptr);
+    double getSpeedPercent() const {
+        return speedPercent;
+    }
+    double getATV() const {
+        return atv;
+    }
+    double getMaxATV() const {
+        return Max_atv;
+    }
+    int getTurnCnt() const {
+        return turnCnt;
+    }
+    int getUnitNum() const {
+        return num;
+    }
+    string getSide() const {
+        return Side;
+    }
+    string getType() const {
+        return Type;
+    }
+    int getPriority() const {
+        return priority;
+    }
+    string getCharName() const {
+        return Char_Name;
+    }
+    string getUnitName() const {
+        return Unit_Name;
+    }
+    Unit* getPtrToChar() const {
+        return ptrToChar;
+    }
+#pragma endregion
+
+#pragma region Set Method
+    void setBaseSpeed(double baseSpeed){
+        this->baseSpeed = baseSpeed;
+    }
+    void setFlatSpeed(double flatSpeed) {
+        this->flatSpeed = flatSpeed;
+    }
+    void setSpeedPercent(double speedPercent) {
+        this->speedPercent = speedPercent;
+    }
+    void setATV(double atv) {
+        this->atv = atv;
+    }
+    void setMaxATV(double Max_atv) {
+        this->Max_atv = Max_atv;
+    }
+    void setTurnCnt(int turn_cnt) {
+        this->turnCnt = turn_cnt;
+    }
+    void setUnitNum(int Unit_num) {
+        this->num = Unit_num;
+    }
+    void setSide(string Side) {
+        this->Side = Side;
+    }
+    void setType(string Type) {
+        this->Type = Type;
+    }
+    void setPriority(int priority) {
+        this->priority = priority;
+    }
+    void setCharName(string Char_Name) {
+        this->Char_Name = Char_Name;
+    }
+    void setUnitName(string Unit_Name) {
+        this->Unit_Name = Unit_Name;
+    }
+#pragma endregion
+
+#pragma region Check Method
+    bool isSameChar(SubUnit* ptr) {
+        return this->Char_Name == ptr->Atv_stats->Char_Name;
+    }
+    bool isSameUnit(SubUnit* ptr) {
+        return this->Unit_Name == ptr->Atv_stats->Unit_Name;
+    }
+    bool isSameCharName(const string& name) {
+        return this->Char_Name == name;
+    }
+    bool isSameUnitName(const string& name) {
+        return this->Unit_Name == name;
+    }
+    bool isSameNum(SubUnit* ptr) {
+        return this->num == ptr->Atv_stats->num;
+    }
+    bool isSameNum(int num) {
+        return this->num == num;
+    }
+#pragma endregion
     SubUnit* canCastToSubUnit();
     Enemy* canCastToEnemy();
-
+#pragma region SpeedCombat Function
     void speedBuff(double spd_percent ,double flat_spd);
     void resetATV();
     void resetATV(double baseSpeed);
+#pragma endregion
 
 };
+
 class BuffClass{
     public:
     string statsType;

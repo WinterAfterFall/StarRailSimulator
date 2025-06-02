@@ -19,7 +19,7 @@ void Print(){
     if(!Print_Atv)return;
     cout<<"Atv = "<<Current_atv<<" ";
     cout<<""<<turn->Char_Name<<" ";
-    cout<<turn->turn_cnt<<" ";
+    cout<<turn->turnCnt<<" ";
     // cout<<Ally_unit[4]->getSubUnit(1)->Buff_note["Tally RestoreHP"]<<" ";
     // for(int i=1;i<= Total_enemy; i++){
 
@@ -48,7 +48,7 @@ void printRoundResult(){
     for(auto e:Ally_unit[j]->Substats)cout<<e.second<<" ";
     
     cout<<"Total Turn : ";
-    cout<<Ally_unit[j]->Sub_Unit_ptr[0]->Atv_stats->turn_cnt<<" ";
+    cout<<Ally_unit[j]->Sub_Unit_ptr[0]->Atv_stats->turnCnt<<" ";
     cout<<endl;
     }
     cout<<"Total Damage : "<<static_cast<long long>(total)<<" "<<static_cast<long long>(avg)<<endl;
@@ -142,11 +142,11 @@ void printSummaryResult(){
 
         cout<< "\033[0m"<<"| ";
         for(std::unique_ptr<SubUnit> &e : Ally_unit[i]->Sub_Unit_ptr){
-            cout<<e->Atv_stats->Char_Name + " Turn : "<<e->Atv_stats->turn_cnt;
+            cout<<e->Atv_stats->Char_Name + " Turn : "<<e->Atv_stats->turnCnt;
             cout<< "\033[0m"<<" | ";
         }
         for(std::unique_ptr<Unit> &e : Ally_unit[i]->Summon_ptr){
-            cout<<e->Atv_stats->Char_Name + " Turn : "<<e->Atv_stats->turn_cnt;
+            cout<<e->Atv_stats->Char_Name + " Turn : "<<e->Atv_stats->turnCnt;
             cout<< "\033[0m"<<" | ";
         }
         cout<<endl;
@@ -204,7 +204,7 @@ void printSummaryResult(){
     for(int i=1;i<=Total_enemy;i++){
         double totaldamage = 0;
         cout<< "\033[1;4;38;5;9m"; // Reset text color
-        cout<<Enemy_unit[i]->Atv_stats->Char_Name<<" "<<Enemy_unit[i]->Atv_stats->Unit_num<<" "<<Enemy_unit[i]->Target_type<<endl;
+        cout<<Enemy_unit[i]->Atv_stats->Char_Name<<" "<<Enemy_unit[i]->Atv_stats->num<<" "<<Enemy_unit[i]->Target_type<<endl;
         
         cout<<"\033[1;4;38;5;2m"<<"Total : "<<setw(10)<<static_cast<long long>(Enemy_unit[i]->totalDmgRecord)
         <<" | "<<" Average per ATV : "<<setw(5)<<static_cast<long long>(Enemy_unit[i]->avgDmgRecord)<<endl;

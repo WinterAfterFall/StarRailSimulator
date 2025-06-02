@@ -93,7 +93,7 @@ namespace Hyacine{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr]() {
-            ptr->Sub_Unit_ptr[0]->Atv_stats->Flat_Speed += 14;
+            ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 14;
             ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"][AT_NONE] += 10;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES][AT_NONE] += 18;
 
@@ -101,7 +101,7 @@ namespace Hyacine{
         }));
 
         Setup_Memo_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr]() {
-            ptr->Sub_Unit_ptr[1]->Atv_stats->Base_speed = -1;
+            ptr->Sub_Unit_ptr[1]->Atv_stats->baseSpeed = -1;
             ptr->Sub_Unit_ptr[1]->currentHP = 0;
         }));
 

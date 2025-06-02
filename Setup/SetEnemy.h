@@ -6,10 +6,10 @@ Enemy* createNewEnemy(double speed,double Toughness,string type){
     Total_enemy++; 
     int num = Total_enemy;
     Enemy_unit.push_back(make_unique<Enemy>());
-    Enemy_unit[num]->Atv_stats->Base_speed = speed;
+    Enemy_unit[num]->Atv_stats->baseSpeed = speed;
     Enemy_unit[num]->Max_toughness = Toughness;
     Enemy_unit[num]->Target_type = type;
-    Enemy_unit[num]->Atv_stats->Unit_num = num;
+    Enemy_unit[num]->Atv_stats->num = num;
     Enemy_unit[num]->Atv_stats->Char_Name = "Enemy_";
     Enemy_unit[num]->Atv_stats->Char_Name += type;
     Enemy_unit[num]->Atv_stats->Unit_Name = Enemy_unit[num]->Atv_stats->Char_Name;

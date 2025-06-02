@@ -130,7 +130,7 @@ void DecreaseHP(Unit *Trigger,string Name,double Value,double percentFromTotalHP
 }
 void SubUnit::Death(){
     this->currentHP = 0;
-    this->Atv_stats->Base_speed=-1;
+    this->Atv_stats->baseSpeed=-1;
     Update_Max_atv(this->Atv_stats.get());
     resetTurn(this->Atv_stats.get());
     allEventWhenAllyDeath(this);

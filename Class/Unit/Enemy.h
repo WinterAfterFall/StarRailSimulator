@@ -8,15 +8,7 @@ using namespace std;
 #define S second
 #define DMG_CAL 12
 
-enum BreakSEType{
-            Bleed,
-            Burn,
-            Shock,
-            WindShear,
-            Freeze,
-            Entanglement,
-            Imprisonment
-};
+
 class BreakSideEffect{
         public:
         BreakSEType type;

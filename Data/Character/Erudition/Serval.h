@@ -37,7 +37,7 @@ namespace Serval{
         Relic(ptr);
         Planar(ptr);
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
-            if (allyPtr->Atv_stats->turn_cnt % 3 != 1) {
+            if (allyPtr->Atv_stats->turnCnt % 3 != 1) {
                 Basic_Atk(ptr);
             } else {
                 Skill(ptr);
@@ -139,7 +139,7 @@ namespace Serval{
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Serval BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_num].get(),20);
+            Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(act);
         });
