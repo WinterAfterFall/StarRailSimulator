@@ -13,7 +13,7 @@ namespace FireFly{
 
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats( 104, 240, 240, E, ET_FIRE, "Destruction", "FireFly", TYPE_STD);
+        Ally *ptr = SetAllyBasicStats( 104, 240, 240, E, ElementType::Fire, "Destruction", "FireFly", TYPE_STD);
         SubUnit *FFptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats( 815, 524, 776);
 

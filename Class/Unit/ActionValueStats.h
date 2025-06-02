@@ -143,7 +143,7 @@ class BuffClass{
 class BuffElementClass{
     public:
     string statsType;
-    string element;
+    ElementType element;
     string actionType;
     double value;
 };

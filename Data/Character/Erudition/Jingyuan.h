@@ -17,7 +17,7 @@ namespace Jingyuan{
 
 
     void Setup_Jingyuan(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(99, 130, 130, E, ET_LN, "Erudition", "Jingyuan",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(99, 130, 130, E, ElementType::Lightning, "Erudition", "Jingyuan",TYPE_STD);
         SubUnit *JYptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1164, 698, 485);
 

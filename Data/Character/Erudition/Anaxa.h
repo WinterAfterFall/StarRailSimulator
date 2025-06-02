@@ -18,7 +18,7 @@ namespace  Anaxa{
 
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(97,140,140,E,ET_WIND,"Erudition","Anaxa",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(97,140,140,E,ElementType::Wind,"Erudition","Anaxa",TYPE_STD);
         ptr->SetAllyBaseStats(970,757,558);
         SubUnit *Anaxaptr = ptr->getSubUnit();
 
@@ -59,13 +59,13 @@ namespace  Anaxa{
                 if(ptr->Print)CharCmd::printUltStart("Anaxa");
                 for(auto &each : act->targetList){
                     each->debuffApply(Anaxaptr,"Sublimation",1);
-                    each->weaknessApply(ET_FIRE,1);
-                    each->weaknessApply(ET_ICE,1);
-                    each->weaknessApply(ET_LN,1);
-                    each->weaknessApply(ET_WIND,1);
-                    each->weaknessApply(ET_QT,1);
-                    each->weaknessApply(ET_IMG,1);
-                    each->weaknessApply(ET_PHY,1);
+                    each->weaknessApply(ElementType::Fire,1);
+                    each->weaknessApply(ElementType::Ice,1);
+                    each->weaknessApply(ElementType::Lightning,1);
+                    each->weaknessApply(ElementType::Wind,1);
+                    each->weaknessApply(ElementType::Quantum,1);
+                    each->weaknessApply(ElementType::Imaginary,1);
+                    each->weaknessApply(ElementType::Physical,1);
                 }
                 for(auto &each : act->targetList){
                     each->DebuffNote["AnaxaA6"] = each->currentWeaknessElementAmount*4;
@@ -97,7 +97,7 @@ namespace  Anaxa{
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 12;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P][AT_NONE] += 10;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ET_WIND][AT_NONE] += 22.4;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Wind][AT_NONE] += 22.4;
 
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG][AT_NONE] += 30;
 
@@ -148,7 +148,7 @@ namespace  Anaxa{
             SubUnit *ally = turn->canCastToSubUnit();
             if(enemy){
                 for(auto &e : Enemy_weak){
-                    enemy->isDebuffEnd("AnaxaTalent" + e.first);
+                    enemy->isDebuffEnd("AnaxaTalent" + toString(e.first) );
                 }
                 if(enemy->isDebuffEnd("AnaxaE1")){
                     enemy->debuffSingle({{ST_DEF_SHRED,AT_NONE,-16}});
@@ -326,7 +326,7 @@ namespace  Anaxa{
     }
     void AnaxaDebuff(Ally *ptr, Enemy *enemy) {
         string element;
-        element = enemy->weaknessApplyChoose(3);
+        element = toString(enemy->weaknessApplyChoose(3));
         enemy->debuffApply(ptr->getSubUnit(),"AnaxaTalent" + element,3);
     }
     

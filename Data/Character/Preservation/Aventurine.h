@@ -26,7 +26,7 @@
 //         Ally_unit[num]->stats->Max_energy = 110;
 //         Ally_unit[num]->stats->Ult_cost = 110;
 //         Ally_unit[num]->stats->Eidolon = E;
-//         Ally_unit[num]->stats->Element_type = ET_IMG;
+//         Ally_unit[num]->stats->Element_type = ElementType::Imaginary;
 //         Ally_unit[num]->stats->Path = "Preservation";
 //         Ally_unit[num]->Atv_stats->Character_num = num;
 //         Ally_unit[num]->Atv_stats->Name = "Aventurine";
@@ -49,7 +49,7 @@
         
 //     }
 //     void Reset(Ally *ptr){
-//         ptr->Dmg_bonus_each_element[ET_IMG][AT_NONE]+=14.4;
+//         ptr->Dmg_bonus_each_element[ElementType::Imaginary][AT_NONE]+=14.4;
 //         ptr->Def_percent[AT_NONE]+=35;
 
 //         //relic
@@ -84,7 +84,7 @@
 //             temp.Action_type.first = "Attack";
 //             temp.Action_type.second = "Basic_Attack";
 
-//             temp.Damage_element = ET_IMG;
+//             temp.Damage_element = ElementType::Imaginary;
 //             temp.Damage_type.push_back("Basic_Attack");
 
 //             temp.Target_type = "Single_target";
@@ -127,7 +127,7 @@
 //             temp2.Action_type.first = "Attack";
 //             temp2.Action_type.second = "Fua";
 
-//             temp2.Damage_element = ET_IMG;
+//             temp2.Damage_element = ElementType::Imaginary;
 //             temp2.Damage_type.push_back("Fua");
 //             temp2.Buff_type.push_back("Shield");
 
@@ -152,7 +152,7 @@
 //             temp.Action_type.first = "Attack";
 //             temp.Action_type.second = "Ultimate";
 
-//             temp.Damage_element = ET_IMG;
+//             temp.Damage_element = ElementType::Imaginary;
 //             temp.Damage_type.push_back("Ultimate");
 
 //             temp.Target_type = "Single_target";
@@ -179,7 +179,7 @@
 //             temp2.Action_type.first = "Attack";
 //             temp2.Action_type.second = "Fua";
 
-//             temp2.Damage_element = ET_IMG;
+//             temp2.Damage_element = ElementType::Imaginary;
 //             temp2.Damage_type.push_back("Fua");
 //             temp2.Buff_type.push_back("Shield");
             
@@ -237,7 +237,7 @@
 //             temp2.Action_type.first = "Attack";
 //             temp2.Action_type.second = "Fua";
 
-//             temp2.Damage_element = ET_IMG;
+//             temp2.Damage_element = ElementType::Imaginary;
 //             temp2.Damage_type.push_back("Fua");
 //             temp2.Buff_type.push_back("Shield");
             

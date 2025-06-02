@@ -5,21 +5,21 @@
 namespace EnemyCmd{
     void setEnemyWeakness(bool Physical,bool Fire,bool Ice,bool Wind,bool Lightning,bool Quantum,bool Imaginary){
         Enemy_weak = {
-            {ET_FIRE, 1},
-            {ET_ICE, 1},
-            {ET_QT, 1},
-            {ET_WIND, 1},
-            {ET_LN, 1},
-            {ET_PHY, 1},
-            {ET_IMG, 1}
+            {ElementType::Fire, 1},
+            {ElementType::Ice, 1},
+            {ElementType::Quantum, 1},
+            {ElementType::Wind, 1},
+            {ElementType::Lightning, 1},
+            {ElementType::Physical, 1},
+            {ElementType::Imaginary, 1}
         };
-        Enemy_weak[ET_PHY] = Physical;
-        Enemy_weak[ET_FIRE] = Fire;
-        Enemy_weak[ET_ICE] = Ice;
-        Enemy_weak[ET_WIND] = Wind;
-        Enemy_weak[ET_LN] = Lightning;
-        Enemy_weak[ET_QT] = Quantum;
-        Enemy_weak[ET_IMG] = Imaginary;
+        Enemy_weak[ElementType::Physical] = Physical;
+        Enemy_weak[ElementType::Fire] = Fire;
+        Enemy_weak[ElementType::Ice] = Ice;
+        Enemy_weak[ElementType::Wind] = Wind;
+        Enemy_weak[ElementType::Lightning] = Lightning;
+        Enemy_weak[ElementType::Quantum] = Quantum;
+        Enemy_weak[ElementType::Imaginary] = Imaginary;
     }
 }
 

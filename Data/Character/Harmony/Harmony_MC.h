@@ -14,7 +14,7 @@ namespace Harmony_MC{
 
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally* ptr = SetAllyBasicStats( 105, 140, 140, E, ET_IMG, "Harmony", "Harmony_MC",TYPE_STD);
+        Ally* ptr = SetAllyBasicStats( 105, 140, 140, E, ElementType::Imaginary, "Harmony", "Harmony_MC",TYPE_STD);
         SubUnit *HMCptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1087, 446, 679);
         //substats
@@ -54,7 +54,7 @@ namespace Harmony_MC{
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] += 37.3;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES][AT_NONE] += 10;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ET_IMG][AT_NONE] += 14.4;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Imaginary][AT_NONE] += 14.4;
 
             // relic
 

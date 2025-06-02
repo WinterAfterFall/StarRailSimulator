@@ -48,17 +48,7 @@
 #define ST_TOUGH_REDUCE "Toughness_reduction"
 
 #pragma endregion
-#pragma region ElemnetType
 
-#define ET_FIRE "Fire"
-#define ET_ICE "Ice"
-#define ET_LN "Lightning"
-#define ET_WIND "Wind"
-#define ET_QT "Quantum"
-#define ET_IMG "Imaginary"
-#define ET_PHY "Physical"
-
-#pragma endregion
 #pragma region ActionType
 
 #define AT_TEMP "Temporary"
@@ -129,7 +119,7 @@ class Ally;
 class Enemy;
 typedef unordered_map<string,double> Common_stats; 
 typedef unordered_map<string,unordered_map<string,double>> Common_stats_type; 
-typedef unordered_map<string, unordered_map<string,unordered_map<string,double>>> Common_stats_each_element;
+typedef unordered_map<string, unordered_map<ElementType,unordered_map<string,double>>> Common_stats_each_element;
 //CombatData
 class HealSrc;
 class DmgSrc;

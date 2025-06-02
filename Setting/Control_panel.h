@@ -33,23 +33,23 @@ int Force_break = 1;
 string Driver_Type = "Double_turn"; //Swap_pull Always_pull Double_turn None
 vector<unique_ptr<Ally>> Ally_unit(1);
 vector<unique_ptr<Enemy>> Enemy_unit(1);
-unordered_map<std::string, double> Enemy_res = {
-        {ET_FIRE, 0.0},
-        {ET_ICE, 0.0},
-        {ET_QT, 0.0},
-        {ET_WIND, 0.0},
-        {ET_LN, 0.0},
-        {ET_PHY, 0.0},
-        {ET_IMG, 0.0}
+unordered_map<ElementType, double> Enemy_res = {
+        {ElementType::Fire, 0.0},
+        {ElementType::Ice, 0.0},
+        {ElementType::Quantum, 0.0},
+        {ElementType::Wind, 0.0},
+        {ElementType::Lightning, 0.0},
+        {ElementType::Physical, 0.0},
+        {ElementType::Imaginary, 0.0}
 };
-unordered_map<std::string, bool> Enemy_weak = {
-        {ET_FIRE, 1},
-        {ET_ICE, 1},
-        {ET_QT, 1},
-        {ET_WIND, 1},
-        {ET_LN, 1},
-        {ET_PHY, 1},
-        {ET_IMG, 1}
+unordered_map<ElementType, bool> Enemy_weak = {
+        {ElementType::Fire, 1},
+        {ElementType::Ice, 1},
+        {ElementType::Quantum, 1},
+        {ElementType::Wind, 1},
+        {ElementType::Lightning, 1},
+        {ElementType::Physical, 1},
+        {ElementType::Imaginary, 1}
 };
 unordered_map<std::string, double> tauntValueEachPath = {
     {"Abundance", 100},
@@ -121,5 +121,19 @@ vector<TriggerDot_Func> Dot_List;
 vector<TriggerEnergy_Increase_Func> When_Energy_Increase_List;
 vector<TriggerSkill_point_func> Skill_point_List;
 vector<TriggerAfterDealDamage> AfterDealingDamage_List;
+
+
+string toString(ElementType type){
+        switch(type) {
+                case ElementType::Fire: return "Fire";
+                case ElementType::Ice: return "Ice";
+                case ElementType::Lightning: return "Lightning";
+                case ElementType::Wind: return "Wind";
+                case ElementType::Quantum: return "Quantum";
+                case ElementType::Imaginary: return "Imaginary";
+                case ElementType::Physical: return "Physical";
+                default: return "";
+        }
+}
 
 #endif

@@ -107,10 +107,10 @@ public:
         breakDotList.push_back(input);
         return true;
     }
-    unordered_map<string,bool> Default_Weakness_type;
-    unordered_map<string,bool> Weakness_type;
-    unordered_map<string,double> DefaultElementRes;
-    unordered_map<string,int> Weakness_typeCountdown;
+    unordered_map<ElementType,bool> Default_Weakness_type;
+    unordered_map<ElementType,bool> Weakness_type;
+    unordered_map<ElementType,double> DefaultElementRes;
+    unordered_map<ElementType,int> Weakness_typeCountdown;
     int defaultWeaknessElementAmount;
     int currentWeaknessElementAmount;
     
@@ -188,8 +188,8 @@ public:
     bool debuffMark(SubUnit *ptr, string debuffName,int extend);
     void debuffRemove(string debuffName);
 
-    string weaknessApplyChoose(int extend);
-    void weaknessApply(string Debuff_name ,int extend);
+    ElementType weaknessApplyChoose(int extend);
+    void weaknessApply(ElementType Debuff_name ,int extend);
     
     bool isDebuffEnd(string Debuff_name);
     void extendDebuff(string Debuff_name,int Turn_extend);

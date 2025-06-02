@@ -32,7 +32,7 @@
 //         Ally_unit[num]->Max_energy = 130;
 //         Ally_unit[num]->Ult_cost = 130;
 //         Ally_unit[num]->Eidolon = E;
-//         Ally_unit[num]->stats->Element_type[0] = ET_FIRE;
+//         Ally_unit[num]->stats->Element_type[0] = ElementType::Fire;
 //         Ally_unit[num]->Path[0] = "Nihility";
 //         Ally_unit[num]->Atv_stats->Character_num = num;
 //         Ally_unit[num]->Atv_stats->Name = "Fugue";
@@ -107,7 +107,7 @@
 //         act.Action_type.first="Attack";
 //         act.Action_type.second = "Basic_Attack";
 
-//         act.Damage_element=ET_FIRE;
+//         act.Damage_element=ElementType::Fire;
 //         act.Damage_type.push_back("Basic_Attack");
 
 //         act.Target_type="Blast";
@@ -152,7 +152,7 @@
 //         act.Action_type.first="Attack";
 //         act.Action_type.second = "Ultimate";
 
-//         act.Damage_element=ET_FIRE;
+//         act.Damage_element=ElementType::Fire;
 //         act.Damage_type.push_back("Ultimate");
 
 //         act.Target_type="Aoe";

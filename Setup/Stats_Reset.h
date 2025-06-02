@@ -163,13 +163,13 @@ void Basic_reset(){
             Enemy_unit[i]->breakFrzist.clear();
             Enemy_unit[i]->breakImsList.clear();
             
-            Enemy_unit[i]->Stats_each_element["Respen"][ET_FIRE][AT_NONE] = - Enemy_unit[i]->DefaultElementRes[ET_FIRE];
-            Enemy_unit[i]->Stats_each_element["Respen"][ET_ICE][AT_NONE] = -Enemy_unit[i]->DefaultElementRes[ET_ICE];
-            Enemy_unit[i]->Stats_each_element["Respen"][ET_QT][AT_NONE] = -Enemy_unit[i]->DefaultElementRes[ET_QT];
-            Enemy_unit[i]->Stats_each_element["Respen"][ET_WIND][AT_NONE] = -Enemy_unit[i]->DefaultElementRes[ET_WIND];
-            Enemy_unit[i]->Stats_each_element["Respen"][ET_LN][AT_NONE] = -Enemy_unit[i]->DefaultElementRes[ET_LN];
-            Enemy_unit[i]->Stats_each_element["Respen"][ET_PHY][AT_NONE] = -Enemy_unit[i]->DefaultElementRes[ET_PHY];
-            Enemy_unit[i]->Stats_each_element["Respen"][ET_IMG][AT_NONE] = -Enemy_unit[i]->DefaultElementRes[ET_IMG];
+            Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Fire][AT_NONE] = - Enemy_unit[i]->DefaultElementRes[ElementType::Fire];
+            Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Ice][AT_NONE] = -Enemy_unit[i]->DefaultElementRes[ElementType::Ice];
+            Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Quantum][AT_NONE] = -Enemy_unit[i]->DefaultElementRes[ElementType::Quantum];
+            Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Wind][AT_NONE] = -Enemy_unit[i]->DefaultElementRes[ElementType::Wind];
+            Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Lightning][AT_NONE] = -Enemy_unit[i]->DefaultElementRes[ElementType::Lightning];
+            Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Physical][AT_NONE] = -Enemy_unit[i]->DefaultElementRes[ElementType::Physical];
+            Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Imaginary][AT_NONE] = -Enemy_unit[i]->DefaultElementRes[ElementType::Imaginary];
             for(auto &e: Enemy_unit[i]->Weakness_typeCountdown){
                 e.second = 0;
             }

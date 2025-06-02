@@ -30,7 +30,7 @@
 //         Ally_unit[num]->stats->Max_energy = 110;
 //         Ally_unit[num]->stats->Ult_cost = 110;
 //         Ally_unit[num]->stats->Eidolon = E;
-//         Ally_unit[num]->stats->Element_type.push_back(ET_QT);
+//         Ally_unit[num]->stats->Element_type.push_back(ElementType::Quantum);
 //         Ally_unit[num]->stats->Path.push_back("Harmony");
 //         Ally_unit[num]->Atv_stats->Character_num = num;
 //         Ally_unit[num]->Atv_stats->Name = "Hanabi";
@@ -80,7 +80,7 @@
 //         }
         
 //         for(int j=0;j<Ally_unit[i]->stats->Element_type.size();j++){
-//             if(Ally_unit[i]->stats->Element_type[j]==ET_QT){
+//             if(Ally_unit[i]->stats->Element_type[j]==ElementType::Quantum){
 //             ++temp;
 //             break;
 //             }
@@ -90,7 +90,7 @@
 //         }
 //         for(int i=1;i<=Total_ally;i++){
 //         for(int j=0;j<Ally_unit[i]->stats->Element_type.size();j++){
-//         if(Ally_unit[i]->stats->Element_type[j]==ET_QT){
+//         if(Ally_unit[i]->stats->Element_type[j]==ElementType::Quantum){
 //             if(temp>=3){
 //                 Ally_unit[i]->Atk_percent[AT_NONE]+=30;
 //             }else if(temp==2){

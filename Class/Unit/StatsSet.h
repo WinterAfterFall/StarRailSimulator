@@ -7,7 +7,7 @@ void Ally::SetAllyBaseStats(double BaseHp,double BaseAtk,double BaseDef){
         this->getSubUnit()->baseAtk +=BaseAtk;
         this->getSubUnit()->baseDef +=BaseDef;
 }
-Ally* SetAllyBasicStats(double BaseSpeed,double Max_Energy,double Ult_cost,int Eidolon,string Element_type,string Path,string Name,string UnitType){
+Ally* SetAllyBasicStats(double BaseSpeed,double Max_Energy,double Ult_cost,int Eidolon,ElementType Element_type,string Path,string Name,string UnitType){
         Ally_unit.push_back(make_unique<Ally>());
         Total_ally++;
         int num = Total_ally;
@@ -25,7 +25,7 @@ Ally* SetAllyBasicStats(double BaseSpeed,double Max_Energy,double Ult_cost,int E
         Ally_unit[num]->Sub_Unit_ptr[0]->baseTaunt = tauntValueEachPath[Ally_unit[num]->Path[0]];
         return Ally_unit[num].get();
 }
-void SetMemoStats(Ally *ptr,double Hp_ratio,double Speed_ratio,string Element_type,string Name,string UnitType){
+void SetMemoStats(Ally *ptr,double Hp_ratio,double Speed_ratio,ElementType Element_type,string Name,string UnitType){
         int num = ptr->Sub_Unit_ptr.size();
         int Num = ptr->Sub_Unit_ptr[0]->Atv_stats->num;
         

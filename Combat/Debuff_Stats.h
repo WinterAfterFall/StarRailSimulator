@@ -71,9 +71,9 @@ void extendDebuffAll(string Debuff_name,int Turn_extend){
         Enemy_unit[i]->extendDebuff(Debuff_name,Turn_extend);
     }
 }
-string Enemy::weaknessApplyChoose(int extend){
-    vector<pair<int,string>> weaknessPriority;
-    string ans;
+ElementType Enemy::weaknessApplyChoose(int extend){
+    vector<pair<int,ElementType>> weaknessPriority;
+    ElementType ans;
     for(int i=1;i<=Total_ally;i++){
         if(this->Weakness_type[Ally_unit[i]->getSubUnit()->Element_type[0]])continue;
         if(Ally_unit[i]->Path[0]=="Harmony")weaknessPriority.push_back({Total_ally+4,Ally_unit[i]->getSubUnit()->Element_type[0]});
@@ -84,7 +84,7 @@ string Enemy::weaknessApplyChoose(int extend){
     }
     sort(weaknessPriority.begin(),weaknessPriority.end());
     if(weaknessPriority.size()==0){
-        pair<string,int> mn = {ET_FIRE,1e9};
+        pair<ElementType,int> mn = {ElementType::Fire,1e9};
         for(auto &e : this->Weakness_typeCountdown){
             if(mn.second>e.second){
                 mn.first = e.first;
@@ -98,7 +98,7 @@ string Enemy::weaknessApplyChoose(int extend){
     this->weaknessApply(ans,extend);
     return ans;
 }
-void Enemy::weaknessApply(string element ,int extend){
+void Enemy::weaknessApply(ElementType element ,int extend){
     if(this->Weakness_type[element] == 0){
         this->currentWeaknessElementAmount++;
         this->Weakness_type[element] = 1;

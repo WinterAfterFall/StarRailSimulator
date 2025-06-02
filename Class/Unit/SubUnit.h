@@ -17,7 +17,7 @@ public:
     double baseHp;
     double baseDef;
     double baseTaunt = 0;
-    vector<string> Element_type ;
+    vector<ElementType> Element_type ;
     // * 
     double totalATK;    
     double totalHP;     

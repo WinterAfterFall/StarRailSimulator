@@ -153,56 +153,58 @@ void Superbreak_trigger(shared_ptr<AllyAttackAction> &act, double Superbreak_rat
         }
     }
 }
+
 void Dot_trigger(double Dot_ratio,Enemy *target,string Dot_type){
     
-    for(auto &each : target->breakDotList) {
-        switch (each.type) {
-            case BreakSEType::Bleed:
-                if (Dot_type == AT_NONE || Dot_type == ET_PHY) {
-                    shared_ptr<AllyAttackAction> act = 
-                    make_shared<AllyAttackAction>
-                    (ActionType::Dot,each.ptr,TT_SINGLE, "Bleed");
-                    act->actionTypeList.push_back("Bleed");
-                    Cal_Dot_Toughness_break_damage(act, target, 
-                        Dot_ratio * 2 * (0.5 + target->Max_toughness/40));
-                }
-                break;
+    // Fix Later
+    // for(auto &each : target->breakDotList) {
+    //     switch (each.type) {
+    //         case BreakSEType::Bleed:
+    //             if (Dot_type == AT_NONE || Dot_type == ElementType::Physical) {
+    //                 shared_ptr<AllyAttackAction> act = 
+    //                 make_shared<AllyAttackAction>
+    //                 (ActionType::Dot,each.ptr,TT_SINGLE, "Bleed");
+    //                 act->actionTypeList.push_back("Bleed");
+    //                 Cal_Dot_Toughness_break_damage(act, target, 
+    //                     Dot_ratio * 2 * (0.5 + target->Max_toughness/40));
+    //             }
+    //             break;
 
-            case BreakSEType::Burn:
-                if (Dot_type == AT_NONE || Dot_type == ET_FIRE) {
-                    shared_ptr<AllyAttackAction> act = 
-                    make_shared<AllyAttackAction>
-                    (ActionType::Dot,each.ptr,TT_SINGLE, "Burn");
-                    act->actionTypeList.push_back("Burn");
-                    Cal_Dot_Toughness_break_damage(act, target, Dot_ratio * 1);
-                }
-                break;
+    //         case BreakSEType::Burn:
+    //             if (Dot_type == AT_NONE || Dot_type == ElementType::Fire) {
+    //                 shared_ptr<AllyAttackAction> act = 
+    //                 make_shared<AllyAttackAction>
+    //                 (ActionType::Dot,each.ptr,TT_SINGLE, "Burn");
+    //                 act->actionTypeList.push_back("Burn");
+    //                 Cal_Dot_Toughness_break_damage(act, target, Dot_ratio * 1);
+    //             }
+    //             break;
 
-            case BreakSEType::Shock:
-                if (Dot_type == AT_NONE || Dot_type == ET_LN) {
-                    shared_ptr<AllyAttackAction> act = 
-                    make_shared<AllyAttackAction>
-                    (ActionType::Dot,each.ptr,TT_SINGLE, "Shock");
-                    act->actionTypeList.push_back("Shock");
-                    Cal_Dot_Toughness_break_damage(act, target, Dot_ratio * 2);
-                }
-                break;
+    //         case BreakSEType::Shock:
+    //             if (Dot_type == AT_NONE || Dot_type == ElementType::Lightning) {
+    //                 shared_ptr<AllyAttackAction> act = 
+    //                 make_shared<AllyAttackAction>
+    //                 (ActionType::Dot,each.ptr,TT_SINGLE, "Shock");
+    //                 act->actionTypeList.push_back("Shock");
+    //                 Cal_Dot_Toughness_break_damage(act, target, Dot_ratio * 2);
+    //             }
+    //             break;
 
-            case BreakSEType::WindShear:
-                if (Dot_type == AT_NONE || Dot_type == ET_WIND) {
-                    shared_ptr<AllyAttackAction> act = 
-                    make_shared<AllyAttackAction>
-                    (ActionType::Dot,each.ptr,TT_SINGLE, "WindShear");
-                    act->actionTypeList.push_back("WindShear");
-                    Cal_Dot_Toughness_break_damage(act, target, 
-                        Dot_ratio * 1 * each.stack);
-                }
-                break;
+    //         case BreakSEType::WindShear:
+    //             if (Dot_type == AT_NONE || Dot_type == ElementType::Wind) {
+    //                 shared_ptr<AllyAttackAction> act = 
+    //                 make_shared<AllyAttackAction>
+    //                 (ActionType::Dot,each.ptr,TT_SINGLE, "WindShear");
+    //                 act->actionTypeList.push_back("WindShear");
+    //                 Cal_Dot_Toughness_break_damage(act, target, 
+    //                     Dot_ratio * 1 * each.stack);
+    //             }
+    //             break;
 
-            default:
-                break;
-        }
-    }
+    //         default:
+    //             break;
+    //     }
+    // }
     
     for(TriggerDot_Func &e : Dot_List){
         e.Call(target,Dot_ratio,Dot_type);
@@ -244,37 +246,37 @@ void Toughness_break(shared_ptr<AllyAttackAction> &act,Enemy* target){
         target->Atv_stats->atv=target->Atv_stats->Max_atv*0.5;
     }
 
-    if(data_2->Damage_element==ET_PHY){
+    if(data_2->Damage_element==ElementType::Physical){
         Action_forward(target->Atv_stats.get(),-25);
         target->addBreakSEList(BreakSideEffect(BreakSEType::Bleed,data_2->Attacker,target->Atv_stats->turnCnt + 2));
         Constant=2;
 
-    }else if(data_2->Damage_element==ET_FIRE){
+    }else if(data_2->Damage_element==ElementType::Fire){
         Action_forward(target->Atv_stats.get(),-25);
         target->addBreakSEList(BreakSideEffect(BreakSEType::Burn,data_2->Attacker,target->Atv_stats->turnCnt + 2));
         Constant=2;
 
-    }else if(data_2->Damage_element==ET_ICE){
+    }else if(data_2->Damage_element==ElementType::Ice){
         Action_forward(target->Atv_stats.get(),-25);
         target->addBreakSEList(BreakSideEffect(BreakSEType::Freeze,data_2->Attacker,target->Atv_stats->turnCnt + 1));
         Constant=1;
 
-    }else if(data_2->Damage_element==ET_LN){
+    }else if(data_2->Damage_element==ElementType::Lightning){
         Action_forward(target->Atv_stats.get(),-25);
         target->addBreakSEList(BreakSideEffect(BreakSEType::Shock,data_2->Attacker,target->Atv_stats->turnCnt + 2));
         Constant=1;
 
-    }else if(data_2->Damage_element==ET_WIND){
+    }else if(data_2->Damage_element==ElementType::Wind){
         Action_forward(target->Atv_stats.get(),-25);
         target->addBreakSEList(BreakSideEffect(BreakSEType::WindShear,data_2->Attacker,target->Atv_stats->turnCnt + 2,3));
         Constant=1.5;
 
-    }else if(data_2->Damage_element==ET_QT){
+    }else if(data_2->Damage_element==ElementType::Quantum){
         Action_forward(target->Atv_stats.get(),-20*calBreakEffectMultiplier(data_2,target));
         target->addBreakSEList(BreakSideEffect(BreakSEType::Entanglement,data_2->Attacker,target->Atv_stats->turnCnt + 1));
         Constant=0.5;
 
-    }else if(data_2->Damage_element==ET_IMG){
+    }else if(data_2->Damage_element==ElementType::Imaginary){
         Action_forward(target->Atv_stats.get(),-30*calBreakEffectMultiplier(data_2,target));
         if(target->addBreakSEList(BreakSideEffect(BreakSEType::Imprisonment,data_2->Attacker,target->Atv_stats->turnCnt + 1)))
         target->speedBuff({ST_SPD,ST_SPD_P,-10});

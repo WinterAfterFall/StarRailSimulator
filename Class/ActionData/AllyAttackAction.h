@@ -40,7 +40,7 @@ class AllyAttackAction : public AllyActionData {
     vector<SwitchAtk> switchAttacker;
     vector<Enemy*> targetList;
 
-    string Damage_element = "";//Physical Fire Ice Lightning Wind Quantum Imaginary
+    ElementType Damage_element;//Physical Fire Ice Lightning Wind Quantum Imaginary
 
     #pragma region constructor
     AllyAttackAction(){}

@@ -18,13 +18,13 @@ namespace Aglaea{
 
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(102,350,350,E,ET_LN,"Remembrance","Aglaea",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(102,350,350,E,ElementType::Lightning,"Remembrance","Aglaea",TYPE_STD);
         SubUnit *AGptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1242,699,485);
         LC(ptr);
         Relic(ptr);
         Planar(ptr);
-        SetMemoStats(ptr,66,35,ET_LN,"Garmentmaker",TYPE_STD);
+        SetMemoStats(ptr,66,35,ElementType::Lightning,"Garmentmaker",TYPE_STD);
         SetCountdownStats(ptr,"Supreme_Stance");
 
         //substats
@@ -89,7 +89,7 @@ namespace Aglaea{
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type["Def%"][AT_NONE] += 12.5;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 12;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ET_LN][AT_NONE] += 22.4;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Lightning][AT_NONE] += 22.4;
         }));
 
 

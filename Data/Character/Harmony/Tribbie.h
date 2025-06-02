@@ -19,7 +19,7 @@ namespace Tribbie{
     void Basic_Atk(Ally *ptr);
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(96,120,120,E,ET_QT,"Harmony","Tribbie",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(96,120,120,E,ElementType::Quantum,"Harmony","Tribbie",TYPE_STD);
         SubUnit *TBptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1048,524,728);
         //substats

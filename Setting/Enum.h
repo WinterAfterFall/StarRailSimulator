@@ -19,7 +19,7 @@ enum class ActionType {
 };
 
 #pragma region ElementType
-enum class Element {
+enum class ElementType {
     Fire,
     Ice,
     Lightning,
@@ -91,8 +91,8 @@ namespace std {
     };
 
     template <>
-    struct hash<Element> {
-        std::size_t operator()(Element s) const noexcept {
+    struct hash<ElementType> {
+        std::size_t operator()(ElementType s) const noexcept {
             return static_cast<std::size_t>(s);
         }
     };

@@ -19,7 +19,7 @@ namespace Serval{
     bool Use_Skill();
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(104,100,100,E,ET_LN,"Erudition","Serval",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(104,100,100,E,ElementType::Lightning,"Erudition","Serval",TYPE_STD);
         SubUnit *Servalptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(917,653,375);
         //substats
@@ -103,7 +103,8 @@ namespace Serval{
 
         Dot_List.push_back(TriggerDot_Func(PRIORITY_BUFF, [ptr,Servalptr](Enemy* target, double Dot_ratio, string Dot_type) {
             if (!target->getDebuff("Serval_Shock")) return;
-            if (Dot_type != AT_NONE && Dot_type != ET_LN) return;
+            // Fix Later
+            // if (Dot_type != AT_NONE && Dot_type != ElementType::Lightning) return;
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(ActionType::Dot,ptr->getSubUnit(),TT_SINGLE,"Serval Shock");
             act->addDamageIns(DmgSrc(DmgSrcType::ATK,114),target);
