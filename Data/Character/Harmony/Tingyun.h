@@ -14,7 +14,7 @@ namespace Tingyun{
 
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr =  SetAllyBasicStats(112, 130, 130, E, "Lightning", "Harmony", "Tingyun",TYPE_STD);
+        Ally *ptr =  SetAllyBasicStats(112, 130, 130, E, ET_LN, "Harmony", "Tingyun",TYPE_STD);
         SubUnit *TYptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(847, 529, 397);
         ptr->Technique = 2;
@@ -63,7 +63,7 @@ namespace Tingyun{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,TYptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Lightning"][AT_NONE] += 8;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ET_LN][AT_NONE] += 8;
             ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 28;
             ptr->Sub_Unit_ptr[0]->Stats_type["Def%"][AT_NONE] += 22.5;
 

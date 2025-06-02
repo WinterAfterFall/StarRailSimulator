@@ -128,8 +128,8 @@ class SubUnit;
 class Ally;
 class Enemy;
 typedef unordered_map<string,double> Common_stats; 
-typedef unordered_map<string,Common_stats> Common_stats_type; 
-typedef unordered_map<string,Common_stats_type> Common_stats_each_element;
+typedef unordered_map<string,unordered_map<string,double>> Common_stats_type; 
+typedef unordered_map<string, unordered_map<string,unordered_map<string,double>>> Common_stats_each_element;
 //CombatData
 class HealSrc;
 class DmgSrc;

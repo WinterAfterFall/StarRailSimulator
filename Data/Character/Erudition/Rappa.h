@@ -14,7 +14,7 @@ namespace Rappa{
 
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(96, 140, 140, E, "Imaginary", "Erudition", "Rappa", TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(96, 140, 140, E, ET_IMG, "Erudition", "Rappa", TYPE_STD);
         SubUnit *Rappaptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1087,718,461);
         //substats

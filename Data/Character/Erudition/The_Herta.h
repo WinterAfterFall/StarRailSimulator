@@ -18,7 +18,7 @@ namespace The_Herta{
 
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(99,220,220,E,"Ice","Erudition","The_Herta",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(99,220,220,E,ET_ICE,"Erudition","The_Herta",TYPE_STD);
         SubUnit* Hertaptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1164,679,485);
 
@@ -81,7 +81,7 @@ namespace The_Herta{
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Ice"][AT_NONE] += 22.4;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ET_ICE][AT_NONE] += 22.4;
             ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 5;
 
             // relic

@@ -16,7 +16,7 @@ namespace Bronya{
     void Skill(Ally *ptr);
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(99,120,120,E,"Wind","Harmony","Bronya",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(99,120,120,E,ET_WIND,"Harmony","Bronya",TYPE_STD);
         SubUnit *Bronyaptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1242,582,534);
         //substats
@@ -66,7 +66,7 @@ namespace Bronya{
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AT_NONE] += 24;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES][AT_NONE] += 10;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Wind"][AT_NONE] += 22.4;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ET_WIND][AT_NONE] += 22.4;
             // substats
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["Basic_Attack"] = 100;
         }));

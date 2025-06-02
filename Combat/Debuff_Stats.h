@@ -84,7 +84,7 @@ string Enemy::weaknessApplyChoose(int extend){
     }
     sort(weaknessPriority.begin(),weaknessPriority.end());
     if(weaknessPriority.size()==0){
-        pair<string,int> mn = {"Fire",1e9};
+        pair<string,int> mn = {ET_FIRE,1e9};
         for(auto &e : this->Weakness_typeCountdown){
             if(mn.second>e.second){
                 mn.first = e.first;

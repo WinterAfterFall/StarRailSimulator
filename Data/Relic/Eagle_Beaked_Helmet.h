@@ -15,7 +15,7 @@ namespace Relic{
         });
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Wind"][AT_NONE] += 10;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ET_WIND][AT_NONE] += 10;
         }));
 
         AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr](shared_ptr<AllyActionData> &act){

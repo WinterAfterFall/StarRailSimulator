@@ -20,7 +20,7 @@ namespace Jade{
 
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(103,140,140,E,"Quantum","Erudition","Jade",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(103,140,140,E,ET_QT,"Erudition","Jade",TYPE_STD);
         ptr->SetAllyBaseStats(1087,660,509);
 
         //substats
@@ -67,7 +67,7 @@ namespace Jade{
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 18;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES][AT_NONE] += 10;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Quantum"][AT_NONE] += 22.4;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ET_QT][AT_NONE] += 22.4;
 
             // relic
             // substats

@@ -30,43 +30,43 @@ public:
     Unit* ptrToChar = nullptr; //* // This will be set to point back to the unit (Ally or Enemy)
 
 #pragma region Get Method
-    double getBaseSpeed() const {
+    double getBaseSpeed(){
         return baseSpeed;
     }
-    double getFlatSpeed() const {
+    double getFlatSpeed(){
         return flatSpeed;
     }
-    double getSpeedPercent() const {
+    double getSpeedPercent(){
         return speedPercent;
     }
-    double getATV() const {
+    double getATV(){
         return atv;
     }
-    double getMaxATV() const {
+    double getMaxATV(){
         return Max_atv;
     }
-    int getTurnCnt() const {
+    int getTurnCnt(){
         return turnCnt;
     }
-    int getUnitNum() const {
+    int getUnitNum(){
         return num;
     }
-    string getSide() const {
+    string getSide(){
         return Side;
     }
-    string getType() const {
+    string getType(){
         return Type;
     }
-    int getPriority() const {
+    int getPriority(){
         return priority;
     }
-    string getCharName() const {
+    string getCharName(){
         return Char_Name;
     }
-    string getUnitName() const {
+    string getUnitName(){
         return Unit_Name;
     }
-    Unit* getPtrToChar() const {
+    Unit* getPtrToChar(){
         return ptrToChar;
     }
 #pragma endregion
@@ -111,24 +111,18 @@ public:
 #pragma endregion
 
 #pragma region Check Method
-    bool isSameChar(SubUnit* ptr) {
-        return this->Char_Name == ptr->Atv_stats->Char_Name;
-    }
-    bool isSameUnit(SubUnit* ptr) {
-        return this->Unit_Name == ptr->Atv_stats->Unit_Name;
-    }
     bool isSameCharName(const string& name) {
         return this->Char_Name == name;
     }
     bool isSameUnitName(const string& name) {
         return this->Unit_Name == name;
     }
-    bool isSameNum(SubUnit* ptr) {
-        return this->num == ptr->Atv_stats->num;
-    }
     bool isSameNum(int num) {
         return this->num == num;
     }
+    bool isSameChar(Unit* ptr);
+    bool isSameUnit(Unit* ptr);
+    bool isSameNum(Unit* ptr);
 #pragma endregion
     SubUnit* canCastToSubUnit();
     Enemy* canCastToEnemy();

@@ -16,7 +16,7 @@ namespace TemplateName{
         Ally_unit[num] = make_unique<Ally>();
         Ally *ptr = Ally_unit[num].get();
         // SetBaseStats(Ally_unit[num]->Sub_Unit_ptr[0].get(),1242,699,485);
-        // SetAllyBasicStats(Ally_unit[num].get(),102,350,350,E,"Lightning","Remembrance",num,"Aglaea",TYPE_STD);
+        // SetAllyBasicStats(Ally_unit[num].get(),102,350,350,E,ET_LN,"Remembrance",num,"Aglaea",TYPE_STD);
 
         //substats
         ptr->pushSubstats(ST_CD);
@@ -52,7 +52,7 @@ namespace TemplateName{
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             // ptr->Sub_Unit_ptr[0]->Stats_type["Def%"][AT_NONE] += 12.5;
             // ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 12;
-            // ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Lightning"][AT_NONE] += 22.4;
+            // ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ET_LN][AT_NONE] += 22.4;
 
             // relic
 
@@ -75,7 +75,7 @@ namespace TemplateName{
 
 
 
-        // SetMemoStats(Ally_unit[num].get(),66,35,"Lightning","Garmentmaker","Memosprite");
+        // SetMemoStats(Ally_unit[num].get(),66,35,ET_LN,"Garmentmaker","Memosprite");
         // SetCountdownStats(Ally_unit[num].get(),"Supreme_Stance");
         ptr->Sub_Unit_ptr[1]->Turn_func = [ptr](){
 

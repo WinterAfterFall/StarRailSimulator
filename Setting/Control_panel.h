@@ -34,22 +34,22 @@ string Driver_Type = "Double_turn"; //Swap_pull Always_pull Double_turn None
 vector<unique_ptr<Ally>> Ally_unit(1);
 vector<unique_ptr<Enemy>> Enemy_unit(1);
 unordered_map<std::string, double> Enemy_res = {
-        {"Fire", 0.0},
-        {"Ice", 0.0},
-        {"Quantum", 0.0},
-        {"Wind", 0.0},
-        {"Lightning", 0.0},
-        {"Physical", 0.0},
-        {"Imaginary", 0.0}
+        {ET_FIRE, 0.0},
+        {ET_ICE, 0.0},
+        {ET_QT, 0.0},
+        {ET_WIND, 0.0},
+        {ET_LN, 0.0},
+        {ET_PHY, 0.0},
+        {ET_IMG, 0.0}
 };
 unordered_map<std::string, bool> Enemy_weak = {
-        {"Fire", 1},
-        {"Ice", 1},
-        {"Quantum", 1},
-        {"Wind", 1},
-        {"Lightning", 1},
-        {"Physical", 1},
-        {"Imaginary", 1}
+        {ET_FIRE, 1},
+        {ET_ICE, 1},
+        {ET_QT, 1},
+        {ET_WIND, 1},
+        {ET_LN, 1},
+        {ET_PHY, 1},
+        {ET_IMG, 1}
 };
 unordered_map<std::string, double> tauntValueEachPath = {
     {"Abundance", 100},

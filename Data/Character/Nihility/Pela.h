@@ -12,7 +12,7 @@ namespace Pela{
     void Basic_Atk(Ally *ptr);
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(105,110,110,E,"Ice","Nihility","Pela",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(105,110,110,E,ET_ICE,"Nihility","Pela",TYPE_STD);
         ptr->SetAllyBaseStats(1087,660,509);
 
         //substats
@@ -58,7 +58,7 @@ namespace Pela{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_each_element["Ice"][AT_NONE][AT_NONE] += 22.4;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ET_ICE][AT_NONE][AT_NONE] += 22.4;
             ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 18;
             ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"][AT_NONE] += 10;
 

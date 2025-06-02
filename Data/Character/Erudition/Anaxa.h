@@ -18,7 +18,7 @@ namespace  Anaxa{
 
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(97,140,140,E,"Wind","Erudition","Anaxa",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(97,140,140,E,ET_WIND,"Erudition","Anaxa",TYPE_STD);
         ptr->SetAllyBaseStats(970,757,558);
         SubUnit *Anaxaptr = ptr->getSubUnit();
 
@@ -97,7 +97,7 @@ namespace  Anaxa{
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 12;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P][AT_NONE] += 10;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG]["Wind"][AT_NONE] += 22.4;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ET_WIND][AT_NONE] += 22.4;
 
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG][AT_NONE] += 30;
 

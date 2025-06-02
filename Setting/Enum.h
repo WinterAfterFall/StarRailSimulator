@@ -18,7 +18,7 @@ enum class ActionType {
     Freeze
 };
 
-#pragma region ElemnetType
+#pragma region ElementType
 enum class Element {
     Fire,
     Ice,
@@ -82,4 +82,27 @@ enum BreakSEType{
             Entanglement,
             Imprisonment
 };
+namespace std {
+    template <>
+    struct hash<ActionType> {
+        std::size_t operator()(ActionType c) const noexcept {
+            return static_cast<std::size_t>(c);
+        }
+    };
+
+    template <>
+    struct hash<Element> {
+        std::size_t operator()(Element s) const noexcept {
+            return static_cast<std::size_t>(s);
+        }
+    };
+
+    template <>
+    struct hash<Stats> {
+        std::size_t operator()(Stats sz) const noexcept {
+            return static_cast<std::size_t>(sz);
+        }
+    };
+}
+
 #endif

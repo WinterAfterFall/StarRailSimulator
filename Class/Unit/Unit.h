@@ -24,15 +24,6 @@ public:
         Atv_stats->ptrToChar = this;  // Set ptrToChar to this object (Unit, Ally, or Enemy)
     }
        
-    int getNum(){
-        return this->Atv_stats->num;
-    }
-    string getUnitName(){
-        return this->Atv_stats->Unit_Name;
-    }
-    string getCharName(){
-        return this->Atv_stats->Char_Name;
-    }
     void speedBuff(BuffClass buffSet){
         if(buffSet.actionType==ST_FLAT_SPD)this->Atv_stats->speedBuff(0,buffSet.value);
         else this->Atv_stats->speedBuff(buffSet.value,0);
@@ -75,7 +66,7 @@ public:
     int getTurnCnt(){
         return Atv_stats->turnCnt;
     }
-    int getUnitNum(){
+    int getNum(){
         return Atv_stats->num;
     }
     string getSide(){
@@ -142,11 +133,11 @@ public:
 #pragma endregion
     
 #pragma region Check Method
-    bool isSameChar(SubUnit *ptr){
+    bool isSameChar(Unit *ptr){
         if(this->Atv_stats->Char_Name== ptr->Atv_stats->Char_Name)return true;
         return false;
     }
-    bool isSameUnit(SubUnit *ptr){
+    bool isSameUnit(Unit *ptr){
         if(this->Atv_stats->Unit_Name == ptr->Atv_stats->Unit_Name)return true;
         return false;
     }
@@ -158,7 +149,7 @@ public:
         if(this->Atv_stats->Unit_Name == name)return true;
         return false;
     }
-    bool isSameNum(SubUnit *ptr){
+    bool isSameNum(Unit *ptr){
         if(this->Atv_stats->num == ptr->Atv_stats->num)return true;
         return false;
     }
@@ -172,4 +163,15 @@ public:
     
     virtual ~Unit() {}  // Virtual destructor to ensure proper cleanup of derived classes
 };
+#pragma region ATV get/set
+    bool ActionValueStats::isSameChar(Unit* ptr) {
+        return this->Char_Name == ptr->Atv_stats->Char_Name;
+    }
+    bool ActionValueStats::isSameUnit(Unit* ptr) {
+        return this->Unit_Name == ptr->Atv_stats->Unit_Name;
+    }
+    bool ActionValueStats::isSameNum(Unit* ptr) {
+        return this->num == ptr->Atv_stats->num;
+    }
+#pragma endregion
 #endif

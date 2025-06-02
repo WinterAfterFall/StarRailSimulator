@@ -20,7 +20,7 @@ namespace Mydei{
     double CalculateChargePoint(SubUnit *ptr,double Value);
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(95,160,160,E,"Imaginary","Destruction","Mydei",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(95,160,160,E,ET_IMG,"Destruction","Mydei",TYPE_STD);
         SubUnit *Mydeiptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1552,427,194);
 
@@ -185,7 +185,7 @@ namespace Mydei{
             }
         }));
         
-        // SetMemoStats(ptr,66,35,"Lightning","MemName","Memosprite");
+        // SetMemoStats(ptr,66,35,ET_LN,"MemName","Memosprite");
         // SetCountdownStats(ptr,"Name");
         // ptr->Sub_Unit_ptr[1]->Turn_func = Mem_turn;
         // ptr->Countdown_ptr[0]->Turn_func = CountDown_turn;

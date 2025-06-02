@@ -158,7 +158,7 @@ void Dot_trigger(double Dot_ratio,Enemy *target,string Dot_type){
     for(auto &each : target->breakDotList) {
         switch (each.type) {
             case BreakSEType::Bleed:
-                if (Dot_type == AT_NONE || Dot_type == "Physical") {
+                if (Dot_type == AT_NONE || Dot_type == ET_PHY) {
                     shared_ptr<AllyAttackAction> act = 
                     make_shared<AllyAttackAction>
                     (ActionType::Dot,each.ptr,TT_SINGLE, "Bleed");
@@ -169,7 +169,7 @@ void Dot_trigger(double Dot_ratio,Enemy *target,string Dot_type){
                 break;
 
             case BreakSEType::Burn:
-                if (Dot_type == AT_NONE || Dot_type == "Fire") {
+                if (Dot_type == AT_NONE || Dot_type == ET_FIRE) {
                     shared_ptr<AllyAttackAction> act = 
                     make_shared<AllyAttackAction>
                     (ActionType::Dot,each.ptr,TT_SINGLE, "Burn");
@@ -179,7 +179,7 @@ void Dot_trigger(double Dot_ratio,Enemy *target,string Dot_type){
                 break;
 
             case BreakSEType::Shock:
-                if (Dot_type == AT_NONE || Dot_type == "Lightning") {
+                if (Dot_type == AT_NONE || Dot_type == ET_LN) {
                     shared_ptr<AllyAttackAction> act = 
                     make_shared<AllyAttackAction>
                     (ActionType::Dot,each.ptr,TT_SINGLE, "Shock");
@@ -189,7 +189,7 @@ void Dot_trigger(double Dot_ratio,Enemy *target,string Dot_type){
                 break;
 
             case BreakSEType::WindShear:
-                if (Dot_type == AT_NONE || Dot_type == "Wind") {
+                if (Dot_type == AT_NONE || Dot_type == ET_WIND) {
                     shared_ptr<AllyAttackAction> act = 
                     make_shared<AllyAttackAction>
                     (ActionType::Dot,each.ptr,TT_SINGLE, "WindShear");
@@ -244,37 +244,37 @@ void Toughness_break(shared_ptr<AllyAttackAction> &act,Enemy* target){
         target->Atv_stats->atv=target->Atv_stats->Max_atv*0.5;
     }
 
-    if(data_2->Damage_element=="Physical"){
+    if(data_2->Damage_element==ET_PHY){
         Action_forward(target->Atv_stats.get(),-25);
         target->addBreakSEList(BreakSideEffect(BreakSEType::Bleed,data_2->Attacker,target->Atv_stats->turnCnt + 2));
         Constant=2;
 
-    }else if(data_2->Damage_element=="Fire"){
+    }else if(data_2->Damage_element==ET_FIRE){
         Action_forward(target->Atv_stats.get(),-25);
         target->addBreakSEList(BreakSideEffect(BreakSEType::Burn,data_2->Attacker,target->Atv_stats->turnCnt + 2));
         Constant=2;
 
-    }else if(data_2->Damage_element=="Ice"){
+    }else if(data_2->Damage_element==ET_ICE){
         Action_forward(target->Atv_stats.get(),-25);
         target->addBreakSEList(BreakSideEffect(BreakSEType::Freeze,data_2->Attacker,target->Atv_stats->turnCnt + 1));
         Constant=1;
 
-    }else if(data_2->Damage_element=="Lightning"){
+    }else if(data_2->Damage_element==ET_LN){
         Action_forward(target->Atv_stats.get(),-25);
         target->addBreakSEList(BreakSideEffect(BreakSEType::Shock,data_2->Attacker,target->Atv_stats->turnCnt + 2));
         Constant=1;
 
-    }else if(data_2->Damage_element=="Wind"){
+    }else if(data_2->Damage_element==ET_WIND){
         Action_forward(target->Atv_stats.get(),-25);
         target->addBreakSEList(BreakSideEffect(BreakSEType::WindShear,data_2->Attacker,target->Atv_stats->turnCnt + 2,3));
         Constant=1.5;
 
-    }else if(data_2->Damage_element=="Quantum"){
+    }else if(data_2->Damage_element==ET_QT){
         Action_forward(target->Atv_stats.get(),-20*calBreakEffectMultiplier(data_2,target));
         target->addBreakSEList(BreakSideEffect(BreakSEType::Entanglement,data_2->Attacker,target->Atv_stats->turnCnt + 1));
         Constant=0.5;
 
-    }else if(data_2->Damage_element=="Imaginary"){
+    }else if(data_2->Damage_element==ET_IMG){
         Action_forward(target->Atv_stats.get(),-30*calBreakEffectMultiplier(data_2,target));
         if(target->addBreakSEList(BreakSideEffect(BreakSEType::Imprisonment,data_2->Attacker,target->Atv_stats->turnCnt + 1)))
         target->speedBuff({ST_SPD,ST_SPD_P,-10});
