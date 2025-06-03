@@ -1,19 +1,5 @@
-#include<bits/stdc++.h>
+#include "src/Library.h"
 
-
-#define endl '\n'
-#define F first
-#define S second
-#define DMG_CAL 12
-using std::cout ;
-using std::vector;
-
-#include"Library.h"
-
-#include "./Data/Character/All_Character.h"
-#include "./Data/Lightcone/All_Lighcone.h"
-#include "./Data/Planar/All_Planar.h"
-#include"./Data/Relic/All_Relic.h"
 Ally* Char1;
 Ally* Char2;
 Ally* Char3;
