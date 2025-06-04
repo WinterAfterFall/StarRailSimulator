@@ -5,6 +5,7 @@ void Print(){
     cout<<"Atv = "<<Current_atv<<" ";
     cout<<""<<turn->Char_Name<<" ";
     cout<<turn->turnCnt<<" ";
+    cout<<sp<<" ";
     // cout<<Ally_unit[4]->getSubUnit(1)->Buff_note["Tally RestoreHP"]<<" ";
     // for(int i=1;i<= Total_enemy; i++){
 

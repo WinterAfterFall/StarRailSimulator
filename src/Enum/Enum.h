@@ -55,6 +55,13 @@ enum class Stats {
     BREAK_EFF,
     TOUGH_REDUCE
 };
+enum class DotType {
+    Shock,
+    Bleed,
+    Burn,
+    WindShear,
+    General
+};
 
 #pragma region SrcType
 enum class DmgSrcType {
@@ -103,6 +110,6 @@ namespace std {
         }
     };
 }
-typedef unordered_map<string,double> Common_stats; 
+typedef unordered_map<string,double> Common_stats;
 typedef unordered_map<string,unordered_map<string,double>> Common_stats_type; 
 typedef unordered_map<string, unordered_map<ElementType,unordered_map<string,double>>> Common_stats_each_element;

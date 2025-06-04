@@ -3,7 +3,7 @@ void allEventBeforeTurn(){
     if(turn->Side=="Enemy"){
         shared_ptr<AllyAttackAction> act;
         Enemy *target = turn->canCastToEnemy();
-        Dot_trigger(100, target, AT_NONE);
+        Dot_trigger(100, target, DotType::General);
         for(auto &each : target->breakEngist){
             act = make_shared<AllyAttackAction>(ActionType::Entanglement, each.ptr, TT_SINGLE, "Entanglement");
             double Const = 0.6 * each.stack;
@@ -29,7 +29,7 @@ void allEventAfterTurn(){
     if(turn->Side=="Enemy"){
         shared_ptr<AllyAttackAction> act;
         Enemy *target = turn->canCastToEnemy();
-        Dot_trigger(100, target, AT_NONE);
+        
         for (auto itr = target->breakDotList.begin(); itr != target->breakDotList.end(); ) {
             if(itr->countdown!=turn->turnCnt){
                 itr++;

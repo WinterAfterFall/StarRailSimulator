@@ -10,7 +10,7 @@ void Ally::newSpeedRequire(double amount){
 }
 
 void Ally::newEhrRequire(double amount){
-    if(this->ApplyBaseChance<amount)this->ApplyBaseChance = amount;
+    if(this->ApplyBaseChance>amount)this->ApplyBaseChance = amount;
 }
 
 

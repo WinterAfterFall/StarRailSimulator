@@ -316,7 +316,7 @@ class AllyAttackAction : public AllyActionData {
             Action_bar.push(self);
             return;
         }
-        vector<bool> check(Total_enemy, false);
+        vector<bool> check(Total_enemy+1, false);
         for (size_t i = 0; i < damageSplit.size(); ++i) {
             for (size_t j = 0; j < damageSplit[i].size(); ++j) {
                 Damage& dmg = damageSplit[i][j];
@@ -330,7 +330,7 @@ class AllyAttackAction : public AllyActionData {
         Action_bar.push(self);
     }
     void addEnemyBounce(DmgSrc ins,int amount){
-        for(int i = 1;i<= Total_enemy;i++){
+        for(int i = 1;i<= Total_enemy&&i<= amount;i++){
                 if(Enemy_unit[i]->Target_type == "Main"||(Enemy_unit[i]->Target_type == "Adjacent"&&!bestBounce))
                     this->targetList.push_back(Enemy_unit[i].get());
         }
@@ -340,8 +340,7 @@ class AllyAttackAction : public AllyActionData {
         }
     }
     void addEnemyFairBounce(DmgSrc ins,int amount){
-        for(int i = 1;i<= Total_enemy;i++){
-                if(!bestBounce||Enemy_unit[i]->Target_type == "Main")
+        for(int i = 1;i<= Total_enemy&&i<= amount;i++){
                     this->targetList.push_back(Enemy_unit[i].get());
         }
         for(int i = 0;i< amount;i++){

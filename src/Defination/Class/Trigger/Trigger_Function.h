@@ -91,8 +91,8 @@ class TriggerByEnemyHit : public TriggerFunc{
 
 class TriggerDot_Func : public TriggerFunc{
     public:
-    function<void(Enemy* target,double Dot_ratio,string Dot_type)> Call;
-    TriggerDot_Func(int priority, function<void(Enemy* target, double Dot_ratio, string Dot_type)> Call) 
+    function<void(Enemy* target,double Dot_ratio,DotType Dot_type)> Call;
+    TriggerDot_Func(int priority, function<void(Enemy* target, double Dot_ratio,DotType Dot_type)> Call) 
     : TriggerFunc(priority), Call(Call) {}
 };
 

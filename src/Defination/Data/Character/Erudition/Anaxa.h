@@ -271,16 +271,9 @@ namespace  Anaxa{
     }
     void AdditionalSkill(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BOUNCE,"Anaxa Skill",
+        make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BOUNCE,"Anaxa ExtraSkill",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),30);
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
-            if(ptr->getSubUnit()->Atv_stats->turnCnt==1){
-                Increase_energy(ptr,30);
-                if(ptr->Eidolon>=1){
-                    Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
-                }
-            }
+            Increase_energy(ptr,30);
 
             act->Attacker->buffSingle({{ST_DMG,AT_NONE,20.0 * Total_enemy}});
             if(ptr->Eidolon>=4)act->Attacker->buffStackSingle({{ST_ATK_P,AT_NONE,30}},1,2,"AnaxaE4",2);

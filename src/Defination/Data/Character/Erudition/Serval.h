@@ -95,10 +95,10 @@ namespace Serval{
             }
         }));
 
-        Dot_List.push_back(TriggerDot_Func(PRIORITY_BUFF, [ptr,Servalptr](Enemy* target, double Dot_ratio, string Dot_type) {
+        Dot_List.push_back(TriggerDot_Func(PRIORITY_BUFF, [ptr,Servalptr](Enemy* target, double Dot_ratio, DotType Dot_type) {
             if (!target->getDebuff("Serval_Shock")) return;
-            // Fix Later
-            // if (Dot_type != AT_NONE && Dot_type != ElementType::Lightning) return;
+
+            if (Dot_type == DotType::General|| Dot_type == DotType::Bleed) return;
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(ActionType::Dot,ptr->getSubUnit(),TT_SINGLE,"Serval Shock");
             act->addDamageIns(DmgSrc(DmgSrcType::ATK,114),target);

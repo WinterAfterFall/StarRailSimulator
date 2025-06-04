@@ -214,7 +214,7 @@ namespace Tribbie{
             AfterDealingDamage_List.push_back(TriggerAfterDealDamage(PRIORITY_IMMEDIATELY, [ptr,TBptr]
                 (shared_ptr<AllyAttackAction> &act, Enemy *src, double damage) {
                 if(!TBptr->getBuffCheck("TB_TrueDmg"))return;
-                Cal_DamageNote(act,src,Enemy_unit[Main_Enemy_num].get(),damage,24,"TB True" + act->actionName);
+                Cal_DamageNote(act,src,Enemy_unit[Main_Enemy_num].get(),damage,24,"TB True " + act->actionName);
             }));
         }
 

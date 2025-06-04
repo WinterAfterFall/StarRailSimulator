@@ -8,14 +8,15 @@ Enemy* createNewEnemy(double speed,double Toughness,string type){
     Enemy_unit[num]->Max_toughness = Toughness;
     Enemy_unit[num]->Target_type = type;
     Enemy_unit[num]->Atv_stats->num = num;
-    Enemy_unit[num]->Atv_stats->Char_Name = "Enemy_";
-    Enemy_unit[num]->Atv_stats->Char_Name += type;
+    Enemy_unit[num]->Atv_stats->Char_Name = "Enemy-";
+    Enemy_unit[num]->Atv_stats->Char_Name += std::to_string(num);
     Enemy_unit[num]->Atv_stats->Unit_Name = Enemy_unit[num]->Atv_stats->Char_Name;
     Enemy_unit[num]->Atv_stats->Side = "Enemy";
     Enemy_unit[num]->Atv_stats->ptrToChar = Enemy_unit[num].get();
     return Enemy_unit[num].get();
 }
-void SetupEnemy(double speed,double Toughness,pair<double,double> energy,pair<double,double> skillRatio,pair<int,int> attackCooldown,int action,string type){    Enemy *enemyPtr = createNewEnemy(speed,Toughness,type);
+void SetupEnemy(double speed,double Toughness,pair<double,double> energy,pair<double,double> skillRatio,pair<int,int> attackCooldown,int action,string type){    
+    Enemy *enemyPtr = createNewEnemy(speed,Toughness,type);
     // Define the lambda function for Turn_func
     enemyPtr->Turn_func = [enemyPtr,AoeStart = attackCooldown.first,AoeCoolDown = attackCooldown.second
         ,BAskillRatio = skillRatio.first,AOEskillRatio = skillRatio.second
