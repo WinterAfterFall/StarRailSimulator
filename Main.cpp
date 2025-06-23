@@ -71,7 +71,8 @@ int main(){
     
     //--------------------- adjust ------------------------
     
-    // Char1->enableCheckDamage();
+    Char1->enableCheckDamage();
+    Char1->enableCheckDamageFormula();
     // Char4->enableCheckHealFormula();
     // Char4->enableCheckHeal();
     

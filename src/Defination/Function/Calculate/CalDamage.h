@@ -61,7 +61,7 @@ void Cal_Break_damage(shared_ptr<AllyAttackAction> &act,Enemy *target,double &Co
 
     if(act->Attacker->ptrToChar->checkDamageFormula||act->Attacker->ptrToChar->checkDamage){
         cout<<"\033[0;38;5;45m";
-        cout<<"\n---------------------------------------------------\n";
+        cout<<"---------------------------------------------------\n";
         cout << "\033[0m";
     }
 
@@ -93,7 +93,7 @@ void Cal_Freeze_damage(shared_ptr<AllyAttackAction> &act,Enemy *target){
 
     if(act->Attacker->ptrToChar->checkDamageFormula||act->Attacker->ptrToChar->checkDamage){
         cout<<"\033[0;38;5;45m";
-        cout<<"\n---------------------------------------------------\n";
+        cout<<"---------------------------------------------------\n";
         cout << "\033[0m";
     }
 
@@ -126,7 +126,7 @@ void Cal_Dot_Toughness_break_damage(shared_ptr<AllyAttackAction> &act,Enemy *tar
 
     if(act->Attacker->ptrToChar->checkDamageFormula||act->Attacker->ptrToChar->checkDamage){
         cout<<"\033[0;38;5;45m";
-        cout<<"\n---------------------------------------------------\n";
+        cout<<"---------------------------------------------------\n";
         cout << "\033[0m";
     }
 
@@ -157,7 +157,7 @@ void Cal_Superbreak_damage(shared_ptr<AllyAttackAction> &act,Enemy *target,doubl
 
     if(act->Attacker->ptrToChar->checkDamageFormula||act->Attacker->ptrToChar->checkDamage){
         cout<<"\033[0;38;5;191m";
-        cout<<"\n-----------------------------------------------------------\n";
+        cout<<"-----------------------------------------------------------\n";
         cout << "\033[0m";
     }
 

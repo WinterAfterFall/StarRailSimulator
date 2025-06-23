@@ -4,6 +4,12 @@ void SubUnit::RestoreHP(HealSrc main,HealSrc adjacent,HealSrc other){
     healCount++;
     priority_queue<PointerWithValue, vector<PointerWithValue>, decltype(&PointerWithValue::Greater_cmp)> pq(&PointerWithValue::Less_cmp);
     
+    if(this->ptrToChar->checkHeal||this->ptrToChar->checkHealFormula){
+        cout<<"\033[0;38;5;2m";
+        cout<<"\n----------------------- Heal Count : "<<healCount<<" -----------------------\n";
+        cout << "\033[0m";
+    }
+    
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
             if(Ally_unit[i]->Sub_Unit_ptr[j]->currentHP==0)continue;
@@ -30,17 +36,43 @@ void SubUnit::RestoreHP(HealSrc main,HealSrc adjacent,HealSrc other){
         pq.pop();
     }
     
+    if(this->ptrToChar->checkHeal||this->ptrToChar->checkHealFormula){
+        cout<<"\033[0;38;5;2m";
+        cout<<"-----------------------------------------------------------\n";
+        cout << "\033[0m";
+    }
+    
 }
 //heal เดี่ยว
 void SubUnit::RestoreHP(SubUnit *target,HealSrc Healptr){
     healCount++;
+
+    if(this->ptrToChar->checkHeal||this->ptrToChar->checkHealFormula){
+        cout<<"\033[0;38;5;2m";
+        cout<<"\n----------------------- Heal Count : "<<healCount<<" -----------------------\n";
+        cout << "\033[0m";
+    }
+
     double totalHeal = calculateHeal(Healptr,this,target);
     IncreaseHP(this,target,totalHeal);
+
+    if(this->ptrToChar->checkHeal||this->ptrToChar->checkHealFormula){
+        cout<<"\033[0;38;5;2m";
+        cout<<"-----------------------------------------------------------\n";
+        cout << "\033[0m";
+    }
 
 }
 //heal ทั้งทีมแบบเท่าเที่ยม
 void SubUnit::RestoreHP(HealSrc healSrc){
     healCount++;
+    
+    if(this->ptrToChar->checkHeal||this->ptrToChar->checkHealFormula){
+        cout<<"\033[0;38;5;2m";
+        cout<<"\n----------------------- Heal Count : "<<healCount<<" -----------------------\n";
+        cout << "\033[0m";
+    }
+
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
             if(Ally_unit[i]->Sub_Unit_ptr[j]->currentHP==0)continue;
@@ -48,10 +80,24 @@ void SubUnit::RestoreHP(HealSrc healSrc){
             IncreaseHP(this,Ally_unit[i]->Sub_Unit_ptr[j].get(),totalHeal);
         }
     }
+
+    if(this->ptrToChar->checkHeal||this->ptrToChar->checkHealFormula){
+        cout<<"\033[0;38;5;2m";
+        cout<<"-----------------------------------------------------------\n";
+        cout << "\033[0m";
+    }
+
 }
 //heal ทั้งทีมแบบฮีลคนนึงเยอะสุด
 void SubUnit::RestoreHP(SubUnit *target,HealSrc main,HealSrc other){
     healCount++;
+
+    if(this->ptrToChar->checkHeal||this->ptrToChar->checkHealFormula){
+        cout<<"\033[0;38;5;2m";
+        cout<<"\n----------------------- Heal Count : "<<healCount<<" -----------------------\n";
+        cout << "\033[0m";
+    }
+
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
             if(Ally_unit[i]->Sub_Unit_ptr[j]->currentHP==0)continue;
@@ -61,6 +107,12 @@ void SubUnit::RestoreHP(SubUnit *target,HealSrc main,HealSrc other){
             calculateHeal(other,this,Ally_unit[i]->Sub_Unit_ptr[j].get());
             IncreaseHP(this,Ally_unit[i]->Sub_Unit_ptr[j].get(),totalHeal);
         }
+    }
+
+    if(this->ptrToChar->checkHeal||this->ptrToChar->checkHealFormula){
+        cout<<"\033[0;38;5;2m";
+        cout<<"-----------------------------------------------------------\n";
+        cout << "\033[0m";
     }
 }
 void IncreaseCurrentHP(SubUnit *ptr,double Value){
