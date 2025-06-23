@@ -12,6 +12,12 @@ void Ally::enableCheckHeal() {
 void Ally::enableCheckHealFormula() {
     checkHealFormula = 1;
 }
+void Ally::enableCheckHealReceive() {
+    checkHealReceive = 1;
+}
+void Ally::enableCheckHealReceiveFormula() {
+    checkHealReceiveFormula = 1;
+}
 void Ally::enableCheckHpChange() {
     checkHpChange = 1;
 }

@@ -71,10 +71,19 @@ int main(){
     
     //--------------------- adjust ------------------------
     
-    Char1->enableCheckDamage();
-    Char1->enableCheckDamageFormula();
-    // Char4->enableCheckHealFormula();
-    // Char4->enableCheckHeal();
+    // Char1->enableCheckDamage();
+    // Char1->enableCheckDamageFormula();
+    Char4->enableCheckHealFormula();
+    Char4->enableCheckHeal();
+
+    Char1->enableCheckHealReceive();
+    Char2->enableCheckHealReceive();
+    Char3->enableCheckHealReceive();
+    Char4->enableCheckHealReceive();
+    Char1->enableCheckHealReceiveFormula();
+    Char2->enableCheckHealReceiveFormula();
+    Char3->enableCheckHealReceiveFormula();
+    Char4->enableCheckHealReceiveFormula();
     
     
 

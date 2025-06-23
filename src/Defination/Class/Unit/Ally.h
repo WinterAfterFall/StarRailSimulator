@@ -72,6 +72,8 @@ public:
     bool checkDamageFormula = 0;
     bool checkHeal = 0;
     bool checkHealFormula = 0;
+    bool checkHealReceive = 0;
+    bool checkHealReceiveFormula = 0;
     bool checkHpChange = 0;
     bool checkHpChangeFormula = 0;
 
@@ -277,6 +279,8 @@ public:
     void enableCheckDamageFormula();
     void enableCheckHeal();
     void enableCheckHealFormula();
+    void enableCheckHealReceive();
+    void enableCheckHealReceiveFormula();
     void enableCheckHpChange();
     void enableCheckHpChangeFormula();
     #pragma endregion

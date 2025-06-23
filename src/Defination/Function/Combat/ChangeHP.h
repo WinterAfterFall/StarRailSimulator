@@ -129,16 +129,19 @@ void DecreaseCurrentHP(SubUnit *ptr,double Value){
 }
 void DecreaseHP(SubUnit *target,Unit *Trigger,double Value,double percentFromTotalHP,double percentFromCurrentHP){
     decreaseHPCount++;
+
     double Total = Value;
     if(target->currentHP<=0)return;
     Total += (percentFromTotalHP/100.0*target->totalHP);
     Total += (percentFromCurrentHP/100.0*target->currentHP);
     DecreaseCurrentHP(target,Total);
     allEventChangeHP(Trigger,target,Total);
+    
 }
 //ลดเลือดทั้งทีม
 void DecreaseHP(Unit *Trigger,double Value,double percentFromTotalHP,double percentFromCurrentHP){
     decreaseHPCount++;
+
     for (int i = 1; i <= Total_ally; ++i) {
         for (unique_ptr<SubUnit> &subUnit : Ally_unit[i]->Sub_Unit_ptr) {
             double Total = Value;
@@ -149,6 +152,7 @@ void DecreaseHP(Unit *Trigger,double Value,double percentFromTotalHP,double perc
             allEventChangeHP(Trigger,subUnit.get(),Total);
         }
     }
+
 }
 void DecreaseHP(Unit *Trigger,vector<SubUnit*> target,double Value,double percentFromTotalHP,double percentFromCurrentHP){
     decreaseHPCount++;
