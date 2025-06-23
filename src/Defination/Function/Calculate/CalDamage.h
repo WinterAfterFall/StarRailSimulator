@@ -25,10 +25,6 @@ void calDamage(shared_ptr<AllyAttackAction> &act,Enemy *target,DmgSrc abilityRat
     Total_dmg = Total_dmg*calMitigationMultiplier(act,target);
     Total_dmg = Total_dmg*calToughnessMultiplier(act,target);
 
-    if(act->Attacker->ptrToChar->checkDamage){
-        cout<<"Damage : "<<Total_dmg<<endl;
-    }
-
     Cal_DamageNote(act,target,target,Total_dmg,100,act->actionName);
     allEventAfterDealingDamage(act,target,Total_dmg);
 
@@ -54,10 +50,9 @@ void Cal_Break_damage(shared_ptr<AllyAttackAction> &act,Enemy *target,double &Co
     Total_dmg = Total_dmg*calVulMultiplier(act,target);
     Total_dmg = Total_dmg*calMitigationMultiplier(act,target);
     Total_dmg = Total_dmg*calToughnessMultiplier(act,target);
-
-    if(act->Attacker->ptrToChar->checkDamage){
-        cout<<"Damage : "<<Total_dmg<<endl;
-    }
+    
+    Cal_DamageNote(act,target,target,Total_dmg,100,act->actionName);
+    allEventAfterDealingDamage(act,target,Total_dmg);
 
     if(act->Attacker->ptrToChar->checkDamageFormula||act->Attacker->ptrToChar->checkDamage){
         cout<<"\033[0;38;5;45m";
@@ -65,8 +60,6 @@ void Cal_Break_damage(shared_ptr<AllyAttackAction> &act,Enemy *target,double &Co
         cout << "\033[0m";
     }
 
-    Cal_DamageNote(act,target,target,Total_dmg,100,act->actionName);
-    allEventAfterDealingDamage(act,target,Total_dmg);
     
 }
 void Cal_Freeze_damage(shared_ptr<AllyAttackAction> &act,Enemy *target){
@@ -87,19 +80,14 @@ void Cal_Freeze_damage(shared_ptr<AllyAttackAction> &act,Enemy *target){
     Total_dmg = Total_dmg*calMitigationMultiplier(act,target);
     Total_dmg = Total_dmg*calToughnessMultiplier(act,target);
 
-    if(act->Attacker->ptrToChar->checkDamage){
-        cout<<"Damage : "<<Total_dmg<<endl;
-    }
+    Cal_DamageNote(act,target,target,Total_dmg,100,act->actionName);
+    allEventAfterDealingDamage(act,target,Total_dmg);
 
     if(act->Attacker->ptrToChar->checkDamageFormula||act->Attacker->ptrToChar->checkDamage){
         cout<<"\033[0;38;5;45m";
         cout<<"---------------------------------------------------\n";
         cout << "\033[0m";
     }
-
-    Cal_DamageNote(act,target,target,Total_dmg,100,act->actionName);
-    allEventAfterDealingDamage(act,target,Total_dmg);
-
 }
 
 void Cal_Dot_Toughness_break_damage(shared_ptr<AllyAttackAction> &act,Enemy *target,double Dot_ratio){
@@ -120,9 +108,8 @@ void Cal_Dot_Toughness_break_damage(shared_ptr<AllyAttackAction> &act,Enemy *tar
     Total_dmg = Total_dmg*calMitigationMultiplier(act,target);
     Total_dmg = Total_dmg*calToughnessMultiplier(act,target);
 
-    if(act->Attacker->ptrToChar->checkDamage){
-        cout<<"Damage : "<<Total_dmg<<endl;
-    }
+    Cal_DamageNote(act,target,target,Total_dmg,100,act->actionName);
+    allEventAfterDealingDamage(act,target,Total_dmg);
 
     if(act->Attacker->ptrToChar->checkDamageFormula||act->Attacker->ptrToChar->checkDamage){
         cout<<"\033[0;38;5;45m";
@@ -130,8 +117,6 @@ void Cal_Dot_Toughness_break_damage(shared_ptr<AllyAttackAction> &act,Enemy *tar
         cout << "\033[0m";
     }
 
-    Cal_DamageNote(act,target,target,Total_dmg,100,act->actionName);
-    allEventAfterDealingDamage(act,target,Total_dmg);
 }
 void Cal_Superbreak_damage(shared_ptr<AllyAttackAction> &act,Enemy *target,double Superbreak_ratio){
     double Total_dmg = Level_multiplier*Superbreak_ratio/100;
@@ -151,9 +136,8 @@ void Cal_Superbreak_damage(shared_ptr<AllyAttackAction> &act,Enemy *target,doubl
     Total_dmg = Total_dmg*calVulMultiplier(act,target);
     Total_dmg = Total_dmg*calMitigationMultiplier(act,target);
 
-    if(act->Attacker->ptrToChar->checkDamage){
-        cout<<"Damage : "<<Total_dmg<<endl;
-    }
+    Cal_DamageNote(act,target,target,Total_dmg,100,act->actionName);
+    allEventAfterDealingDamage(act,target,Total_dmg);
 
     if(act->Attacker->ptrToChar->checkDamageFormula||act->Attacker->ptrToChar->checkDamage){
         cout<<"\033[0;38;5;191m";
@@ -161,8 +145,6 @@ void Cal_Superbreak_damage(shared_ptr<AllyAttackAction> &act,Enemy *target,doubl
         cout << "\033[0m";
     }
 
-    Cal_DamageNote(act,target,target,Total_dmg,100,act->actionName);
-    allEventAfterDealingDamage(act,target,Total_dmg);
 }
 
 void Cal_Toughness_reduction(shared_ptr<AllyAttackAction> &act,Enemy* target,double Toughness_reduce){

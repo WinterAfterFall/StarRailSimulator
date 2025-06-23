@@ -15,12 +15,6 @@ int Adjacent_Enemy_num[2] = {2,3};
 int Other_Enemy_num[2] = {4,5}; 
 
 bool Print_Atv = 0;
-int Formula_check_mode = 0;
-int Normal_Damage_Formula_check_mode = 0, Normal_Damage_check_mode =0;
-int Additional_Damage_Formula_check_mode = 0, Additional_Damage_check_mode =0;
-
-int SuperBreak_Formula_check_mode = 0;
-int Break_Formula_check_mode =0;
 
 int Total_ally = 0;
 int Total_enemy = 0;

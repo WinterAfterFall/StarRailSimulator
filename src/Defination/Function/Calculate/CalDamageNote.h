@@ -74,8 +74,9 @@ void Cal_DamageNote(shared_ptr<AllyAttackAction> &act,Enemy *src,Enemy *recv,dou
         ptr->currentRealTimeDmg[{src,recv}].total += damage * ratio/100;
         ptr->currentRealTimeDmg[{src,recv}].type[name] += damage * ratio/100;
     }
-    if(Normal_Damage_check_mode==act->Attacker->getNum())
-    cout<<act->Attacker->Atv_stats->Unit_Name<<" "<<name<<" "<<damage<<endl;
+    if(act->Attacker->ptrToChar->checkDamage){
+        cout<<name<<" Total Damage : "<<damage<<" with "<<ratio<<"%"<<endl;
+    }
 }
 void Cal_DamageSummary(){
     double sum;

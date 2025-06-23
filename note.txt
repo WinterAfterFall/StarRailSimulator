@@ -1,4 +1,4 @@
-ทำให้ formula mode แต่ละตัวแยกกัน
+ทำให้ formula ของ change HP
 รวมถึง LC ที่เกี่ยวข้องกับการแปะธาตุ
 tech serval
 แก้ healfunction

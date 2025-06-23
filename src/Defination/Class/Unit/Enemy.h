@@ -74,8 +74,8 @@ public:
                 } else {
                     ++itr;
                 }
-                breakFrzList.push_back(input);
             }
+            breakFrzList.push_back(input);
         } else if(input.type == BreakSEType::Imprisonment) {
             for(auto itr = breakImsList.begin(); itr != breakImsList.end();) {
                 if(itr->ptr->isSameUnit(input.ptr)) {
@@ -84,8 +84,8 @@ public:
                 } else {
                     ++itr;
                 }
-                breakImsList.push_back(input);
             }
+            breakImsList.push_back(input);
         } else if(input.type == BreakSEType::Entanglement) {
             for(auto itr = breakEngList.begin(); itr != breakEngList.end();) {
                 if(itr->ptr->isSameUnit(input.ptr)) {
@@ -94,8 +94,8 @@ public:
                 } else {
                     ++itr;
                 }
-                breakEngList.push_back(input);
             }
+            breakEngList.push_back(input);
         }else{
             for(auto itr = breakDotList.begin(); itr != breakDotList.end();) {
                 if(itr->ptr->isSameUnit(input.ptr)) {

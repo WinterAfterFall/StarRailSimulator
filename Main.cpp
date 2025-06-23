@@ -13,14 +13,6 @@ void SetValue(){
     Wave[0]+=0.01;
     Print_Atv = 1;
     bestBounce = 1;
-    Formula_check_mode = 0;
-    SuperBreak_Formula_check_mode = 0;
-    Break_Formula_check_mode = 0;
-    
-    Normal_Damage_Formula_check_mode = 0;
-    Normal_Damage_check_mode = 0;   
-    Additional_Damage_Formula_check_mode = 0;
-    Additional_Damage_check_mode = 0;
     // golden ratio
     rerollSubstatsMode = "Standard" ; //Standard AllCombination AllPossible
 
@@ -36,11 +28,11 @@ int main(){
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
     SetValue();
-    // The_Herta::Setup(2,Erudition_Lightcone::The_Herta_LC(1),Relic::Scholar,Planar::Izumo);
+    The_Herta::Setup(2,Erudition_Lightcone::The_Herta_LC(1),Relic::Scholar,Planar::Izumo);
     // Aglaea::Setup(1,Remembrance_Lightcone::SweatNowCryLess(5),Relic::Hero_Wreath,Planar::The_Wondrous_BananAmusement_Park);
     // Jingyuan::Setup_Jingyuan(0,Erudition_Lightcone::Before_Dawn(1),Relic::Grand_Duke,Planar::The_Wondrous_BananAmusement_Park);
-    Castorice::Setup(0,Remembrance_Lightcone::Castorice_LC(1),Relic::Poet_Dill,Planar::Bone_Collection);
-    // Mydei::Setup(0,Destruction_Lightcone::Mydei_LC(1),Relic::Scholar,Planar::Bone_Collection);
+    // Castorice::Setup(0,Remembrance_Lightcone::Castorice_LC(1),Relic::Poet_Dill,Planar::Bone_Collection);
+    Mydei::Setup(0,Destruction_Lightcone::Mydei_LC(1),Relic::Scholar,Planar::Bone_Collection);
     // Anaxa::Setup(0,Erudition_Lightcone::GreatCosmic(5),Relic::GeniusBrilliant,Planar::Lushaka);
     
     //Driver
@@ -73,8 +65,8 @@ int main(){
     
     // Char1->enableCheckDamage();
     // Char1->enableCheckDamageFormula();
-    Char4->enableCheckHealFormula();
-    Char4->enableCheckHeal();
+    // Char4->enableCheckHealFormula();
+    // Char4->enableCheckHeal();
 
     Char1->enableCheckHealReceive();
     Char2->enableCheckHealReceive();
