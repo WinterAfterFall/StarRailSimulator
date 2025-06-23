@@ -102,7 +102,8 @@ namespace Serval{
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(ActionType::Dot,ptr->getSubUnit(),TT_SINGLE,"Serval Shock");
             act->addDamageIns(DmgSrc(DmgSrcType::ATK,114),target);
-            dotDamage(act,Dot_ratio);
+            act->multiplyDmg(Dot_ratio);
+            Attack(act);
         }));
 
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act) {
@@ -141,9 +142,9 @@ namespace Serval{
         act->addDamageIns(DmgSrc(DmgSrcType::ATK,110,10),chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
         if(Total_enemy>=2&&ptr->Eidolon>=1){
             if(ptr->Sub_Unit_ptr[0]->Enemy_target_num==1){
-                act->addDamage(DmgSrc(DmgSrcType::ATK,60,0),Enemy_unit[2].get());
+                act->addDamageHit(DmgSrc(DmgSrcType::ATK,60,0),Enemy_unit[2].get());
             }else{
-                act->addDamage(DmgSrc(DmgSrcType::ATK,60,0),Enemy_unit[1].get());
+                act->addDamageHit(DmgSrc(DmgSrcType::ATK,60,0),Enemy_unit[1].get());
             }
         }
         act->addToActionBar();

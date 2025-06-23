@@ -4,19 +4,19 @@ void allEventBeforeTurn(){
         shared_ptr<AllyAttackAction> act;
         Enemy *target = turn->canCastToEnemy();
         Dot_trigger(100, target, DotType::General);
-        for(auto &each : target->breakEngist){
+        for(auto &each : target->breakEngList){
             act = make_shared<AllyAttackAction>(ActionType::Entanglement, each.ptr, TT_SINGLE, "Entanglement");
             double Const = 0.6 * each.stack;
             Cal_Break_damage(act, target, Const);
         }
         if(!Turn_Skip)
-        for(auto itr = target->breakFrzist.begin(); itr != target->breakFrzist.end();){
+        for(auto itr = target->breakFrzList.begin(); itr != target->breakFrzList.end();){
             act = make_shared<AllyAttackAction>(ActionType::Freeze, itr->ptr, TT_SINGLE, "Freeze");
             Cal_Freeze_damage(act, target);
             Action_forward(target->Atv_stats.get(), -50);
             --target->Total_debuff;
             Turn_Skip = 1;
-            itr = target->breakFrzist.erase(itr);
+            itr = target->breakFrzList.erase(itr);
             break;
         }
     }
@@ -39,12 +39,12 @@ void allEventAfterTurn(){
             --target->Total_debuff;
             
         }
-        for (auto itr = target->breakEngist.begin(); itr != target->breakEngist.end(); ) {
+        for (auto itr = target->breakEngList.begin(); itr != target->breakEngList.end(); ) {
             if(itr->countdown!=turn->turnCnt){
                 itr++;
                 continue;
             }
-            itr = target->breakEngist.erase(itr);
+            itr = target->breakEngList.erase(itr);
             --target->Total_debuff;
             
         }
@@ -102,7 +102,7 @@ void allEventAfterAttack(shared_ptr<AllyAttackAction> &act){
 }
 void allEventWhenAttack(shared_ptr<AllyAttackAction> &act){
     for(Enemy* &e : act->targetList){
-        for (auto &each : e->breakEngist) {
+        for (auto &each : e->breakEngList) {
             if(each.stack>=5)continue;
             each.stack++;
         }

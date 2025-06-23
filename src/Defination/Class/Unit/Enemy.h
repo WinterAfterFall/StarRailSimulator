@@ -62,18 +62,19 @@ public:
     
     std::vector<BreakSideEffect> breakDotList;
     std::vector<BreakSideEffect> breakImsList;
-    std::vector<BreakSideEffect> breakEngist;
-    std::vector<BreakSideEffect> breakFrzist;
+    std::vector<BreakSideEffect> breakEngList;
+    std::vector<BreakSideEffect> breakFrzList;
 
     bool addBreakSEList(BreakSideEffect input) {
         if(input.type == BreakSEType::Freeze) {
-            for(auto itr = breakFrzist.begin(); itr != breakFrzist.end();) {
+            for(auto itr = breakFrzList.begin(); itr != breakFrzList.end();) {
                 if(itr->ptr->isSameUnit(input.ptr)) {
                     itr->countdown = input.countdown;
                     return false;
                 } else {
                     ++itr;
                 }
+                breakFrzList.push_back(input);
             }
         } else if(input.type == BreakSEType::Imprisonment) {
             for(auto itr = breakImsList.begin(); itr != breakImsList.end();) {
@@ -83,15 +84,17 @@ public:
                 } else {
                     ++itr;
                 }
+                breakImsList.push_back(input);
             }
         } else if(input.type == BreakSEType::Entanglement) {
-            for(auto itr = breakEngist.begin(); itr != breakEngist.end();) {
+            for(auto itr = breakEngList.begin(); itr != breakEngList.end();) {
                 if(itr->ptr->isSameUnit(input.ptr)) {
                     itr->countdown = input.countdown;
                     return false;
                 } else {
                     ++itr;
                 }
+                breakEngList.push_back(input);
             }
         }else{
             for(auto itr = breakDotList.begin(); itr != breakDotList.end();) {

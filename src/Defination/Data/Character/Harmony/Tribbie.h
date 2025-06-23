@@ -163,9 +163,9 @@ namespace Tribbie{
                 shared_ptr<AllyAttackAction> data_1 = 
                 make_shared<AllyAttackAction>(ActionType::Addtional,ptr->getSubUnit(),TT_SINGLE,"TB AddDmg");
                 if (ptr->Eidolon >= 2) {
-                    data_1->addDamageIns(DmgSrc(DmgSrcType::HP,14.4));
+                    data_1->addDamageIns(DmgSrc(DmgSrcType::HP,14.4 * (temp + 1)));
                 } else {
-                    data_1->addDamageIns(DmgSrc(DmgSrcType::HP,12));
+                    data_1->addDamageIns(DmgSrc(DmgSrcType::HP,12 * temp));
                 }
 
                 Attack(data_1);

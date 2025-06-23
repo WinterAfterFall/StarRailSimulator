@@ -81,6 +81,14 @@ void EnemyActionData::EnemyAction(){
     resetTurn(turn);
 }
 void Attack(shared_ptr<AllyAttackAction> &act){
+
+    //32 45
+    if(act->Attacker->ptrToChar->checkDamageFormula||act->Attacker->ptrToChar->checkDamage){
+        cout<<"\033[0;38;5;2m";
+        cout<<"----------------------------------------- Damage Check -----------------------------------------\n";
+        cout << "\033[0m";
+    }
+
     int dmgIns = 0;
     for(auto &each : act->AttackSetList){
         each.attacker->hitCount = 0;
@@ -110,7 +118,13 @@ void Attack(shared_ptr<AllyAttackAction> &act){
             Cal_Toughness_reduction(act,each2.target,each2.dmgSrc.toughnessReduce);
         }
     }
-        
+
+    if(act->Attacker->ptrToChar->checkDamageFormula||act->Attacker->ptrToChar->checkDamage){
+        cout<<"\033[0;38;5;2m";
+        cout<<"------------------------------------------------------------------------------------------------\n";  
+        cout << "\033[0m";
+    }
+    
     if(act->Turn_reset)resetTurn(turn);
 }
 void Skill_point(SubUnit *ptr,int p){
@@ -201,24 +215,6 @@ void Dot_trigger(double Dot_ratio,Enemy *target,DotType Dot_type){
         e.Call(target,Dot_ratio,Dot_type);
     }
     
-}
-void dotDamage(shared_ptr<AllyAttackAction> &act,double Dot_ratio){
-    for(auto &each : act->AttackSetList){
-        each.attacker->hitCount = 0;
-    }
-    for(auto &each : act->targetList){
-        each->hitCount = 0;
-    }
-    for(int i = 0;i<act->damageSplit.size();i++){
-        act->Attacker->hitCount += act->damageSplit[i].size();
-        for(auto &each2 : act->damageSplit[i]){
-            each2.target->hitCount++;
-        }
-        allEventAttackHitCount(act);
-        for(auto &each2 : act->damageSplit[i]){
-            calDamage(act,each2.target,each2.dmgSrc);
-        }
-    }
 }
 void Toughness_break(shared_ptr<AllyAttackAction> &act,Enemy* target){
     shared_ptr<AllyAttackAction> data_2;

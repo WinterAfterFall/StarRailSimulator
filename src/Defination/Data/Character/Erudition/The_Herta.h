@@ -53,11 +53,7 @@ namespace The_Herta{
             make_shared<AllyAttackAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"THerta Ult",
             [ptr,Hertaptr](shared_ptr<AllyAttackAction> &act){
                 double Increase_mtpr = ptr->Sub_Unit_ptr[0]->Stack["The_Herta_A6"];
-                act->addDamageIns(
-                    DmgSrc(DmgSrcType::ATK,200 + Increase_mtpr,20),
-                    DmgSrc(DmgSrcType::ATK,200 + Increase_mtpr,20),
-                    DmgSrc(DmgSrcType::ATK,200 + Increase_mtpr,20)
-                );
+                act->addDamage(DmgSrcType::ATK,Increase_mtpr);
                 ptr->Sub_Unit_ptr[0]->Buff_note["The_Herta_Skill_Enchance"]++;
                 if (ptr->Eidolon >= 2) {
                     ptr->Sub_Unit_ptr[0]->Buff_note["The_Herta_Skill_Enchance"]++;
@@ -70,6 +66,11 @@ namespace The_Herta{
                 Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
                 Herta_reset_Stack();
             });
+            act->addDamageIns(
+                    DmgSrc(DmgSrcType::ATK,200,20),
+                    DmgSrc(DmgSrcType::ATK,200,20),
+                    DmgSrc(DmgSrcType::ATK,200,20)
+            );
             act->addToActionBar();
             Deal_damage();
         }));
@@ -121,7 +122,7 @@ namespace The_Herta{
         }));
 
         After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_BUFF, [ptr,Hertaptr](shared_ptr<AllyAttackAction> &act){
-            if(act->actionName=="The Herta EnchanceSkill"){
+            if(act->actionName=="THerta ESkill"){
                 Hertaptr->buffSingle({{ST_DMG,AT_NONE,-50}});
                 if(ptr->Eidolon >= 2)Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),35);
             }
@@ -252,16 +253,6 @@ namespace The_Herta{
             if(ptr->Sub_Unit_ptr[0]->Buff_check["Two_Erudition"]==1){
                 Increase_mtpr*=2;
             }
-            act->addDamageIns(DmgSrc(DmgSrcType::ATK,80,5));
-            act->addDamageIns(
-                DmgSrc(DmgSrcType::ATK,80,5),
-                DmgSrc(DmgSrcType::ATK,80,5)
-            );
-            act->addDamageIns(
-                DmgSrc(DmgSrcType::ATK,80,5),
-                DmgSrc(DmgSrcType::ATK,80,5),
-                DmgSrc(DmgSrcType::ATK,80,5)
-            );
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,40+Increase_mtpr*8,5),
                 DmgSrc(DmgSrcType::ATK,40+Increase_mtpr*4,5),
@@ -279,6 +270,16 @@ namespace The_Herta{
             ptr->getSubUnit()->buffSingle({{ST_DMG,AT_NONE,50}});
             Attack(act);
         });
+        act->addDamageIns(DmgSrc(DmgSrcType::ATK,80,5));
+        act->addDamageIns(
+            DmgSrc(DmgSrcType::ATK,80,5),
+            DmgSrc(DmgSrcType::ATK,80,5)
+        );
+        act->addDamageIns(
+            DmgSrc(DmgSrcType::ATK,80,5),
+            DmgSrc(DmgSrcType::ATK,80,5),
+            DmgSrc(DmgSrcType::ATK,80,5)
+        );
         act->addToActionBar();
     }
 

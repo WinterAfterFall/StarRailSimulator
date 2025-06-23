@@ -277,8 +277,7 @@ class AllyAttackAction : public AllyActionData {
                 else
                     damageSplit.back().emplace_back(other, Enemy_unit[i].get());
             }
-
-    }
+        }
 
     
         template<typename... Args>
@@ -305,9 +304,25 @@ class AllyAttackAction : public AllyActionData {
         }
         
     public:
-    void addDamage(DmgSrc dmgSrc,Enemy* target){
+    void addDamageHit(DmgSrc dmgSrc,Enemy* target){
         damageSplit.back().emplace_back(dmgSrc, target);
     }
+
+    void addDamage(DmgSrcType type,double value){
+        for(auto &each : damageSplit){
+            for(auto &dmg : each){
+                if(type == DmgSrcType::ATK)
+                    dmg.dmgSrc.ATK += value;
+                else if(type == DmgSrcType::HP)
+                    dmg.dmgSrc.HP += value;
+                else if(type == DmgSrcType::DEF)
+                    dmg.dmgSrc.DEF += value;
+                else if(type == DmgSrcType::CONST)
+                    dmg.dmgSrc.constDmg += value;
+            }
+        }
+    }
+    
 
     #pragma region addEnemyTarget
     void addToActionBar(){
@@ -317,6 +332,9 @@ class AllyAttackAction : public AllyActionData {
             return;
         }
         vector<bool> check(Total_enemy+1, false);
+        for(auto &e : targetList){
+            check[e->Atv_stats->num] = true;
+        }
         for (size_t i = 0; i < damageSplit.size(); ++i) {
             for (size_t j = 0; j < damageSplit[i].size(); ++j) {
                 Damage& dmg = damageSplit[i][j];
@@ -351,6 +369,18 @@ class AllyAttackAction : public AllyActionData {
     }
 
     #pragma endregion
+    void multiplyDmg(double value){
+        for (size_t i = 0; i < damageSplit.size(); ++i) {
+            for (size_t j = 0; j < damageSplit[i].size(); ++j) {
+                Damage& dmg = damageSplit[i][j];
+                dmg.dmgSrc.ATK *=value/100;
+                dmg.dmgSrc.HP *=value/100;
+                dmg.dmgSrc.DEF *=value/100;
+                dmg.dmgSrc.constDmg *=value/100;
+            }
+        }
+
+    }
 
     #pragma region adjust
     void setToughnessAvgCalculate(bool arg){

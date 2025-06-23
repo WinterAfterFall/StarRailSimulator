@@ -27,7 +27,7 @@ namespace Cipher{
         SubUnit *cph = ptr->getSubUnit(); 
         
         ptr->Adjust["Cipher A2"] = 2;
-        ptr->Adjust["Cipher Ult Share"] = 3;
+        ptr->Adjust["Cipher Ult Share"] = 1;
 
         
         function<void()> BA = [ptr,cph]() {
@@ -94,6 +94,10 @@ namespace Cipher{
             ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Quantum][AT_NONE] += 14.4;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_EHR][AT_NONE] += 10;
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 25 * ptr->getAdjust("Cipher A2");
+
+            // ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Quantum][AT_NONE] += 12;
+            // ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 4;
+            // ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AT_NONE] += 24;
 
             debuffAllEnemyMark({{ST_VUL,AT_NONE,40}},ptr->Sub_Unit_ptr[0].get(),"Cipher A6");
             // relic
@@ -163,7 +167,7 @@ namespace Cipher{
                         cph->buffSingle({{ST_CD,AT_NONE,100}});
                         if(ptr->Eidolon>=6)cph->buffSingle({{ST_DMG,AT_NONE,350}});
                         Attack(act);
-                        cph->buffSingle({{ST_CD,AT_NONE,100}});
+                        cph->buffSingle({{ST_CD,AT_NONE,-100}});
                         if(ptr->Eidolon>=6)cph->buffSingle({{ST_DMG,AT_NONE,-350}});
                     });
                     newAct->addDamageIns(
@@ -181,11 +185,11 @@ namespace Cipher{
                     ? (12 * (1 + 0.5 * ptr->Adjust["Cipher A2"]))
                     : (8 * (1 + 0.5 * ptr->Adjust["Cipher A2"]));
                     
-                    if(src->Target_type == "Main"&&ptr->Eidolon>=1)percent *= 1.5;
-                    if(act->actionName=="Cipher Tech")percent *= 2;
                     if(ptr->Eidolon>=6&&act->actionName=="Cipher Fua"){
-                        percent *= 1.16;
+                        percent += (16 * (1 + 0.5 * ptr->Adjust["Cipher A2"]));
                     }
+                    if(ptr->Eidolon>=1)percent *= 1.5;
+                    if(act->actionName=="Cipher Tech")percent *= 2;
                     act->Attacker->ptrToChar->getSubUnit()
                     ->Buff_note["CipherNote" + src->getUnitName()] += damage * percent /100;
                     if(act->actionName!="Cipher Ult")return;
@@ -208,7 +212,7 @@ namespace Cipher{
                 }));
 
             if(ptr->Eidolon>=4)    
-                Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK,[ptr,cph](
+                When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK,[ptr,cph](
                 shared_ptr<AllyAttackAction> &act){
                     for(auto &each : act->targetList){
                         if(each->getDebuff("Patron")){

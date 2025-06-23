@@ -80,6 +80,7 @@ void Basic_reset(){
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Hp%"][AT_NONE] += 3.888*2;
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Flat_Hp"][AT_NONE] += 76+705.6;
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Def%"][AT_NONE] += 4.86*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_FLAT_DEF][AT_NONE] += 38;
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 5+2.9*2;
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_CD][AT_NONE] += 50+5.8*2;
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] += 5.8*2;
@@ -157,8 +158,8 @@ void Basic_reset(){
             Enemy_unit[i]->Total_toughness_broken_time =0;
             Enemy_unit[i]->when_toughness_broken = 0;
             Enemy_unit[i]->breakDotList.clear();
-            Enemy_unit[i]->breakEngist.clear();
-            Enemy_unit[i]->breakFrzist.clear();
+            Enemy_unit[i]->breakEngList.clear();
+            Enemy_unit[i]->breakFrzList.clear();
             Enemy_unit[i]->breakImsList.clear();
             
             Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Fire][AT_NONE] = - Enemy_unit[i]->DefaultElementRes[ElementType::Fire];

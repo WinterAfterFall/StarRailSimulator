@@ -7,11 +7,8 @@ namespace Nihility_Lightcone{
             ptr->newEhrRequire(120);
 
             Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                for(auto &each : act->targetList){
-                    each->debuffSingleApply({{ST_DEF_SHRED,AT_NONE,14.0 + (superimpose * 2)}},ptr->getSubUnit(),"Bamboozle",2);
-                    each->debuffSingleApply({{ST_DEF_SHRED,AT_NONE,7.0 + superimpose}},ptr->getSubUnit(),"Theft",2);
-                }
-
+                debuffAllEnemyApply({{ST_DEF_SHRED,AT_NONE,14.0 + (superimpose * 2)}},ptr->getSubUnit(),"Bamboozle",2);
+                debuffAllEnemyApply({{ST_DEF_SHRED,AT_NONE,7.0 + superimpose}},ptr->getSubUnit(),"Theft",2);
             }));
 
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {

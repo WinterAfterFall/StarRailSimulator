@@ -15,6 +15,13 @@ class AllyActionData : public ActionData, public std::enable_shared_from_this<Al
     
     #pragma region getMethod
 
+    Ally* getAlly(){
+        return Attacker->ptrToChar;
+    }
+    SubUnit* getSubUnit(){
+        return Attacker;
+    }
+
     string getActionType(){
         return actionTypeList[0];
     }
