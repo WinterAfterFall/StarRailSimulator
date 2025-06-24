@@ -11,7 +11,7 @@ namespace Relic{
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (ptr->Sub_Unit_ptr.size() > 1 && ptr->Sub_Unit_ptr[0]->Buff_check["Hero_Wreath"] == 0) {
                 for (int i = 1; i < ptr->Sub_Unit_ptr.size(); i++) {
-                    if (ptr->Sub_Unit_ptr[i]->Atv_stats->baseSpeed != -1) {
+                    if (!ptr->Sub_Unit_ptr[i]->isDeath()) {
                         ptr->Sub_Unit_ptr[0]->Buff_check["Hero_Wreath"] = 1;
                         ptr->Sub_Unit_ptr[0]->buffSingle({{ST_SPD,ST_SPD_P,6}});
                         break;

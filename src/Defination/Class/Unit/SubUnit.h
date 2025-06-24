@@ -34,6 +34,7 @@ public:
 #pragma region AdjustStats
     double Unit_Speed_Ratio = 0;
     double Unit_Hp_Ratio = 0 ;
+    double fixHP = 0;
 #pragma endregion
 
 #pragma region Record Buff Value
@@ -187,6 +188,12 @@ public:
 
     
     #pragma region Declaration
+    
+    void summon(double percent){
+        this->status = UnitStatus::Alive;
+        this->currentHP = percent/100*this->totalHP;
+        this->resetATV();
+    }
     
 
 

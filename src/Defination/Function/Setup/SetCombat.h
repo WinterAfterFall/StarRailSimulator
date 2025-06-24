@@ -4,7 +4,6 @@ void Setup(){
     if(Driver_num)Driver_Type = "Double_turn";
     
     sort(Reset_List.begin(), Reset_List.end(), TriggerFunc::Trigger_cmp);
-    sort(Setup_Memo_List.begin(), Setup_Memo_List.end(), TriggerFunc::Trigger_cmp);
     sort(When_Combat_List.begin(), When_Combat_List.end(), TriggerFunc::Trigger_cmp);
     sort(Tune_stats_List.begin(), Tune_stats_List.end(), TriggerFunc::Trigger_cmp);
     sort(Start_game_List.begin(), Start_game_List.end(), TriggerFunc::Trigger_cmp);
@@ -90,9 +89,6 @@ void Reset(){
     }
     
     Memosprite_reset();
-    for(TriggerByYourSelf_Func &e : Setup_Memo_List){
-        e.Call();
-    }
     for(TriggerByYourSelf_Func &e : When_Combat_List){
         e.Call();
     }

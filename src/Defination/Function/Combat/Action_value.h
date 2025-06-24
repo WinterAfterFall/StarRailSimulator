@@ -11,6 +11,7 @@ bool compareActionValueStats(ActionValueStats* a, ActionValueStats* b) {
     return a->atv > b->atv; // Sort by `atv` in descending order
 }
 void Update_Max_atv(ActionValueStats *ptr) {
+    if(ptr->ptrToChar->isDeath())return;
     if(ptr->baseSpeed<=0){
         ptr->Max_atv = 1e6;
         return;
@@ -61,9 +62,7 @@ void All_atv_reset() {
 }
 void Action_forward(ActionValueStats *ptr,double fwd) {
     if(ptr->baseSpeed<=0)return;
-    if(ptr->num==0){
-        return ;
-    }
+    if(ptr->ptrToChar->isDeath())return;
     if (ptr->atv <= ptr->Max_atv*fwd/100 ) {
         ptr->atv = 0;
         ptr->priority = ++Turn_priority;
@@ -92,6 +91,7 @@ void Find_turn(){
     mx.first = 1e9;
     mx.second = 0;
     for(int i=1;i<=Total_enemy;i++){
+        if(Enemy_unit[i]->isDeath())continue;
         if(mx.first > Enemy_unit[i]->Atv_stats->atv){
             mx.first = Enemy_unit[i]->Atv_stats->atv;
             mx.second = Enemy_unit[i]->Atv_stats->priority;
@@ -107,22 +107,24 @@ void Find_turn(){
     }
     for(int i=1;i<=Total_ally;i++){
         for(int j=0,sz = Ally_unit[i]->Summon_ptr.size();j<sz;j++){ 
-        if(mx.first >Ally_unit[i]->Summon_ptr[j]->Atv_stats->atv){
-            mx.first = Ally_unit[i]->Summon_ptr[j]->Atv_stats->atv;
-            mx.second = Ally_unit[i]->Summon_ptr[j]->Atv_stats->priority;
-            turn = Ally_unit[i]->Summon_ptr[j]->Atv_stats.get();
-            continue;
-        }
-        if(mx.first == Ally_unit[i]->Summon_ptr[j]->Atv_stats->atv){
-            if(mx.second<Ally_unit[i]->Summon_ptr[j]->Atv_stats->priority){
+            if(Ally_unit[i]->Summon_ptr[j]->isDeath())continue;
+            if(mx.first >Ally_unit[i]->Summon_ptr[j]->Atv_stats->atv){
+                mx.first = Ally_unit[i]->Summon_ptr[j]->Atv_stats->atv;
                 mx.second = Ally_unit[i]->Summon_ptr[j]->Atv_stats->priority;
-            turn = Ally_unit[i]->Summon_ptr[j]->Atv_stats.get();
+                turn = Ally_unit[i]->Summon_ptr[j]->Atv_stats.get();
+                continue;
+            }
+            if(mx.first == Ally_unit[i]->Summon_ptr[j]->Atv_stats->atv){
+                if(mx.second<Ally_unit[i]->Summon_ptr[j]->Atv_stats->priority){
+                    mx.second = Ally_unit[i]->Summon_ptr[j]->Atv_stats->priority;
+                turn = Ally_unit[i]->Summon_ptr[j]->Atv_stats.get();
+                }
             }
         }
     }
-    }
     for(int i=1;i<=Total_ally;i++){
         for(int j=0,sz = Ally_unit[i]->Countdown_ptr.size();j<sz;j++){ 
+            if(Ally_unit[i]->Countdown_ptr[j]->isDeath())continue;
         if(mx.first >Ally_unit[i]->Countdown_ptr[j]->Atv_stats->atv){
             mx.first = Ally_unit[i]->Countdown_ptr[j]->Atv_stats->atv;
             mx.second = Ally_unit[i]->Countdown_ptr[j]->Atv_stats->priority;
@@ -139,6 +141,7 @@ void Find_turn(){
     }
     for(int i=1;i<=Total_ally;i++){
         for(int j=0,sz = Ally_unit[i]->Sub_Unit_ptr.size();j<sz;j++){ 
+            if(Ally_unit[i]->Sub_Unit_ptr[j]->isDeath())continue;
         if(mx.first >Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->atv){
             mx.first = Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->atv;
             mx.second = Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->priority;
@@ -156,20 +159,24 @@ void Find_turn(){
 }
 void Atv_fix(double Atv_reduce){
     for(int i=1;i<=Total_enemy;i++){
+        if(Enemy_unit[i]->isDeath())continue;;
         Enemy_unit[i]->Atv_stats->atv -= Atv_reduce;
     }
     for(int i=1;i<=Total_ally;i++){
         for(int j=0,sz = Ally_unit[i]->Summon_ptr.size();j<sz;j++){
+        if(Ally_unit[i]->Summon_ptr[j]->isDeath())continue;
         Ally_unit[i]->Summon_ptr[j]->Atv_stats->atv -= Atv_reduce;
         }
     }
     for(int i=1;i<=Total_ally;i++){
         for(int j=0,sz = Ally_unit[i]->Countdown_ptr.size();j<sz;j++){
+        if(Ally_unit[i]->Countdown_ptr[j]->isDeath())continue;
         Ally_unit[i]->Countdown_ptr[j]->Atv_stats->atv -= Atv_reduce;
         }
     }
     for(int i=1;i<=Total_ally;i++){
         for(int j=0,sz = Ally_unit[i]->Sub_Unit_ptr.size();j<sz;j++){
+        if(Ally_unit[i]->Sub_Unit_ptr[j]->isDeath())continue;
         Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->atv -= Atv_reduce;
         }
     }

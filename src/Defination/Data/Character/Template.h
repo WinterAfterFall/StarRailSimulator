@@ -67,11 +67,6 @@ namespace TemplateName{
             
         }));
 
-        Setup_Memo_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[1]->Stats_type["Flat_Hp"][AT_NONE] += 720;
-            ptr->Sub_Unit_ptr[1]->Atv_stats->baseSpeed = -1;
-            ptr->Sub_Unit_ptr[1]->currentHP = 0;
-        }));
 
 
 

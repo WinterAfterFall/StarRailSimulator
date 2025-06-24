@@ -16,6 +16,11 @@ enum class ActionType {
     Entanglement,
     Freeze
 };
+enum class UnitStatus{
+    Alive,
+    Death,
+    Retire
+};
 
 #pragma region ElementType
 enum class ElementType {

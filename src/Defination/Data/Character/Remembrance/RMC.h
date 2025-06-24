@@ -16,7 +16,7 @@ namespace RMC{
         LC(ptr);
         Relic(ptr);
         Planar(ptr);
-        SetMemoStats(ptr,68,0,ElementType::Ice,"Mem",TYPE_STD);
+        SetMemoStats(ptr,688,68,130,0,ElementType::Ice,"Mem",TYPE_STD);
         
         SubUnit *RMCptr = ptr->getSubUnit();
         SubUnit *Memptr = ptr->getSubUnit(1);
@@ -96,13 +96,6 @@ namespace RMC{
             }
         }));
 
-
-        Setup_Memo_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
-            ptr->Sub_Unit_ptr[1]->Stats_type["Flat_Hp"][AT_NONE] += 688;
-            ptr->Sub_Unit_ptr[1]->Atv_stats->baseSpeed = -1;
-            ptr->Sub_Unit_ptr[1]->currentHP = 0;
-        }));
-
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
             if (ptr->Technique == 1) {
                 for (int i = 1; i <= Total_enemy; i++) {
@@ -157,7 +150,6 @@ namespace RMC{
         }));
 
         When_Energy_Increase_List.push_back(TriggerEnergy_Increase_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr](Ally *target, double Energy) {
-            if (ptr->Sub_Unit_ptr[1]->Atv_stats->baseSpeed == -1) return;
             if(Energy==0){
                 Increase_Charge(ptr,3);
                 return;
@@ -185,7 +177,7 @@ namespace RMC{
 
 
     void Increase_Charge(Ally *ptr,double charge){
-        if(ptr->Sub_Unit_ptr[1]->Atv_stats->baseSpeed==-1)return;
+        if(!ptr->Sub_Unit_ptr[1]->isUseable())return;
         ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Charge"]+=charge;
         if(ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Charge"]>=100){
             ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Charge"]= 0;
@@ -212,8 +204,8 @@ namespace RMC{
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
-            if(ptr->Sub_Unit_ptr[1]->currentHP == 0){
-                ptr->Sub_Unit_ptr[1]->currentHP = ptr->Sub_Unit_ptr[1]->totalHP;
+            if(ptr->Sub_Unit_ptr[1]->isDeath()){
+                ptr->Sub_Unit_ptr[1]->summon(100);
                 ptr->Sub_Unit_ptr[1]->resetATV(130);
                 Increase_Charge(ptr,90);
             }   

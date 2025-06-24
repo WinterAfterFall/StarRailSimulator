@@ -14,6 +14,8 @@ public:
     Common_stats_each_element Stats_each_element;//Ice Quantum
     Common_stats_type Stats_type;// Atk% Flat_Atk Def% Dmg% Crit_rate Crit_dam Def_shred Respen Vul Break_effect Weakness_Break_Efficiency HealingBonus 
     // Constructor to initialize Atv_stats and set ptrToChar to 'this'
+
+    UnitStatus status;
     Unit() {
         Atv_stats = make_unique<ActionValueStats>();  // Create Atv_stats in Unit
         Atv_stats->ptrToChar = this;  // Set ptrToChar to this object (Unit, Ally, or Enemy)
@@ -123,10 +125,6 @@ public:
 #pragma endregion
 #pragma endregion
 
-#pragma region Set Method
-
-#pragma endregion
-    
 #pragma region Check Method
     bool isSameChar(Unit *ptr){
         if(this->Atv_stats->Char_Name== ptr->Atv_stats->Char_Name)return true;
@@ -152,6 +150,15 @@ public:
         if(this->Atv_stats->num == num)return true;
         return false;
     }
+    bool isUseable(){
+        if(this->status == UnitStatus::Alive)return true;
+        return false;
+    }
+    bool isDeath(){
+        if(this->status == UnitStatus::Death)return true;
+        return false;
+    }
+
 #pragma endregion
     SubUnit* canCastToSubUnit();
     Enemy* canCastToEnemy();

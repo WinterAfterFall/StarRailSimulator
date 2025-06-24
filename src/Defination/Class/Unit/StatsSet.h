@@ -25,14 +25,15 @@ Ally* SetAllyBasicStats(double BaseSpeed,double Max_Energy,double Ult_cost,int E
         Ally_unit[num]->Sub_Unit_ptr[0]->baseTaunt = tauntValueEachPath[Ally_unit[num]->Path[0]];
         return Ally_unit[num].get();
 }
-void SetMemoStats(Ally *ptr,double Hp_ratio,double Speed_ratio,ElementType Element_type,string Name,string UnitType){
+void SetMemoStats(Ally *ptr,double fixHP,double Hp_ratio,double fixSpeed,double Speed_ratio,ElementType Element_type,string Name,string UnitType){
         int num = ptr->Sub_Unit_ptr.size();
         int Num = ptr->Sub_Unit_ptr[0]->Atv_stats->num;
         
         ptr->Sub_Unit_ptr.push_back(make_unique<SubUnit>());
         ptr->Sub_Unit_ptr[num]->Unit_Hp_Ratio = Hp_ratio;
         ptr->Sub_Unit_ptr[num]->Unit_Speed_Ratio = Speed_ratio;
-        ptr->Sub_Unit_ptr[num]->Atv_stats->baseSpeed = -1;
+        ptr->Sub_Unit_ptr[num]->Atv_stats->baseSpeed = fixSpeed + Speed_ratio/100 * ptr->getSubUnit()->Atv_stats->baseSpeed;
+        ptr->Sub_Unit_ptr[num]->fixHP =  fixHP;
         ptr->Sub_Unit_ptr[num]->baseAtk = ptr->Sub_Unit_ptr[0]->baseAtk;
         ptr->Sub_Unit_ptr[num]->baseHp = ptr->Sub_Unit_ptr[0]->baseHp*(ptr->Sub_Unit_ptr[num]->Unit_Hp_Ratio/100);
         ptr->Sub_Unit_ptr[num]->baseDef = ptr->Sub_Unit_ptr[0]->baseDef;

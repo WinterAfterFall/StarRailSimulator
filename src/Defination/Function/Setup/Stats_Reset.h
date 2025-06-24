@@ -34,6 +34,8 @@ void Basic_reset(){
             Ally_unit[i]->Sub_Unit_ptr[0]->tauntMtpr = 100;
             Ally_unit[i]->Sub_Unit_ptr[0]->taunt = Ally_unit[i]->Sub_Unit_ptr[0]->baseTaunt;
             Ally_unit[i]->Sub_Unit_ptr[0]->currentSheild = 0;
+            Ally_unit[i]->Sub_Unit_ptr[0]->status = UnitStatus::Alive;
+
             
             for(auto &e:Ally_unit[i]->Sub_Unit_ptr[0]->Stack){
                 e.second = 0;
@@ -98,6 +100,7 @@ void Basic_reset(){
             Ally_unit[i]->Rope(Ally_unit[i].get());
             Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Ehr"][AT_NONE] += Ally_unit[i]->ExtraEhr;
             Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += Ally_unit[i]->ExtraSpeed;
+            
     }
 
 
@@ -132,6 +135,8 @@ void Basic_reset(){
             Enemy_unit[i]->atkPercent = 0;
             Enemy_unit[i]->dmgPercent = 0;
             Enemy_unit[i]->AoeCharge = 0;
+            Enemy_unit[i]->status = UnitStatus::Alive;
+
             for(auto &e: Enemy_unit[i]->AttackCoolDown){
                 e.second = 0;
             }
@@ -214,6 +219,7 @@ void Memosprite_reset(){
             for(auto &e :Ally_unit[i]->Sub_Unit_ptr[j]->Stats_type["Flat_Hp"]){    
                 e.second *=(Ally_unit[i]->Sub_Unit_ptr[j]->Unit_Hp_Ratio/100);
             }
+            Ally_unit[i]->Sub_Unit_ptr[j]->Stats_type["Flat_Hp"][AT_NONE] += Ally_unit[i]->Sub_Unit_ptr[j]->fixHP;
         //speed
         
             for(auto &e:Ally_unit[i]->Sub_Unit_ptr[j]->Stack){
@@ -239,6 +245,8 @@ void Memosprite_reset(){
         Ally_unit[i]->Sub_Unit_ptr[j]->currentAllyTargetNum = Ally_unit[i]->Sub_Unit_ptr[j]->defaultAllyTargetNum;
         Ally_unit[i]->Sub_Unit_ptr[j]->currentSubUnitTargetNum = Ally_unit[i]->Sub_Unit_ptr[j]->defaultSubUnitTargetNum;
         Ally_unit[i]->Sub_Unit_ptr[j]->currentSheild = 0;
+        Ally_unit[i]->Sub_Unit_ptr[j]->currentHP = 0;
+        Ally_unit[i]->Sub_Unit_ptr[j]->status = UnitStatus::Death;
 
         }
         
@@ -253,10 +261,8 @@ void Summon_reset(){
         Ally_unit[i]->Summon_ptr[j]->Atv_stats->flatSpeed=0;
         Ally_unit[i]->Summon_ptr[j]->Atv_stats->turnCnt = 0;
         Ally_unit[i]->Summon_ptr[j]->Atv_stats->priority = 0;
+        Ally_unit[i]->Summon_ptr[j]->status = UnitStatus::Alive;
 
-        
-        
-        
         }
     }
 }
@@ -270,6 +276,7 @@ void Countdown_reset(){
         Ally_unit[i]->Countdown_ptr[j]->Atv_stats->turnCnt = 0;
         Ally_unit[i]->Countdown_ptr[j]->Atv_stats->priority = 0;
         Ally_unit[i]->Countdown_ptr[j]->Atv_stats->baseSpeed = -1;
+        Ally_unit[i]->Countdown_ptr[j]->status = UnitStatus::Death;
         }
     }
 }

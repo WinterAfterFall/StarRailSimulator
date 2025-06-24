@@ -78,7 +78,7 @@ namespace Sunday{
                 ptr->setBuffAllyTarget("Ode_to_Caress_and_Cicatrix",chooseCharacterBuff(ptr->getSubUnit()));
                 ptr->getSubUnit()->setBuffNote("Ode_to_Caress_and_Cicatrix",calculateCritdamForBuff(ptr->Sub_Unit_ptr[0].get(), 30) + 12);
                 for(unique_ptr<SubUnit> &each : ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->Sub_Unit_ptr){
-                    if(each->currentHP==0)continue;
+                    if(!each->isUseable())continue;
                     each->setBuffCheck("Ode_to_Caress_and_Cicatrix",true);
                     each->buffSingle({{ST_CD, AT_TEMP, SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
                     each->buffSingle({{ST_CD, AT_NONE, SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});

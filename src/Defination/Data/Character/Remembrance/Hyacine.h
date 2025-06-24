@@ -18,7 +18,7 @@ namespace Hyacine{
         LC(ptr);
         Relic(ptr);
         Planar(ptr);
-        SetMemoStats(ptr,50,0,ElementType::Wind,"Little Ica",TYPE_STD);
+        SetMemoStats(ptr,0,50,0,0,ElementType::Wind,"Little Ica",TYPE_STD);
         
         SubUnit *Hycptr = ptr->getSubUnit();
         SubUnit *Icaptr = ptr->getSubUnit(1);
@@ -35,7 +35,7 @@ namespace Hyacine{
         //func
         
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,Hycptr,Icaptr](){
-            if(sp>Sp_Safety||Icaptr->currentHP==0){
+            if(sp>Sp_Safety||Icaptr->isDeath()){
                 Skill(ptr);
             }else{
                 Basic_Atk(ptr);
@@ -94,10 +94,6 @@ namespace Hyacine{
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 100;
         }));
 
-        Setup_Memo_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr]() {
-            ptr->Sub_Unit_ptr[1]->Atv_stats->baseSpeed = -1;
-            ptr->Sub_Unit_ptr[1]->currentHP = 0;
-        }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr]() {
             if(ptr->Technique){
@@ -345,8 +341,8 @@ namespace Hyacine{
     }
 
     void SummonIca(Ally *ptr){
-        if(ptr->Sub_Unit_ptr[1]->currentHP>0)return;
-        ptr->Sub_Unit_ptr[1]->currentHP = ptr->Sub_Unit_ptr[1]->totalHP;
+        if(!ptr->Sub_Unit_ptr[1]->isDeath())return;
+        ptr->Sub_Unit_ptr[1]->summon(100);
         if(ptr->Sub_Unit_ptr[1]->Buff_check["Ica First Summon"]==0){
             ptr->Sub_Unit_ptr[1]->Buff_check["Ica First Summon"]=1;
             Increase_energy(ptr,30);

@@ -18,7 +18,7 @@ namespace Aglaea{
         LC(ptr);
         Relic(ptr);
         Planar(ptr);
-        SetMemoStats(ptr,66,35,ElementType::Lightning,"Garmentmaker",TYPE_STD);
+        SetMemoStats(ptr,720,66,0,35,ElementType::Lightning,"Garmentmaker",TYPE_STD);
         SetCountdownStats(ptr,"Supreme_Stance");
 
         //substats
@@ -35,7 +35,7 @@ namespace Aglaea{
         //func
         
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
-            if (allyPtr->Atv_stats->baseSpeed == -1) {
+            if (ptr->getSubUnit(1)->isDeath()) {
                 Skill(ptr);
                 return;
             }
@@ -60,7 +60,7 @@ namespace Aglaea{
             shared_ptr<AllyBuffAction> act = 
             make_shared<AllyBuffAction>(ActionType::Ult,ptr->getSubUnit(),TT_SINGLE,"AG Ult",
             [ptr,AGptr](shared_ptr<AllyBuffAction> &act){
-                if (ptr->Sub_Unit_ptr[1]->Atv_stats->baseSpeed == -1) Summon(ptr);
+                if (ptr->Sub_Unit_ptr[1]->isDeath()) Summon(ptr);
 
                 if (ptr->Countdown_ptr[0]->Atv_stats->baseSpeed == -1) 
                 AGptr->buffSingle({{ST_SPD, ST_SPD_P, 15.0 * ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"]}});
@@ -86,23 +86,13 @@ namespace Aglaea{
             ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Lightning][AT_NONE] += 22.4;
         }));
 
-
-        Setup_Memo_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr]() {
-            ptr->Sub_Unit_ptr[1]->Stats_type["Flat_Hp"][AT_NONE] += 720;
-            ptr->Sub_Unit_ptr[1]->Atv_stats->baseSpeed = -1;
-            ptr->Sub_Unit_ptr[1]->currentHP = 0;
-        }));
-
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr]() {
             if (ptr->Technique == 1) {
                 shared_ptr<AllyAttackAction> act = 
                 make_shared<AllyAttackAction>(ActionType::Technique,ptr->getSubUnit(),TT_AOE,"AG Tech",
                 [ptr](shared_ptr<AllyAttackAction> &act){
                     Increase_energy(ptr, 30);
-                    ptr->Sub_Unit_ptr[1]->Atv_stats->baseSpeed = ptr->Sub_Unit_ptr[0]->Atv_stats->baseSpeed * 0.35;
-                    Update_Max_atv(ptr->Sub_Unit_ptr[1]->Atv_stats.get());
-                    resetTurn(ptr->Sub_Unit_ptr[1]->Atv_stats.get());
-                    Action_forward(ptr->Sub_Unit_ptr[1]->Atv_stats.get(), 100);
+                    Summon(ptr);
                     Attack(act);
                 });
                 act->addDamageIns(
@@ -252,7 +242,7 @@ namespace Aglaea{
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
-            if(ptr->Sub_Unit_ptr[1]->currentHP == 0){
+            if(ptr->Sub_Unit_ptr[1]->isDeath()){
                 Summon(ptr);
                 act->Turn_reset=false;
             }
@@ -262,11 +252,8 @@ namespace Aglaea{
         act->addToActionBar();
     }
     void Summon(Ally *ptr){
-        ptr->Sub_Unit_ptr[1]->Atv_stats->baseSpeed = ptr->Sub_Unit_ptr[0]->Atv_stats->baseSpeed*0.35;
-        Update_Max_atv(ptr->Sub_Unit_ptr[1]->Atv_stats.get());
-        resetTurn(ptr->Sub_Unit_ptr[1]->Atv_stats.get());
+        ptr->getSubUnit(1)->summon(100);
         Action_forward(ptr->Sub_Unit_ptr[1]->Atv_stats.get(),100);
-        ptr->Sub_Unit_ptr[1]->currentHP = ptr->Sub_Unit_ptr[1]->totalHP;
     }
     
 

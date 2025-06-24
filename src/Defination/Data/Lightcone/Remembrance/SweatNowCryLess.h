@@ -10,7 +10,7 @@ namespace Remembrance_Lightcone{
             }));
     
             Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                if (ptr->Sub_Unit_ptr[1]->Atv_stats->baseSpeed > 0 && ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("SweatNowCryLess")) {
+                if (!ptr->Sub_Unit_ptr[1]->isDeath()&& ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("SweatNowCryLess")) {
                     ptr->buffAlly({{ST_DMG, AT_NONE, 20.0 + superimpose * 4}});
                 }
             }));

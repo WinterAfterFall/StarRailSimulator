@@ -12,7 +12,7 @@ void SubUnit::RestoreHP(HealSrc main,HealSrc adjacent,HealSrc other){
     
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
-            if(Ally_unit[i]->Sub_Unit_ptr[j]->currentHP==0)continue;
+            if(!Ally_unit[i]->Sub_Unit_ptr[j]->isUseable())continue;
             pq.push(PointerWithValue(Ally_unit[i]->Sub_Unit_ptr[j].get(),calculateHPLost(Ally_unit[i]->Sub_Unit_ptr[j].get())));
             if(pq.size()>3){
                 double totalHeal = 0;
@@ -100,7 +100,7 @@ void SubUnit::RestoreHP(SubUnit *target,HealSrc main,HealSrc other){
 
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
-            if(Ally_unit[i]->Sub_Unit_ptr[j]->currentHP==0)continue;
+            if(!Ally_unit[i]->Sub_Unit_ptr[j]->isUseable())continue;
             double totalHeal = (target->Atv_stats->Unit_Name == Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->Unit_Name) ? 
             calculateHeal(main,this,Ally_unit[i]->Sub_Unit_ptr[j].get())
             :
@@ -119,7 +119,7 @@ void IncreaseCurrentHP(SubUnit *ptr,double Value){
     ptr->currentHP = (ptr->currentHP + Value > ptr->totalHP) ? ptr->totalHP : ptr->currentHP + Value;
 }
 void IncreaseHP(SubUnit *Healer,SubUnit *target,double Value){
-    if(Value==0||target->currentHP<=0)return;
+    if(Value==0||!target->isUseable())return;
     IncreaseCurrentHP(target,Value);
     allEventHeal(Healer,target,Value);
 }
@@ -131,7 +131,7 @@ void DecreaseHP(SubUnit *target,Unit *Trigger,double Value,double percentFromTot
     decreaseHPCount++;
 
     double Total = Value;
-    if(target->currentHP<=0)return;
+    if(!target->isUseable())return;
     Total += (percentFromTotalHP/100.0*target->totalHP);
     Total += (percentFromCurrentHP/100.0*target->currentHP);
     DecreaseCurrentHP(target,Total);
@@ -145,7 +145,7 @@ void DecreaseHP(Unit *Trigger,double Value,double percentFromTotalHP,double perc
     for (int i = 1; i <= Total_ally; ++i) {
         for (unique_ptr<SubUnit> &subUnit : Ally_unit[i]->Sub_Unit_ptr) {
             double Total = Value;
-            if(subUnit->currentHP<=0)return;
+            if(!subUnit->isUseable())return;
             Total += (percentFromTotalHP/100.0*subUnit->totalHP);
             Total += (percentFromCurrentHP/100.0*subUnit->currentHP);
             DecreaseCurrentHP(subUnit.get(),Total);
@@ -158,7 +158,7 @@ void DecreaseHP(Unit *Trigger,vector<SubUnit*> target,double Value,double percen
     decreaseHPCount++;
     for (SubUnit* &subUnit : target) {
         double Total = Value;
-        if(subUnit->currentHP<=0)return;
+        if(!subUnit->isUseable())return;
         Total += (percentFromTotalHP/100.0*subUnit->totalHP);
         Total += (percentFromCurrentHP/100.0*subUnit->currentHP);
         DecreaseCurrentHP(subUnit,Total);
@@ -173,7 +173,7 @@ void DecreaseHP(Unit *Trigger,string Name,double Value,double percentFromTotalHP
         for (unique_ptr<SubUnit> &subUnit : Ally_unit[i]->Sub_Unit_ptr) {
             if(subUnit->isSameCharName(Name))continue;
             double Total = Value;
-            if(subUnit->currentHP<=0)return;
+            if(!subUnit->isUseable())return;
             Total += (percentFromTotalHP/100.0*subUnit->totalHP);
             Total += (percentFromCurrentHP/100.0*subUnit->currentHP);
             DecreaseCurrentHP(subUnit.get(),Total);
@@ -184,8 +184,6 @@ void DecreaseHP(Unit *Trigger,string Name,double Value,double percentFromTotalHP
 }
 void SubUnit::Death(){
     this->currentHP = 0;
-    this->Atv_stats->baseSpeed=-1;
-    Update_Max_atv(this->Atv_stats.get());
-    resetTurn(this->Atv_stats.get());
+    this->status = UnitStatus::Death;
     allEventWhenAllyDeath(this);
 }

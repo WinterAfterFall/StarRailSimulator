@@ -11,10 +11,6 @@ void AtkAdjust(SubUnit *ptr){
 }
 void HpAdjust(SubUnit *ptr){
     double temp = calculateHpOnStats(ptr);
-    if(ptr->currentHP==0){
-        ptr->totalHP = temp;
-        return;
-    }
     if(temp<ptr->currentHP){
         ptr->currentHP = (ptr->currentHP > temp) ? temp : ptr->currentHP;
     }else{
