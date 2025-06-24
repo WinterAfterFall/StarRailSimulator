@@ -52,11 +52,11 @@ namespace Robin{
                 if(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats->atv < chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats->Max_atv*0.5 )return;
             }
             if(Ult_Condition(ptr))return;
-            if(ptr->Countdown_ptr[0]->Atv_stats->baseSpeed != 90 && ptr->Sub_Unit_ptr[0]->Buff_countdown["Pinion'sAria"] > ptr->Sub_Unit_ptr[0]->Atv_stats->turnCnt && ultUseCheck(ptr)){
+            if(ptr->Countdown_ptr[0]->isDeath() && ptr->Sub_Unit_ptr[0]->Buff_countdown["Pinion'sAria"] > ptr->Sub_Unit_ptr[0]->Atv_stats->turnCnt && ultUseCheck(ptr)){
                 shared_ptr<AllyBuffAction> act = 
                 make_shared<AllyBuffAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"RB Ult",
                 [ptr,Robinptr](shared_ptr<AllyBuffAction> &act){
-                    ptr->Countdown_ptr[0]->Atv_stats->baseSpeed = 90;
+                    ptr->Countdown_ptr[0]->summon();
                     ptr->Sub_Unit_ptr[0]->Atv_stats->baseSpeed = -1;
                     Update_Max_atv(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
                     Update_Max_atv(ptr->Countdown_ptr[0]->Atv_stats.get());
@@ -87,7 +87,6 @@ namespace Robin{
             ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 5;
             // relic
             // substats
-            ptr->Countdown_ptr[0]->Atv_stats->baseSpeed = -1;
             ptr->Sub_Unit_ptr[0]->Atv_stats->baseSpeed = 102;
             return;
         }));
@@ -117,7 +116,7 @@ namespace Robin{
             if(ptr->Eidolon >= 2){
                 Increase_energy(ptr, 1);
             }
-            if(ptr->Countdown_ptr[0]->Atv_stats->baseSpeed == 90){
+            if(!ptr->Countdown_ptr[0]->isDeath()){
                 shared_ptr<AllyAttackAction> newAct = 
                 make_shared<AllyAttackAction>(ActionType::Addtional,ptr->getSubUnit(),TT_SINGLE,"RB AddDmg");
                 double x1 = 0, x2 = 0;
@@ -139,7 +138,7 @@ namespace Robin{
 
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTTACK, [ptr](SubUnit *target, string StatsType){
             if(target->Atv_stats->Unit_Name != "Robin")return;
-            if(ptr->Countdown_ptr[0]->Atv_stats->baseSpeed != 90)return;
+            if(ptr->Countdown_ptr[0]->isDeath())return;
             if(StatsType == "Atk%" || StatsType == "Flat_Atk"){
                 double buffValue = calculateAtkForBuff(ptr->Sub_Unit_ptr[0].get(), 22.8) + 200;
                 buffAllAlly({{"Flat_Atk", AT_TEMP, buffValue - ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]}});
@@ -150,10 +149,10 @@ namespace Robin{
 
 
         // countdown
-        SetCountdownStats(ptr, "Concerto_state");
+        SetCountdownStats(ptr,90, "Concerto_state");
         ptr->Countdown_ptr[0]->Turn_func = [ptr,Robinptr](){
-            if( ptr->Countdown_ptr[0]->Atv_stats->baseSpeed == 90){
-                ptr->Countdown_ptr[0]->Atv_stats->baseSpeed = -1;
+            if( !ptr->Countdown_ptr[0]->isDeath()){
+                ptr->Countdown_ptr[0]->death();
                 ptr->Sub_Unit_ptr[0]->Atv_stats->baseSpeed = 102;
                 Update_Max_atv(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
                 Update_Max_atv(ptr->Countdown_ptr[0]->Atv_stats.get());

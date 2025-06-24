@@ -163,6 +163,14 @@ public:
     SubUnit* canCastToSubUnit();
     Enemy* canCastToEnemy();
     
+    void summon(){
+        this->status = UnitStatus::Alive;
+        this->resetATV();
+    }
+    void death(){
+        this->status = UnitStatus::Death;
+    }
+    
     virtual ~Unit() {}  // Virtual destructor to ensure proper cleanup of derived classes
 };
 #pragma region ATV get/set

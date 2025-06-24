@@ -19,7 +19,7 @@ namespace Aglaea{
         Relic(ptr);
         Planar(ptr);
         SetMemoStats(ptr,720,66,0,35,ElementType::Lightning,"Garmentmaker",TYPE_STD);
-        SetCountdownStats(ptr,"Supreme_Stance");
+        SetCountdownStats(ptr,100,"Supreme_Stance");
 
         //substats
         ptr->pushSubstats(ST_CD);
@@ -40,14 +40,14 @@ namespace Aglaea{
                 return;
             }
 
-            if (ptr->Countdown_ptr[0]->Atv_stats->baseSpeed != -1) {
-                Enchance_Basic_Atk(ptr);
-            } else {
+            if (ptr->Countdown_ptr[0]->isDeath()) {
                 Basic_Atk(ptr);
+            } else {
+                Enchance_Basic_Atk(ptr);
             }
         };
         ptr->addUltCondition([ptr,AGptr]() -> bool {
-            if (ptr->Countdown_ptr[0]->Atv_stats->baseSpeed != -1 && 
+            if (ptr->Countdown_ptr[0]->isDeath() && 
                 (ptr->Countdown_ptr[0]->Atv_stats->atv > ptr->Sub_Unit_ptr[0]->Atv_stats->atv && 
                 (ptr->Sub_Unit_ptr[0]->Atv_stats->atv != ptr->Sub_Unit_ptr[0]->Atv_stats->Max_atv))) return false;
             if (ptr->Sub_Unit_ptr[1]->Atv_stats->atv == 0 || ptr->Sub_Unit_ptr[0]->Atv_stats->atv == 0) return false;
@@ -62,11 +62,11 @@ namespace Aglaea{
             [ptr,AGptr](shared_ptr<AllyBuffAction> &act){
                 if (ptr->Sub_Unit_ptr[1]->isDeath()) Summon(ptr);
 
-                if (ptr->Countdown_ptr[0]->Atv_stats->baseSpeed == -1) 
+                if (ptr->Countdown_ptr[0]->isDeath()) 
                 AGptr->buffSingle({{ST_SPD, ST_SPD_P, 15.0 * ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"]}});
                 
                 Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
-                ptr->Countdown_ptr[0]->resetATV(100);
+                ptr->Countdown_ptr[0]->summon();
                 double BuffValue = calculateSpeedForBuff(ptr->Sub_Unit_ptr[0].get(), 360) + 
                 calculateSpeedForBuff(ptr->Sub_Unit_ptr[1].get(), 720);
 
@@ -110,7 +110,7 @@ namespace Aglaea{
                 if (act->Attacker->Stack["Brewed_by_Tears"] < 6) {
                     act->Attacker->buffSingle({{ST_SPD, ST_FLAT_SPD, 55.0}});
                     act->Attacker->Stack["Brewed_by_Tears"]++;
-                    if (ptr->Countdown_ptr[0]->Atv_stats->baseSpeed != -1) {
+                    if (!ptr->Countdown_ptr[0]->isDeath()) {
                         AGptr->buffSingle({{ST_SPD, ST_SPD_P, 15.0}});
                     }
                 }
@@ -155,7 +155,7 @@ namespace Aglaea{
 
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,AGptr](SubUnit *target, string StatsType) {
             if (target->Atv_stats->Unit_Name != "Aglaea") return;
-            if (ptr->Countdown_ptr[0]->Atv_stats->baseSpeed == -1) return;
+            if (ptr->Countdown_ptr[0]->isDeath()) return;
             if (StatsType == "Speed") {
                 // adjust
                 double BuffValue = calculateSpeedForBuff(ptr->Sub_Unit_ptr[0].get(), 360) + 
@@ -178,7 +178,7 @@ namespace Aglaea{
         ptr->Countdown_ptr[0]->Turn_func = [ptr,AGptr](){
             AGptr->buffSingle({{ST_SPD, ST_SPD_P, -15.0 * ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"]}});
             
-            ptr->Countdown_ptr[0]->resetATV(-1);
+            ptr->Countdown_ptr[0]->death();
             
             ptr->buffAlly({{ST_FLAT_ATK, AT_TEMP,-ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]}});
             ptr->buffAlly({{ST_FLAT_ATK, AT_NONE,-ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]}});

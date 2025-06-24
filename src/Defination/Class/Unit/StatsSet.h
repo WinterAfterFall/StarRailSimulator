@@ -48,12 +48,12 @@ void SetMemoStats(Ally *ptr,double fixHP,double Hp_ratio,double fixSpeed,double 
         ptr->Sub_Unit_ptr[num]->baseTaunt = tauntValueEachPath[ptr->Path[0]];
 
 }
-void SetCountdownStats(Ally *ptr,string Name){
+void SetCountdownStats(Ally *ptr,double BaseSpeed,string Name){
         int num = ptr->Countdown_ptr.size();
         int Num = ptr->Sub_Unit_ptr[0]->Atv_stats->num;
 
         ptr->Countdown_ptr.push_back(make_unique<SubUnit>());
-        ptr->Countdown_ptr[num]->Atv_stats->baseSpeed = -1;
+        ptr->Countdown_ptr[num]->Atv_stats->baseSpeed = BaseSpeed;
         ptr->Countdown_ptr[num]->Atv_stats->num = Num;
         ptr->Countdown_ptr[num]->Atv_stats->Char_Name = Name;
         ptr->Countdown_ptr[num]->Atv_stats->Unit_Name = Name;

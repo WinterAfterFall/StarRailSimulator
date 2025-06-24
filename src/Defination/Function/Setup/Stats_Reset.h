@@ -275,7 +275,6 @@ void Countdown_reset(){
         Ally_unit[i]->Countdown_ptr[j]->Atv_stats->flatSpeed=0;
         Ally_unit[i]->Countdown_ptr[j]->Atv_stats->turnCnt = 0;
         Ally_unit[i]->Countdown_ptr[j]->Atv_stats->priority = 0;
-        Ally_unit[i]->Countdown_ptr[j]->Atv_stats->baseSpeed = -1;
         Ally_unit[i]->Countdown_ptr[j]->status = UnitStatus::Death;
         }
     }

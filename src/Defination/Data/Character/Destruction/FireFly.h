@@ -24,7 +24,7 @@ namespace FireFly{
         
 
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr] (){
-            if(ptr->Countdown_ptr[0]->Atv_stats->baseSpeed==-1){
+            if(ptr->Countdown_ptr[0]->isDeath()){
                 Skill_func(ptr);
             }else {
                 Enchance_Skill_func(ptr);
@@ -43,7 +43,6 @@ namespace FireFly{
             if (ptr->Eidolon >= 1) {
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_SHRED][AT_NONE] += 15;
             }
-            ptr->Countdown_ptr[0]->Atv_stats->baseSpeed = -1;
             if (ptr->Eidolon >= 2) {
             ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"] = 2;
             }
@@ -58,7 +57,7 @@ namespace FireFly{
                     {ST_VUL,AT_NONE,20},
                 });
             Action_forward(FFptr->Atv_stats.get(), 100);
-            ptr->Countdown_ptr[0]->resetATV(70);
+            ptr->Countdown_ptr[0]->summon();
             if (ptr->Print)CharCmd::printUltStart("FireFly");
             }
         ));
@@ -81,7 +80,7 @@ namespace FireFly{
         }));
 
         Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr] (Enemy *target, SubUnit *Breaker) {
-            if (ptr->Eidolon >= 2 && ptr->Sub_Unit_ptr[0]->Atv_stats->num == Breaker->Atv_stats->num && ptr->Countdown_ptr[0]->Atv_stats->baseSpeed == 70) {
+            if (ptr->Eidolon >= 2 && ptr->Sub_Unit_ptr[0]->Atv_stats->num == Breaker->Atv_stats->num && !ptr->Countdown_ptr[0]->isDeath()) {
                 ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"]++;
             }
             }
@@ -109,7 +108,7 @@ namespace FireFly{
         
         After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr]( shared_ptr<AllyAttackAction> &act ) {
 
-            if (ptr->Eidolon >= 2 && ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"] > 0 && ptr->Countdown_ptr[0]->Atv_stats->baseSpeed == 70) {
+            if (ptr->Eidolon >= 2 && ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"] > 0 && !ptr->Countdown_ptr[0]->isDeath()) {
             ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"]--;
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
             }
@@ -125,7 +124,7 @@ namespace FireFly{
         
 
         //countdown
-        SetCountdownStats(ptr, "Combustion_state");
+        SetCountdownStats(ptr,70, "Combustion_state");
         ptr->Countdown_ptr[0]->Turn_func = [ptr,FFptr](){
 
 
@@ -136,7 +135,7 @@ namespace FireFly{
                     {ST_BREAK_EFF,AT_NONE,-50},
                     {ST_VUL,AT_NONE,-20},
                 });
-            ptr->Countdown_ptr[0]->resetATV(-1);
+            ptr->Countdown_ptr[0]->death();
         };
     }
     
