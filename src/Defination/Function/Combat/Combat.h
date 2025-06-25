@@ -5,7 +5,7 @@ void Take_action(){
     ++(turn->turnCnt);
     Ult_After_Turn = 0;
     After_Turn_Check = 0;
-    allEventBeforeTurn();
+    if(!turn->extraTurn)allEventBeforeTurn();
     allUltimateCheck();
     
     Print();
@@ -24,8 +24,7 @@ void Take_action(){
     allUltimateCheck();
     After_Turn_Check = 1;
     
-    allEventAfterTurn();
-    
+    if(!turn->extraTurn)allEventAfterTurn();
 
 }
 

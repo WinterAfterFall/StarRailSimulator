@@ -21,7 +21,7 @@ public:
     int priority = 0;
     string Char_Name;
     string Unit_Name;//ชื่อเจ้าของเทิร์น
-
+    bool extraTurn = false;
     Unit* ptrToChar = nullptr; //* // This will be set to point back to the unit (Ally or Enemy)
 
 #pragma region Get Method

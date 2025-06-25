@@ -326,6 +326,7 @@ class AllyAttackAction : public AllyActionData {
 
     #pragma region addEnemyTarget
     void addToActionBar(){
+        if(!Attacker->isUseable())return;
         std::shared_ptr<AllyActionData> self = shared_from_this();
         if(this->traceType == "Bounce"){
             Action_bar.push(self);

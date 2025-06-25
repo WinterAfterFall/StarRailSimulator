@@ -27,6 +27,8 @@ void Basic_reset(){
             Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->speedPercent = 0;
             Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->turnCnt = 0;
             Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->priority = 0;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->extraTurn = 0;
+
             Ally_unit[i]->Energy_recharge = 100;
             Ally_unit[i]->Current_energy = Ally_unit[i]->Max_energy/2;
             Ally_unit[i]->Sub_Unit_ptr[0]->currentAllyTargetNum = Ally_unit[i]->Sub_Unit_ptr[0]->defaultAllyTargetNum;
@@ -126,6 +128,7 @@ void Basic_reset(){
             Enemy_unit[i]->Atv_stats->speedPercent = 0;
             Enemy_unit[i]->Atv_stats->turnCnt = 0;
             Enemy_unit[i]->Atv_stats->priority = 0;
+            Enemy_unit[i]->Atv_stats->extraTurn = 0;
             Enemy_unit[i]->Toughness_status=1;
             Enemy_unit[i]->toughnessAvgMultiplier = 0;
 
@@ -240,6 +243,7 @@ void Memosprite_reset(){
             
         Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->turnCnt = 0;
         Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->priority = 0;
+        Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->extraTurn = 0;
         Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->flatSpeed = Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->flatSpeed*(Ally_unit[i]->Sub_Unit_ptr[j]->Unit_Speed_Ratio/100);
         if(Ally_unit[i]->Sub_Unit_ptr[j]->Unit_Speed_Ratio!=0)Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->speedPercent = Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->speedPercent;
         Ally_unit[i]->Sub_Unit_ptr[j]->currentAllyTargetNum = Ally_unit[i]->Sub_Unit_ptr[j]->defaultAllyTargetNum;
