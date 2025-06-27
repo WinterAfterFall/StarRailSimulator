@@ -209,7 +209,7 @@ namespace Phainon{
                         turn->turnCnt--;
                     }
                     pnCD->summon();
-                    pnCD->resetATV(pn->getBaseSpeed()*0.6*8);
+                    pnCD->resetATV(pn->getBaseSpeed()*0.6*7);
                     Action_forward(pnCD->Atv_stats.get(),1000);
                     pnCD->Atv_stats->extraTurn = 1;
                     pn->setBuffCountdown("PN Extra Turn", 8);

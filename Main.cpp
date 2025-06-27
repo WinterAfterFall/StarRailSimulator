@@ -32,7 +32,7 @@ int main(){
     // Aglaea::Setup(0,Remembrance_Lightcone::SweatNowCryLess(5),Relic::Hero_Wreath,Planar::The_Wondrous_BananAmusement_Park);
     // Jingyuan::Setup_Jingyuan(0,Erudition_Lightcone::Before_Dawn(1),Relic::Grand_Duke,Planar::The_Wondrous_BananAmusement_Park);
     // Castorice::Setup(0,Remembrance_Lightcone::Castorice_LC(1),Relic::Poet_Dill,Planar::Bone_Collection);
-    Phainon::Setup(0,Destruction_Lightcone::Secret_Vow(1),Relic::Scholar,Planar::SpaceSealing);
+    Phainon::Setup(0,Destruction_Lightcone::Blade_LC(1),Relic::Captain,Planar::Arcadia);
     // Mydei::Setup(0,Destruction_Lightcone::Mydei_LC(1),Relic::Scholar,Planar::Bone_Collection);
     // Anaxa::Setup(0,Erudition_Lightcone::GreatCosmic(5),Relic::GeniusBrilliant,Planar::Lushaka);
     
@@ -108,10 +108,10 @@ int main(){
     
     // EnemyCmd::setEnemyWeakness(0,1,0,1,0,1,0);
     SetupEnemy(158,160,{10,15},{200,300},{4,6},2,"Main");
-    SetupEnemy(158,160,{10,10},{200,300},{4,6},2,"Adjacent");  
-    SetupEnemy(158,80,{0,0},{200,200},{2,3},1,"Adjacent");   
-    SetupEnemy(130,80,{0,0},{0,0},{2,0},1,"Other");
-    SetupEnemy(130,80,{0,0},{0,0},{2,0},1,"Other");
+    // SetupEnemy(158,160,{10,10},{200,300},{4,6},2,"Adjacent");  
+    // SetupEnemy(158,80,{0,0},{200,200},{2,3},1,"Adjacent");   
+    // SetupEnemy(130,80,{0,0},{0,0},{2,0},1,"Other");
+    // SetupEnemy(130,80,{0,0},{0,0},{2,0},1,"Other");
     
     
     

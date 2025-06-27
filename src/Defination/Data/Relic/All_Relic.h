@@ -11,6 +11,7 @@
 #include"Eagle_Beaked_Helmet.h"
 #include"GeniusBrilliant.h"
 #include"Goddess of Sun and Thunder.h"
+#include"Wavestrider Captain.h"
 
 
 #endif
