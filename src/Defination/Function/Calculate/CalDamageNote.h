@@ -32,7 +32,7 @@ bool changeMaxDamage(Ally *ptr){
     return false;
 }
 void Cal_AverageDamage(Ally *ptr,vector<Enemy*> enemyList){
-    if(Current_atv<100)return;
+    if(Current_atv<300)return;
     for(auto &enemy : enemyList){
         double rec = 0;
         enemy->toughnessAvgMultiplier = Cal_AvgToughnessMultiplier(enemy,Current_atv);

@@ -184,7 +184,7 @@ namespace Aglaea{
             ptr->buffAlly({{ST_FLAT_ATK, AT_NONE,-ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]}});
     
             ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"] = 0;
-            ptr->Sub_Unit_ptr[1]->Death(); 
+            ptr->Sub_Unit_ptr[1]->death(); 
             double temp =0;
             if(ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"]>1){
                 temp = ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"]-1;

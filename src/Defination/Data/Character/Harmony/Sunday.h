@@ -11,7 +11,7 @@ namespace Sunday{
         ptr->SetAllyBaseStats(1242, 640, 533);
         ptr->pushSubstats(ST_CD);
         ptr->setTotalSubstats(20);
-        ptr->setSpeedRequire(133.4);
+        ptr->setSpeedRequire(160);
         ptr->setRelicMainStats(ST_HP_P,ST_FLAT_SPD,ST_HP_P,ST_EnergyRecharge);
 
         Driver_num = SDptr->Atv_stats->num;
@@ -78,7 +78,7 @@ namespace Sunday{
                 ptr->setBuffAllyTarget("Ode_to_Caress_and_Cicatrix",chooseCharacterBuff(ptr->getSubUnit()));
                 ptr->getSubUnit()->setBuffNote("Ode_to_Caress_and_Cicatrix",calculateCritdamForBuff(ptr->Sub_Unit_ptr[0].get(), 30) + 12);
                 for(unique_ptr<SubUnit> &each : ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->Sub_Unit_ptr){
-                    if(!each->isUseable())continue;
+                    if(!each->isExsited())continue;
                     each->setBuffCheck("Ode_to_Caress_and_Cicatrix",true);
                     each->buffSingle({{ST_CD, AT_TEMP, SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
                     each->buffSingle({{ST_CD, AT_NONE, SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});

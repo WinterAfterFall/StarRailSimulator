@@ -357,7 +357,7 @@ namespace Castorice{
                 Enemy_unit[i]->debuffRemove("Lost Netherland"); 
                 Enemy_unit[i]->debuffSingle({{ST_RESPEN,AT_NONE,-20}});
             }
-            ptr->getSubUnit(1)->Death();
+            ptr->getSubUnit(1)->death();
             ptr->getSubUnit(1)->setStack("Breath Scorches the Shadow",0);
             if(ptr->Print)CharCmd::printUltEnd("Castorice");
         });

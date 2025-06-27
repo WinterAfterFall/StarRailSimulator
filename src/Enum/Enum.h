@@ -19,7 +19,8 @@ enum class ActionType {
 enum class UnitStatus{
     Alive,
     Death,
-    Retire
+    AtvFreeze, // สถานะตอนอัลติโรบิ้น คือหยุดนิ่ง atv ไม่ขยับแต่ action ได้
+    Retire //สถานะของอัลติไพน่อน ถูกลบจากสนามแต่พวก atv ยังเคลื่อนปกติ
 };
 
 #pragma region ElementType

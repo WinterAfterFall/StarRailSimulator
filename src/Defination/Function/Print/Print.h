@@ -6,17 +6,7 @@ void Print(){
     cout<<""<<turn->Char_Name<<" ";
     cout<<turn->turnCnt<<" ";
     cout<<sp<<" ";
-    if(Ally_unit[3]->Countdown_ptr[0]->status == UnitStatus::Alive){
-        cout<<"alive ";
-    }else cout<<"death ";
-    cout<<Ally_unit[3]->Countdown_ptr[0]->Atv_stats->atv<<" ";
-    // cout<<Ally_unit[1]->getSubUnit(1)->currentHP<<" ";
-    // cout<<Ally_unit[4]->getSubUnit(1)->Buff_note["Tally RestoreHP"]<<" ";
-    // for(int i=1;i<= Total_enemy; i++){
-
-    // }
-
-    
+    cout<<Ally_unit[1]->getSubUnit()->Buff_note["Core Flame"]<<" ";
     
     cout<<endl;
 }

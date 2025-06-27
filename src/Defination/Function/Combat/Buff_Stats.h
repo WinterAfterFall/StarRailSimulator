@@ -3,6 +3,7 @@
 bool SubUnit::isBuffEnd(string Buff_name){
     if(this->Atv_stats->turnCnt==this->Buff_countdown[Buff_name]&&turn->Char_Name==this->Atv_stats->Char_Name){
         this->Buff_check[Buff_name] = 0;
+        this->Buff_countdown[Buff_name] = 0;
         return true;
     }
     return false;

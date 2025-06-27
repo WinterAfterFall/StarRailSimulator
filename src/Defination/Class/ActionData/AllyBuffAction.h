@@ -117,7 +117,7 @@ class AllyBuffAction : public AllyActionData {
         }
     }
     void addToActionBar(){
-        if(!Attacker->isUseable())return;
+        if(!Attacker->isExsited())return;
         std::shared_ptr<AllyActionData> self = shared_from_this();
         Action_bar.push(self);
     }

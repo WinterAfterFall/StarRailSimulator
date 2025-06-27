@@ -150,13 +150,21 @@ public:
         if(this->Atv_stats->num == num)return true;
         return false;
     }
-    bool isUseable(){
+    bool isAlive(){
         if(this->status == UnitStatus::Alive)return true;
         return false;
     }
     bool isDeath(){
         if(this->status == UnitStatus::Death)return true;
         return false;
+    }
+    bool isAtvChangeAble(){
+        if(this->status == UnitStatus::Death||this->status == UnitStatus::AtvFreeze||this->status == UnitStatus::Retire)return false;
+        return true;
+    }
+    bool isExsited(){
+        if(this->status == UnitStatus::Death||this->status == UnitStatus::Retire)return false;
+        return true;
     }
 
 #pragma endregion

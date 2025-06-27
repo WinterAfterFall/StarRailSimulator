@@ -41,6 +41,7 @@ void Increase_energy(SubUnit *ptr,double Energy_percent,double Flat_energy){
     return;
 }
 bool ultUseCheck(Ally *ptr){
+    if(!ptr->getSubUnit()->isExsited())return false;
     if(ptr->Ult_cost>ptr->Current_energy)return false;
     for(function<bool()> &e : ptr->ultCondition){
         if(!e()) return false;

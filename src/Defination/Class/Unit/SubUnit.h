@@ -87,7 +87,7 @@ public:
         for(auto &each : target){
             total += each->taunt;
         }
-        return (taunt/totalTaunt*100.0);
+        return (taunt/total*100.0);
     }
 
     
@@ -201,7 +201,7 @@ public:
     
     /*-----------------Combat-----------------*/
     //ChangeHP
-    void Death();
+    void death();
 
     //BuffStats.h
     bool isHaveToAddBuff(string Buff_name);

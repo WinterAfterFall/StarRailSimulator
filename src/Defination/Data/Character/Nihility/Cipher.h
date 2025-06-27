@@ -45,7 +45,7 @@ namespace Cipher{
         };
         function<void()> Skill = [ptr,cph]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Cipher Skill",
+            make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BLAST,"Cipher Skill",
             [ptr,cph](shared_ptr<AllyAttackAction> &act){
                 Skill_point(cph,-1);
                 Increase_energy(ptr,30);

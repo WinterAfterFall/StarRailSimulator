@@ -37,7 +37,7 @@ namespace Ruan_Mei{
             make_shared<AllyBuffAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"RM Ult",
             [ptr,RMptr](shared_ptr<AllyBuffAction> &act){
                 if(ptr->Print)CharCmd::printUltStart("Ruan Mei");
-                if(RMptr->isHaveToAddBuff("RuanMei_Ult,2")){
+                if(RMptr->isHaveToAddBuff("RuanMei_Ult",2)){
                     buffAllAlly({{"Respen", AT_NONE, 25}});
                     if(ptr->Eidolon >= 1)buffAllAlly({{ST_DEF_SHRED, AT_NONE, 20}});
                 }

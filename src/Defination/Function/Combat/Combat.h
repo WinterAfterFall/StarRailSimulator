@@ -2,10 +2,12 @@
 
 void Take_action(){
     
-    ++(turn->turnCnt);
     Ult_After_Turn = 0;
     After_Turn_Check = 0;
-    if(!turn->extraTurn)allEventBeforeTurn();
+    if(!turn->extraTurn){
+        ++(turn->turnCnt);
+        allEventBeforeTurn();
+    }
     allUltimateCheck();
     
     Print();

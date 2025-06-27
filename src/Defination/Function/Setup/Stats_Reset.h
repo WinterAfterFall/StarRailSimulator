@@ -33,7 +33,7 @@ void Basic_reset(){
             Ally_unit[i]->Current_energy = Ally_unit[i]->Max_energy/2;
             Ally_unit[i]->Sub_Unit_ptr[0]->currentAllyTargetNum = Ally_unit[i]->Sub_Unit_ptr[0]->defaultAllyTargetNum;
             Ally_unit[i]->Sub_Unit_ptr[0]->currentSubUnitTargetNum = Ally_unit[i]->Sub_Unit_ptr[0]->defaultSubUnitTargetNum;
-            Ally_unit[i]->Sub_Unit_ptr[0]->tauntMtpr = 100;
+            Ally_unit[i]->Sub_Unit_ptr[0]->tauntMtpr = 1;
             Ally_unit[i]->Sub_Unit_ptr[0]->taunt = Ally_unit[i]->Sub_Unit_ptr[0]->baseTaunt;
             Ally_unit[i]->Sub_Unit_ptr[0]->currentSheild = 0;
             Ally_unit[i]->Sub_Unit_ptr[0]->status = UnitStatus::Alive;
@@ -251,6 +251,8 @@ void Memosprite_reset(){
         Ally_unit[i]->Sub_Unit_ptr[j]->currentSheild = 0;
         Ally_unit[i]->Sub_Unit_ptr[j]->currentHP = 0;
         Ally_unit[i]->Sub_Unit_ptr[j]->status = UnitStatus::Death;
+        Ally_unit[i]->Sub_Unit_ptr[j]->tauntMtpr = 1;
+        Ally_unit[i]->Sub_Unit_ptr[j]->taunt = Ally_unit[i]->Sub_Unit_ptr[j]->baseTaunt;
 
         }
         

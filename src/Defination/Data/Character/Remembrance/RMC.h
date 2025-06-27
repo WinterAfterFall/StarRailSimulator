@@ -177,7 +177,7 @@ namespace RMC{
 
 
     void Increase_Charge(Ally *ptr,double charge){
-        if(!ptr->Sub_Unit_ptr[1]->isUseable())return;
+        if(ptr->Sub_Unit_ptr[1]->isDeath())return;
         ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Charge"]+=charge;
         if(ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Charge"]>=100){
             ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Charge"]= 0;

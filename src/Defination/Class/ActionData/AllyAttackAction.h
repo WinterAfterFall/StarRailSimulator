@@ -118,6 +118,7 @@ class AllyAttackAction : public AllyActionData {
 
 
     #pragma region checkMethod
+    //check แค่ว่าตัวหลักตัวเดียวกันไหม
     bool isSameAtker(SubUnit *ptr){
         if(this->Attacker->isSameUnit(ptr))return true;
         return false;
@@ -326,12 +327,8 @@ class AllyAttackAction : public AllyActionData {
 
     #pragma region addEnemyTarget
     void addToActionBar(){
-        if(!Attacker->isUseable())return;
+        if(!Attacker->isExsited())return;
         std::shared_ptr<AllyActionData> self = shared_from_this();
-        if(this->traceType == "Bounce"){
-            Action_bar.push(self);
-            return;
-        }
         vector<bool> check(Total_enemy+1, false);
         for(auto &e : targetList){
             check[e->Atv_stats->num] = true;
