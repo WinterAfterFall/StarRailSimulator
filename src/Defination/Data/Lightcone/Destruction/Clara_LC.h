@@ -1,6 +1,6 @@
 #include "../include.h"
 namespace Destruction_Lightcone{
-    function<void(Ally *ptr)> Blade_LC(int superimpose){
+    function<void(Ally *ptr)> Clara_LC(int superimpose){
         return [=](Ally *ptr) {
             ptr->SetAllyBaseStats(1164,582,397);
             ptr->Light_cone.Name = "Clara_LC";
