@@ -31,6 +31,7 @@ namespace Tingyun{
         };
 
         ptr->addUltCondition([ptr,TYptr]() -> bool {
+            if(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Max_energy==0)return true;
             if (Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Max_energy - Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Current_energy <= 30) return false;
             return true;
         });

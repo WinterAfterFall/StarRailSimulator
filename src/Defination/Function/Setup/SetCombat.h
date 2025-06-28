@@ -1,7 +1,7 @@
 #include "../include.h"
 
 void Setup(){
-    if(Driver_num)Driver_Type = "Double_turn";
+    if(Driver_num&&Driver_Type=="None")Driver_Type = "Double_turn";
     
     sort(Reset_List.begin(), Reset_List.end(), TriggerFunc::Trigger_cmp);
     sort(When_Combat_List.begin(), When_Combat_List.end(), TriggerFunc::Trigger_cmp);

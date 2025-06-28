@@ -409,7 +409,7 @@ namespace Phainon{
         AfterDealingDamage_List.push_back(TriggerAfterDealDamage(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD]
             (shared_ptr<AllyAttackAction> &act,Enemy *src,double damage) {
                 if(act->actionName!="PN Foundation")return;
-                Cal_DamageNote(act,src,Enemy_unit[Main_Enemy_num].get(),damage,36,"PN True " + act->actionName);
+                Cal_DamageNote(act,src,Enemy_unit[Main_Enemy_num].get(),damage,36,"PN True Foundation");
         }));
 
     }

@@ -49,19 +49,17 @@ namespace Robin{
                 //     }
                 // }
             }else{
-                if(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats->atv < chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats->Max_atv*0.5 )return;
+                // if(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats->atv < chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats->Max_atv*0.5 )return;
             }
-            if(Ult_Condition(ptr))return;
-            if(ptr->Countdown_ptr[0]->isDeath() && ptr->Sub_Unit_ptr[0]->Buff_countdown["Pinion'sAria"] > ptr->Sub_Unit_ptr[0]->Atv_stats->turnCnt && ultUseCheck(ptr)){
+            // if(Ult_Condition(ptr))return;
+            if(ptr->Countdown_ptr[0]->isDeath() && ptr->Sub_Unit_ptr[0]->getBuffCheck("Pinion'sAria")&& ultUseCheck(ptr)){
                 shared_ptr<AllyBuffAction> act = 
                 make_shared<AllyBuffAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"RB Ult",
                 [ptr,Robinptr](shared_ptr<AllyBuffAction> &act){
                     ptr->Countdown_ptr[0]->summon();
                     ptr->Sub_Unit_ptr[0]->Atv_stats->baseSpeed = -1;
                     Update_Max_atv(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
-                    Update_Max_atv(ptr->Countdown_ptr[0]->Atv_stats.get());
                     resetTurn(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
-                    resetTurn(ptr->Countdown_ptr[0]->Atv_stats.get());
 
                     ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"] = calculateAtkForBuff(ptr->Sub_Unit_ptr[0].get(), 22.8) + 200;
                     buffAllAlly({{"Flat_Atk", AT_TEMP, ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]}});
@@ -155,9 +153,7 @@ namespace Robin{
                 ptr->Countdown_ptr[0]->death();
                 ptr->Sub_Unit_ptr[0]->Atv_stats->baseSpeed = 102;
                 Update_Max_atv(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
-                Update_Max_atv(ptr->Countdown_ptr[0]->Atv_stats.get());
                 resetTurn(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
-                resetTurn(ptr->Countdown_ptr[0]->Atv_stats.get());
                 buffAllAlly({{"Flat_Atk", AT_TEMP, -ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]}});
                 buffAllAlly({{"Flat_Atk", AT_NONE, -ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]}});
                 buffAllAlly({{ST_CD, "Fua", -25}});
