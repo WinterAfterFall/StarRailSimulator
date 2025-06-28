@@ -2,6 +2,8 @@
 #include "Blade_LC.h"
 #include "Phainon LC.h"
 #include "Mydei_LC.h"
+#include "Saber_LC.h"
+#include "HertaShop.h"
 #include "Ninja_Record.h"
 #include "Secret_Vow.h"
 #include "Secret_Vow_Nobuff.h"
