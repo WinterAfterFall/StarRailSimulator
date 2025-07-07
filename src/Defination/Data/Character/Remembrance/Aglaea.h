@@ -133,7 +133,7 @@ namespace Aglaea{
             }
         }));
 
-        Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr](shared_ptr<AllyAttackAction> &act) {
+        BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr](shared_ptr<AllyAttackAction> &act) {
             if (ptr->Eidolon >= 2) {
                 if (act->Attacker->Atv_stats->Unit_Name == "Aglaea" || act->Attacker->Atv_stats->Unit_Name == "Garmentmaker") {
                     ptr->buffStackAlly({{ST_DEF_SHRED,AT_NONE,14}},1,3,"Aglaea_E2");

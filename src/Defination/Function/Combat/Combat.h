@@ -52,7 +52,7 @@ void AllyActionData::AllyAction(){
     std::shared_ptr<AllyAttackAction> attackAction = dynamic_pointer_cast<AllyAttackAction>(self);
     std::shared_ptr<AllyBuffAction> buffAction = dynamic_pointer_cast<AllyBuffAction>(self);
     if(attackAction){
-        allEventBeforeAttack(attackAction);
+        allEventBeforeAttackAction(attackAction);
         
         if(attackAction->actionFunction)attackAction->actionFunction(attackAction);
         else Attack(attackAction);    
@@ -67,7 +67,7 @@ void AllyActionData::AllyAction(){
         attackAction->Attacker = attackAction->AttackSetList[0].attacker;
         attackAction->actionTypeList = attackAction->AttackSetList[0].actionTypeList;
         attackAction->damageTypeList = attackAction->AttackSetList[0].damageTypeList;
-        allEventAfterAttack(attackAction); 
+        allEventAfterAttackAction(attackAction); 
         if(attackAction->damageNote)Cal_AverageDamage(attackAction->Attacker->ptrToChar,attackAction->targetList); 
 
     }else{

@@ -121,7 +121,7 @@ namespace Rappa{
         }));
 
 
-        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act){
+        AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act){
             if(act->Attacker->Atv_stats->Char_Name=="Rappa"){
                 if(ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"]==1){
                     Superbreak_trigger(act,60,"");

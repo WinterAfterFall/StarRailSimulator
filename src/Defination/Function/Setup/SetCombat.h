@@ -14,8 +14,8 @@ void Setup(){
 
     sort(BeforeAction_List.begin(), BeforeAction_List.end(), TriggerFunc::Trigger_cmp);
     sort(AfterAction_List.begin(), AfterAction_List.end(), TriggerFunc::Trigger_cmp);
-    sort(Before_attack_List.begin(), Before_attack_List.end(), TriggerFunc::Trigger_cmp);
-    sort(After_attack_List.begin(), After_attack_List.end(), TriggerFunc::Trigger_cmp);
+    sort(BeforeAttackAction_List.begin(), BeforeAttackAction_List.end(), TriggerFunc::Trigger_cmp);
+    sort(AfterAttackActionList.begin(), AfterAttackActionList.end(), TriggerFunc::Trigger_cmp);
     sort(When_attack_List.begin(), When_attack_List.end(), TriggerFunc::Trigger_cmp);
     sort(Buff_List.begin(), Buff_List.end(), TriggerFunc::Trigger_cmp);
 

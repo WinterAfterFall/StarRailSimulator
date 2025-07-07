@@ -20,7 +20,7 @@ namespace Erudition_Lightcone{
                 }
             }));
 
-            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
+            AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
                 if (act->isSameAction(ptr->getSubUnit(),AT_BA)&& ptr->Sub_Unit_ptr[0]->Buff_check["Ration"] == 1) {
                     ptr->Sub_Unit_ptr[0]->Stack["Ration"]++;
                     if (ptr->Sub_Unit_ptr[0]->Stack["Ration"] == 2) {

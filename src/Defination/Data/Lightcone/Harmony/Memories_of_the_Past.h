@@ -5,7 +5,7 @@ namespace Harmony_Lightcone{
             ptr->SetAllyBaseStats( 953, 423, 397);
             ptr->Light_cone.Name = "Memories_of_the_Past";
     
-            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
+            AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
                 if (act->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
                     Increase_energy(ptr, 3 + superimpose);
                 }

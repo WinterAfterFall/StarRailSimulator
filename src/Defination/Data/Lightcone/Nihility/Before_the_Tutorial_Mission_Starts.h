@@ -9,7 +9,7 @@ namespace Nihility_Lightcone{
                 ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"][AT_NONE] += 20 + 5 * superimpose;
             }));
     
-            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
+            AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
                 if (act->Attacker->Atv_stats->Unit_Name != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) return;
                 for (auto e : act->targetList) {
                     if (e->Stats_type[ST_DEF_SHRED][AT_NONE] > 0) {

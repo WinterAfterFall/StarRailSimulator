@@ -90,13 +90,13 @@ void allEventBuff(shared_ptr<AllyBuffAction> &act){
         e.Call(act);
     }
 }
-void allEventBeforeAttack(shared_ptr<AllyAttackAction> &act){
-    for(TriggerByAllyAttackAction_Func &e : Before_attack_List){
+void allEventBeforeAttackAction(shared_ptr<AllyAttackAction> &act){
+    for(TriggerByAllyAttackAction_Func &e : BeforeAttackAction_List){
         e.Call(act);
     }
 }
-void allEventAfterAttack(shared_ptr<AllyAttackAction> &act){
-    for(TriggerByAllyAttackAction_Func &e : After_attack_List){
+void allEventAfterAttackAction(shared_ptr<AllyAttackAction> &act){
+    for(TriggerByAllyAttackAction_Func &e : AfterAttackActionList){
         e.Call(act);
     }
 }

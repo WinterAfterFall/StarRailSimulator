@@ -17,7 +17,7 @@ namespace Relic{
             }
         }));
 
-        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
+        AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
             if (act->isSameAction(ptr->getSubUnit(),AT_SKILL)) {
                 if (ptr->Sub_Unit_ptr[0]->getBuffCheck("Scholar_buff")) {
                     ptr->Sub_Unit_ptr[0]->Buff_check["Scholar_buff"] = 0;

@@ -9,7 +9,7 @@ namespace Destruction_Lightcone{
                 ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING_OUT][AT_NONE] += 15 + 5 * superimpose;
             }));
     
-            Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
+            BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
                 if (!act->Attacker->isSameUnit(ptr->Sub_Unit_ptr[0].get())) return;
                 if (act->isSameAttack(AT_SKILL)||act->isSameAttack(AT_ULT)) {
                     ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_LC_Mark"]++;
@@ -22,7 +22,7 @@ namespace Destruction_Lightcone{
                 }
             }));
     
-            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
+            AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
                 if (!act->Attacker->isSameUnit(ptr->Sub_Unit_ptr[0].get())) return;
                 ptr->getSubUnit()->buffSingle({{ST_DMG, AT_NONE, -(25 + 5 * superimpose) * ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_LC_Mark"]}});
                 ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_LC_Mark"] = 0;

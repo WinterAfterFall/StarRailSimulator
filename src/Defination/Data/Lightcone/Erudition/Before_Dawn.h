@@ -11,7 +11,7 @@ namespace Erudition_Lightcone{
                 ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG]["Ultimate"] += 15 + 3 * superimpose;
             }));
     
-            Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
+            BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
                 if (act->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name &&
                     ptr->Sub_Unit_ptr[0]->Stack["Somnus_Corpus"] == 1) {
                     for (auto e : act->actionTypeList) {
@@ -23,7 +23,7 @@ namespace Erudition_Lightcone{
                 }
             }));
     
-            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
+            AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
                 if (act->Attacker->Atv_stats->Unit_Name != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) return;
     
                 for (auto e : act->actionTypeList) {

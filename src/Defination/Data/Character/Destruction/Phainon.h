@@ -351,7 +351,7 @@ namespace Phainon{
             }
         }));
         
-        After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD](shared_ptr<AllyAttackAction> &act) {
+        AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD](shared_ptr<AllyAttackAction> &act) {
             if(act->isSameAtker(pn)&&pnCD->status==UnitStatus::Alive){
                 pn->RestoreHP(pn,HealSrc(HealSrcType::TOTAL_HP,20));
             }

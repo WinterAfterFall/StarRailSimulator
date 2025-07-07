@@ -31,7 +31,7 @@ namespace Remembrance_Lightcone{
                 }
             }));
 
-            After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
+            AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
                 if(act->Attacker->Atv_stats->Side == "Memosprite"
                     &&act->Attacker->Atv_stats->num==ptr->getSubUnit()->Atv_stats->num
                     &&act->isSameAction(AT_SKILL)){

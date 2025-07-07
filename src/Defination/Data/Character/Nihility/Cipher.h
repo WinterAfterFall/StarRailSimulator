@@ -144,7 +144,7 @@ namespace Cipher{
                 Deal_damage();
         }));
 
-        Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK,[ptr,cph](
+        BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK,[ptr,cph](
             shared_ptr<AllyAttackAction> &act){
                 if(ptr->Eidolon>=2&&act->isSameUnit(cph)){
                     for(auto &each : act->targetList){

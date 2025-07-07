@@ -6,7 +6,7 @@ namespace Nihility_Lightcone{
             ptr->Light_cone.Name = "Cipher_LC";
             ptr->newEhrRequire(120);
 
-            Before_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
+            BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
                 debuffAllEnemyApply({{ST_DEF_SHRED,AT_NONE,14.0 + (superimpose * 2)}},ptr->getSubUnit(),"Bamboozle",2);
                 debuffAllEnemyApply({{ST_DEF_SHRED,AT_NONE,7.0 + superimpose}},ptr->getSubUnit(),"Theft",2);
             }));
