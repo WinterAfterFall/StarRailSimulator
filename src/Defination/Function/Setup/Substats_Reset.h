@@ -150,7 +150,7 @@ bool AllPossibleReroll(Ally *ptr){
     }
     int index = 0;
     
-        for(int i=0;i<ptr->Substats.size();i++){
+        for(int i=ptr->Substats.size();i>=1;i--){
             index+= ptr->Substats[i].second*pow(ptr->Total_substats+1,i);
         }
         ptr->Damage_data[index] = ptr->AvgDmgRecord[0].currentDmgRecord;

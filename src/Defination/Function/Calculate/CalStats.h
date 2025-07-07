@@ -268,16 +268,16 @@ double calDefShredMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
 double calRespenMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
     double Respen_mtpr = 100;
     
-    Respen_mtpr += act->Attacker->Stats_type["Respen"][AT_NONE] + target->Stats_type["Respen"][AT_NONE] + act->Attacker->Stats_each_element["Respem"][act->Damage_element][AT_NONE] + target->Stats_each_element["Respem"][act->Damage_element][AT_NONE];
+    Respen_mtpr += act->Attacker->Stats_type["Respen"][AT_NONE] + target->Stats_type["Respen"][AT_NONE] + act->Attacker->Stats_each_element["Respen"][act->Damage_element][AT_NONE] + target->Stats_each_element["Respen"][act->Damage_element][AT_NONE];
 
     for(int i = 0, sz = act->actionTypeList.size(); i < sz; i++){
-        Respen_mtpr += act->Attacker->Stats_type["Respen"][act->actionTypeList[i]] + act->Attacker->Stats_each_element["Respem"][act->Damage_element][act->actionTypeList[i]];
-        Respen_mtpr += target->Stats_type["Respen"][act->actionTypeList[i]] + target->Stats_each_element["Respem"][act->Damage_element][act->actionTypeList[i]];
+        Respen_mtpr += act->Attacker->Stats_type["Respen"][act->actionTypeList[i]] + act->Attacker->Stats_each_element[ST_RESPEN][act->Damage_element][act->actionTypeList[i]];
+        Respen_mtpr += target->Stats_type["Respen"][act->actionTypeList[i]] + target->Stats_each_element["Respen"][act->Damage_element][act->actionTypeList[i]];
     }
 
     if(act->getAlly()->checkDamageFormula){
-        cout<<"Base  Respen   : "<<setw(6)<<fixed<<setprecision(2)<<act->Attacker->Stats_type["Respen"][AT_NONE] + act->Attacker->Stats_each_element["Respem"][act->Damage_element][AT_NONE]
-        <<" Enemy Respen   : "<<setw(6)<<fixed<<setprecision(2)<<target->Stats_type["Respen"][AT_NONE] + target->Stats_each_element["Respem"][act->Damage_element][AT_NONE]
+        cout<<"Base  Respen   : "<<setw(6)<<fixed<<setprecision(2)<<act->Attacker->Stats_type["Respen"][AT_NONE] + act->Attacker->Stats_each_element["Respen"][act->Damage_element][AT_NONE]
+        <<" Enemy Respen   : "<<setw(6)<<fixed<<setprecision(2)<<target->Stats_type["Respen"][AT_NONE] + target->Stats_each_element["Respen"][act->Damage_element][AT_NONE]
         <<" Total Respen   : "<<setw(6)<<fixed<<setprecision(2)<<Respen_mtpr - 100<<endl;
     }
 

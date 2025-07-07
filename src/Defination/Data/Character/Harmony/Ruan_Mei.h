@@ -96,8 +96,8 @@ namespace Ruan_Mei{
             if(turn->Char_Name == "Ruan_Mei"){
                 Increase_energy(ptr, 5);
                 if(RMptr->isBuffEnd("RuanMei_Ult")){
-                    buffAllAlly({{"Respen", AT_NONE, 25}});
-                    if(ptr->Eidolon >= 1)buffAllAlly({{ST_DEF_SHRED, AT_NONE, 20}});
+                    buffAllAlly({{"Respen", AT_NONE, -25}});
+                    if(ptr->Eidolon >= 1)buffAllAlly({{ST_DEF_SHRED, AT_NONE, -20}});
                     if(ptr->Print == 1)CharCmd::printUltEnd("Ruan Mei");
                 }
             }

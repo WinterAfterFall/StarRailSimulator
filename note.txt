@@ -1,7 +1,5 @@
 ทำให้ formula ของ change HP
 รวมถึง LC ที่เกี่ยวข้องกับการแปะธาตุ
 tech serval
-แก้ healfunction
 set max substats ทุกตัว
-แก้การคำนวณ dot
-แก้ระบบคำนวณ break
+เพิ่ม Death ของ Bronya กับ Tingyun

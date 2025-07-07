@@ -2,7 +2,7 @@
 namespace Destruction_Lightcone{
     function<void(Ally *ptr)> Phainon_LC(int superimpose){
         return [=](Ally *ptr) {
-            ptr->SetAllyBaseStats(953,688,397);
+            ptr->SetAllyBaseStats(953,687,397);
             ptr->Light_cone.Name = "Phainon_LC";
             ptr->getSubUnit()->Atv_stats->baseSpeed += 10 + superimpose * 2;
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {

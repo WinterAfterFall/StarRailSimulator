@@ -100,7 +100,7 @@ namespace Tingyun{
             if (chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->getBuffCheck("Benediction")) {
                 if (act->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
                     shared_ptr<AllyAttackAction> temp = 
-                    make_shared<AllyAttackAction>(ActionType::Addtional,tempUnit,TT_SINGLE,"TY Talent");
+                    make_shared<AllyAttackAction>(ActionType::Addtional,chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()),TT_SINGLE,"TY Talent");
                     temp->addDamageIns(DmgSrc(DmgSrcType::ATK,66));
                     Attack(temp);
                 } else if (act->Attacker->Atv_stats->Unit_Name == Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[ptr->Sub_Unit_ptr[0]->currentSubUnitTargetNum]->Atv_stats->Unit_Name) {

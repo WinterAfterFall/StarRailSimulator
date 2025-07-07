@@ -46,7 +46,7 @@ namespace Gallagher{
                 [ptr,Charptr](shared_ptr<AllyAttackAction> &act){
                     Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
                     ptr->Sub_Unit_ptr[0]->Buff_check["Gallagher_enchance_basic_atk"] = 1;
-                    debuffAllEnemyApply({{ST_VUL,AT_TEMP,13.2}},Charptr,"Besotted");  
+                    debuffAllEnemyApply({{ST_VUL,AT_BREAK,13.2}},Charptr,"Besotted");  
                     if (ptr->Eidolon >= 4) {
                         extendDebuffAll("Besotted", 3);
                     } else {

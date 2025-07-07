@@ -29,8 +29,10 @@ namespace Destruction_Lightcone{
             After_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyAttackAction> &act){
                 if(!act->Attacker->isSameUnit(ptr->Sub_Unit_ptr[0].get()))return;
                 ptr->getSubUnit()->buffResetStack({{ST_DMG,AT_NONE,11.5 +2.5*superimpose}},"Jingliu_LC");
-                if(ptr->getBuffCheck("Jingliu_LC Def Shred"))
-                        ptr->getSubUnit()->buffSingle({{ST_DEF_SHRED,AT_NONE,-(10.0 +2*superimpose)}});
+                if(ptr->getBuffCheck("Jingliu_LC Def Shred")){
+                    ptr->getSubUnit()->buffSingle({{ST_DEF_SHRED,AT_NONE,-(10.0 +2*superimpose)}});
+                    ptr->setBuffCheck("Jingliu_LC Def Shred",0);
+                }
 
             }));
         };
