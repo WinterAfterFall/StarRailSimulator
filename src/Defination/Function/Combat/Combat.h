@@ -83,12 +83,15 @@ void EnemyActionData::EnemyAction(){
 }
 void Attack(shared_ptr<AllyAttackAction> &act){
 
+
     //32 45
     if(act->Attacker->ptrToChar->checkDamageFormula||act->Attacker->ptrToChar->checkDamage){
         cout<<"\033[0;38;5;2m";
         cout<<"----------------------------------------- Damage Check -----------------------------------------\n";
         cout << "\033[0m";
     }
+
+    allEventBeforeAttack(act);
 
     int dmgIns = 0;
     for(auto &each : act->AttackSetList){
@@ -119,6 +122,8 @@ void Attack(shared_ptr<AllyAttackAction> &act){
             Cal_Toughness_reduction(act,each2.target,each2.dmgSrc.toughnessReduce);
         }
     }
+
+    allEventAfterAttack(act);
 
     if(act->Attacker->ptrToChar->checkDamageFormula||act->Attacker->ptrToChar->checkDamage){
         cout<<"\033[0;38;5;2m";

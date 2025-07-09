@@ -100,6 +100,16 @@ void allEventAfterAttackAction(shared_ptr<AllyAttackAction> &act){
         e.Call(act);
     }
 }
+void allEventBeforeAttack(shared_ptr<AllyAttackAction> &act){
+    for(TriggerByAllyAttackAction_Func &e : BeforeAttack_List){
+        e.Call(act);
+    }
+}
+void allEventAfterAttack(shared_ptr<AllyAttackAction> &act){
+    for(TriggerByAllyAttackAction_Func &e : AfterAttack_List){
+        e.Call(act);
+    }
+}
 void allEventWhenAttack(shared_ptr<AllyAttackAction> &act){
     for(Enemy* &e : act->targetList){
         for (auto &each : e->breakEngList) {

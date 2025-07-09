@@ -8,6 +8,8 @@ void allEventAfterAction(shared_ptr<ActionData> &act);
 void allEventBuff(shared_ptr<AllyBuffAction> &act);
 void allEventBeforeAttackAction(shared_ptr<AllyAttackAction> &act);
 void allEventAfterAttackAction(shared_ptr<AllyAttackAction> &act);
+void allEventBeforeAttack(shared_ptr<AllyAttackAction> &act);
+void allEventAfterAttack(shared_ptr<AllyAttackAction> &act);
 void allEventWhenAttack(shared_ptr<AllyAttackAction> &act);
 void allEventAttackHitCount(shared_ptr<AllyAttackAction> &act);
 void allEventHeal(SubUnit *Healer, SubUnit *target, double Value);
