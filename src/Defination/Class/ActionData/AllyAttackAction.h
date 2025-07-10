@@ -279,17 +279,39 @@ class AllyAttackAction : public AllyActionData {
                     damageSplit.back().emplace_back(other, Enemy_unit[i].get());
             }
         }
+        
+    void addDamageInsByDebuff(DmgSrc dmgsrc,string debuffName){
+        for(int i = 1;i<= Total_enemy;i++){
+            if(!Enemy_unit[i]->getDebuff(debuffName)){
+                addDamageIns(dmgsrc,Enemy_unit[i].get());
+                return;
+            }
+        }
+        addDamageIns(dmgsrc);
+    }
+
+    void addDamageInsByDebuff(DmgSrc dmgsrc,string debuffName,int max){
+        for(int i = 1;i<= Total_enemy&&i<=max;i++){
+            if(!Enemy_unit[i]->getDebuff(debuffName)){
+                addDamageIns(dmgsrc,Enemy_unit[i].get());
+                return;
+            }
+        }
+        addDamageIns(dmgsrc);
+    }
 
     
-        template<typename... Args>
-        void addDamageIns(Args... args) {
-            static_assert(sizeof...(Args) % 2 == 0, "ต้องส่ง argument เป็นคู่ DmgSrc, Enemy*");
+    template<typename... Args>
+    void addDamageIns(Args... args) {
+        static_assert(sizeof...(Args) % 2 == 0, "ต้องส่ง argument เป็นคู่ DmgSrc, Enemy*");
 
-            damageSplit.emplace_back();
-            auto& row = damageSplit.back();
+        damageSplit.emplace_back();
+        auto& row = damageSplit.back();
 
-            addPairs(row, args...);
-        }
+        addPairs(row, args...);
+    }
+    
+
 
     private:
         // recursive function เพื่อประมวลผล args ทีละ 2 ตัว

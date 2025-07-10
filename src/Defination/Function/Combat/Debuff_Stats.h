@@ -49,7 +49,7 @@ void Enemy::debuffRemove(string debuffName){
 
 bool Enemy::isDebuffEnd(string Debuff_name){
     if(this->Atv_stats->turnCnt==this->Debuff_time_count[Debuff_name]&&turn->Char_Name==this->Atv_stats->Char_Name){
-        if(!this->getStack(Debuff_name))this->debuffRemove(Debuff_name);
+        this->debuffRemove(Debuff_name);
         return true;
     }
     return false;

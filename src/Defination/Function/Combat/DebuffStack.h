@@ -10,7 +10,6 @@ pair<int,int> Enemy::calDebuffStack(SubUnit *ptr,string debuffName,int Stack_inc
 int Enemy::debuffRemoveStack(string debuffName){
     int ans = this->getStack(debuffName);
     this->setStack(debuffName,0);
-    this->addTotalDebuff(-1);
     return ans;
 }
 
