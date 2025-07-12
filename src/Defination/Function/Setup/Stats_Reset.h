@@ -170,6 +170,12 @@ void Basic_reset(){
             Enemy_unit[i]->breakFrzList.clear();
             Enemy_unit[i]->breakImsList.clear();
             
+            Enemy_unit[i]->ShockCount = 0;
+            Enemy_unit[i]->WindSheerCount = 0;
+            Enemy_unit[i]->BleedCount = 0;
+            Enemy_unit[i]->BurnCount = 0;
+            Enemy_unit[i]->DotCount = 0;
+            
             Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Fire][AT_NONE] = - Enemy_unit[i]->DefaultElementRes[ElementType::Fire];
             Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Ice][AT_NONE] = -Enemy_unit[i]->DefaultElementRes[ElementType::Ice];
             Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Quantum][AT_NONE] = -Enemy_unit[i]->DefaultElementRes[ElementType::Quantum];

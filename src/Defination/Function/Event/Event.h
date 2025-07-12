@@ -37,6 +37,16 @@ void allEventAfterTurn(){
             }
             itr = target->breakDotList.erase(itr);
             --target->Total_debuff;
+            --target->DotCount;
+            if(itr->type == BreakSEType::Burn){
+                --target->BurnCount;
+            } else if(itr->type == BreakSEType::Shock){
+                --target->ShockCount;
+            } else if(itr->type == BreakSEType::WindShear){
+                --target->WindSheerCount;
+            } else if(itr->type == BreakSEType::Bleed){
+                --target->BleedCount;
+            }
             
         }
         for (auto itr = target->breakEngList.begin(); itr != target->breakEngList.end(); ) {

@@ -65,6 +65,29 @@ public:
     std::vector<BreakSideEffect> breakEngList;
     std::vector<BreakSideEffect> breakFrzList;
 
+    int ShockCount = 0;
+    int WindSheerCount = 0;
+    int BleedCount = 0;
+    int BurnCount = 0;
+    int DotCount = 0;
+
+    void changeShock(int amount){
+        ShockCount += amount;
+        DotCount += amount;
+    }
+    void changeWindSheer(int amount){
+        WindSheerCount += amount;
+        DotCount += amount;
+    }
+    void changeBleed(int amount){
+        BleedCount += amount;
+        DotCount += amount;
+    }
+    void changeBurn(int amount){
+        BurnCount += amount;
+        DotCount += amount;
+    }
+
     bool addBreakSEList(BreakSideEffect input) {
         if(input.type == BreakSEType::Freeze) {
             for(auto itr = breakFrzList.begin(); itr != breakFrzList.end();) {
@@ -108,6 +131,16 @@ public:
             }
         }
         breakDotList.push_back(input);
+        DotCount++;
+        if(input.type == BreakSEType::Burn){
+            BurnCount++;
+        } else if(input.type == BreakSEType::Shock){
+            ShockCount++;
+        } else if(input.type == BreakSEType::WindShear){
+            WindSheerCount++;
+        } else if(input.type == BreakSEType::Bleed){
+            BleedCount++;
+        }
         return true;
     }
     unordered_map<ElementType,bool> Default_Weakness_type;

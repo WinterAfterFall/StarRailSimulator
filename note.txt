@@ -3,3 +3,4 @@
 tech serval
 set max substats ทุกตัว
 เพิ่ม Death ของ Bronya กับ Tingyun
+hanabi ult condition

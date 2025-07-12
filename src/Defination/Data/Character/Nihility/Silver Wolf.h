@@ -51,7 +51,8 @@ namespace SW{
                     for(int i=1;i<=Total_ally;i++){
                         if(enemy->Default_Weakness_type[Ally_unit[i]->Sub_Unit_ptr[0]->Element_type[0]])continue;
                         enemy->weaknessApply(Ally_unit[i]->Sub_Unit_ptr[0]->Element_type[0],3);
-                        enemy->debuffApply(sw,"SW Weakness",3);
+                        enemy->debuffSingleApply({{ST_RESPEN,Ally_unit[i]->Sub_Unit_ptr[0]->Element_type[0],AT_NONE,20}},sw,"SW Weakness",3);
+                        sw->setBuffNote("SW Weakness num",i);
                         break;
                     }
                     enemy->debuffSingleApply({{ST_RESPEN,AT_NONE,13}},sw,"SW Res",2);
@@ -140,9 +141,14 @@ namespace SW{
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,sw]() {
             Enemy *enemy = turn->canCastToEnemy();
             if(enemy){
-                enemy->isDebuffEnd("SW Weakness");
+                if(enemy->isDebuffEnd("SW Weakness")){
+                    enemy->debuffSingle({{ST_RESPEN,Ally_unit[sw->getBuffNote("SW Weakness num")]->Sub_Unit_ptr[0]->Element_type[0],AT_NONE,-20}});
+                }
                 if(enemy->isDebuffEnd("SW Res")){
                     enemy->debuffSingle({{ST_RESPEN,AT_NONE,-13}});
+                }
+                if(enemy->isDebuffEnd("SW Ult")){
+                    enemy->debuffSingle({{ST_DEF_SHRED,AT_NONE,-45}});
                 }
                 enemy->isDebuffEnd("Bug 1");
                 if(enemy->isDebuffEnd("Bug 2")){

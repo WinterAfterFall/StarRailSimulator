@@ -21,6 +21,10 @@ namespace SomeChar{
         LC(ptr);
         Relic(ptr);
         Planar(ptr);
+
+        #pragma region Ability
+
+        #pragma endregion
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
 
         };
