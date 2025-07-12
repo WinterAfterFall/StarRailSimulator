@@ -25,28 +25,28 @@ void SetCharacterPtr(){
 }
 
 int main(){
-    // std::ios::sync_with_stdio(false);
-    // std::cin.tie(nullptr);
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
     SetValue();
     // The_Herta::Setup(2,Erudition_Lightcone::The_Herta_LC(1),Relic::Scholar,Planar::Izumo);
     // Aglaea::Setup(1,Remembrance_Lightcone::Aglaea_LC(1),Relic::Hero_Wreath,Planar::The_Wondrous_BananAmusement_Park);
     // Jingyuan::Setup_Jingyuan(0,Erudition_Lightcone::Before_Dawn(1),Relic::Grand_Duke,Planar::The_Wondrous_BananAmusement_Park);
     // Castorice::Setup(0,Remembrance_Lightcone::Castorice_LC(1),Relic::Poet_Dill,Planar::Bone_Collection);
-    Phainon::Setup(2,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::Arcadia);
+    // Phainon::Setup(2,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::Arcadia);
     // Mydei::Setup(0,Destruction_Lightcone::Mydei_LC(1),Relic::Scholar,Planar::Bone_Collection);
-    // Anaxa::Setup(0,Erudition_Lightcone::GreatCosmic(5),Relic::GeniusBrilliant,Planar::Lushaka);
+    Anaxa::Setup(0,Erudition_Lightcone::GreatCosmic(5),Relic::GeniusBrilliant,Planar::Lushaka);
     
     //Driver
     // Sunday::Setup(0,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
-    Bronya::Setup(0,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
-    Hanabi::Setup(6,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
+    // Bronya::Setup(0,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
+    // Hanabi::Setup(6,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Broken_Keel);
     
     //Sub dps
-    // Serval::Setup(6,Erudition_Lightcone::Passkey(5),Relic::Eagle_Beaked_Helmet,Planar::Lushaka);
+    Serval::Setup(6,Erudition_Lightcone::Passkey(5),Relic::Eagle_Beaked_Helmet,Planar::Lushaka);
     // Jade::Setup(0,Erudition_Lightcone::Cosmos_Fell(5),Relic::Grand_Duke,Planar::Izumo);
     
     //Support
-    // Tribbie::Setup(0,Harmony_Lightcone::DDD(5),Relic::Poet_Dill,Planar::Broken_Keel);
+    Tribbie::Setup(0,Harmony_Lightcone::DDD(5),Relic::Poet_Dill,Planar::Broken_Keel);
     // RMC::Setup(6,Remembrance_Lightcone::Victory_In_Blink(5),Relic::PairSet(ST_SPD_P,ST_SPD_P),Planar::Broken_Keel);
     // Robin::Setup(0,Harmony_Lightcone::For_Tomorrow_Journey(5),Relic::PairSet(ST_ATK_P,ST_ATK_P),Planar::Broken_Keel);
     // Ruan_Mei::Setup(0,Harmony_Lightcone::Memories_of_the_Past(5),Relic::PairSet(ST_BE,ST_BE),Planar::Broken_Keel);
@@ -58,14 +58,15 @@ int main(){
     // SW::Setup(0,Nihility_Lightcone::Resolution(5),Relic::PairSet(ST_SPD_P,ST_SPD_P),Planar::Broken_Keel);
 
     //Sustain
-    Gallagher::Setup(6,Abundance_Lightcone::Multiplication(5),Relic::Goddess_of_Sun_and_Thunder,Planar::GiantTree(0));
+    // Gallagher::Setup(6,Abundance_Lightcone::Multiplication(5),Relic::Goddess_of_Sun_and_Thunder,Planar::GiantTree(0));
     // Luocha::Setup(0,Abundance_Lightcone::Multiplication(5),Relic::Goddess_of_Sun_and_Thunder,Planar::GiantTree(0));
+    Huohuo::Setup(6,Abundance_Lightcone::Multiplication(5),Relic::Goddess_of_Sun_and_Thunder,Planar::GiantTree(0));
     // Hyacine::Setup(0,Remembrance_Lightcone::RemembranceHertaShop(5),Relic::Goddess_of_Sun_and_Thunder,Planar::GiantTree(1));
     
     SetCharacterPtr();
     
     //--------------------- Adjust ------------------------
-    Phainon::AddBuffCondition();
+    // Phainon::AddBuffCondition();
     // Char3->setTargetAlly(2);
 
     
@@ -73,7 +74,7 @@ int main(){
     //--------------------- Formula Check ------------------------
     
     // Char2->enableCheckDamage();
-    // Char1->enableCheckDamageFormula();  
+    Char1->enableCheckDamageFormula();  
     // Char4->enableCheckHealFormula();
     // Char4->enableCheckHeal();
     

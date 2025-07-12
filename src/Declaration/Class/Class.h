@@ -26,6 +26,7 @@ class EnemyActionData;
 //Trigger_Function
 class TriggerFunc;
 class TriggerByYourSelf_Func;
+class TriggerByAlly_Func;
 class TriggerByAction_Func;
 class TriggerByAllyAction_Func;
 class TriggerByAllyAttackAction_Func;

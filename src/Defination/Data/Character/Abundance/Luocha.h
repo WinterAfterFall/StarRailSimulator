@@ -91,7 +91,7 @@ namespace Luocha{
     void Talent(Ally *ptr){
         Increase_energy(ptr,30);
         ++ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"];
-            ptr->getSubUnit()->RestoreHP(HealSrc(HealSrcType::ATK,60,HealSrcType::CONST,800),HealSrc(),HealSrc());
+        ptr->getSubUnit()->RestoreHP(HealSrc(HealSrcType::ATK,60,HealSrcType::CONST,800),HealSrc(),HealSrc());
         Abyss_Flower(ptr);
         
     }

@@ -24,6 +24,12 @@ class TriggerByYourSelf_Func : public TriggerFunc{
     TriggerByYourSelf_Func(int priority, function<void()> Call) 
     : TriggerFunc(priority), Call(Call) {}
 };
+class TriggerByAlly_Func : public TriggerFunc{
+    public:
+    function<void(Ally *ally)> Call;
+    TriggerByAlly_Func(int priority, function<void(Ally *ally)> Call) 
+    : TriggerFunc(priority), Call(Call) {}
+};
 class TriggerByAction_Func : public TriggerFunc{
     public:
     function<void(shared_ptr<ActionData> &act)> Call;

@@ -48,6 +48,9 @@ bool ultUseCheck(Ally *ptr){
     }
     ptr->Current_energy = ptr->Current_energy - ptr->Ult_cost;
     Increase_energy(ptr,5);
+    for(TriggerByAlly_Func &e : WhenUseUlt_List){
+        e.Call(ptr);
+    }
     return true;
 }
 void allUltimateCheck(){

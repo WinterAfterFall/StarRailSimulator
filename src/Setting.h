@@ -86,6 +86,7 @@ vector<TriggerByYourSelf_Func> Start_wave_List;
 vector<TriggerByYourSelf_Func> Before_turn_List;
 vector<TriggerByYourSelf_Func> After_turn_List;
 vector<TriggerByYourSelf_Func> Ultimate_List;
+vector<TriggerByAlly_Func> WhenUseUlt_List;
 
 vector<TriggerByAction_Func> BeforeAction_List;
 vector<TriggerByAction_Func> AfterAction_List;
