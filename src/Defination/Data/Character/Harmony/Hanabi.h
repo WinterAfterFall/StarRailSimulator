@@ -73,8 +73,14 @@ namespace Hanabi{
             Skill();
         };
         
-        ptr->addUltCondition([ptr]() -> bool {
+        ptr->addUltCondition([ptr,hnb]() -> bool {
+            if(Max_sp-sp<3)return false;
             return true;
+        });
+
+        ptr->addUltCondition([ptr,hnb]() -> bool {
+            if(ptr->Light_cone.Name!="DDD"&&Ult_After_Turn==0&&turn->isSameChar(chooseSubUnitBuff(hnb)))return true;
+            return false;
         });
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,hnb]() {
