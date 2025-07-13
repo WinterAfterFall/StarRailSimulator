@@ -8,5 +8,6 @@
 #include "HertaShop.h"
 #include "BP2.h"
 #include "Ninja_Record.h"
+#include "The Moles.h"
 #include "Secret_Vow.h"
 #include "Secret_Vow_Nobuff.h"
