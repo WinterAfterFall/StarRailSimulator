@@ -28,6 +28,7 @@ namespace Cipher{
         
         ptr->Adjust["Cipher A2"] = 2;
         ptr->Adjust["Cipher Ult Share"] = 1;
+        ptr->Adjust["Cipher Use Only BA"] = 1;
 
         
         function<void()> BA = [ptr,cph]() {
@@ -66,7 +67,7 @@ namespace Cipher{
         
         
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,cph,BA,Skill]() {
-            if(CharCmd::Using_Skill(ptr))Skill();
+            if(CharCmd::Using_Skill(ptr)&&!ptr->Adjust["Cipher Use Only BA"])Skill();
             else BA();
         };
 

@@ -43,6 +43,7 @@ namespace Tingyun{
             shared_ptr<AllyBuffAction> act = 
             make_shared<AllyBuffAction>(ActionType::Ult,ptr->getSubUnit(),TT_SINGLE,"TY Ult",
             [ptr,TYptr](shared_ptr<AllyBuffAction> &act){
+                CharCmd::printUltStart("Tingyun");
                 Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(), 0, (ptr->Eidolon >= 6) ? 60 : 50);
                 if (ptr->Eidolon >= 1)
                 chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_SPD,ST_SPD_P,20}},"Windfall_of_Lucky_Springs",1);

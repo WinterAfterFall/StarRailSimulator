@@ -15,7 +15,7 @@ namespace Bronya{
         ptr->pushSubstats(ST_CD);
         ptr->setTotalSubstats(20);
         ptr->setRelicMainStats(ST_CD,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
-        ptr->setSpeedRequire(133);
+        ptr->setSpeedRequire(134);
 
         Driver_num = Bronyaptr->Atv_stats->num;
 

@@ -51,17 +51,17 @@ int main(){
     // RMC::Setup(6,Remembrance_Lightcone::Victory_In_Blink(5),Relic::PairSet(ST_SPD_P,ST_SPD_P),Planar::Lushaka);
     // Robin::Setup(0,Harmony_Lightcone::For_Tomorrow_Journey(5),Relic::PairSet(ST_ATK_P,ST_ATK_P),Planar::Lushaka);
     // Ruan_Mei::Setup(0,Harmony_Lightcone::Memories_of_the_Past(5),Relic::PairSet(ST_BE,ST_BE),Planar::Lushaka);
-    // Tingyun::Setup(6,Harmony_Lightcone::DDD(5),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
+    Tingyun::Setup(6,Harmony_Lightcone::DDD(5),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
     
     //Debuffer
-    // Pela::Setup(6,Nihility_Lightcone::Before_the_Tutorial(5),Relic::Eagle_Beaked_Helmet,Planar::Lushaka);
     // Cipher::Setup(0,Nihility_Lightcone::Resolution(5),Relic::PairSet(ST_SPD_P,ST_SPD_P),Planar::Lushaka);
     // SW::Setup(0,Nihility_Lightcone::Resolution(5),Relic::PairSet(ST_SPD_P,ST_SPD_P),Planar::Lushaka);
+    Pela::Setup(6,Nihility_Lightcone::Before_the_Tutorial(5),Relic::Eagle_Beaked_Helmet,Planar::Lushaka);
 
     //Sustain
-    Gallagher::Setup(6,Abundance_Lightcone::Multiplication(5),Relic::Goddess_of_Sun_and_Thunder,Planar::GiantTree(0));
+    // Gallagher::Setup(6,Abundance_Lightcone::Multiplication(5),Relic::Goddess_of_Sun_and_Thunder,Planar::GiantTree(0));
     // Luocha::Setup(0,Abundance_Lightcone::Multiplication(5),Relic::Goddess_of_Sun_and_Thunder,Planar::GiantTree(0));
-    // Huohuo::Setup(6,Abundance_Lightcone::Multiplication(5),Relic::Goddess_of_Sun_and_Thunder,Planar::GiantTree(0));
+    Huohuo::Setup(0,Abundance_Lightcone::Multiplication(5),Relic::Goddess_of_Sun_and_Thunder,Planar::GiantTree(0));
     // Hyacine::Setup(0,Remembrance_Lightcone::RemembranceHertaShop(5),Relic::Goddess_of_Sun_and_Thunder,Planar::GiantTree(1));
     
     SetCharacterPtr();
@@ -74,7 +74,7 @@ int main(){
 
     //--------------------- Formula Check ------------------------
     
-    // Char2->enableCheckDamage();
+    // Char1->enableCheckDamage();
     Char1->enableCheckDamageFormula();  
     // Char4->enableCheckHealFormula();
     // Char4->enableCheckHeal();
