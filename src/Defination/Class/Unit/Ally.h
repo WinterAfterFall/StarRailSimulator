@@ -220,6 +220,10 @@ public:
         if(ptr->ptrToChar->getSubUnit()->isSameUnit(this->getSubUnit()))return true;
         return false;
     }
+    bool isSameAlly(Ally *ptr){
+        if(ptr->getSubUnit()->isSameUnit(this->getSubUnit()))return true;
+        return false;
+    }
     #pragma endregion
 
     

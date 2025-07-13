@@ -11,7 +11,7 @@ namespace Sunday{
         ptr->SetAllyBaseStats(1242, 640, 533);
         ptr->pushSubstats(ST_CD);
         ptr->setTotalSubstats(20);
-        ptr->setSpeedRequire(160);
+        ptr->setSpeedRequire(134);
         ptr->setRelicMainStats(ST_HP_P,ST_FLAT_SPD,ST_HP_P,ST_EnergyRecharge);
 
         Driver_num = SDptr->Atv_stats->num;
@@ -24,6 +24,7 @@ namespace Sunday{
         };
 
         ptr->addUltCondition([ptr,SDptr]() -> bool {
+            if(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->getSubUnit()->isSameUnitName("Saber"))return true;
             if(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy!=0){
                 if (chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy <= 200 &&
                     chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy - 

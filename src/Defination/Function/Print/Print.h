@@ -6,7 +6,10 @@ void Print(){
     cout<<""<<turn->Char_Name<<" ";
     cout<<turn->turnCnt<<" ";
     cout<<sp<<" ";
-    cout<<Ally_unit[1]->Sub_Unit_ptr[0]->Buff_note["Core Flame"]<<" ";
+    // cout<<Ally_unit[1]->Sub_Unit_ptr[0]->Buff_note["Core Flame"]<<" ";
+    cout<<Ally_unit[1]->Sub_Unit_ptr[0]->Buff_check["Mana Flow"]<<" ";
+    cout<<Ally_unit[1]->Sub_Unit_ptr[0]->Buff_note["Core Resonance"]<<" ";
+    cout<<Ally_unit[1]->Current_energy<<" ";
     
     cout<<endl;
 }

@@ -2,7 +2,7 @@
 
 void Take_action(){
     
-    Ult_After_Turn = 0;
+    Situation = "Before Turn";
     After_Turn_Check = 0;
     if(!turn->extraTurn){
         ++(turn->turnCnt);
@@ -20,7 +20,7 @@ void Take_action(){
         
     }
     
-    Ult_After_Turn = 1;
+    Situation = "After Turn";
     
     
     allUltimateCheck();
@@ -35,8 +35,8 @@ void Deal_damage(){
     actionBarUse = true;
     while(!Action_bar.empty()){
         shared_ptr<ActionData> temp = Action_bar.front();
+        Situation = "While Action";
         if(turn)allUltimateCheck();
-
         allEventBeforeAction(temp);
         if (auto allyActionData = dynamic_pointer_cast<AllyActionData>(temp)) {
             allEventWhenAllyAction(allyActionData);
@@ -93,7 +93,7 @@ void Attack(shared_ptr<AllyAttackAction> &act){
         cout << "\033[0m";
     }
 
-    allEventBeforeAttack(act);
+    
 
     int dmgIns = 0;
     for(auto &each : act->AttackSetList){
@@ -118,14 +118,16 @@ void Attack(shared_ptr<AllyAttackAction> &act){
         }
         allEventAttackHitCount(act);
 
+        allEventBeforeAttack(act);
         for(auto &each2 : act->damageSplit[i]){
             calDamage(act,each2.target,each2.dmgSrc);
             if(each2.dmgSrc.toughnessReduce>0)
             Cal_Toughness_reduction(act,each2.target,each2.dmgSrc.toughnessReduce);
         }
+        allEventAfterAttack(act);
     }
 
-    allEventAfterAttack(act);
+    
 
     if(act->Attacker->ptrToChar->checkDamageFormula||act->Attacker->ptrToChar->checkDamage){
         cout<<"\033[0;38;5;2m";

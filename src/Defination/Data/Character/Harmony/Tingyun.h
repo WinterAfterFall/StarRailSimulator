@@ -31,6 +31,7 @@ namespace Tingyun{
         };
 
         ptr->addUltCondition([ptr,TYptr]() -> bool {
+            if(chooseSubUnitBuff(TYptr)->isSameUnitName("Saber"))return true;
             if(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Max_energy==0)return true;
             if (Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Max_energy - Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Current_energy <= 30) return false;
             return true;
@@ -46,7 +47,7 @@ namespace Tingyun{
                 if (ptr->Eidolon >= 1)
                 chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_SPD,ST_SPD_P,20}},"Windfall_of_Lucky_Springs",1);
                 
-                if (turn->Char_Name == Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[0]->Atv_stats->Char_Name && Ult_After_Turn == 0)
+                if (turn->Char_Name == Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[0]->Atv_stats->Char_Name && Situation == "Before Turn")
                 chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_DMG,AT_NONE,56}},"Rejoicing_Clouds",1);
                 else
                 chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_DMG,AT_NONE,56}},"Rejoicing_Clouds",2);

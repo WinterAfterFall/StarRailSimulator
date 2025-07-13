@@ -79,7 +79,7 @@ namespace Hanabi{
         });
 
         ptr->addUltCondition([ptr,hnb]() -> bool {
-            if(ptr->Light_cone.Name!="DDD"&&Ult_After_Turn==0&&turn->isSameChar(chooseSubUnitBuff(hnb)))return true;
+            if(ptr->Light_cone.Name!="DDD"&&Situation == "Before Turn"&&turn->isSameChar(chooseSubUnitBuff(hnb)))return true;
             return false;
         });
 

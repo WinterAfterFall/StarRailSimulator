@@ -116,7 +116,6 @@ class AllyAttackAction : public AllyActionData {
     public :
     #pragma endregion
 
-
     #pragma region checkMethod
     //check แค่ว่าตัวหลักตัวเดียวกันไหม
     bool isSameAtker(SubUnit *ptr){

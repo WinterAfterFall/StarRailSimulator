@@ -36,7 +36,7 @@ namespace Huohuo{
 
         function<void()> Skill = [ptr,hh]() {
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(ActionType::BA,ptr->getSubUnit(),TT_BLAST,"HH Skill",
+            make_shared<AllyBuffAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BLAST,"HH Skill",
             [ptr,hh](shared_ptr<AllyBuffAction> &act){
                 Skill_point(hh,-1);
                 Increase_energy(hh,30);
@@ -61,14 +61,14 @@ namespace Huohuo{
         };
         
         ptr->addUltCondition([ptr,hh]() -> bool {
-            if(Ult_After_Turn==0&&turn->isSameChar(chooseSubUnitBuff(hh)))return true;
+            if(Situation == "Before Turn"&&turn->isSameChar(chooseSubUnitBuff(hh)))return true;
             return false;
         });
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,hh]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(ActionType::BA,ptr->getSubUnit(),TT_BLAST,"HH Ult",
+            make_shared<AllyBuffAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"HH Ult",
             [hh](shared_ptr<AllyBuffAction> &act){
                 CharCmd::printUltStart("Huohuo");
                 buffAllAlly({{ST_ATK_P,AT_NONE,40}},"HH Ult",2);
@@ -80,6 +80,7 @@ namespace Huohuo{
             });
             act->addBuffAllAllies();
             act->addToActionBar();
+            Deal_damage();
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {

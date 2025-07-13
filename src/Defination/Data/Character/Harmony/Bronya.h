@@ -15,7 +15,7 @@ namespace Bronya{
         ptr->pushSubstats(ST_CD);
         ptr->setTotalSubstats(20);
         ptr->setRelicMainStats(ST_CD,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
-        ptr->setSpeedRequire(159);
+        ptr->setSpeedRequire(133);
 
         Driver_num = Bronyaptr->Atv_stats->num;
 
@@ -44,7 +44,7 @@ namespace Bronya{
                 }
 
                 //ดักในกรณีที่บัพในเทิร์นตัวละครอื่น
-                if(Ult_After_Turn == 0 && (turn->Side == "Memosprite" || turn->Side == "Ally")){
+                if(Situation == "Before Turn" && (turn->Side == "Memosprite" || turn->Side == "Ally")){
                     SubUnit *temp = dynamic_cast<SubUnit*>(turn->ptrToChar);
                     temp->extendBuffTime("Bronya_Ult",1);
                 }

@@ -7,3 +7,5 @@ hanabi ult condition
 เติมคอนดิชั่น Robin ให้ครบ
 เพิ่ม immdialy use ult condition
 เพิ่มชื่อ ult condition
+แก้พวก Ult situation
+แก้ set damage note

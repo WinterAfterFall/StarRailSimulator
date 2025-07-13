@@ -24,6 +24,20 @@ namespace SomeChar{
 
         #pragma region Ability
 
+        function<void()> BA = [ptr]() {
+            shared_ptr<AllyAttackAction> act = 
+            make_shared<AllyAttackAction>(ActionType::,ptr->getSubUnit(),,,
+            [ptr](shared_ptr<AllyAttackAction> &act){
+                Skill_point(,1);
+                Increase_energy(,20);
+                Attack(act);
+            });
+            act->addDamageIns(
+                DmgSrc(DmgSrcType::ATK,100,10)
+            );
+            act->addToActionBar();
+        };
+
         #pragma endregion
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
 
