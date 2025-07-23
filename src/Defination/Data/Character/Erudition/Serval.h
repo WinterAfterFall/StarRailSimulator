@@ -21,7 +21,7 @@ namespace Serval{
         ptr->pushSubstats(ST_CR);
         ptr->pushSubstats("Atk%");
         ptr->setTotalSubstats(20);
-        ptr->setSpeedRequire(150);
+        ptr->setSpeedRequire(160);
         ptr->setApplyBaseChance(100);
         ptr->setRelicMainStats(ST_EHR,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
 

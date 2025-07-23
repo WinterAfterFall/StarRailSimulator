@@ -3,7 +3,7 @@ namespace Planar{
     void Rutilant(Ally *ptr);
     void Rutilant(Ally *ptr){
         
-        ptr->Planar.Name = "Rutilant";
+        ptr->Planar.Name = "    ";
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 8;
         }));

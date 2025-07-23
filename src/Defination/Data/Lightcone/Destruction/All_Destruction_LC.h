@@ -5,6 +5,7 @@
 #include "Phainon LC.h"
 #include "Mydei_LC.h"
 #include "Saber_LC.h"
+#include "Danheng_LC.h"
 #include "HertaShop.h"
 #include "BP2.h"
 #include "Ninja_Record.h"

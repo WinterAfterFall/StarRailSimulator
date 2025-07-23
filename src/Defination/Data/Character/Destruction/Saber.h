@@ -11,7 +11,7 @@ namespace Saber{
         ptr->pushSubstats(ST_ATK_P);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(136);
-        ptr->setRelicMainStats(ST_CR,ST_FLAT_SPD,ST_DMG,ST_ATK_P);
+        ptr->setRelicMainStats(ST_CD,ST_FLAT_SPD,ST_DMG,ST_ATK_P);
 
         
         //func
@@ -80,11 +80,10 @@ namespace Saber{
                 DmgSrc(DmgSrcType::ATK,75,10)
             );
 
+            if(Total_enemy==1||(bestBounce&&Total_enemy==5))
+            act->multiplyDmg(370/150*100);
             if(Total_enemy==2)
             act->multiplyDmg(200);
-            if(Total_enemy==1)
-            act->multiplyDmg(370/150*100);
-
             act->addToActionBar();
         };
 
@@ -158,6 +157,10 @@ namespace Saber{
         };
         
 
+        ptr->addUltCondition([sb]() -> bool {
+            if(!sb->getBuffCheck("Mana Flow"))return true;
+            return false;
+        });
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,sb]() {
             if (!ultUseCheck(ptr)) return;
