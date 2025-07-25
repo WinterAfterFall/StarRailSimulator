@@ -284,7 +284,6 @@ namespace Phainon{
 
         Start_wave_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,pn]() {
             if(ptr->Technique){
-                if (ptr->Technique == 1) {
                 shared_ptr<AllyAttackAction> act = 
                 make_shared<AllyAttackAction>(ActionType::Technique,ptr->getSubUnit(),TT_AOE,"PN Tech",
                 [ptr](shared_ptr<AllyAttackAction> &act){
@@ -297,7 +296,6 @@ namespace Phainon{
                 );
                 act->addToActionBar();
                 Deal_damage();
-            }
             }
         }));
 

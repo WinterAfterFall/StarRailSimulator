@@ -16,8 +16,6 @@ void Take_action(){
         turn->ptrToChar->Turn_func();  
         
         Deal_damage();
-        
-        
     }
     
     Situation = "After Turn";

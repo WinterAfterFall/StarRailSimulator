@@ -31,6 +31,9 @@ namespace Serval{
         Relic(ptr);
         Planar(ptr);
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
+                Basic_Atk(ptr);
+                return;
+
             if (allyPtr->Atv_stats->turnCnt % 3 != 1) {
                 Basic_Atk(ptr);
             } else {
