@@ -7,8 +7,8 @@ namespace Nihility_Lightcone{
             ptr->newEhrRequire(120);
 
             BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                debuffAllEnemyApply({{ST_DEF_SHRED,AT_NONE,14.0 + (superimpose * 2)}},ptr->getSubUnit(),"Bamboozle",2);
-                debuffAllEnemyApply({{ST_DEF_SHRED,AT_NONE,7.0 + superimpose}},ptr->getSubUnit(),"Theft",2);
+                debuffAllEnemyApply({{ST_DEF_SHRED,AType::None,14.0 + (superimpose * 2)}},ptr->getSubUnit(),"Bamboozle",2);
+                debuffAllEnemyApply({{ST_DEF_SHRED,AType::None,7.0 + superimpose}},ptr->getSubUnit(),"Theft",2);
             }));
 
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
@@ -19,10 +19,10 @@ namespace Nihility_Lightcone{
                 Enemy *enemy = turn->canCastToEnemy();
                 if(!enemy)return;
                 if(enemy->isDebuffEnd("Bamboozle")){
-                    enemy->debuffSingle({{ST_DEF_SHRED,AT_NONE,-(14.0 + (superimpose * 2))}});
+                    enemy->debuffSingle({{ST_DEF_SHRED,AType::None,-(14.0 + (superimpose * 2))}});
                 }
                 if(enemy->isDebuffEnd("Theft")){
-                    enemy->debuffSingle({{ST_DEF_SHRED,AT_NONE,-(7.0 + superimpose)}});
+                    enemy->debuffSingle({{ST_DEF_SHRED,AType::None,-(7.0 + superimpose)}});
                 }
             }));
         };

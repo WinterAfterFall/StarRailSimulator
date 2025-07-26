@@ -22,13 +22,13 @@ class AllyBuffAction : public AllyActionData {
         if(this->Attacker->isSameUnitName(name))return true;
         return false;
     }
-    bool isSameBuff(string ability){
+    bool isSameBuff(AType ability){
         for(auto &each : actionTypeList){
             if(each == ability)return true;
         }  
         return false;    
     }
-    bool isSameBuff(SubUnit *ptr,string ability){
+    bool isSameBuff(SubUnit *ptr,AType ability){
         if(this->Attacker->isSameUnit(ptr)){
             for(auto &each : actionTypeList){
                 if(each == ability)return true;
@@ -36,7 +36,7 @@ class AllyBuffAction : public AllyActionData {
         }
         return false;    
     }
-    bool isSameBuff(Ally *ptr,string ability){
+    bool isSameBuff(Ally *ptr,AType ability){
         if(ptr->isSameAlly(this->Attacker)){
             for(auto &each : actionTypeList){
                 if(each == ability)return true;
@@ -44,7 +44,7 @@ class AllyBuffAction : public AllyActionData {
         }        
         return false;    
     }
-    bool isSameBuff(string name,string ability){
+    bool isSameBuff(string name,AType ability){
         if(this->Attacker->isSameUnitName(name)){
             for(auto &each : actionTypeList){
                 if(each == ability)return true;
@@ -57,42 +57,42 @@ class AllyBuffAction : public AllyActionData {
     #pragma endregion
 
     private :
-    void setupActionType(ActionType actionType){
+    void setupActionType(AType actionType){
         switch(actionType) {
-            case ActionType::BA:
-                actionTypeList.push_back(AT_BA);
+            case AType::BA:
+                actionTypeList.push_back(AType::BA);
                 Turn_reset = true;
                 break;
-            case ActionType::SKILL:
-                actionTypeList.push_back(AT_SKILL);
+            case AType::SKILL:
+                actionTypeList.push_back(AType::SKILL);
                 Turn_reset = true;
                 break;
-            case ActionType::Ult:
-                actionTypeList.push_back(AT_ULT);
+            case AType::Ult:
+                actionTypeList.push_back(AType::Ult);
                 break;
-            case ActionType::Fua:
-                actionTypeList.push_back(AT_FUA);
+            case AType::Fua:
+                actionTypeList.push_back(AType::Fua);
                 break;
-            case ActionType::Dot:
-                actionTypeList.push_back(AT_DOT);
+            case AType::Dot:
+                actionTypeList.push_back(AType::Dot);
                 break;
-            case ActionType::Break:
-                actionTypeList.push_back(AT_BREAK);
+            case AType::Break:
+                actionTypeList.push_back(AType::Break);
                 break;
-            case ActionType::SPB:
-                actionTypeList.push_back(AT_SPB);
+            case AType::SPB:
+                actionTypeList.push_back(AType::SPB);
                 break;
-            case ActionType::Addtional:
-                actionTypeList.push_back(AT_ADD);
+            case AType::Addtional:
+                actionTypeList.push_back(AType::Addtional);
                 break;
-            case ActionType::Technique:
-                actionTypeList.push_back(AT_TECH);
+            case AType::Technique:
+                actionTypeList.push_back(AType::Technique);
                 break;
-            case ActionType::Freeze:
-                actionTypeList.push_back("Freeze");
+            case AType::Freeze:
+                actionTypeList.push_back(AType::Freeze);
                 break;
-            case ActionType::Entanglement:
-                actionTypeList.push_back("Entanglement");
+            case AType::Entanglement:
+                actionTypeList.push_back(AType::Entanglement);
                 break;
             default:
                 break;
@@ -122,7 +122,7 @@ class AllyBuffAction : public AllyActionData {
         Action_bar.push(self);
     }
     AllyBuffAction(){}
-    AllyBuffAction(ActionType actionType,SubUnit* ptr,string traceType, string name)
+    AllyBuffAction(AType actionType,SubUnit* ptr,string traceType, string name)
     {
         Attacker = ptr;
         source = ptr;
@@ -130,7 +130,7 @@ class AllyBuffAction : public AllyActionData {
         this->traceType = traceType;
         setupActionType(actionType);
     }
-    AllyBuffAction(ActionType actionType,SubUnit* ptr,string traceType, string name,function<void(shared_ptr<AllyBuffAction> &act)> actionFunction)
+    AllyBuffAction(AType actionType,SubUnit* ptr,string traceType, string name,function<void(shared_ptr<AllyBuffAction> &act)> actionFunction)
     {
         Attacker = ptr;
         source = ptr;

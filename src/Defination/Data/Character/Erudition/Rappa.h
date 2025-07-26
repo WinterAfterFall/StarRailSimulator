@@ -38,18 +38,18 @@ namespace Rappa{
             if (!ultUseCheck(ptr)) return;
             
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(ActionType::Ult,ptr->getSubUnit(),TT_SINGLE,"Rappa Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TT_SINGLE,"Rappa Ult",
             [ptr](shared_ptr<AllyBuffAction> &act){
                 if (ptr->Print)CharCmd::printUltStart("Rappa");
                 ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"] = 1;
                 ptr->Sub_Unit_ptr[0]->Stack["Rappa_Ult"] = 2;
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] += 30;
-                ptr->Sub_Unit_ptr[0]->Stats_type["Weakness_Break_Efficiency"][AT_NONE] += 50;
-                if (ptr->Eidolon >= 1)ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_SHRED][AT_NONE] += 15;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None] += 30;
+                ptr->Sub_Unit_ptr[0]->Stats_type["Weakness_Break_Efficiency"][AType::None] += 50;
+                if (ptr->Eidolon >= 1)ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_SHRED][AType::None] += 15;
                 
 
                 shared_ptr<AllyAttackAction> data_2 = 
-                make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_BLAST,"Rappa EBA",
+                make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_BLAST,"Rappa EBA",
                 [ptr](shared_ptr<AllyAttackAction> &data_2){
                     Increase_energy(ptr, 20);
                     Attack(data_2);
@@ -81,8 +81,8 @@ namespace Rappa{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 28;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] += 13.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] += 28;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None] += 13.3;
             ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 9;
 
             // relic
@@ -100,17 +100,17 @@ namespace Rappa{
             if (enemyUnit) {
                 
                 if (enemyUnit->isDebuffEnd("Withered_Leaf")) {
-                    enemyUnit->debuffSingle({{ST_VUL,AT_BREAK,-enemyUnit->DebuffNote["Withered_Leaf"]}});
+                    enemyUnit->debuffSingle({{ST_VUL,AType::Break,-enemyUnit->DebuffNote["Withered_Leaf"]}});
                 }
             }
             if (turn->Char_Name == "Rappa") {
                 if (ptr->Sub_Unit_ptr[0]->Stack["Rappa_Ult"] == 0 && ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"] == 1) {
-                    ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] -= 30;
-                    ptr->Sub_Unit_ptr[0]->Stats_type["Weakness_Break_Efficiency"][AT_NONE] -= 50;
+                    ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None] -= 30;
+                    ptr->Sub_Unit_ptr[0]->Stats_type["Weakness_Break_Efficiency"][AType::None] -= 50;
 
                     ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"] = 0;
                     if (ptr->Eidolon >= 1) {
-                        ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_SHRED][AT_NONE] -= 15;
+                        ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_SHRED][AType::None] -= 15;
                         Increase_energy(ptr, 20);
                     }
                     if (ptr->Print == 1) {
@@ -127,7 +127,7 @@ namespace Rappa{
                     Superbreak_trigger(act,60,"");
 
                     shared_ptr<AllyAttackAction> data_2 = 
-                    make_shared<AllyAttackAction>(ActionType::Break,ptr->getSubUnit(),TT_AOE,"Rappa Talent");
+                    make_shared<AllyAttackAction>(AType::Break,ptr->getSubUnit(),TT_AOE,"Rappa Talent");
                     double temp = ptr->Sub_Unit_ptr[0]->Buff_note["Rappa_Talent"];
                     for(int i=1;i<=Total_enemy;i++){
                         Cal_Break_damage(act,Enemy_unit[i].get(),temp);
@@ -142,9 +142,9 @@ namespace Rappa{
             if (ptr->Technique == 1) {
                 Increase_energy(ptr, 10);
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(ActionType::Break,ptr->getSubUnit(),TT_AOE,"Rappa Tech");
+                make_shared<AllyAttackAction>(AType::Break,ptr->getSubUnit(),TT_AOE,"Rappa Tech");
                 shared_ptr<AllyAttackAction> data_2 = 
-                make_shared<AllyAttackAction>(ActionType::Technique,ptr->getSubUnit(),TT_AOE,"Rappa Tech");
+                make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TT_AOE,"Rappa Tech");
                 for (int i = 1; i <= Total_enemy; i++) {
                     double temp;
                    
@@ -172,7 +172,7 @@ namespace Rappa{
             if (temp < 0)
             temp = 0;
             target->DebuffNote["Withered_Leaf"] = target->DebuffNote["Withered_Leaf"];
-            target->debuffSingleApply({{ST_VUL, AT_BREAK, temp - target->DebuffNote["Withered_Leaf"]}},Rappaptr,"Withered_Leaf",2);
+            target->debuffSingleApply({{ST_VUL, AType::Break, temp - target->DebuffNote["Withered_Leaf"]}},Rappaptr,"Withered_Leaf",2);
         }));
     }
 
@@ -180,7 +180,7 @@ namespace Rappa{
     void Enchance_Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_BLAST,"Rappa BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_BLAST,"Rappa BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr, 20);
             Attack(act);
@@ -209,7 +209,7 @@ namespace Rappa{
     void Skill_func(Ally *ptr){
         
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_AOE,"Rappa Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_AOE,"Rappa Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);

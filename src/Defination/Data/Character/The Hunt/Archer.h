@@ -33,7 +33,7 @@ namespace Archer{
 
         function<void()> BA = [ptr,ac]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Archer BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"Archer BA",
             [ptr,ac](shared_ptr<AllyAttackAction> &act){
                 Skill_point(ac,1);
                 Increase_energy(ptr,20);
@@ -47,13 +47,13 @@ namespace Archer{
 
         function<void()> Skill = [ptr,ac]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_SINGLE,"Archer Skill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_SINGLE,"Archer Skill",
             [ptr,ac](shared_ptr<AllyAttackAction> &act){
                 Skill_point(ac,-2);
                 Increase_energy(ptr,30);
                 ac->calStack(1,5,"Archer Skill Limit");
-                if(ptr->Eidolon>=6)ac->buffStackSingle({{ST_DMG,AT_SKILL,100}},1,3,"Circuit Connection");
-                else ac->buffStackSingle({{ST_DMG,AT_SKILL,100}},1,2,"Circuit Connection");
+                if(ptr->Eidolon>=6)ac->buffStackSingle({{ST_DMG,AType::SKILL,100}},1,3,"Circuit Connection");
+                else ac->buffStackSingle({{ST_DMG,AType::SKILL,100}},1,2,"Circuit Connection");
                 Attack(act);
                 if(ptr->Eidolon>=1){
                     ac->addStack("Archer E1",1);
@@ -71,7 +71,7 @@ namespace Archer{
 
         function<void()> Fua = [ptr,ac]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(ActionType::Fua,ptr->getSubUnit(),TT_SINGLE,"Archer Fua",
+            make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TT_SINGLE,"Archer Fua",
             [ptr,ac](shared_ptr<AllyAttackAction> &act){
                 Skill_point(ac,1);
                 Increase_energy(ptr,5);
@@ -97,13 +97,13 @@ namespace Archer{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr,ac,Charge]() {
             if (!ultUseCheck(ptr))return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(ActionType::Ult,ptr->getSubUnit(),TT_SINGLE,"Archer Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TT_SINGLE,"Archer Ult",
             [ptr,ac,Charge](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Archer");
                 Charge(2);
                 if(ptr->Eidolon>=2){
                     for(auto &each : act->targetList){
-                        each->debuffSingleApply({{ST_RESPEN,ElementType::Quantum,AT_NONE,20}},ac,"Archer E2",2);
+                        each->debuffSingleApply({{ST_RESPEN,ElementType::Quantum,AType::None,20}},ac,"Archer E2",2);
                     }
                 }
                 Attack(act);
@@ -116,15 +116,15 @@ namespace Archer{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Quantum][AT_NONE] += 22.4;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 6.7;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Quantum][AType::None] += 22.4;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::None] += 6.7;
 
             // relic
 
             // substats
-            if(ptr->Eidolon>=4)ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG][AT_ULT] += 150;
-            if(ptr->Eidolon>=6)ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_SHRED][AT_SKILL] += 20;
+            if(ptr->Eidolon>=4)ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG][AType::Ult] += 150;
+            if(ptr->Eidolon>=6)ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_SHRED][AType::SKILL] += 20;
 
         }));
 
@@ -132,7 +132,7 @@ namespace Archer{
             Charge(1);
             if(ptr->Technique){
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(ActionType::Technique,ptr->getSubUnit(),TT_AOE,"Archer Tech",
+                make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TT_AOE,"Archer Tech",
                 [ptr](shared_ptr<AllyAttackAction> &act){
                     Attack(act);
                 });
@@ -156,10 +156,10 @@ namespace Archer{
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,ac]() {
             Enemy *enemy = turn->canCastToEnemy();
             if(ac->isBuffEnd("Archer A6")){
-                ac->buffSingle({{ST_CD,AT_NONE,-120}});
+                ac->buffSingle({{ST_CD,AType::None,-120}});
             }
             if(enemy&&enemy->isDebuffEnd("Archer E2")){
-                enemy->debuffSingle({{ST_RESPEN,ElementType::Quantum,AT_NONE,-20}});
+                enemy->debuffSingle({{ST_RESPEN,ElementType::Quantum,AType::None,-20}});
             }
         }));
 
@@ -168,7 +168,7 @@ namespace Archer{
                 if(sp>=2&&ac->getStack("Archer Skill Limit")<5){
                     Skill();
                 }else{
-                ac->buffResetStack({{ST_DMG,AT_SKILL,100}},"Circuit Connection");
+                ac->buffResetStack({{ST_DMG,AType::SKILL,100}},"Circuit Connection");
                 ac->setStack("Archer Skill Limit",0);
                 }
             }
@@ -180,7 +180,7 @@ namespace Archer{
 
         Skill_point_List.push_back(TriggerSkill_point_func(PRIORITY_Last, [ptr,Skill,ac,Charge,Fua](SubUnit *SP_maker, int SP) {
             if(sp>=4){
-                ac->buffSingle({{ST_CD,AT_NONE,120}},"Archer A6",1);
+                ac->buffSingle({{ST_CD,AType::None,120}},"Archer A6",1);
             }
         }));
     }

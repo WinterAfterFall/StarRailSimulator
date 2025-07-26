@@ -11,9 +11,9 @@ namespace Harmony_Lightcone{
 
             AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
                 if (act->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
-                    if (act->isSameAction(AT_SKILL)) {
+                    if (act->isSameAction(AType::SKILL)) {
                         ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff"] = 1;
-                    } else if (act->isSameAction(AT_ULT)) {
+                    } else if (act->isSameAction(AType::Ult)) {
                         if (ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_cnt"] == 0) {
                             ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_cnt"] = true;
                             Skill_point(ptr->Sub_Unit_ptr[0].get(), 1);
@@ -28,7 +28,7 @@ namespace Harmony_Lightcone{
                 SubUnit *tempstats = dynamic_cast<SubUnit *>(turn->ptrToChar);
                 if (!tempstats) return;
                 if (ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff"] == 1) {
-                    tempstats->Stats_type[ST_DMG][AT_NONE] += 25 + 5 * superimpose;
+                    tempstats->Stats_type[ST_DMG][AType::None] += 25 + 5 * superimpose;
                     ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff"] = 0;
                     ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff_check"] = 1;
                 }
@@ -38,7 +38,7 @@ namespace Harmony_Lightcone{
                 SubUnit *tempstats = dynamic_cast<SubUnit *>(turn->ptrToChar);
                 if (!tempstats) return;
                 if (ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff_check"] == 1) {
-                    tempstats->Stats_type[ST_DMG][AT_NONE] -= 25 + 5 * superimpose;
+                    tempstats->Stats_type[ST_DMG][AType::None] -= 25 + 5 * superimpose;
                     ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff_check"] = 0;
                 }
             }));

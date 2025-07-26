@@ -5,12 +5,12 @@ namespace Planar{
         
         ptr->Planar.Name = "    ";
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 8;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::None] += 8;
         }));
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG]["Skill"] += 20;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG]["Basic_Attack"] += 20;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG][AType::SKILL] += 20;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG][AType::BA] += 20;
         }));
         
        

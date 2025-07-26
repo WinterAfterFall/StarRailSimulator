@@ -1,7 +1,7 @@
 #include "../include.h"
 void Set_Stats(Ally *ptr){
     for(int i=0,sz = ptr->Substats.size();i<sz;i++){
-        if(ptr->Substats[i].first=="Speed"){
+        if(ptr->Substats[i].first==ST_FLAT_SPD){
             ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed+=2.3*ptr->Substats[i].second;
             for(int j=1,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
             ptr->Sub_Unit_ptr[j]->Atv_stats->flatSpeed+=(2.3*ptr->Substats[i].second)*(ptr->Sub_Unit_ptr[j]->Unit_Speed_Ratio/100);
@@ -9,32 +9,32 @@ void Set_Stats(Ally *ptr){
             
         }else if(ptr->Substats[i].first=="Hp%"){ 
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){ 
-            ptr->Sub_Unit_ptr[j]->buffSingle({{"Hp%",AT_NONE,3.888*ptr->Substats[i].second}});
+            ptr->Sub_Unit_ptr[j]->buffSingle({{"Hp%",AType::None,3.888*ptr->Substats[i].second}});
             }
         }
         if(ptr->Substats[i].first==ST_CR){
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            ptr->Sub_Unit_ptr[j]->buffSingle({{ST_CR,AT_NONE,2.9*ptr->Substats[i].second}});
+            ptr->Sub_Unit_ptr[j]->buffSingle({{ST_CR,AType::None,2.9*ptr->Substats[i].second}});
             }
 
         }else if(ptr->Substats[i].first==ST_CD){
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            ptr->Sub_Unit_ptr[j]->buffSingle({{ST_CD,AT_NONE,5.8*ptr->Substats[i].second}});
+            ptr->Sub_Unit_ptr[j]->buffSingle({{ST_CD,AType::None,5.8*ptr->Substats[i].second}});
             }
             
         }else if(ptr->Substats[i].first=="Atk%"){
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            ptr->Sub_Unit_ptr[j]->buffSingle({{"Atk%",AT_NONE,3.888*ptr->Substats[i].second}});
+            ptr->Sub_Unit_ptr[j]->buffSingle({{"Atk%",AType::None,3.888*ptr->Substats[i].second}});
             }
             
         }else if(ptr->Substats[i].first=="Def%"){
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            ptr->Sub_Unit_ptr[j]->buffSingle({{"Def%",AT_NONE,4.86*ptr->Substats[i].second}});
+            ptr->Sub_Unit_ptr[j]->buffSingle({{"Def%",AType::None,4.86*ptr->Substats[i].second}});
             }
             
         }else if(ptr->Substats[i].first==ST_BE){
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            ptr->Sub_Unit_ptr[j]->buffSingle({{ST_BE,AT_NONE,5.8*ptr->Substats[i].second}});
+            ptr->Sub_Unit_ptr[j]->buffSingle({{ST_BE,AType::None,5.8*ptr->Substats[i].second}});
             }
         }
     }

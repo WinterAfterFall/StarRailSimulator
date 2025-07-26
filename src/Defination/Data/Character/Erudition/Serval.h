@@ -42,9 +42,9 @@ namespace Serval{
         };
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_EHR][AT_NONE] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 18.7;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES][AT_NONE] += 10;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_EHR][AType::None] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::None] += 18.7;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES][AType::None] += 10;
 
             // relic
 
@@ -54,7 +54,7 @@ namespace Serval{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"Serval Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"Serval Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 Attack(act);
                 if (ptr->Eidolon >= 4){
@@ -78,7 +78,7 @@ namespace Serval{
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
             if (turn->Unit_Name == "Serval") {
                 if (ptr->Sub_Unit_ptr[0].get()->isBuffEnd("Serval_A6")) {
-                    ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] -= 20;
+                    ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] -= 20;
                 }
             }
             if (turn->Side == "Enemy") {
@@ -94,7 +94,7 @@ namespace Serval{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
             Increase_energy(ptr, 15);
             if (ptr->Eidolon >= 6) {
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG][AT_NONE] += 30;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG][AType::None] += 30;
             }
         }));
 
@@ -103,7 +103,7 @@ namespace Serval{
 
             if (Dot_type == DotType::General|| Dot_type == DotType::Bleed) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(ActionType::Dot,ptr->getSubUnit(),TT_SINGLE,"Serval Shock");
+            make_shared<AllyAttackAction>(AType::Dot,ptr->getSubUnit(),TT_SINGLE,"Serval Shock");
             act->addDamageIns(DmgSrc(DmgSrcType::ATK,114),target);
             act->multiplyDmg(Dot_ratio);
             Attack(act);
@@ -112,7 +112,7 @@ namespace Serval{
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act) {
             if (act->Attacker->Atv_stats->Unit_Name != "Serval") return;
             shared_ptr<AllyAttackAction> data_2 = 
-            make_shared<AllyAttackAction>(ActionType::Addtional,ptr->getSubUnit(),TT_SINGLE,"Serval AddDmg");
+            make_shared<AllyAttackAction>(AType::Addtional,ptr->getSubUnit(),TT_SINGLE,"Serval AddDmg");
             for (int i = 1; i <= Total_enemy; i++) {
                 if (Enemy_unit[i]->getDebuff("Serval_Shock")) {
                     data_2->addDamageIns(DmgSrc(DmgSrcType::ATK,79));
@@ -125,7 +125,7 @@ namespace Serval{
         }));
 
         Enemy_Death_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,Servalptr](Enemy *target, SubUnit *Killer) {
-            Servalptr->buffSingle({{ST_ATK_P,AT_NONE,20}},"Serval_A6",2);
+            Servalptr->buffSingle({{ST_ATK_P,AType::None,20}},"Serval_A6",2);
         }));
 
 
@@ -136,7 +136,7 @@ namespace Serval{
 
     void Basic_Atk(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Serval BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"Serval BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
@@ -154,7 +154,7 @@ namespace Serval{
     }
     void Skill(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BLAST,"Serval Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_BLAST,"Serval Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);

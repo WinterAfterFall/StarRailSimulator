@@ -56,7 +56,7 @@ namespace Hyacine{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Hycptr,Icaptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"Hyc Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"Hyc Ult",
             [ptr,Hycptr](shared_ptr<AllyBuffAction> &act){
                 if(ptr->Print)CharCmd::printUltStart("Hyacine");
                 SummonIca(ptr);
@@ -68,12 +68,12 @@ namespace Hyacine{
                 AfterHycHeal();
                 if(Hycptr->isHaveToAddBuff("After Rain",3)){
                     buffAllAlly({
-                        {ST_HP_P,AT_NONE,30},
-                        {ST_FLAT_HP,AT_NONE,600},
+                        {ST_HP_P,AType::None,30},
+                        {ST_FLAT_HP,AType::None,600},
                     });
                     if(ptr->Eidolon>=1)
                     buffAllAlly({
-                        {ST_HP_P,AT_NONE,50},
+                        {ST_HP_P,AType::None,50},
                     });
                     
 
@@ -81,17 +81,17 @@ namespace Hyacine{
                 IcaAttack(ptr);
             });
             act->addBuffAllAllies();
-            act->addActionType(ActionType::Summon);
+            act->addActionType(AType::Summon);
             act->addToActionBar();
             Deal_damage();
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr]() {
             ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 14;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"][AT_NONE] += 10;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES][AT_NONE] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"][AType::None] += 10;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES][AType::None] += 18;
 
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 100;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::None] += 100;
         }));
 
 
@@ -101,7 +101,7 @@ namespace Hyacine{
                 ptr->getSubUnit()->RestoreHP(HealSrc(HealSrcType::HP,30,HealSrcType::CONST,600));
                 AfterHycHeal();
                 buffAllAlly({
-                        {ST_HP_P,AT_NONE,20}
+                        {ST_HP_P,AType::None,20}
                     },"Day So Right, Life So Fine!",2);
             }
             double spd = calculateSpeedForBuff(Hycptr,100);
@@ -109,23 +109,23 @@ namespace Hyacine{
             if(healout <= 0)healout = 0;
             if(spd >= 200&&!Hycptr->getBuffCheck("Hyc A6 MaxHP")){
                 ptr->buffAlly({
-                    {ST_HP_P,AT_NONE,20}
+                    {ST_HP_P,AType::None,20}
                 });
                 Hycptr->setBuffCheck("Hyc A6 MaxHP",1);
             }else if(spd < 200&&Hycptr->getBuffCheck("Hyc A6 MaxHP")){
                 ptr->buffAlly({
-                    {ST_HP_P,AT_NONE,-20}
+                    {ST_HP_P,AType::None,-20}
                 });
                 Hycptr->setBuffCheck("Hyc A6 MaxHP",0);
             }
             ptr->buffAlly({
-                    {ST_HEALING_OUT,AT_TEMP,healout - Hycptr->getBuffNote("Hyc A6 Healout")},
-                    {ST_HEALING_OUT,AT_NONE,healout - Hycptr->getBuffNote("Hyc A6 Healout")},
+                    {ST_HEALING_OUT,AType::TEMP,healout - Hycptr->getBuffNote("Hyc A6 Healout")},
+                    {ST_HEALING_OUT,AType::None,healout - Hycptr->getBuffNote("Hyc A6 Healout")},
             });
             if(ptr->Eidolon>=4)
             ptr->buffAlly({
-                {ST_CD,AT_TEMP,(healout - Hycptr->getBuffNote("Hyc A6 Healout"))*2},
-                {ST_CD,AT_NONE,(healout - Hycptr->getBuffNote("Hyc A6 Healout"))*2},
+                {ST_CD,AType::TEMP,(healout - Hycptr->getBuffNote("Hyc A6 Healout"))*2},
+                {ST_CD,AType::None,(healout - Hycptr->getBuffNote("Hyc A6 Healout"))*2},
             });
 
             Hycptr->setBuffNote("Hyc A6 Healout",healout);
@@ -138,24 +138,24 @@ namespace Hyacine{
             if(Hycptr->isBuffEnd("After Rain")){
                 if(ptr->Print)CharCmd::printUltEnd("Hyacine");
                 buffAllAlly({
-                        {ST_HP_P,AT_NONE,-30},
-                        {ST_FLAT_HP,AT_NONE,-600},
+                        {ST_HP_P,AType::None,-30},
+                        {ST_FLAT_HP,AType::None,-600},
                 });
                 if(ptr->Eidolon>=1)
                 buffAllAlly({
-                    {ST_HP_P,AT_NONE,-50}
+                    {ST_HP_P,AType::None,-50}
                 });
             }
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr]() {
             if(Icaptr->isBuffEnd("First Light Heals the World")){
-                Icaptr->buffResetStack({{ST_DMG,AT_NONE,80}},"First Light Heals the World");
+                Icaptr->buffResetStack({{ST_DMG,AType::None,80}},"First Light Heals the World");
             }
             SubUnit *allyptr = turn->canCastToSubUnit();
             if(!allyptr)return;
             if(allyptr->isBuffEnd("Day So Right, Life So Fine!")){
-                allyptr->buffSingle({{ST_HP_P,AT_NONE,-20}});
+                allyptr->buffSingle({{ST_HP_P,AType::None,-20}});
             }
         }));
 
@@ -195,17 +195,17 @@ namespace Hyacine{
                 Action_forward(Hycptr->Atv_stats.get(),30);
             }
             if(target->isBuffGoneByDeath("First Light Heals the World")){
-                target->buffResetStack({{ST_DMG,AT_NONE,80}},"First Light Heals the World");
+                target->buffResetStack({{ST_DMG,AType::None,80}},"First Light Heals the World");
             }
             if(target->isBuffGoneByDeath("Day So Right, Life So Fine!")){
-                target->buffSingle({{ST_HP_P,AT_NONE,-20}});
+                target->buffSingle({{ST_HP_P,AType::None,-20}});
             }
         }));
         
         Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](SubUnit *Healer, SubUnit *target, double Value) {
             if(Healer->isSameUnitName("Hyacine")||Healer->isSameUnitName("Little Ica")){
                 Icaptr->buffStackSingle({
-                    {ST_DMG,AT_NONE,80}
+                    {ST_DMG,AType::None,80}
                 },1,3,"First Light Heals the World",2);
                 Icaptr->Buff_note["Tally RestoreHP"] += Value;
             }
@@ -219,29 +219,29 @@ namespace Hyacine{
 
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](SubUnit* Target, string StatsType) {
             if(!Target->isSameUnitName("Hyacine"))return;
-            if(StatsType!=ST_SPD)return;
+            if(StatsType!=ST_SPD_P||StatsType!=ST_FLAT_SPD)return;
             double spd = calculateSpeedForBuff(Hycptr,100);
             double healout = floor((spd-200.0));
             if(healout<=0)healout = 0;
             if(spd >= 200&&!Hycptr->getBuffCheck("Hyc A6 MaxHP")){
                 ptr->buffAlly({
-                    {ST_HP_P,AT_NONE,20}
+                    {ST_HP_P,AType::None,20}
                 });
                 Hycptr->setBuffCheck("Hyc A6 MaxHP",1);
             }else if(spd < 200&&Hycptr->getBuffCheck("Hyc A6 MaxHP")){
                 ptr->buffAlly({
-                    {ST_HP_P,AT_NONE,-20}
+                    {ST_HP_P,AType::None,-20}
                 });
                 Hycptr->setBuffCheck("Hyc A6 MaxHP",0);
             }
             ptr->buffAlly({
-                {ST_HEALING_OUT,AT_TEMP,healout - Hycptr->getBuffNote("Hyc A6 Healout")},
-                {ST_HEALING_OUT,AT_NONE,healout - Hycptr->getBuffNote("Hyc A6 Healout")},
+                {ST_HEALING_OUT,AType::TEMP,healout - Hycptr->getBuffNote("Hyc A6 Healout")},
+                {ST_HEALING_OUT,AType::None,healout - Hycptr->getBuffNote("Hyc A6 Healout")},
             });
             if(ptr->Eidolon>=4)
             ptr->buffAlly({
-                {ST_CD,AT_TEMP,(healout - Hycptr->getBuffNote("Hyc A6 Healout"))*2},
-                {ST_CD,AT_NONE,(healout - Hycptr->getBuffNote("Hyc A6 Healout"))*2},
+                {ST_CD,AType::TEMP,(healout - Hycptr->getBuffNote("Hyc A6 Healout"))*2},
+                {ST_CD,AType::None,(healout - Hycptr->getBuffNote("Hyc A6 Healout"))*2},
             });
 
             Hycptr->setBuffNote("Hyc A6 Healout",healout);
@@ -259,13 +259,13 @@ namespace Hyacine{
 
         if(ptr->Eidolon>=2){
             HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](Unit *Trigger, SubUnit *target, double Value) {
-                target->buffSingle({{ST_SPD,ST_SPD_P,30}},"Hyacine E2",2);
+                target->buffSingle({{ST_SPD_P,AType::None,30}},"Hyacine E2",2);
             }));
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr]() {
                 SubUnit *allyptr = turn->canCastToSubUnit();
                 if(allyptr&&allyptr->isBuffEnd("Hyacine E2")){
-                    allyptr->buffSingle({{ST_SPD,ST_SPD_P,-30}});
+                    allyptr->buffSingle({{ST_SPD_P,AType::None,-30}});
                 }
             }));    
         }
@@ -273,7 +273,7 @@ namespace Hyacine{
         if(ptr->Eidolon>=6)
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr]() {
             buffAllAlly({
-                {ST_RESPEN,AT_NONE,20}
+                {ST_RESPEN,AType::None,20}
             });
         }));
 
@@ -287,7 +287,7 @@ namespace Hyacine{
 
     void Basic_Atk(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Hyc BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"Hyc BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
@@ -299,7 +299,7 @@ namespace Hyacine{
     }
     void Skill(Ally *ptr){
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(ActionType::SKILL,ptr->getSubUnit(),TT_AOE,"Hyc Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TT_AOE,"Hyc Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
@@ -312,7 +312,7 @@ namespace Hyacine{
             AfterHycHeal();
             IcaAttack(ptr);
         });
-        act->addActionType(ActionType::Summon);
+        act->addActionType(AType::Summon);
         act->addBuffAllAllies();
         act->addToActionBar();
     }
@@ -321,13 +321,13 @@ namespace Hyacine{
 
     void Memo_Skill(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(1),TT_AOE,"Ica Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(1),TT_AOE,"Ica Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,5);
             Attack(act);
             ptr->getSubUnit(1)->resetATV(-1);
         });
-        act->addActionType(ActionType::Summon);
+        act->addActionType(AType::Summon);
         act->addDamageIns(
             DmgSrc(DmgSrcType::CONST,ptr->getSubUnit(1)->getBuffNote("Tally RestoreHP")*0.2,10),
             DmgSrc(DmgSrcType::CONST,ptr->getSubUnit(1)->getBuffNote("Tally RestoreHP")*0.2,10),
@@ -363,7 +363,7 @@ namespace Hyacine{
                 if(each->currentHP*2<=each->totalHP){
                     if(each->isHaveToAddBuff("Hyc A2")){
                         each->buffSingle({
-                            {ST_HEALING_IN,AT_NONE,25}
+                            {ST_HEALING_IN,AType::None,25}
                         });
                     }
                 }
@@ -375,7 +375,7 @@ namespace Hyacine{
             for(auto &each : Ally_unit[i]->Sub_Unit_ptr){
                 if(each->getBuffCheck("Hyc A2")){
                     each->buffSingle({
-                        {ST_HEALING_IN,AT_NONE,-25}
+                        {ST_HEALING_IN,AType::None,-25}
                     });
                     each->setBuffCheck("Hyc A2",0);
                 }

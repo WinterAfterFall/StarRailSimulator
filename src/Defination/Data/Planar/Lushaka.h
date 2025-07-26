@@ -10,7 +10,7 @@ namespace Planar{
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (ptr->Sub_Unit_ptr[0]->Atv_stats->num != 1) {
-                Ally_unit[1]->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 12;
+                Ally_unit[1]->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] += 12;
             }
         }));
        

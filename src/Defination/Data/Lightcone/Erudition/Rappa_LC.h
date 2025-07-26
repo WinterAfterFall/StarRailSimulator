@@ -6,7 +6,7 @@ namespace Erudition_Lightcone{
             ptr->Light_cone.Name = "Rappa_LC";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] += 50 + superimpose * 10;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None] += 50 + superimpose * 10;
             }));
     
             Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
@@ -14,14 +14,14 @@ namespace Erudition_Lightcone{
             }));
 
             AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
-                if (act->isSameAction(ptr->getSubUnit(),AT_ULT)) {
+                if (act->isSameAction(ptr->getSubUnit(),AType::Ult)) {
                     ptr->Sub_Unit_ptr[0]->Buff_check["Ration"] = 1;
                     ptr->Sub_Unit_ptr[0]->Stack["Ration"] = 0;
                 }
             }));
 
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                if (act->isSameAction(ptr->getSubUnit(),AT_BA)&& ptr->Sub_Unit_ptr[0]->Buff_check["Ration"] == 1) {
+                if (act->isSameAction(ptr->getSubUnit(),AType::BA)&& ptr->Sub_Unit_ptr[0]->Buff_check["Ration"] == 1) {
                     ptr->Sub_Unit_ptr[0]->Stack["Ration"]++;
                     if (ptr->Sub_Unit_ptr[0]->Stack["Ration"] == 2) {
                         Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), (40 + superimpose * 5));

@@ -8,16 +8,16 @@ namespace Destruction_Lightcone{
             When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr,superimpose]
                 (shared_ptr<AllyAttackAction> &act) {
                 if(act->isSameUnit(ptr->getSubUnit()))
-                ptr->getSubUnit()->buffStackSingle({{ST_ATK_P,AT_NONE,6.0+superimpose*2.0}},1,4,"Aeon Atk");
+                ptr->getSubUnit()->buffStackSingle({{ST_ATK_P,AType::None,6.0+superimpose*2.0}},1,4,"Aeon Atk");
             }));
     
             Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_ACTTACK, [ptr,superimpose](Enemy *target, SubUnit *Trigger) {
-                ptr->getSubUnit()->buffSingle({{ST_DMG,AT_NONE,9.0 + 3 * superimpose}},"Aeon Dmg%",2);
+                ptr->getSubUnit()->buffSingle({{ST_DMG,AType::None,9.0 + 3 * superimpose}},"Aeon Dmg%",2);
             }));
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,superimpose]() {
                 if (ptr->Sub_Unit_ptr[0]->isBuffEnd("Aeon Dmg%")) {
-                ptr->getSubUnit()->buffSingle({{ST_DMG,AT_NONE,-(9.0 + 3 * superimpose)}});
+                ptr->getSubUnit()->buffSingle({{ST_DMG,AType::None,-(9.0 + 3 * superimpose)}});
                 }
             }));
     

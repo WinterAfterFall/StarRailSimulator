@@ -26,7 +26,7 @@ namespace SomeChar{
 
         function<void()> BA = [ptr]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(ActionType::,ptr->getSubUnit(),,,
+            make_shared<AllyAttackAction>(AType::,ptr->getSubUnit(),,,
             [ptr](shared_ptr<AllyAttackAction> &act){
                 Skill_point(,1);
                 Increase_energy(,20);
@@ -53,9 +53,9 @@ namespace SomeChar{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Ice][AT_NONE] += 22.4;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"][AT_NONE] += 10;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Ice][AType::None] += 22.4;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"][AType::None] += 10;
 
             // relic
 

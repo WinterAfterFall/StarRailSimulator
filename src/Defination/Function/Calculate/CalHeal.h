@@ -15,18 +15,18 @@ double calculateHeal(HealSrc healSrc, SubUnit *Healer, SubUnit *target) {
         cout<<"Atk Ratio : "<<healSrc.ATK<<" Hp Ratio : "<<healSrc.HP<<" Def Ratio : "<<healSrc.DEF<<" Fix Dmg : "<<endl;
 
         cout<<"Base Atk  : "<<setw(7)<<fixed<<setprecision(2)<<Healer->baseAtk
-        <<" Atk% : "<<setw(6)<<fixed<<setprecision(2)<<Healer->Stats_type["Atk%"][AT_NONE]
-        <<" Flat Atk  : "<<setw(7)<<fixed<<setprecision(2)<<Healer->Stats_type["Flat_Atk"][AT_NONE]
+        <<" Atk% : "<<setw(6)<<fixed<<setprecision(2)<<Healer->Stats_type["Atk%"][AType::None]
+        <<" Flat Atk  : "<<setw(7)<<fixed<<setprecision(2)<<Healer->Stats_type["Flat_Atk"][AType::None]
         <<" Total Atk  : "<<setw(7)<<fixed<<setprecision(2)<<calAtkMultiplier(Healer,target)<<endl;
 
         cout<<"Base Hp   : "<<setw(7)<<fixed<<setprecision(2)<<Healer->baseHp
-        <<" Hp%  : "<<setw(6)<<fixed<<setprecision(2)<<Healer->Stats_type["Hp%"][AT_NONE]
-        <<" Flat Hp   : "<<setw(7)<<fixed<<setprecision(2)<<Healer->Stats_type["Flat_Hp"][AT_NONE]
+        <<" Hp%  : "<<setw(6)<<fixed<<setprecision(2)<<Healer->Stats_type["Hp%"][AType::None]
+        <<" Flat Hp   : "<<setw(7)<<fixed<<setprecision(2)<<Healer->Stats_type["Flat_Hp"][AType::None]
         <<" Total Hp   : "<<setw(7)<<fixed<<setprecision(2)<<calHpMultiplier(Healer,target)<<endl;
     
         cout<<"Base Def  : "<<setw(7)<<fixed<<setprecision(2)<<Healer->baseDef
-        <<" Def% : "<<setw(6)<<fixed<<setprecision(2)<<Healer->Stats_type["Def%"][AT_NONE]
-        <<" Flat Def  : "<<setw(7)<<fixed<<setprecision(2)<<Healer->Stats_type["Flat_Def"][AT_NONE]
+        <<" Def% : "<<setw(6)<<fixed<<setprecision(2)<<Healer->Stats_type["Def%"][AType::None]
+        <<" Flat Def  : "<<setw(7)<<fixed<<setprecision(2)<<Healer->Stats_type["Flat_Def"][AType::None]
         <<" Total Def  : "<<setw(7)<<fixed<<setprecision(2)<<calDefMultiplier(Healer,target)<<endl;
 
         cout<<"Lost Hp   : "<<setw(7)<<fixed<<setprecision(2)<<healSrc.healFromLostHP
@@ -37,9 +37,9 @@ double calculateHeal(HealSrc healSrc, SubUnit *Healer, SubUnit *target) {
 
         cout<<"Fix Heal  : "<<setw(7)<<fixed<<setprecision(2)<<healSrc.constHeal<<endl;
 
-        cout<<"Healer Heal Bonus : "<<Healer->Stats_type[ST_HEALING_OUT][AT_NONE]
-        <<" target Heal Bonus : "<<target->Stats_type[ST_HEALING_IN][AT_NONE]
-        <<" Total Heal  : "<<Healer->Stats_type[ST_HEALING_OUT][AT_NONE] + target->Stats_type[ST_HEALING_IN][AT_NONE]<<endl;
+        cout<<"Healer Heal Bonus : "<<Healer->Stats_type[ST_HEALING_OUT][AType::None]
+        <<" target Heal Bonus : "<<target->Stats_type[ST_HEALING_IN][AType::None]
+        <<" Total Heal  : "<<Healer->Stats_type[ST_HEALING_OUT][AType::None] + target->Stats_type[ST_HEALING_IN][AType::None]<<endl;
     }
     
     TotalHeal += calAtkMultiplier(Healer,target) * healSrc.ATK / 100; 

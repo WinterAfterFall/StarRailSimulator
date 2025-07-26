@@ -79,20 +79,20 @@ void Basic_reset(){
 
 
             
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 3.888*2;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Flat_Atk"][AT_NONE] += 352.8+38;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Hp%"][AT_NONE] += 3.888*2;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Flat_Hp"][AT_NONE] += 76+705.6;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Def%"][AT_NONE] += 4.86*2;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_FLAT_DEF][AT_NONE] += 38;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 5+2.9*2;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_CD][AT_NONE] += 50+5.8*2;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] += 5.8*2;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Effect_hit_rate"][AT_NONE] += 3.888*2;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["True_Damage"][AT_NONE] += 0;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_HEALING_OUT][AT_NONE] += 0;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_RES][AT_NONE] += 4.32*2;
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Ehr"][AT_NONE] += 3.888*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] += 3.888*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Flat_Atk"][AType::None] += 352.8+38;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Hp%"][AType::None] += 3.888*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Flat_Hp"][AType::None] += 76+705.6;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Def%"][AType::None] += 4.86*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_FLAT_DEF][AType::None] += 38;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::None] += 5+2.9*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_CD][AType::None] += 50+5.8*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None] += 5.8*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Effect_hit_rate"][AType::None] += 3.888*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["True_Damage"][AType::None] += 0;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_HEALING_OUT][AType::None] += 0;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type[ST_RES][AType::None] += 4.32*2;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Ehr"][AType::None] += 3.888*2;
             Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 2.3*2;
 
 
@@ -100,7 +100,7 @@ void Basic_reset(){
             Ally_unit[i]->Boot(Ally_unit[i].get());
             Ally_unit[i]->Orb(Ally_unit[i].get());
             Ally_unit[i]->Rope(Ally_unit[i].get());
-            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Ehr"][AT_NONE] += Ally_unit[i]->ExtraEhr;
+            Ally_unit[i]->Sub_Unit_ptr[0]->Stats_type["Ehr"][AType::None] += Ally_unit[i]->ExtraEhr;
             Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += Ally_unit[i]->ExtraSpeed;
             
     }
@@ -176,13 +176,13 @@ void Basic_reset(){
             Enemy_unit[i]->BurnCount = 0;
             Enemy_unit[i]->DotCount = 0;
             
-            Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Fire][AT_NONE] = - Enemy_unit[i]->DefaultElementRes[ElementType::Fire];
-            Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Ice][AT_NONE] = -Enemy_unit[i]->DefaultElementRes[ElementType::Ice];
-            Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Quantum][AT_NONE] = -Enemy_unit[i]->DefaultElementRes[ElementType::Quantum];
-            Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Wind][AT_NONE] = -Enemy_unit[i]->DefaultElementRes[ElementType::Wind];
-            Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Lightning][AT_NONE] = -Enemy_unit[i]->DefaultElementRes[ElementType::Lightning];
-            Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Physical][AT_NONE] = -Enemy_unit[i]->DefaultElementRes[ElementType::Physical];
-            Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Imaginary][AT_NONE] = -Enemy_unit[i]->DefaultElementRes[ElementType::Imaginary];
+            Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Fire][AType::None] = - Enemy_unit[i]->DefaultElementRes[ElementType::Fire];
+            Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Ice][AType::None] = -Enemy_unit[i]->DefaultElementRes[ElementType::Ice];
+            Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Quantum][AType::None] = -Enemy_unit[i]->DefaultElementRes[ElementType::Quantum];
+            Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Wind][AType::None] = -Enemy_unit[i]->DefaultElementRes[ElementType::Wind];
+            Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Lightning][AType::None] = -Enemy_unit[i]->DefaultElementRes[ElementType::Lightning];
+            Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Physical][AType::None] = -Enemy_unit[i]->DefaultElementRes[ElementType::Physical];
+            Enemy_unit[i]->Stats_each_element["Respen"][ElementType::Imaginary][AType::None] = -Enemy_unit[i]->DefaultElementRes[ElementType::Imaginary];
             for(auto &e: Enemy_unit[i]->Weakness_typeCountdown){
                 e.second = 0;
             }
@@ -228,7 +228,7 @@ void Memosprite_reset(){
             for(auto &e :Ally_unit[i]->Sub_Unit_ptr[j]->Stats_type["Flat_Hp"]){    
                 e.second *=(Ally_unit[i]->Sub_Unit_ptr[j]->Unit_Hp_Ratio/100);
             }
-            Ally_unit[i]->Sub_Unit_ptr[j]->Stats_type["Flat_Hp"][AT_NONE] += Ally_unit[i]->Sub_Unit_ptr[j]->fixHP;
+            Ally_unit[i]->Sub_Unit_ptr[j]->Stats_type["Flat_Hp"][AType::None] += Ally_unit[i]->Sub_Unit_ptr[j]->fixHP;
         //speed
         
             for(auto &e:Ally_unit[i]->Sub_Unit_ptr[j]->Stack){

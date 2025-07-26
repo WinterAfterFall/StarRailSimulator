@@ -6,12 +6,12 @@
 class Attacking{
     public : 
     SubUnit* attacker = nullptr;
-    vector<string> actionTypeList;
-    vector<string> damageTypeList;
+    vector<AType> actionTypeList;
+    vector<AType> damageTypeList;
 
-    Attacking(SubUnit* attacker,vector<string> abilityList)
+    Attacking(SubUnit* attacker,vector<AType> abilityList)
         : attacker(attacker), actionTypeList(abilityList),damageTypeList(abilityList) {}
-    Attacking(SubUnit* attacker,vector<string> abilityList,vector<string> damageTypeList)
+    Attacking(SubUnit* attacker,vector<AType> abilityList,vector<AType> damageTypeList)
         : attacker(attacker), actionTypeList(abilityList),damageTypeList(damageTypeList) {}
     
 };
@@ -35,7 +35,7 @@ class AllyAttackAction : public AllyActionData {
 
     DamageSplit damageSplit;
 
-    vector<string> damageTypeList;//
+    vector<AType> damageTypeList;//
     vector<Attacking> AttackSetList;//
     vector<SwitchAtk> switchAttacker;
     vector<Enemy*> targetList;
@@ -44,7 +44,7 @@ class AllyAttackAction : public AllyActionData {
 
     #pragma region constructor
     AllyAttackAction(){}
-    AllyAttackAction(ActionType actionType,SubUnit* ptr,string traceType,string name)
+    AllyAttackAction(AType actionType,SubUnit* ptr,string traceType,string name)
     {
         Attacker = ptr;
         source = ptr;
@@ -54,7 +54,7 @@ class AllyAttackAction : public AllyActionData {
         setupActionType(actionType);
         AttackSetList.emplace_back(Attacking(ptr,this->actionTypeList));
     }
-    AllyAttackAction(ActionType actionType,SubUnit* ptr,string traceType,string name,function<void(shared_ptr<AllyAttackAction> &act)> actionFunction)
+    AllyAttackAction(AType actionType,SubUnit* ptr,string traceType,string name,function<void(shared_ptr<AllyAttackAction> &act)> actionFunction)
     {
         Attacker = ptr;
         source = ptr;
@@ -67,46 +67,46 @@ class AllyAttackAction : public AllyActionData {
     }
 
     private :
-    void setupActionType(ActionType actionType){
+    void setupActionType(AType actionType){
         switch(actionType) {
-            case ActionType::BA:
-                actionTypeList.push_back(AT_BA);
+            case AType::BA:
+                actionTypeList.push_back(AType::BA);
                 Turn_reset = true;
                 break;
-            case ActionType::SKILL:
-                actionTypeList.push_back(AT_SKILL);
+            case AType::SKILL:
+                actionTypeList.push_back(AType::SKILL);
                 Turn_reset = true;
                 break;
-            case ActionType::Ult:
-                actionTypeList.push_back(AT_ULT);
+            case AType::Ult:
+                actionTypeList.push_back(AType::Ult);
                 break;
-            case ActionType::Fua:
-                actionTypeList.push_back(AT_FUA);
+            case AType::Fua:
+                actionTypeList.push_back(AType::Fua);
                 break;
-            case ActionType::Dot:
-                actionTypeList.push_back(AT_DOT);
+            case AType::Dot:
+                actionTypeList.push_back(AType::Dot);
                 break;
-            case ActionType::Break:
-                actionTypeList.push_back(AT_BREAK);
+            case AType::Break:
+                actionTypeList.push_back(AType::Break);
                 toughnessAvgCalculate = 0;
                 break;
-            case ActionType::SPB:
-                actionTypeList.push_back(AT_SPB);
+            case AType::SPB:
+                actionTypeList.push_back(AType::SPB);
                 toughnessAvgCalculate = 0;
                 break;
-            case ActionType::Addtional:
-                actionTypeList.push_back(AT_ADD);
+            case AType::Addtional:
+                actionTypeList.push_back(AType::Addtional);
                 break;
-            case ActionType::Technique:
-                actionTypeList.push_back(AT_TECH);
+            case AType::Technique:
+                actionTypeList.push_back(AType::Technique);
                 toughnessAvgCalculate = 0;
                 break;
-            case ActionType::Freeze:
-                actionTypeList.push_back("Freeze");
+            case AType::Freeze:
+                actionTypeList.push_back(AType::Freeze);
                 toughnessAvgCalculate = 0;
                 break;
-            case ActionType::Entanglement:
-                actionTypeList.push_back("Entanglement");
+            case AType::Entanglement:
+                actionTypeList.push_back(AType::Entanglement);
                 toughnessAvgCalculate = 0;
                 break;
             default:
@@ -130,13 +130,13 @@ class AllyAttackAction : public AllyActionData {
         if(this->Attacker->isSameUnitName(name))return true;
         return false;
     }
-    bool isSameAttack(string ability){
+    bool isSameAttack(AType ability){
         for(auto &each : actionTypeList){
             if(each == ability)return true;
         }  
         return false;    
     }
-    bool isSameAttack(SubUnit *ptr,string ability){
+    bool isSameAttack(SubUnit *ptr,AType ability){
         if(this->Attacker->isSameUnit(ptr)){
             for(auto &each : actionTypeList){
                 if(each == ability)return true;
@@ -144,7 +144,7 @@ class AllyAttackAction : public AllyActionData {
         }
         return false;    
     }
-    bool isSameAttack(Ally *ptr,string ability){
+    bool isSameAttack(Ally *ptr,AType ability){
         if(ptr->isSameAlly(this->Attacker)){
             for(auto &each : actionTypeList){
                 if(each == ability)return true;
@@ -152,7 +152,7 @@ class AllyAttackAction : public AllyActionData {
         }        
         return false;    
     }
-    bool isSameAttack(string name,string ability){
+    bool isSameAttack(string name,AType ability){
         if(this->Attacker->isSameUnitName(name)){
             for(auto &each : actionTypeList){
                 if(each == ability)return true;
@@ -167,54 +167,54 @@ class AllyAttackAction : public AllyActionData {
 
     void setJoint() {
         AttackSetList.emplace_back(Attacking(Attacker->ptrToChar->getSubUnit(1),this->actionTypeList));
-        AttackSetList[1].actionTypeList.push_back("Summon");
-        AttackSetList[1].damageTypeList.push_back("Summon");
+        AttackSetList[1].actionTypeList.push_back(AType::Summon);
+        AttackSetList[1].damageTypeList.push_back(AType::Summon);
     }
-    virtual void addActionType(ActionType actionType){
+    virtual void addActionType(AType actionType){
         switch(actionType) {
-            case ActionType::BA:
-                actionTypeList.push_back(AT_BA);
-                AttackSetList[0].actionTypeList.emplace_back(AT_BA);
+            case AType::BA:
+                actionTypeList.push_back(AType::BA);
+                AttackSetList[0].actionTypeList.emplace_back(AType::BA);
                 break;
-            case ActionType::SKILL:
-                actionTypeList.push_back(AT_SKILL);
-                AttackSetList[0].actionTypeList.emplace_back(AT_SKILL);
+            case AType::SKILL:
+                actionTypeList.push_back(AType::SKILL);
+                AttackSetList[0].actionTypeList.emplace_back(AType::SKILL);
                 break;
-            case ActionType::Ult:
-                actionTypeList.push_back(AT_ULT);
-                AttackSetList[0].actionTypeList.emplace_back(AT_ULT);
+            case AType::Ult:
+                actionTypeList.push_back(AType::Ult);
+                AttackSetList[0].actionTypeList.emplace_back(AType::Ult);
                 break;
-            case ActionType::Fua:
-                actionTypeList.push_back(AT_FUA);
-                AttackSetList[0].actionTypeList.emplace_back(AT_FUA);
+            case AType::Fua:
+                actionTypeList.push_back(AType::Fua);
+                AttackSetList[0].actionTypeList.emplace_back(AType::Fua);
                 break;
-            case ActionType::Dot:
-                actionTypeList.push_back(AT_DOT);
-                AttackSetList[0].actionTypeList.emplace_back(AT_DOT);
+            case AType::Dot:
+                actionTypeList.push_back(AType::Dot);
+                AttackSetList[0].actionTypeList.emplace_back(AType::Dot);
                 break;
-            case ActionType::Break:
-                actionTypeList.push_back(AT_BREAK);
-                AttackSetList[0].actionTypeList.emplace_back(AT_BREAK);
+            case AType::Break:
+                actionTypeList.push_back(AType::Break);
+                AttackSetList[0].actionTypeList.emplace_back(AType::Break);
                 break;
-            case ActionType::SPB:
-                actionTypeList.push_back(AT_SPB);
-                AttackSetList[0].actionTypeList.emplace_back(AT_SPB);
+            case AType::SPB:
+                actionTypeList.push_back(AType::SPB);
+                AttackSetList[0].actionTypeList.emplace_back(AType::SPB);
                 break;
-            case ActionType::Addtional:
-                actionTypeList.push_back(AT_ADD);
-                AttackSetList[0].actionTypeList.emplace_back(AT_ADD);
+            case AType::Addtional:
+                actionTypeList.push_back(AType::Addtional);
+                AttackSetList[0].actionTypeList.emplace_back(AType::Addtional);
                 break;
-            case ActionType::Technique:
-                actionTypeList.push_back(AT_TECH);
-                AttackSetList[0].actionTypeList.emplace_back(AT_TECH);
+            case AType::Technique:
+                actionTypeList.push_back(AType::Technique);
+                AttackSetList[0].actionTypeList.emplace_back(AType::Technique);
                 break;
-            case ActionType::Freeze:
-                actionTypeList.push_back("Freeze");
-                AttackSetList[0].actionTypeList.emplace_back("Freeze");
+            case AType::Freeze:
+                actionTypeList.push_back(AType::Freeze);
+                AttackSetList[0].actionTypeList.emplace_back(AType::Freeze);
                 break;
-            case ActionType::Entanglement:
-                actionTypeList.push_back("Entanglement");
-                AttackSetList[0].actionTypeList.emplace_back("Entanglement");
+            case AType::Entanglement:
+                actionTypeList.push_back(AType::Entanglement);
+                AttackSetList[0].actionTypeList.emplace_back(AType::Entanglement);
                 break;
             default:
                 break;

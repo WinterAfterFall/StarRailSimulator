@@ -1,7 +1,7 @@
 #include "include.h"
 
-enum class ActionType {
-    TEMPORARY,
+enum class AType {
+    TEMP,
     None,
     BA,
     SKILL,
@@ -14,7 +14,12 @@ enum class ActionType {
     Addtional,
     Technique,
     Entanglement,
-    Freeze
+    Freeze,
+    Burn,
+    Shock,
+    Bleed,
+    WindShear,
+    ERROR,
 };
 enum class UnitStatus{
     Alive,
@@ -59,7 +64,8 @@ enum class Stats {
     FLAT_SPD,
     SPD_P,
     BREAK_EFF,
-    TOUGH_REDUCE
+    TOUGH_REDUCE,
+    MTPR_Increase
 };
 enum class DotType {
     Shock,
@@ -96,8 +102,8 @@ enum BreakSEType{
 };
 namespace std {
     template <>
-    struct hash<ActionType> {
-        std::size_t operator()(ActionType c) const noexcept {
+    struct hash<AType> {
+        std::size_t operator()(AType c) const noexcept {
             return static_cast<std::size_t>(c);
         }
     };
@@ -117,5 +123,5 @@ namespace std {
     };
 }
 typedef unordered_map<string,double> Common_stats;
-typedef unordered_map<string,unordered_map<string,double>> Common_stats_type; 
-typedef unordered_map<string, unordered_map<ElementType,unordered_map<string,double>>> Common_stats_each_element;
+typedef unordered_map<string,unordered_map<AType,double>> Common_stats_type; 
+typedef unordered_map<string, unordered_map<ElementType,unordered_map<AType,double>>> Common_stats_each_element;

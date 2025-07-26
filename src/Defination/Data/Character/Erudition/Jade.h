@@ -45,7 +45,7 @@ namespace Jade{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"Jade Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"Jade Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 ptr->Sub_Unit_ptr[0]->Stack["Jade_Ultimate_stack"] = 2;
                 Attack(act);
@@ -60,9 +60,9 @@ namespace Jade{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES][AT_NONE] += 10;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Quantum][AT_NONE] += 22.4;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES][AType::None] += 10;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Quantum][AType::None] += 22.4;
 
             // relic
             // substats
@@ -73,7 +73,7 @@ namespace Jade{
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 50);
             if (ptr->Technique == 1) {
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(ActionType::Technique,ptr->getSubUnit(),TT_AOE,"Jade Tech",
+                make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TT_AOE,"Jade Tech",
                 [ptr](shared_ptr<AllyAttackAction> &act){
                     Jade_Talent(ptr, 15);
                     Attack(act);
@@ -94,12 +94,12 @@ namespace Jade{
             }
             
             if (ptr->Sub_Unit_ptr[0].get()->isBuffEnd("Jade_Skill")) {
-                chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_SPD,ST_SPD_P,-30}});
+                chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_SPD_P,AType::None,-30}});
             }
         }));
 
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
-            if (act->isSameAttack("Jade",AT_FUA)) {
+            if (act->isSameAttack("Jade",AType::Fua)) {
                 Jade_Talent(ptr, 5);
                 return;
             }
@@ -127,7 +127,7 @@ namespace Jade{
     void Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_BLAST,"Jade BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_BLAST,"Jade BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
@@ -142,12 +142,12 @@ namespace Jade{
     void Skill(Ally *ptr){
         
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(ActionType::SKILL,ptr->getSubUnit(),TT_SINGLE,"Jade Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TT_SINGLE,"Jade Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             if(ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Jade_Skill",3)){
-                chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_SPD,ST_SPD_P,30}});
+                chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_SPD_P,AType::None,30}});
             }
         });
         act->addBuffSingleTarget(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
@@ -174,12 +174,12 @@ namespace Jade{
     }
     void Fua(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(ActionType::Fua,ptr->getSubUnit(),TT_AOE,"Jade Fua",
+        make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TT_AOE,"Jade Fua",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,10);
-            if(ptr->Eidolon>=1)ptr->getSubUnit()->buffSingle({{ST_DMG,AT_NONE,32}});
+            if(ptr->Eidolon>=1)ptr->getSubUnit()->buffSingle({{ST_DMG,AType::None,32}});
             Attack(act);
-            if(ptr->Eidolon>=1)ptr->getSubUnit()->buffSingle({{ST_DMG,AT_NONE,-32}});
+            if(ptr->Eidolon>=1)ptr->getSubUnit()->buffSingle({{ST_DMG,AType::None,-32}});
         });
         act->addDamageIns(
             DmgSrc(DmgSrcType::ATK,18,1.5),
@@ -210,12 +210,12 @@ namespace Jade{
     }
     void Fua_Enchance(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(ActionType::Fua,ptr->getSubUnit(),TT_AOE,"Jade Fua",
+        make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TT_AOE,"Jade Fua",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,10);
-            if(ptr->Eidolon>=1)ptr->getSubUnit()->buffSingle({{ST_DMG,AT_NONE,32}});
+            if(ptr->Eidolon>=1)ptr->getSubUnit()->buffSingle({{ST_DMG,AType::None,32}});
             Attack(act);
-            if(ptr->Eidolon>=1)ptr->getSubUnit()->buffSingle({{ST_DMG,AT_NONE,-32}});
+            if(ptr->Eidolon>=1)ptr->getSubUnit()->buffSingle({{ST_DMG,AType::None,-32}});
         });
         act->addDamageIns(
             DmgSrc(DmgSrcType::ATK,20,1),
@@ -246,11 +246,11 @@ namespace Jade{
     }
     void Jade_Talent(Ally *ptr,int amount){
         ptr->getSubUnit()->buffStackSingle(
-            {{ST_ATK_P,AT_NONE,0.5},
-            {ST_CD,AT_NONE,2.4}},
+            {{ST_ATK_P,AType::None,0.5},
+            {ST_CD,AType::None,2.4}},
             amount,50,"Pawned_Asset");
         if(ptr->Eidolon>=2&&ptr->Sub_Unit_ptr[0]->Stack["Pawned_Asset"]>=15&&ptr->getSubUnit()->isHaveToAddBuff("Jade_E2")){
-            ptr->getSubUnit()->buffSingle({{ST_CR,AT_NONE,18}});
+            ptr->getSubUnit()->buffSingle({{ST_CR,AType::None,18}});
         }
 
     }

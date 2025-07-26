@@ -13,13 +13,13 @@ namespace Remembrance_Lightcone{
                 if(!allyaction)return;
                 if(allyaction->Attacker->Atv_stats->Side == "Memosprite"
                     &&allyaction->Attacker->Atv_stats->num==ptr->getSubUnit()->Atv_stats->num
-                    &&allyaction->isSameAction(AT_SKILL)){
-                        debuffAllEnemyApply({{ST_VUL,AT_NONE,(13.5 + 4.5 * superimpose)}},allyaction->Attacker,"Hyacnine_LC Debuff",2);
+                    &&allyaction->isSameAction(AType::SKILL)){
+                        debuffAllEnemyApply({{ST_VUL,AType::None,(13.5 + 4.5 * superimpose)}},allyaction->Attacker,"Hyacnine_LC Debuff",2);
                 }
                 if(!ptr->getSubUnit()->isSameUnitName(allyaction->Attacker->Atv_stats->Unit_Name))return;
-                if(allyaction->isSameAction(AT_BA)
-                ||allyaction->isSameAction(AT_SKILL)
-                ||allyaction->isSameAction(AT_ULT)){
+                if(allyaction->isSameAction(AType::BA)
+                ||allyaction->isSameAction(AType::SKILL)
+                ||allyaction->isSameAction(AType::Ult)){
                     double temp = 0;
                     for(int i=1;i<=Total_ally;i++){
                         for(auto &each : Ally_unit[i]->Sub_Unit_ptr){
@@ -34,9 +34,9 @@ namespace Remembrance_Lightcone{
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
                 if(act->Attacker->Atv_stats->Side == "Memosprite"
                     &&act->Attacker->Atv_stats->num==ptr->getSubUnit()->Atv_stats->num
-                    &&act->isSameAction(AT_SKILL)){
+                    &&act->isSameAction(AType::SKILL)){
                         shared_ptr<AllyAttackAction> addtionaldmg = 
-                        make_shared<AllyAttackAction>(ActionType::Addtional,act->Attacker,TT_SINGLE,"Hyc LC AddDmg");
+                        make_shared<AllyAttackAction>(AType::Addtional,act->Attacker,TT_SINGLE,"Hyc LC AddDmg");
                         act->addDamageIns(DmgSrc(DmgSrcType::CONST,ptr->getSubUnit()->Buff_note["Hyacnine_LC Note"] * (1.875 + 0.625 * superimpose),0));
                         Attack(addtionaldmg);
                         
@@ -48,7 +48,7 @@ namespace Remembrance_Lightcone{
                 Enemy *enemy = turn->canCastToEnemy();
                 if(!enemy)return;
                 if(enemy->isDebuffEnd("Hyacnine_LC Debuff")){
-                    enemy->debuffSingle({{ST_VUL,AT_NONE,-(13.5 + 4.5 * superimpose)}});
+                    enemy->debuffSingle({{ST_VUL,AType::None,-(13.5 + 4.5 * superimpose)}});
                 }
             }));
         };

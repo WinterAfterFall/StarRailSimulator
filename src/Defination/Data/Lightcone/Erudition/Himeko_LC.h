@@ -6,17 +6,17 @@ namespace Erudition_Lightcone{
             ptr->Light_cone.Name = "Himeko_LC";
     
             When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += (7.5 + superimpose * 1.5) * Total_enemy;
+                ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] += (7.5 + superimpose * 1.5) * Total_enemy;
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 if (ptr->getSubUnit()->isBuffEnd("Himeko_LC_buff")) {
-                    ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG][AT_NONE] -= 25+superimpose*5;
+                    ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG][AType::None] -= 25+superimpose*5;
                 }
             }));
     
             Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](Enemy *target, SubUnit *Breaker) {
-                ptr->getSubUnit()->buffSingle({{ST_DMG,AT_NONE,(25.0 + superimpose*5)}},"Himeko_LC_buff",1);
+                ptr->getSubUnit()->buffSingle({{ST_DMG,AType::None,(25.0 + superimpose*5)}},"Himeko_LC_buff",1);
             }));
         };
     }

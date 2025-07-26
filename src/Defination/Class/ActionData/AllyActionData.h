@@ -7,7 +7,7 @@ class AllyActionData : public ActionData, public std::enable_shared_from_this<Al
     bool Turn_reset = 0;
     SubUnit* Attacker = nullptr;
     SubUnit* source = nullptr; 
-    vector<string> actionTypeList;//  None Basic_Attack Skill Ultimate  Dot  Fua  Summon  Break_dmg  Super_break Additional
+    vector<AType> actionTypeList;//  None Basic_Attack Skill Ultimate  Dot  Fua  Summon  Break_dmg  Super_break Additional
     string traceType = "";// Aoe Single_target Bounce
     
 
@@ -22,13 +22,13 @@ class AllyActionData : public ActionData, public std::enable_shared_from_this<Al
         return Attacker;
     }
 
-    string getActionType(){
+    AType getActionType(){
         return actionTypeList[0];
     }
     
-    string getActionType(int index){
+    AType getActionType(int index){
         if(index < 0 || index >= actionTypeList.size()) {
-            return "Invalid index";
+            return AType::ERROR;
         }
         return actionTypeList[index];
     }
@@ -48,10 +48,10 @@ class AllyActionData : public ActionData, public std::enable_shared_from_this<Al
     bool isSameUnit(SubUnit *ptr);
     bool isSameAlly(Ally *ptr);
     bool isSameUnitName(string name);
-    bool isSameAction(string ability);
-    bool isSameAction(SubUnit *ptr,string ability);
-    bool isSameAction(string name,string ability);
-    bool isSameAction(Ally *ptr,string ability);
+    bool isSameAction(AType ability);
+    bool isSameAction(SubUnit *ptr,AType ability);
+    bool isSameAction(string name,AType ability);
+    bool isSameAction(Ally *ptr,AType ability);
 
 
     
@@ -62,43 +62,43 @@ class AllyActionData : public ActionData, public std::enable_shared_from_this<Al
     void turnResetTrue(){
         this->Turn_reset = true;
     }
-    string getAbitlityType(){
+    AType getAbitlityType(){
         return this->actionTypeList[0];
     }
-    virtual void addActionType(ActionType actionType){
+    virtual void addActionType(AType actionType){
         switch(actionType) {
-            case ActionType::BA:
-                actionTypeList.push_back(AT_BA);
+            case AType::BA:
+                actionTypeList.push_back(AType::BA);
                 break;
-            case ActionType::SKILL:
-                actionTypeList.push_back(AT_SKILL);
+            case AType::SKILL:
+                actionTypeList.push_back(AType::SKILL);
                 break;
-            case ActionType::Ult:
-                actionTypeList.push_back(AT_ULT);
+            case AType::Ult:
+                actionTypeList.push_back(AType::Ult);
                 break;
-            case ActionType::Fua:
-                actionTypeList.push_back(AT_FUA);
+            case AType::Fua:
+                actionTypeList.push_back(AType::Fua);
                 break;
-            case ActionType::Dot:
-                actionTypeList.push_back(AT_DOT);
+            case AType::Dot:
+                actionTypeList.push_back(AType::Dot);
                 break;
-            case ActionType::Break:
-                actionTypeList.push_back(AT_BREAK);
+            case AType::Break:
+                actionTypeList.push_back(AType::Break);
                 break;
-            case ActionType::SPB:
-                actionTypeList.push_back(AT_SPB);
+            case AType::SPB:
+                actionTypeList.push_back(AType::SPB);
                 break;
-            case ActionType::Addtional:
-                actionTypeList.push_back(AT_ADD);
+            case AType::Addtional:
+                actionTypeList.push_back(AType::Addtional);
                 break;
-            case ActionType::Technique:
-                actionTypeList.push_back(AT_TECH);
+            case AType::Technique:
+                actionTypeList.push_back(AType::Technique);
                 break;
-            case ActionType::Freeze:
-                actionTypeList.push_back("Freeze");
+            case AType::Freeze:
+                actionTypeList.push_back(AType::Freeze);
                 break;
-            case ActionType::Entanglement:
-                actionTypeList.push_back("Entanglement");
+            case AType::Entanglement:
+                actionTypeList.push_back(AType::Entanglement);
                 break;
             default:
                 break;

@@ -42,11 +42,11 @@ namespace Gallagher{
             
 
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(ActionType::Ult,Charptr,"Aoe","Gall Ult",
+            make_shared<AllyAttackAction>(AType::Ult,Charptr,"Aoe","Gall Ult",
                 [ptr,Charptr](shared_ptr<AllyAttackAction> &act){
                     Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
                     ptr->Sub_Unit_ptr[0]->Buff_check["Gallagher_enchance_basic_atk"] = 1;
-                    debuffAllEnemyApply({{ST_VUL,AT_BREAK,13.2}},Charptr,"Besotted");  
+                    debuffAllEnemyApply({{ST_VUL,AType::Break,13.2}},Charptr,"Besotted");  
                     if (ptr->Eidolon >= 4) {
                         extendDebuffAll("Besotted", 3);
                     } else {
@@ -66,16 +66,16 @@ namespace Gallagher{
         }});
 
         Reset_List.push_back({PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] += 13.3;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P][AT_NONE] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES][AT_NONE] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None] += 13.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P][AType::None] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES][AType::None] += 18;
 
             // relic
 
             // substats
             if (ptr->Eidolon >= 6) {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Weakness_Break_Efficiency"][AT_NONE] += 20;
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] += 20;
+                ptr->Sub_Unit_ptr[0]->Stats_type["Weakness_Break_Efficiency"][AType::None] += 20;
+                ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None] += 20;
             }
         }});
 
@@ -83,7 +83,7 @@ namespace Gallagher{
             Enemy * focusUnit = turn->canCastToEnemy();
             if(!focusUnit)return;
             if (focusUnit->isDebuffEnd("Besotted")) {
-                focusUnit->debuffSingle({{ST_VUL, "Break_dmg", -13.2}});
+                focusUnit->debuffSingle({{ST_VUL, AType::Break, -13.2}});
             }
             if (focusUnit->isDebuffEnd("Nectar_Blitz")) {
                 focusUnit->atkPercent += 16;
@@ -100,13 +100,13 @@ namespace Gallagher{
         When_Combat_List.push_back({PRIORITY_IMMEDIATELY, [ptr,Charptr = ptr->getSubUnit()]() {
             double temp = calculateBreakEffectForBuff(ptr->getSubUnit(),50);
             if(temp>75)temp = 75;
-            Charptr->buffSingle({{ST_HEALING_OUT,AT_NONE,temp - Charptr->getBuffNote("Novel Concoction")}});
+            Charptr->buffSingle({{ST_HEALING_OUT,AType::None,temp - Charptr->getBuffNote("Novel Concoction")}});
             ptr->getSubUnit()->Buff_note["Novel Concoction"] = temp;
             if (ptr->Technique) {
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(ActionType::Technique,Charptr,"Aoe","Gall Tech",
+                make_shared<AllyAttackAction>(AType::Technique,Charptr,"Aoe","Gall Tech",
                 [ptr,Charptr](shared_ptr<AllyAttackAction> &act){
-                    debuffAllEnemyApply({{ST_VUL, "Break_dmg", 13.2}},Charptr,"Besotted",2);
+                    debuffAllEnemyApply({{ST_VUL, AType::Break, 13.2}},Charptr,"Besotted",2);
                     Attack(act);
                 });
                 act->addDamageIns(
@@ -121,7 +121,7 @@ namespace Gallagher{
 
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_HEAL, [ptr](shared_ptr<AllyAttackAction> &act) {
             
-            if(act->isSameAttack("Gallagher",AT_BA)&&act->Attacker->Buff_check["Gallagher_enchance_basic_atk"] == 1){
+            if(act->isSameAttack("Gallagher",AType::BA)&&act->Attacker->Buff_check["Gallagher_enchance_basic_atk"] == 1){
                 ptr->Sub_Unit_ptr[0]->Buff_check["Gallagher_enchance_basic_atk"] = 0;
                 int cnt = 0;
                 for (Enemy *e : act->targetList) {
@@ -146,7 +146,7 @@ namespace Gallagher{
 
             double temp = calculateBreakEffectForBuff( ptr->getSubUnit(),50);
             if(temp>75)temp = 75;
-            ptr->getSubUnit()->buffSingle({{ST_HEALING_OUT,AT_NONE,temp - ptr->getSubUnit()->Buff_note["Novel Concoction"]}});
+            ptr->getSubUnit()->buffSingle({{ST_HEALING_OUT,AType::None,temp - ptr->getSubUnit()->Buff_note["Novel Concoction"]}});
             ptr->getSubUnit()->Buff_note["Novel Concoction"] = temp;
         }));
 
@@ -162,7 +162,7 @@ namespace Gallagher{
     void Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Gall BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"Gall BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
@@ -174,7 +174,7 @@ namespace Gallagher{
     }
     void Enchance_Basic_Atk(Ally *ptr){
        shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Gall EBA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"Gall EBA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
@@ -194,7 +194,7 @@ namespace Gallagher{
     void Skill_func(Ally *ptr){
 
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(ActionType::SKILL,ptr->getSubUnit(),TT_SINGLE,"Gall Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TT_SINGLE,"Gall Skill",
         [ptr](shared_ptr<AllyBuffAction> act){
             ptr->getSubUnit()->RestoreHP(HealSrc(HealSrcType::CONST,1768),HealSrc(),HealSrc());
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);

@@ -41,7 +41,7 @@ bool AllyActionData::isSameUnitName(string name){
 }
 
 
-bool AllyActionData::isSameAction(string ability){
+bool AllyActionData::isSameAction(AType ability){
     AllyAttackAction * attackAct = dynamic_cast<AllyAttackAction*>(this);
     if(attackAct){
         for(auto &each1 : attackAct->AttackSetList){
@@ -57,7 +57,7 @@ bool AllyActionData::isSameAction(string ability){
     return false;
 }
 
-bool AllyActionData::isSameAction(SubUnit *ptr,string ability){
+bool AllyActionData::isSameAction(SubUnit *ptr,AType ability){
     AllyAttackAction * attackAct = dynamic_cast<AllyAttackAction*>(this);
     if(attackAct){
         for(auto &each : attackAct->AttackSetList){
@@ -77,7 +77,7 @@ bool AllyActionData::isSameAction(SubUnit *ptr,string ability){
     return false;
 }
 
-bool AllyActionData::isSameAction(string name,string ability){
+bool AllyActionData::isSameAction(string name,AType ability){
     AllyAttackAction * attackAct = dynamic_cast<AllyAttackAction*>(this);
     if(attackAct){
         for(auto &each : attackAct->AttackSetList){
@@ -96,7 +96,7 @@ bool AllyActionData::isSameAction(string name,string ability){
     }
     return false;
 }
-bool AllyActionData::isSameAction(Ally *ptr,string ability){
+bool AllyActionData::isSameAction(Ally *ptr,AType ability){
     AllyAttackAction * attackAct = dynamic_cast<AllyAttackAction*>(this);
     if(attackAct){
         for(auto &each : attackAct->AttackSetList){

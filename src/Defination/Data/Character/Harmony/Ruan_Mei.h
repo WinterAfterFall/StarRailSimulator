@@ -34,12 +34,12 @@ namespace Ruan_Mei{
             if(!ultUseCheck(ptr)) return;
 
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"RM Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"RM Ult",
             [ptr,RMptr](shared_ptr<AllyBuffAction> &act){
                 if(ptr->Print)CharCmd::printUltStart("Ruan Mei");
                 if(RMptr->isHaveToAddBuff("RuanMei_Ult",2)){
-                    buffAllAlly({{"Respen", AT_NONE, 25}});
-                    if(ptr->Eidolon >= 1)buffAllAlly({{ST_DEF_SHRED, AT_NONE, 20}});
+                    buffAllAlly({{"Respen", AType::None, 25}});
+                    if(ptr->Eidolon >= 1)buffAllAlly({{ST_DEF_SHRED, AType::None, 20}});
                 }
             });
             act->addBuffAllAllies();
@@ -48,8 +48,8 @@ namespace Ruan_Mei{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] += 37.3;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Def%"][AT_NONE] += 22.5;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None] += 37.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Def%"][AType::None] += 22.5;
             ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 5;
 
             // relic
@@ -59,8 +59,8 @@ namespace Ruan_Mei{
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
             buffAllAlly({
-                {ST_BE, AT_NONE, 20},
-                {ST_SPD,ST_SPD_P,10}
+                {ST_BE, AType::None, 20},
+                {ST_SPD_P,AType::None,10}
             });
         }));
 
@@ -68,13 +68,13 @@ namespace Ruan_Mei{
             if(ptr->Technique == 1){
             
                 shared_ptr<AllyBuffAction> act = 
-                make_shared<AllyBuffAction>(ActionType::SKILL,ptr->getSubUnit(),TT_SINGLE,"RM SKill",
+                make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TT_SINGLE,"RM SKill",
                 [ptr](shared_ptr<AllyBuffAction> &act){
                     Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
                     Increase_energy(ptr,30);
                     buffAllAlly({
-                        {ST_DMG,AT_NONE,68},
-                        {ST_BREAK_EFF,AT_NONE,50},
+                        {ST_DMG,AType::None,68},
+                        {ST_BREAK_EFF,AType::None,50},
                     });
                     ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Mei_Skill",3);
                 });
@@ -89,15 +89,15 @@ namespace Ruan_Mei{
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMptr](){
             if(RMptr->isBuffEnd("Mei_Skill")){
                 buffAllAlly({
-                    {ST_DMG,AT_NONE,-68},
-                    {ST_BREAK_EFF,AT_NONE,-50},
+                    {ST_DMG,AType::None,-68},
+                    {ST_BREAK_EFF,AType::None,-50},
                 });
             }
             if(turn->Char_Name == "Ruan_Mei"){
                 Increase_energy(ptr, 5);
                 if(RMptr->isBuffEnd("RuanMei_Ult")){
-                    buffAllAlly({{"Respen", AT_NONE, -25}});
-                    if(ptr->Eidolon >= 1)buffAllAlly({{ST_DEF_SHRED, AT_NONE, -20}});
+                    buffAllAlly({{"Respen", AType::None, -25}});
+                    if(ptr->Eidolon >= 1)buffAllAlly({{ST_DEF_SHRED, AType::None, -20}});
                     if(ptr->Print == 1)CharCmd::printUltEnd("Ruan Mei");
                 }
             }
@@ -105,9 +105,9 @@ namespace Ruan_Mei{
                 if(Enemy_unit[turn->num]->Debuff["RuanMei_Ult_bloom"] == 1){
                     Turn_Skip = 1;
                     Enemy_unit[turn->num]->debuffRemove("RuanMei_Ult_bloom");
-                    Action_forward(Enemy_unit[turn->num]->Atv_stats.get(), -10 - (0.2 * (ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE])));
+                    Action_forward(Enemy_unit[turn->num]->Atv_stats.get(), -10 - (0.2 * (ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None])));
                     shared_ptr<AllyAttackAction> act = 
-                    make_shared<AllyAttackAction>(ActionType::Break,ptr->getSubUnit(),TT_SINGLE,"RM Ult Break");
+                    make_shared<AllyAttackAction>(AType::Break,ptr->getSubUnit(),TT_SINGLE,"RM Ult Break");
                     double temp = 0.5;
                     Cal_Break_damage(act, Enemy_unit[turn->num].get(), temp);
                 }
@@ -127,7 +127,7 @@ namespace Ruan_Mei{
 
         Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, SubUnit *Breaker){
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(ActionType::Break,ptr->getSubUnit(),TT_SINGLE,"RM Talent Break");
+            make_shared<AllyAttackAction>(AType::Break,ptr->getSubUnit(),TT_SINGLE,"RM Talent Break");
             double temp;
             temp = 1.2;
             Cal_Break_damage(act, target, temp);
@@ -139,7 +139,7 @@ namespace Ruan_Mei{
 
     void Basic_Atk(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"RM BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"RM BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
@@ -150,13 +150,13 @@ namespace Ruan_Mei{
     }
     void Skill_func(Ally *ptr){
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(ActionType::SKILL,ptr->getSubUnit(),TT_SINGLE,"RM Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TT_SINGLE,"RM Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
             buffAllAlly({
-                {ST_DMG,AT_NONE,68},
-                {ST_BREAK_EFF,AT_NONE,50},
+                {ST_DMG,AType::None,68},
+                {ST_BREAK_EFF,AType::None,50},
             });
             ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Mei_Skill",3);
         });

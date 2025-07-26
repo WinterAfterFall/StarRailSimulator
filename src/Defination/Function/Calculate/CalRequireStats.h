@@ -5,15 +5,15 @@ void Ally::EhrRequirment(){
     double temp=100/(this->ApplyBaseChance/100)/((100 - Enemy_effect_res)/100);
     temp = temp-100;
     double x =0;
-    temp-=this->Sub_Unit_ptr[0]->Stats_type["Ehr"][AT_NONE];
+    temp-=this->Sub_Unit_ptr[0]->Stats_type["Ehr"][AType::None];
     if(temp<=0)return ;
     x = ceil(temp/3.888);
     this->changeTotalSubStats(-x);
     x = x * 3.888;
     this->ExtraEhr += x;
-    this->Sub_Unit_ptr[0]->Stats_type["Ehr"][AT_NONE] += this->ExtraEhr;
+    this->Sub_Unit_ptr[0]->Stats_type["Ehr"][AType::None] += this->ExtraEhr;
     for(int i=1,sz = this->Sub_Unit_ptr.size();i<sz;i++){
-        this->Sub_Unit_ptr[i]->Stats_type["Ehr"][AT_NONE]+=x;
+        this->Sub_Unit_ptr[i]->Stats_type["Ehr"][AType::None]+=x;
     }
     return ;
 }

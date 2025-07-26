@@ -49,26 +49,26 @@
         
 //     }
 //     void Reset(Ally *ptr){
-//         ptr->Dmg_bonus_each_element[ElementType::Imaginary][AT_NONE]+=14.4;
-//         ptr->Def_percent[AT_NONE]+=35;
+//         ptr->Dmg_bonus_each_element[ElementType::Imaginary][AType::None]+=14.4;
+//         ptr->Def_percent[AType::None]+=35;
 
 //         //relic
-//         ptr->Def_percent[AT_NONE]+=54;
+//         ptr->Def_percent[AType::None]+=54;
 //         ptr->Atv_stats->Flat_speed+=25;
-//         ptr->Def_percent[AT_NONE]+=54;
+//         ptr->Def_percent[AType::None]+=54;
 //         if(ptr->stats->Eidolon==0){
-//             ptr->Def_percent[AT_NONE]+=54;
+//             ptr->Def_percent[AType::None]+=54;
 //         }else{
 //             ptr->stats->Energy_recharge+=19.4;
 //         }
         
 
 //         //substats
-//         ptr->Def_percent[AT_NONE]+=68.04; //14
+//         ptr->Def_percent[AType::None]+=68.04; //14
 //         ptr->Atv_stats->Flat_speed+=13.8; //6
 //         if(ptr->stats->Eidolon>=1){
 //         for(int i=1;i<=Total_ally;i++){
-//             Ally_unit[i]->Crit_dam[AT_NONE]+=20;
+//             Ally_unit[i]->Crit_dam[AType::None]+=20;
 //         }
 //         }
 
@@ -82,10 +82,10 @@
 //             temp.Turn_reset = 1;
 
 //             temp.Action_type.first = "Attack";
-//             temp.Action_type.second = "Basic_Attack";
+//             temp.Action_type.second = AType::BA;
 
 //             temp.Damage_element = ElementType::Imaginary;
-//             temp.Damage_type.push_back("Basic_Attack");
+//             temp.Damage_type.push_back(AType::BA);
 
 //             temp.Target_type = "Single_target";
 //             temp.Damage_spilt.Main.push_back({0,0,100,10});
@@ -97,7 +97,7 @@
 //                     Ally_unit[ptr->Atv_stats->Character_num]->stats->Buff_note["Basic_Attack_Target_Choose"]=1;
 //                 }
 //                 if(Enemy_unit[Ally_unit[ptr->Atv_stats->Character_num]->stats->Buff_note["Basic_Attack_Target_Choose"]]->stats->Debuff["Bounded_Rationality"]==0){
-//                     Enemy_unit[Ally_unit[ptr->Atv_stats->Character_num]->stats->Buff_note["Basic_Attack_Target_Choose"]]->Respen[AT_NONE]+=12;
+//                     Enemy_unit[Ally_unit[ptr->Atv_stats->Character_num]->stats->Buff_note["Basic_Attack_Target_Choose"]]->Respen[AType::None]+=12;
 //                     Enemy_unit[Ally_unit[ptr->Atv_stats->Character_num]->stats->Buff_note["Basic_Attack_Target_Choose"]]->stats->Debuff["Bounded_Rationality"]=1;
 //                     ++Enemy_unit[Ally_unit[ptr->Atv_stats->Character_num]->stats->Buff_note["Basic_Attack_Target_Choose"]]->stats->Total_debuff;
 //                 }
@@ -112,7 +112,7 @@
 //             temp.Turn_reset = 1;
 
 //             temp.Action_type.first = "Buff";
-//             temp.Action_type.second = "Skill";
+//             temp.Action_type.second = AType::SKILL;
 
 //             temp.Buff_type.push_back("Shield");
 
@@ -125,10 +125,10 @@
 //             temp2.num = ptr->Atv_stats->Character_num;
 
 //             temp2.Action_type.first = "Attack";
-//             temp2.Action_type.second = "Fua";
+//             temp2.Action_type.second = AType::Fua;
 
 //             temp2.Damage_element = ElementType::Imaginary;
-//             temp2.Damage_type.push_back("Fua");
+//             temp2.Damage_type.push_back(AType::Fua);
 //             temp2.Buff_type.push_back("Shield");
 
 //             temp2.Target_type = "Bounce";
@@ -150,10 +150,10 @@
 //             temp.num = ptr->Atv_stats->Character_num;
 
 //             temp.Action_type.first = "Attack";
-//             temp.Action_type.second = "Ultimate";
+//             temp.Action_type.second = AType::Ult;
 
 //             temp.Damage_element = ElementType::Imaginary;
-//             temp.Damage_type.push_back("Ultimate");
+//             temp.Damage_type.push_back(AType::Ult);
 
 //             temp.Target_type = "Single_target";
 //             temp.Damage_spilt.Main.push_back({0,0,270,10});
@@ -164,7 +164,7 @@
 //                 temp3.num = ptr->Atv_stats->Character_num;
 
 //                 temp3.Action_type.first = "Buff";
-//                 temp3.Action_type.second = "Ultimate";
+//                 temp3.Action_type.second = AType::Ult;
 
 //                 temp3.Buff_type.push_back("Shield");
 
@@ -177,10 +177,10 @@
 //             temp2.num = ptr->Atv_stats->Character_num;
 
 //             temp2.Action_type.first = "Attack";
-//             temp2.Action_type.second = "Fua";
+//             temp2.Action_type.second = AType::Fua;
 
 //             temp2.Damage_element = ElementType::Imaginary;
-//             temp2.Damage_type.push_back("Fua");
+//             temp2.Damage_type.push_back(AType::Fua);
 //             temp2.Buff_type.push_back("Shield");
             
 //             temp2.Target_type = "Bounce";
@@ -195,7 +195,7 @@
 //             }
 //             Apply_debuff(ptr,Enemy_unit[Main_Enemy_num].get());
 //             if(Enemy_unit[Main_Enemy_num]->stats->Debuff["Roulette_Shark"]==0){
-//                 Enemy_unit[Main_Enemy_num]->Crit_dam[AT_NONE]+=15;
+//                 Enemy_unit[Main_Enemy_num]->Crit_dam[AType::None]+=15;
 //                 Enemy_unit[Main_Enemy_num]->stats->Debuff["Roulette_Shark"]=1;
 //                 ++Enemy_unit[Main_Enemy_num]->stats->Total_debuff;
 //             }
@@ -205,25 +205,25 @@
 //     }
 //     void After_turn(Ally *ptr){
 //         if(turn->Name=="Enemy_Main"&&Enemy_unit[turn->Character_num]->stats->Debuff_time_count["Roulette_Shark"]==turn->turn_cnt){
-//             Enemy_unit[Main_Enemy_num]->Crit_dam[AT_NONE]-=15;
+//             Enemy_unit[Main_Enemy_num]->Crit_dam[AType::None]-=15;
 //                 Enemy_unit[Main_Enemy_num]->stats->Debuff["Roulette_Shark"]=0;
 //             --Enemy_unit[Main_Enemy_num]->stats->Total_debuff;
 //         }
 //         if(turn->Side=="Enemy"&&Enemy_unit[turn->Character_num]->stats->Debuff_time_count["Bounded_Rationality"]==turn->turn_cnt&&Enemy_unit[turn->Character_num]->stats->Debuff["Bounded_Rationality"]==1){
-//             Enemy_unit[turn->Character_num]->Respen[AT_NONE]-=12;
+//             Enemy_unit[turn->Character_num]->Respen[AType::None]-=12;
 //             Enemy_unit[turn->Character_num]->stats->Debuff["Bounded_Rationality"]=0;
 //             --Enemy_unit[turn->Character_num]->stats->Total_debuff;
 //         }
 //     }
 //     void Before_attack(Ally *ptr, Combat_data &act){
 //         if(Ally_unit[act.num]->Atv_stats->Name=="Aventurine"){
-//             ptr->Crit_rate[AT_NONE]-=ptr->stats->Buff_note["Leverage"];
-//             if(((ptr->Def_percent[AT_NONE]*ptr->stats->Base_def)+ptr->Def_flat[AT_NONE])>=1600);
-//             ptr->stats->Buff_note["Leverage"] = floor(((ptr->Def_percent[AT_NONE]*ptr->stats->Base_def)+ptr->Def_flat[AT_NONE]-1600)/100)*2;
+//             ptr->Crit_rate[AType::None]-=ptr->stats->Buff_note["Leverage"];
+//             if(((ptr->Def_percent[AType::None]*ptr->stats->Base_def)+ptr->Def_flat[AType::None])>=1600);
+//             ptr->stats->Buff_note["Leverage"] = floor(((ptr->Def_percent[AType::None]*ptr->stats->Base_def)+ptr->Def_flat[AType::None]-1600)/100)*2;
 //             if(ptr->stats->Buff_note["Leverage"]>=48){
 //                 ptr->stats->Buff_note["Leverage"] = 48;
 //             }
-//             ptr->Crit_rate[AT_NONE]+=ptr->stats->Buff_note["Leverage"];
+//             ptr->Crit_rate[AType::None]+=ptr->stats->Buff_note["Leverage"];
 
 //         }
 //     }
@@ -235,10 +235,10 @@
 //             temp2.num = ptr->Atv_stats->Character_num;
 
 //             temp2.Action_type.first = "Attack";
-//             temp2.Action_type.second = "Fua";
+//             temp2.Action_type.second = AType::Fua;
 
 //             temp2.Damage_element = ElementType::Imaginary;
-//             temp2.Damage_type.push_back("Fua");
+//             temp2.Damage_type.push_back(AType::Fua);
 //             temp2.Buff_type.push_back("Shield");
             
 //             temp2.Target_type = "Bounce";

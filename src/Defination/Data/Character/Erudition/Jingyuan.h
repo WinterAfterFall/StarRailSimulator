@@ -41,16 +41,16 @@ namespace Jingyuan{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr,JYptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(ActionType::Ult,JYptr,TT_AOE,"JY Ult",
+            make_shared<AllyAttackAction>(AType::Ult,JYptr,TT_AOE,"JY Ult",
             [ptr,JYptr](shared_ptr<AllyAttackAction> &act){
                 Attack(act);
                 if (ptr->Print)CharCmd::printUltStart("Jingyuan");
                 ptr->Sub_Unit_ptr[0]->Stack["LL_stack"] += 3;
                 if (ptr->Sub_Unit_ptr[0]->Stack["LL_stack"] >= 10) {
                     ptr->Summon_ptr[0]->Atv_stats->flatSpeed = 70;
-                    ptr->Summon_ptr[0]->speedBuff({ST_SPD,ST_FLAT_SPD,0});
+                    ptr->Summon_ptr[0]->speedBuff({ST_FLAT_SPD,AType::None,0});
                 } else {
-                    ptr->Summon_ptr[0]->speedBuff({ST_SPD,ST_FLAT_SPD,30});
+                    ptr->Summon_ptr[0]->speedBuff({ST_FLAT_SPD,AType::None,30});
                 }
             });
             act->addDamageIns(
@@ -67,23 +67,23 @@ namespace Jingyuan{
             if (!(ptr->Sub_Unit_ptr[0]->Atv_stats->num == turn->num && turn->Side == "Ally")) return;
             
             if (JYptr->isBuffEnd("War_Marshal")) {
-                JYptr->buffSingle({{ST_CR,AT_NONE,-10}});
+                JYptr->buffSingle({{ST_CR,AType::None,-10}});
             }
             ;
             if (ptr->Eidolon >= 2 && JYptr->isBuffEnd("Swing_Skies_Squashed")) {
                 JYptr->buffSingle({
-                    {ST_DMG,AT_BA,-20},
-                    {ST_DMG,AT_SKILL,-20},
-                    {ST_DMG,AT_ULT,-20}
+                    {ST_DMG,AType::BA,-20},
+                    {ST_DMG,AType::SKILL,-20},
+                    {ST_DMG,AType::Ult,-20}
                 });
             }
         }));
 
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 28;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 12;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Def%"][AT_NONE] += 12.5;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] += 28;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::None] += 12;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Def%"][AType::None] += 12.5;
 
             // relic
 
@@ -98,7 +98,7 @@ namespace Jingyuan{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,JYptr]() {
             if (ptr->Technique == 1) {
                 ptr->Sub_Unit_ptr[0]->Stack["LL_stack"] += 3;
-                ptr->Summon_ptr[0]->speedBuff({ST_SPD,ST_FLAT_SPD,30});
+                ptr->Summon_ptr[0]->speedBuff({ST_FLAT_SPD,AType::None,30});
 
             }
             Increase_energy(ptr, 15);
@@ -110,10 +110,10 @@ namespace Jingyuan{
         ptr->Summon_ptr[0]->Turn_func = [ptr,JYptr](){
             
             shared_ptr<AllyAttackAction> temp = 
-            make_shared<AllyAttackAction>(ActionType::Fua,JYptr,TT_SINGLE,"LL Fua",
+            make_shared<AllyAttackAction>(AType::Fua,JYptr,TT_SINGLE,"LL Fua",
             [ptr,JYptr](shared_ptr<AllyAttackAction> &act){
                 if(ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]>=6){
-                    ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["Summon"]+=25;
+                    ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::Summon]+=25;
                 }
 
                 for(int i=1;i<=ptr->Sub_Unit_ptr[0]->Stack["LL_stack"];i++){
@@ -132,7 +132,7 @@ namespace Jingyuan{
                 Attack(act);
 
                 if(ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]>=6){
-                    ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR]["Summon"]-=25;
+                    ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::Summon]-=25;
                 }
         
                 turn->flatSpeed = 0;
@@ -141,14 +141,14 @@ namespace Jingyuan{
                 
                 if(ptr->Eidolon>=2){
                     JYptr->buffSingle({
-                        {ST_DMG,AT_BA,20},
-                        {ST_DMG,AT_SKILL,20},
-                        {ST_DMG,AT_ULT,20}},
+                        {ST_DMG,AType::BA,20},
+                        {ST_DMG,AType::SKILL,20},
+                        {ST_DMG,AType::Ult,20}},
                         "Swing_Skies_Squashed",2
                     );
                 }
             });
-            temp->addActionType(ActionType::Summon);
+            temp->addActionType(AType::Summon);
             temp->setTurnReset(true);
             temp->addToActionBar();
             
@@ -159,7 +159,7 @@ namespace Jingyuan{
     void Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"JY BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"JY BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
@@ -171,17 +171,17 @@ namespace Jingyuan{
     }
     void Skill(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_AOE,"JY Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_AOE,"JY Skill",
         [ptr,JYptr = ptr->getSubUnit()](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
-            JYptr->buffSingle({{ST_CR,AT_NONE,10}},"War_Marshal",2);
+            JYptr->buffSingle({{ST_CR,AType::None,10}},"War_Marshal",2);
             ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]+=2;
             if(ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]>=10){
                 ptr->Summon_ptr[0]->Atv_stats->flatSpeed=70;
-                ptr->Summon_ptr[0]->speedBuff({ST_SPD,ST_FLAT_SPD,0});
+                ptr->Summon_ptr[0]->speedBuff({ST_FLAT_SPD,AType::None,0});
             }else{
-                ptr->Summon_ptr[0]->speedBuff({ST_SPD,ST_FLAT_SPD,20});
+                ptr->Summon_ptr[0]->speedBuff({ST_FLAT_SPD,AType::None,20});
             }
             Attack(act);
         });

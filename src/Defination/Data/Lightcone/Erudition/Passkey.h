@@ -11,7 +11,7 @@ namespace Erudition_Lightcone{
             }));
 
             AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
-                if (act->isSameAction(ptr->getSubUnit(),AT_SKILL)&&!ptr->getSubUnit()->getBuffCheck("Passkey")) {
+                if (act->isSameAction(ptr->getSubUnit(),AType::SKILL)&&!ptr->getSubUnit()->getBuffCheck("Passkey")) {
                     Increase_energy(ptr, 7 + superimpose);
                     ptr->getSubUnit()->setBuffCheck("Passkey",1);
                 }

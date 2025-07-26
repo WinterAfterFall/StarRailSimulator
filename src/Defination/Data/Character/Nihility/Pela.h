@@ -36,9 +36,9 @@ namespace Pela{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"Pela Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"Pela Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
-                debuffAllEnemyApply({{ST_DEF_SHRED, AT_NONE, 42}},ptr->Sub_Unit_ptr[0].get(), "Zone_Suppression",2);
+                debuffAllEnemyApply({{ST_DEF_SHRED, AType::None, 42}},ptr->Sub_Unit_ptr[0].get(), "Zone_Suppression",2);
                 Attack(act);
             });
             act->addDamageIns(
@@ -51,9 +51,9 @@ namespace Pela{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Ice][AT_NONE] += 22.4;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"][AT_NONE] += 10;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Ice][AType::None] += 22.4;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"][AType::None] += 10;
 
             // relic
 
@@ -63,24 +63,24 @@ namespace Pela{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (ptr->Technique == 1) {
-                debuffAllEnemyApply({{ST_DEF_SHRED, AT_NONE, 20}},ptr->Sub_Unit_ptr[0].get(), "Pela_Technique",2);
+                debuffAllEnemyApply({{ST_DEF_SHRED, AType::None, 20}},ptr->Sub_Unit_ptr[0].get(), "Pela_Technique",2);
                 Increase_energy(ptr, 20);
             }
         }));
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            buffAllAlly({{"Ehr", AT_NONE, 10}});
+            buffAllAlly({{"Ehr", AType::None, 10}});
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (turn->Side == "Enemy") {
                 if (Enemy_unit[turn->num]->Debuff_time_count["Zone_Suppression"] == Enemy_unit[turn->num]->Atv_stats->turnCnt) {
                     Enemy_unit[turn->num]->Debuff["Zone_Suppression"] = 0;
-                    Enemy_unit[turn->num]->Stats_type[ST_DEF_SHRED][AT_NONE] -= 42;
+                    Enemy_unit[turn->num]->Stats_type[ST_DEF_SHRED][AType::None] -= 42;
                     --Enemy_unit[turn->num]->Total_debuff;
                 }
                 if (Enemy_unit[turn->num]->Debuff_time_count["Pela_Technique"] == turn->turnCnt) {
-                    Enemy_unit[turn->num]->Stats_type[ST_DEF_SHRED][AT_NONE] -= 20;
+                    Enemy_unit[turn->num]->Stats_type[ST_DEF_SHRED][AType::None] -= 20;
                     Enemy_unit[turn->num]->Debuff["Pela_Technique"] = 0;
                     --Enemy_unit[turn->num]->Total_debuff;
                 }
@@ -98,7 +98,7 @@ namespace Pela{
 
             if (ptr->Eidolon >= 6) {
                 shared_ptr<AllyAttackAction> addDmg = 
-                make_shared<AllyAttackAction>(ActionType::Addtional,ptr->getSubUnit(),TT_SINGLE,"Pela E6");
+                make_shared<AllyAttackAction>(AType::Addtional,ptr->getSubUnit(),TT_SINGLE,"Pela E6");
                 for (auto e : act->targetList) {
                     addDmg->addDamageIns(DmgSrc(DmgSrcType::ATK,40),e);
                 }
@@ -111,7 +111,7 @@ namespace Pela{
 
     void Basic_Atk(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Pela BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"Pela BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);

@@ -33,7 +33,7 @@ namespace Cipher{
         
         function<void()> BA = [ptr,cph]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Cipher BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"Cipher BA",
             [ptr,cph](shared_ptr<AllyAttackAction> &act){
                 Skill_point(cph,1);
                 Increase_energy(ptr,20);
@@ -46,7 +46,7 @@ namespace Cipher{
         };
         function<void()> Skill = [ptr,cph]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(ActionType::SKILL,ptr->getSubUnit(),TT_BLAST,"Cipher Skill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_BLAST,"Cipher Skill",
             [ptr,cph](shared_ptr<AllyAttackAction> &act){
                 Skill_point(cph,-1);
                 Increase_energy(ptr,30);
@@ -55,7 +55,7 @@ namespace Cipher{
                         each->dmgPercent -= 10;
                     }
                 }
-                cph->buffSingle({{ST_ATK_P,AT_NONE,30}},"Cipher Skill",2);
+                cph->buffSingle({{ST_ATK_P,AType::None,30}},"Cipher Skill",2);
                 Attack(act);
             });
             act->addDamageIns(
@@ -74,7 +74,7 @@ namespace Cipher{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,cph]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"Cipher Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"Cipher Ult",
             [ptr,cph](shared_ptr<AllyAttackAction> &act){
                 Attack(act);
             });
@@ -92,15 +92,15 @@ namespace Cipher{
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 14;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Quantum][AT_NONE] += 14.4;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_EHR][AT_NONE] += 10;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 25 * ptr->getAdjust("Cipher A2");
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Quantum][AType::None] += 14.4;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_EHR][AType::None] += 10;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::None] += 25 * ptr->getAdjust("Cipher A2");
 
-            // ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Quantum][AT_NONE] += 12;
-            // ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AT_NONE] += 4;
-            // ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AT_NONE] += 24;
+            // ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Quantum][AType::None] += 12;
+            // ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::None] += 4;
+            // ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AType::None] += 24;
 
-            debuffAllEnemyMark({{ST_VUL,AT_NONE,40}},ptr->Sub_Unit_ptr[0].get(),"Cipher A6");
+            debuffAllEnemyMark({{ST_VUL,AType::None,40}},ptr->Sub_Unit_ptr[0].get(),"Cipher A6");
             // relic
 
             // substats
@@ -115,24 +115,24 @@ namespace Cipher{
             auto ally =  turn->canCastToSubUnit();
             if(ally){
                 if(ally->isBuffEnd("Cipher Skill")){
-                    ally->buffSingle({{ST_ATK_P,AT_NONE,-30}});
+                    ally->buffSingle({{ST_ATK_P,AType::None,-30}});
                 }
                 if(ptr->Eidolon>=1&&ally->isBuffEnd("Cipher E1"))
-                    ally->buffSingle({{ST_ATK_P,AT_NONE,-80}});
+                    ally->buffSingle({{ST_ATK_P,AType::None,-80}});
             }
             if(enemy){
                 if(enemy->isDebuffEnd("Cipher Weaken")){
                     enemy->dmgPercent +=10;
                 }
                 if(ptr->Eidolon>=2&&enemy->isDebuffEnd("Cipher E2")){
-                    enemy->debuffSingle({{ST_VUL,AT_NONE,-30}});
+                    enemy->debuffSingle({{ST_VUL,AType::None,-30}});
                 }
             }
         }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_Last,[ptr,cph](){
                 shared_ptr<AllyAttackAction> newAct = 
-                make_shared<AllyAttackAction>(ActionType::Technique,ptr->getSubUnit(),TT_AOE,"Cipher Tech",
+                make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TT_AOE,"Cipher Tech",
                 [ptr,cph](shared_ptr<AllyAttackAction> &act){
                     Attack(act);
                 });
@@ -149,27 +149,27 @@ namespace Cipher{
             shared_ptr<AllyAttackAction> &act){
                 if(ptr->Eidolon>=2&&act->isSameUnit(cph)){
                     for(auto &each : act->targetList){
-                        each->debuffSingleApply({{ST_VUL,AT_NONE,30}},cph,"Cipher E2",2);
+                        each->debuffSingleApply({{ST_VUL,AType::None,30}},cph,"Cipher E2",2);
                     }
                 }
-                if(act->isSameAction("Cipher",AT_SKILL)||act->isSameAction("Cipher",AT_ULT))
+                if(act->isSameAction("Cipher",AType::SKILL)||act->isSameAction("Cipher",AType::Ult))
                     Enemy_unit[Main_Enemy_num]->debuffApply(cph,"Patron");
 
                 if(!act->isSameUnitName("Cipher")&&!cph->getBuffCheck("Cipher Fua")){
                     cph->setBuffCheck("Cipher Fua",1);
                     shared_ptr<AllyAttackAction> newAct = 
-                    make_shared<AllyAttackAction>(ActionType::Fua,ptr->getSubUnit(),TT_SINGLE,"Cipher Fua",
+                    make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TT_SINGLE,"Cipher Fua",
                     [ptr,cph](shared_ptr<AllyAttackAction> &act){
                         Increase_energy(ptr,5);
 
                         if(ptr->Eidolon>=1)
-                            cph->buffSingle({{ST_ATK_P,AT_NONE,80}},"Cipher E1",2);
+                            cph->buffSingle({{ST_ATK_P,AType::None,80}},"Cipher E1",2);
 
-                        cph->buffSingle({{ST_CD,AT_NONE,100}});
-                        if(ptr->Eidolon>=6)cph->buffSingle({{ST_DMG,AT_NONE,350}});
+                        cph->buffSingle({{ST_CD,AType::None,100}});
+                        if(ptr->Eidolon>=6)cph->buffSingle({{ST_DMG,AType::None,350}});
                         Attack(act);
-                        cph->buffSingle({{ST_CD,AT_NONE,-100}});
-                        if(ptr->Eidolon>=6)cph->buffSingle({{ST_DMG,AT_NONE,-350}});
+                        cph->buffSingle({{ST_CD,AType::None,-100}});
+                        if(ptr->Eidolon>=6)cph->buffSingle({{ST_DMG,AType::None,-350}});
                     });
                     newAct->addDamageIns(
                         DmgSrc(DmgSrcType::ATK,150,20)
@@ -218,7 +218,7 @@ namespace Cipher{
                     for(auto &each : act->targetList){
                         if(each->getDebuff("Patron")){
                             shared_ptr<AllyAttackAction> newAct = make_shared<AllyAttackAction>(
-                                ActionType::Addtional,cph,TT_SINGLE,"Cipher E4");
+                                AType::Addtional,cph,TT_SINGLE,"Cipher E4");
                             newAct->addDamageIns(DmgSrc(DmgSrcType::ATK,50));
                             Attack(newAct);
                             break;

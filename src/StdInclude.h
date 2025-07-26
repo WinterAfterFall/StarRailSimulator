@@ -36,7 +36,6 @@
 #define ST_HEALING_OUT "outGoingHeal"
 #define ST_HEALING_IN "inComingHeal"
 #define ST_SHEILD "SheildBonus"
-#define ST_SPD "Speed"
 #define ST_FLAT_SPD "Flat-Speed"
 #define ST_SPD_P "Speed%"
 #define ST_BREAK_EFF "Weakness_Break_Efficiency"
@@ -46,20 +45,20 @@
 
 #pragma region ActionType
 
-#define AT_TEMP "Temporary"
-#define AT_NONE "None"
-#define AT_BA "Basic_Attack"
-#define AT_SKILL "Skill"
-#define AT_ULT "Ultimate"
-#define AT_FUA "Fua"
-#define AT_SUMMON "Summon"
-#define AT_DOT "Dot"
-#define AT_BREAK "Break_dmg"
-#define AT_SPB "Super_break"
-#define AT_ADD "Additional"
-#define AT_TECH "Technique"
-#define AT_FRZ "Freeze"
-#define AT_ENT "Entanglement"
+// #define AType::TEMP "Temporary"
+// #define AType::None "None"
+// #define AType::BA "Basic_Attack"
+// #define AType::SKILL "Skill"
+// #define AType::Ult "Ultimate"
+// #define AType::Fua "Fua"
+// #define AType::Summon "Summon"
+// #define AType::Dot "Dot"
+// #define AType::Break "Break_dmg"
+// #define AType::SPB "Super_break"
+// #define AType::Addtional "Additional"
+// #define AType::Technique "Technique"
+// #define AType::Freeze "Freeze"
+// #define AType::Entanglement "Entanglement"
 
 #pragma endregion
 #pragma region TargetType

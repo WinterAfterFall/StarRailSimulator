@@ -30,7 +30,7 @@ namespace Luocha{
             if (ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"] >= 2) return;
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"Luocha Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"Luocha Ult",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Attack(act);
             ++ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"];
@@ -45,9 +45,9 @@ namespace Luocha{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AT_NONE] += 28;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"][AT_NONE] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Def%"][AT_NONE] += 12.5;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] += 28;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"][AType::None] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type["Def%"][AType::None] += 12.5;
 
             // relic
 
@@ -59,7 +59,7 @@ namespace Luocha{
             if (turn->Char_Name == "Luocha") {
                 if (Charptr->isBuffEnd("Cycle_of_Life")) {
                     if (ptr->Eidolon >= 1) {
-                        buffAllAlly({{ST_ATK_P,AT_NONE,-20}});
+                        buffAllAlly({{ST_ATK_P,AType::None,-20}});
                     }
                     Charptr->setStack("Abyss_Flower",0);
                 }
@@ -99,14 +99,14 @@ namespace Luocha{
         if(ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"]==2){
             ptr->Sub_Unit_ptr[0]->extendBuffTime("Cycle _of_Life",2);
         if(ptr->Eidolon>=1){
-            buffAllAlly({{ST_ATK_P,AT_NONE,20}});
+            buffAllAlly({{ST_ATK_P,AType::None,20}});
         }
         }
     }
     void Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Luocha BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"Luocha BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);

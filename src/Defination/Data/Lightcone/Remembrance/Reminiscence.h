@@ -8,13 +8,13 @@ namespace Remembrance_Lightcone{
             Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 for (auto &e : ptr->Sub_Unit_ptr) {
                     if (e->Atv_stats->Side == "Memosprite" && e->isDeath()) {
-                        ptr->buffResetStack({{ST_DMG,AT_NONE,7.0 + superimpose}},"Reminiscence");
+                        ptr->buffResetStack({{ST_DMG,AType::None,7.0 + superimpose}},"Reminiscence");
                         return;
                     }
                 }
     
                 if (turn->num == ptr->Sub_Unit_ptr[0]->Atv_stats->num && turn->Side == "Memosprite") {
-                    ptr->buffStackAlly({{ST_DMG,AT_NONE,7.0 + superimpose}}, 1, 4,"Reminiscence");
+                    ptr->buffStackAlly({{ST_DMG,AType::None,7.0 + superimpose}}, 1, 4,"Reminiscence");
                 }
             }));
         };

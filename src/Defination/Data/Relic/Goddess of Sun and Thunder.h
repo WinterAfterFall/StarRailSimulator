@@ -10,9 +10,9 @@ namespace Relic{
         Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr](SubUnit *Healer, SubUnit *target, double Value) {
             if(Healer->ptrToChar->getSubUnit()->isSameUnit(ptr->getSubUnit())){
                 if(ptr->getSubUnit()->isHaveToAddBuff("Goddess of Sun and Thunder",2)){
-                    ptr->getSubUnit()->buffSingle({{ST_SPD,ST_SPD_P,6}});
+                    ptr->getSubUnit()->buffSingle({{ST_SPD_P,AType::None,6}});
                     buffAllAlly({
-                        {ST_CD,AT_NONE,15}
+                        {ST_CD,AType::None,15}
                     });
                 }
             }
@@ -20,9 +20,9 @@ namespace Relic{
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if(ptr->getSubUnit()->isBuffEnd("Goddess of Sun and Thunder")){
-                    ptr->getSubUnit()->buffSingle({{ST_SPD,ST_SPD_P,-6}});
+                    ptr->getSubUnit()->buffSingle({{ST_SPD_P,AType::None,-6}});
                     buffAllAlly({
-                        {ST_CD,AT_NONE,-15}
+                        {ST_CD,AType::None,-15}
                     });
                 }
         }));

@@ -9,7 +9,7 @@ namespace Planar{
         }));
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AT_NONE] += 40;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None] += 40;
         }));
        
     }

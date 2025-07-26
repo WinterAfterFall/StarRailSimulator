@@ -25,7 +25,7 @@ namespace Hanabi{
 
         function<void()> BA = [ptr,hnb]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(ActionType::BA,ptr->getSubUnit(),TT_SINGLE,"Hnb BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"Hnb BA",
             [hnb](shared_ptr<AllyAttackAction> &act){
                 Skill_point(hnb,1);
                 Increase_energy(hnb,30);
@@ -37,15 +37,15 @@ namespace Hanabi{
 
         function<void()> Skill = [ptr,hnb]() {
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(ActionType::SKILL,ptr->getSubUnit(),TT_SINGLE,"Hnb Skill",
+            make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TT_SINGLE,"Hnb Skill",
             [ptr,hnb](shared_ptr<AllyBuffAction> &act){
                 Skill_point(hnb,-1);
                 Increase_energy(hnb,30);
                 double buff = (ptr->Eidolon>=6)? calculateCritdamForBuff(hnb,54) + 45 :calculateCritdamForBuff(hnb,24) + 45;
 
                 chooseSubUnitBuff(hnb)->buffSingle({
-                    {ST_CD,AT_TEMP,buff - chooseSubUnitBuff(hnb)->getBuffNote("Hnb Skill")},
-                    {ST_CD,AT_NONE,buff - chooseSubUnitBuff(hnb)->getBuffNote("Hnb Skill")}
+                    {ST_CD,AType::TEMP,buff - chooseSubUnitBuff(hnb)->getBuffNote("Hnb Skill")},
+                    {ST_CD,AType::None,buff - chooseSubUnitBuff(hnb)->getBuffNote("Hnb Skill")}
                 });
                 chooseSubUnitBuff(hnb)->extendBuffTime("Hnb Skill",2);
                 chooseSubUnitBuff(hnb)->setBuffNote("Hnb Skill",buff);
@@ -55,8 +55,8 @@ namespace Hanabi{
                         for(auto &each : Ally_unit[i]->Sub_Unit_ptr){
                             if(!each->getBuffCheck("Hnb Cipher"))continue;
                             each->buffSingle({
-                                {ST_CD,AT_TEMP,buff - each->getBuffNote("Hnb Skill")},
-                                {ST_CD,AT_NONE,buff - each->getBuffNote("Hnb Skill")}
+                                {ST_CD,AType::TEMP,buff - each->getBuffNote("Hnb Skill")},
+                                {ST_CD,AType::None,buff - each->getBuffNote("Hnb Skill")}
                             });
                            each->setBuffNote("Hnb Skill",buff);
                         }   
@@ -86,7 +86,7 @@ namespace Hanabi{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,hnb]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(ActionType::Ult,ptr->getSubUnit(),TT_AOE,"Hnb Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"Hnb Ult",
             [ptr,hnb](shared_ptr<AllyBuffAction> &act){
                 if(ptr->Eidolon>=4)Skill_point(hnb,5);
                 else Skill_point(hnb,4);
@@ -94,9 +94,9 @@ namespace Hanabi{
                 for(int i=1;i<=Total_ally;i++){
                     for(auto &each : Ally_unit[i]->Sub_Unit_ptr){
                         if(each->isHaveToAddBuff("Hnb Cipher")){
-                            each->buffSingle({{ST_DMG,AT_NONE,10.0 * each->getStack("Hnb Talent")}});
+                            each->buffSingle({{ST_DMG,AType::None,10.0 * each->getStack("Hnb Talent")}});
                             if(ptr->Eidolon>=1){
-                                each->buffSingle({{ST_ATK_P,AT_NONE,40}});
+                                each->buffSingle({{ST_ATK_P,AType::None,40}});
                                 each->extendBuffTime("Hnb Cipher",3);
                             }
                             else each->extendBuffTime("Hnb Cipher",2);
@@ -109,8 +109,8 @@ namespace Hanabi{
                     for(int i=1;i<=Total_ally;i++){
                         for(auto &each : Ally_unit[i]->Sub_Unit_ptr){
                             each->buffSingle({
-                                {ST_CD,AT_TEMP,buff - each->getBuffNote("Hnb Skill")},
-                                {ST_CD,AT_NONE,buff - each->getBuffNote("Hnb Skill")}
+                                {ST_CD,AType::TEMP,buff - each->getBuffNote("Hnb Skill")},
+                                {ST_CD,AType::None,buff - each->getBuffNote("Hnb Skill")}
                             });
                             each->setBuffNote("Hnb Skill",buff);
                         }   
@@ -125,9 +125,9 @@ namespace Hanabi{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P][AT_NONE] += 28;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AT_NONE] += 24;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES][AT_NONE] += 10;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P][AType::None] += 28;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AType::None] += 24;
+            ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES][AType::None] += 10;
 
             // relic
 
@@ -144,9 +144,9 @@ namespace Hanabi{
             else if(qtCount >= 3)atkBuff = 45;
             for(int i=1;i<=Total_ally;i++){
                 if(Ally_unit[i]->getSubUnit()->Element_type[0] ==ElementType::Quantum)
-                    Ally_unit[i]->getSubUnit()->buffSingle({{ST_ATK_P,AT_NONE,atkBuff}});
+                    Ally_unit[i]->getSubUnit()->buffSingle({{ST_ATK_P,AType::None,atkBuff}});
                 else
-                    Ally_unit[i]->getSubUnit()->buffSingle({{ST_ATK_P,AT_NONE,15}});
+                    Ally_unit[i]->getSubUnit()->buffSingle({{ST_ATK_P,AType::None,15}});
             }
         }));
 
@@ -159,8 +159,8 @@ namespace Hanabi{
             if(!ally)return;
             if(ally->isBuffEnd("Hnb Skill")){
                 ally->buffSingle({
-                    {ST_CD,AT_TEMP,-ally->getBuffNote("Hnb Skill")},
-                    {ST_CD,AT_NONE,-ally->getBuffNote("Hnb Skill")}
+                    {ST_CD,AType::TEMP,-ally->getBuffNote("Hnb Skill")},
+                    {ST_CD,AType::None,-ally->getBuffNote("Hnb Skill")}
                 });
                 ally->setBuffNote("Hnb Skill",0);
                 
@@ -168,8 +168,8 @@ namespace Hanabi{
                     for(int i=1;i<=Total_ally;i++){
                         for(auto &each : Ally_unit[i]->Sub_Unit_ptr){
                             each->buffSingle({
-                                {ST_CD,AT_TEMP,-each->getBuffNote("Hnb Skill")},
-                                {ST_CD,AT_NONE,-each->getBuffNote("Hnb Skill")}
+                                {ST_CD,AType::TEMP,-each->getBuffNote("Hnb Skill")},
+                                {ST_CD,AType::None,-each->getBuffNote("Hnb Skill")}
                             });
                             each->setBuffNote("Hnb Skill",0);
                         }   
@@ -182,15 +182,15 @@ namespace Hanabi{
             SubUnit *ally = turn->canCastToSubUnit();
             if(!ally)return;
             if(ally->isBuffEnd("Hnb Cipher")){
-                ally->buffSingle({{ST_DMG,AT_NONE,-10.0 * ally->getStack("Hnb Talent")}});
-                if(ptr->Eidolon>=1)ally->buffSingle({{ST_ATK_P,AT_NONE,-40}});
+                ally->buffSingle({{ST_DMG,AType::None,-10.0 * ally->getStack("Hnb Talent")}});
+                if(ptr->Eidolon>=1)ally->buffSingle({{ST_ATK_P,AType::None,-40}});
                 if(ptr->Eidolon>=6){
                     for(int i=1;i<=Total_ally;i++){
                         for(auto &each : Ally_unit[i]->Sub_Unit_ptr){
                             if(each->getBuffCheck("Hnb Skill"))continue;
                             each->buffSingle({
-                                {ST_CD,AT_TEMP,-each->getBuffNote("Hnb Skill")},
-                                {ST_CD,AT_NONE,-each->getBuffNote("Hnb Skill")}
+                                {ST_CD,AType::TEMP,-each->getBuffNote("Hnb Skill")},
+                                {ST_CD,AType::None,-each->getBuffNote("Hnb Skill")}
                             });
                             each->setBuffNote("Hnb Skill",0);
                         }   
@@ -199,29 +199,29 @@ namespace Hanabi{
             }
             if(ally->isBuffEnd("Hnb Talent")){
                 if(ally->getBuffCheck("Hnb Cipher"))
-                    ally->buffResetStack({{ST_DMG,AT_NONE,16}},"Hnb Talent");
+                    ally->buffResetStack({{ST_DMG,AType::None,16}},"Hnb Talent");
                 else
-                    ally->buffResetStack({{ST_DMG,AT_NONE,6}},"Hnb Talent");
-                if(ptr->Eidolon>=2)ally->buffResetStack({{ST_DEF_SHRED,AT_NONE,8}},"Hnb E2");
+                    ally->buffResetStack({{ST_DMG,AType::None,6}},"Hnb Talent");
+                if(ptr->Eidolon>=2)ally->buffResetStack({{ST_DEF_SHRED,AType::None,8}},"Hnb E2");
             }
         }));
 
         AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,hnb](SubUnit* target) {
             if(target->isBuffGoneByDeath("Hnb Cipher")){
-                target->buffSingle({{ST_DMG,AT_NONE,-10.0 * target->getStack("Hnb Talent")}});
-                if(ptr->Eidolon>=1)target->buffSingle({{ST_ATK_P,AT_NONE,-40}});
+                target->buffSingle({{ST_DMG,AType::None,-10.0 * target->getStack("Hnb Talent")}});
+                if(ptr->Eidolon>=1)target->buffSingle({{ST_ATK_P,AType::None,-40}});
             }
             if(target->isBuffGoneByDeath("Hnb Talent")){
                 if(target->getBuffCheck("Hnb Cipher"))
-                    target->buffResetStack({{ST_DMG,AT_NONE,16}},"Hnb Talent");
+                    target->buffResetStack({{ST_DMG,AType::None,16}},"Hnb Talent");
                 else
-                    target->buffResetStack({{ST_DMG,AT_NONE,6}},"Hnb Talent");
-                if(ptr->Eidolon>=2)target->buffResetStack({{ST_DEF_SHRED,AT_NONE,8}},"Hnb E2");
+                    target->buffResetStack({{ST_DMG,AType::None,6}},"Hnb Talent");
+                if(ptr->Eidolon>=2)target->buffResetStack({{ST_DEF_SHRED,AType::None,8}},"Hnb E2");
             }
             if(target->isBuffGoneByDeath("Hnb Skill")){
                 target->buffSingle({
-                    {ST_CD,AT_TEMP,-target->getBuffNote("Hnb Skill")},
-                    {ST_CD,AT_NONE,-target->getBuffNote("Hnb Skill")}
+                    {ST_CD,AType::TEMP,-target->getBuffNote("Hnb Skill")},
+                    {ST_CD,AType::None,-target->getBuffNote("Hnb Skill")}
                 });
                 target->setBuffNote("Hnb Skill",0);
 
@@ -230,8 +230,8 @@ namespace Hanabi{
                     for(int i=1;i<=Total_ally;i++){
                         for(auto &each : Ally_unit[i]->Sub_Unit_ptr){
                             each->buffSingle({
-                                {ST_CD,AT_TEMP,-each->getBuffNote("Hnb Skill")},
-                                {ST_CD,AT_NONE,-each->getBuffNote("Hnb Skill")}
+                                {ST_CD,AType::TEMP,-each->getBuffNote("Hnb Skill")},
+                                {ST_CD,AType::None,-each->getBuffNote("Hnb Skill")}
                             });
                             each->setBuffNote("Hnb Skill",0);
                         }   
@@ -246,10 +246,10 @@ namespace Hanabi{
             for(int i=1;i<=Total_ally;i++){
                 for(auto &each : Ally_unit[i]->Sub_Unit_ptr){
                     if(each->getBuffCheck("Hnb Cipher"))
-                        each->buffStackSingle({{ST_DMG,AT_NONE,16}},-SP,3,"Hnb Talent",2);
+                        each->buffStackSingle({{ST_DMG,AType::None,16}},-SP,3,"Hnb Talent",2);
                     else 
-                        each->buffStackSingle({{ST_DMG,AT_NONE,6}},-SP,3,"Hnb Talent",2);
-                    if(ptr->Eidolon>=2)each->buffStackSingle({{ST_DEF_SHRED,AT_NONE,8}},-SP,3,"Hnb E2");
+                        each->buffStackSingle({{ST_DMG,AType::None,6}},-SP,3,"Hnb Talent",2);
+                    if(ptr->Eidolon>=2)each->buffStackSingle({{ST_DEF_SHRED,AType::None,8}},-SP,3,"Hnb E2");
                 }   
             }
         }));
