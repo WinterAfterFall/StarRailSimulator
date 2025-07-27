@@ -260,7 +260,7 @@ public:
     void setBoot(Stats stats);
     void setOrb(Stats stats);
     void setRope(Stats stats);
-    function<void(Ally *ptr)> RelicPairSet(Stats stats);
+    function<void(Ally *ptr)> RelicPairSet(PairSetType stats);
     function<void(Ally *ptr)> RelicMainStatsSet(Stats stats);
 
     // Set Requirements

@@ -1,6 +1,6 @@
 #include "../include.h"
 namespace Relic{
-    function<void(Ally *ptr)> PairSet(Stats first,Stats second){
+    function<void(Ally *ptr)> PairSet(PairSetType first,PairSetType second){
         return [=](Ally *ptr) {
             ptr->Relic.Name = "PairSet";
             function<void(Ally *ptr)> Relic1 = ptr->RelicPairSet(first);
