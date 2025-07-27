@@ -10,19 +10,19 @@ namespace Harmony_Lightcone{
                 SubUnit *tempstats = dynamic_cast<SubUnit*>(turn->ptrToChar);
                 if (!tempstats) return;
                 if (tempstats->isBuffEnd(hymn)) {
-                    tempstats->buffResetStack({{ST_DMG,AType::None,(12.75 + (2.25)*superimpose)}},hymn);
+                    tempstats->buffResetStack({{Stats::DMG,AType::None,(12.75 + (2.25)*superimpose)}},hymn);
                 }
             }));
     
             AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,superimpose,hymn](SubUnit* target) {
-                target->buffResetStack({{ST_DMG,AType::None,(12.75 + (2.25)*superimpose)}},hymn);
+                target->buffResetStack({{Stats::DMG,AType::None,(12.75 + (2.25)*superimpose)}},hymn);
             }));
     
             Buff_List.push_back(TriggerByAllyBuffAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,hymn](shared_ptr<AllyBuffAction> &act) {
                 if (act->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && act->traceType == "Single_target") {
                     Increase_energy(ptr, 5.5 + 0.5 * superimpose);
                     for (auto each : act->buffTargetList) {
-                        each->buffStackSingle({{ST_DMG,AType::None,(12.75 + (2.25)*superimpose)}},1,3,hymn,3);
+                        each->buffStackSingle({{Stats::DMG,AType::None,(12.75 + (2.25)*superimpose)}},1,3,hymn,3);
                     }
                     ++ptr->Sub_Unit_ptr[0]->Stack["Hymn_cnt"];
                     if (ptr->Sub_Unit_ptr[0]->Stack["Hymn_cnt"] == 2) {

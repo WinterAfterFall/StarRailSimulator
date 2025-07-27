@@ -53,9 +53,9 @@ namespace SomeChar{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Ice][AType::None] += 22.4;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"][AType::None] += 10;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Ice][AType::None] += 22.4;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += 10;
 
             // relic
 

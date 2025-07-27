@@ -62,7 +62,7 @@
 //         Ally_unit[num]->stats->Total_substats=20;
 //         Ally_unit[num]->stats->Separate_sub=20;
 
-//         Ally_unit[num]->stats->Substats.push_back({ST_BE,20});
+//         Ally_unit[num]->stats->Substats.push_back({Stats::BE,20});
 
 //         Ally_unit[num]->stats->Max_damage_Substats.resize(Ally_unit[num]->stats->Substats.size());
 

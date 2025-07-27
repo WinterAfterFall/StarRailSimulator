@@ -8,13 +8,13 @@ namespace SW{
         ptr->SetAllyBaseStats(1048,640,461);
 
         //substats
-        ptr->pushSubstats(ST_CD);
-        ptr->pushSubstats(ST_CR);
-        ptr->pushSubstats(ST_ATK_P);
+        ptr->pushSubstats(Stats::CD);
+        ptr->pushSubstats(Stats::CR);
+        ptr->pushSubstats(Stats::ATK_P);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(140);
         ptr->setApplyBaseChance(100);
-        ptr->setRelicMainStats(ST_EHR,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
+        ptr->setRelicMainStats(Stats::EHR,Stats::FLAT_SPD,Stats::DMG,Stats::ER);
 
         
         //func
@@ -51,11 +51,11 @@ namespace SW{
                     for(int i=1;i<=Total_ally;i++){
                         if(enemy->Default_Weakness_type[Ally_unit[i]->Sub_Unit_ptr[0]->Element_type[0]])continue;
                         enemy->weaknessApply(Ally_unit[i]->Sub_Unit_ptr[0]->Element_type[0],3);
-                        enemy->debuffSingleApply({{ST_RESPEN,Ally_unit[i]->Sub_Unit_ptr[0]->Element_type[0],AType::None,20}},sw,"SW Weakness",3);
+                        enemy->debuffSingleApply({{Stats::RESPEN,Ally_unit[i]->Sub_Unit_ptr[0]->Element_type[0],AType::None,20}},sw,"SW Weakness",3);
                         sw->setBuffNote("SW Weakness num",i);
                         break;
                     }
-                    enemy->debuffSingleApply({{ST_RESPEN,AType::None,13}},sw,"SW Res",2);
+                    enemy->debuffSingleApply({{Stats::RESPEN,AType::None,13}},sw,"SW Res",2);
                 }
                 Attack(act);
             });
@@ -82,7 +82,7 @@ namespace SW{
             make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"SW Ult",
             [ptr,sw](shared_ptr<AllyAttackAction> &act){
                 debuffAllEnemyApply({
-                    {ST_DEF_SHRED,AType::None,45}
+                    {Stats::DEF_SHRED,AType::None,45}
                 },sw,"SW Ult",3);
                 Attack(act);
                 if(ptr->Eidolon>=1){
@@ -115,17 +115,17 @@ namespace SW{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Quantum][AType::None] += 8;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] += 28;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"][AType::None] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 8;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 28;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += 18;
 
             // relic
 
             // Trace
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] += 50;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 50;
 
             if(ptr->Eidolon>=6){
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG][AType::None] += 100;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::None] += 100;
             }
 
         }));
@@ -142,21 +142,21 @@ namespace SW{
             Enemy *enemy = turn->canCastToEnemy();
             if(enemy){
                 if(enemy->isDebuffEnd("SW Weakness")){
-                    enemy->debuffSingle({{ST_RESPEN,Ally_unit[sw->getBuffNote("SW Weakness num")]->Sub_Unit_ptr[0]->Element_type[0],AType::None,-20}});
+                    enemy->debuffSingle({{Stats::RESPEN,Ally_unit[sw->getBuffNote("SW Weakness num")]->Sub_Unit_ptr[0]->Element_type[0],AType::None,-20}});
                 }
                 if(enemy->isDebuffEnd("SW Res")){
-                    enemy->debuffSingle({{ST_RESPEN,AType::None,-13}});
+                    enemy->debuffSingle({{Stats::RESPEN,AType::None,-13}});
                 }
                 if(enemy->isDebuffEnd("SW Ult")){
-                    enemy->debuffSingle({{ST_DEF_SHRED,AType::None,-45}});
+                    enemy->debuffSingle({{Stats::DEF_SHRED,AType::None,-45}});
                 }
                 enemy->isDebuffEnd("Bug 1");
                 if(enemy->isDebuffEnd("Bug 2")){
-                    enemy->debuffSingle({{ST_DEF_SHRED,AType::None,-12}});
+                    enemy->debuffSingle({{Stats::DEF_SHRED,AType::None,-12}});
                 }
                 if(enemy->isDebuffEnd("Bug 3")){
                     enemy->atkPercent+=10;
-                    enemy->debuffSingle({{ST_SPD_P,AType::None,6}});
+                    enemy->debuffSingle({{Stats::SPD_P,AType::None,6}});
                 }
 
             }
@@ -182,7 +182,7 @@ namespace SW{
             Increase_energy(sw,20);
 
             if(ptr->Eidolon>=2){
-                debuffAllEnemyMark({{ST_VUL,AType::None,20}},sw,"SW E2");
+                debuffAllEnemyMark({{Stats::VUL,AType::None,20}},sw,"SW E2");
             }
         }));
 
@@ -193,14 +193,14 @@ namespace SW{
                         enemy->debuffApply(sw,"Bug 1",4);
                     }
                     else if(!enemy->getDebuff("Bug 2")){
-                        enemy->debuffSingleApply({{ST_DEF_SHRED,AType::None,12}},sw,"Bug 2",4);
+                        enemy->debuffSingleApply({{Stats::DEF_SHRED,AType::None,12}},sw,"Bug 2",4);
                     }
                     else {
                         enemy->debuffApply(sw,"Bug 1",4);
-                        enemy->debuffSingleApply({{ST_DEF_SHRED,AType::None,12}},sw,"Bug 2",4);
+                        enemy->debuffSingleApply({{Stats::DEF_SHRED,AType::None,12}},sw,"Bug 2",4);
                         if(enemy->debuffApply(sw,"Bug 3",4)){
                             enemy->atkPercent-=10;
-                            enemy->debuffSingle({{ST_SPD_P,AType::None,-6}});
+                            enemy->debuffSingle({{Stats::SPD_P,AType::None,-6}});
                         }
                     }
                 }
@@ -212,14 +212,14 @@ namespace SW{
                     target->debuffApply(sw,"Bug 1",4);
                 }
                 else if(!target->getDebuff("Bug 2")){
-                    target->debuffSingleApply({{ST_DEF_SHRED,AType::None,12}},sw,"Bug 2",4);
+                    target->debuffSingleApply({{Stats::DEF_SHRED,AType::None,12}},sw,"Bug 2",4);
                 }
                 else {
                     target->debuffApply(sw,"Bug 1",4);
-                    target->debuffSingleApply({{ST_DEF_SHRED,AType::None,12}},sw,"Bug 2",4);
+                    target->debuffSingleApply({{Stats::DEF_SHRED,AType::None,12}},sw,"Bug 2",4);
                     if(target->debuffApply(sw,"Bug 3",4)){
                         target->atkPercent-=10;
-                        target->debuffSingle({{ST_SPD_P,AType::None,-6}});
+                        target->debuffSingle({{Stats::SPD_P,AType::None,-6}});
                     }
                 }
         }));

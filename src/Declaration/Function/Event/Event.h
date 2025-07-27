@@ -18,7 +18,7 @@ void allEventWhenToughnessBreak(shared_ptr<AllyAttackAction> &act, Enemy *target
 void allEventWhenEnemyHit(Enemy *Attacker, vector<SubUnit *> vec);
 void allEventWhenEnergyIncrease(Ally *target, double Energy);
 void allEventSkillPoint(SubUnit *ptr, int p);
-void allEventAdjustStats(SubUnit *ptr, string statsType);
+void allEventAdjustStats(SubUnit *ptr, Stats statsType);
 void allEventApplyDebuff(SubUnit *ptr, Enemy *target);
 void allEventWhenEnemyDeath(SubUnit *Killer, Enemy *target);
 void allEventWhenAllyDeath(SubUnit *Target);

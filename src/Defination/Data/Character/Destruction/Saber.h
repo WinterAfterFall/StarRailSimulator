@@ -6,12 +6,12 @@ namespace Saber{
         ptr->SetAllyBaseStats(1242,602,655);
 
         //substats
-        ptr->pushSubstats(ST_CD);
-        ptr->pushSubstats(ST_CR);
-        ptr->pushSubstats(ST_ATK_P);
+        ptr->pushSubstats(Stats::CD);
+        ptr->pushSubstats(Stats::CR);
+        ptr->pushSubstats(Stats::ATK_P);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(136);
-        ptr->setRelicMainStats(ST_CD,ST_FLAT_SPD,ST_DMG,ST_ATK_P);
+        ptr->setRelicMainStats(Stats::CD,Stats::FLAT_SPD,Stats::DMG,Stats::ATK_P);
 
         
         //func
@@ -24,8 +24,8 @@ namespace Saber{
         #pragma region extra
         function<void(int value)> CoreResonance = [ptr,sb](int value){
             sb->Buff_note["Core Resonance"] += value;
-            sb->buffStackSingle({{ST_CD,AType::None,4}},value,8,"Saber A6");
-            if(ptr->Eidolon>=2)sb->buffStackSingle({{ST_DEF_SHRED,AType::None,1}},value,15,"Saber E2");
+            sb->buffStackSingle({{Stats::CD,AType::None,4}},value,8,"Saber A6");
+            if(ptr->Eidolon>=2)sb->buffStackSingle({{Stats::DEF_SHRED,AType::None,1}},value,15,"Saber E2");
         };
 
         function<double()> resetCR = [ptr,sb](){
@@ -93,7 +93,7 @@ namespace Saber{
             [ptr,sb,CoreResonance](shared_ptr<AllyAttackAction> &act){
                 Skill_point(sb,-1);
                 Increase_energy(sb,30);
-                sb->buffSingle({{ST_CD,AType::None,50}},"Saber A6",2);
+                sb->buffSingle({{Stats::CD,AType::None,50}},"Saber A6",2);
                 CoreResonance(3);
                 Attack(act);
                 if(ptr->Eidolon>=1)CoreResonance(1);
@@ -171,7 +171,7 @@ namespace Saber{
                 sb->setBuffCheck("Saber EBA",1);
                 Increase_energy(sb,0,sb->getBuffNote("Saber A4"));
                 sb->Buff_note["Saber A4"] = 0;
-                if(ptr->Eidolon>=4)sb->buffStackSingle({{ST_RESPEN,ElementType::Wind,AType::None,4}},1,3,"Saber E4");
+                if(ptr->Eidolon>=4)sb->buffStackSingle({{Stats::RESPEN,ElementType::Wind,AType::None,4}},1,3,"Saber E4");
                 if(ptr->Eidolon>=6){
                     if(sb->getBuffCountdown("Saber E6")==0){
                         sb->setBuffCountdown("Saber E6",2);
@@ -194,29 +194,29 @@ namespace Saber{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Wind][AType::None] += 22.4;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::None] += 12;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P][AType::None] += 10;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Wind][AType::None] += 22.4;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += 12;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::HP_P][AType::None] += 10;
 
             //trace
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::None] += 20;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += 20;
 
-            if(ptr->Eidolon>=1)ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG][AType::Ult] += 60;
-            if(ptr->Eidolon>=4)ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_RESPEN][ElementType::Wind][AType::None] += 8;
-            if(ptr->Eidolon>=6)ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_RESPEN][ElementType::Wind][AType::Ult] += 20;
+            if(ptr->Eidolon>=1)ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::Ult] += 60;
+            if(ptr->Eidolon>=4)ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::RESPEN][ElementType::Wind][AType::None] += 8;
+            if(ptr->Eidolon>=6)ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::RESPEN][ElementType::Wind][AType::Ult] += 20;
 
 
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,sb]() {
             if(sb->isBuffEnd("Saber Talent")){
-                sb->buffSingle({{ST_DMG,AType::None,-60}});
+                sb->buffSingle({{Stats::DMG,AType::None,-60}});
             }
             if(sb->isBuffEnd("Saber Tech")){
-                sb->buffSingle({{ST_ATK_P,AType::None,-35}});
+                sb->buffSingle({{Stats::ATK_P,AType::None,-35}});
             }
             if(sb->isBuffEnd("Saber A6")){
-                sb->buffSingle({{ST_CD,AType::None,-50}});
+                sb->buffSingle({{Stats::CD,AType::None,-50}});
             }
             if(ptr->Ult_cost<=ptr->Current_energy + 8 * sb->Buff_note["Core Resonance"]){
                 sb->setBuffCheck("Saber ESkill",1);
@@ -234,12 +234,12 @@ namespace Saber{
             CoreResonance(1);
             if(ptr->Technique){
                 CoreResonance(2);
-                sb->buffSingle({{ST_ATK_P,AType::None,35}},"Saber Tech",2);
+                sb->buffSingle({{Stats::ATK_P,AType::None,35}},"Saber Tech",2);
             }
         }));
 
         WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY, [ptr,sb,CoreResonance](Ally *ally) {
-            sb->buffSingle({{ST_DMG,AType::None,60}},"Saber Talent",2);
+            sb->buffSingle({{Stats::DMG,AType::None,60}},"Saber Talent",2);
             CoreResonance(3);
         }));
 

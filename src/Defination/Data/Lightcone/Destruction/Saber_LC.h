@@ -6,17 +6,17 @@ namespace Destruction_Lightcone{
             ptr->Light_cone.Name = "Saber_LC";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](){
                         
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AType::None]+=27 + (9*superimpose);
+                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None]+=27 + (9*superimpose);
                 
                 }
             ));
             
             AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
                 if (act->isSameAction(ptr->getSubUnit(),AType::Ult)) {
-                    ptr->getSubUnit()->buffSingle({{ST_ATK_P,AType::None,30.0 + 10.0 * superimpose}},"Saber_LC",2);
+                    ptr->getSubUnit()->buffSingle({{Stats::ATK_P,AType::None,30.0 + 10.0 * superimpose}},"Saber_LC",2);
                     if(ptr->Max_energy>=300){
                         Increase_energy(ptr,10,0);
-                        ptr->getSubUnit()->buffSingle({{ST_ATK_P,AType::None,30.0 + 10.0 * superimpose}},"Extra Saber_LC",2);
+                        ptr->getSubUnit()->buffSingle({{Stats::ATK_P,AType::None,30.0 + 10.0 * superimpose}},"Extra Saber_LC",2);
 
                     }
                 }
@@ -24,10 +24,10 @@ namespace Destruction_Lightcone{
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,superimpose]() {
                 if (ptr->Sub_Unit_ptr[0]->isBuffEnd("Saber_LC")) {
-                    ptr->getSubUnit()->buffSingle({{ST_ATK_P,AType::None,-(30.0 + 10.0 * superimpose)}});
+                    ptr->getSubUnit()->buffSingle({{Stats::ATK_P,AType::None,-(30.0 + 10.0 * superimpose)}});
                 }
                 if (ptr->Sub_Unit_ptr[0]->isBuffEnd("Extra Saber_LC")) {
-                    ptr->getSubUnit()->buffSingle({{ST_ATK_P,AType::None,-(30.0 + 10.0 * superimpose)}});
+                    ptr->getSubUnit()->buffSingle({{Stats::ATK_P,AType::None,-(30.0 + 10.0 * superimpose)}});
                 }
             }));
         };

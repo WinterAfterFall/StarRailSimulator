@@ -64,7 +64,7 @@ void allEventAfterTurn(){
                 continue;
             }
             itr = target->breakImsList.erase(itr);
-            target->debuffSingle({{ST_SPD_P,AType::None,10}});
+            target->debuffSingle({{Stats::SPD_P,AType::None,10}});
             --target->Total_debuff;
             
         }
@@ -171,7 +171,7 @@ void allEventSkillPoint(SubUnit *ptr,int p){
     }
     return ;
 }
-void allEventAdjustStats(SubUnit *ptr,string statsType){
+void allEventAdjustStats(SubUnit *ptr,Stats statsType){
     AdjustCheck = 1;
     for(TriggerByStats &e : Stats_Adjust_List){
         e.Call(ptr,statsType);

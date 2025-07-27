@@ -19,12 +19,12 @@ namespace Mydei{
         ptr->SetAllyBaseStats(1552,427,194);
 
         //substats
-        ptr->pushSubstats(ST_CD);
-        ptr->pushSubstats(ST_CR);
-        ptr->pushSubstats("Hp%");
+        ptr->pushSubstats(Stats::CD);
+        ptr->pushSubstats(Stats::CR);
+        ptr->pushSubstats(Stats::HP_P);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(135);
-        ptr->setRelicMainStats(ST_HP_P,ST_FLAT_SPD,ST_DMG,ST_HP_P);
+        ptr->setRelicMainStats(Stats::HP_P,Stats::FLAT_SPD,Stats::DMG,Stats::HP_P);
 
 
 
@@ -68,8 +68,8 @@ namespace Mydei{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AType::None] += 37.3;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P][AType::None] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None] += 37.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::HP_P][AType::None] += 18;
             ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 5;
 
             // relic
@@ -83,10 +83,10 @@ namespace Mydei{
             ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] = (floor((ptr->Sub_Unit_ptr[0]->totalHP - 4000) / 100) <= 40) ? floor((ptr->Sub_Unit_ptr[0]->totalHP - 4000) / 100) : 40;
             if (ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] < 0) ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] = 0;
 
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::None] += ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] * 1.2;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::TEMP] += ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] * 1.2;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING_OUT][AType::None] += ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] * 0.75;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HEALING_OUT][AType::TEMP] += ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] * 0.75;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] * 1.2;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::TEMP] += ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] * 1.2;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::HEALING_OUT][AType::None] += ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] * 0.75;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::HEALING_OUT][AType::TEMP] += ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] * 0.75;
             if (ptr->Eidolon >= 6) {
             ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_Vendetta"] = true;
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
@@ -94,14 +94,14 @@ namespace Mydei{
                 ptr->getSubUnit(),
                 HealSrc(HealSrcType::TOTAL_HP,25)
             );
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_FLAT_DEF][AType::None] -= 10000;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_FLAT_DEF][AType::TEMP] -= 10000;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::FLAT_DEF][AType::None] -= 10000;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::FLAT_DEF][AType::TEMP] -= 10000;
             
-            if (ptr->Eidolon >= 2) Mydeiptr->buffSingle({{ST_DEF_SHRED,AType::None,15}});
-            if (ptr->Eidolon >= 4) Mydeiptr->buffSingle({{ST_CD,AType::None,30}});
+            if (ptr->Eidolon >= 2) Mydeiptr->buffSingle({{Stats::DEF_SHRED,AType::None,15}});
+            if (ptr->Eidolon >= 4) Mydeiptr->buffSingle({{Stats::CD,AType::None,30}});
             }
 
-            allEventAdjustStats(ptr->Sub_Unit_ptr[0].get(), "Hp%");
+            allEventAdjustStats(ptr->Sub_Unit_ptr[0].get(), Stats::HP_P);
             if (ptr->Technique) {
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TT_AOE,"Mydei Tech",
@@ -119,14 +119,14 @@ namespace Mydei{
             }
         }));
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTTACK, [ptr,Mydeiptr](SubUnit *target, string StatsType) {
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTTACK, [ptr,Mydeiptr](SubUnit *target, Stats StatsType) {
             if (target->Atv_stats->Unit_Name != "Mydei") return;
-            if (StatsType == ST_FLAT_HP || StatsType == ST_HP_P) {
+            if (StatsType == Stats::FLAT_HP || StatsType == Stats::HP_P) {
                 
             if (Mydeiptr->getBuffCheck("Mydei_Vendetta")) {
                 double temp = calculateHpForBuff(ptr->Sub_Unit_ptr[0].get(), 50);
-                Mydeiptr->buffSingle({{ST_FLAT_HP,AType::TEMP,temp - ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Talent"]}});
-                Mydeiptr->buffSingle({{ST_FLAT_HP,AType::None,temp - ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Talent"]}});
+                Mydeiptr->buffSingle({{Stats::FLAT_HP,AType::TEMP,temp - ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Talent"]}});
+                Mydeiptr->buffSingle({{Stats::FLAT_HP,AType::None,temp - ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Talent"]}});
                 ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Talent"] = temp;
             }
             }
@@ -290,11 +290,11 @@ namespace Mydei{
                     ptr->getSubUnit(),
                     HealSrc(HealSrcType::TOTAL_HP,25)
                 );
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_FLAT_DEF][AType::None] -= 10000;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_FLAT_DEF][AType::TEMP] -= 10000;    
-            if (ptr->Eidolon >= 2) ptr->Sub_Unit_ptr[0]->buffSingle({{ST_DEF_SHRED,AType::None,15}});
-            if (ptr->Eidolon >= 4) ptr->Sub_Unit_ptr[0]->buffSingle({{ST_CD,AType::None,30}});
-            allEventAdjustStats(ptr->Sub_Unit_ptr[0].get(),"Hp%");
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::FLAT_DEF][AType::None] -= 10000;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::FLAT_DEF][AType::TEMP] -= 10000;    
+            if (ptr->Eidolon >= 2) ptr->Sub_Unit_ptr[0]->buffSingle({{Stats::DEF_SHRED,AType::None,15}});
+            if (ptr->Eidolon >= 4) ptr->Sub_Unit_ptr[0]->buffSingle({{Stats::CD,AType::None,30}});
+            allEventAdjustStats(ptr->Sub_Unit_ptr[0].get(),Stats::HP_P);
         }
         if(ptr->Eidolon>=6){
             if(ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Charge_point"]>=100){

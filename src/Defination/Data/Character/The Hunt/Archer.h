@@ -6,11 +6,11 @@ namespace Archer{
         ptr->SetAllyBaseStats(1164,621,485);
 
         //substats
-        ptr->pushSubstats(ST_CD);
-        ptr->pushSubstats(ST_CR);
-        ptr->pushSubstats(ST_ATK_P);
+        ptr->pushSubstats(Stats::CD);
+        ptr->pushSubstats(Stats::CR);
+        ptr->pushSubstats(Stats::ATK_P);
         ptr->setTotalSubstats(20);
-        ptr->setRelicMainStats(ST_CD,ST_ATK_P,ST_ATK_P,ST_ATK_P);
+        ptr->setRelicMainStats(Stats::CD,Stats::ATK_P,Stats::ATK_P,Stats::ATK_P);
 
         //func
         LC(ptr);
@@ -52,8 +52,8 @@ namespace Archer{
                 Skill_point(ac,-2);
                 Increase_energy(ptr,30);
                 ac->calStack(1,5,"Archer Skill Limit");
-                if(ptr->Eidolon>=6)ac->buffStackSingle({{ST_DMG,AType::SKILL,100}},1,3,"Circuit Connection");
-                else ac->buffStackSingle({{ST_DMG,AType::SKILL,100}},1,2,"Circuit Connection");
+                if(ptr->Eidolon>=6)ac->buffStackSingle({{Stats::DMG,AType::SKILL,100}},1,3,"Circuit Connection");
+                else ac->buffStackSingle({{Stats::DMG,AType::SKILL,100}},1,2,"Circuit Connection");
                 Attack(act);
                 if(ptr->Eidolon>=1){
                     ac->addStack("Archer E1",1);
@@ -103,7 +103,7 @@ namespace Archer{
                 Charge(2);
                 if(ptr->Eidolon>=2){
                     for(auto &each : act->targetList){
-                        each->debuffSingleApply({{ST_RESPEN,ElementType::Quantum,AType::None,20}},ac,"Archer E2",2);
+                        each->debuffSingleApply({{Stats::RESPEN,ElementType::Quantum,AType::None,20}},ac,"Archer E2",2);
                     }
                 }
                 Attack(act);
@@ -116,15 +116,15 @@ namespace Archer{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Quantum][AType::None] += 22.4;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::None] += 6.7;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 22.4;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += 6.7;
 
             // relic
 
             // substats
-            if(ptr->Eidolon>=4)ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG][AType::Ult] += 150;
-            if(ptr->Eidolon>=6)ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_SHRED][AType::SKILL] += 20;
+            if(ptr->Eidolon>=4)ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::Ult] += 150;
+            if(ptr->Eidolon>=6)ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DEF_SHRED][AType::SKILL] += 20;
 
         }));
 
@@ -156,10 +156,10 @@ namespace Archer{
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,ac]() {
             Enemy *enemy = turn->canCastToEnemy();
             if(ac->isBuffEnd("Archer A6")){
-                ac->buffSingle({{ST_CD,AType::None,-120}});
+                ac->buffSingle({{Stats::CD,AType::None,-120}});
             }
             if(enemy&&enemy->isDebuffEnd("Archer E2")){
-                enemy->debuffSingle({{ST_RESPEN,ElementType::Quantum,AType::None,-20}});
+                enemy->debuffSingle({{Stats::RESPEN,ElementType::Quantum,AType::None,-20}});
             }
         }));
 
@@ -168,7 +168,7 @@ namespace Archer{
                 if(sp>=2&&ac->getStack("Archer Skill Limit")<5){
                     Skill();
                 }else{
-                ac->buffResetStack({{ST_DMG,AType::SKILL,100}},"Circuit Connection");
+                ac->buffResetStack({{Stats::DMG,AType::SKILL,100}},"Circuit Connection");
                 ac->setStack("Archer Skill Limit",0);
                 }
             }
@@ -180,7 +180,7 @@ namespace Archer{
 
         Skill_point_List.push_back(TriggerSkill_point_func(PRIORITY_Last, [ptr,Skill,ac,Charge,Fua](SubUnit *SP_maker, int SP) {
             if(sp>=4){
-                ac->buffSingle({{ST_CD,AType::None,120}},"Archer A6",1);
+                ac->buffSingle({{Stats::CD,AType::None,120}},"Archer A6",1);
             }
         }));
     }

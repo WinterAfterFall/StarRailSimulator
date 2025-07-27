@@ -6,7 +6,7 @@ namespace Destruction_Lightcone{
             ptr->Light_cone.Name = "FireFly_LC";
             string debuffName = ptr->getSubUnit()->getUnitName() + " FireFlyLC debuff";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,debuffName]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None] += 50 + 10 * superimpose;
+                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] += 50 + 10 * superimpose;
             }));
             
     
@@ -14,8 +14,8 @@ namespace Destruction_Lightcone{
                 if (act->Attacker->Atv_stats->num != ptr->Sub_Unit_ptr[0]->Atv_stats->num && act->Attacker->Atv_stats->Side != "Ally") return;
                 for(Enemy* &e :act->targetList){
                     e->debuffSingleApply({
-                        {ST_VUL,AType::Break,20.0 + 4 * superimpose},
-                        {ST_SPD_P,AType::None,-20.0}
+                        {Stats::VUL,AType::Break,20.0 + 4 * superimpose},
+                        {Stats::SPD_P,AType::None,-20.0}
                     },ptr->Sub_Unit_ptr[0].get(),debuffName,2);
                 } 
             }));
@@ -24,8 +24,8 @@ namespace Destruction_Lightcone{
                 if (turn != nullptr && turn->Side == "Enemy") {
                     if (Enemy_unit[turn->num]->isDebuffEnd(debuffName)) {
                         Enemy_unit[turn->num]->debuffSingle({
-                            {ST_VUL,AType::Break,-20.0 - 4 * superimpose},
-                            {ST_SPD_P,AType::None,20.0}
+                            {Stats::VUL,AType::Break,-20.0 - 4 * superimpose},
+                            {Stats::SPD_P,AType::None,20.0}
                         });
                     }
                 }

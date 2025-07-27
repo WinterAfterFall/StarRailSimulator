@@ -11,14 +11,14 @@ namespace Cipher{
 
 
         //substats
-        ptr->pushSubstats(ST_CD);
-        ptr->pushSubstats(ST_CR);
-        ptr->pushSubstats(ST_ATK_P);
+        ptr->pushSubstats(Stats::CD);
+        ptr->pushSubstats(Stats::CR);
+        ptr->pushSubstats(Stats::ATK_P);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(170);
         if(ptr->Eidolon>=2)
             ptr->setApplyBaseChance(120);
-        ptr->setRelicMainStats(ST_CD,ST_FLAT_SPD,ST_DMG,ST_ATK_P);
+        ptr->setRelicMainStats(Stats::CD,Stats::FLAT_SPD,Stats::DMG,Stats::ATK_P);
         LC(ptr);
         Relic(ptr);
         Planar(ptr);
@@ -55,7 +55,7 @@ namespace Cipher{
                         each->dmgPercent -= 10;
                     }
                 }
-                cph->buffSingle({{ST_ATK_P,AType::None,30}},"Cipher Skill",2);
+                cph->buffSingle({{Stats::ATK_P,AType::None,30}},"Cipher Skill",2);
                 Attack(act);
             });
             act->addDamageIns(
@@ -92,15 +92,15 @@ namespace Cipher{
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 14;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Quantum][AType::None] += 14.4;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_EHR][AType::None] += 10;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::None] += 25 * ptr->getAdjust("Cipher A2");
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 14.4;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += 10;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += 25 * ptr->getAdjust("Cipher A2");
 
-            // ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Quantum][AType::None] += 12;
-            // ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::None] += 4;
-            // ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AType::None] += 24;
+            // ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 12;
+            // ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += 4;
+            // ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None] += 24;
 
-            debuffAllEnemyMark({{ST_VUL,AType::None,40}},ptr->Sub_Unit_ptr[0].get(),"Cipher A6");
+            debuffAllEnemyMark({{Stats::VUL,AType::None,40}},ptr->Sub_Unit_ptr[0].get(),"Cipher A6");
             // relic
 
             // substats
@@ -115,17 +115,17 @@ namespace Cipher{
             auto ally =  turn->canCastToSubUnit();
             if(ally){
                 if(ally->isBuffEnd("Cipher Skill")){
-                    ally->buffSingle({{ST_ATK_P,AType::None,-30}});
+                    ally->buffSingle({{Stats::ATK_P,AType::None,-30}});
                 }
                 if(ptr->Eidolon>=1&&ally->isBuffEnd("Cipher E1"))
-                    ally->buffSingle({{ST_ATK_P,AType::None,-80}});
+                    ally->buffSingle({{Stats::ATK_P,AType::None,-80}});
             }
             if(enemy){
                 if(enemy->isDebuffEnd("Cipher Weaken")){
                     enemy->dmgPercent +=10;
                 }
                 if(ptr->Eidolon>=2&&enemy->isDebuffEnd("Cipher E2")){
-                    enemy->debuffSingle({{ST_VUL,AType::None,-30}});
+                    enemy->debuffSingle({{Stats::VUL,AType::None,-30}});
                 }
             }
         }));
@@ -149,7 +149,7 @@ namespace Cipher{
             shared_ptr<AllyAttackAction> &act){
                 if(ptr->Eidolon>=2&&act->isSameUnit(cph)){
                     for(auto &each : act->targetList){
-                        each->debuffSingleApply({{ST_VUL,AType::None,30}},cph,"Cipher E2",2);
+                        each->debuffSingleApply({{Stats::VUL,AType::None,30}},cph,"Cipher E2",2);
                     }
                 }
                 if(act->isSameAction("Cipher",AType::SKILL)||act->isSameAction("Cipher",AType::Ult))
@@ -163,13 +163,13 @@ namespace Cipher{
                         Increase_energy(ptr,5);
 
                         if(ptr->Eidolon>=1)
-                            cph->buffSingle({{ST_ATK_P,AType::None,80}},"Cipher E1",2);
+                            cph->buffSingle({{Stats::ATK_P,AType::None,80}},"Cipher E1",2);
 
-                        cph->buffSingle({{ST_CD,AType::None,100}});
-                        if(ptr->Eidolon>=6)cph->buffSingle({{ST_DMG,AType::None,350}});
+                        cph->buffSingle({{Stats::CD,AType::None,100}});
+                        if(ptr->Eidolon>=6)cph->buffSingle({{Stats::DMG,AType::None,350}});
                         Attack(act);
-                        cph->buffSingle({{ST_CD,AType::None,-100}});
-                        if(ptr->Eidolon>=6)cph->buffSingle({{ST_DMG,AType::None,-350}});
+                        cph->buffSingle({{Stats::CD,AType::None,-100}});
+                        if(ptr->Eidolon>=6)cph->buffSingle({{Stats::DMG,AType::None,-350}});
                     });
                     newAct->addDamageIns(
                         DmgSrc(DmgSrcType::ATK,150,20)

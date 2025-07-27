@@ -13,12 +13,12 @@ namespace Phainon{
         
 
         //substats
-        ptr->pushSubstats(ST_CD);
-        ptr->pushSubstats(ST_CR);
-        ptr->pushSubstats(ST_ATK_P);
+        ptr->pushSubstats(Stats::CD);
+        ptr->pushSubstats(Stats::CR);
+        ptr->pushSubstats(Stats::ATK_P);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(100);
-        ptr->setRelicMainStats(ST_CR,ST_ATK_P,ST_DMG,ST_ATK_P);
+        ptr->setRelicMainStats(Stats::CR,Stats::ATK_P,Stats::DMG,Stats::ATK_P);
 
 
 
@@ -117,8 +117,8 @@ namespace Phainon{
             [ptr,pn,pnCD,CoreFlame](shared_ptr<AllyAttackAction> &act){
                 Attack(act);
                 pn->buffSingle({
-                    {ST_ATK_P,AType::None,-80},
-                    {ST_HP_P,AType::None,-270}
+                    {Stats::ATK_P,AType::None,-80},
+                    {Stats::HP_P,AType::None,-270}
                 });
                 pn->Atv_stats->extraTurn = 0;
                 pnCD->death();
@@ -146,9 +146,9 @@ namespace Phainon{
                     }
                 }
                 buffAllAlly({
-                    {ST_SPD_P,AType::None,15}
+                    {Stats::SPD_P,AType::None,15}
                 },"PN Spd Buff",1);
-                pn->buffStackSingle({{ST_ATK_P,AType::None,50}},1,2,"PN A6");
+                pn->buffStackSingle({{Stats::ATK_P,AType::None,50}},1,2,"PN A6");
                 CoreFlame(3);
                 CharCmd::printUltEnd("Phainon");    
 
@@ -200,8 +200,8 @@ namespace Phainon{
                 [ptr,pn,pnCD,Scourge,CoreFlame](shared_ptr<AllyBuffAction> &act){
                     CharCmd::printUltStart("Phainon");
                     pn->buffSingle({
-                        {ST_ATK_P,AType::None,80},
-                        {ST_HP_P,AType::None,270}
+                        {Stats::ATK_P,AType::None,80},
+                        {Stats::HP_P,AType::None,270}
                     });
                     Scourge(4);
                     pn->Atv_stats->extraTurn = 1;
@@ -243,7 +243,7 @@ namespace Phainon{
 
                     if(ptr->Eidolon>=1){
                         pn->buffSingle({
-                            {ST_CD,AType::None,50}
+                            {Stats::CD,AType::None,50}
                         },"PN E1",3);
                     }
                 });
@@ -255,15 +255,15 @@ namespace Phainon{
         #pragma endregion
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AType::None] += 37.3;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::None] += 12;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None] += 37.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += 12;
             ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 5;
 
             // relic
             // substats
             // eidolon
             if(ptr->Eidolon>=2){
-                ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_RESPEN][ElementType::Physical][AType::None] += 20;
+                ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::RESPEN][ElementType::Physical][AType::None] += 20;
             }
         }));
 
@@ -275,7 +275,7 @@ namespace Phainon{
                     Increase_energy(Ally_unit[i].get(),25);
                 }
             }
-            pn->buffStackSingle({{ST_ATK_P,AType::None,50}},1,2,"PN A6");
+            pn->buffStackSingle({{Stats::ATK_P,AType::None,50}},1,2,"PN A6");
             CoreFlame(3);
             if(ptr->Eidolon>=6){
                 CoreFlame(6);
@@ -331,12 +331,12 @@ namespace Phainon{
             if(!subunit)return;
             if(subunit->isBuffEnd("PN Spd Buff")){
                 subunit->buffSingle({
-                    {ST_SPD_P,AType::None,-15}
+                    {Stats::SPD_P,AType::None,-15}
                 });
             }
             if(subunit->isBuffEnd("PN E1")){
                 pn->buffSingle({
-                    {ST_CD,AType::None,-50}
+                    {Stats::CD,AType::None,-50}
                 });
             }
         }));
@@ -366,7 +366,7 @@ namespace Phainon{
             for(auto &each : act->buffTargetList){
                 if(each->isSameUnit(pn)){
                     CoreFlame(1);
-                    pn->buffSingle({{ST_CD,AType::None,30}},"PN Talent",3);
+                    pn->buffSingle({{Stats::CD,AType::None,30}},"PN Talent",3);
                     if(act->actionName=="TY Ult"
                     || act->actionName=="SD Ult"){
                         CoreFlame(1);
@@ -389,18 +389,18 @@ namespace Phainon{
 
         Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD,CoreFlame](SubUnit *Healer, SubUnit *target, double Value) {
             if(target->isSameUnit(pn)){
-                pn->buffSingle({{ST_DMG,AType::None,45}},"PN A4",4);
+                pn->buffSingle({{Stats::DMG,AType::None,45}},"PN A4",4);
             }
         }));
 
         AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD](SubUnit* target) {
             if(target->isBuffGoneByDeath("PN Spd Buff")){
                  target->buffSingle({
-                    {ST_SPD_P,AType::None,-15}
+                    {Stats::SPD_P,AType::None,-15}
                 });
             }
             if(target->isBuffGoneByDeath("PN Talent")){
-                pn->buffSingle({{ST_CD,AType::None,-30}});
+                pn->buffSingle({{Stats::CD,AType::None,-30}});
             }
         }));
 

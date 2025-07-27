@@ -170,15 +170,15 @@ double Cal_Total_Toughness_Reduce(shared_ptr<AllyAttackAction> &act,Enemy *targe
     double ans = Base_Toughness_reduce;
     double Toughness_reduction_mtpr =100;
     double Weakness_Break_Efficiency_mtpr =100;
-    Toughness_reduction_mtpr += act->Attacker->Stats_type["Toughness_reduction"][AType::None] + target->Stats_type["Toughness_reduction"][AType::None];
-    Weakness_Break_Efficiency_mtpr += act->Attacker->Stats_type["Weakness_Break_Efficiency"][AType::None] + target->Stats_type["Weakness_Break_Efficiency"][AType::None];
+    Toughness_reduction_mtpr += act->Attacker->Stats_type[Stats::TOUGH_REDUCE][AType::None] + target->Stats_type[Stats::TOUGH_REDUCE][AType::None];
+    Weakness_Break_Efficiency_mtpr += act->Attacker->Stats_type[Stats::BREAK_EFF][AType::None] + target->Stats_type[Stats::BREAK_EFF][AType::None];
     
     for(int i=0,sz=act->actionTypeList.size();i<sz;i++){
-            Toughness_reduction_mtpr += act->Attacker->Stats_type["Toughness_reduction"][act->actionTypeList[i]] + target->Stats_type["Toughness_reduction"][act->actionTypeList[i]];
+            Toughness_reduction_mtpr += act->Attacker->Stats_type[Stats::TOUGH_REDUCE][act->actionTypeList[i]] + target->Stats_type[Stats::TOUGH_REDUCE][act->actionTypeList[i]];
 
         }
     for(int i=0,sz=act->actionTypeList.size();i<sz;i++){
-            Weakness_Break_Efficiency_mtpr += act->Attacker->Stats_type["Weakness_Break_Efficiency"][act->actionTypeList[i]] + target->Stats_type["Weakness_Break_Efficiency"][act->actionTypeList[i]];
+            Weakness_Break_Efficiency_mtpr += act->Attacker->Stats_type[Stats::BREAK_EFF][act->actionTypeList[i]] + target->Stats_type[Stats::BREAK_EFF][act->actionTypeList[i]];
 
         }
      

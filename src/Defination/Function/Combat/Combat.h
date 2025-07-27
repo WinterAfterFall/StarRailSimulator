@@ -274,7 +274,7 @@ void Toughness_break(shared_ptr<AllyAttackAction> &act,Enemy* target){
     }else if(data_2->Damage_element==ElementType::Imaginary){
         Action_forward(target->Atv_stats.get(),-30*calBreakEffectMultiplier(data_2,target));
         if(target->addBreakSEList(BreakSideEffect(BreakSEType::Imprisonment,data_2->Attacker,target->Atv_stats->turnCnt + 1)))
-        target->speedBuff({ST_SPD_P,AType::None,-10});
+        target->speedBuff({Stats::SPD_P,AType::None,-10});
         Constant=0.5;
     }
         

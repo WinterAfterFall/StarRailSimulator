@@ -22,7 +22,7 @@ public:
     }
        
     void speedBuff(BuffClass buffSet){
-        if(buffSet.statsType==ST_FLAT_SPD)this->Atv_stats->speedBuff(0,buffSet.value);
+        if(buffSet.statsType==Stats::FLAT_SPD)this->Atv_stats->speedBuff(0,buffSet.value);
         else this->Atv_stats->speedBuff(buffSet.value,0);
     }
     void resetATV(){

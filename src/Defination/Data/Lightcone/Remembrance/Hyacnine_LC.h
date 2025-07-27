@@ -14,7 +14,7 @@ namespace Remembrance_Lightcone{
                 if(allyaction->Attacker->Atv_stats->Side == "Memosprite"
                     &&allyaction->Attacker->Atv_stats->num==ptr->getSubUnit()->Atv_stats->num
                     &&allyaction->isSameAction(AType::SKILL)){
-                        debuffAllEnemyApply({{ST_VUL,AType::None,(13.5 + 4.5 * superimpose)}},allyaction->Attacker,"Hyacnine_LC Debuff",2);
+                        debuffAllEnemyApply({{Stats::VUL,AType::None,(13.5 + 4.5 * superimpose)}},allyaction->Attacker,"Hyacnine_LC Debuff",2);
                 }
                 if(!ptr->getSubUnit()->isSameUnitName(allyaction->Attacker->Atv_stats->Unit_Name))return;
                 if(allyaction->isSameAction(AType::BA)
@@ -48,7 +48,7 @@ namespace Remembrance_Lightcone{
                 Enemy *enemy = turn->canCastToEnemy();
                 if(!enemy)return;
                 if(enemy->isDebuffEnd("Hyacnine_LC Debuff")){
-                    enemy->debuffSingle({{ST_VUL,AType::None,-(13.5 + 4.5 * superimpose)}});
+                    enemy->debuffSingle({{Stats::VUL,AType::None,-(13.5 + 4.5 * superimpose)}});
                 }
             }));
         };

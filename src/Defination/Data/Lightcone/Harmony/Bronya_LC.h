@@ -28,7 +28,7 @@ namespace Harmony_Lightcone{
                 SubUnit *tempstats = dynamic_cast<SubUnit *>(turn->ptrToChar);
                 if (!tempstats) return;
                 if (ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff"] == 1) {
-                    tempstats->Stats_type[ST_DMG][AType::None] += 25 + 5 * superimpose;
+                    tempstats->Stats_type[Stats::DMG][AType::None] += 25 + 5 * superimpose;
                     ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff"] = 0;
                     ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff_check"] = 1;
                 }
@@ -38,7 +38,7 @@ namespace Harmony_Lightcone{
                 SubUnit *tempstats = dynamic_cast<SubUnit *>(turn->ptrToChar);
                 if (!tempstats) return;
                 if (ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff_check"] == 1) {
-                    tempstats->Stats_type[ST_DMG][AType::None] -= 25 + 5 * superimpose;
+                    tempstats->Stats_type[Stats::DMG][AType::None] -= 25 + 5 * superimpose;
                     ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff_check"] = 0;
                 }
             }));

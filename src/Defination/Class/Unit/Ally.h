@@ -81,7 +81,7 @@ public:
     //Temp
     unordered_map<string,double> Adjust;
 
-    vector<pair<string,int>> Substats;//*
+    vector<pair<Stats,int>> Substats;//*
     vector<int> Max_damage_Substats;//*
     bool Reroll_check=1;
     bool Stop_reroll=1;
@@ -255,13 +255,13 @@ public:
 
     //Requirement Stats
     // Main Stats
-    void setRelicMainStats(string Body, string Boot, string Orb, string Rope);
-    void setBody(string stats);
-    void setBoot(string stats);
-    void setOrb(string stats);
-    void setRope(string stats);
-    function<void(Ally *ptr)> RelicPairSet(string stats);
-    function<void(Ally *ptr)> RelicMainStatsSet(string stats);
+    void setRelicMainStats(Stats Body, Stats Boot, Stats Orb, Stats Rope);
+    void setBody(Stats stats);
+    void setBoot(Stats stats);
+    void setOrb(Stats stats);
+    void setRope(Stats stats);
+    function<void(Ally *ptr)> RelicPairSet(Stats stats);
+    function<void(Ally *ptr)> RelicMainStatsSet(Stats stats);
 
     // Set Requirements
     void setSpeed(double speed);
@@ -271,7 +271,7 @@ public:
     // Set Substats
     #pragma region SetSubdstats
     void setTotalSubstats(int Value);
-    void pushSubstats(string StatsType);
+    void pushSubstats(Stats StatsType);
     void changeTotalSubStats(int amount);
     void SpeedRequirment();
     void EhrRequirment();

@@ -15,10 +15,10 @@ namespace Gallagher{
         ptr->SetAllyBaseStats(1305,529,441);
 
         //substats
-        ptr->pushSubstats(ST_BE);
+        ptr->pushSubstats(Stats::BE);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(150);
-        ptr->setRelicMainStats(ST_HEALING_OUT,ST_FLAT_SPD,ST_ATK_P,ST_EnergyRecharge);
+        ptr->setRelicMainStats(Stats::HEALING_OUT,Stats::FLAT_SPD,Stats::ATK_P,Stats::ER);
 
 
         //func
@@ -46,7 +46,7 @@ namespace Gallagher{
                 [ptr,Charptr](shared_ptr<AllyAttackAction> &act){
                     Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
                     ptr->Sub_Unit_ptr[0]->Buff_check["Gallagher_enchance_basic_atk"] = 1;
-                    debuffAllEnemyApply({{ST_VUL,AType::Break,13.2}},Charptr,"Besotted");  
+                    debuffAllEnemyApply({{Stats::VUL,AType::Break,13.2}},Charptr,"Besotted");  
                     if (ptr->Eidolon >= 4) {
                         extendDebuffAll("Besotted", 3);
                     } else {
@@ -66,16 +66,16 @@ namespace Gallagher{
         }});
 
         Reset_List.push_back({PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None] += 13.3;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P][AType::None] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES][AType::None] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] += 13.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::HP_P][AType::None] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::RES][AType::None] += 18;
 
             // relic
 
             // substats
             if (ptr->Eidolon >= 6) {
-                ptr->Sub_Unit_ptr[0]->Stats_type["Weakness_Break_Efficiency"][AType::None] += 20;
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None] += 20;
+                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BREAK_EFF][AType::None] += 20;
+                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] += 20;
             }
         }});
 
@@ -83,7 +83,7 @@ namespace Gallagher{
             Enemy * focusUnit = turn->canCastToEnemy();
             if(!focusUnit)return;
             if (focusUnit->isDebuffEnd("Besotted")) {
-                focusUnit->debuffSingle({{ST_VUL, AType::Break, -13.2}});
+                focusUnit->debuffSingle({{Stats::VUL, AType::Break, -13.2}});
             }
             if (focusUnit->isDebuffEnd("Nectar_Blitz")) {
                 focusUnit->atkPercent += 16;
@@ -100,13 +100,13 @@ namespace Gallagher{
         When_Combat_List.push_back({PRIORITY_IMMEDIATELY, [ptr,Charptr = ptr->getSubUnit()]() {
             double temp = calculateBreakEffectForBuff(ptr->getSubUnit(),50);
             if(temp>75)temp = 75;
-            Charptr->buffSingle({{ST_HEALING_OUT,AType::None,temp - Charptr->getBuffNote("Novel Concoction")}});
+            Charptr->buffSingle({{Stats::HEALING_OUT,AType::None,temp - Charptr->getBuffNote("Novel Concoction")}});
             ptr->getSubUnit()->Buff_note["Novel Concoction"] = temp;
             if (ptr->Technique) {
                 shared_ptr<AllyAttackAction> act = 
                 make_shared<AllyAttackAction>(AType::Technique,Charptr,"Aoe","Gall Tech",
                 [ptr,Charptr](shared_ptr<AllyAttackAction> &act){
-                    debuffAllEnemyApply({{ST_VUL, AType::Break, 13.2}},Charptr,"Besotted",2);
+                    debuffAllEnemyApply({{Stats::VUL, AType::Break, 13.2}},Charptr,"Besotted",2);
                     Attack(act);
                 });
                 act->addDamageIns(
@@ -141,12 +141,12 @@ namespace Gallagher{
                 ptr->getSubUnit()->RestoreHP(act->Attacker,HealSrc(HealSrcType::CONST,707.0*cnt));
             }
         }));
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_HEAL, [ptr](SubUnit* Target, string StatsType) {
-            if(StatsType!=ST_BE||!Target->isSameUnitName("Gallagher"))return;
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_HEAL, [ptr](SubUnit* Target, Stats StatsType) {
+            if(StatsType!=Stats::BE||!Target->isSameUnitName("Gallagher"))return;
 
             double temp = calculateBreakEffectForBuff( ptr->getSubUnit(),50);
             if(temp>75)temp = 75;
-            ptr->getSubUnit()->buffSingle({{ST_HEALING_OUT,AType::None,temp - ptr->getSubUnit()->Buff_note["Novel Concoction"]}});
+            ptr->getSubUnit()->buffSingle({{Stats::HEALING_OUT,AType::None,temp - ptr->getSubUnit()->Buff_note["Novel Concoction"]}});
             ptr->getSubUnit()->Buff_note["Novel Concoction"] = temp;
         }));
 

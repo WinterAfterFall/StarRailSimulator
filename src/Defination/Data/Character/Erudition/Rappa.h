@@ -11,10 +11,10 @@ namespace Rappa{
         SubUnit *Rappaptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1087,718,461);
         //substats
-        ptr->pushSubstats(ST_BE);
+        ptr->pushSubstats(Stats::BE);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(145);
-        ptr->setRelicMainStats(ST_ATK_P,ST_FLAT_SPD,ST_ATK_P,ST_BE);
+        ptr->setRelicMainStats(Stats::ATK_P,Stats::FLAT_SPD,Stats::ATK_P,Stats::BE);
 
 
 
@@ -43,9 +43,9 @@ namespace Rappa{
                 if (ptr->Print)CharCmd::printUltStart("Rappa");
                 ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"] = 1;
                 ptr->Sub_Unit_ptr[0]->Stack["Rappa_Ult"] = 2;
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None] += 30;
-                ptr->Sub_Unit_ptr[0]->Stats_type["Weakness_Break_Efficiency"][AType::None] += 50;
-                if (ptr->Eidolon >= 1)ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_SHRED][AType::None] += 15;
+                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] += 30;
+                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BREAK_EFF][AType::None] += 50;
+                if (ptr->Eidolon >= 1)ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DEF_SHRED][AType::None] += 15;
                 
 
                 shared_ptr<AllyAttackAction> data_2 = 
@@ -81,8 +81,8 @@ namespace Rappa{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] += 28;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None] += 13.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 28;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] += 13.3;
             ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 9;
 
             // relic
@@ -100,17 +100,17 @@ namespace Rappa{
             if (enemyUnit) {
                 
                 if (enemyUnit->isDebuffEnd("Withered_Leaf")) {
-                    enemyUnit->debuffSingle({{ST_VUL,AType::Break,-enemyUnit->DebuffNote["Withered_Leaf"]}});
+                    enemyUnit->debuffSingle({{Stats::VUL,AType::Break,-enemyUnit->DebuffNote["Withered_Leaf"]}});
                 }
             }
             if (turn->Char_Name == "Rappa") {
                 if (ptr->Sub_Unit_ptr[0]->Stack["Rappa_Ult"] == 0 && ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"] == 1) {
-                    ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None] -= 30;
-                    ptr->Sub_Unit_ptr[0]->Stats_type["Weakness_Break_Efficiency"][AType::None] -= 50;
+                    ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] -= 30;
+                    ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BREAK_EFF][AType::None] -= 50;
 
                     ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"] = 0;
                     if (ptr->Eidolon >= 1) {
-                        ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_SHRED][AType::None] -= 15;
+                        ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DEF_SHRED][AType::None] -= 15;
                         Increase_energy(ptr, 20);
                     }
                     if (ptr->Print == 1) {
@@ -172,7 +172,7 @@ namespace Rappa{
             if (temp < 0)
             temp = 0;
             target->DebuffNote["Withered_Leaf"] = target->DebuffNote["Withered_Leaf"];
-            target->debuffSingleApply({{ST_VUL, AType::Break, temp - target->DebuffNote["Withered_Leaf"]}},Rappaptr,"Withered_Leaf",2);
+            target->debuffSingleApply({{Stats::VUL, AType::Break, temp - target->DebuffNote["Withered_Leaf"]}},Rappaptr,"Withered_Leaf",2);
         }));
     }
 

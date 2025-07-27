@@ -6,7 +6,7 @@ namespace Remembrance_Lightcone{
             ptr->Light_cone.Name = "Castorice_LC";
 
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr, superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_HP_P][AType::None] += 22 + 8*superimpose;
+                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::HP_P][AType::None] += 22 + 8*superimpose;
             }));
 
             AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr, superimpose](SubUnit* target) {
@@ -30,14 +30,14 @@ namespace Remembrance_Lightcone{
                 &&turn->num==ptr->getSubUnit()->Atv_stats->num
                 &&target->Atv_stats->num==ptr->getSubUnit()->Atv_stats->num){
                     if(ptr->getSubUnit()->isHaveToAddBuff("Death Flower",2))
-                    ptr->buffAlly({{ST_DEF_SHRED, AType::None, 25.0 + 5 * superimpose}});
+                    ptr->buffAlly({{Stats::DEF_SHRED, AType::None, 25.0 + 5 * superimpose}});
                 }
             }));
 
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr, superimpose]() {
                 if(ptr->getSubUnit()->isBuffEnd("Death Flower")){
-                    ptr->buffAlly({{ST_DEF_SHRED, AType::None, -(25.0 + 5 * superimpose)}});
+                    ptr->buffAlly({{Stats::DEF_SHRED, AType::None, -(25.0 + 5 * superimpose)}});
                 }
             }));
         };

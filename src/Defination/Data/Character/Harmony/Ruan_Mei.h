@@ -15,10 +15,10 @@ namespace Ruan_Mei{
         Planar(ptr);
 
         //substats
-        ptr->pushSubstats(ST_BE);
+        ptr->pushSubstats(Stats::BE);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(140);
-        ptr->setRelicMainStats(ST_ATK_P,ST_FLAT_SPD,ST_ATK_P,ST_EnergyRecharge);
+        ptr->setRelicMainStats(Stats::ATK_P,Stats::FLAT_SPD,Stats::ATK_P,Stats::ER);
 
         
         
@@ -38,8 +38,8 @@ namespace Ruan_Mei{
             [ptr,RMptr](shared_ptr<AllyBuffAction> &act){
                 if(ptr->Print)CharCmd::printUltStart("Ruan Mei");
                 if(RMptr->isHaveToAddBuff("RuanMei_Ult",2)){
-                    buffAllAlly({{"Respen", AType::None, 25}});
-                    if(ptr->Eidolon >= 1)buffAllAlly({{ST_DEF_SHRED, AType::None, 20}});
+                    buffAllAlly({{Stats::RESPEN, AType::None, 25}});
+                    if(ptr->Eidolon >= 1)buffAllAlly({{Stats::DEF_SHRED, AType::None, 20}});
                 }
             });
             act->addBuffAllAllies();
@@ -48,8 +48,8 @@ namespace Ruan_Mei{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None] += 37.3;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Def%"][AType::None] += 22.5;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] += 37.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DEF_P][AType::None] += 22.5;
             ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 5;
 
             // relic
@@ -59,8 +59,8 @@ namespace Ruan_Mei{
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
             buffAllAlly({
-                {ST_BE, AType::None, 20},
-                {ST_SPD_P,AType::None,10}
+                {Stats::BE, AType::None, 20},
+                {Stats::SPD_P,AType::None,10}
             });
         }));
 
@@ -73,8 +73,8 @@ namespace Ruan_Mei{
                     Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
                     Increase_energy(ptr,30);
                     buffAllAlly({
-                        {ST_DMG,AType::None,68},
-                        {ST_BREAK_EFF,AType::None,50},
+                        {Stats::DMG,AType::None,68},
+                        {Stats::BREAK_EFF,AType::None,50},
                     });
                     ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Mei_Skill",3);
                 });
@@ -89,15 +89,15 @@ namespace Ruan_Mei{
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMptr](){
             if(RMptr->isBuffEnd("Mei_Skill")){
                 buffAllAlly({
-                    {ST_DMG,AType::None,-68},
-                    {ST_BREAK_EFF,AType::None,-50},
+                    {Stats::DMG,AType::None,-68},
+                    {Stats::BREAK_EFF,AType::None,-50},
                 });
             }
             if(turn->Char_Name == "Ruan_Mei"){
                 Increase_energy(ptr, 5);
                 if(RMptr->isBuffEnd("RuanMei_Ult")){
-                    buffAllAlly({{"Respen", AType::None, -25}});
-                    if(ptr->Eidolon >= 1)buffAllAlly({{ST_DEF_SHRED, AType::None, -20}});
+                    buffAllAlly({{Stats::RESPEN, AType::None, -25}});
+                    if(ptr->Eidolon >= 1)buffAllAlly({{Stats::DEF_SHRED, AType::None, -20}});
                     if(ptr->Print == 1)CharCmd::printUltEnd("Ruan Mei");
                 }
             }
@@ -105,7 +105,7 @@ namespace Ruan_Mei{
                 if(Enemy_unit[turn->num]->Debuff["RuanMei_Ult_bloom"] == 1){
                     Turn_Skip = 1;
                     Enemy_unit[turn->num]->debuffRemove("RuanMei_Ult_bloom");
-                    Action_forward(Enemy_unit[turn->num]->Atv_stats.get(), -10 - (0.2 * (ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None])));
+                    Action_forward(Enemy_unit[turn->num]->Atv_stats.get(), -10 - (0.2 * (ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None])));
                     shared_ptr<AllyAttackAction> act = 
                     make_shared<AllyAttackAction>(AType::Break,ptr->getSubUnit(),TT_SINGLE,"RM Ult Break");
                     double temp = 0.5;
@@ -155,8 +155,8 @@ namespace Ruan_Mei{
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
             buffAllAlly({
-                {ST_DMG,AType::None,68},
-                {ST_BREAK_EFF,AType::None,50},
+                {Stats::DMG,AType::None,68},
+                {Stats::BREAK_EFF,AType::None,50},
             });
             ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Mei_Skill",3);
         });

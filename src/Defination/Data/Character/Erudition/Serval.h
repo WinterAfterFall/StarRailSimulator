@@ -17,13 +17,13 @@ namespace Serval{
         SubUnit *Servalptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(917,653,375);
         //substats
-        ptr->pushSubstats(ST_CD);
-        ptr->pushSubstats(ST_CR);
-        ptr->pushSubstats("Atk%");
+        ptr->pushSubstats(Stats::CD);
+        ptr->pushSubstats(Stats::CR);
+        ptr->pushSubstats(Stats::ATK_P);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(160);
         ptr->setApplyBaseChance(100);
-        ptr->setRelicMainStats(ST_EHR,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
+        ptr->setRelicMainStats(Stats::EHR,Stats::FLAT_SPD,Stats::DMG,Stats::ER);
 
 
         //func
@@ -42,9 +42,9 @@ namespace Serval{
         };
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_EHR][AType::None] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::None] += 18.7;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES][AType::None] += 10;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += 18.7;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::RES][AType::None] += 10;
 
             // relic
 
@@ -78,7 +78,7 @@ namespace Serval{
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
             if (turn->Unit_Name == "Serval") {
                 if (ptr->Sub_Unit_ptr[0].get()->isBuffEnd("Serval_A6")) {
-                    ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] -= 20;
+                    ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] -= 20;
                 }
             }
             if (turn->Side == "Enemy") {
@@ -94,7 +94,7 @@ namespace Serval{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
             Increase_energy(ptr, 15);
             if (ptr->Eidolon >= 6) {
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG][AType::None] += 30;
+                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::None] += 30;
             }
         }));
 
@@ -125,7 +125,7 @@ namespace Serval{
         }));
 
         Enemy_Death_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,Servalptr](Enemy *target, SubUnit *Killer) {
-            Servalptr->buffSingle({{ST_ATK_P,AType::None,20}},"Serval_A6",2);
+            Servalptr->buffSingle({{Stats::ATK_P,AType::None,20}},"Serval_A6",2);
         }));
 
 

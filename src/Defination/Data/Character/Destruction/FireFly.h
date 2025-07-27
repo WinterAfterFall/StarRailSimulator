@@ -17,10 +17,10 @@ namespace FireFly{
         Planar(ptr);
         
         //substats
-        ptr->pushSubstats(ST_BE);
+        ptr->pushSubstats(Stats::BE);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(150);
-        ptr->setRelicMainStats(ST_ATK_P,ST_FLAT_SPD,ST_ATK_P,ST_BE);
+        ptr->setRelicMainStats(Stats::ATK_P,Stats::FLAT_SPD,Stats::ATK_P,Stats::BE);
         
 
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr] (){
@@ -31,8 +31,8 @@ namespace FireFly{
             }
         };
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None] += 37.3;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES][AType::None] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] += 37.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::RES][AType::None] += 18;
             ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 5;
 
             // relic
@@ -41,7 +41,7 @@ namespace FireFly{
 
             // eidolon
             if (ptr->Eidolon >= 1) {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_SHRED][AType::None] += 15;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DEF_SHRED][AType::None] += 15;
             }
             if (ptr->Eidolon >= 2) {
             ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"] = 2;
@@ -52,9 +52,9 @@ namespace FireFly{
             if (!ultUseCheck(ptr)) return;
             FFptr->buffSingle(
                 {
-                    {ST_FLAT_SPD,AType::None,60},
-                    {ST_BREAK_EFF,AType::None,50},
-                    {ST_VUL,AType::None,20},
+                    {Stats::FLAT_SPD,AType::None,60},
+                    {Stats::BREAK_EFF,AType::None,50},
+                    {Stats::VUL,AType::None,20},
                 });
             Action_forward(FFptr->Atv_stats.get(), 100);
             ptr->Countdown_ptr[0]->summon();
@@ -63,16 +63,16 @@ namespace FireFly{
         ));
         
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,FFptr](SubUnit *target, string StatsType) {
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,FFptr](SubUnit *target, Stats StatsType) {
             if (target->Atv_stats->Unit_Name != "FireFly") return;
-            if (StatsType == "Atk%" || StatsType == "Flat_Atk") {
+            if (StatsType == Stats::ATK_P || StatsType == Stats::FLAT_ATK) {
             double temp = 0;
-            temp = floor(((ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] / 100 * ptr->Sub_Unit_ptr[0]->baseAtk + ptr->Sub_Unit_ptr[0]->baseAtk) + ptr->Sub_Unit_ptr[0]->Stats_type["Flat_Atk"][AType::None] - 1800) / 100) * 0.8;
+            temp = floor(((ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] / 100 * ptr->Sub_Unit_ptr[0]->baseAtk + ptr->Sub_Unit_ptr[0]->baseAtk) + ptr->Sub_Unit_ptr[0]->Stats_type[Stats::FLAT_ATK][AType::None] - 1800) / 100) * 0.8;
             if (ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"] <= 0)temp = 0;
             FFptr->buffSingle(
                 {
-                    {ST_BE,AType::TEMP,temp - FFptr->Buff_note["FireFly_ModuleY"]},
-                    {ST_BE,AType::None,temp - FFptr->Buff_note["FireFly_ModuleY"]}
+                    {Stats::BE,AType::TEMP,temp - FFptr->Buff_note["FireFly_ModuleY"]},
+                    {Stats::BE,AType::None,temp - FFptr->Buff_note["FireFly_ModuleY"]}
                 });
             ptr->Sub_Unit_ptr[0]->Buff_note["FireFly_ModuleY"] = temp;
                 
@@ -103,7 +103,7 @@ namespace FireFly{
             }
         }));
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            allEventAdjustStats(ptr->Sub_Unit_ptr[0].get(), ST_FLAT_ATK);
+            allEventAdjustStats(ptr->Sub_Unit_ptr[0].get(), Stats::FLAT_ATK);
         }));
         
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr]( shared_ptr<AllyAttackAction> &act ) {
@@ -113,9 +113,9 @@ namespace FireFly{
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
             }
             if (act->isSameUnitName("FireFly")) {
-            if (ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None] >= 360) {
+            if (ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] >= 360) {
                 Superbreak_trigger(act, 50,"");
-            } else if (ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None] >= 200) {
+            } else if (ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] >= 200) {
                 Superbreak_trigger(act, 35,"");
             }
             }
@@ -131,9 +131,9 @@ namespace FireFly{
             if(ptr->Print)CharCmd::printUltEnd("FireFly");
             FFptr->buffSingle(
                 {
-                    {ST_FLAT_SPD,AType::None,-60},
-                    {ST_BREAK_EFF,AType::None,-50},
-                    {ST_VUL,AType::None,-20},
+                    {Stats::FLAT_SPD,AType::None,-60},
+                    {Stats::BREAK_EFF,AType::None,-50},
+                    {Stats::VUL,AType::None,-20},
                 });
             ptr->Countdown_ptr[0]->death();
         };
@@ -160,10 +160,10 @@ namespace FireFly{
         [ptr](shared_ptr<AllyAttackAction> &act){
             if(ptr->Eidolon<1)Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             double skill_dmg = 0;
-            if(ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None]>=360){
+            if(ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None]>=360){
                 skill_dmg = 272;
             }else{
-                skill_dmg = 200 + (ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None])*0.2;
+                skill_dmg = 200 + (ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None])*0.2;
             }
 
             act->addDamageIns(DmgSrc(DmgSrcType::ATK,0.15*skill_dmg,4.5),DmgSrc(DmgSrcType::ATK,0.15*0.5*skill_dmg,2.25));

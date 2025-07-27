@@ -4,12 +4,12 @@ namespace Relic{
     void Iron_Cavalry(Ally *ptr){
         ptr->Relic.Name = "Iron_Cavalry";
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_BE][AType::None] += 16;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] += 16;
         }));
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_SHRED][AType::Break] += 10;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_DEF_SHRED][AType::SPB] += 15;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DEF_SHRED][AType::Break] += 10;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DEF_SHRED][AType::SPB] += 15;
         }));
 
         

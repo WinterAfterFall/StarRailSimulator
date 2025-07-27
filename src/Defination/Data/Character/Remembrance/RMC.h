@@ -23,10 +23,10 @@ namespace RMC{
         //substats
         
 
-        ptr->pushSubstats(ST_CD);
+        ptr->pushSubstats(Stats::CD);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(160);
-        ptr->setRelicMainStats(ST_CD,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
+        ptr->setRelicMainStats(Stats::CD,Stats::FLAT_SPD,Stats::DMG,Stats::ER);
 
 
         //func
@@ -59,12 +59,12 @@ namespace RMC{
             make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(1),TT_AOE,"RMC Ult",
             [ptr,RMCptr,Memptr](shared_ptr<AllyAttackAction> &act){
                 Increase_Charge(ptr, 40);
-                Memptr->buffSingle({{ST_CR,AType::None,100.0}});
+                Memptr->buffSingle({{Stats::CR,AType::None,100.0}});
                 if (ptr->Print) CharCmd::printUltStart("RMC");
                 
                 Attack(act);
 
-                Memptr->buffSingle({{ST_CR,AType::None,-100.0}});
+                Memptr->buffSingle({{Stats::CR,AType::None,-100.0}});
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,264,20),
@@ -76,21 +76,21 @@ namespace RMC{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] += 14;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"][AType::None] += 14;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AType::None] += 37.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 14;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::HP_P][AType::None] += 14;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None] += 37.3;
 
             // relic
 
             // substats
         }));
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr](SubUnit *target, string StatsType) {
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr](SubUnit *target, Stats StatsType) {
             if (target->Atv_stats->Unit_Name != "Mem") return;
-            if (StatsType == ST_CD) {
+            if (StatsType == Stats::CD) {
                 double buffValue = (calculateCritdamForBuff(ptr->Sub_Unit_ptr[1].get(), 13.2) + 26.4);
-                buffAllAlly({{ST_CD, AType::TEMP, buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});
-                buffAllAlly({{ST_CD, AType::None, buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});
+                buffAllAlly({{Stats::CD, AType::TEMP, buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});
+                buffAllAlly({{Stats::CD, AType::None, buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});
                 ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"] = buffValue;
                 return;
             }
@@ -119,15 +119,15 @@ namespace RMC{
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
             double buffValue = (calculateCritdamForBuff(ptr->Sub_Unit_ptr[1].get(), 13.2) + 26.4);
-            buffAllAlly({{ST_CD, AType::TEMP, buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});
-            buffAllAlly({{ST_CD, AType::None, buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});
+            buffAllAlly({{Stats::CD, AType::TEMP, buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});
+            buffAllAlly({{Stats::CD, AType::None, buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});
             ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"] = buffValue;
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
             if (chooseSubUnitBuff(RMCptr)->isBuffEnd("Mem_Support")) {
                 chooseCharacterBuff(RMCptr)->setBuffNote("Mem_Support",0);
-                chooseCharacterBuff(RMCptr)->buffAlly({{ST_CR,AType::None,-10}});
+                chooseCharacterBuff(RMCptr)->buffAlly({{Stats::CR,AType::None,-10}});
             }
         }));
 
@@ -252,7 +252,7 @@ namespace RMC{
                 else 
                 chooseCharacterBuff(RMCptr)->setBuffNote("Mem_Support",30 + 2 * floor((chooseCharacterBuff(RMCptr)->Max_energy - 100) / 10));
 
-                chooseCharacterBuff(RMCptr)->buffAlly({{ST_CR,AType::None,10}});
+                chooseCharacterBuff(RMCptr)->buffAlly({{Stats::CR,AType::None,10}});
             }
             Action_forward(chooseSubUnitBuff(ptr->Sub_Unit_ptr[1].get())->Atv_stats.get(),100);            
         });

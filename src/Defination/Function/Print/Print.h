@@ -134,7 +134,7 @@ void printSummaryResult(){
         cout<<endl;
         cout<<"Substats : | ";
         for(int j = 0;j<Ally_unit[i]->Max_damage_Substats.size();j++){
-            cout<<Ally_unit[i]->Substats[j].first<<" : "<<Ally_unit[i]->Max_damage_Substats[j]<<" | ";
+            cout<<toString(Ally_unit[i]->Substats[j].first)<<" : "<<Ally_unit[i]->Max_damage_Substats[j]<<" | ";
         }
         
         cout<<endl;

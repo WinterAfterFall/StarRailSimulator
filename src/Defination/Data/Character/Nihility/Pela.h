@@ -9,13 +9,13 @@ namespace Pela{
         ptr->SetAllyBaseStats(1087,660,509);
 
         //substats
-        ptr->pushSubstats(ST_CD);
-        ptr->pushSubstats(ST_CR);
-        ptr->pushSubstats(ST_ATK_P);
+        ptr->pushSubstats(Stats::CD);
+        ptr->pushSubstats(Stats::CR);
+        ptr->pushSubstats(Stats::ATK_P);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(160);
         ptr->setApplyBaseChance(100);
-        ptr->setRelicMainStats(ST_CR,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
+        ptr->setRelicMainStats(Stats::CR,Stats::FLAT_SPD,Stats::DMG,Stats::ER);
 
         
         //func
@@ -38,7 +38,7 @@ namespace Pela{
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"Pela Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
-                debuffAllEnemyApply({{ST_DEF_SHRED, AType::None, 42}},ptr->Sub_Unit_ptr[0].get(), "Zone_Suppression",2);
+                debuffAllEnemyApply({{Stats::DEF_SHRED, AType::None, 42}},ptr->Sub_Unit_ptr[0].get(), "Zone_Suppression",2);
                 Attack(act);
             });
             act->addDamageIns(
@@ -51,9 +51,9 @@ namespace Pela{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Ice][AType::None] += 22.4;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Ehr"][AType::None] += 10;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Ice][AType::None] += 22.4;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += 10;
 
             // relic
 
@@ -63,24 +63,24 @@ namespace Pela{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (ptr->Technique == 1) {
-                debuffAllEnemyApply({{ST_DEF_SHRED, AType::None, 20}},ptr->Sub_Unit_ptr[0].get(), "Pela_Technique",2);
+                debuffAllEnemyApply({{Stats::DEF_SHRED, AType::None, 20}},ptr->Sub_Unit_ptr[0].get(), "Pela_Technique",2);
                 Increase_energy(ptr, 20);
             }
         }));
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            buffAllAlly({{"Ehr", AType::None, 10}});
+            buffAllAlly({{Stats::EHR, AType::None, 10}});
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (turn->Side == "Enemy") {
                 if (Enemy_unit[turn->num]->Debuff_time_count["Zone_Suppression"] == Enemy_unit[turn->num]->Atv_stats->turnCnt) {
                     Enemy_unit[turn->num]->Debuff["Zone_Suppression"] = 0;
-                    Enemy_unit[turn->num]->Stats_type[ST_DEF_SHRED][AType::None] -= 42;
+                    Enemy_unit[turn->num]->Stats_type[Stats::DEF_SHRED][AType::None] -= 42;
                     --Enemy_unit[turn->num]->Total_debuff;
                 }
                 if (Enemy_unit[turn->num]->Debuff_time_count["Pela_Technique"] == turn->turnCnt) {
-                    Enemy_unit[turn->num]->Stats_type[ST_DEF_SHRED][AType::None] -= 20;
+                    Enemy_unit[turn->num]->Stats_type[Stats::DEF_SHRED][AType::None] -= 20;
                     Enemy_unit[turn->num]->Debuff["Pela_Technique"] = 0;
                     --Enemy_unit[turn->num]->Total_debuff;
                 }

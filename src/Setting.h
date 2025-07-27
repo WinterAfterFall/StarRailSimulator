@@ -127,5 +127,33 @@ string toString(ElementType type){
                 default: return "";
         }
 }
+string toString(Stats type){
+        switch(type) {
+                case Stats::HP_P: return "HP%";
+                case Stats::FLAT_HP: return "Flat HP";
+                case Stats::ATK_P: return "ATK%";
+                case Stats::FLAT_ATK: return "Flat ATK";
+                case Stats::DEF_P: return "DEF%";
+                case Stats::FLAT_DEF: return "Flat DEF";
+                case Stats::DMG: return "DMG%";
+                case Stats::CR: return "Crit rate";
+                case Stats::CD: return "Crit dam";
+                case Stats::BE: return "BE";
+                case Stats::DEF_SHRED: return "DEF Shred";
+                case Stats::RESPEN: return "Respen";
+                case Stats::VUL: return "Vul";
+                case Stats::RES: return "Res";
+                case Stats::EHR: return "Ehr";
+                case Stats::ER: return "ER";
+                case Stats::HEALING_OUT: return "Healing out";
+                case Stats::HEALING_IN: return "Healing in";
+                case Stats::SHEILD: return "Sheild";
+                case Stats::FLAT_SPD: return "Flat Spd";
+                case Stats::SPD_P: return "Spd%";
+                case Stats::BREAK_EFF: return "Break Effeciency";
+                case Stats::TOUGH_REDUCE: return "Toughness Reduce";
+                default: return "";
+        }
+}
 
 #endif

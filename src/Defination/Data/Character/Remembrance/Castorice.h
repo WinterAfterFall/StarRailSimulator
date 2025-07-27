@@ -21,15 +21,15 @@ namespace Castorice{
         ptr->SetAllyBaseStats(1630,524,485);
 
         //substats
-        ptr->pushSubstats(ST_CD);
-        ptr->pushSubstats(ST_CR);
-        ptr->pushSubstats(ST_HP_P);
+        ptr->pushSubstats(Stats::CD);
+        ptr->pushSubstats(Stats::CR);
+        ptr->pushSubstats(Stats::HP_P);
         ptr->setTotalSubstats(20);
 
 
         //func
         
-        ptr->setRelicMainStats(ST_CD,ST_HP_P,ST_HP_P,ST_HP_P);
+        ptr->setRelicMainStats(Stats::CD,Stats::HP_P,Stats::HP_P,Stats::HP_P);
 
         //adjust
         if(ptr->Eidolon>=2)ptr->Adjust["NetherwingLifeSpan"] = 1;
@@ -73,7 +73,7 @@ namespace Castorice{
                         }
                     }
                     ptr->getSubUnit(1)->Stack["Breath Scorches the Shadow"]++;
-                    Polluxptr->buffStackSingle({{ST_DMG,AType::None,30}},1,6,"Where The West Wind Dwells");
+                    Polluxptr->buffStackSingle({{Stats::DMG,AType::None,30}},1,6,"Where The West Wind Dwells");
                     Attack(act);
                     if(ptr->getSubUnit(1)->getStack("Ardent Will")>0)
                     ptr->getSubUnit(1)->Stack["Ardent Will"]--;
@@ -98,7 +98,7 @@ namespace Castorice{
                             each.dmgSrc.HP = 34;
                         }
                     }
-                    Polluxptr->buffStackSingle({{ST_DMG,AType::None,30}},1,6,"Where The West Wind Dwells");
+                    Polluxptr->buffStackSingle({{Stats::DMG,AType::None,30}},1,6,"Where The West Wind Dwells");
                 }else{
                     for(auto &each : act->damageSplit[0]){
                             each.dmgSrc.HP = 40;
@@ -124,9 +124,9 @@ namespace Castorice{
 
         
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Casptr,Polluxptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AType::None] += 13.3;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::None] += 18.7;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Quantum][AType::None] += 14.4;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None] += 13.3;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += 18.7;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 14.4;
         }));
         
         ptr->addUltCondition([ptr,Casptr,Polluxptr]() -> bool {
@@ -146,11 +146,11 @@ namespace Castorice{
             make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TT_SINGLE,"Cas Ult",
             [ptr,Casptr,Polluxptr](shared_ptr<AllyBuffAction> &act){
                 if(ptr->Print)CharCmd::printUltStart("Castorice");
-                debuffAllEnemyMark({{ST_RESPEN,AType::None,20}},Polluxptr,"Lost Netherland");
+                debuffAllEnemyMark({{Stats::RESPEN,AType::None,20}},Polluxptr,"Lost Netherland");
                 ptr->getSubUnit(1)->summon(100);
                 Action_forward(ptr->getSubUnit(1)->Atv_stats.get(),100);
                 Polluxptr->extendBuffTime("NetherwingLifeSpan",ptr->Adjust["NetherwingLifeSpan"]);
-                buffAllAlly({{ST_DMG,AType::None,10}},"Roar Rumbles the Realm",3);
+                buffAllAlly({{Stats::DMG,AType::None,10}},"Roar Rumbles the Realm",3);
                 if(ptr->Eidolon>=2){
                     ptr->getSubUnit(1)->setStack("Ardent Will",2);
                     Action_forward(ptr->getSubUnit()->Atv_stats.get(),100);
@@ -165,16 +165,16 @@ namespace Castorice{
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Casptr,Polluxptr]() {
             if(ptr->Eidolon>=4){
-                buffAllAlly({{ST_HEALING_IN,AType::None,20}});
+                buffAllAlly({{Stats::HEALING_IN,AType::None,20}});
             }
             if(ptr->Eidolon>=6){
-                ptr->buffAlly({{ST_RESPEN,AType::None,20}});
+                ptr->buffAlly({{Stats::RESPEN,AType::None,20}});
             }
         }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Casptr,Polluxptr]() {
             if(ptr->Technique==1){
-                debuffAllEnemyMark({{ST_RESPEN,AType::None,20}},Polluxptr,"Lost Netherland");
+                debuffAllEnemyMark({{Stats::RESPEN,AType::None,20}},Polluxptr,"Lost Netherland");
                 
 
                 ptr->getSubUnit(1)->summon(50);
@@ -182,7 +182,7 @@ namespace Castorice{
                 turn = ptr->getSubUnit(1)->Atv_stats.get();
                 Polluxptr->extendBuffTime("NetherwingLifeSpan",1);
                 DecreaseHP(ptr->Sub_Unit_ptr[0].get(),"Netherwing",0,0,40);
-                buffAllAlly({{ST_DMG,AType::None,10}},"Roar Rumbles the Realm",3);
+                buffAllAlly({{Stats::DMG,AType::None,10}},"Roar Rumbles the Realm",3);
                 if(ptr->Eidolon>=2){
                     ptr->getSubUnit(1)->setStack("Ardent Will",2);
                     Action_forward(ptr->getSubUnit()->Atv_stats.get(),100);
@@ -194,7 +194,7 @@ namespace Castorice{
                 ptr->getSubUnit()->Buff_note["Newbud"]=10200;
             }
             if(!ptr->getSubUnit()->getBuffCheck("Inverted Torch")&&ptr->getSubUnit()->currentHP>=ptr->getSubUnit()->totalHP*0.5){
-                Casptr->buffSingle({{ST_SPD_P,AType::None,40}});
+                Casptr->buffSingle({{Stats::SPD_P,AType::None,40}});
                 ptr->getSubUnit()->setBuffCheck("Inverted Torch",true);
             }
         }));
@@ -213,7 +213,7 @@ namespace Castorice{
             }
             if(target->isSameUnitName("Castorice")){
                 if(!ptr->getSubUnit()->getBuffCheck("Inverted Torch")&&ptr->getSubUnit()->currentHP>=ptr->getSubUnit()->totalHP*0.5){
-                Casptr->buffSingle({{ST_SPD_P,AType::None,40}});
+                Casptr->buffSingle({{Stats::SPD_P,AType::None,40}});
                 ptr->getSubUnit()->setBuffCheck("Inverted Torch",true);
                 }
             }
@@ -228,11 +228,11 @@ namespace Castorice{
             }
             if(ptr->getSubUnit()->Buff_note["CastoriceTalentBuff"]!=decreaseHPCount){
                 ptr->getSubUnit()->Buff_note["CastoriceTalentBuff"] = decreaseHPCount;
-                ptr->buffStackAlly({{ST_DMG,AType::None,20}},1,3,"CastoriceTalentBuff",3);
+                ptr->buffStackAlly({{Stats::DMG,AType::None,20}},1,3,"CastoriceTalentBuff",3);
             }
             if(target->isSameUnitName("Castorice")){
                 if(ptr->getSubUnit()->getBuffCheck("Inverted Torch")&&ptr->getSubUnit()->currentHP<ptr->getSubUnit()->totalHP*0.5){
-                    Casptr->buffSingle({{ST_SPD_P,AType::None,-40}});
+                    Casptr->buffSingle({{Stats::SPD_P,AType::None,-40}});
                     ptr->getSubUnit()->setBuffCheck("Inverted Torch",false);
                 }
             }
@@ -244,15 +244,15 @@ namespace Castorice{
                 Kamikaze(ptr);
             }
             if(turn->isSameCharName("Netherwing")){
-                Polluxptr->buffResetStack({{ST_DMG,AType::None,30}},"Where The West Wind Dwells");
+                Polluxptr->buffResetStack({{Stats::DMG,AType::None,30}},"Where The West Wind Dwells");
             }
             SubUnit *tempUnit = turn->canCastToSubUnit();
             if(tempUnit){
                 if(tempUnit->isBuffEnd("Roar Rumbles the Realm")){
-                    tempUnit->buffSingle({{ST_DMG,AType::None,-10}});
+                    tempUnit->buffSingle({{Stats::DMG,AType::None,-10}});
                 }
                 if(tempUnit->isBuffEnd("CastoriceTalentBuff")){
-                    tempUnit->buffResetStack({{ST_DMG,AType::None,20}},"CastoriceTalentBuff");
+                    tempUnit->buffResetStack({{Stats::DMG,AType::None,20}},"CastoriceTalentBuff");
                 }
             }
             
@@ -276,18 +276,18 @@ namespace Castorice{
             }
         }));
         
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](SubUnit* Target, string StatsType) {
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](SubUnit* Target, Stats StatsType) {
             if(!Target->isSameUnitName("Netherwing"))return;
-            if(StatsType != ST_FLAT_HP && StatsType != ST_HP_P)return;
+            if(StatsType != Stats::FLAT_HP && StatsType != Stats::HP_P)return;
             double temp;
             temp = 34000 - calculateHpOnStats(ptr->getSubUnit(1));
-            Polluxptr->buffSingle({{ST_FLAT_HP,AType::None,temp}});
+            Polluxptr->buffSingle({{Stats::FLAT_HP,AType::None,temp}});
             
         }));
 
         AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](SubUnit* target) {
             if(target->isBuffGoneByDeath("Roar Rumbles the Realm")){
-                target->buffSingle({{ST_DMG,AType::None,-10}});
+                target->buffSingle({{Stats::DMG,AType::None,-10}});
             }
         }));
     }
@@ -355,7 +355,7 @@ namespace Castorice{
             ptr->getSubUnit()->RestoreHP(HealSrc(HealSrcType::HP,6,HealSrcType::CONST,800));
             for(int i=1;i<=Total_enemy;i++){
                 Enemy_unit[i]->debuffRemove("Lost Netherland"); 
-                Enemy_unit[i]->debuffSingle({{ST_RESPEN,AType::None,-20}});
+                Enemy_unit[i]->debuffSingle({{Stats::RESPEN,AType::None,-20}});
             }
             ptr->getSubUnit(1)->death();
             ptr->getSubUnit(1)->setStack("Breath Scorches the Shadow",0);

@@ -22,7 +22,7 @@ void Ally::setTotalSubstats(int Value) {
     this->Substats[0].second = Value;
     this->Max_damage_Substats.resize(this->Substats.size());
 }
-void Ally::pushSubstats(string StatsType) {
+void Ally::pushSubstats(Stats StatsType) {
     this->Substats.push_back({StatsType, 0});
 }
 void Ally::changeTotalSubStats(int amount) {

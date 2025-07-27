@@ -1,9 +1,9 @@
 #include "../include.h"
 
-void StatsAdjust(SubUnit *ptr,string statsType){
-    if(statsType == "Atk%"||statsType == "Flat_Atk")AtkAdjust(ptr);
-    if(statsType == "Hp%"||statsType == "Flat_Hp")HpAdjust(ptr);
-    if(statsType == "Def%"||statsType == "Flat_Def")DefAdjust(ptr);
+void StatsAdjust(SubUnit *ptr,Stats statsType){
+    if(statsType == Stats::ATK_P||statsType == Stats::FLAT_ATK)AtkAdjust(ptr);
+    if(statsType == Stats::HP_P||statsType == Stats::FLAT_HP)HpAdjust(ptr);
+    if(statsType == Stats::DEF_P||statsType == Stats::FLAT_DEF)DefAdjust(ptr);
     if(!AdjustCheck)allEventAdjustStats(ptr,statsType);
 }
 void AtkAdjust(SubUnit *ptr){

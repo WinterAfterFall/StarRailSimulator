@@ -12,9 +12,9 @@ namespace Bronya{
         SubUnit *Bronyaptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1242,582,534);
         //substats
-        ptr->pushSubstats(ST_CD);
+        ptr->pushSubstats(Stats::CD);
         ptr->setTotalSubstats(20);
-        ptr->setRelicMainStats(ST_CD,ST_FLAT_SPD,ST_DMG,ST_EnergyRecharge);
+        ptr->setRelicMainStats(Stats::CD,Stats::FLAT_SPD,Stats::DMG,Stats::ER);
         ptr->setSpeedRequire(134);
 
         Driver_num = Bronyaptr->Atv_stats->num;
@@ -33,13 +33,13 @@ namespace Bronya{
             make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"Bronya Ult",
             [ptr](shared_ptr<AllyBuffAction> &act){
                 //Ult ATKBUFF
-                buffAllAlly({{ST_ATK_P,AType::None,55}},"Bronya_Ult",2);
+                buffAllAlly({{Stats::ATK_P,AType::None,55}},"Bronya_Ult",2);
 
                 //Ult CritBuff
                 double temp = calculateCritdamForBuff(ptr->Sub_Unit_ptr[0].get(),16)+20;
                 for(auto &e : act->buffTargetList){
-                    e->buffSingle({{ST_CD,AType::None,temp - e->Buff_note["Bronya_Ult"]}});
-                    e->buffSingle({{ST_CD,AType::TEMP,temp - e->Buff_note["Bronya_Ult"]}});
+                    e->buffSingle({{Stats::CD,AType::None,temp - e->Buff_note["Bronya_Ult"]}});
+                    e->buffSingle({{Stats::CD,AType::TEMP,temp - e->Buff_note["Bronya_Ult"]}});
                     e->Buff_note["Bronya_Ult"] = temp;
                 }
 
@@ -56,16 +56,16 @@ namespace Bronya{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CD][AType::None] += 24;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_RES][AType::None] += 10;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Wind][AType::None] += 22.4;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None] += 24;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::RES][AType::None] += 10;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Wind][AType::None] += 22.4;
             // substats
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::BA] = 100;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::BA] = 100;
         }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Bronyaptr](){
-            if(ptr->Technique == 1)buffAllAlly({{"Atk%",AType::None,15}},"Bronya_Technique",2);
-            buffAllAlly({{"Def%",AType::None,20}},"Bronya_A4",2);
+            if(ptr->Technique == 1)buffAllAlly({{Stats::ATK_P,AType::None,15}},"Bronya_Technique",2);
+            buffAllAlly({{Stats::DEF_P,AType::None,20}},"Bronya_A4",2);
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Bronyaptr](){
@@ -74,7 +74,7 @@ namespace Bronya{
             
             //BuffEND Skill
             if(tempstats->isBuffEnd("Bronya_Skill")){
-                tempstats->buffSingle({{ST_DMG,AType::None,-66}});
+                tempstats->buffSingle({{Stats::DMG,AType::None,-66}});
             }
 
             //E1 Cooldon reset
@@ -83,19 +83,19 @@ namespace Bronya{
             }
              //E2 buffend
             if(tempstats->isBuffEnd("Bronya_Skill_E2")){
-                tempstats->buffSingle({{ST_SPD_P,AType::None,-30}});
+                tempstats->buffSingle({{Stats::SPD_P,AType::None,-30}});
             }
             if(tempstats->isBuffEnd("Bronya_Ult")){
-                tempstats->buffSingle({{"Atk%",AType::None,-55}});
-                tempstats->buffSingle({{ST_CD,AType::TEMP,-tempstats->Buff_note["Bronya_Ult"]}});
-                tempstats->buffSingle({{ST_CD,AType::None,-tempstats->Buff_note["Bronya_Ult"]}});
+                tempstats->buffSingle({{Stats::ATK_P,AType::None,-55}});
+                tempstats->buffSingle({{Stats::CD,AType::TEMP,-tempstats->Buff_note["Bronya_Ult"]}});
+                tempstats->buffSingle({{Stats::CD,AType::None,-tempstats->Buff_note["Bronya_Ult"]}});
                 tempstats->Buff_note["Bronya_Ult"] = 0;
             }
             if(tempstats->isBuffEnd("Bronya_A4")){
-                tempstats->buffSingle({{ST_DEF_P,AType::None,-20}});
+                tempstats->buffSingle({{Stats::DEF_P,AType::None,-20}});
             }
             if(tempstats->isBuffEnd("Bronya_Technique")){
-                tempstats->buffSingle({{"Atk%",AType::None,-15}});
+                tempstats->buffSingle({{Stats::ATK_P,AType::None,-15}});
             }
         }));
 
@@ -107,7 +107,7 @@ namespace Bronya{
         }));
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
-            buffAllAlly({{ST_DMG,AType::None,10}});
+            buffAllAlly({{Stats::DMG,AType::None,10}});
         }));
 
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act){
@@ -143,15 +143,15 @@ namespace Bronya{
 
             //Buff นานแค่ไหน
             if(ptr->Eidolon>=6)
-            chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_DMG,AType::None,66}},"Bronya_Skill",2);
+            chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{Stats::DMG,AType::None,66}},"Bronya_Skill",2);
             else
-            chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_DMG,AType::None,66}},"Bronya_Skill",1);
+            chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{Stats::DMG,AType::None,66}},"Bronya_Skill",1);
 
             Action_forward(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats.get(),100);
 
             //E2 buff Speed
             if(ptr->Eidolon>=2)
-            chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_SPD_P,AType::None,30}},"Bronya_Skill_E2",1  );
+            chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{Stats::SPD_P,AType::None,30}},"Bronya_Skill_E2",1  );
             
             //E1 คืน Sp
             if(ptr->Eidolon>=1){

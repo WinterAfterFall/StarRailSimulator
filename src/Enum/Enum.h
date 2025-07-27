@@ -56,16 +56,16 @@ enum class Stats {
     VUL,
     RES,
     EHR,
-    EnergyRecharge,
+    ER,
     HEALING_OUT,
     HEALING_IN,
     SHEILD,
-    SPD,
     FLAT_SPD,
     SPD_P,
     BREAK_EFF,
     TOUGH_REDUCE,
-    MTPR_Increase
+    SPB_inc,
+    Mitigration
 };
 enum class DotType {
     Shock,
@@ -122,6 +122,6 @@ namespace std {
         }
     };
 }
-typedef unordered_map<string,double> Common_stats;
-typedef unordered_map<string,unordered_map<AType,double>> Common_stats_type; 
-typedef unordered_map<string, unordered_map<ElementType,unordered_map<AType,double>>> Common_stats_each_element;
+typedef unordered_map<Stats,double> Common_stats;
+typedef unordered_map<Stats,unordered_map<AType,double>> Common_stats_type; 
+typedef unordered_map<Stats, unordered_map<ElementType,unordered_map<AType,double>>> Common_stats_each_element;

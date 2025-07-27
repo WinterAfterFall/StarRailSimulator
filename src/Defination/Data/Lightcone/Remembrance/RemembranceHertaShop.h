@@ -14,7 +14,7 @@ namespace Remembrance_Lightcone{
                 if(!allyData_)return;
                 if(allyData_->isSameAction(ptr->getSubUnit(),AType::SKILL)){
                     buffAllAlly({
-                        {ST_DMG,AType::None,6.0 + 2* superimpose}
+                        {Stats::DMG,AType::None,6.0 + 2* superimpose}
                     },"Curtain Never Falls",3);
                 }
             }));
@@ -24,7 +24,7 @@ namespace Remembrance_Lightcone{
                 if(!allyptr)return;
                 if(allyptr->isBuffEnd("Curtain Never Falls")){
                     allyptr->buffSingle({
-                        {ST_DMG,AType::None,-(6.0 + 2* superimpose)}
+                        {Stats::DMG,AType::None,-(6.0 + 2* superimpose)}
                     });
                 }
             }));
@@ -32,7 +32,7 @@ namespace Remembrance_Lightcone{
             AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,superimpose](SubUnit* target) {
                 if(target->isBuffGoneByDeath("Curtain Never Falls")){
                     target->buffSingle({
-                        {ST_DMG,AType::None,-(6.0 + 2* superimpose)}
+                        {Stats::DMG,AType::None,-(6.0 + 2* superimpose)}
                     });
                 }
             }));

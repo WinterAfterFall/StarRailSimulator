@@ -6,12 +6,12 @@ namespace Remembrance_Lightcone{
             ptr->Light_cone.Name = "SweatNowCryLess";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::None] += 10 + 2 * superimpose;
+                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += 10 + 2 * superimpose;
             }));
     
             Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 if (!ptr->Sub_Unit_ptr[1]->isDeath()&& ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("SweatNowCryLess")) {
-                    ptr->buffAlly({{ST_DMG, AType::None, 20.0 + superimpose * 4}});
+                    ptr->buffAlly({{Stats::DMG, AType::None, 20.0 + superimpose * 4}});
                 }
             }));
         };

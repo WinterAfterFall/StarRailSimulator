@@ -18,11 +18,11 @@ namespace The_Herta{
         ptr->SetAllyBaseStats(1164,679,485);
 
         //substats
-        ptr->pushSubstats(ST_CD);
-        ptr->pushSubstats(ST_CR);
-        ptr->pushSubstats("Atk%");
+        ptr->pushSubstats(Stats::CD);
+        ptr->pushSubstats(Stats::CR);
+        ptr->pushSubstats(Stats::ATK_P);
         ptr->setTotalSubstats(20);
-        ptr->setRelicMainStats(ST_CR,ST_ATK_P,ST_DMG,ST_ATK_P);
+        ptr->setRelicMainStats(Stats::CR,Stats::ATK_P,Stats::DMG,Stats::ATK_P);
 
 
 
@@ -58,7 +58,7 @@ namespace The_Herta{
                 if (ptr->Eidolon >= 2) {
                     ptr->Sub_Unit_ptr[0]->Buff_note["The_Herta_Skill_Enchance"]++;
                 }
-                Hertaptr->buffSingle({{ST_ATK_P,AType::None,80}},"Ult_The_Herta_Buff",3);
+                Hertaptr->buffSingle({{Stats::ATK_P,AType::None,80}},"Ult_The_Herta_Buff",3);
 
                 if (ptr->Print)CharCmd::printUltStart("The Herta");
                 Attack(act);
@@ -76,8 +76,8 @@ namespace The_Herta{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Ice][AType::None] += 22.4;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Ice][AType::None] += 22.4;
             ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 5;
 
             // relic
@@ -98,7 +98,7 @@ namespace The_Herta{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hertaptr]() {
             if (ptr->Technique == 1) {
-                Hertaptr->buffSingle({{ST_ATK_P,AType::None,60}},"The_Herta_Technique",2);
+                Hertaptr->buffSingle({{Stats::ATK_P,AType::None,60}},"The_Herta_Technique",2);
             }
             Apply_Herta_Stack(ptr, Enemy_unit[Main_Enemy_num].get(), 25);
             for (int i = 1; i <= Total_enemy; i++) {
@@ -108,22 +108,22 @@ namespace The_Herta{
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Hertaptr]() {
             if (Hertaptr->isBuffEnd("The_Herta_Technique")) {
-                Hertaptr->buffSingle({{ST_ATK_P,AType::None,-60}});
+                Hertaptr->buffSingle({{Stats::ATK_P,AType::None,-60}});
             }
             if (Hertaptr->isBuffEnd("Ult_The_Herta_Buff")) {
-                Hertaptr->buffSingle({{ST_ATK_P,AType::None,-80}});
+                Hertaptr->buffSingle({{Stats::ATK_P,AType::None,-80}});
             }
         }));
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (ptr->Sub_Unit_ptr[0]->Buff_check["Two_Erudition"] == 1) {
-                buffAllAlly({{ST_CD,AType::None,80}});
+                buffAllAlly({{Stats::CD,AType::None,80}});
             }
         }));
 
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_BUFF, [ptr,Hertaptr](shared_ptr<AllyAttackAction> &act){
             if(act->actionName=="THerta ESkill"){
-                Hertaptr->buffSingle({{ST_DMG,AType::None,-50}});
+                Hertaptr->buffSingle({{Stats::DMG,AType::None,-50}});
                 if(ptr->Eidolon >= 2)Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),35);
             }
             bool Erudition_check = 0;
@@ -267,7 +267,7 @@ namespace The_Herta{
             Herta_reset_Stack();
 
             Apply_Herta_Stack(ptr,Enemy_unit[Main_Enemy_num].get(),1);
-            ptr->getSubUnit()->buffSingle({{ST_DMG,AType::None,50}});
+            ptr->getSubUnit()->buffSingle({{Stats::DMG,AType::None,50}});
             Attack(act);
         });
         act->addDamageIns(DmgSrc(DmgSrcType::ATK,80,5));

@@ -5,7 +5,7 @@ namespace Planar{
         
         ptr->Planar.Name = "Izumo";
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] += 12;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 12;
         }));
 
         When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
@@ -14,7 +14,7 @@ namespace Planar{
                 for (auto e1 : Ally_unit[i]->Path) {
                     for (auto e2 : ptr->Path) {
                         if (e2 == e1) {
-                            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::None] += 12;
+                            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += 12;
                             return;
                         }
                     }

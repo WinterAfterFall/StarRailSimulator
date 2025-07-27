@@ -17,12 +17,12 @@ namespace Jingyuan{
         ptr->SetAllyBaseStats(1164, 698, 485);
 
         //substats
-        ptr->pushSubstats(ST_CD);
-        ptr->pushSubstats(ST_CR);
-        ptr->pushSubstats("Atk%");
+        ptr->pushSubstats(Stats::CD);
+        ptr->pushSubstats(Stats::CR);
+        ptr->pushSubstats(Stats::ATK_P);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(135);
-        ptr->setRelicMainStats(ST_CR,ST_FLAT_SPD,ST_DMG,ST_ATK_P);
+        ptr->setRelicMainStats(Stats::CR,Stats::FLAT_SPD,Stats::DMG,Stats::ATK_P);
 
 
 
@@ -48,9 +48,9 @@ namespace Jingyuan{
                 ptr->Sub_Unit_ptr[0]->Stack["LL_stack"] += 3;
                 if (ptr->Sub_Unit_ptr[0]->Stack["LL_stack"] >= 10) {
                     ptr->Summon_ptr[0]->Atv_stats->flatSpeed = 70;
-                    ptr->Summon_ptr[0]->speedBuff({ST_FLAT_SPD,AType::None,0});
+                    ptr->Summon_ptr[0]->speedBuff({Stats::FLAT_SPD,AType::None,0});
                 } else {
-                    ptr->Summon_ptr[0]->speedBuff({ST_FLAT_SPD,AType::None,30});
+                    ptr->Summon_ptr[0]->speedBuff({Stats::FLAT_SPD,AType::None,30});
                 }
             });
             act->addDamageIns(
@@ -67,23 +67,23 @@ namespace Jingyuan{
             if (!(ptr->Sub_Unit_ptr[0]->Atv_stats->num == turn->num && turn->Side == "Ally")) return;
             
             if (JYptr->isBuffEnd("War_Marshal")) {
-                JYptr->buffSingle({{ST_CR,AType::None,-10}});
+                JYptr->buffSingle({{Stats::CR,AType::None,-10}});
             }
             ;
             if (ptr->Eidolon >= 2 && JYptr->isBuffEnd("Swing_Skies_Squashed")) {
                 JYptr->buffSingle({
-                    {ST_DMG,AType::BA,-20},
-                    {ST_DMG,AType::SKILL,-20},
-                    {ST_DMG,AType::Ult,-20}
+                    {Stats::DMG,AType::BA,-20},
+                    {Stats::DMG,AType::SKILL,-20},
+                    {Stats::DMG,AType::Ult,-20}
                 });
             }
         }));
 
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] += 28;
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::None] += 12;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Def%"][AType::None] += 12.5;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 28;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += 12;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DEF_P][AType::None] += 12.5;
 
             // relic
 
@@ -98,7 +98,7 @@ namespace Jingyuan{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,JYptr]() {
             if (ptr->Technique == 1) {
                 ptr->Sub_Unit_ptr[0]->Stack["LL_stack"] += 3;
-                ptr->Summon_ptr[0]->speedBuff({ST_FLAT_SPD,AType::None,30});
+                ptr->Summon_ptr[0]->speedBuff({Stats::FLAT_SPD,AType::None,30});
 
             }
             Increase_energy(ptr, 15);
@@ -113,7 +113,7 @@ namespace Jingyuan{
             make_shared<AllyAttackAction>(AType::Fua,JYptr,TT_SINGLE,"LL Fua",
             [ptr,JYptr](shared_ptr<AllyAttackAction> &act){
                 if(ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]>=6){
-                    ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::Summon]+=25;
+                    ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::Summon]+=25;
                 }
 
                 for(int i=1;i<=ptr->Sub_Unit_ptr[0]->Stack["LL_stack"];i++){
@@ -132,7 +132,7 @@ namespace Jingyuan{
                 Attack(act);
 
                 if(ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]>=6){
-                    ptr->Sub_Unit_ptr[0]->Stats_type[ST_CR][AType::Summon]-=25;
+                    ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::Summon]-=25;
                 }
         
                 turn->flatSpeed = 0;
@@ -141,9 +141,9 @@ namespace Jingyuan{
                 
                 if(ptr->Eidolon>=2){
                     JYptr->buffSingle({
-                        {ST_DMG,AType::BA,20},
-                        {ST_DMG,AType::SKILL,20},
-                        {ST_DMG,AType::Ult,20}},
+                        {Stats::DMG,AType::BA,20},
+                        {Stats::DMG,AType::SKILL,20},
+                        {Stats::DMG,AType::Ult,20}},
                         "Swing_Skies_Squashed",2
                     );
                 }
@@ -175,13 +175,13 @@ namespace Jingyuan{
         [ptr,JYptr = ptr->getSubUnit()](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
-            JYptr->buffSingle({{ST_CR,AType::None,10}},"War_Marshal",2);
+            JYptr->buffSingle({{Stats::CR,AType::None,10}},"War_Marshal",2);
             ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]+=2;
             if(ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]>=10){
                 ptr->Summon_ptr[0]->Atv_stats->flatSpeed=70;
-                ptr->Summon_ptr[0]->speedBuff({ST_FLAT_SPD,AType::None,0});
+                ptr->Summon_ptr[0]->speedBuff({Stats::FLAT_SPD,AType::None,0});
             }else{
-                ptr->Summon_ptr[0]->speedBuff({ST_FLAT_SPD,AType::None,20});
+                ptr->Summon_ptr[0]->speedBuff({Stats::FLAT_SPD,AType::None,20});
             }
             Attack(act);
         });

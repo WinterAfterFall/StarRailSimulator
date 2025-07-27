@@ -11,10 +11,10 @@ namespace Tingyun{
         SubUnit *TYptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(847, 529, 397);
         ptr->Technique = 2;
-        ptr->pushSubstats(ST_ATK_P);
+        ptr->pushSubstats(Stats::ATK_P);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(140);
-        ptr->setRelicMainStats(ST_ATK_P,ST_FLAT_SPD,ST_ATK_P,ST_EnergyRecharge);
+        ptr->setRelicMainStats(Stats::ATK_P,Stats::FLAT_SPD,Stats::ATK_P,Stats::ER);
 
 
         //func
@@ -46,12 +46,12 @@ namespace Tingyun{
                 CharCmd::printUltStart("Tingyun");
                 Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(), 0, (ptr->Eidolon >= 6) ? 60 : 50);
                 if (ptr->Eidolon >= 1)
-                chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_SPD_P,AType::None,20}},"Windfall_of_Lucky_Springs",1);
+                chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{Stats::SPD_P,AType::None,20}},"Windfall_of_Lucky_Springs",1);
                 
                 if (turn->Char_Name == Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[0]->Atv_stats->Char_Name && Situation == "Before Turn")
-                chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_DMG,AType::None,56}},"Rejoicing_Clouds",1);
+                chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{Stats::DMG,AType::None,56}},"Rejoicing_Clouds",1);
                 else
-                chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{ST_DMG,AType::None,56}},"Rejoicing_Clouds",2);
+                chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{Stats::DMG,AType::None,56}},"Rejoicing_Clouds",2);
             });
             act->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
             act->addToActionBar();
@@ -59,14 +59,14 @@ namespace Tingyun{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,TYptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[ST_DMG][ElementType::Lightning][AType::None] += 8;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] += 28;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Def%"][AType::None] += 22.5;
+            ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Lightning][AType::None] += 8;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 28;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DEF_P][AType::None] += 22.5;
 
             // relic
 
             // substats
-            ptr->Sub_Unit_ptr[0]->Stats_type[ST_DMG][AType::BA] += 40;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::BA] += 40;
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,TYptr]() {
@@ -79,17 +79,17 @@ namespace Tingyun{
             if (!tempUnit) return;
             
             if (tempUnit->isBuffEnd("Nourished_Joviality")) {
-                tempUnit->buffSingle({{ST_SPD_P,AType::None,-20}});
+                tempUnit->buffSingle({{Stats::SPD_P,AType::None,-20}});
             }
             
             if (tempUnit->isBuffEnd("Benediction")) {
-                tempUnit->buffSingle({{ST_ATK_P,AType::None,-55}});
+                tempUnit->buffSingle({{Stats::ATK_P,AType::None,-55}});
             }
             if (tempUnit->isBuffEnd("Windfall_of_Lucky_Springs")) {
-                tempUnit->buffSingle({{ST_SPD_P,AType::None,-20}});
+                tempUnit->buffSingle({{Stats::SPD_P,AType::None,-20}});
             }
             if (tempUnit->isBuffEnd("Rejoicing_Clouds")) {
-                tempUnit->buffSingle({{ST_DMG,AType::None,-56}});
+                tempUnit->buffSingle({{Stats::DMG,AType::None,-56}});
             }
         }));
 
@@ -130,8 +130,8 @@ namespace Tingyun{
         [ptr](shared_ptr<AllyBuffAction> &act){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
-            act->buffTargetList[0]->buffSingle({{ST_ATK_P,AType::None,55}},"Benediction",3);
-            ptr->Sub_Unit_ptr[0]->buffSingle({{ST_SPD_P,AType::None,20}},"Nourished_Joviality",1);
+            act->buffTargetList[0]->buffSingle({{Stats::ATK_P,AType::None,55}},"Benediction",3);
+            ptr->Sub_Unit_ptr[0]->buffSingle({{Stats::SPD_P,AType::None,20}},"Nourished_Joviality",1);
 
         });
         act->addBuffSingleTarget(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));

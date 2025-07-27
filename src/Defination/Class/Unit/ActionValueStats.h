@@ -131,13 +131,13 @@ public:
 
 class BuffClass{
     public:
-    string statsType;
+    Stats statsType;
     AType actionType;
     double value;
 };
 class BuffElementClass{
     public:
-    string statsType;
+    Stats statsType;
     ElementType element;
     AType actionType;
     double value;

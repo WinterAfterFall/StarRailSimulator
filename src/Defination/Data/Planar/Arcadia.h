@@ -17,7 +17,7 @@ namespace Planar{
                 buff = (cnt - 4)* 12;
             }
 
-            ptr->buffAlly({{ST_DMG,AType::None,buff - ptr->getSubUnit()->getBuffNote("Arcadia")}});
+            ptr->buffAlly({{Stats::DMG,AType::None,buff - ptr->getSubUnit()->getBuffNote("Arcadia")}});
             ptr->getSubUnit()->setBuffNote("Arcadia",buff);
         }));
     }

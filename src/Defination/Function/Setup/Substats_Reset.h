@@ -1,40 +1,40 @@
 #include "../include.h"
 void Set_Stats(Ally *ptr){
     for(int i=0,sz = ptr->Substats.size();i<sz;i++){
-        if(ptr->Substats[i].first==ST_FLAT_SPD){
+        if(ptr->Substats[i].first==Stats::FLAT_SPD){
             ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed+=2.3*ptr->Substats[i].second;
             for(int j=1,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
             ptr->Sub_Unit_ptr[j]->Atv_stats->flatSpeed+=(2.3*ptr->Substats[i].second)*(ptr->Sub_Unit_ptr[j]->Unit_Speed_Ratio/100);
             }
             
-        }else if(ptr->Substats[i].first=="Hp%"){ 
+        }else if(ptr->Substats[i].first==Stats::HP_P){ 
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){ 
-            ptr->Sub_Unit_ptr[j]->buffSingle({{"Hp%",AType::None,3.888*ptr->Substats[i].second}});
+            ptr->Sub_Unit_ptr[j]->buffSingle({{Stats::HP_P,AType::None,3.888*ptr->Substats[i].second}});
             }
         }
-        if(ptr->Substats[i].first==ST_CR){
+        if(ptr->Substats[i].first==Stats::CR){
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            ptr->Sub_Unit_ptr[j]->buffSingle({{ST_CR,AType::None,2.9*ptr->Substats[i].second}});
+            ptr->Sub_Unit_ptr[j]->buffSingle({{Stats::CR,AType::None,2.9*ptr->Substats[i].second}});
             }
 
-        }else if(ptr->Substats[i].first==ST_CD){
+        }else if(ptr->Substats[i].first==Stats::CD){
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            ptr->Sub_Unit_ptr[j]->buffSingle({{ST_CD,AType::None,5.8*ptr->Substats[i].second}});
+            ptr->Sub_Unit_ptr[j]->buffSingle({{Stats::CD,AType::None,5.8*ptr->Substats[i].second}});
             }
             
-        }else if(ptr->Substats[i].first=="Atk%"){
+        }else if(ptr->Substats[i].first==Stats::ATK_P){
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            ptr->Sub_Unit_ptr[j]->buffSingle({{"Atk%",AType::None,3.888*ptr->Substats[i].second}});
+            ptr->Sub_Unit_ptr[j]->buffSingle({{Stats::ATK_P,AType::None,3.888*ptr->Substats[i].second}});
             }
             
-        }else if(ptr->Substats[i].first=="Def%"){
+        }else if(ptr->Substats[i].first==Stats::DEF_P){
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            ptr->Sub_Unit_ptr[j]->buffSingle({{"Def%",AType::None,4.86*ptr->Substats[i].second}});
+            ptr->Sub_Unit_ptr[j]->buffSingle({{Stats::DEF_P,AType::None,4.86*ptr->Substats[i].second}});
             }
             
-        }else if(ptr->Substats[i].first==ST_BE){
+        }else if(ptr->Substats[i].first==Stats::BE){
             for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            ptr->Sub_Unit_ptr[j]->buffSingle({{ST_BE,AType::None,5.8*ptr->Substats[i].second}});
+            ptr->Sub_Unit_ptr[j]->buffSingle({{Stats::BE,AType::None,5.8*ptr->Substats[i].second}});
             }
         }
     }

@@ -64,7 +64,7 @@ void extendBuffTimeExcludingBuffer(string Buff_name,int Turn_extend,SubUnit *Buf
 
 void SubUnit::buffSingle(vector<BuffClass> buffSet){
     for(BuffClass &buff : buffSet){
-        if(buff.statsType==ST_FLAT_SPD||buff.statsType==ST_SPD_P)this->speedBuff(buff);
+        if(buff.statsType==Stats::FLAT_SPD||buff.statsType==Stats::SPD_P)this->speedBuff(buff);
         else this->Stats_type[buff.statsType][buff.actionType] += buff.value;
         if(buff.actionType==AType::None)StatsAdjust(this,buff.statsType);
     }
@@ -72,7 +72,7 @@ void SubUnit::buffSingle(vector<BuffClass> buffSet){
 void SubUnit::buffSingle(vector<BuffClass> buffSet,string buffName,int extend){
     if(this->isHaveToAddBuff(buffName,extend)){
         for(BuffClass &buff : buffSet){
-            if(buff.statsType==ST_FLAT_SPD||buff.statsType==ST_SPD_P)this->speedBuff(buff);
+            if(buff.statsType==Stats::FLAT_SPD||buff.statsType==Stats::SPD_P)this->speedBuff(buff);
             else this->Stats_type[buff.statsType][buff.actionType] += buff.value;
             if(buff.actionType==AType::None)StatsAdjust(this,buff.statsType);
         }

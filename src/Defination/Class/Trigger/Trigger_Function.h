@@ -57,8 +57,8 @@ class TriggerByAllyBuffAction_Func : public TriggerFunc{
 
 class TriggerByStats : public TriggerFunc{
     public:
-    function<void(SubUnit* Target, string StatsType)> Call;
-    TriggerByStats(int priority, function<void(SubUnit* Target, string StatsType)> Call) 
+    function<void(SubUnit* Target, Stats StatsType)> Call;
+    TriggerByStats(int priority, function<void(SubUnit* Target, Stats StatsType)> Call) 
     : TriggerFunc(priority), Call(Call) {}
 };
 

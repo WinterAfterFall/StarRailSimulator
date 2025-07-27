@@ -12,10 +12,10 @@ namespace Luocha{
         Ally *ptr = SetAllyBasicStats(101,100,100,E,ElementType::Imaginary,"Abundance","Luocha",TYPE_STD);
         ptr->SetAllyBaseStats(1280,756,363);
 
-        ptr->pushSubstats(ST_ATK_P);
+        ptr->pushSubstats(Stats::ATK_P);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(150);
-        ptr->setRelicMainStats(ST_HEALING_OUT,ST_FLAT_SPD,ST_ATK_P,ST_EnergyRecharge);
+        ptr->setRelicMainStats(Stats::HEALING_OUT,Stats::FLAT_SPD,Stats::ATK_P,Stats::ER);
 
         //func
         LC(ptr);
@@ -45,9 +45,9 @@ namespace Luocha{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type["Atk%"][AType::None] += 28;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Hp%"][AType::None] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type["Def%"][AType::None] += 12.5;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 28;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::HP_P][AType::None] += 18;
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DEF_P][AType::None] += 12.5;
 
             // relic
 
@@ -59,7 +59,7 @@ namespace Luocha{
             if (turn->Char_Name == "Luocha") {
                 if (Charptr->isBuffEnd("Cycle_of_Life")) {
                     if (ptr->Eidolon >= 1) {
-                        buffAllAlly({{ST_ATK_P,AType::None,-20}});
+                        buffAllAlly({{Stats::ATK_P,AType::None,-20}});
                     }
                     Charptr->setStack("Abyss_Flower",0);
                 }
@@ -99,7 +99,7 @@ namespace Luocha{
         if(ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"]==2){
             ptr->Sub_Unit_ptr[0]->extendBuffTime("Cycle _of_Life",2);
         if(ptr->Eidolon>=1){
-            buffAllAlly({{ST_ATK_P,AType::None,20}});
+            buffAllAlly({{Stats::ATK_P,AType::None,20}});
         }
         }
     }

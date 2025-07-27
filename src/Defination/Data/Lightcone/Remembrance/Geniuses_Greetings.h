@@ -6,12 +6,12 @@ namespace Remembrance_Lightcone{
             ptr->Light_cone.Name = "Geniuses_Greetings";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type["ATK%"][AType::None] += 12 + 4 * superimpose;
+                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 12 + 4 * superimpose;
             }));
 
             AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
                 if (act->isSameAction(ptr->getSubUnit(),AType::Ult)) {
-                    ptr->buffAlly({{ST_DMG,AType::BA,(15.0 + superimpose * 5)}},"Geniuses_Greetings",3);
+                    ptr->buffAlly({{Stats::DMG,AType::BA,(15.0 + superimpose * 5)}},"Geniuses_Greetings",3);
                 }
             }));
     
@@ -19,7 +19,7 @@ namespace Remembrance_Lightcone{
                 SubUnit *tempstats = dynamic_cast<SubUnit *>(turn->ptrToChar);
                 if (!tempstats) return;
                 if (ptr->getSubUnit()->isBuffEnd("Geniuses_Greetings")) {
-                    ptr->getSubUnit()->buffSingle({{ST_DMG,AType::BA,-(15.0 + superimpose * 5)}});
+                    ptr->getSubUnit()->buffSingle({{Stats::DMG,AType::BA,-(15.0 + superimpose * 5)}});
                 }
             }));
         };
