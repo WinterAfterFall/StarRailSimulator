@@ -38,30 +38,13 @@ void Setup(){
     sort(Hit_Count_List.begin(), Hit_Count_List.end(), TriggerFunc::Trigger_cmp);
     sort(AfterDealingDamage_List.begin(), AfterDealingDamage_List.end(), TriggerFunc::Trigger_cmp);
     
-    if(rerollSubstatsMode == TYPE_STD)rerollFunction = StandardReroll;
+    if(rerollSubstatsMode == SubstatsRerollMode::Standard)rerollFunction = StandardReroll;
     else
-    if(rerollSubstatsMode == "AllCombination")rerollFunction = AllCombinationReroll;
+    if(rerollSubstatsMode == SubstatsRerollMode::AllCombination)rerollFunction = AllCombinationReroll;
     else
-    if(rerollSubstatsMode == "AllPossible")rerollFunction = AllPossibleReroll;
+    if(rerollSubstatsMode == SubstatsRerollMode::AllPossible)rerollFunction = AllPossibleReroll;
     
     for(int i=1;i<=Total_ally;i++){
-        // Ally_unit[i]->Atk_flat[AType::None] = 0;
-        // Ally_unit[i]->Atk_percent[AType::None] = 0;
-        // Ally_unit[i]->Hp_flat[AType::None] = 0;
-        // Ally_unit[i]->Hp_percent[AType::None] = 0;
-        // Ally_unit[i]->Def_flat[AType::None] = 0;
-        // Ally_unit[i]->Def_percent[AType::None] = 0;
-        // Ally_unit[i]->Dmg_bonus[AType::None] = 0;
-        // Ally_unit[i]->Crit_rate[AType::None] = 0;
-        // Ally_unit[i]->Crit_dam[AType::None] = 0;
-        // Ally_unit[i]->Def_shred[AType::None] = 0;
-        // Ally_unit[i]->Respen[AType::None] = 0;
-        // Ally_unit[i]->Vul[AType::None] = 0;
-        // Ally_unit[i]->Break_effect[AType::None] = 0;
-        // Ally_unit[i]->Mitigation[AType::None] = 0;
-        // Ally_unit[i]->Weakness_Break_Efficiency[AType::None] = 0;
-        // Ally_unit[i]->Toughness_reduction[AType::None] = 0;
-
         Ally_unit[i]->StatsType_Compare_MAX_MIN.first = -1;
         Ally_unit[i]->StatsType_Compare_MAX_MIN.second = 1e9;
         Ally_unit[i]->TotalSubstats_Compare_MAX_MIN.first = -1;

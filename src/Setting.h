@@ -74,7 +74,7 @@ int Sp_Safety = 1;
 int Turn_priority = 0;
 double Enemy_effect_res =40;
 
-string rerollSubstatsMode = "Standard"; //Standard AllCombination AllPossible
+SubstatsRerollMode rerollSubstatsMode = SubstatsRerollMode::Standard; 
 function<bool(Ally *ptr)> rerollFunction;
 
 //-------- Trigger Function --------//

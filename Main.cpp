@@ -14,7 +14,7 @@ void SetValue(){
     Print_Atv = 1;
     bestBounce = 1;
     // golden ratio
-    rerollSubstatsMode = "Standard" ; //Standard AllCombination AllPossible
+    rerollSubstatsMode = SubstatsRerollMode::Standard;
 
 }
 void SetCharacterPtr(){
