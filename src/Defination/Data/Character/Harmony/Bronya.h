@@ -8,7 +8,7 @@ namespace Bronya{
     void Skill(Ally *ptr);
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(99,120,120,E,ElementType::Wind,"Harmony","Bronya",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(99,120,120,E,ElementType::Wind,Path::Harmony,"Bronya",TYPE_STD);
         SubUnit *Bronyaptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1242,582,534);
         //substats

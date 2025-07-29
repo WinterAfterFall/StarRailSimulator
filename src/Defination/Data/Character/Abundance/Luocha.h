@@ -9,7 +9,7 @@ namespace Luocha{
 
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(101,100,100,E,ElementType::Imaginary,"Abundance","Luocha",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(101,100,100,E,ElementType::Imaginary,Path::Abundance,"Luocha",TYPE_STD);
         ptr->SetAllyBaseStats(1280,756,363);
 
         ptr->pushSubstats(Stats::ATK_P);

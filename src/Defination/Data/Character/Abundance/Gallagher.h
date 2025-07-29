@@ -11,7 +11,7 @@ namespace Gallagher{
 
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(98,110,110,E,ElementType::Fire,"Abundance","Gallagher",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(98,110,110,E,ElementType::Fire,Path::Abundance,"Gallagher",TYPE_STD);
         ptr->SetAllyBaseStats(1305,529,441);
 
         //substats

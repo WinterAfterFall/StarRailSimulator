@@ -13,7 +13,7 @@ namespace The_Herta{
 
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(99,220,220,E,ElementType::Ice,"Erudition","The_Herta",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(99,220,220,E,ElementType::Ice,Path::Erudition,"The_Herta",TYPE_STD);
         SubUnit* Hertaptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1164,679,485);
 
@@ -85,8 +85,8 @@ namespace The_Herta{
             // substats
             int cnt = 0;
             for (int i = 1; i <= Total_ally; i++) {
-                for (auto e : Ally_unit[i]->Path) {
-                    if (e == "Erudition") cnt++;
+                for (auto e : Ally_unit[i]->path) {
+                    if (e == Path::Erudition) cnt++;
                 }
                 if (cnt >= 2) {
                     ptr->Sub_Unit_ptr[0]->Buff_check["Two_Erudition"] = 1;
@@ -128,8 +128,8 @@ namespace The_Herta{
             }
             bool Erudition_check = 0;
 
-            for(auto e : act->Attacker->ptrToChar->Path){
-                if(e == "Erudition") Erudition_check = 1;
+            for(auto e : act->Attacker->ptrToChar->path){
+                if(e == Path::Erudition) Erudition_check = 1;
             }
             for(auto e : act->targetList){
                 Apply_Herta_Stack(ptr, e, 1);

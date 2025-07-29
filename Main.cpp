@@ -5,7 +5,7 @@ Ally* Char2;
 Ally* Char3;
 Ally* Char4; 
 void SetValue(){
-    driverType = DriverType::None; //Swap_pull Always_pull Double_turn None
+    driverType = DriverType::None;
     spMode = SPMode::Negative;      
     //set unit
     

@@ -7,7 +7,7 @@ namespace Harmony_MC{
 
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally* ptr = SetAllyBasicStats( 105, 140, 140, E, ElementType::Imaginary, "Harmony", "Harmony_MC",TYPE_STD);
+        Ally* ptr = SetAllyBasicStats( 105, 140, 140, E, ElementType::Imaginary, Path::Harmony, "Harmony_MC",TYPE_STD);
         SubUnit *HMCptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1087, 446, 679);
         //substats

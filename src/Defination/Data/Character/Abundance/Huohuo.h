@@ -2,7 +2,7 @@
 
 namespace Huohuo{
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(98,140,140,E,ElementType::Wind,"Abundance","Huohuo",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(98,140,140,E,ElementType::Wind,Path::Abundance,"Huohuo",TYPE_STD);
         ptr->SetAllyBaseStats(1358,602,509);
 
         //substats

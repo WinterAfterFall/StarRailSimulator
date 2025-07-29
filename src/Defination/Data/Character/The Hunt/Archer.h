@@ -2,7 +2,7 @@
 
 namespace Archer{
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(105,220,220,E,ElementType::Quantum,"The Hunt","Archer",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(105,220,220,E,ElementType::Quantum,Path::Hunt,"Archer",TYPE_STD);
         ptr->SetAllyBaseStats(1164,621,485);
 
         //substats

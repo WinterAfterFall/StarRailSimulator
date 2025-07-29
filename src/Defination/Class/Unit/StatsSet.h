@@ -7,7 +7,7 @@ void Ally::SetAllyBaseStats(double BaseHp,double BaseAtk,double BaseDef){
         this->getSubUnit()->baseAtk +=BaseAtk;
         this->getSubUnit()->baseDef +=BaseDef;
 }
-Ally* SetAllyBasicStats(double BaseSpeed,double Max_Energy,double Ult_cost,int Eidolon,ElementType Element_type,string Path,string Name,string UnitType){
+Ally* SetAllyBasicStats(double BaseSpeed,double Max_Energy,double Ult_cost,int Eidolon,ElementType Element_type,Path path,string Name,string UnitType){
         Ally_unit.push_back(make_unique<Ally>());
         Total_ally++;
         int num = Total_ally;
@@ -16,13 +16,13 @@ Ally* SetAllyBasicStats(double BaseSpeed,double Max_Energy,double Ult_cost,int E
         Ally_unit[num]->Ult_cost = Ult_cost;
         Ally_unit[num]->Eidolon = Eidolon;
         Ally_unit[num]->Sub_Unit_ptr[0]->Element_type.push_back(Element_type);
-        Ally_unit[num]->Path.push_back(Path);
+        Ally_unit[num]->path.push_back(path);
         Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->num = num;
         Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Char_Name = Name;
         Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Unit_Name = Name;
         Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Side = "Ally";
         Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Type = UnitType;
-        Ally_unit[num]->Sub_Unit_ptr[0]->baseTaunt = tauntValueEachPath[Ally_unit[num]->Path[0]];
+        Ally_unit[num]->Sub_Unit_ptr[0]->baseTaunt = tauntValueEachPath[Ally_unit[num]->path[0]];
         return Ally_unit[num].get();
 }
 void SetMemoStats(Ally *ptr,double fixHP,double Hp_ratio,double fixSpeed,double Speed_ratio,ElementType Element_type,string Name,string UnitType){
@@ -45,7 +45,7 @@ void SetMemoStats(Ally *ptr,double fixHP,double Hp_ratio,double fixSpeed,double 
         ptr->Sub_Unit_ptr[num]->Atv_stats->Type = UnitType;
         ptr->Sub_Unit_ptr[num]->Atv_stats->ptrToChar = ptr->Sub_Unit_ptr[num].get();
         ptr->Sub_Unit_ptr[num]->ptrToChar = ptr;
-        ptr->Sub_Unit_ptr[num]->baseTaunt = tauntValueEachPath[ptr->Path[0]];
+        ptr->Sub_Unit_ptr[num]->baseTaunt = tauntValueEachPath[ptr->path[0]];
 
 }
 void SetCountdownStats(Ally *ptr,double BaseSpeed,string Name){

@@ -69,10 +69,10 @@ ElementType Enemy::weaknessApplyChoose(int extend){
     ElementType ans;
     for(int i=1;i<=Total_ally;i++){
         if(this->Weakness_type[Ally_unit[i]->getSubUnit()->Element_type[0]])continue;
-        if(Ally_unit[i]->Path[0]=="Harmony")weaknessPriority.push_back({Total_ally+4,Ally_unit[i]->getSubUnit()->Element_type[0]});
-        else if(Ally_unit[i]->Path[0]=="Nihility")weaknessPriority.push_back({Total_ally+1,Ally_unit[i]->getSubUnit()->Element_type[0]});
-        else if(Ally_unit[i]->Path[0]=="Abundance")weaknessPriority.push_back({Total_ally+3,Ally_unit[i]->getSubUnit()->Element_type[0]});
-        else if(Ally_unit[i]->Path[0]=="Preservation")weaknessPriority.push_back({Total_ally+2,Ally_unit[i]->getSubUnit()->Element_type[0]});
+        if(Ally_unit[i]->path[0]==Path::Harmony)weaknessPriority.push_back({Total_ally+4,Ally_unit[i]->getSubUnit()->Element_type[0]});
+        else if(Ally_unit[i]->path[0]==Path::Nihility)weaknessPriority.push_back({Total_ally+1,Ally_unit[i]->getSubUnit()->Element_type[0]});
+        else if(Ally_unit[i]->path[0]==Path::Abundance)weaknessPriority.push_back({Total_ally+3,Ally_unit[i]->getSubUnit()->Element_type[0]});
+        else if(Ally_unit[i]->path[0]==Path::Preservation)weaknessPriority.push_back({Total_ally+2,Ally_unit[i]->getSubUnit()->Element_type[0]});
         else weaknessPriority.push_back({i,Ally_unit[i]->getSubUnit()->Element_type[0]});
     }
     sort(weaknessPriority.begin(),weaknessPriority.end());

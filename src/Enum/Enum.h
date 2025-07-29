@@ -91,7 +91,7 @@ enum class HealSrcType {
     CONST
 };
 #pragma endregion
-enum BreakSEType{
+enum class BreakSEType{
             Bleed,
             Burn,
             Shock,
@@ -99,6 +99,17 @@ enum BreakSEType{
             Freeze,
             Entanglement,
             Imprisonment
+};
+
+enum class Path{
+    Destruction,
+    Hunt,
+    Erudition,
+    Harmony,
+    Nihility,
+    Preservation,
+    Abundance,
+    Remembrance
 };
 namespace std {
     template <>
@@ -118,6 +129,12 @@ namespace std {
     template <>
     struct hash<Stats> {
         std::size_t operator()(Stats sz) const noexcept {
+            return static_cast<std::size_t>(sz);
+        }
+    };
+    template <>
+    struct hash<Path> {
+        std::size_t operator()(Path sz) const noexcept {
             return static_cast<std::size_t>(sz);
         }
     };

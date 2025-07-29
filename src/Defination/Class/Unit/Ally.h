@@ -99,7 +99,7 @@ public:
     pair<double,double> TotalSubstats_Compare_MAX_MIN;
 
 
-    vector<string> Path ;//*
+    vector<Path> path ;//*
     //*
     vector<unique_ptr<Unit>> Summon_ptr;  //
     vector<unique_ptr<SubUnit>> Sub_Unit_ptr;  // 

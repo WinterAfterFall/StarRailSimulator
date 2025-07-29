@@ -6,7 +6,7 @@ namespace Sunday{
 
     bool ult_condition(Ally *ptr);
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(96, 130, 130, E, ElementType::Imaginary, "Harmony", "Sunday",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(96, 130, 130, E, ElementType::Imaginary, Path::Harmony, "Sunday",TYPE_STD);
         SubUnit *SDptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1242, 640, 533);
         ptr->pushSubstats(Stats::CD);

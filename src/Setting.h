@@ -41,15 +41,15 @@ unordered_map<ElementType, bool> Enemy_weak = {
         {ElementType::Physical, 1},
         {ElementType::Imaginary, 1}
 };
-unordered_map<std::string, double> tauntValueEachPath = {
-    {"Abundance", 100},
-    {"Preservation", 150},
-    {"Hunt", 75},
-    {"Erudition", 75},
-    {"Destruction", 125},
-    {"Harmony", 100},
-    {"Nihility", 100},
-    {"Remembrance", 100}
+unordered_map<Path, double> tauntValueEachPath = {
+    {Path::Abundance, 100},
+    {Path::Preservation, 150},
+    {Path::Hunt, 75},
+    {Path::Erudition, 75},
+    {Path::Destruction, 125},
+    {Path::Harmony, 100},
+    {Path::Nihility, 100},
+    {Path::Remembrance, 100}
 };
     
 ActionValueStats* turn = nullptr;

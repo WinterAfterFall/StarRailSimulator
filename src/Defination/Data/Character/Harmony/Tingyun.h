@@ -7,7 +7,7 @@ namespace Tingyun{
 
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr =  SetAllyBasicStats(112, 130, 130, E, ElementType::Lightning, "Harmony", "Tingyun",TYPE_STD);
+        Ally *ptr =  SetAllyBasicStats(112, 130, 130, E, ElementType::Lightning, Path::Harmony, "Tingyun",TYPE_STD);
         SubUnit *TYptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(847, 529, 397);
         ptr->Technique = 2;

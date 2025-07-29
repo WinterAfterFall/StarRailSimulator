@@ -12,7 +12,7 @@ namespace Aglaea{
 
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(102,350,350,E,ElementType::Lightning,"Remembrance","Aglaea",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(102,350,350,E,ElementType::Lightning,Path::Remembrance,"Aglaea",TYPE_STD);
         SubUnit *AGptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1242,699,485);
         LC(ptr);

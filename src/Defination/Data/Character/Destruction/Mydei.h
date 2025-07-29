@@ -14,7 +14,7 @@ namespace Mydei{
     double CalculateChargePoint(SubUnit *ptr,double Value);
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(95,160,160,E,ElementType::Imaginary,"Destruction","Mydei",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(95,160,160,E,ElementType::Imaginary,Path::Destruction,"Mydei",TYPE_STD);
         SubUnit *Mydeiptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1552,427,194);
 

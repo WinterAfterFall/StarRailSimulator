@@ -13,7 +13,7 @@ namespace  Anaxa{
 
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(97,140,140,E,ElementType::Wind,"Erudition","Anaxa",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(97,140,140,E,ElementType::Wind,Path::Erudition,"Anaxa",TYPE_STD);
         ptr->SetAllyBaseStats(970,757,558);
         SubUnit *Anaxaptr = ptr->getSubUnit();
 
@@ -101,7 +101,7 @@ namespace  Anaxa{
             if(!ptr->Adjust["AnaxaA4"]){
                 int cnt = 0;
                 for(int i=1; i<=Total_ally;i++){
-                    if(Ally_unit[i]->Path[0]=="Erudition")
+                    if(Ally_unit[i]->path[0]==Path::Erudition)
                     cnt++;
                     
                 }
