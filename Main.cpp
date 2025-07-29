@@ -6,7 +6,7 @@ Ally* Char3;
 Ally* Char4; 
 void SetValue(){
     driverType = DriverType::None; //Swap_pull Always_pull Double_turn None
-    spMode ="Negative"; //Positive Negative       
+    spMode = SPMode::Negative;      
     //set unit
     
     Wave[0] = 800;

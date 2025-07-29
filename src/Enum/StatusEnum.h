@@ -4,3 +4,7 @@ enum class DriverType{
     AlwaysPull,
     SwapPull,
 };
+enum class SPMode{
+    Positive,
+    Negative
+};

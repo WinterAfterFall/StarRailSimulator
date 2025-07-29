@@ -35,7 +35,7 @@ namespace The_Herta{
 
             if (Enchance_Skill_Condition(ptr)) {
                 return;
-            } else if (sp > Sp_Safety || spMode == "Positive") {
+            } else if (sp > Sp_Safety || spMode == SPMode::Positive) {
                 Skill(ptr);
             } else {
                 Basic_Atk(ptr);
