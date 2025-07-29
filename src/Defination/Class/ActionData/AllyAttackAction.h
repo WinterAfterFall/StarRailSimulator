@@ -227,7 +227,7 @@ class AllyAttackAction : public AllyActionData {
     void addDamageIns(DmgSrc main){
             damageSplit.emplace_back();
             for(int i = 1;i<= Total_enemy;i++){
-                if(Enemy_unit[i]->Target_type == "Main"){
+                if(Enemy_unit[i]->Target_type == EnemyType::Main){
                     damageSplit.back().emplace_back(main, Enemy_unit[i].get());
                     break;
                 }
@@ -247,9 +247,9 @@ class AllyAttackAction : public AllyActionData {
     void addDamageIns(DmgSrc main,DmgSrc adjacent){
             damageSplit.emplace_back();
             for(int i = 1;i<= Total_enemy;i++){
-                if(Enemy_unit[i]->Target_type == "Main")
+                if(Enemy_unit[i]->Target_type == EnemyType::Main)
                     damageSplit.back().emplace_back(main, Enemy_unit[i].get());
-                else if(Enemy_unit[i]->Target_type == "Adjacent")
+                else if(Enemy_unit[i]->Target_type == EnemyType::Adjacent)
                     damageSplit.back().emplace_back(adjacent, Enemy_unit[i].get());
             }
 
@@ -270,9 +270,9 @@ class AllyAttackAction : public AllyActionData {
     void addDamageIns(DmgSrc main,DmgSrc adjacent,DmgSrc other){
             damageSplit.emplace_back();
             for(int i = 1;i<= Total_enemy;i++){
-                if(Enemy_unit[i]->Target_type == "Main")
+                if(Enemy_unit[i]->Target_type == EnemyType::Main)
                     damageSplit.back().emplace_back(main, Enemy_unit[i].get());
-                else if(Enemy_unit[i]->Target_type == "Adjacent")
+                else if(Enemy_unit[i]->Target_type == EnemyType::Adjacent)
                     damageSplit.back().emplace_back(adjacent, Enemy_unit[i].get());
                 else
                     damageSplit.back().emplace_back(other, Enemy_unit[i].get());
@@ -368,7 +368,7 @@ class AllyAttackAction : public AllyActionData {
     }
     void addEnemyBounce(DmgSrc ins,int amount){
         for(int i = 1;i<= Total_enemy&&i<= amount;i++){
-                if(Enemy_unit[i]->Target_type == "Main"||(Enemy_unit[i]->Target_type == "Adjacent"&&!bestBounce))
+                if(Enemy_unit[i]->Target_type == EnemyType::Main||(Enemy_unit[i]->Target_type == EnemyType::Adjacent&&!bestBounce))
                     this->targetList.push_back(Enemy_unit[i].get());
         }
         for(int i = 0;i< amount;i++){

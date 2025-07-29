@@ -122,6 +122,11 @@ enum class UnitType{
     Standard,
     Backup
 };
+enum class EnemyType{
+    Main,
+    Adjacent,
+    Other
+};
 namespace std {
     template <>
     struct hash<AType> {

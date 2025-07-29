@@ -113,17 +113,17 @@ int main(){
     
     
     // EnemyCmd::setEnemyWeakness(0,1,0,1,0,1,0);
-    SetupEnemy(158,160,{10,15},{200,300},{4,6},2,"Main");
-    SetupEnemy(158,160,{10,10},{200,300},{4,6},2,"Adjacent");
-    SetupEnemy(158,80,{0,0},{200,200},{2,3},1,"Adjacent");  
-    SetupEnemy(130,80,{0,0},{0,0},{2,0},1,"Other");
-    SetupEnemy(130,80,{0,0},{0,0},{2,0},1,"Other");
+    SetupEnemy(158,160,{10,15},{200,300},{4,6},2,EnemyType::Main);
+    SetupEnemy(158,160,{10,10},{200,300},{4,6},2,EnemyType::Adjacent);
+    SetupEnemy(158,80,{0,0},{200,200},{2,3},1,EnemyType::Adjacent);  
+    SetupEnemy(130,80,{0,0},{0,0},{2,0},1,EnemyType::Other);
+    SetupEnemy(130,80,{0,0},{0,0},{2,0},1,EnemyType::Other);
     
     
     
     
-    // SetupEnemy(4,130,0,90,0.0,0,"Other");
-    // SetupEnemy(5,120,0,90,0.0,0,"Other");
+    // SetupEnemy(4,130,0,90,0.0,0,EnemyType::Other);
+    // SetupEnemy(5,120,0,90,0.0,0,EnemyType::Other);
     
     Setup();
     

@@ -207,7 +207,7 @@
 //             int sz3 = act.Damage_spilt.Other.size();
 //             for(int i=1;i<=Total_enemy;i++){
 
-//             if(Enemy_unit[i]->stats->Target_type=="Main"){
+//             if(Enemy_unit[i]->stats->Target_type==EnemyType::Main){
 //                 Apply_debuff(Ally_unit[Main_dps_num].get(),Enemy_unit[i].get());
 //                 Enemy_unit[i]->stats->Debuff_time_count["Torrid_Scorch"]=Enemy_unit[i]->Atv_stats->turn_cnt+2;
 //                 if(Enemy_unit[i]->stats->Debuff["Torrid_Scorch"]==1)continue;
@@ -216,7 +216,7 @@
 //                 Enemy_unit[i]->Def_shred[AType::None]+=18;
 //             }
             
-//             if(0<sz2 && Enemy_unit[i]->stats->Target_type=="Adjacent"){
+//             if(0<sz2 && Enemy_unit[i]->stats->Target_type==EnemyType::Adjacent){
 //                 Apply_debuff(Ally_unit[Main_dps_num].get(),Enemy_unit[i].get());
 //                 Enemy_unit[i]->stats->Debuff_time_count["Torrid_Scorch"]=Enemy_unit[i]->Atv_stats->turn_cnt+2;
 //                 if(Enemy_unit[i]->stats->Debuff["Torrid_Scorch"]==1)continue;
@@ -225,7 +225,7 @@
 //                 Enemy_unit[i]->Def_shred[AType::None]+=18;
 //             }
             
-//             if(0<sz3 && Enemy_unit[i]->stats->Target_type=="Other"){
+//             if(0<sz3 && Enemy_unit[i]->stats->Target_type==EnemyType::Other){
 //                 Apply_debuff(Ally_unit[Main_dps_num].get(),Enemy_unit[i].get());
 //                 Enemy_unit[i]->stats->Debuff_time_count["Torrid_Scorch"]=Enemy_unit[i]->Atv_stats->turn_cnt+2;
 //                 if(Enemy_unit[i]->stats->Debuff["Torrid_Scorch"]==1)continue;

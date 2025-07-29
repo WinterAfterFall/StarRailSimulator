@@ -182,7 +182,7 @@ namespace Cipher{
             
             AfterDealingDamage_List.push_back(TriggerAfterDealDamage(PRIORITY_ACTTACK,[ptr,cph](
                 shared_ptr<AllyAttackAction> &act, Enemy *src, double damage){
-                    double percent = (src->Target_type == "Main")
+                    double percent = (src->Target_type == EnemyType::Main)
                     ? (12 * (1 + 0.5 * ptr->Adjust["Cipher A2"]))
                     : (8 * (1 + 0.5 * ptr->Adjust["Cipher A2"]));
                     

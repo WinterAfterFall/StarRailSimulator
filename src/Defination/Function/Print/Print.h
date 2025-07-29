@@ -186,7 +186,7 @@ void printSummaryResult(){
     for(int i=1;i<=Total_enemy;i++){
         double totaldamage = 0;
         cout<< "\033[1;4;38;5;9m"; // Reset text color
-        cout<<Enemy_unit[i]->Atv_stats->Char_Name<<" "<<Enemy_unit[i]->Atv_stats->num<<" "<<Enemy_unit[i]->Target_type<<endl;
+        cout<<Enemy_unit[i]->Atv_stats->Char_Name<<endl;
         
         cout<<"\033[1;4;38;5;2m"<<"Total : "<<setw(10)<<static_cast<long long>(Enemy_unit[i]->totalDmgRecord)
         <<" | "<<" Average per ATV : "<<setw(5)<<static_cast<long long>(Enemy_unit[i]->avgDmgRecord)<<endl;

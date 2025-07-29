@@ -52,7 +52,7 @@ public:
     double Current_toughness;
     bool Toughness_status = 1;
     double toughnessAvgMultiplier = 0;
-    string Target_type = "";//*
+    EnemyType Target_type;//*
     unordered_map<string,double> AttackCoolDown;
     int AoeCharge = 0;
     vector<SubUnit*> tauntList;

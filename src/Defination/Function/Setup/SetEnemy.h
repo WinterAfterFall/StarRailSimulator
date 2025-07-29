@@ -1,6 +1,6 @@
 #include "../include.h"
 
-Enemy* createNewEnemy(double speed,double Toughness,string type){
+Enemy* createNewEnemy(double speed,double Toughness,EnemyType type){
     Total_enemy++; 
     int num = Total_enemy;
     Enemy_unit.push_back(make_unique<Enemy>());
@@ -15,7 +15,7 @@ Enemy* createNewEnemy(double speed,double Toughness,string type){
     Enemy_unit[num]->Atv_stats->ptrToChar = Enemy_unit[num].get();
     return Enemy_unit[num].get();
 }
-void SetupEnemy(double speed,double Toughness,pair<double,double> energy,pair<double,double> skillRatio,pair<int,int> attackCooldown,int action,string type){    
+void SetupEnemy(double speed,double Toughness,pair<double,double> energy,pair<double,double> skillRatio,pair<int,int> attackCooldown,int action,EnemyType type){    
     Enemy *enemyPtr = createNewEnemy(speed,Toughness,type);
     // Define the lambda function for Turn_func
     enemyPtr->Turn_func = [enemyPtr,AoeStart = attackCooldown.first,AoeCoolDown = attackCooldown.second

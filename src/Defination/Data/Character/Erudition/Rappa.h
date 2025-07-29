@@ -148,7 +148,7 @@ namespace Rappa{
                 for (int i = 1; i <= Total_enemy; i++) {
                     double temp;
                    
-                    if (Enemy_unit[i]->Target_type == "Main") {
+                    if (Enemy_unit[i]->Target_type == EnemyType::Main) {
                         temp = 2;
                         Cal_Break_damage(act, Enemy_unit[i].get(), temp);
                     } else {
