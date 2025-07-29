@@ -32,11 +32,11 @@ namespace Robin{
         };
         
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Robinptr](){
-            if(Driver_Type=="Double_turn"){
+            if(driverType==DriverType::DoubleTurn){
                 if(Double_Turn(ptr))return;
-            }else if(Driver_Type=="Swap_pull"){
+            }else if(driverType==DriverType::SwapPull){
                 //if(Ally_unit[Driver_num]->Atv_stats->atv <= Ally_unit[Main_dps_num]->Atv_stats->atv &&Ally_unit[Main_dps_num]->Sub_Unit_ptr[0]->Summon_ptr==nullptr)return;
-            }else if(Driver_Type=="Always_pull"){
+            }else if(driverType==DriverType::AlwaysPull){
                 // if(Ally_unit[Driver_num]->Atv_stats->Name=="Hanabi"){
                 //     if(Ally_unit[Driver_num]->Atv_stats->atv <= Ally_unit[Main_dps_num]->Atv_stats->atv)return;
                 // }

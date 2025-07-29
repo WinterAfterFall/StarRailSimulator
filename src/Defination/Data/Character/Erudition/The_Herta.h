@@ -35,7 +35,7 @@ namespace The_Herta{
 
             if (Enchance_Skill_Condition(ptr)) {
                 return;
-            } else if (sp > Sp_Safety || Sp_status == "Positive") {
+            } else if (sp > Sp_Safety || spMode == "Positive") {
                 Skill(ptr);
             } else {
                 Basic_Atk(ptr);
@@ -169,7 +169,7 @@ namespace The_Herta{
         return true;
     }
     bool Enchance_Skill_Condition(Ally *ptr){
-        if(ptr->Eidolon>=2&&Driver_Type=="Double_turn"&&Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->Max_atv < ptr->Sub_Unit_ptr[0]->Atv_stats->Max_atv&&ptr->Sub_Unit_ptr[0]->Atv_stats->Max_atv*0.65<Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv){
+        if(ptr->Eidolon>=2&&driverType==DriverType::DoubleTurn&&Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->Max_atv < ptr->Sub_Unit_ptr[0]->Atv_stats->Max_atv&&ptr->Sub_Unit_ptr[0]->Atv_stats->Max_atv*0.65<Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv){
             if(ptr->Current_energy>=190&&(CharCmd::Using_Skill(ptr)||ptr->Current_energy<200)){
                 if(ptr->Sub_Unit_ptr[0]->Buff_note["The_Herta_Skill_Enchance"]>0){
                     Enchance_Skill(ptr);

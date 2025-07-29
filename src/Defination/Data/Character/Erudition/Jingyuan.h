@@ -31,7 +31,7 @@ namespace Jingyuan{
         Relic(ptr);
         Planar(ptr);
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
-            if ((sp <= Sp_Safety) || allyPtr->Atv_stats->turnCnt == 1 && Sp_status == "Negative") {
+            if ((sp <= Sp_Safety) || allyPtr->Atv_stats->turnCnt == 1 && spMode == "Negative") {
                 Basic_Atk(ptr);
             } else {
                 Skill(ptr);

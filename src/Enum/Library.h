@@ -3,5 +3,5 @@
 
 #include "Enum.h"
 #include "RelicEnum.h"
-
+#include "StatusEnum.h"
 #endif

@@ -9,7 +9,7 @@ bool SuperBreak__Mode = 0;
 int Main_dps_num = 1;
 int Driver_num = 0;
 int HealerNum = 0;
-string Sp_status ="Positive"; //Positive Negative       
+string spMode ="Positive"; //Positive Negative       
 int Main_Enemy_num = 1;
 int Adjacent_Enemy_num[2] = {2,3};
 int Other_Enemy_num[2] = {4,5}; 
@@ -20,7 +20,7 @@ int Total_ally = 0;
 int Total_enemy = 0;
 int Force_break = 1;
 
-string Driver_Type = "Double_turn"; //Swap_pull Always_pull Double_turn None
+DriverType driverType  = DriverType::None;
 vector<unique_ptr<Ally>> Ally_unit(1);
 vector<unique_ptr<Enemy>> Enemy_unit(1);
 unordered_map<ElementType, double> Enemy_res = {
