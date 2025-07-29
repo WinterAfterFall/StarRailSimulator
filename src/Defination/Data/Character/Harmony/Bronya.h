@@ -44,7 +44,7 @@ namespace Bronya{
                 }
 
                 //ดักในกรณีที่บัพในเทิร์นตัวละครอื่น
-                if(Situation == "Before Turn" && (turn->Side == "Memosprite" || turn->Side == "Ally")){
+                if(phaseStatus == PhaseStatus::BeforeTurn && (turn->Side == "Memosprite" || turn->Side == "Ally")){
                     SubUnit *temp = dynamic_cast<SubUnit*>(turn->ptrToChar);
                     temp->extendBuffTime("Bronya_Ult",1);
                 }

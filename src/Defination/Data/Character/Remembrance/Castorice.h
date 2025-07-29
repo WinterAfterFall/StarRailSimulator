@@ -396,7 +396,7 @@ namespace Castorice{
         ptr->ultCondition.push_back([ptr, target]() -> bool {
             if(target->getSubUnit()->Atv_stats->atv>=10000/165)return true;
             // if(target->getSubUnit()->Atv_stats->atv>=10)return true;
-            if(turn->isSameUnit(target->getSubUnit())&&Situation == "Before Turn")return true;
+            if(turn->isSameUnit(target->getSubUnit())&&phaseStatus == PhaseStatus::BeforeTurn)return true;
             return false;
         });
     } 

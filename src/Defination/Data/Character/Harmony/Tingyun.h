@@ -48,7 +48,7 @@ namespace Tingyun{
                 if (ptr->Eidolon >= 1)
                 chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{Stats::SPD_P,AType::None,20}},"Windfall_of_Lucky_Springs",1);
                 
-                if (turn->Char_Name == Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[0]->Atv_stats->Char_Name && Situation == "Before Turn")
+                if (turn->Char_Name == Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[0]->Atv_stats->Char_Name && phaseStatus == PhaseStatus::BeforeTurn)
                 chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{Stats::DMG,AType::None,56}},"Rejoicing_Clouds",1);
                 else
                 chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{Stats::DMG,AType::None,56}},"Rejoicing_Clouds",2);

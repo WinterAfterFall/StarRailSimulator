@@ -256,7 +256,7 @@ namespace Saber{
     void UltInTurnOnly(){
         Ally *ally = CharCmd::findAllyName("Saber");
         ally->addUltCondition([ally]() -> bool {
-            if(turn->isSameUnitName("Saber")&&Situation == "Before Turn")return true;
+            if(turn->isSameUnitName("Saber")&&phaseStatus == PhaseStatus::BeforeTurn)return true;
             return false;
         });
     }

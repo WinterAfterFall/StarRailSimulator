@@ -61,7 +61,7 @@ namespace Huohuo{
         };
         
         ptr->addUltCondition([ptr,hh]() -> bool {
-            if(Situation == "Before Turn"&&turn->isSameChar(chooseSubUnitBuff(hh)))return true;
+            if(phaseStatus == PhaseStatus::BeforeTurn&&turn->isSameChar(chooseSubUnitBuff(hh)))return true;
             return false;
         });
 

@@ -2,7 +2,7 @@
 
 void Take_action(){
     
-    Situation = "Before Turn";
+    phaseStatus = PhaseStatus::BeforeTurn;
     After_Turn_Check = 0;
     if(!turn->extraTurn){
         ++(turn->turnCnt);
@@ -18,7 +18,7 @@ void Take_action(){
         Deal_damage();
     }
     
-    Situation = "After Turn";
+    phaseStatus = PhaseStatus::AfterTurn;
     
     
     allUltimateCheck();
@@ -33,8 +33,7 @@ void Deal_damage(){
     actionBarUse = true;
     while(!Action_bar.empty()){
         shared_ptr<ActionData> temp = Action_bar.front();
-        Situation = "While Action";
-        if(turn)allUltimateCheck();
+        phaseStatus = PhaseStatus::WhileAction;
         allEventBeforeAction(temp);
         if (auto allyActionData = dynamic_pointer_cast<AllyActionData>(temp)) {
             allEventWhenAllyAction(allyActionData);
@@ -43,6 +42,7 @@ void Deal_damage(){
             enemyActionData->EnemyAction();
         }
         allEventAfterAction(temp);
+        if(turn)allUltimateCheck();
         Action_bar.pop();
     }
     actionBarUse = false;
