@@ -5,7 +5,7 @@ namespace Pela{
     void Basic_Atk(Ally *ptr);
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(105,110,110,E,ElementType::Ice,Path::Nihility,"Pela",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(105,110,110,E,ElementType::Ice,Path::Nihility,"Pela",UnitType::Standard);
         ptr->SetAllyBaseStats(1087,660,509);
 
         //substats

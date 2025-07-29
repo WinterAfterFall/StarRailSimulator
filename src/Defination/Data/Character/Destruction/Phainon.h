@@ -2,7 +2,7 @@
 
 namespace Phainon{
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(94,0,0,E,ElementType::Physical,Path::Destruction,"Phainon",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(94,0,0,E,ElementType::Physical,Path::Destruction,"Phainon",UnitType::Standard);
         ptr->SetAllyBaseStats(1436,582,703);
         LC(ptr);
         Relic(ptr);

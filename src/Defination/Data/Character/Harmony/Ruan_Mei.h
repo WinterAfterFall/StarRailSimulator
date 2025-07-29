@@ -6,7 +6,7 @@ namespace Ruan_Mei{
     void Skill_func(Ally *ptr);
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(104, 130, 130, E, ElementType::Ice, Path::Harmony, "Ruan_Mei",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(104, 130, 130, E, ElementType::Ice, Path::Harmony, "Ruan_Mei",UnitType::Standard);
         SubUnit *RMptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1087, 660, 485);
         //func

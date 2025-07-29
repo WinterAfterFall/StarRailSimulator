@@ -69,7 +69,7 @@ public:
     Side getSide(){
         return Atv_stats->side;
     }
-    string getType(){
+    UnitType getType(){
         return Atv_stats->Type;
     }
     int getPriority(){
@@ -110,7 +110,7 @@ public:
     void setSide(Side Side) {
         Atv_stats->side = Side;
     }
-    void setType(string Type) {
+    void setType(UnitType Type) {
         Atv_stats->Type = Type;
     }
     void setPriority(int priority) {

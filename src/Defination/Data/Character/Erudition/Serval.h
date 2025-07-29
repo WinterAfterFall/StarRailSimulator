@@ -13,7 +13,7 @@ namespace Serval{
     bool Use_Skill();
     
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(104,100,100,E,ElementType::Lightning,Path::Erudition,"Serval",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(104,100,100,E,ElementType::Lightning,Path::Erudition,"Serval",UnitType::Standard);
         SubUnit *Servalptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(917,653,375);
         //substats

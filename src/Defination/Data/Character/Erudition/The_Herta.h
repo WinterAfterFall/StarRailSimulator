@@ -13,7 +13,7 @@ namespace The_Herta{
 
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(99,220,220,E,ElementType::Ice,Path::Erudition,"The_Herta",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(99,220,220,E,ElementType::Ice,Path::Erudition,"The_Herta",UnitType::Standard);
         SubUnit* Hertaptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1164,679,485);
 

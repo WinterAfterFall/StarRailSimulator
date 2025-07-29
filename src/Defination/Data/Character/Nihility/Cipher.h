@@ -4,7 +4,7 @@ namespace Cipher{
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(105,130,130,E,ElementType::Quantum,Path::Nihility,"Cipher",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(105,130,130,E,ElementType::Quantum,Path::Nihility,"Cipher",UnitType::Standard);
         ptr->SetAllyBaseStats(1087,660,509);
 
         //func

@@ -15,7 +15,7 @@ namespace Jade{
 
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(103,140,140,E,ElementType::Quantum,Path::Erudition,"Jade",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(103,140,140,E,ElementType::Quantum,Path::Erudition,"Jade",UnitType::Standard);
         ptr->SetAllyBaseStats(1087,660,509);
 
         //substats

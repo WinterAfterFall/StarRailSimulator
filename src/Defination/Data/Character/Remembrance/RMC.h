@@ -11,12 +11,12 @@ namespace RMC{
 
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(103,160,160,E,ElementType::Ice,Path::Remembrance,"RMC",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(103,160,160,E,ElementType::Ice,Path::Remembrance,"RMC",UnitType::Standard);
         ptr->SetAllyBaseStats(1048,543,631);
         LC(ptr);
         Relic(ptr);
         Planar(ptr);
-        SetMemoStats(ptr,688,68,130,0,ElementType::Ice,"Mem",TYPE_STD);
+        SetMemoStats(ptr,688,68,130,0,ElementType::Ice,"Mem",UnitType::Standard);
         
         SubUnit *RMCptr = ptr->getSubUnit();
         SubUnit *Memptr = ptr->getSubUnit(1);

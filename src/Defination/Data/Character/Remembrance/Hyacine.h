@@ -13,12 +13,12 @@ namespace Hyacine{
 
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(110,140,140,E,ElementType::Wind,Path::Remembrance,"Hyacine",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(110,140,140,E,ElementType::Wind,Path::Remembrance,"Hyacine",UnitType::Standard);
         ptr->SetAllyBaseStats(1087,388,631);
         LC(ptr);
         Relic(ptr);
         Planar(ptr);
-        SetMemoStats(ptr,0,50,0,0,ElementType::Wind,"Little Ica",TYPE_STD);
+        SetMemoStats(ptr,0,50,0,0,ElementType::Wind,"Little Ica",UnitType::Standard);
         
         SubUnit *Hycptr = ptr->getSubUnit();
         SubUnit *Icaptr = ptr->getSubUnit(1);

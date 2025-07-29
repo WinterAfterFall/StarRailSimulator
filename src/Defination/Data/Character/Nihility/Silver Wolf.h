@@ -4,7 +4,7 @@ namespace SW{
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(107,110,110,E,ElementType::Quantum,Path::Nihility,"SW",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(107,110,110,E,ElementType::Quantum,Path::Nihility,"SW",UnitType::Standard);
         ptr->SetAllyBaseStats(1048,640,461);
 
         //substats

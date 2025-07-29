@@ -17,7 +17,7 @@ public:
     int turnCnt = 0;
     int num = 0;
     Side side;//Memosprite Ally Summon
-    string Type;
+    UnitType Type;
     int priority = 0;
     string Char_Name;
     string Unit_Name;//ชื่อเจ้าของเทิร์น
@@ -49,7 +49,7 @@ public:
     Side getSide(){
         return side;
     }
-    string getType(){
+    UnitType getType(){
         return Type;
     }
     int getPriority(){
@@ -91,7 +91,7 @@ public:
     void setSide(Side side) {
         this->side = side;
     }
-    void setType(string Type) {
+    void setType(UnitType Type) {
         this->Type = Type;
     }
     void setPriority(int priority) {

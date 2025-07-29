@@ -7,7 +7,7 @@ void Ally::SetAllyBaseStats(double BaseHp,double BaseAtk,double BaseDef){
         this->getSubUnit()->baseAtk +=BaseAtk;
         this->getSubUnit()->baseDef +=BaseDef;
 }
-Ally* SetAllyBasicStats(double BaseSpeed,double Max_Energy,double Ult_cost,int Eidolon,ElementType Element_type,Path path,string Name,string UnitType){
+Ally* SetAllyBasicStats(double BaseSpeed,double Max_Energy,double Ult_cost,int Eidolon,ElementType Element_type,Path path,string Name,UnitType unitType){
         Ally_unit.push_back(make_unique<Ally>());
         Total_ally++;
         int num = Total_ally;
@@ -21,11 +21,11 @@ Ally* SetAllyBasicStats(double BaseSpeed,double Max_Energy,double Ult_cost,int E
         Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Char_Name = Name;
         Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Unit_Name = Name;
         Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->side = Side::Ally;
-        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Type = UnitType;
+        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Type = unitType;
         Ally_unit[num]->Sub_Unit_ptr[0]->baseTaunt = tauntValueEachPath[Ally_unit[num]->path[0]];
         return Ally_unit[num].get();
 }
-void SetMemoStats(Ally *ptr,double fixHP,double Hp_ratio,double fixSpeed,double Speed_ratio,ElementType Element_type,string Name,string UnitType){
+void SetMemoStats(Ally *ptr,double fixHP,double Hp_ratio,double fixSpeed,double Speed_ratio,ElementType Element_type,string Name,UnitType unitType){
         int num = ptr->Sub_Unit_ptr.size();
         int Num = ptr->Sub_Unit_ptr[0]->Atv_stats->num;
         
@@ -42,7 +42,7 @@ void SetMemoStats(Ally *ptr,double fixHP,double Hp_ratio,double fixSpeed,double 
         ptr->Sub_Unit_ptr[num]->Atv_stats->Char_Name = Name;
         ptr->Sub_Unit_ptr[num]->Atv_stats->Unit_Name = Name;
         ptr->Sub_Unit_ptr[num]->Atv_stats->side = Side::Memosprite;
-        ptr->Sub_Unit_ptr[num]->Atv_stats->Type = UnitType;
+        ptr->Sub_Unit_ptr[num]->Atv_stats->Type = unitType;
         ptr->Sub_Unit_ptr[num]->Atv_stats->ptrToChar = ptr->Sub_Unit_ptr[num].get();
         ptr->Sub_Unit_ptr[num]->ptrToChar = ptr;
         ptr->Sub_Unit_ptr[num]->baseTaunt = tauntValueEachPath[ptr->path[0]];

@@ -119,7 +119,8 @@ enum class Side{
     Countdown,
 };
 enum class UnitType{
-    Enemy,
+    Standard,
+    Backup
 };
 namespace std {
     template <>

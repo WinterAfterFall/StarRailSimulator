@@ -71,8 +71,8 @@
 #pragma endregion
 #pragma region Type
 
-#define TYPE_STD "Standard"
-#define ALLYTYPE_BACKUP "Backup"
+// #define UnitType::Standard "Standard"
+// #define UnitType::Backup "Backup"
 
 #pragma endregion
 

@@ -11,8 +11,8 @@ namespace Castorice{
     void DriverCondition(Ally *ptr, Ally *target);
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
 
-        Ally *ptr = SetAllyBasicStats(95,0,0,E,ElementType::Quantum,Path::Remembrance,"Castorice",TYPE_STD);
-        SetMemoStats(ptr,34000,0,165,0,ElementType::Quantum,"Netherwing",ALLYTYPE_BACKUP);
+        Ally *ptr = SetAllyBasicStats(95,0,0,E,ElementType::Quantum,Path::Remembrance,"Castorice",UnitType::Standard);
+        SetMemoStats(ptr,34000,0,165,0,ElementType::Quantum,"Netherwing",UnitType::Backup);
         SubUnit *Casptr = ptr->getSubUnit();
         SubUnit *Polluxptr = ptr->getSubUnit(1);
         LC(ptr);

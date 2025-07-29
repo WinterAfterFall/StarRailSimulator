@@ -2,7 +2,7 @@
 
 namespace Saber{
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(101,360,360,E,ElementType::Wind,Path::Destruction,"Saber",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(101,360,360,E,ElementType::Wind,Path::Destruction,"Saber",UnitType::Standard);
         ptr->SetAllyBaseStats(1242,602,655);
 
         //substats

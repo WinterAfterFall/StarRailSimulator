@@ -2,7 +2,7 @@
 
 namespace Hanabi{
      void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(101,110,110,E,ElementType::Quantum,Path::Harmony,"Hanabi",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(101,110,110,E,ElementType::Quantum,Path::Harmony,"Hanabi",UnitType::Standard);
         ptr->SetAllyBaseStats(1397,524,485);
 
         //substats

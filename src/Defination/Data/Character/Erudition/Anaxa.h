@@ -13,7 +13,7 @@ namespace  Anaxa{
 
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(97,140,140,E,ElementType::Wind,Path::Erudition,"Anaxa",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(97,140,140,E,ElementType::Wind,Path::Erudition,"Anaxa",UnitType::Standard);
         ptr->SetAllyBaseStats(970,757,558);
         SubUnit *Anaxaptr = ptr->getSubUnit();
 

@@ -11,7 +11,7 @@ namespace Robin{
     
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(102, 160, 160, E, ElementType::Physical, Path::Harmony, "Robin",TYPE_STD);
+        Ally *ptr = SetAllyBasicStats(102, 160, 160, E, ElementType::Physical, Path::Harmony, "Robin",UnitType::Standard);
         SubUnit *Robinptr = ptr->getSubUnit();
         ptr->SetAllyBaseStats(1280, 640, 485);
         ptr->pushSubstats(Stats::ATK_P);
