@@ -73,7 +73,7 @@ namespace Pela{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            if (turn->Side == "Enemy") {
+            if (turn->side == Side::Enemy) {
                 if (Enemy_unit[turn->num]->Debuff_time_count["Zone_Suppression"] == Enemy_unit[turn->num]->Atv_stats->turnCnt) {
                     Enemy_unit[turn->num]->Debuff["Zone_Suppression"] = 0;
                     Enemy_unit[turn->num]->Stats_type[Stats::DEF_SHRED][AType::None] -= 42;

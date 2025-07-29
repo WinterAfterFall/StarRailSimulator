@@ -81,7 +81,7 @@ namespace Serval{
                     ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] -= 20;
                 }
             }
-            if (turn->Side == "Enemy") {
+            if (turn->side == Side::Enemy) {
                 Enemy *tempstats = dynamic_cast<Enemy*>(turn->ptrToChar);
                 if (tempstats) {
                     if (tempstats->isDebuffEnd("Serval_Shock")) {

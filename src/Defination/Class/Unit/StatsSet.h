@@ -20,7 +20,7 @@ Ally* SetAllyBasicStats(double BaseSpeed,double Max_Energy,double Ult_cost,int E
         Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->num = num;
         Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Char_Name = Name;
         Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Unit_Name = Name;
-        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Side = "Ally";
+        Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->side = Side::Ally;
         Ally_unit[num]->Sub_Unit_ptr[0]->Atv_stats->Type = UnitType;
         Ally_unit[num]->Sub_Unit_ptr[0]->baseTaunt = tauntValueEachPath[Ally_unit[num]->path[0]];
         return Ally_unit[num].get();
@@ -41,7 +41,7 @@ void SetMemoStats(Ally *ptr,double fixHP,double Hp_ratio,double fixSpeed,double 
         ptr->Sub_Unit_ptr[num]->Atv_stats->num = Num;
         ptr->Sub_Unit_ptr[num]->Atv_stats->Char_Name = Name;
         ptr->Sub_Unit_ptr[num]->Atv_stats->Unit_Name = Name;
-        ptr->Sub_Unit_ptr[num]->Atv_stats->Side = "Memosprite";
+        ptr->Sub_Unit_ptr[num]->Atv_stats->side = Side::Memosprite;
         ptr->Sub_Unit_ptr[num]->Atv_stats->Type = UnitType;
         ptr->Sub_Unit_ptr[num]->Atv_stats->ptrToChar = ptr->Sub_Unit_ptr[num].get();
         ptr->Sub_Unit_ptr[num]->ptrToChar = ptr;
@@ -57,7 +57,7 @@ void SetCountdownStats(Ally *ptr,double BaseSpeed,string Name){
         ptr->Countdown_ptr[num]->Atv_stats->num = Num;
         ptr->Countdown_ptr[num]->Atv_stats->Char_Name = Name;
         ptr->Countdown_ptr[num]->Atv_stats->Unit_Name = Name;
-        ptr->Countdown_ptr[num]->Atv_stats->Side = "Countdown";
+        ptr->Countdown_ptr[num]->Atv_stats->side = Side::Countdown;
         ptr->Countdown_ptr[num]->Atv_stats->ptrToChar = ptr->Countdown_ptr[num].get();
 }
 void SetSummonStats(Ally *ptr,double BaseSpeed,string Name){
@@ -69,7 +69,7 @@ void SetSummonStats(Ally *ptr,double BaseSpeed,string Name){
         ptr->Summon_ptr[num]->Atv_stats->num = Num;
         ptr->Summon_ptr[num]->Atv_stats->Char_Name = Name;
         ptr->Summon_ptr[num]->Atv_stats->Unit_Name = ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name;
-        ptr->Summon_ptr[num]->Atv_stats->Side = "Summon";
+        ptr->Summon_ptr[num]->Atv_stats->side = Side::Summon;
         ptr->Summon_ptr[num]->Atv_stats->ptrToChar = ptr->Summon_ptr[num].get();
 }
 

@@ -14,7 +14,7 @@ namespace Nihility_Lightcone{
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,Charring]() {
-                if (turn->Side != "Enemy") return;
+                if (turn->side != Side::Enemy) return;
                 if (Enemy_unit[turn->num]->isDebuffEnd(Charring)) {
                     Enemy_unit[turn->num]->debuffSingle({{Stats::VUL,AType::None,-(15.0 + 3 * superimpose)}});
 

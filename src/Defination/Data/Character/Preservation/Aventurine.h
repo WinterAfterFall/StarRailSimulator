@@ -30,7 +30,7 @@
 //         Ally_unit[num]->stats->Path = Path::Preservation;
 //         Ally_unit[num]->Atv_stats->Character_num = num;
 //         Ally_unit[num]->Atv_stats->Name = "Aventurine";
-//         Ally_unit[num]->Atv_stats->Side = "Ally";
+//         Ally_unit[num]->Atv_stats->Side = Side::Ally;
 //         Ally_unit[num]->Atv_stats->ptrToChar = Ally_unit[num].get();
 //         unit[num] = Ally_unit[num]->Atv_stats->ptrToChar;
 //         Ally_unit[num]->stats->Ult_priority +=0;
@@ -209,7 +209,7 @@
 //                 Enemy_unit[Main_Enemy_num]->stats->Debuff["Roulette_Shark"]=0;
 //             --Enemy_unit[Main_Enemy_num]->stats->Total_debuff;
 //         }
-//         if(turn->Side=="Enemy"&&Enemy_unit[turn->Character_num]->stats->Debuff_time_count["Bounded_Rationality"]==turn->turn_cnt&&Enemy_unit[turn->Character_num]->stats->Debuff["Bounded_Rationality"]==1){
+//         if(turn->Side==Side::Enemy&&Enemy_unit[turn->Character_num]->stats->Debuff_time_count["Bounded_Rationality"]==turn->turn_cnt&&Enemy_unit[turn->Character_num]->stats->Debuff["Bounded_Rationality"]==1){
 //             Enemy_unit[turn->Character_num]->Respen[AType::None]-=12;
 //             Enemy_unit[turn->Character_num]->stats->Debuff["Bounded_Rationality"]=0;
 //             --Enemy_unit[turn->Character_num]->stats->Total_debuff;

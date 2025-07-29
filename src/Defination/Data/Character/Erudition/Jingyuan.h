@@ -64,7 +64,7 @@ namespace Jingyuan{
         
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,JYptr]() {
-            if (!(ptr->Sub_Unit_ptr[0]->Atv_stats->num == turn->num && turn->Side == "Ally")) return;
+            if (!(ptr->Sub_Unit_ptr[0]->Atv_stats->num == turn->num && turn->side == Side::Ally)) return;
             
             if (JYptr->isBuffEnd("War_Marshal")) {
                 JYptr->buffSingle({{Stats::CR,AType::None,-10}});

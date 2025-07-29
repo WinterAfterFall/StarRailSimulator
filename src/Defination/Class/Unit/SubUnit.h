@@ -54,7 +54,7 @@ public:
 
 
 
-    //string Target_Buff = "Ally";
+    //string Target_Buff = Side::Ally;
     int defaultAllyTargetNum = Main_dps_num;
     int defaultSubUnitTargetNum = 0;
     int currentAllyTargetNum = Main_dps_num;

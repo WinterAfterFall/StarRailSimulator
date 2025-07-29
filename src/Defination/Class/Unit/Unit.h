@@ -66,8 +66,8 @@ public:
     int getNum(){
         return Atv_stats->num;
     }
-    string getSide(){
-        return Atv_stats->Side;
+    Side getSide(){
+        return Atv_stats->side;
     }
     string getType(){
         return Atv_stats->Type;
@@ -107,8 +107,8 @@ public:
     void setUnitNum(int Unit_num) {
         Atv_stats->num = Unit_num;
     }
-    void setSide(string Side) {
-        Atv_stats->Side = Side;
+    void setSide(Side Side) {
+        Atv_stats->side = Side;
     }
     void setType(string Type) {
         Atv_stats->Type = Type;

@@ -35,7 +35,7 @@
 //         Ally_unit[num]->Path[0] = Path::Nihility;
 //         Ally_unit[num]->Atv_stats->Character_num = num;
 //         Ally_unit[num]->Atv_stats->Name = "Fugue";
-//         Ally_unit[num]->Atv_stats->Side = "Ally";
+//         Ally_unit[num]->Atv_stats->Side = Side::Ally;
 //         Ally_unit[num]->Atv_stats->ptrToChar = Ally_unit[num].get();
 //         unit[num] = Ally_unit[num]->Atv_stats->ptrToChar;
 //         Ally_unit[num]->stats->Ult_priority +=0;
@@ -177,7 +177,7 @@
 //         }
 //     }
 //     void After_turn(Ally *ptr){
-//         if(turn->Side=="Enemy"){
+//         if(turn->Side==Side::Enemy){
 //             if(Enemy_unit[turn->Character_num]->stats->Debuff_time_count["Torrid_Scorch"]==Enemy_unit[turn->Character_num]->Atv_stats->turn_cnt){
 //                 Enemy_unit[turn->Character_num]->Def_shred[AType::None]-=18;
 //                 Enemy_unit[turn->Character_num]->stats->Total_debuff--;
@@ -188,7 +188,7 @@
 //             }
 
 //         }
-//         if(turn->Side=="Ally"&&Ally_unit[turn->Character_num]->Atv_stats->Name!="Fugue"){
+//         if(turn->Side==Side::Ally&&Ally_unit[turn->Character_num]->Atv_stats->Name!="Fugue"){
 //             if(Ally_unit[turn->Character_num]->stats->Buff_countdown["Phecda Primordia"] == Ally_unit[turn->Character_num]->Atv_stats->turn_cnt){
 //                 Ally_unit[turn->Character_num]->Break_effect[AType::None]-=18*Ally_unit[turn->Character_num]->stats->Stack["Phecda Primordia"];
 //                 Ally_unit[turn->Character_num]->stats->Stack["Phecda Primordia"] = 0;

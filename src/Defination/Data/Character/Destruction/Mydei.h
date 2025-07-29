@@ -179,7 +179,7 @@ namespace Mydei{
             }
         }));
         
-        // SetMemoStats(ptr,66,35,ElementType::Lightning,"MemName","Memosprite");
+        // SetMemoStats(ptr,66,35,ElementType::Lightning,"MemName",Side::Memosprite);
         // SetCountdownStats(ptr,"Name");
         // ptr->Sub_Unit_ptr[1]->Turn_func = Mem_turn;
         // ptr->Countdown_ptr[0]->Turn_func = CountDown_turn;

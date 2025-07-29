@@ -11,7 +11,7 @@ Enemy* createNewEnemy(double speed,double Toughness,string type){
     Enemy_unit[num]->Atv_stats->Char_Name = "Enemy-";
     Enemy_unit[num]->Atv_stats->Char_Name += std::to_string(num);
     Enemy_unit[num]->Atv_stats->Unit_Name = Enemy_unit[num]->Atv_stats->Char_Name;
-    Enemy_unit[num]->Atv_stats->Side = "Enemy";
+    Enemy_unit[num]->Atv_stats->side = Side::Enemy;
     Enemy_unit[num]->Atv_stats->ptrToChar = Enemy_unit[num].get();
     return Enemy_unit[num].get();
 }

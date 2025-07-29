@@ -16,7 +16,7 @@ public:
     double Max_atv;
     int turnCnt = 0;
     int num = 0;
-    string Side;//Memosprite Ally Summon
+    Side side;//Memosprite Ally Summon
     string Type;
     int priority = 0;
     string Char_Name;
@@ -46,8 +46,8 @@ public:
     int getUnitNum(){
         return num;
     }
-    string getSide(){
-        return Side;
+    Side getSide(){
+        return side;
     }
     string getType(){
         return Type;
@@ -88,8 +88,8 @@ public:
     void setUnitNum(int Unit_num) {
         this->num = Unit_num;
     }
-    void setSide(string Side) {
-        this->Side = Side;
+    void setSide(Side side) {
+        this->side = side;
     }
     void setType(string Type) {
         this->Type = Type;

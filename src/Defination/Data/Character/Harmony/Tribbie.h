@@ -163,7 +163,7 @@ namespace Tribbie{
 
                 Attack(data_1);
             }
-            if (act->isSameAttack(AType::Ult)&& act->Attacker->getBuffCheck("Tribbie_ult_launch") == 0 && act->Attacker->Atv_stats->Char_Name != "Tribbie" && act->Attacker->Atv_stats->Side == "Ally") {
+            if (act->isSameAttack(AType::Ult)&& act->Attacker->getBuffCheck("Tribbie_ult_launch") == 0 && act->Attacker->Atv_stats->Char_Name != "Tribbie" && act->Attacker->Atv_stats->side == Side::Ally) {
                 act->Attacker->Buff_check["Tribbie_ult_launch"] = 1;
                 shared_ptr<AllyAttackAction> data_2 = 
                 make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TT_AOE,"TB Fua",

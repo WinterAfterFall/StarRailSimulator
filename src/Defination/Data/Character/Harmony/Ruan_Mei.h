@@ -101,7 +101,7 @@ namespace Ruan_Mei{
                     if(ptr->Print == 1)CharCmd::printUltEnd("Ruan Mei");
                 }
             }
-            if(turn->Side == "Enemy" && Turn_Skip == 0){
+            if(turn->side == Side::Enemy && Turn_Skip == 0){
                 if(Enemy_unit[turn->num]->Debuff["RuanMei_Ult_bloom"] == 1){
                     Turn_Skip = 1;
                     Enemy_unit[turn->num]->debuffRemove("RuanMei_Ult_bloom");

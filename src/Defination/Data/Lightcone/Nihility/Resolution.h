@@ -17,7 +17,7 @@ namespace Nihility_Lightcone{
             }));
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,ensnared]() {
-                if (turn->Side == "Enemy") {
+                if (turn->side == Side::Enemy) {
                     if (Enemy_unit[turn->num]->Debuff_time_count[ensnared] == Enemy_unit[turn->num]->Atv_stats->turnCnt) {
                         Enemy_unit[turn->num]->Stats_type[Stats::DEF_SHRED][AType::None] -= 11 + superimpose;
                         Enemy_unit[turn->num]->Debuff[ensnared] = 0;

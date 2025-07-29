@@ -134,7 +134,7 @@ namespace Sunday{
                     Temp_stats->buffSingle({{Stats::DMG,AType::None,-30}});
                 }
                 if (ptr->Eidolon >= 1&&Temp_stats->isBuffEnd("Sunday_E1")) {
-                    if (turn->Side == "Memosprite") {
+                    if (turn->side == Side::Memosprite) {
                         Temp_stats->buffSingle({{Stats::DEF_SHRED,AType::None,-40}});
                     } else {
                         Temp_stats->buffSingle({{Stats::DEF_SHRED,AType::None,-16}});
@@ -201,7 +201,7 @@ namespace Sunday{
                     target->buffSingle({{Stats::DMG,AType::None,-30}});
                 }
                 if (ptr->Eidolon >= 1&&target->isBuffGoneByDeath("Sunday_E1")) {
-                    if (turn->Side == "Memosprite") {
+                    if (turn->side == Side::Memosprite) {
                         target->buffSingle({{Stats::DEF_SHRED,AType::None,-40}});
                     } else {
                         target->buffSingle({{Stats::DEF_SHRED,AType::None,-16}});

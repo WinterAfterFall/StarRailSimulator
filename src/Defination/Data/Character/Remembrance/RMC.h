@@ -163,7 +163,7 @@ namespace RMC{
         }));
 
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr](shared_ptr<AllyAttackAction> &act) {
-            if (act->Attacker->Atv_stats->Unit_Name != "Mem" && act->Attacker->Atv_stats->Side == "Memosprite" && ptr->Sub_Unit_ptr[1]->Buff_check["RMC_E2"] == 1) {
+            if (act->Attacker->Atv_stats->Unit_Name != "Mem" && act->Attacker->Atv_stats->side == Side::Memosprite && ptr->Sub_Unit_ptr[1]->Buff_check["RMC_E2"] == 1) {
                 Increase_energy(ptr, 8);
                 ptr->Sub_Unit_ptr[1]->Buff_check["RMC_E2"] = 0;
             }

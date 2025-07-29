@@ -1,6 +1,6 @@
 #include "../include.h"
 void allEventBeforeTurn(){
-    if(turn->Side=="Enemy"){
+    if(turn->side==Side::Enemy){
         shared_ptr<AllyAttackAction> act;
         Enemy *target = turn->canCastToEnemy();
         Dot_trigger(100, target, DotType::General);
@@ -26,7 +26,7 @@ void allEventBeforeTurn(){
     }
 }
 void allEventAfterTurn(){
-    if(turn->Side=="Enemy"){
+    if(turn->side==Side::Enemy){
         shared_ptr<AllyAttackAction> act;
         Enemy *target = turn->canCastToEnemy();
         

@@ -111,6 +111,16 @@ enum class Path{
     Abundance,
     Remembrance
 };
+enum class Side{
+    Ally,
+    Enemy,
+    Memosprite,
+    Summon,
+    Countdown,
+};
+enum class UnitType{
+    Enemy,
+};
 namespace std {
     template <>
     struct hash<AType> {
