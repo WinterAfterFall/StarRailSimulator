@@ -100,6 +100,8 @@ void Attack(shared_ptr<AllyAttackAction> &act){
     for(auto &each : act->targetList){
         each->hitCount = 0;
     }
+
+    allEventBeforeAttack(act);
     for(int i = 0;i<act->damageSplit.size();i++){
         if(dmgIns!=act->switchAttacker.size()&&act->switchAttacker[dmgIns].changeWhen==i){
             SwitchAtk &SwitchAtk = act->switchAttacker[dmgIns];
@@ -114,16 +116,17 @@ void Attack(shared_ptr<AllyAttackAction> &act){
         for(auto &each2 : act->damageSplit[i]){
             each2.target->hitCount++;
         }
-        allEventAttackHitCount(act);
-
-        allEventBeforeAttack(act);
+        
+        allEventBeforeAttackPerHit(act);
         for(auto &each2 : act->damageSplit[i]){
             calDamage(act,each2.target,each2.dmgSrc);
             if(each2.dmgSrc.toughnessReduce>0)
             Cal_Toughness_reduction(act,each2.target,each2.dmgSrc.toughnessReduce);
         }
-        allEventAfterAttack(act);
+        allEventAfterAttackPerHit(act);
     }
+    allEventAfterAttack(act);
+
 
     
 

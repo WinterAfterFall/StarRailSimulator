@@ -95,8 +95,9 @@ vector<TriggerByAllyAttackAction_Func> BeforeAttackAction_List;
 vector<TriggerByAllyAttackAction_Func> AfterAttackActionList;
 vector<TriggerByAllyAttackAction_Func> BeforeAttack_List;
 vector<TriggerByAllyAttackAction_Func> AfterAttack_List;
+vector<TriggerByAllyAttackAction_Func> BeforeAttackPerHit_List;
+vector<TriggerByAllyAttackAction_Func> AfterAttackPerHit_List;
 vector<TriggerByAllyAttackAction_Func> When_attack_List;
-vector<TriggerByAllyAttackAction_Func> Hit_Count_List;
 vector<TriggerByAllyBuffAction_Func> Buff_List;
 
 vector<TriggerByStats> Stats_Adjust_List;

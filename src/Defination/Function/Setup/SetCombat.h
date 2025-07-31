@@ -19,6 +19,8 @@ void Setup(){
     sort(AfterAttackActionList.begin(), AfterAttackActionList.end(), TriggerFunc::Trigger_cmp);
     sort(BeforeAttack_List.begin(), BeforeAttack_List.end(), TriggerFunc::Trigger_cmp);
     sort(AfterAttack_List.begin(), AfterAttack_List.end(), TriggerFunc::Trigger_cmp);
+    sort(BeforeAttackPerHit_List.begin(), BeforeAttackPerHit_List.end(), TriggerFunc::Trigger_cmp);
+    sort(AfterAttackPerHit_List.begin(), AfterAttackPerHit_List.end(), TriggerFunc::Trigger_cmp);
     sort(When_attack_List.begin(), When_attack_List.end(), TriggerFunc::Trigger_cmp);
     sort(Buff_List.begin(), Buff_List.end(), TriggerFunc::Trigger_cmp);
 
@@ -35,7 +37,6 @@ void Setup(){
     sort(Dot_List.begin(), Dot_List.end(), TriggerFunc::Trigger_cmp);
     sort(When_Energy_Increase_List.begin(), When_Energy_Increase_List.end(), TriggerFunc::Trigger_cmp);
     sort(Skill_point_List.begin(), Skill_point_List.end(), TriggerFunc::Trigger_cmp);
-    sort(Hit_Count_List.begin(), Hit_Count_List.end(), TriggerFunc::Trigger_cmp);
     sort(AfterDealingDamage_List.begin(), AfterDealingDamage_List.end(), TriggerFunc::Trigger_cmp);
     
     if(rerollSubstatsMode == SubstatsRerollMode::Standard)rerollFunction = StandardReroll;

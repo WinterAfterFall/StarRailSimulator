@@ -120,6 +120,16 @@ void allEventAfterAttack(shared_ptr<AllyAttackAction> &act){
         e.Call(act);
     }
 }
+void allEventBeforeAttackPerHit(shared_ptr<AllyAttackAction> &act){
+    for(TriggerByAllyAttackAction_Func &e : BeforeAttackPerHit_List){
+        e.Call(act);
+    }
+}
+void allEventAfterAttackPerHit(shared_ptr<AllyAttackAction> &act){
+    for(TriggerByAllyAttackAction_Func &e : AfterAttackPerHit_List){
+        e.Call(act);
+    }
+}
 void allEventWhenAttack(shared_ptr<AllyAttackAction> &act){
     for(Enemy* &e : act->targetList){
         for (auto &each : e->breakEngList) {
@@ -129,11 +139,6 @@ void allEventWhenAttack(shared_ptr<AllyAttackAction> &act){
     }
     
     for(TriggerByAllyAttackAction_Func &e : When_attack_List){
-        e.Call(act);
-    }
-}
-void allEventAttackHitCount(shared_ptr<AllyAttackAction> &act){
-    for(TriggerByAllyAttackAction_Func &e : Hit_Count_List){
         e.Call(act);
     }
 }
