@@ -6,10 +6,15 @@ enum class DmgFormulaMode{
     DEF,
     Const,
     Src,
-    DMG,
+    Dmg,
     Crit,
     CritRate,
     CritDam,
-
-
+    DefShred,
+    Respen,
+    Vul,
+    BE,
+    Mtgt,
+    SpbInc,
+    MtprInc
 };

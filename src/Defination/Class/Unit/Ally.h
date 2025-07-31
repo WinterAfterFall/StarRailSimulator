@@ -69,13 +69,31 @@ public:
     #pragma region CalCheck
 
     bool checkDamage = 0;
-    bool checkDamageFormula = 0;
+    bool checkDmgFormula = 0;
+    bool checkDmgFormulaAll = 0;
+    bool checkDmgFormulaHP = 0;
+    bool checkDmgFormulaATK = 0;
+    bool checkDmgFormulaDEF = 0;
+    bool checkDmgFormulaConst = 0;
+    bool checkDmgFormulaSrc = 0;
+    bool checkDmgFormulaDmg = 0;
+    bool checkDmgFormulaCrit = 0;
+    bool checkDmgFormulaCritRate = 0;
+    bool checkDmgFormulaCritDam = 0;
+    bool checkDmgFormulaDefShred = 0;
+    bool checkDmgFormulaRespen = 0;
+    bool checkDmgFormulaVul = 0;
+    bool checkDmgFormulaMtgt = 0;
+    bool checkDmgFormulaMtprInc = 0;
+    bool checkDmgFormulaBE = 0;
+    bool checkDmgFormulaSpbInc = 0;
     bool checkHeal = 0;
     bool checkHealFormula = 0;
     bool checkHealReceive = 0;
     bool checkHealReceiveFormula = 0;
     bool checkHpChange = 0;
     bool checkHpChangeFormula = 0;
+
 
     #pragma endregion
     //Temp
@@ -280,14 +298,38 @@ public:
     #pragma region FormulaCheck
 
     void enableCheckDamage();
-    void enableCheckDamageFormula();
+    void enableCheckDamageFormula(DmgFormulaMode mode);
     void enableCheckHeal();
     void enableCheckHealFormula();
     void enableCheckHealReceive();
     void enableCheckHealReceiveFormula();
     void enableCheckHpChange();
     void enableCheckHpChangeFormula();
+
+    bool canCheckDmgformula();
+    bool canCheckDmgformulaMtpr();
+    bool canCheckDmgformulaHP();
+    bool canCheckDmgformulaATK();
+    bool canCheckDmgformulaDEF();
+    bool canCheckDmgformulaConst();
+    
+    bool canCheckDmgformulaCritRate();
+    bool canCheckDmgformulaCritDam();
+
+    bool canCheckDmgformulaDmg();
+    bool canCheckDmgformulaDefShred();
+    bool canCheckDmgformulaRespen();
+    bool canCheckDmgformulaVul();
+    bool canCheckDmgformulaMtgt();
+    bool canCheckDmgformulaMtprInc();
+    
+    bool canCheckDmgformulaBE();
+    bool canCheckDmgformulaSpbInc();
+
+
     #pragma endregion
+
+    
 };
 
 #endif

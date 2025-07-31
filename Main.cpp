@@ -76,7 +76,7 @@ int main(){
     //--------------------- Formula Check ------------------------
     
     Char1->enableCheckDamage();
-    Char1->enableCheckDamageFormula(); 
+    Char1->enableCheckDamageFormula(DmgFormulaMode::ATK); 
     // Char4->enableCheckHealFormula();
     // Char4->enableCheckHeal();
     

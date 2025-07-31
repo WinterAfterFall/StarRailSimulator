@@ -85,7 +85,7 @@ void Attack(shared_ptr<AllyAttackAction> &act){
 
 
     //32 45
-    if(act->Attacker->ptrToChar->checkDamageFormula||act->Attacker->ptrToChar->checkDamage){
+    if(act->Attacker->ptrToChar->canCheckDmgformula()||act->Attacker->ptrToChar->checkDamage){
         cout<<"\033[0;38;5;2m";
         cout<<"----------------------------------------- Damage Check -----------------------------------------\n";
         cout << "\033[0m";
@@ -127,7 +127,7 @@ void Attack(shared_ptr<AllyAttackAction> &act){
 
     
 
-    if(act->Attacker->ptrToChar->checkDamageFormula||act->Attacker->ptrToChar->checkDamage){
+    if(act->Attacker->ptrToChar->canCheckDmgformula()||act->Attacker->ptrToChar->checkDamage){
         cout<<"\033[0;38;5;2m";
         cout<<"------------------------------------------------------------------------------------------------\n";  
         cout << "\033[0m";

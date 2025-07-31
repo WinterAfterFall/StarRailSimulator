@@ -4,4 +4,5 @@
 #include "Enum.h"
 #include "RelicEnum.h"
 #include "StatusEnum.h"
+#include "CheckMode.h"
 #endif
