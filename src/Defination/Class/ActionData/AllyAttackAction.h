@@ -71,43 +71,55 @@ class AllyAttackAction : public AllyActionData {
         switch(actionType) {
             case AType::BA:
                 actionTypeList.push_back(AType::BA);
+                damageTypeList.push_back(AType::BA);
                 Turn_reset = true;
                 break;
             case AType::SKILL:
                 actionTypeList.push_back(AType::SKILL);
+                damageTypeList.push_back(AType::SKILL);
                 Turn_reset = true;
                 break;
             case AType::Ult:
                 actionTypeList.push_back(AType::Ult);
+                damageTypeList.push_back(AType::Ult);
                 break;
             case AType::Fua:
                 actionTypeList.push_back(AType::Fua);
+                damageTypeList.push_back(AType::Fua);
                 break;
             case AType::Dot:
                 actionTypeList.push_back(AType::Dot);
+                damageTypeList.push_back(AType::Dot);
                 break;
             case AType::Break:
                 actionTypeList.push_back(AType::Break);
+                damageTypeList.push_back(AType::Break);
                 toughnessAvgCalculate = 0;
                 break;
             case AType::SPB:
                 actionTypeList.push_back(AType::Break);
                 actionTypeList.push_back(AType::SPB);
+                damageTypeList.push_back(AType::Break);
+                damageTypeList.push_back(AType::SPB);
                 toughnessAvgCalculate = 0;
                 break;
             case AType::Addtional:
                 actionTypeList.push_back(AType::Addtional);
+                damageTypeList.push_back(AType::Addtional);
                 break;
             case AType::Technique:
                 actionTypeList.push_back(AType::Technique);
+                damageTypeList.push_back(AType::Technique);
                 toughnessAvgCalculate = 0;
                 break;
             case AType::Freeze:
                 actionTypeList.push_back(AType::Freeze);
+                damageTypeList.push_back(AType::Freeze);
                 toughnessAvgCalculate = 0;
                 break;
             case AType::Entanglement:
                 actionTypeList.push_back(AType::Entanglement);
+                damageTypeList.push_back(AType::Entanglement);
                 toughnessAvgCalculate = 0;
                 break;
             default:
