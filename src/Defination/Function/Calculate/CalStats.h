@@ -351,3 +351,19 @@ double calMitigationMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
 
     return (Mitigation_mtpr / 100 < 0) ? 0 : Mitigation_mtpr / 100;
 }
+double calMultiplierIncrease(shared_ptr<AllyAttackAction> &act,Enemy *target){
+    double mtpr = 100;
+
+    mtpr += act->Attacker->Stats_type[Stats::MtprInc][AType::None] + target->Stats_type[Stats::MtprInc][AType::None];
+    for(int i = 0, sz = act->actionTypeList.size(); i < sz; i++){
+        mtpr += act->Attacker->Stats_type[Stats::MtprInc][act->actionTypeList[i]] + target->Stats_type[Stats::MtprInc][act->actionTypeList[i]];
+    }
+
+    if(act->getAlly()->canCheckDmgformulaMtgt()){
+        cout<<"Base  Mtpr     : "<<setw(6)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::MtprInc][AType::None]
+        <<" Enemy Mtpr     : "<<setw(6)<<fixed<<setprecision(2)<<target->Stats_type[Stats::MtprInc][AType::None]
+        <<" Total Mtpr     : "<<setw(6)<<fixed<<setprecision(2)<<mtpr - 100<<endl;
+    }
+
+    return (mtpr / 100 < 0) ? 0 : mtpr / 100;
+}

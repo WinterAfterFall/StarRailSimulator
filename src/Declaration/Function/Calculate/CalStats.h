@@ -31,3 +31,4 @@ double calBreakEffectMultiplier(std::shared_ptr<AllyAttackAction> &act, Enemy *t
 double calToughnessMultiplier(std::shared_ptr<AllyAttackAction> &act, Enemy *target);
 double Cal_Superbreak_DamageIncrease_multiplier(shared_ptr<AllyAttackAction> &act,Enemy *target);
 double calMitigationMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target);
+double calMultiplierIncrease(shared_ptr<AllyAttackAction> &act,Enemy *target);

@@ -171,54 +171,8 @@ class AllyAttackAction : public AllyActionData {
         AttackSetList[1].damageTypeList.push_back(AType::Summon);
     }
     virtual void addActionType(AType actionType){
-        switch(actionType) {
-            case AType::BA:
-                actionTypeList.push_back(AType::BA);
-                AttackSetList[0].actionTypeList.emplace_back(AType::BA);
-                break;
-            case AType::SKILL:
-                actionTypeList.push_back(AType::SKILL);
-                AttackSetList[0].actionTypeList.emplace_back(AType::SKILL);
-                break;
-            case AType::Ult:
-                actionTypeList.push_back(AType::Ult);
-                AttackSetList[0].actionTypeList.emplace_back(AType::Ult);
-                break;
-            case AType::Fua:
-                actionTypeList.push_back(AType::Fua);
-                AttackSetList[0].actionTypeList.emplace_back(AType::Fua);
-                break;
-            case AType::Dot:
-                actionTypeList.push_back(AType::Dot);
-                AttackSetList[0].actionTypeList.emplace_back(AType::Dot);
-                break;
-            case AType::Break:
-                actionTypeList.push_back(AType::Break);
-                AttackSetList[0].actionTypeList.emplace_back(AType::Break);
-                break;
-            case AType::SPB:
-                actionTypeList.push_back(AType::SPB);
-                AttackSetList[0].actionTypeList.emplace_back(AType::SPB);
-                break;
-            case AType::Addtional:
-                actionTypeList.push_back(AType::Addtional);
-                AttackSetList[0].actionTypeList.emplace_back(AType::Addtional);
-                break;
-            case AType::Technique:
-                actionTypeList.push_back(AType::Technique);
-                AttackSetList[0].actionTypeList.emplace_back(AType::Technique);
-                break;
-            case AType::Freeze:
-                actionTypeList.push_back(AType::Freeze);
-                AttackSetList[0].actionTypeList.emplace_back(AType::Freeze);
-                break;
-            case AType::Entanglement:
-                actionTypeList.push_back(AType::Entanglement);
-                AttackSetList[0].actionTypeList.emplace_back(AType::Entanglement);
-                break;
-            default:
-                break;
-        }
+            actionTypeList.push_back(actionType);
+            AttackSetList[0].actionTypeList.emplace_back(actionType);
     }
 
     

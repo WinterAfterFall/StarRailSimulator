@@ -23,6 +23,7 @@ void calDamage(shared_ptr<AllyAttackAction> &act,Enemy *target,DmgSrc abilityRat
     Total_dmg = Total_dmg*calRespenMultiplier(act,target);
     Total_dmg = Total_dmg*calVulMultiplier(act,target);
     Total_dmg = Total_dmg*calMitigationMultiplier(act,target);
+    Total_dmg = Total_dmg*calMultiplierIncrease(act,target);
     Total_dmg = Total_dmg*calToughnessMultiplier(act,target);
 
     Cal_DamageNote(act,target,target,Total_dmg,100,act->actionName);
@@ -49,6 +50,7 @@ void Cal_Break_damage(shared_ptr<AllyAttackAction> &act,Enemy *target,double &Co
     Total_dmg = Total_dmg*calRespenMultiplier(act,target);
     Total_dmg = Total_dmg*calVulMultiplier(act,target);
     Total_dmg = Total_dmg*calMitigationMultiplier(act,target);
+    Total_dmg = Total_dmg*calMultiplierIncrease(act,target);
     Total_dmg = Total_dmg*calToughnessMultiplier(act,target);
     
     Cal_DamageNote(act,target,target,Total_dmg,100,act->actionName);
@@ -78,6 +80,7 @@ void Cal_Freeze_damage(shared_ptr<AllyAttackAction> &act,Enemy *target){
     Total_dmg = Total_dmg*calRespenMultiplier(act,target);
     Total_dmg = Total_dmg*calVulMultiplier(act,target);
     Total_dmg = Total_dmg*calMitigationMultiplier(act,target);
+    Total_dmg = Total_dmg*calMultiplierIncrease(act,target);
     Total_dmg = Total_dmg*calToughnessMultiplier(act,target);
 
     Cal_DamageNote(act,target,target,Total_dmg,100,act->actionName);
@@ -106,6 +109,7 @@ void Cal_Dot_Toughness_break_damage(shared_ptr<AllyAttackAction> &act,Enemy *tar
     Total_dmg = Total_dmg*calRespenMultiplier(act,target);
     Total_dmg = Total_dmg*calVulMultiplier(act,target);
     Total_dmg = Total_dmg*calMitigationMultiplier(act,target);
+    Total_dmg = Total_dmg*calMultiplierIncrease(act,target);
     Total_dmg = Total_dmg*calToughnessMultiplier(act,target);
 
     Cal_DamageNote(act,target,target,Total_dmg,100,act->actionName);
@@ -134,6 +138,7 @@ void Cal_Superbreak_damage(shared_ptr<AllyAttackAction> &act,Enemy *target,doubl
     Total_dmg = Total_dmg*calDefShredMultiplier(act,target);
     Total_dmg = Total_dmg*calRespenMultiplier(act,target);
     Total_dmg = Total_dmg*calVulMultiplier(act,target);
+    Total_dmg = Total_dmg*calMultiplierIncrease(act,target);
     Total_dmg = Total_dmg*calMitigationMultiplier(act,target);
 
     Cal_DamageNote(act,target,target,Total_dmg,100,act->actionName);

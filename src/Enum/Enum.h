@@ -65,6 +65,7 @@ enum class Stats {
     BREAK_EFF,
     TOUGH_REDUCE,
     SPB_inc,
+    MtprInc,
     Mitigration
 };
 enum class DotType {

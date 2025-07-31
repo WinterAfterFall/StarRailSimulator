@@ -163,11 +163,11 @@ int main(){
     if(Reroll_substats())break;
     }
     printSummaryResult();
+
     // if(Calculate_All_Substats_mode){
     //     Calculate_All_Substats();
     //     Print_All_Substats();
     // }
-    
     
     return 0;
 }
