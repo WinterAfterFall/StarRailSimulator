@@ -60,7 +60,7 @@ namespace Serval{
                 if (ptr->Eidolon >= 4){
                     for (int i = 1; i <= Total_enemy; i++) {
                         if (Enemy_unit[i]->debuffApply(ptr->getSubUnit(),"Serval_Shock")) {
-                            Enemy_unit[i]->Debuff["Shock_check"]++;
+                            Enemy_unit[i]->changeShock(1);
                         }
                     }
                     extendDebuffAll("Serval_Shock", 2);
@@ -85,7 +85,7 @@ namespace Serval{
                 Enemy *tempstats = dynamic_cast<Enemy*>(turn->ptrToChar);
                 if (tempstats) {
                     if (tempstats->isDebuffEnd("Serval_Shock")) {
-                        tempstats->Debuff["Shock_check"]--;
+                        tempstats->changeShock(-1);
                     }
                 }
             }
@@ -160,7 +160,7 @@ namespace Serval{
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             for (int i = 1; i <= Total_enemy; i++) {
                 if (Enemy_unit[i]->debuffApply(ptr->getSubUnit(),"Serval_Shock")) {
-                    Enemy_unit[i]->Debuff["Shock_check"]++;
+                        Enemy_unit[i]->changeShock(1);
                 }
             }
             extendDebuffAll("Serval_Shock", 2);

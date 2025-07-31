@@ -118,13 +118,6 @@ int main(){
     SetupEnemy(158,80,{0,0},{200,200},{2,3},1,EnemyType::Adjacent);  
     SetupEnemy(130,80,{0,0},{0,0},{2,0},1,EnemyType::Other);
     SetupEnemy(130,80,{0,0},{0,0},{2,0},1,EnemyType::Other);
-    
-    
-    
-    
-    // SetupEnemy(4,130,0,90,0.0,0,EnemyType::Other);
-    // SetupEnemy(5,120,0,90,0.0,0,EnemyType::Other);
-    
     Setup();
     
     
