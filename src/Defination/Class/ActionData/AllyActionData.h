@@ -54,6 +54,7 @@ class AllyActionData : public ActionData, public std::enable_shared_from_this<Al
     bool isSameAction(Ally *ptr,AType ability);
 
 
+
     
     #pragma endregion
 
@@ -66,43 +67,7 @@ class AllyActionData : public ActionData, public std::enable_shared_from_this<Al
         return this->actionTypeList[0];
     }
     virtual void addActionType(AType actionType){
-        switch(actionType) {
-            case AType::BA:
-                actionTypeList.push_back(AType::BA);
-                break;
-            case AType::SKILL:
-                actionTypeList.push_back(AType::SKILL);
-                break;
-            case AType::Ult:
-                actionTypeList.push_back(AType::Ult);
-                break;
-            case AType::Fua:
-                actionTypeList.push_back(AType::Fua);
-                break;
-            case AType::Dot:
-                actionTypeList.push_back(AType::Dot);
-                break;
-            case AType::Break:
-                actionTypeList.push_back(AType::Break);
-                break;
-            case AType::SPB:
-                actionTypeList.push_back(AType::SPB);
-                break;
-            case AType::Addtional:
-                actionTypeList.push_back(AType::Addtional);
-                break;
-            case AType::Technique:
-                actionTypeList.push_back(AType::Technique);
-                break;
-            case AType::Freeze:
-                actionTypeList.push_back(AType::Freeze);
-                break;
-            case AType::Entanglement:
-                actionTypeList.push_back(AType::Entanglement);
-                break;
-            default:
-                break;
-        }
+            actionTypeList.push_back(actionType);
     }
     AllyAttackAction* castToAllyAttackAction();
     AllyBuffAction* castToAllyBuffAction();

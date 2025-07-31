@@ -226,7 +226,7 @@ namespace RMC{
             Increase_Charge(ptr,5);
             Attack(act);
         });
-        act->addActionType(AType::Summon);
+        act->addAttacknType(AType::Summon);
         act->addEnemyBounce(DmgSrc(DmgSrcType::ATK,39.6,5),4);
         act->addDamageIns(
             DmgSrc(DmgSrcType::ATK,99,10),

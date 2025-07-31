@@ -115,5 +115,45 @@ bool AllyActionData::isSameAction(Ally *ptr,AType ability){
     }
     return false;
 }
+bool AllyAttackAction::isSameDamageType(AType ability){
+    for(auto &each1 : AttackSetList){
+        for(auto &each2 : each1.damageTypeList){
+            if(each2 == ability) return true;
+        }
+    }
+    return false;
+}
 
+bool AllyAttackAction::isSameDamageType(SubUnit *ptr, AType ability){
+    for(auto &each : AttackSetList){
+        if(each.attacker->isSameUnit(ptr)){
+            for(auto &each2 : each.damageTypeList){
+                if(each2 == ability) return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool AllyAttackAction::isSameDamageType(string name, AType ability){
+    for(auto &each : AttackSetList){
+        if(each.attacker->isSameUnitName(name)){
+            for(auto &each2 : each.damageTypeList){
+                if(each2 == ability) return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool AllyAttackAction::isSameDamageType(Ally *ptr, AType ability){
+    for(auto &each : AttackSetList){
+        if(ptr->isSameAlly(each.attacker)){
+            for(auto &each2 : each.damageTypeList){
+                if(each2 == ability) return true;
+            }
+        }
+    }
+    return false;
+}
 #endif

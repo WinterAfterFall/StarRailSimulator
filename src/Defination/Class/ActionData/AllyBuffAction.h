@@ -80,6 +80,7 @@ class AllyBuffAction : public AllyActionData {
                 actionTypeList.push_back(AType::Break);
                 break;
             case AType::SPB:
+                actionTypeList.push_back(AType::Break);
                 actionTypeList.push_back(AType::SPB);
                 break;
             case AType::Addtional:

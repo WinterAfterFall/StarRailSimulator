@@ -327,7 +327,7 @@ namespace Hyacine{
             Attack(act);
             ptr->getSubUnit(1)->resetATV(-1);
         });
-        act->addActionType(AType::Summon);
+        act->addAttacknType(AType::Summon);
         act->addDamageIns(
             DmgSrc(DmgSrcType::CONST,ptr->getSubUnit(1)->getBuffNote("Tally RestoreHP")*0.2,10),
             DmgSrc(DmgSrcType::CONST,ptr->getSubUnit(1)->getBuffNote("Tally RestoreHP")*0.2,10),

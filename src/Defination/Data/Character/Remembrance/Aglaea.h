@@ -269,7 +269,7 @@ namespace Aglaea{
             DmgSrc(DmgSrcType::ATK,110,10),
             DmgSrc(DmgSrcType::ATK,65,5)
         );
-        act->addActionType(AType::Summon);
+        act->addAttacknType(AType::Summon);
         act->addToActionBar();
     }
 }

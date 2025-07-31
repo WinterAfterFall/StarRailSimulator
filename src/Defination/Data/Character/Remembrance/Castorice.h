@@ -111,7 +111,7 @@ namespace Castorice{
                 }
                 Attack(act);
             });
-            act->addActionType(AType::Summon);
+            act->addAttacknType(AType::Summon);
             if(ptr->Eidolon>=6)act->Dont_care_weakness = 100;
             act->source = ptr->getSubUnit();
             act->addDamageIns(
@@ -361,7 +361,7 @@ namespace Castorice{
             ptr->getSubUnit(1)->setStack("Breath Scorches the Shadow",0);
             if(ptr->Print)CharCmd::printUltEnd("Castorice");
         });
-        act->addActionType(AType::Summon);
+        act->addAttacknType(AType::Summon);
         act->source = ptr->getSubUnit();
         if(ptr->Eidolon>=6){
             act->addEnemyBounce(DmgSrc(DmgSrcType::HP,40,5),9);

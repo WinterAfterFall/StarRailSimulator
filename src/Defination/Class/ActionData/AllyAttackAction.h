@@ -35,9 +35,9 @@ class AllyAttackAction : public AllyActionData {
 
     DamageSplit damageSplit;
 
-    vector<AType> damageTypeList;//
-    vector<Attacking> AttackSetList;//
-    vector<SwitchAtk> switchAttacker;
+    vector<AType> damageTypeList;//Record Damage Type at the moment
+    vector<Attacking> AttackSetList;// All Attacker Data
+    vector<SwitchAtk> switchAttacker;// Recored Src Data and tell which attacker to change to
     vector<Enemy*> targetList;
 
     ElementType Damage_element;//Physical Fire Ice Lightning Wind Quantum Imaginary
@@ -91,6 +91,7 @@ class AllyAttackAction : public AllyActionData {
                 toughnessAvgCalculate = 0;
                 break;
             case AType::SPB:
+                actionTypeList.push_back(AType::Break);
                 actionTypeList.push_back(AType::SPB);
                 toughnessAvgCalculate = 0;
                 break;
@@ -160,6 +161,10 @@ class AllyAttackAction : public AllyActionData {
         }
         return false;    
     }
+    bool isSameDamageType(AType ability);
+    bool isSameDamageType(SubUnit *ptr,AType ability);
+    bool isSameDamageType(string name,AType ability);
+    bool isSameDamageType(Ally *ptr,AType ability);
 
 
 
@@ -170,9 +175,19 @@ class AllyAttackAction : public AllyActionData {
         AttackSetList[1].actionTypeList.push_back(AType::Summon);
         AttackSetList[1].damageTypeList.push_back(AType::Summon);
     }
-    virtual void addActionType(AType actionType){
-            actionTypeList.push_back(actionType);
-            AttackSetList[0].actionTypeList.emplace_back(actionType);
+    virtual void addActionType(AType actionType) override {
+        actionTypeList.push_back(actionType);
+        AttackSetList[0].actionTypeList.emplace_back(actionType);
+    }
+    void addDamageType(AType actionType){
+        damageTypeList.push_back(actionType);
+        AttackSetList[0].damageTypeList.emplace_back(actionType);
+    }
+    void addAttacknType(AType actionType){
+        actionTypeList.push_back(actionType);
+        damageTypeList.push_back(actionType);
+        AttackSetList[0].actionTypeList.emplace_back(actionType);
+        AttackSetList[0].damageTypeList.emplace_back(actionType);
     }
 
     

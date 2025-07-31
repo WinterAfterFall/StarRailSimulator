@@ -148,7 +148,7 @@ namespace Jingyuan{
                     );
                 }
             });
-            temp->addActionType(AType::Summon);
+            temp->addAttacknType(AType::Summon);
             temp->setTurnReset(true);
             temp->addToActionBar();
             
