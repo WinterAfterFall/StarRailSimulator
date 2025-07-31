@@ -88,12 +88,12 @@ double calAtkMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
     Atk_percent_mtpr += act->source->Stats_type[Stats::ATK_P][AType::None] + target->Stats_type[Stats::ATK_P][AType::None];
     Flat_atk_mtpr += act->source->Stats_type[Stats::FLAT_ATK][AType::None] + target->Stats_type[Stats::FLAT_ATK][AType::None];
 
-    for(int i=0,sz=act->actionTypeList.size();i<sz;i++){
-            Atk_percent_mtpr+= act->source->Stats_type[Stats::ATK_P][act->actionTypeList[i]];
-            Atk_percent_mtpr+= target->Stats_type[Stats::ATK_P][act->actionTypeList[i]];
+    for(int i=0,sz=act->damageTypeList.size();i<sz;i++){
+            Atk_percent_mtpr+= act->source->Stats_type[Stats::ATK_P][act->damageTypeList[i]];
+            Atk_percent_mtpr+= target->Stats_type[Stats::ATK_P][act->damageTypeList[i]];
         
-            Flat_atk_mtpr += act->source->Stats_type[Stats::FLAT_ATK][act->actionTypeList[i]];
-            Flat_atk_mtpr += target->Stats_type[Stats::FLAT_ATK][act->actionTypeList[i]];
+            Flat_atk_mtpr += act->source->Stats_type[Stats::FLAT_ATK][act->damageTypeList[i]];
+            Flat_atk_mtpr += target->Stats_type[Stats::FLAT_ATK][act->damageTypeList[i]];
     }
     
     ans = (ans * Atk_percent_mtpr/100) + Flat_atk_mtpr;
@@ -117,12 +117,12 @@ double calHpMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
     Hp_percent_mtpr += act->source->Stats_type[Stats::HP_P][AType::None] + target->Stats_type[Stats::HP_P][AType::None];
     Flat_hp_mtpr += act->source->Stats_type[Stats::FLAT_HP][AType::None] + target->Stats_type[Stats::FLAT_HP][AType::None];
 
-    for(int i=0,sz=act->actionTypeList.size();i<sz;i++){
-            Hp_percent_mtpr+= act->source->Stats_type[Stats::HP_P][act->actionTypeList[i]];
-            Hp_percent_mtpr+= target->Stats_type[Stats::HP_P][act->actionTypeList[i]];
+    for(int i=0,sz=act->damageTypeList.size();i<sz;i++){
+            Hp_percent_mtpr+= act->source->Stats_type[Stats::HP_P][act->damageTypeList[i]];
+            Hp_percent_mtpr+= target->Stats_type[Stats::HP_P][act->damageTypeList[i]];
 
-            Flat_hp_mtpr += act->source->Stats_type[Stats::FLAT_HP][act->actionTypeList[i]];
-            Flat_hp_mtpr += target->Stats_type[Stats::FLAT_HP][act->actionTypeList[i]];
+            Flat_hp_mtpr += act->source->Stats_type[Stats::FLAT_HP][act->damageTypeList[i]];
+            Flat_hp_mtpr += target->Stats_type[Stats::FLAT_HP][act->damageTypeList[i]];
     }
     
     ans = (ans * Hp_percent_mtpr/100) + Flat_hp_mtpr;
@@ -148,12 +148,12 @@ double calDefMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
     Def_percent_mtpr += act->source->Stats_type[Stats::DEF_P][AType::None] + target->Stats_type[Stats::DEF_P][AType::None];
     Flat_def_mtpr += act->source->Stats_type[Stats::FLAT_DEF][AType::None] + target->Stats_type[Stats::FLAT_DEF][AType::None];
 
-    for(int i=0,sz=act->actionTypeList.size();i<sz;i++){
-            Def_percent_mtpr+= act->source->Stats_type[Stats::DEF_P][act->actionTypeList[i]];
-            Def_percent_mtpr+= target->Stats_type[Stats::DEF_P][act->actionTypeList[i]];
+    for(int i=0,sz=act->damageTypeList.size();i<sz;i++){
+            Def_percent_mtpr+= act->source->Stats_type[Stats::DEF_P][act->damageTypeList[i]];
+            Def_percent_mtpr+= target->Stats_type[Stats::DEF_P][act->damageTypeList[i]];
 
-            Flat_def_mtpr += act->source->Stats_type[Stats::FLAT_DEF][act->actionTypeList[i]];
-            Flat_def_mtpr += target->Stats_type[Stats::FLAT_DEF][act->actionTypeList[i]];
+            Flat_def_mtpr += act->source->Stats_type[Stats::FLAT_DEF][act->damageTypeList[i]];
+            Flat_def_mtpr += target->Stats_type[Stats::FLAT_DEF][act->damageTypeList[i]];
     }
     
     ans = (ans * Def_percent_mtpr/100) + Flat_def_mtpr;
@@ -176,9 +176,9 @@ double calBonusDmgMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
     
     
 
-    for(int i = 0, sz = act->actionTypeList.size(); i < sz; i++){
-        Bonus_dmg_mtpr += act->Attacker->Stats_type[Stats::DMG][act->actionTypeList[i]] + act->Attacker->Stats_each_element[Stats::DMG][act->Damage_element][act->actionTypeList[i]];
-        Bonus_dmg_mtpr += target->Stats_type[Stats::DMG][act->actionTypeList[i]] + target->Stats_each_element[Stats::DMG][act->Damage_element][act->actionTypeList[i]];
+    for(int i = 0, sz = act->damageTypeList.size(); i < sz; i++){
+        Bonus_dmg_mtpr += act->Attacker->Stats_type[Stats::DMG][act->damageTypeList[i]] + act->Attacker->Stats_each_element[Stats::DMG][act->Damage_element][act->damageTypeList[i]];
+        Bonus_dmg_mtpr += target->Stats_type[Stats::DMG][act->damageTypeList[i]] + target->Stats_each_element[Stats::DMG][act->Damage_element][act->damageTypeList[i]];
     }
 
     if(act->getAlly()->canCheckDmgformulaDmg()){
@@ -195,9 +195,9 @@ double calCritMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
 
     Crit_rate_mtpr = act->Attacker->Stats_type[Stats::CR][AType::None] + target->Stats_type[Stats::CR][AType::None];
     Crit_dam_mtpr = act->Attacker->Stats_type[Stats::CD][AType::None] + target->Stats_type[Stats::CD][AType::None];
-    for(int i=0,sz=act->actionTypeList.size();i<sz;i++){
-            Crit_rate_mtpr += act->Attacker->Stats_type[Stats::CR][act->actionTypeList[i]] + target->Stats_type[Stats::CR][act->actionTypeList[i]];
-            Crit_dam_mtpr += act->Attacker->Stats_type[Stats::CD][act->actionTypeList[i]] + target->Stats_type[Stats::CD][act->actionTypeList[i]];
+    for(int i=0,sz=act->damageTypeList.size();i<sz;i++){
+            Crit_rate_mtpr += act->Attacker->Stats_type[Stats::CR][act->damageTypeList[i]] + target->Stats_type[Stats::CR][act->damageTypeList[i]];
+            Crit_dam_mtpr += act->Attacker->Stats_type[Stats::CD][act->damageTypeList[i]] + target->Stats_type[Stats::CD][act->damageTypeList[i]];
     }
     
     if(act->getAlly()->canCheckDmgformulaCritRate()){
@@ -218,8 +218,8 @@ double Cal_Crit_rate_multiplier(shared_ptr<AllyAttackAction> &act,Enemy *target)
     double Crit_rate_mtpr;
 
     Crit_rate_mtpr = act->Attacker->Stats_type[Stats::CR][AType::None] + target->Stats_type[Stats::CR][AType::None];
-    for (int i = 0, sz = act->actionTypeList.size(); i < sz; i++) {
-        Crit_rate_mtpr += act->Attacker->Stats_type[Stats::CR][act->actionTypeList[i]] + target->Stats_type[Stats::CR][act->actionTypeList[i]];
+    for (int i = 0, sz = act->damageTypeList.size(); i < sz; i++) {
+        Crit_rate_mtpr += act->Attacker->Stats_type[Stats::CR][act->damageTypeList[i]] + target->Stats_type[Stats::CR][act->damageTypeList[i]];
     }
     
     if(act->getAlly()->canCheckDmgformulaCritRate()){
@@ -234,8 +234,8 @@ double Cal_Crit_dam_multiplier(shared_ptr<AllyAttackAction> &act,Enemy *target) 
     double Crit_dam_mtpr;
 
     Crit_dam_mtpr = act->Attacker->Stats_type[Stats::CD][AType::None] + target->Stats_type[Stats::CD][AType::None];
-    for (int i = 0, sz = act->actionTypeList.size(); i < sz; i++) {
-        Crit_dam_mtpr += act->Attacker->Stats_type[Stats::CD][act->actionTypeList[i]] + target->Stats_type[Stats::CD][act->actionTypeList[i]];
+    for (int i = 0, sz = act->damageTypeList.size(); i < sz; i++) {
+        Crit_dam_mtpr += act->Attacker->Stats_type[Stats::CD][act->damageTypeList[i]] + target->Stats_type[Stats::CD][act->damageTypeList[i]];
     }
 
     if(act->getAlly()->canCheckDmgformulaCritDam()){
@@ -249,8 +249,8 @@ double calDefShredMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
     double Def_shred_mtpr;
     
     Def_shred_mtpr = act->Attacker->Stats_type[Stats::DEF_SHRED][AType::None] + target->Stats_type[Stats::DEF_SHRED][AType::None];
-    for(int i=0,sz=act->actionTypeList.size();i<sz;i++){
-            Def_shred_mtpr += act->Attacker->Stats_type[Stats::DEF_SHRED][act->actionTypeList[i]] + target->Stats_type[Stats::DEF_SHRED][act->actionTypeList[i]];
+    for(int i=0,sz=act->damageTypeList.size();i<sz;i++){
+            Def_shred_mtpr += act->Attacker->Stats_type[Stats::DEF_SHRED][act->damageTypeList[i]] + target->Stats_type[Stats::DEF_SHRED][act->damageTypeList[i]];
     }
 
     if(act->getAlly()->canCheckDmgformulaDefShred()){
@@ -271,9 +271,9 @@ double calRespenMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
     
     Respen_mtpr += act->Attacker->Stats_type[Stats::RESPEN][AType::None] + target->Stats_type[Stats::RESPEN][AType::None] + act->Attacker->Stats_each_element[Stats::RESPEN][act->Damage_element][AType::None] + target->Stats_each_element[Stats::RESPEN][act->Damage_element][AType::None];
 
-    for(int i = 0, sz = act->actionTypeList.size(); i < sz; i++){
-        Respen_mtpr += act->Attacker->Stats_type[Stats::RESPEN][act->actionTypeList[i]] + act->Attacker->Stats_each_element[Stats::RESPEN][act->Damage_element][act->actionTypeList[i]];
-        Respen_mtpr += target->Stats_type[Stats::RESPEN][act->actionTypeList[i]] + target->Stats_each_element[Stats::RESPEN][act->Damage_element][act->actionTypeList[i]];
+    for(int i = 0, sz = act->damageTypeList.size(); i < sz; i++){
+        Respen_mtpr += act->Attacker->Stats_type[Stats::RESPEN][act->damageTypeList[i]] + act->Attacker->Stats_each_element[Stats::RESPEN][act->Damage_element][act->damageTypeList[i]];
+        Respen_mtpr += target->Stats_type[Stats::RESPEN][act->damageTypeList[i]] + target->Stats_each_element[Stats::RESPEN][act->Damage_element][act->damageTypeList[i]];
     }
 
     if(act->getAlly()->canCheckDmgformulaRespen()){
@@ -288,8 +288,8 @@ double calVulMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
     double Vul_mtpr = 100;
     
     Vul_mtpr += act->Attacker->Stats_type[Stats::VUL][AType::None] + target->Stats_type[Stats::VUL][AType::None];
-    for(int i = 0, sz = act->actionTypeList.size(); i < sz; i++){
-        Vul_mtpr += act->Attacker->Stats_type[Stats::VUL][act->actionTypeList[i]] + target->Stats_type[Stats::VUL][act->actionTypeList[i]];
+    for(int i = 0, sz = act->damageTypeList.size(); i < sz; i++){
+        Vul_mtpr += act->Attacker->Stats_type[Stats::VUL][act->damageTypeList[i]] + target->Stats_type[Stats::VUL][act->damageTypeList[i]];
     }
 
     if(act->getAlly()->canCheckDmgformulaVul()){
@@ -304,8 +304,8 @@ double calBreakEffectMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target)
     double BreakEffect_mtpr = 100;
   
     BreakEffect_mtpr += act->Attacker->Stats_type[Stats::BE][AType::None] + target->Stats_type[Stats::BE][AType::None];
-    for(int i = 0, sz = act->actionTypeList.size(); i < sz; i++){
-        BreakEffect_mtpr += act->Attacker->Stats_type[Stats::BE][act->actionTypeList[i]] + target->Stats_type[Stats::BE][act->actionTypeList[i]];
+    for(int i = 0, sz = act->damageTypeList.size(); i < sz; i++){
+        BreakEffect_mtpr += act->Attacker->Stats_type[Stats::BE][act->damageTypeList[i]] + target->Stats_type[Stats::BE][act->damageTypeList[i]];
     }
     
     if(act->getAlly()->canCheckDmgformulaBE()){
@@ -339,8 +339,8 @@ double calMitigationMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
     double Mitigation_mtpr = 100;
 
     Mitigation_mtpr += act->Attacker->Stats_type[Stats::Mitigration][AType::None] + target->Stats_type[Stats::Mitigration][AType::None];
-    for(int i = 0, sz = act->actionTypeList.size(); i < sz; i++){
-        Mitigation_mtpr += act->Attacker->Stats_type[Stats::Mitigration][act->actionTypeList[i]] + target->Stats_type[Stats::Mitigration][act->actionTypeList[i]];
+    for(int i = 0, sz = act->damageTypeList.size(); i < sz; i++){
+        Mitigation_mtpr += act->Attacker->Stats_type[Stats::Mitigration][act->damageTypeList[i]] + target->Stats_type[Stats::Mitigration][act->damageTypeList[i]];
     }
 
     if(act->getAlly()->canCheckDmgformulaMtgt()){
@@ -355,8 +355,8 @@ double calMultiplierIncrease(shared_ptr<AllyAttackAction> &act,Enemy *target){
     double mtpr = 100;
 
     mtpr += act->Attacker->Stats_type[Stats::MtprInc][AType::None] + target->Stats_type[Stats::MtprInc][AType::None];
-    for(int i = 0, sz = act->actionTypeList.size(); i < sz; i++){
-        mtpr += act->Attacker->Stats_type[Stats::MtprInc][act->actionTypeList[i]] + target->Stats_type[Stats::MtprInc][act->actionTypeList[i]];
+    for(int i = 0, sz = act->damageTypeList.size(); i < sz; i++){
+        mtpr += act->Attacker->Stats_type[Stats::MtprInc][act->damageTypeList[i]] + target->Stats_type[Stats::MtprInc][act->damageTypeList[i]];
     }
 
     if(act->getAlly()->canCheckDmgformulaMtgt()){
