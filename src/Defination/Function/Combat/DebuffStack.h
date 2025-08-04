@@ -1,10 +1,11 @@
 #include "../include.h"
 
 pair<int,int> Enemy::calDebuffStack(SubUnit *ptr,string debuffName,int Stack_increase,int StackLimit){
+    allEventBeforeApplyDebuff(ptr, this);
     if (!this->getStack(debuffName)) this->addTotalDebuff(1);
     Stack_increase = (this->getStack(debuffName) + Stack_increase <= StackLimit) ? Stack_increase : StackLimit - this->getStack(debuffName);
     this->addStack(debuffName, Stack_increase);
-    allEventApplyDebuff(ptr, this);
+    allEventAfterApplyDebuff(ptr, this);
     return {Stack_increase, this->getStack(debuffName)};
 }
 int Enemy::debuffRemoveStack(string debuffName){

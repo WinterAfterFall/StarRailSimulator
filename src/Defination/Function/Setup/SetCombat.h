@@ -30,7 +30,8 @@ void Setup(){
     sort(AllyDeath_List.begin(), AllyDeath_List.end(), TriggerFunc::Trigger_cmp);
 
     sort(Toughness_break_List.begin(), Toughness_break_List.end(), TriggerFunc::Trigger_cmp);
-    sort(Apply_debuff_List.begin(), Apply_debuff_List.end(), TriggerFunc::Trigger_cmp);
+    sort(BeforeApplyDebuff.begin(), BeforeApplyDebuff.end(), TriggerFunc::Trigger_cmp);
+    sort(AfterApplyDebuff.begin(), AfterApplyDebuff.end(), TriggerFunc::Trigger_cmp);
     sort(Enemy_Death_List.begin(), Enemy_Death_List.end(), TriggerFunc::Trigger_cmp);
 
     sort(Enemy_hit_List.begin(), Enemy_hit_List.end(), TriggerFunc::Trigger_cmp);

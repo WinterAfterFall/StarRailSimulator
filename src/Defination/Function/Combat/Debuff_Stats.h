@@ -1,32 +1,35 @@
 #include "../include.h"
 
 bool Enemy::debuffApply(SubUnit *ptr,string debuffName){
+    allEventBeforeApplyDebuff(ptr,this);
     if(!this->getDebuff(debuffName)){
         this->setDebuff(debuffName,1);
         this->addTotalDebuff(1);
-        allEventApplyDebuff(ptr,this);
+        allEventAfterApplyDebuff(ptr,this);
         return true;
     }
-    allEventApplyDebuff(ptr,this);
+    allEventAfterApplyDebuff(ptr,this);
     return false;
 }
 bool Enemy::debuffApply(SubUnit *ptr,string debuffName,int extend){
+    allEventBeforeApplyDebuff(ptr,this);
     this->extendDebuff(debuffName,extend);
     if(!this->getDebuff(debuffName)){
         this->setDebuff(debuffName,1);
         this->addTotalDebuff(1);
-        allEventApplyDebuff(ptr,this);
+        allEventAfterApplyDebuff(ptr,this);
         return true;
     }
-    allEventApplyDebuff(ptr,this);
+    allEventAfterApplyDebuff(ptr,this);
     return false;
 }
 
 bool Enemy::debuffMark(SubUnit *ptr,string debuffName){
     if(!this->getDebuff(debuffName)){
+        allEventBeforeApplyDebuff(ptr,this);
         this->setDebuff(debuffName,1);
         this->addTotalDebuff(1);
-        allEventApplyDebuff(ptr,this);
+        allEventAfterApplyDebuff(ptr,this);
         return true;
     }
     return false;
@@ -34,9 +37,10 @@ bool Enemy::debuffMark(SubUnit *ptr,string debuffName){
 bool Enemy::debuffMark(SubUnit *ptr,string debuffName,int extend){
     this->extendDebuff(debuffName,extend);
     if(!this->getDebuff(debuffName)){
+        allEventBeforeApplyDebuff(ptr,this);
         this->setDebuff(debuffName,1);
         this->addTotalDebuff(1);
-        allEventApplyDebuff(ptr,this);
+        allEventAfterApplyDebuff(ptr,this);
         return true;
     }
     return false;

@@ -183,8 +183,13 @@ void allEventAdjustStats(SubUnit *ptr,Stats statsType){
     }
     AdjustCheck = 0;
 }
-void allEventApplyDebuff(SubUnit *ptr,Enemy* target){
-    for(TriggerBySomeAlly_Func &e : Apply_debuff_List){
+void allEventBeforeApplyDebuff(SubUnit *ptr,Enemy* target){
+    for(TriggerBySomeAlly_Func &e : BeforeApplyDebuff){
+        e.Call(target,ptr);
+    }
+}
+void allEventAfterApplyDebuff(SubUnit *ptr,Enemy* target){
+    for(TriggerBySomeAlly_Func &e : BeforeApplyDebuff){
         e.Call(target,ptr);
     }
 }

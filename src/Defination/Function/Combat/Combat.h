@@ -236,8 +236,8 @@ void Toughness_break(shared_ptr<AllyAttackAction> &act,Enemy* target){
     else
     data_2 =
     make_shared<AllyAttackAction>(AType::Break, act->Attacker,TT_SINGLE,"Break");
+    allEventBeforeApplyDebuff(act->Attacker,target);
     ++target->Total_debuff;
-    allEventApplyDebuff(act->Attacker,target);
     
 
     if(SuperBreak__Mode==1){
@@ -280,7 +280,8 @@ void Toughness_break(shared_ptr<AllyAttackAction> &act,Enemy* target){
         target->speedBuff({Stats::SPD_P,AType::None,-10});
         Constant=0.5;
     }
-        
+
+    allEventAfterApplyDebuff(act->Attacker,target);    
     
     Cal_Break_damage(data_2,target,Constant);
     target->Toughness_status=0;

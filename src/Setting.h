@@ -106,7 +106,8 @@ vector<TriggerDecreaseHP> HPDecrease_List;
 vector<TriggerAllyDeath> AllyDeath_List;
 
 vector<TriggerBySomeAlly_Func> Toughness_break_List;
-vector<TriggerBySomeAlly_Func> Apply_debuff_List;
+vector<TriggerBySomeAlly_Func> BeforeApplyDebuff;
+vector<TriggerBySomeAlly_Func> AfterApplyDebuff;
 vector<TriggerBySomeAlly_Func> Enemy_Death_List;
 
 vector<TriggerByEnemyHit> Enemy_hit_List;
