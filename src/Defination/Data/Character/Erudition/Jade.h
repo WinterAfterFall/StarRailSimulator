@@ -45,7 +45,7 @@ namespace Jade{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"Jade Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"Jade Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 ptr->Sub_Unit_ptr[0]->Stack["Jade_Ultimate_stack"] = 2;
                 Attack(act);
@@ -73,7 +73,7 @@ namespace Jade{
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 50);
             if (ptr->Technique == 1) {
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TT_AOE,"Jade Tech",
+                make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TraceType::Aoe,"Jade Tech",
                 [ptr](shared_ptr<AllyAttackAction> &act){
                     Jade_Talent(ptr, 15);
                     Attack(act);
@@ -127,7 +127,7 @@ namespace Jade{
     void Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_BLAST,"Jade BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Blast,"Jade BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
@@ -142,7 +142,7 @@ namespace Jade{
     void Skill(Ally *ptr){
         
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TT_SINGLE,"Jade Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"Jade Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
@@ -174,7 +174,7 @@ namespace Jade{
     }
     void Fua(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TT_AOE,"Jade Fua",
+        make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TraceType::Aoe,"Jade Fua",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,10);
             if(ptr->Eidolon>=1)ptr->getSubUnit()->buffSingle({{Stats::DMG,AType::None,32}});
@@ -210,7 +210,7 @@ namespace Jade{
     }
     void Fua_Enchance(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TT_AOE,"Jade Fua",
+        make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TraceType::Aoe,"Jade Fua",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,10);
             if(ptr->Eidolon>=1)ptr->getSubUnit()->buffSingle({{Stats::DMG,AType::None,32}});

@@ -40,7 +40,7 @@ namespace Phainon{
         #pragma region action
         function<void()> BA = [ptr,pn]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"PN BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"PN BA",
             [ptr,pn](shared_ptr<AllyAttackAction> &act){
                 Skill_point(pn,1);
                 Attack(act);
@@ -53,7 +53,7 @@ namespace Phainon{
 
         function<void()> Skill = [ptr,pn,CoreFlame]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_BLAST,"PN Skill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"PN Skill",
             [ptr,pn,CoreFlame](shared_ptr<AllyAttackAction> &act){
                 Skill_point(pn,-1);
                 CoreFlame(2);
@@ -68,7 +68,7 @@ namespace Phainon{
         
         function<void()> Creation = [ptr,pn,Scourge]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_BLAST,"PN Creation",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Blast,"PN Creation",
             [ptr,pn,Scourge](shared_ptr<AllyAttackAction> &act){
                 Scourge(2);
                 Attack(act);
@@ -82,7 +82,7 @@ namespace Phainon{
 
         function<void()> Calamity = [ptr,pn,Scourge]() {
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TT_SINGLE,"PN Calamity",
+            make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"PN Calamity",
             [ptr,pn,Scourge](shared_ptr<AllyBuffAction> &act){
                 pn->setBuffCheck("Soulscorch",1);
                 pn->setBuffCountdown("PN Counter",Total_enemy);
@@ -99,7 +99,7 @@ namespace Phainon{
 
         function<void()> Foundation = [ptr,pn,Scourge]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_BOUNCE,"PN Foundation",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Bounce,"PN Foundation",
             [ptr,pn,Scourge](shared_ptr<AllyAttackAction> &act){
                 Scourge(-4);
                 Attack(act);
@@ -113,7 +113,7 @@ namespace Phainon{
 
         function<void()> FinalHit = [ptr,pn,Scourge,pnCD,CoreFlame]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_AOE,"PN FinalHit",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Aoe,"PN FinalHit",
             [ptr,pn,pnCD,CoreFlame](shared_ptr<AllyAttackAction> &act){
                 Attack(act);
                 pn->buffSingle({
@@ -196,7 +196,7 @@ namespace Phainon{
             if (!ultUseCheck(ptr)) return;
             CoreFlame(-12);
             shared_ptr<AllyBuffAction> act = 
-                make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TT_SINGLE,"PN Ult",
+                make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TraceType::Single,"PN Ult",
                 [ptr,pn,pnCD,Scourge,CoreFlame](shared_ptr<AllyBuffAction> &act){
                     CharCmd::printUltStart("Phainon");
                     pn->buffSingle({
@@ -285,7 +285,7 @@ namespace Phainon{
         Start_wave_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,pn]() {
             if(ptr->Technique){
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TT_AOE,"PN Tech",
+                make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TraceType::Aoe,"PN Tech",
                 [ptr](shared_ptr<AllyAttackAction> &act){
                     Attack(act);
                 });
@@ -310,7 +310,7 @@ namespace Phainon{
             
             if(!pn->getBuffCountdown("PN Counter")&&pn->getBuffCheck("Soulscorch")){
                 shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TT_BLAST,"PN Calamity",
+            make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TraceType::Blast,"PN Calamity",
             [ptr,pn](shared_ptr<AllyAttackAction> &act){
                 Attack(act);
             });

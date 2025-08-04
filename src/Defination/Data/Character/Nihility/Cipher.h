@@ -33,7 +33,7 @@ namespace Cipher{
         
         function<void()> BA = [ptr,cph]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"Cipher BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Cipher BA",
             [ptr,cph](shared_ptr<AllyAttackAction> &act){
                 Skill_point(cph,1);
                 Increase_energy(ptr,20);
@@ -46,7 +46,7 @@ namespace Cipher{
         };
         function<void()> Skill = [ptr,cph]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_BLAST,"Cipher Skill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"Cipher Skill",
             [ptr,cph](shared_ptr<AllyAttackAction> &act){
                 Skill_point(cph,-1);
                 Increase_energy(ptr,30);
@@ -74,7 +74,7 @@ namespace Cipher{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,cph]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"Cipher Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"Cipher Ult",
             [ptr,cph](shared_ptr<AllyAttackAction> &act){
                 Attack(act);
             });
@@ -132,7 +132,7 @@ namespace Cipher{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_Last,[ptr,cph](){
                 shared_ptr<AllyAttackAction> newAct = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TT_AOE,"Cipher Tech",
+                make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TraceType::Aoe,"Cipher Tech",
                 [ptr,cph](shared_ptr<AllyAttackAction> &act){
                     Attack(act);
                 });
@@ -158,7 +158,7 @@ namespace Cipher{
                 if(!act->isSameUnitName("Cipher")&&!cph->getBuffCheck("Cipher Fua")){
                     cph->setBuffCheck("Cipher Fua",1);
                     shared_ptr<AllyAttackAction> newAct = 
-                    make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TT_SINGLE,"Cipher Fua",
+                    make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TraceType::Single,"Cipher Fua",
                     [ptr,cph](shared_ptr<AllyAttackAction> &act){
                         Increase_energy(ptr,5);
 
@@ -218,7 +218,7 @@ namespace Cipher{
                     for(auto &each : act->targetList){
                         if(each->getDebuff("Patron")){
                             shared_ptr<AllyAttackAction> newAct = make_shared<AllyAttackAction>(
-                                AType::Addtional,cph,TT_SINGLE,"Cipher E4");
+                                AType::Addtional,cph,TraceType::Single,"Cipher E4");
                             newAct->addDamageIns(DmgSrc(DmgSrcType::ATK,50));
                             Attack(newAct);
                             break;

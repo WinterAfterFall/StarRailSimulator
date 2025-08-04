@@ -58,7 +58,7 @@ namespace Aglaea{
             if (!ultUseCheck(ptr)) return;
 
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TT_SINGLE,"AG Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TraceType::Single,"AG Ult",
             [ptr,AGptr](shared_ptr<AllyBuffAction> &act){
                 if (ptr->Sub_Unit_ptr[1]->isDeath()) Summon(ptr);
 
@@ -89,7 +89,7 @@ namespace Aglaea{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr]() {
             if (ptr->Technique == 1) {
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TT_AOE,"AG Tech",
+                make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TraceType::Aoe,"AG Tech",
                 [ptr](shared_ptr<AllyAttackAction> &act){
                     Increase_energy(ptr, 30);
                     Summon(ptr);
@@ -124,7 +124,7 @@ namespace Aglaea{
             }
             if (act->Attacker->Atv_stats->num == ptr->Sub_Unit_ptr[0]->Atv_stats->num) {
                 shared_ptr<AllyAttackAction> data_Additional = 
-                make_shared<AllyAttackAction>(AType::Addtional,ptr->getSubUnit(),TT_SINGLE,"AG AddDmg");
+                make_shared<AllyAttackAction>(AType::Addtional,ptr->getSubUnit(),TraceType::Single,"AG AddDmg");
                 data_Additional->addDamageIns(DmgSrc(DmgSrcType::ATK,30));
                 Attack(data_Additional);
                 if (ptr->Eidolon >= 1) {
@@ -205,7 +205,7 @@ namespace Aglaea{
     void Enchance_Basic_Atk(Ally *ptr){
        
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_BLAST,"AG Joint",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Blast,"AG Joint",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Attack(act);
@@ -225,7 +225,7 @@ namespace Aglaea{
     void Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"AG BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"AG BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
@@ -238,7 +238,7 @@ namespace Aglaea{
     }
     void Skill(Ally *ptr){
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TT_SINGLE,"AG Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"AG Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
@@ -260,7 +260,7 @@ namespace Aglaea{
     
     void Memo_Skill(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(1),TT_BLAST,"AG Memo Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(1),TraceType::Blast,"AG Memo Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,10);
             Attack(act);

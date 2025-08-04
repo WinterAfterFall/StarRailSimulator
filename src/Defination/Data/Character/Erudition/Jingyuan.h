@@ -41,7 +41,7 @@ namespace Jingyuan{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr,JYptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,JYptr,TT_AOE,"JY Ult",
+            make_shared<AllyAttackAction>(AType::Ult,JYptr,TraceType::Aoe,"JY Ult",
             [ptr,JYptr](shared_ptr<AllyAttackAction> &act){
                 Attack(act);
                 if (ptr->Print)CharCmd::printUltStart("Jingyuan");
@@ -110,7 +110,7 @@ namespace Jingyuan{
         ptr->Summon_ptr[0]->Turn_func = [ptr,JYptr](){
             
             shared_ptr<AllyAttackAction> temp = 
-            make_shared<AllyAttackAction>(AType::Fua,JYptr,TT_SINGLE,"LL Fua",
+            make_shared<AllyAttackAction>(AType::Fua,JYptr,TraceType::Single,"LL Fua",
             [ptr,JYptr](shared_ptr<AllyAttackAction> &act){
                 if(ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]>=6){
                     ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::Summon]+=25;
@@ -159,7 +159,7 @@ namespace Jingyuan{
     void Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"JY BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"JY BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
@@ -171,7 +171,7 @@ namespace Jingyuan{
     }
     void Skill(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_AOE,"JY Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Aoe,"JY Skill",
         [ptr,JYptr = ptr->getSubUnit()](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);

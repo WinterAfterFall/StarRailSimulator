@@ -54,7 +54,7 @@ namespace Serval{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"Serval Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"Serval Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 Attack(act);
                 if (ptr->Eidolon >= 4){
@@ -103,7 +103,7 @@ namespace Serval{
 
             if (Dot_type == DotType::General|| Dot_type == DotType::Bleed) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Dot,ptr->getSubUnit(),TT_SINGLE,"Serval Shock");
+            make_shared<AllyAttackAction>(AType::Dot,ptr->getSubUnit(),TraceType::Single,"Serval Shock");
             act->addDamageIns(DmgSrc(DmgSrcType::ATK,114),target);
             act->multiplyDmg(Dot_ratio);
             Attack(act);
@@ -112,7 +112,7 @@ namespace Serval{
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act) {
             if (act->Attacker->Atv_stats->Unit_Name != "Serval") return;
             shared_ptr<AllyAttackAction> data_2 = 
-            make_shared<AllyAttackAction>(AType::Addtional,ptr->getSubUnit(),TT_SINGLE,"Serval AddDmg");
+            make_shared<AllyAttackAction>(AType::Addtional,ptr->getSubUnit(),TraceType::Single,"Serval AddDmg");
             for (int i = 1; i <= Total_enemy; i++) {
                 if (Enemy_unit[i]->getDebuff("Serval_Shock")) {
                     data_2->addDamageIns(DmgSrc(DmgSrcType::ATK,79));
@@ -136,7 +136,7 @@ namespace Serval{
 
     void Basic_Atk(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"Serval BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Serval BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
@@ -154,7 +154,7 @@ namespace Serval{
     }
     void Skill(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_BLAST,"Serval Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"Serval Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);

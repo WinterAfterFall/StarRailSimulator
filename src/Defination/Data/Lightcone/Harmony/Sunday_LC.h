@@ -19,7 +19,7 @@ namespace Harmony_Lightcone{
             }));
     
             Buff_List.push_back(TriggerByAllyBuffAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,hymn](shared_ptr<AllyBuffAction> &act) {
-                if (act->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && act->traceType == "Single_target") {
+                if (act->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && act->traceType == TraceType::Single) {
                     Increase_energy(ptr, 5.5 + 0.5 * superimpose);
                     for (auto each : act->buffTargetList) {
                         each->buffStackSingle({{Stats::DMG,AType::None,(12.75 + (2.25)*superimpose)}},1,3,hymn,3);

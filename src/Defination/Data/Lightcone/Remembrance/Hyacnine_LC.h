@@ -36,7 +36,7 @@ namespace Remembrance_Lightcone{
                     &&act->Attacker->Atv_stats->num==ptr->getSubUnit()->Atv_stats->num
                     &&act->isSameAction(AType::SKILL)){
                         shared_ptr<AllyAttackAction> addtionaldmg = 
-                        make_shared<AllyAttackAction>(AType::Addtional,act->Attacker,TT_SINGLE,"Hyc LC AddDmg");
+                        make_shared<AllyAttackAction>(AType::Addtional,act->Attacker,TraceType::Single,"Hyc LC AddDmg");
                         act->addDamageIns(DmgSrc(DmgSrcType::CONST,ptr->getSubUnit()->Buff_note["Hyacnine_LC Note"] * (1.875 + 0.625 * superimpose),0));
                         Attack(addtionaldmg);
                         

@@ -42,7 +42,7 @@ namespace Gallagher{
             
 
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,Charptr,"Aoe","Gall Ult",
+            make_shared<AllyAttackAction>(AType::Ult,Charptr,TraceType::Aoe,"Gall Ult",
                 [ptr,Charptr](shared_ptr<AllyAttackAction> &act){
                     Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
                     ptr->Sub_Unit_ptr[0]->Buff_check["Gallagher_enchance_basic_atk"] = 1;
@@ -104,7 +104,7 @@ namespace Gallagher{
             ptr->getSubUnit()->Buff_note["Novel Concoction"] = temp;
             if (ptr->Technique) {
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Technique,Charptr,"Aoe","Gall Tech",
+                make_shared<AllyAttackAction>(AType::Technique,Charptr,TraceType::Aoe,"Gall Tech",
                 [ptr,Charptr](shared_ptr<AllyAttackAction> &act){
                     debuffAllEnemyApply({{Stats::VUL, AType::Break, 13.2}},Charptr,"Besotted",2);
                     Attack(act);
@@ -162,7 +162,7 @@ namespace Gallagher{
     void Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"Gall BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Gall BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
@@ -174,7 +174,7 @@ namespace Gallagher{
     }
     void Enchance_Basic_Atk(Ally *ptr){
        shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"Gall EBA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Gall EBA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
@@ -194,7 +194,7 @@ namespace Gallagher{
     void Skill_func(Ally *ptr){
 
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TT_SINGLE,"Gall Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"Gall Skill",
         [ptr](shared_ptr<AllyBuffAction> act){
             ptr->getSubUnit()->RestoreHP(HealSrc(HealSrcType::CONST,1768),HealSrc(),HealSrc());
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);

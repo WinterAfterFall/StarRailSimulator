@@ -43,7 +43,7 @@ namespace Sunday{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,SDptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TT_SINGLE,"SD Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TraceType::Single,"SD Ult",
             [ptr,SDptr](shared_ptr<AllyBuffAction> &act){
                 if (ptr->Print)CharCmd::printUltStart("Sunday");
                 if (ptr->Eidolon >= 2) {
@@ -230,7 +230,7 @@ namespace Sunday{
     
     void Skill(Ally *ptr){
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TT_SINGLE,"SD Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"SD Skill",
         [ptr,SDptr=ptr->getSubUnit()](shared_ptr<AllyBuffAction> &act){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);

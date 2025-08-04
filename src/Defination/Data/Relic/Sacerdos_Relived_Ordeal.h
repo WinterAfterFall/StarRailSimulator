@@ -10,7 +10,7 @@ namespace Relic{
         }));
 
         Buff_List.push_back(TriggerByAllyBuffAction_Func(PRIORITY_IMMEDIATELY, [ptr,Sacerdos](shared_ptr<AllyBuffAction> &act) {
-            if (act->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && act->traceType == "Single_target") {
+            if (act->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name && act->traceType == TraceType::Single) {
                 for (auto each : act->buffTargetList) {
                     each->buffStackSingle({{Stats::CD, AType::None, 18}}, 1, 2, Sacerdos,2);
                 }

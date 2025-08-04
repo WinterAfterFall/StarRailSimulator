@@ -8,7 +8,7 @@ class AllyActionData : public ActionData, public std::enable_shared_from_this<Al
     SubUnit* Attacker = nullptr;
     SubUnit* source = nullptr; 
     vector<AType> actionTypeList;//  None Basic_Attack Skill Ultimate  Dot  Fua  Summon  Break_dmg  Super_break Additional
-    string traceType = "";// Aoe Single_target Bounce
+    TraceType traceType;
     
 
 

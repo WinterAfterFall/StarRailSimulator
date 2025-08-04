@@ -56,7 +56,7 @@ namespace Hyacine{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Hycptr,Icaptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"Hyc Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"Hyc Ult",
             [ptr,Hycptr](shared_ptr<AllyBuffAction> &act){
                 if(ptr->Print)CharCmd::printUltStart("Hyacine");
                 SummonIca(ptr);
@@ -287,7 +287,7 @@ namespace Hyacine{
 
     void Basic_Atk(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"Hyc BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Hyc BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
@@ -299,7 +299,7 @@ namespace Hyacine{
     }
     void Skill(Ally *ptr){
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TT_AOE,"Hyc Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Aoe,"Hyc Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
@@ -321,7 +321,7 @@ namespace Hyacine{
 
     void Memo_Skill(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(1),TT_AOE,"Ica Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(1),TraceType::Aoe,"Ica Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,5);
             Attack(act);

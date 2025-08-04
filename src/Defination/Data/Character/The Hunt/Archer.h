@@ -33,7 +33,7 @@ namespace Archer{
 
         function<void()> BA = [ptr,ac]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"Archer BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Archer BA",
             [ptr,ac](shared_ptr<AllyAttackAction> &act){
                 Skill_point(ac,1);
                 Increase_energy(ptr,20);
@@ -47,7 +47,7 @@ namespace Archer{
 
         function<void()> Skill = [ptr,ac]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_SINGLE,"Archer Skill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"Archer Skill",
             [ptr,ac](shared_ptr<AllyAttackAction> &act){
                 Skill_point(ac,-2);
                 Increase_energy(ptr,30);
@@ -71,7 +71,7 @@ namespace Archer{
 
         function<void()> Fua = [ptr,ac]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TT_SINGLE,"Archer Fua",
+            make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TraceType::Single,"Archer Fua",
             [ptr,ac](shared_ptr<AllyAttackAction> &act){
                 Skill_point(ac,1);
                 Increase_energy(ptr,5);
@@ -97,7 +97,7 @@ namespace Archer{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr,ac,Charge]() {
             if (!ultUseCheck(ptr))return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TT_SINGLE,"Archer Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TraceType::Single,"Archer Ult",
             [ptr,ac,Charge](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Archer");
                 Charge(2);
@@ -132,7 +132,7 @@ namespace Archer{
             Charge(1);
             if(ptr->Technique){
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TT_AOE,"Archer Tech",
+                make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TraceType::Aoe,"Archer Tech",
                 [ptr](shared_ptr<AllyAttackAction> &act){
                     Attack(act);
                 });

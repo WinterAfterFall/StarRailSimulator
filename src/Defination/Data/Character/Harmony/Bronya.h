@@ -30,7 +30,7 @@ namespace Bronya{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Bronyaptr](){
             if(!ultUseCheck(ptr)) return;
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"Bronya Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"Bronya Ult",
             [ptr](shared_ptr<AllyBuffAction> &act){
                 //Ult ATKBUFF
                 buffAllAlly({{Stats::ATK_P,AType::None,55}},"Bronya_Ult",2);
@@ -116,7 +116,7 @@ namespace Bronya{
             }
             if(ptr->Eidolon >= 4 && act->isSameAttack(AType::BA)&&!act->isSameUnitName("Bronya")&& ptr->Sub_Unit_ptr[0]->Buff_check["Bronya_E4"] == 0){
                 shared_ptr<AllyAttackAction> newAct = 
-                make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TT_SINGLE,"Bronya E4",
+                make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TraceType::Single,"Bronya E4",
                 [ptr](shared_ptr<AllyAttackAction> &act){
                     Increase_energy(ptr,5);
                     Attack(act);
@@ -136,7 +136,7 @@ namespace Bronya{
     
     void Skill(Ally *ptr){
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TT_SINGLE,"Bronya Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"Bronya Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);

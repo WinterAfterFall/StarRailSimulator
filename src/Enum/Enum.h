@@ -128,6 +128,12 @@ enum class EnemyType{
     Adjacent,
     Other
 };
+enum class TraceType{
+    Single,
+    Blast,
+    Aoe,
+    Bounce
+};
 namespace std {
     template <>
     struct hash<AType> {

@@ -49,7 +49,7 @@ namespace Tribbie{
             if (!ultUseCheck(ptr)) return;
             
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"TB Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"TB Ult",
             [ptr,TBptr](shared_ptr<AllyAttackAction> &act){
                 if (TBptr->isHaveToAddBuff("Tribbie_Zone",2)) {
                         debuffAllEnemyMark({{Stats::VUL,AType::None,30}},ptr->Sub_Unit_ptr[0].get(),"Tribbie_Zone");
@@ -75,7 +75,7 @@ namespace Tribbie{
                 if (ptr->Print)CharCmd::printUltStart("Tribbie");
                 if (ptr->Eidolon >= 6) {
                     shared_ptr<AllyAttackAction> data_2 = 
-                    make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TT_AOE,"TB Fua",
+                    make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TraceType::Aoe,"TB Fua",
                     [ptr](shared_ptr<AllyAttackAction> &act){
                         Increase_energy(ptr, 5);
                         Attack(act);
@@ -154,7 +154,7 @@ namespace Tribbie{
             Increase_energy(ptr, (1.5) * temp);
             if (TBptr->getBuffCheck("Tribbie_Zone")) {
                 shared_ptr<AllyAttackAction> data_1 = 
-                make_shared<AllyAttackAction>(AType::Addtional,ptr->getSubUnit(),TT_SINGLE,"TB AddDmg");
+                make_shared<AllyAttackAction>(AType::Addtional,ptr->getSubUnit(),TraceType::Single,"TB AddDmg");
                 if (ptr->Eidolon >= 2) {
                     data_1->addDamageIns(DmgSrc(DmgSrcType::HP,14.4 * (temp + 1)));
                 } else {
@@ -166,7 +166,7 @@ namespace Tribbie{
             if (act->isSameAttack(AType::Ult)&& act->Attacker->getBuffCheck("Tribbie_ult_launch") == 0 && act->Attacker->Atv_stats->Char_Name != "Tribbie" && act->Attacker->Atv_stats->side == Side::Ally) {
                 act->Attacker->Buff_check["Tribbie_ult_launch"] = 1;
                 shared_ptr<AllyAttackAction> data_2 = 
-                make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TT_AOE,"TB Fua",
+                make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TraceType::Aoe,"TB Fua",
                 [ptr](shared_ptr<AllyAttackAction> &act){
                     Increase_energy(ptr, 5);
                     Attack(act);
@@ -216,7 +216,7 @@ namespace Tribbie{
 
     void Basic_Atk(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_BLAST,"TB BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Blast,"TB BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
                         Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
@@ -231,7 +231,7 @@ namespace Tribbie{
     
     void Skill(Ally *ptr){
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TT_AOE,"TB Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Aoe,"TB Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);

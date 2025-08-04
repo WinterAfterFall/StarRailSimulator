@@ -73,7 +73,7 @@ namespace Robin{
 
             if(ultUseCheck(ptr)){
                 shared_ptr<AllyBuffAction> act = 
-                make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"RB Ult",
+                make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"RB Ult",
                 [ptr,Robinptr](shared_ptr<AllyBuffAction> &act){
                     ptr->Countdown_ptr[0]->summon();
                     ptr->Sub_Unit_ptr[0]->Atv_stats->baseSpeed = -1;
@@ -135,7 +135,7 @@ namespace Robin{
             }
             if(!ptr->Countdown_ptr[0]->isDeath()){
                 shared_ptr<AllyAttackAction> newAct = 
-                make_shared<AllyAttackAction>(AType::Addtional,ptr->getSubUnit(),TT_SINGLE,"RB AddDmg");
+                make_shared<AllyAttackAction>(AType::Addtional,ptr->getSubUnit(),TraceType::Single,"RB AddDmg");
                 double x1 = 0, x2 = 0;
 
                 ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += 100;
@@ -189,7 +189,7 @@ namespace Robin{
 
     void Skill(Ally *ptr){
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TT_SINGLE,"RB Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"RB Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,35);
@@ -203,7 +203,7 @@ namespace Robin{
 
     void Basic_Atk(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"RB BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"RB BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);

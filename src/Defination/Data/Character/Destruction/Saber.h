@@ -43,7 +43,7 @@ namespace Saber{
 
         function<void()> BA = [ptr,sb,CoreResonance]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"Saber BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Saber BA",
             [ptr,sb,CoreResonance](shared_ptr<AllyAttackAction> &act){
                 Skill_point(sb,1);
                 Increase_energy(sb,20);
@@ -59,7 +59,7 @@ namespace Saber{
 
         function<void()> EBA = [ptr,sb,CoreResonance]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_AOE,"Saber EBA",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Aoe,"Saber EBA",
             [ptr,sb,CoreResonance](shared_ptr<AllyAttackAction> &act){
                 sb->setBuffCheck("Saber EBA",0);
                 Skill_point(sb,1);
@@ -89,7 +89,7 @@ namespace Saber{
 
         function<void()> Skill = [ptr,sb,CoreResonance]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_BLAST,"Saber Skill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"Saber Skill",
             [ptr,sb,CoreResonance](shared_ptr<AllyAttackAction> &act){
                 Skill_point(sb,-1);
                 Increase_energy(sb,30);
@@ -120,7 +120,7 @@ namespace Saber{
 
         function<void()> ESkill = [ptr,sb,resetCR,CoreResonance]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_BLAST,"Saber ESkill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"Saber ESkill",
             [ptr,sb,resetCR,CoreResonance](shared_ptr<AllyAttackAction> &act){
                 Skill_point(sb,-1);
                 Increase_energy(sb,30);
@@ -165,7 +165,7 @@ namespace Saber{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,sb]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"Saber Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"Saber Ult",
             [ptr,sb](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Saber");
                 sb->setBuffCheck("Saber EBA",1);

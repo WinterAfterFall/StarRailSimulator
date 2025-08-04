@@ -41,7 +41,7 @@ namespace Tingyun{
             if (!ultUseCheck(ptr)) return;
 
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TT_SINGLE,"TY Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TraceType::Single,"TY Ult",
             [ptr,TYptr](shared_ptr<AllyBuffAction> &act){
                 CharCmd::printUltStart("Tingyun");
                 Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(), 0, (ptr->Eidolon >= 6) ? 60 : 50);
@@ -102,12 +102,12 @@ namespace Tingyun{
             if (chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->getBuffCheck("Benediction")) {
                 if (act->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
                     shared_ptr<AllyAttackAction> temp = 
-                    make_shared<AllyAttackAction>(AType::Addtional,chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()),TT_SINGLE,"TY Talent");
+                    make_shared<AllyAttackAction>(AType::Addtional,chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()),TraceType::Single,"TY Talent");
                     temp->addDamageIns(DmgSrc(DmgSrcType::ATK,66));
                     Attack(temp);
                 } else if (act->Attacker->Atv_stats->Unit_Name == Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[ptr->Sub_Unit_ptr[0]->currentSubUnitTargetNum]->Atv_stats->Unit_Name) {
                     shared_ptr<AllyAttackAction> temp = 
-                    make_shared<AllyAttackAction>(AType::Addtional,tempUnit,TT_SINGLE,"TY Talent");
+                    make_shared<AllyAttackAction>(AType::Addtional,tempUnit,TraceType::Single,"TY Talent");
 
                     if (ptr->Eidolon >= 4) 
                     temp->addDamageIns(DmgSrc(DmgSrcType::ATK,64));
@@ -126,7 +126,7 @@ namespace Tingyun{
 
     void Skill(Ally *ptr){
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TT_SINGLE,"TY Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"TY Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
@@ -139,7 +139,7 @@ namespace Tingyun{
     }
     void Basic_Atk(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"TY BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"TY BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);

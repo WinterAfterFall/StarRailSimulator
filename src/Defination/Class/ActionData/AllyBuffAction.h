@@ -123,7 +123,7 @@ class AllyBuffAction : public AllyActionData {
         Action_bar.push(self);
     }
     AllyBuffAction(){}
-    AllyBuffAction(AType actionType,SubUnit* ptr,string traceType, string name)
+    AllyBuffAction(AType actionType,SubUnit* ptr,TraceType traceType, string name)
     {
         Attacker = ptr;
         source = ptr;
@@ -131,7 +131,7 @@ class AllyBuffAction : public AllyActionData {
         this->traceType = traceType;
         setupActionType(actionType);
     }
-    AllyBuffAction(AType actionType,SubUnit* ptr,string traceType, string name,function<void(shared_ptr<AllyBuffAction> &act)> actionFunction)
+    AllyBuffAction(AType actionType,SubUnit* ptr,TraceType traceType, string name,function<void(shared_ptr<AllyBuffAction> &act)> actionFunction)
     {
         Attacker = ptr;
         source = ptr;

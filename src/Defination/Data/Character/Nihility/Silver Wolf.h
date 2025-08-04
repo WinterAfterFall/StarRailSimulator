@@ -29,7 +29,7 @@ namespace SW{
         
         function<void()> BA = [ptr,sw]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"SW BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"SW BA",
             [sw](shared_ptr<AllyAttackAction> &act){
                 Skill_point(sw,1);
                 Increase_energy(sw,20);
@@ -43,7 +43,7 @@ namespace SW{
 
         function<void()> Skill = [ptr,sw]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_SINGLE,"SW Skill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"SW Skill",
             [sw](shared_ptr<AllyAttackAction> &act){
                 Skill_point(sw,-1);
                 Increase_energy(sw,30);
@@ -79,7 +79,7 @@ namespace SW{
             if (!ultUseCheck(ptr)) return;
 
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"SW Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"SW Ult",
             [ptr,sw](shared_ptr<AllyAttackAction> &act){
                 debuffAllEnemyApply({
                     {Stats::DEF_SHRED,AType::None,45}
@@ -98,7 +98,7 @@ namespace SW{
                     for(auto &enemy : act->targetList){
                         debuffcnt = (enemy->Total_debuff>=5) ? 5 : enemy->Total_debuff;
                         shared_ptr<AllyAttackAction> add = 
-                        make_shared<AllyAttackAction>(AType::Addtional,ptr->getSubUnit(),TT_SINGLE,"SW AddDmg");
+                        make_shared<AllyAttackAction>(AType::Addtional,ptr->getSubUnit(),TraceType::Single,"SW AddDmg");
                             add->addDamageIns(DmgSrc(DmgSrcType::ATK,20*debuffcnt),enemy);  
                         Attack(add);
                     }
@@ -166,7 +166,7 @@ namespace SW{
             
             if(ptr->Technique){
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TT_AOE,"SW Technique",
+                make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TraceType::Aoe,"SW Technique",
                 [sw](shared_ptr<AllyAttackAction> &act){
                     Attack(act);
                 });

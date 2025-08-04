@@ -5,13 +5,13 @@ void allEventBeforeTurn(){
         Enemy *target = turn->canCastToEnemy();
         Dot_trigger(100, target, DotType::General);
         for(auto &each : target->breakEngList){
-            act = make_shared<AllyAttackAction>(AType::Entanglement, each.ptr, TT_SINGLE, "Entanglement");
+            act = make_shared<AllyAttackAction>(AType::Entanglement, each.ptr, TraceType::Single, "Entanglement");
             double Const = 0.6 * each.stack;
             Cal_Break_damage(act, target, Const);
         }
         if(!Turn_Skip)
         for(auto itr = target->breakFrzList.begin(); itr != target->breakFrzList.end();){
-            act = make_shared<AllyAttackAction>(AType::Freeze, itr->ptr, TT_SINGLE, "Freeze");
+            act = make_shared<AllyAttackAction>(AType::Freeze, itr->ptr, TraceType::Single, "Freeze");
             Cal_Freeze_damage(act, target);
             Action_forward(target->Atv_stats.get(), -50);
             --target->Total_debuff;

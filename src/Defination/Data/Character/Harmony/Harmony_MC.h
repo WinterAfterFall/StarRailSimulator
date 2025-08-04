@@ -33,7 +33,7 @@ namespace Harmony_MC{
             if(!ultUseCheck(ptr)) return;
             
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"HMC Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"HMC Ult",
             [ptr,HMCptr](shared_ptr<AllyBuffAction> &act){
                 if(HMCptr->isHaveToAddBuff("Harmony_MC_ult",3))
                 buffAllAlly({{Stats::BE,AType::None,33}});
@@ -111,7 +111,7 @@ namespace Harmony_MC{
 
 void Basic_Atk(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"HMC BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"HMC BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
@@ -122,7 +122,7 @@ void Basic_Atk(Ally *ptr){
     }
     void Skill_func(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_BOUNCE,"RMC Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Bounce,"RMC Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             if(ptr->Sub_Unit_ptr[0]->Atv_stats->turnCnt!=1)Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);     
             Increase_energy(ptr,30);

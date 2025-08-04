@@ -24,7 +24,7 @@ namespace Huohuo{
 
         function<void()> BA = [ptr,hh]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"HH BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"HH BA",
             [hh](shared_ptr<AllyAttackAction> &act){
                 Skill_point(hh,1);
                 Increase_energy(hh,20);
@@ -36,7 +36,7 @@ namespace Huohuo{
 
         function<void()> Skill = [ptr,hh]() {
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TT_BLAST,"HH Skill",
+            make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"HH Skill",
             [ptr,hh](shared_ptr<AllyBuffAction> &act){
                 Skill_point(hh,-1);
                 Increase_energy(hh,30);
@@ -68,7 +68,7 @@ namespace Huohuo{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,hh]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"HH Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"HH Ult",
             [hh](shared_ptr<AllyBuffAction> &act){
                 CharCmd::printUltStart("Huohuo");
                 buffAllAlly({{Stats::ATK_P,AType::None,40}},"HH Ult",2);

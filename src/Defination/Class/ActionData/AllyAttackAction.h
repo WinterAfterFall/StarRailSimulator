@@ -44,7 +44,7 @@ class AllyAttackAction : public AllyActionData {
 
     #pragma region constructor
     AllyAttackAction(){}
-    AllyAttackAction(AType actionType,SubUnit* ptr,string traceType,string name)
+    AllyAttackAction(AType actionType,SubUnit* ptr,TraceType traceType,string name)
     {
         Attacker = ptr;
         source = ptr;
@@ -54,7 +54,7 @@ class AllyAttackAction : public AllyActionData {
         setupActionType(actionType);
         AttackSetList.emplace_back(Attacking(ptr,this->actionTypeList));
     }
-    AllyAttackAction(AType actionType,SubUnit* ptr,string traceType,string name,function<void(shared_ptr<AllyAttackAction> &act)> actionFunction)
+    AllyAttackAction(AType actionType,SubUnit* ptr,TraceType traceType,string name,function<void(shared_ptr<AllyAttackAction> &act)> actionFunction)
     {
         Attacker = ptr;
         source = ptr;

@@ -49,7 +49,7 @@ namespace  Anaxa{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr,Anaxaptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,Anaxaptr,TT_AOE,"Anaxa Ult",
+            make_shared<AllyAttackAction>(AType::Ult,Anaxaptr,TraceType::Aoe,"Anaxa Ult",
             [ptr,Anaxaptr](shared_ptr<AllyAttackAction> &act){
                 if(ptr->Print)CharCmd::printUltStart("Anaxa");
                 for(auto &each : act->targetList){
@@ -190,7 +190,7 @@ namespace  Anaxa{
     void Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"Anaxa BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Anaxa BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
@@ -223,7 +223,7 @@ namespace  Anaxa{
     }
     void Skill(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_BOUNCE,"Anaxa Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Bounce,"Anaxa Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),30);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
@@ -271,7 +271,7 @@ namespace  Anaxa{
     }
     void AdditionalSkill(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_BOUNCE,"Anaxa ExtraSkill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Bounce,"Anaxa ExtraSkill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30);
 

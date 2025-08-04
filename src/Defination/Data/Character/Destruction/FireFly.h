@@ -89,7 +89,7 @@ namespace FireFly{
         Start_wave_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
             if (ptr->Technique == 1) {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),"Aoe","FF Tech",
+            make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TraceType::Aoe,"FF Tech",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 Attack(act);
             });
@@ -141,7 +141,7 @@ namespace FireFly{
     
     void Skill_func(Ally *ptr){   
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_SINGLE,"FF Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"FF Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,60,0);
@@ -156,7 +156,7 @@ namespace FireFly{
     }
     void Enchance_Skill_func(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_BLAST,"FF ESkill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"FF ESkill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             if(ptr->Eidolon<1)Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             double skill_dmg = 0;

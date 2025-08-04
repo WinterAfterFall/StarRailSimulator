@@ -25,7 +25,7 @@ namespace Hanabi{
 
         function<void()> BA = [ptr,hnb]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"Hnb BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Hnb BA",
             [hnb](shared_ptr<AllyAttackAction> &act){
                 Skill_point(hnb,1);
                 Increase_energy(hnb,30);
@@ -37,7 +37,7 @@ namespace Hanabi{
 
         function<void()> Skill = [ptr,hnb]() {
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TT_SINGLE,"Hnb Skill",
+            make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"Hnb Skill",
             [ptr,hnb](shared_ptr<AllyBuffAction> &act){
                 Skill_point(hnb,-1);
                 Increase_energy(hnb,30);
@@ -86,7 +86,7 @@ namespace Hanabi{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,hnb]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"Hnb Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"Hnb Ult",
             [ptr,hnb](shared_ptr<AllyBuffAction> &act){
                 if(ptr->Eidolon>=4)Skill_point(hnb,5);
                 else Skill_point(hnb,4);

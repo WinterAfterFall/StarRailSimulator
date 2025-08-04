@@ -46,7 +46,7 @@ namespace Castorice{
         
         ptr->Sub_Unit_ptr[1]->Turn_func = [ptr,Casptr,Polluxptr](){
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(1),TT_AOE,"Pollux Skill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(1),TraceType::Aoe,"Pollux Skill",
             [ptr,Casptr,Polluxptr](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,0);
                 while(ptr->getSubUnit(1)->currentHP>8500){
@@ -143,7 +143,7 @@ namespace Castorice{
             ptr->getSubUnit()->Buff_note["Newbud"] = 0;
 
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TT_SINGLE,"Cas Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TraceType::Single,"Cas Ult",
             [ptr,Casptr,Polluxptr](shared_ptr<AllyBuffAction> &act){
                 if(ptr->Print)CharCmd::printUltStart("Castorice");
                 debuffAllEnemyMark({{Stats::RESPEN,AType::None,20}},Polluxptr,"Lost Netherland");
@@ -293,7 +293,7 @@ namespace Castorice{
     }
     void BasicAttack(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"Cas BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Cas BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Attack(act);
         });
@@ -304,7 +304,7 @@ namespace Castorice{
     }
     void Skill(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_BLAST,"Cas Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"Cas Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),"Netherwing",0,0,30);
@@ -319,7 +319,7 @@ namespace Castorice{
     }
     void Enchance_Skill(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_AOE,"Cas ESkill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Aoe,"Cas ESkill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),"Netherwing",0,0,40);
@@ -348,7 +348,7 @@ namespace Castorice{
     }
     void Kamikaze(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(1),TT_BOUNCE,"Pullux Kamikaze",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(1),TraceType::Bounce,"Pullux Kamikaze",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,0);
             Attack(act);

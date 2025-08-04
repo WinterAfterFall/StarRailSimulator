@@ -45,7 +45,7 @@ namespace Mydei{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TT_BLAST,"Mydei Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TraceType::Blast,"Mydei Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 for (Enemy* e : act->targetList) {
                     e->addTaunt(ptr->Sub_Unit_ptr[0].get());
@@ -104,7 +104,7 @@ namespace Mydei{
             allEventAdjustStats(ptr->Sub_Unit_ptr[0].get(), Stats::HP_P);
             if (ptr->Technique) {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TT_AOE,"Mydei Tech",
+            make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TraceType::Aoe,"Mydei Tech",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 ChargePoint(ptr, 50);
                 Attack(act);
@@ -198,7 +198,7 @@ namespace Mydei{
     void Skill(Ally *ptr){
         
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_BLAST,"Mydei Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"Mydei Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),ptr->Sub_Unit_ptr[0].get(),0,0,50);
@@ -213,7 +213,7 @@ namespace Mydei{
     void Enchance_Skill(Ally *ptr){
         
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_BLAST,"KingSlayer",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"KingSlayer",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),ptr->Sub_Unit_ptr[0].get(),0,0,35);
@@ -228,14 +228,14 @@ namespace Mydei{
     void GodSlayer(Ally *ptr){
         
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TT_BLAST,"GodSlayer",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"GodSlayer",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,10);
             Attack(act);
         });
 
         if(ptr->Eidolon>=1){
-            act->traceType = TT_AOE;
+            act->traceType = TraceType::Aoe;
             act->addDamageIns(
                 DmgSrc(DmgSrcType::HP,155,15),
                 DmgSrc(DmgSrcType::HP,155,10),

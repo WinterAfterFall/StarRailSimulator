@@ -34,7 +34,7 @@ namespace Ruan_Mei{
             if(!ultUseCheck(ptr)) return;
 
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"RM Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"RM Ult",
             [ptr,RMptr](shared_ptr<AllyBuffAction> &act){
                 if(ptr->Print)CharCmd::printUltStart("Ruan Mei");
                 if(RMptr->isHaveToAddBuff("RuanMei_Ult",2)){
@@ -68,7 +68,7 @@ namespace Ruan_Mei{
             if(ptr->Technique == 1){
             
                 shared_ptr<AllyBuffAction> act = 
-                make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TT_SINGLE,"RM SKill",
+                make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"RM SKill",
                 [ptr](shared_ptr<AllyBuffAction> &act){
                     Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
                     Increase_energy(ptr,30);
@@ -107,7 +107,7 @@ namespace Ruan_Mei{
                     Enemy_unit[turn->num]->debuffRemove("RuanMei_Ult_bloom");
                     Action_forward(Enemy_unit[turn->num]->Atv_stats.get(), -10 - (0.2 * (ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None])));
                     shared_ptr<AllyAttackAction> act = 
-                    make_shared<AllyAttackAction>(AType::Break,ptr->getSubUnit(),TT_SINGLE,"RM Ult Break");
+                    make_shared<AllyAttackAction>(AType::Break,ptr->getSubUnit(),TraceType::Single,"RM Ult Break");
                     double temp = 0.5;
                     Cal_Break_damage(act, Enemy_unit[turn->num].get(), temp);
                 }
@@ -127,7 +127,7 @@ namespace Ruan_Mei{
 
         Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, SubUnit *Breaker){
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Break,ptr->getSubUnit(),TT_SINGLE,"RM Talent Break");
+            make_shared<AllyAttackAction>(AType::Break,ptr->getSubUnit(),TraceType::Single,"RM Talent Break");
             double temp;
             temp = 1.2;
             Cal_Break_damage(act, target, temp);
@@ -139,7 +139,7 @@ namespace Ruan_Mei{
 
     void Basic_Atk(Ally *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"RM BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"RM BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
@@ -150,7 +150,7 @@ namespace Ruan_Mei{
     }
     void Skill_func(Ally *ptr){
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TT_SINGLE,"RM Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"RM Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);

@@ -30,7 +30,7 @@ namespace Luocha{
             if (ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"] >= 2) return;
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TT_AOE,"Luocha Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"Luocha Ult",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Attack(act);
             ++ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"];
@@ -106,7 +106,7 @@ namespace Luocha{
     void Basic_Atk(Ally *ptr){
         
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TT_SINGLE,"Luocha BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Luocha BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Skill_point(ptr->Sub_Unit_ptr[0].get(),1);

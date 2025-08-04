@@ -63,10 +63,10 @@
 #pragma endregion
 #pragma region TargetType
 
-#define TT_SINGLE "Single_target"
-#define TT_BLAST "Blast"
-#define TT_AOE "Aoe"
-#define TT_BOUNCE "Bounce"
+// #define TraceType::Single "Single_target"
+// #define TraceType::Blast "Blast"
+// #define TraceType::Aoe "Aoe"
+// #define TraceType::Bounce "Bounce"
 
 #pragma endregion
 #pragma region Type

@@ -179,7 +179,7 @@ void Dot_trigger(double Dot_ratio,Enemy *target,DotType Dot_type){
                 if (Dot_type == DotType::General|| Dot_type == DotType::Bleed) {
                     shared_ptr<AllyAttackAction> act = 
                     make_shared<AllyAttackAction>
-                    (AType::Dot,each.ptr,TT_SINGLE, "Bleed");
+                    (AType::Dot,each.ptr,TraceType::Single, "Bleed");
                     act->actionTypeList.push_back(AType::Bleed);
                     Cal_Dot_Toughness_break_damage(act, target, 
                         Dot_ratio * 2 * (0.5 + target->Max_toughness/40));
@@ -190,7 +190,7 @@ void Dot_trigger(double Dot_ratio,Enemy *target,DotType Dot_type){
                 if (Dot_type == DotType::General|| Dot_type == DotType::Burn) {
                     shared_ptr<AllyAttackAction> act = 
                     make_shared<AllyAttackAction>
-                    (AType::Dot,each.ptr,TT_SINGLE, "Burn");
+                    (AType::Dot,each.ptr,TraceType::Single, "Burn");
                     act->actionTypeList.push_back(AType::Burn);
                     Cal_Dot_Toughness_break_damage(act, target, Dot_ratio * 1);
                 }
@@ -200,7 +200,7 @@ void Dot_trigger(double Dot_ratio,Enemy *target,DotType Dot_type){
                 if (Dot_type == DotType::General|| Dot_type == DotType::Shock) {
                     shared_ptr<AllyAttackAction> act = 
                     make_shared<AllyAttackAction>
-                    (AType::Dot,each.ptr,TT_SINGLE, "Shock");
+                    (AType::Dot,each.ptr,TraceType::Single, "Shock");
                     act->actionTypeList.push_back(AType::Shock);
                     Cal_Dot_Toughness_break_damage(act, target, Dot_ratio * 2);
                 }
@@ -210,7 +210,7 @@ void Dot_trigger(double Dot_ratio,Enemy *target,DotType Dot_type){
                 if (Dot_type == DotType::General|| Dot_type == DotType::WindShear) {
                     shared_ptr<AllyAttackAction> act = 
                     make_shared<AllyAttackAction>
-                    (AType::Dot,each.ptr,TT_SINGLE, "WindShear");
+                    (AType::Dot,each.ptr,TraceType::Single, "WindShear");
                     act->actionTypeList.push_back(AType::WindShear);
                     Cal_Dot_Toughness_break_damage(act, target, 
                         Dot_ratio * 1 * each.stack);
@@ -232,10 +232,10 @@ void Toughness_break(shared_ptr<AllyAttackAction> &act,Enemy* target){
     double Constant = 0;
     if(Force_break)
     data_2 = 
-    make_shared<AllyAttackAction>(AType::Break, Ally_unit[Force_break]->Sub_Unit_ptr[0].get(),TT_SINGLE,"Break");
+    make_shared<AllyAttackAction>(AType::Break, Ally_unit[Force_break]->Sub_Unit_ptr[0].get(),TraceType::Single,"Break");
     else
     data_2 =
-    make_shared<AllyAttackAction>(AType::Break, act->Attacker,TT_SINGLE,"Break");
+    make_shared<AllyAttackAction>(AType::Break, act->Attacker,TraceType::Single,"Break");
     allEventBeforeApplyDebuff(act->Attacker,target);
     ++target->Total_debuff;
     
