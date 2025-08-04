@@ -4,7 +4,7 @@ namespace SomeChar{
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(,,,E,ElementType::,,,UnitType::Standard);
+        Ally *ptr = SetAllyBasicStats(speed,maxEnergy,UltCost,E,ElementType::,Path::,Name,UnitType::Standard);
         ptr->SetAllyBaseStats(,,);
 
         //substats

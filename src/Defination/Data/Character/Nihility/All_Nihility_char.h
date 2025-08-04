@@ -1,4 +1,5 @@
 #include"Pela.h"
 #include"Silver Wolf.h"
 #include"Cipher.h"
+#include"Kafka.h"
 //#include"Fugue.h"

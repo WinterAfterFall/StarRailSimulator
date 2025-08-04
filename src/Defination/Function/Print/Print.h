@@ -7,7 +7,7 @@ void Print(){
     cout<<turn->turnCnt<<" ";
     cout<<sp<<" ";
     // cout<<Ally_unit[1]->Sub_Unit_ptr[0]->Buff_note["Core Flame"]<<" ";
-    cout<<Ally_unit[1]->Current_energy<<" ";
+    cout<<Enemy_unit[1]->ShockCount<<" ";
     
     cout<<endl;
 }
