@@ -7,6 +7,7 @@ double calculateSpeedOnStats(SubUnit *ptr);
 double calculateCritrateOnStats(SubUnit *ptr);
 double calculateCritdamOnStats(SubUnit *ptr);
 double calculateBreakEffectOnStats(SubUnit *ptr);
+double calculateEhrOnStats(SubUnit *ptr);
 double calculateHPLost(SubUnit *ptr);
 
 double calculateAtkForBuff(SubUnit *ptr, double ratio);
@@ -16,6 +17,7 @@ double calculateSpeedForBuff(SubUnit *ptr, double ratio);
 double calculateCritrateForBuff(SubUnit *ptr, double ratio);
 double calculateCritdamForBuff(SubUnit *ptr, double ratio);
 double calculateBreakEffectForBuff(SubUnit *ptr, double ratio);
+double calculateEhrForBuff(SubUnit *ptr,double ratio);
 
 double calAtkMultiplier(std::shared_ptr<AllyAttackAction> &act, Enemy *target);
 double calHpMultiplier(std::shared_ptr<AllyAttackAction> &act, Enemy *target);

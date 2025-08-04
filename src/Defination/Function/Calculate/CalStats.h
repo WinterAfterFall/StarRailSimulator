@@ -36,6 +36,10 @@ double calculateBreakEffectOnStats(SubUnit *ptr){
     double ans = ptr->Stats_type[Stats::BE][AType::None];
     return (ans < 0) ? 0 : ans;
 }
+double calculateEhrOnStats(SubUnit *ptr){
+    double ans = ptr->Stats_type[Stats::EHR][AType::None];
+    return (ans < 0) ? 0 : ans;
+}
 
 double calculateHPLost(SubUnit *ptr){
     double ans = ptr->totalHP - ptr->currentHP;
@@ -77,6 +81,10 @@ double calculateCritdamForBuff(SubUnit *ptr,double ratio){
 }
 double calculateBreakEffectForBuff(SubUnit *ptr,double ratio){
     double ans = ptr->Stats_type[Stats::BE][AType::None]-ptr->Stats_type[Stats::BE][AType::TEMP];
+    return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
+}
+double calculateEhrForBuff(SubUnit *ptr,double ratio){
+    double ans = ptr->Stats_type[Stats::EHR][AType::None] - ptr->Stats_type[Stats::EHR][AType::TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 
