@@ -111,13 +111,6 @@ void Enemy::dotRemove(vector<DotType> dotType) {
         this->changeDotType(each,-1);
     }
 }
-
-void Enemy::dotRemove(vector<DotType> dotType,int amount) {
-    for(auto &each : dotType) {
-        this->changeDotType(each,-amount);
-    }
-}
-
 void Enemy::dotStackRemove(vector<DotType> dotType, string dotName) {
     int stack = this->debuffRemoveStack(dotName);
     for(auto &each : dotType) {

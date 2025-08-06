@@ -11,5 +11,6 @@
 #include "Energy.h" 
 #include "ChangeHP.h"
 #include "TargetChoose.h"
+#include "Dot.h"
 
 #endif

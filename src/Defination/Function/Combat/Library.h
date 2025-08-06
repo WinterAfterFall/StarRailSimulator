@@ -12,5 +12,6 @@
 #include "ChangeHP.h"
 #include "EnemyCombat.h"
 #include "TargetChoose.h"
+#include "Dot.h"
 
 #endif

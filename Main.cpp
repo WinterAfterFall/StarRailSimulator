@@ -35,7 +35,7 @@ int main(){
     // Phainon::Setup(2,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::Arcadia);
     // Mydei::Setup(0,Destruction_Lightcone::Mydei_LC(1),Relic::Scholar,Planar::Bone_Collection);
     // Anaxa::Setup(0,Erudition_Lightcone::Anaxa_LC(1),Relic::GeniusBrilliant,Planar::Lushaka);
-    Saber::Setup(0,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::FirmanentFrontline(0));
+    // Saber::Setup(0,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::FirmanentFrontline(0));
     // Archer::Setup(6,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::FirmanentFrontline(0));
     
     //Driver
@@ -48,7 +48,7 @@ int main(){
     // Jade::Setup(0,Erudition_Lightcone::Cosmos_Fell(5),Relic::Grand_Duke,Planar::Izumo);
     
     //Support
-    // Kafka::Setup(6,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
+    Kafka::Setup(6,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
     Tribbie::Setup(0,Harmony_Lightcone::DDD(5),Relic::Poet_Dill,Planar::Lushaka);
     // RMC::Setup(6,Remembrance_Lightcone::Victory_In_Blink(5),Relic::PairSet(Stats::SPD_P,Stats::SPD_P),Planar::Lushaka);
     // Robin::Setup(0,Harmony_Lightcone::For_Tomorrow_Journey(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
@@ -59,7 +59,7 @@ int main(){
     // Cipher::Setup(0,Nihility_Lightcone::Resolution(5),Relic::PairSet(Stats::SPD_P,Stats::SPD_P),Planar::Lushaka);
     // SW::Setup(0,Nihility_Lightcone::Resolution(5),Relic::PairSet(Stats::SPD_P,Stats::SPD_P),Planar::Lushaka);
     Pela::Setup(6,Nihility_Lightcone::Before_the_Tutorial(5),Relic::Eagle_Beaked_Helmet,Planar::Lushaka);
-
+    
     //Sustain
     Gallagher::Setup(6,Abundance_Lightcone::Multiplication(5),Relic::Goddess_of_Sun_and_Thunder,Planar::GiantTree(0));
     // Luocha::Setup(0,Abundance_Lightcone::Multiplication(5),Relic::Goddess_of_Sun_and_Thunder,Planar::GiantTree(0));

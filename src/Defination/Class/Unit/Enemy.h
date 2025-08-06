@@ -266,7 +266,6 @@ public:
     void dotSingleStack(vector<DotType> dotType,SubUnit *ptr, int Stack_increase, int Stack_limit, string dotName);
     void dotSingleStack(vector<DotType> dotType,SubUnit *ptr, int Stack_increase, int Stack_limit, string dotName,int extend);
     void dotRemove(vector<DotType> dotType);
-    void dotRemove(vector<DotType> dotType,int amount);
     void dotStackRemove(vector<DotType> dotType,string dotName);
 
 }; 

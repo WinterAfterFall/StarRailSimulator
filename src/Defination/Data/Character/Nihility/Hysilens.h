@@ -43,7 +43,7 @@ namespace SomeChar{
             [ptr,hys](shared_ptr<AllyAttackAction> &act){
                 Skill_point(hys,-1);
                 Increase_energy(ptr,30);
-                debuffAllEnemyApply
+                debuffAllEnemy
                 Attack(act);
             });
             act->addDamageIns(
