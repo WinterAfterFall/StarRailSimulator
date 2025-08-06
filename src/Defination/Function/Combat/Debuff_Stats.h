@@ -68,6 +68,12 @@ void extendDebuffAll(string Debuff_name,int Turn_extend){
         Enemy_unit[i]->extendDebuff(Debuff_name,Turn_extend);
     }
 }
+void extendDebuffTargets(vector<Enemy*> targets,string Debuff_name,int Turn_extend){
+    for(auto &each : targets){
+        each->extendDebuff(Debuff_name,Turn_extend);
+    }
+}
+
 ElementType Enemy::weaknessApplyChoose(int extend){
     vector<pair<int,ElementType>> weaknessPriority;
     ElementType ans;
@@ -187,6 +193,16 @@ void debuffAllEnemy(vector<BuffElementClass> debuffSet) {
         Enemy_unit[i]->debuffSingle(debuffSet);
     }
 }
+void debuffEnemyTargets(vector<Enemy*> targets,vector<BuffClass> debuffSet){
+    for (auto &each : targets) {
+        each->debuffSingle(debuffSet);
+    }
+}
+void debuffEnemyTargets(vector<Enemy*> targets,vector<BuffElementClass> debuffSet){
+        for (auto &each : targets) {
+        each->debuffSingle(debuffSet);
+    }
+}
 
 void debuffAllEnemyApply(vector<BuffClass> debuffSet,SubUnit *ptr, string Debuff_Name) {
     for (int i = 1; i <= Total_enemy; i++) {
@@ -210,6 +226,30 @@ void debuffAllEnemyApply(vector<BuffElementClass> debuffSet,SubUnit *ptr, string
     for (int i = 1; i <= Total_enemy; i++) {
         if(!Enemy_unit[i]->debuffApply(ptr,Debuff_Name,extend))continue;
         Enemy_unit[i]->debuffSingle(debuffSet);
+    }
+}
+void debuffEnemyTargetsApply(vector<Enemy*> targets,vector<BuffClass> debuffSet,SubUnit *ptr, string Debuff_Name){
+    for (auto &each : targets) {
+        if(!each->debuffApply(ptr, Debuff_Name)) continue;
+        each->debuffSingle(debuffSet);
+    }
+}
+void debuffEnemyTargetsApply(vector<Enemy*> targets,vector<BuffElementClass> debuffSet,SubUnit *ptr, string Debuff_Name){
+    for (auto &each : targets) {
+        if(!each->debuffApply(ptr, Debuff_Name)) continue;
+        each->debuffSingle(debuffSet);
+    }
+}
+void debuffEnemyTargetsApply(vector<Enemy*> targets,vector<BuffClass> debuffSet,SubUnit *ptr, string Debuff_Name,int extend){
+    for (auto &each : targets) {
+        if(!each->debuffApply(ptr, Debuff_Name, extend)) continue;
+        each->debuffSingle(debuffSet);
+    }
+}
+void debuffEnemyTargetsApply(vector<Enemy*> targets,vector<BuffElementClass> debuffSet,SubUnit *ptr, string Debuff_Name,int extend){
+    for (auto &each : targets) {
+        if(!each->debuffApply(ptr, Debuff_Name, extend)) continue;
+        each->debuffSingle(debuffSet);
     }
 }
 
@@ -240,7 +280,33 @@ void debuffAllEnemyMark(vector<BuffElementClass> debuffSet, SubUnit* ptr, string
         Enemy_unit[i]->debuffSingle(debuffSet);
     }
 }
+void debuffEnemyTargetsyMark(vector<Enemy*> targets, vector<BuffClass> debuffSet, SubUnit* ptr, string Debuff_Name) {
+    for (auto& each : targets) {
+        if (!each->debuffMark(ptr, Debuff_Name)) continue;
+        each->debuffSingle(debuffSet);
+    }
+}
 
+void debuffEnemyTargetsyMark(vector<Enemy*> targets, vector<BuffElementClass> debuffSet, SubUnit* ptr, string Debuff_Name) {
+    for (auto& each : targets) {
+        if (!each->debuffMark(ptr, Debuff_Name)) continue;
+        each->debuffSingle(debuffSet);
+    }
+}
+
+void debuffEnemyTargetsyMark(vector<Enemy*> targets, vector<BuffClass> debuffSet, SubUnit* ptr, string Debuff_Name, int extend) {
+    for (auto& each : targets) {
+        if (!each->debuffMark(ptr, Debuff_Name, extend)) continue;
+        each->debuffSingle(debuffSet);
+    }
+}
+
+void debuffEnemyTargetsyMark(vector<Enemy*> targets, vector<BuffElementClass> debuffSet, SubUnit* ptr, string Debuff_Name, int extend) {
+    for (auto& each : targets) {
+        if (!each->debuffMark(ptr, Debuff_Name, extend)) continue;
+        each->debuffSingle(debuffSet);
+    }
+}
 
 
 
