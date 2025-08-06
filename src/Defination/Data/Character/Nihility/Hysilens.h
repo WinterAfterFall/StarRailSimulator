@@ -5,7 +5,7 @@ namespace SomeChar{
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally *ptr = SetAllyBasicStats(102,110,110,E,ElementType::Physical,Path::Nihility,"Hysilens",UnitType::Standard);
-        ptr->SetAllyBaseStats(,,);
+        ptr->SetAllyBaseStats(1203,602,485);
 
         //substats
         ptr->pushSubstats(Stats::ATK_P);
@@ -43,7 +43,7 @@ namespace SomeChar{
             [ptr,hys](shared_ptr<AllyAttackAction> &act){
                 Skill_point(hys,-1);
                 Increase_energy(ptr,30);
-                debuffAllEnemy
+                debuffAllEnemyApply({{Stats::VUL,AType::None,20}},hys,"Hys Vul",3);
                 Attack(act);
             });
             act->addDamageIns(

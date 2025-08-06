@@ -137,6 +137,7 @@ public:
 
     double SpeedRequire = 0;
     double ApplyBaseChance = 0;
+    double EhrRequire = 0;
     double ExtraEhr = 0;
     double ExtraSpeed = 0;
     
@@ -185,6 +186,9 @@ public:
     }
     void setApplyBaseChance(double value){
         this->ApplyBaseChance = value;
+    }
+    void setEhrRequire(double value){
+        this->EhrRequire = value;
     }
     void setTargetAlly(int num){
         this->getSubUnit()->setDefaultAllyTargetNum(num);

@@ -1,12 +1,13 @@
 #include "../include.h"
 
 void Ally::EhrRequirment(){
-    if(this->ApplyBaseChance==0)return;
+    if(this->ApplyBaseChance==0&&this->EhrRequire==0)return;
     double temp=100/(this->ApplyBaseChance/100)/((100 - Enemy_effect_res)/100);
+    temp = (temp>this->EhrRequire)? temp : this->EhrRequire;
     temp = temp-100;
     double x =0;
     temp-=this->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None];
-    if(temp<=0)return ;
+    if(temp<=0)return;
     x = ceil(temp/3.888);
     this->changeTotalSubStats(-x);
     x = x * 3.888;
