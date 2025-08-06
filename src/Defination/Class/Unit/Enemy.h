@@ -87,6 +87,12 @@ public:
         BurnCount += amount;
         DotCount += amount;
     }
+    void changeDotType(DotType dotType,int amount){
+        if(dotType == DotType::Shock) changeShock(amount);
+        else if(dotType == DotType::WindShear) changeWindSheer(amount);
+        else if(dotType == DotType::Bleed) changeBleed(amount);
+        else if(dotType == DotType::Burn) changeBurn(amount);
+    }
 
     bool addBreakSEList(BreakSideEffect input) {
         if(input.type == BreakSEType::Freeze) {
@@ -251,6 +257,17 @@ public:
     void debuffStackSingle(vector<BuffElementClass>,SubUnit *ptr, int Stack_increase, int Stack_limit, string Stack_Name);
     void debuffStackSingle(vector<BuffClass>,SubUnit *ptr, int Stack_increase, int Stack_limit, string Stack_Name,int extend);
     void debuffStackSingle(vector<BuffElementClass>,SubUnit *ptr, int Stack_increase, int Stack_limit, string Stack_Name,int extend);
+
+    //Dot
+    void dotSingleApply(vector<DotType> dotType,SubUnit *ptr,string dotName);
+    void dotSingleApply(vector<DotType> dotType,SubUnit *ptr,string dotName, int extend);
+    void dotSingleMark(vector<DotType> dotType,SubUnit *ptr,string dotName);
+    void dotSingleMark(vector<DotType> dotType,SubUnit *ptr,string dotName, int extend);
+    void dotSingleStack(vector<DotType> dotType,SubUnit *ptr, int Stack_increase, int Stack_limit, string dotName);
+    void dotSingleStack(vector<DotType> dotType,SubUnit *ptr, int Stack_increase, int Stack_limit, string dotName,int extend);
+    void dotRemove(vector<DotType> dotType);
+    void dotRemove(vector<DotType> dotType,int amount);
+    void dotStackRemove(vector<DotType> dotType,string dotName);
 
 }; 
 // Define DamageSrc cmp
