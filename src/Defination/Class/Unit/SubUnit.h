@@ -238,6 +238,11 @@ public:
     void buffStackExcludingBuffer(vector<BuffElementClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name);
     void buffStackExcludingBuffer(vector<BuffElementClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name, int extend);
 
+    void buffStackExcludingBuffer(vector<SubUnit*> targets,vector<BuffClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name);
+    void buffStackExcludingBuffer(vector<SubUnit*> targets,vector<BuffClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name, int extend);
+    void buffStackExcludingBuffer(vector<SubUnit*> targets,vector<BuffElementClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name);
+    void buffStackExcludingBuffer(vector<SubUnit*> targets,vector<BuffElementClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name, int extend);
+
     
     //TargetChoose.h
 

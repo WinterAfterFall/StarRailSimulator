@@ -87,6 +87,27 @@ void buffStackAllAlly(vector<BuffElementClass> buffSet , int Stack_increase, int
         }
     }
 }
+void buffStackTargets(vector<SubUnit*> targets, vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name){
+    for (auto &each : targets) {
+            each->buffStackSingle(buffSet,Stack_increase,Stack_limit,Stack_Name);
+    }
+}
+void buffStackTargets(vector<SubUnit*> targets,vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name, int extend){
+    for (auto &each : targets) {
+        each->buffStackSingle(buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
+    }
+}
+void buffStackTargets(vector<SubUnit*> targets,vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name){
+    for (auto &each : targets) {
+        each->buffStackSingle(buffSet,Stack_increase,Stack_limit,Stack_Name);
+    }    
+}
+void buffStackTargets(vector<SubUnit*> targets,vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name, int extend){
+    for (auto &each : targets) {
+        each->buffStackSingle(buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
+    }
+}
+
 void SubUnit::buffStackExcludingBuffer(vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name){
     for (int i = 1; i <= Total_ally; i++) {
         for (auto &each : Ally_unit[i]->Sub_Unit_ptr) {
@@ -119,6 +140,31 @@ void SubUnit::buffStackExcludingBuffer(vector<BuffElementClass> buffSet , int St
         }
     }
 }
+void SubUnit::buffStackExcludingBuffer(vector<SubUnit*> targets, vector<BuffClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name) {
+    for (auto &each : targets) {
+        if(this->isSameChar(each))continue;
+        each->buffStackSingle(buffSet,Stack_increase,Stack_limit,Stack_Name);
+    }
+}
+void SubUnit::buffStackExcludingBuffer(vector<SubUnit*> targets, vector<BuffClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name, int extend) {
+    for (auto &each : targets) {
+        if(this->isSameChar(each))continue;
+        each->buffStackSingle(buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
+    }
+}
+void SubUnit::buffStackExcludingBuffer(vector<SubUnit*> targets, vector<BuffElementClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name) {
+    for (auto &each : targets) {
+        if(this->isSameChar(each))continue;
+        each->buffStackSingle(buffSet,Stack_increase,Stack_limit,Stack_Name);
+    }
+}
+void SubUnit::buffStackExcludingBuffer(vector<SubUnit*> targets, vector<BuffElementClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name, int extend) {
+    for (auto &each : targets) {
+        if(this->isSameChar(each))continue;
+        each->buffStackSingle(buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
+    }
+}
+
 void SubUnit::buffResetStack(vector<BuffClass> buffSet,string Stack_Name){
     for(auto &e : buffSet){
         e.value *= -this->getStack(Stack_Name);
