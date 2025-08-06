@@ -45,6 +45,12 @@ void extendBuffTimeAllAlly(string Buff_name,int Turn_extend){
         Ally_unit[i]->extendBuffTime(Buff_name,Turn_extend);
     }
 }
+void extendBuffTimeTargets(vector<SubUnit*> target,string Buff_name,int Turn_extend){
+    for(auto &each : target){
+        each->extendBuffTime(Buff_name,Turn_extend);
+    }
+}
+
 void extendBuffTimeExcludingBuffer(string Buff_name,int Turn_extend,string Buffer_name){
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
@@ -59,6 +65,19 @@ void extendBuffTimeExcludingBuffer(string Buff_name,int Turn_extend,SubUnit *Buf
             if(Ally_unit[i]->Sub_Unit_ptr[j]->isSameUnit(Buffer))continue;
             Ally_unit[i]->Sub_Unit_ptr[j]->extendBuffTime(Buff_name,Turn_extend);
         }
+    }
+}
+
+void extendBuffTimeExcludingBuffer(vector<SubUnit*> target,std::string Buff_name, int Turn_extend, std::string Buffer_name){    
+    for(auto &each : target){
+        if(each->isSameUnitName(Buffer_name))continue;
+        each->extendBuffTime(Buff_name,Turn_extend);
+    }
+}
+void extendBuffTimeExcludingBuffer(vector<SubUnit*> target,std::string Buff_name, int Turn_extend, SubUnit *Buffer){
+        for(auto &each : target){
+        if(each->isSameUnit(Buffer))continue;
+        each->extendBuffTime(Buff_name,Turn_extend);
     }
 }
 
@@ -142,6 +161,26 @@ void buffAllAlly(vector<BuffElementClass> buffSet, string Buff_name,int extend) 
         }
     }
 }
+void buffTargets(vector<SubUnit*> target,std::vector<BuffClass> buffSet){
+    for (auto &each : target) {
+        each->buffSingle(buffSet);
+    }
+}
+void buffTargets(vector<SubUnit*> target,std::vector<BuffElementClass> buffSet){
+    for (auto &each : target) {
+        each->buffSingle(buffSet);
+    }
+}
+void buffTargets(vector<SubUnit*> target,std::vector<BuffClass> buffSet, std::string Buff_name, int extend){
+    for (auto &each : target) {
+        each->buffSingle(buffSet,Buff_name,extend);
+    }
+}
+void buffTargets(vector<SubUnit*> target,std::vector<BuffElementClass> buffSet, std::string Buff_name, int extend){
+    for (auto &each : target) {
+        each->buffSingle(buffSet,Buff_name,extend);
+    }
+}
 
 void SubUnit::buffAllAllyExcludingBuffer(vector<BuffClass> buffSet){
     for (int i = 1; i <= Total_ally; i++) {
@@ -174,5 +213,29 @@ void SubUnit::buffAllAllyExcludingBuffer(vector<BuffElementClass> buffSet, strin
             if (this->isSameChar(Ally_unit[i]->Sub_Unit_ptr[j].get())) continue;
             Ally_unit[i]->Sub_Unit_ptr[j]->buffSingle(buffSet,Buff_name,extend);
         }
+    }
+}
+void SubUnit::buffTargetsExcludingBuffer(vector<SubUnit*> target, vector<BuffClass> buffSet) {
+    for (auto &each : target) {
+        if (this->isSameChar(each)) continue;
+        each->buffSingle(buffSet);
+    }
+}
+void SubUnit::buffTargetsExcludingBuffer(vector<SubUnit*> target,vector<BuffElementClass> buffSet){
+    for (auto &each : target) {
+        if (this->isSameChar(each)) continue;
+        each->buffSingle(buffSet);
+    }
+}
+void SubUnit::buffTargetsExcludingBuffer(vector<SubUnit*> target,vector<BuffClass> buffSet,string Buff_name,int Turn_extend){
+    for (auto &each : target) {
+        if (this->isSameChar(each)) continue;
+        each->buffSingle(buffSet,Buff_name,Turn_extend);
+    }
+}
+void SubUnit::buffTargetsExcludingBuffer(vector<SubUnit*> target,vector<BuffElementClass> buffSet,string Buff_name,int Turn_extend){
+    for (auto &each : target) {
+        if (this->isSameChar(each)) continue;
+        each->buffSingle(buffSet,Buff_name,Turn_extend);
     }
 }

@@ -4,17 +4,14 @@ namespace SomeChar{
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
 
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(speed,maxEnergy,UltCost,E,ElementType::,Path::,Name,UnitType::Standard);
+        Ally *ptr = SetAllyBasicStats(102,110,110,E,ElementType::Physical,Path::Nihility,"Hysilens",UnitType::Standard);
         ptr->SetAllyBaseStats(,,);
 
         //substats
-        ptr->pushSubstats();
-        ptr->pushSubstats();
-        ptr->pushSubstats();
+        ptr->pushSubstats(Stats::ATK_P);
         ptr->setTotalSubstats(20);
-        ptr->setSpeedRequire();
-        ptr->setApplyBaseChance();
-        ptr->setRelicMainStats(,,,);
+        ptr->setApplyBaseChance(120);
+        ptr->setRelicMainStats(Stats::EHR,Stats::ATK_P,Stats::DMG,Stats::ER);
 
         
         //func
@@ -22,15 +19,16 @@ namespace SomeChar{
         Relic(ptr);
         Planar(ptr);
 
-        SubUnit ally = ptr->getSubUnit();
+        SubUnit *hys =ptr->getSubUnit();
+
         #pragma region Ability
 
-        function<void()> BA = [ptr]() {
+        function<void()> BA = [ptr,hys]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::,ptr->getSubUnit(),TraceType::,,
-            [ptr](shared_ptr<AllyAttackAction> &act){
-                Skill_point(,1);
-                Increase_energy(,20);
+            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Hys BA",
+            [ptr,hys](shared_ptr<AllyAttackAction> &act){
+                Skill_point(hys,1);
+                Increase_energy(ptr,20);
                 Attack(act);
             });
             act->addDamageIns(
@@ -39,8 +37,25 @@ namespace SomeChar{
             act->addToActionBar();
         };
 
+        function<void()> Skill = [ptr,hys]() {
+            shared_ptr<AllyAttackAction> act = 
+            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Aoe,"Hys Skill",
+            [ptr,hys](shared_ptr<AllyAttackAction> &act){
+                Skill_point(hys,-1);
+                Increase_energy(ptr,30);
+                debuffAllEnemyApply
+                Attack(act);
+            });
+            act->addDamageIns(
+                DmgSrc(DmgSrcType::ATK,140,10),
+                DmgSrc(DmgSrcType::ATK,140,10),
+                DmgSrc(DmgSrcType::ATK,140,10)
+            );
+            act->addToActionBar();
+        };
+
         #pragma endregion
-        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,ally]() {
+        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,hys]() {
 
         };
         

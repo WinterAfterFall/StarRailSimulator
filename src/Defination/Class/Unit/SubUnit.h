@@ -218,6 +218,10 @@ public:
     void buffAllAllyExcludingBuffer(vector<BuffElementClass> buffSet);
     void buffAllAllyExcludingBuffer(vector<BuffClass> buffSet,string Buff_name,int Turn_extend);
     void buffAllAllyExcludingBuffer(vector<BuffElementClass> buffSet,string Buff_name,int Turn_extend);
+    void buffTargetsExcludingBuffer(vector<SubUnit*> target,vector<BuffClass> buffSet);
+    void buffTargetsExcludingBuffer(vector<SubUnit*> target,vector<BuffElementClass> buffSet);
+    void buffTargetsExcludingBuffer(vector<SubUnit*> target,vector<BuffClass> buffSet,string Buff_name,int Turn_extend);
+    void buffTargetsExcludingBuffer(vector<SubUnit*> target,vector<BuffElementClass> buffSet,string Buff_name,int Turn_extend);
 
     //Stack.h
     pair<int,int> calStack(int Stack_increase,int StackLimit,string buffName);

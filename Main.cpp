@@ -35,7 +35,7 @@ int main(){
     // Phainon::Setup(2,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::Arcadia);
     // Mydei::Setup(0,Destruction_Lightcone::Mydei_LC(1),Relic::Scholar,Planar::Bone_Collection);
     // Anaxa::Setup(0,Erudition_Lightcone::Anaxa_LC(1),Relic::GeniusBrilliant,Planar::Lushaka);
-    // Saber::Setup(0,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::FirmanentFrontline(0));
+    Saber::Setup(0,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::FirmanentFrontline(0));
     // Archer::Setup(6,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::FirmanentFrontline(0));
     
     //Driver
