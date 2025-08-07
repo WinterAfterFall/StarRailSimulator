@@ -11,6 +11,7 @@ namespace SomeChar{
         ptr->pushSubstats(Stats::ATK_P);
         ptr->setTotalSubstats(20);
         ptr->setApplyBaseChance(120);
+        ptr->setEhrRequire(120);
         ptr->setRelicMainStats(Stats::EHR,Stats::ATK_P,Stats::DMG,Stats::ER);
 
         
@@ -69,13 +70,22 @@ namespace SomeChar{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Ice][AType::None] += 22.4;
             ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 18;
             ptr->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += 10;
+            ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 14;
 
-            // relic
+            //A6
+            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::None] += 90;
 
-            // substats
+        }));
+
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+            Enemy *enemy = turn->canCastToEnemy();
+            if(!enemy)return;
+
+            if(enemy->isDebuffEnd("Hys Vul")){
+                enemy->debuffSingle({{Stats::VUL,AType::None,-20}});
+            }
         }));
     }
 }
