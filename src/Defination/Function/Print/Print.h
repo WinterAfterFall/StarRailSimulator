@@ -6,17 +6,11 @@ void Print(){
     cout<<""<<turn->Char_Name<<" ";
     cout<<turn->turnCnt<<" ";
     cout<<sp<<" ";
-    cout<<Ally_unit[1]->Sub_Unit_ptr[0]->getBaseSpeed()<<" ";
-    cout<<Ally_unit[1]->Sub_Unit_ptr[0]->getFlatSpeed()<<" ";
-    cout<<Ally_unit[1]->Sub_Unit_ptr[0]->getSpeedPercent()<<" ";
-    cout<<Ally_unit[1]->Sub_Unit_ptr[1]->getBaseSpeed()<<" ";
-    cout<<Ally_unit[1]->Sub_Unit_ptr[1]->getFlatSpeed()<<" ";
-    cout<<Ally_unit[1]->Sub_Unit_ptr[1]->getSpeedPercent()<<" ";
-    cout<<endl;
-    cout<<Enemy_unit[1]->getDebuffTimeCount("Hys Bleed")<<" ";
-    cout<<Enemy_unit[1]->getDebuffTimeCount("Hys WindShear")<<" ";
-    cout<<Enemy_unit[1]->getDebuffTimeCount("Hys Burn")<<" ";
-    cout<<Enemy_unit[1]->getDebuffTimeCount("Hys Shock")<<" ";
+    // cout<<endl;
+    // cout<<Enemy_unit[1]->getDebuffTimeCount("Hys Bleed")<<" ";
+    // cout<<Enemy_unit[1]->getDebuffTimeCount("Hys WindShear")<<" ";
+    // cout<<Enemy_unit[1]->getDebuffTimeCount("Hys Burn")<<" ";
+    // cout<<Enemy_unit[1]->getDebuffTimeCount("Hys Shock")<<" ";
     
     cout<<endl;
 }

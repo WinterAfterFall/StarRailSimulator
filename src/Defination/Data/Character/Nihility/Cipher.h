@@ -191,23 +191,28 @@ namespace Cipher{
                     }
                     if(ptr->Eidolon>=1)percent *= 1.5;
                     if(act->actionName=="Cipher Tech")percent *= 2;
+
+                    for(int i=1;i<=ptr->getAdjust("Cipher Ult Share")&&i<=Total_enemy;i++){
+                        Cal_DamageNote(act,src,Enemy_unit[i].get(),damage*percent/100,75.0/ptr->getAdjust("Cipher Ult Share"),"Cph True " + act->actionName);
+                    }
+                    Cal_DamageNote(act,src,Enemy_unit[Main_Enemy_num].get(),damage*percent/100,25,"Cph True " + act->actionName);
+                            
+
+                    if(ptr->Eidolon<6)return;
                     act->Attacker->ptrToChar->getSubUnit()
-                    ->Buff_note["CipherNote" + src->getUnitName()] += damage * percent /100;
+                    ->Buff_note["CipherNote" + src->getUnitName()] += damage * percent/100 * 0.2;
                     if(act->actionName!="Cipher Ult")return;
                     
                     double totaldmg = 0;
                     for(int i=1;i<=Total_ally;i++){
                         for(int j=1;j<=Total_enemy;j++){
                             totaldmg = Ally_unit[i]->getSubUnit()->getBuffNote("CipherNote" + Enemy_unit[j]->getUnitName());
-                            for(int k=1;k<=ptr->getAdjust("Cipher Ult Share");k++){
+                            for(int k=1;k<=ptr->getAdjust("Cipher Ult Share")&&k<=Total_enemy;k++){
                                 act->Attacker = Ally_unit[i]->getSubUnit();
-                                Cal_DamageNote(act,Enemy_unit[j].get(),Enemy_unit[k].get(),totaldmg*0.75/ptr->getAdjust("Cipher Ult Share"),100,"Cph True " + act->Attacker->getUnitName());
+                                Cal_DamageNote(act,Enemy_unit[j].get(),Enemy_unit[k].get(),totaldmg*0.75/ptr->getAdjust("Cipher Ult Share"),100,"Cph E6 " + act->Attacker->getUnitName());
                             }
-                            Cal_DamageNote(act,Enemy_unit[j].get(),Enemy_unit[Main_Enemy_num].get(),totaldmg*0.25,100,"Cph True " + act->Attacker->getUnitName());
-                            if(ptr->Eidolon>=6)
-                                Ally_unit[i]->getSubUnit()->Buff_note["CipherNote" + Enemy_unit[j]->getUnitName()] *= 0.2;
-                            else 
-                                Ally_unit[i]->getSubUnit()->setBuffNote("CipherNote" + Enemy_unit[j]->getUnitName(),0);
+                            Cal_DamageNote(act,Enemy_unit[j].get(),Enemy_unit[Main_Enemy_num].get(),totaldmg*0.25,100,"Cph E6 " + act->Attacker->getUnitName());
+                            Ally_unit[i]->getSubUnit()->Buff_note["CipherNote" + Enemy_unit[j]->getUnitName()] *= 0.2;
                         }  
                     }
                 }));

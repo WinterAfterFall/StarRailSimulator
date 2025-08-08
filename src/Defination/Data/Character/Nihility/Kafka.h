@@ -119,7 +119,7 @@ namespace Kafka{
 
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             for(int i=1;i<=Total_ally;i++){
-                if(Ally_unit[i]->getAdjust("Kafka A2 " + Ally_unit[i]->getSubUnit()->getUnitName())){
+                if(ptr->getAdjust("Kafka A2 " + Ally_unit[i]->getSubUnit()->getUnitName())){
                     Ally_unit[i]->buffAlly({{Stats::ATK_P,AType::None,100}});
                     Ally_unit[i]->newEhrRequire(75);
                 }

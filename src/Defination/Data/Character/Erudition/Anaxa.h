@@ -95,9 +95,9 @@ namespace  Anaxa{
             ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Wind][AType::None] += 22.4;
 
             ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::None] += 30;
+        }));
 
-            // relic
-            // substats
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr]() {
             if(!ptr->Adjust["AnaxaA4"]){
                 int cnt = 0;
                 for(int i=1; i<=Total_ally;i++){
@@ -118,6 +118,7 @@ namespace  Anaxa{
                 ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None] += 140;
             }
         }));
+
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr]() {
             ptr->getSubUnit()->buffStackSingle({{Stats::DEF_SHRED,AType::None,4}},3,7,"Qualitative Shift");

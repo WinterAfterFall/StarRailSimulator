@@ -1,5 +1,5 @@
 enum class PairSetType {
-    Speed,
+    Spd_P,
     ATK,
     HP,
     DEF,

@@ -1,7 +1,7 @@
 #include "../include.h"
 
 function<void(Ally *ptr)> Ally::RelicPairSet(PairSetType Type){
-    if(Type == PairSetType::Speed)
+    if(Type == PairSetType::Spd_P)
     return [=](Ally *ptr) {
         ptr->getSubUnit()->Atv_stats->speedPercent+=6;
     };

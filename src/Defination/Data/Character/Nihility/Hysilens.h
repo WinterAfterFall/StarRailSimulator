@@ -10,9 +10,10 @@ namespace Hysilens{
         //substats
         ptr->pushSubstats(Stats::ATK_P);
         ptr->setTotalSubstats(20);
-        ptr->setApplyBaseChance(120);
+        ptr->setApplyBaseChance(100);
         ptr->setEhrRequire(120);
-        ptr->setRelicMainStats(Stats::EHR,Stats::ATK_P,Stats::DMG,Stats::ER);
+        ptr->setSpeedRequire(140);
+        ptr->setRelicMainStats(Stats::EHR,Stats::FLAT_SPD,Stats::DMG,Stats::ER);
 
         
         //func
@@ -130,7 +131,7 @@ namespace Hysilens{
         #pragma endregion
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,hys,Skill,BA]() {
             for(int i = 1;i<= Total_enemy;i++){
-                if(!Enemy_unit[i]->getDebuff("SW Vul")){
+                if(!Enemy_unit[i]->getDebuff("Hys Vul")){
                     Skill();
                     return;
                 }
@@ -180,7 +181,7 @@ namespace Hysilens{
 
             //Eidolon
             if(ptr->Eidolon>=1){
-                buffAllAlly({{Stats::MtprInc,AType::None,16}});
+                buffAllAlly({{Stats::MtprInc,AType::Dot,16}});
             }
 
         }));
