@@ -11,7 +11,7 @@ namespace Kafka{
         ptr->pushSubstats(Stats::ATK_P);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(160);
-        ptr->setApplyBaseChance(75);
+        ptr->setEhrRequire(75);
         ptr->setRelicMainStats(Stats::EHR,Stats::FLAT_SPD,Stats::DMG,Stats::ER);
 
         
@@ -24,6 +24,7 @@ namespace Kafka{
         SubUnit *kafka = ptr->getSubUnit();
 
         ptr->setAdjust("Kafka A2 Kafka",1);
+        ptr->setAdjust("Kafka A2 Hysilens",1);
         #pragma region Ability
 
         function<void()> BA = [ptr,kafka]() {
@@ -114,13 +115,14 @@ namespace Kafka{
             ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 28;
             ptr->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += 18;
             ptr->Sub_Unit_ptr[0]->Stats_type[Stats::HP_P][AType::None] += 10;
+        }));
 
-            // relic
-
-            // substats
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             for(int i=1;i<=Total_ally;i++){
-                if(Ally_unit[i]->getAdjust("Kafka A2 " + Ally_unit[i]->getSubUnit()->getUnitName()))
-                Ally_unit[i]->buffAlly({{Stats::ATK_P,AType::None,100}});
+                if(Ally_unit[i]->getAdjust("Kafka A2 " + Ally_unit[i]->getSubUnit()->getUnitName())){
+                    Ally_unit[i]->buffAlly({{Stats::ATK_P,AType::None,100}});
+                    Ally_unit[i]->newEhrRequire(75);
+                }
             }
 
             if(ptr->Eidolon>=2){
@@ -168,7 +170,7 @@ namespace Kafka{
             if (!target->getDebuff("Kafka Shock")) return;
             if (Dot_type != DotType::General && Dot_type != DotType::Shock) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Dot,ptr->getSubUnit(),TraceType::Single,"Kafka Shock");
+            make_shared<AllyAttackAction>(AType::Shock,ptr->getSubUnit(),TraceType::Single,"Kafka Shock");
             if(ptr->Eidolon>=6)act->addDamageIns(DmgSrc(DmgSrcType::ATK,290+156),target);
             else act->addDamageIns(DmgSrc(DmgSrcType::ATK,290),target);
             act->multiplyDmg(Dot_ratio);
@@ -197,6 +199,6 @@ namespace Kafka{
         Ally *ptr = CharCmd::findAllyName("Kafka");
         if(!ptr)return;
         ptr->setAdjust("Kafka A2 " + Ally_unit[num]->getSubUnit()->getUnitName(),1);
-        Ally_unit[num]->newEhrRequire(75);
+        Ally_unit[num]->newApplyBaseChanceRequire(75);
     }
 }

@@ -115,7 +115,7 @@ namespace The_Herta{
             }
         }));
 
-        When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (ptr->Sub_Unit_ptr[0]->Buff_check["Two_Erudition"] == 1) {
                 buffAllAlly({{Stats::CD,AType::None,80}});
             }

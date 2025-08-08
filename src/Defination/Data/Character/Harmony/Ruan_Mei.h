@@ -57,7 +57,7 @@ namespace Ruan_Mei{
             // substats
         }));
 
-        When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
             buffAllAlly({
                 {Stats::BE, AType::None, 20},
                 {Stats::SPD_P,AType::None,10}

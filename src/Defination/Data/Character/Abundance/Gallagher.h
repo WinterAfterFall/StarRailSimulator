@@ -97,7 +97,7 @@ namespace Gallagher{
             }
         }});
 
-        When_Combat_List.push_back({PRIORITY_IMMEDIATELY, [ptr,Charptr = ptr->getSubUnit()]() {
+        WhenOnField_List.push_back({PRIORITY_IMMEDIATELY, [ptr,Charptr = ptr->getSubUnit()]() {
             double temp = calculateBreakEffectForBuff(ptr->getSubUnit(),50);
             if(temp>75)temp = 75;
             Charptr->buffSingle({{Stats::HEALING_OUT,AType::None,temp - Charptr->getBuffNote("Novel Concoction")}});

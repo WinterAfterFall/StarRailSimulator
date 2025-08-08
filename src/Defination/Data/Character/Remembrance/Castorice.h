@@ -163,7 +163,7 @@ namespace Castorice{
         }));
         
 
-        When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Casptr,Polluxptr]() {
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Casptr,Polluxptr]() {
             if(ptr->Eidolon>=4){
                 buffAllAlly({{Stats::HEALING_IN,AType::None,20}});
             }

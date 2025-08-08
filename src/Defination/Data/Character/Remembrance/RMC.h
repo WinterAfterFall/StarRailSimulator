@@ -117,7 +117,7 @@ namespace RMC{
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 30);
         }));
 
-        When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
             double buffValue = (calculateCritdamForBuff(ptr->Sub_Unit_ptr[1].get(), 13.2) + 26.4);
             buffAllAlly({{Stats::CD, AType::TEMP, buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});
             buffAllAlly({{Stats::CD, AType::None, buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});

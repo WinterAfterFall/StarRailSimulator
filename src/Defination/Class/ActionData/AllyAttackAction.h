@@ -66,6 +66,12 @@ class AllyAttackAction : public AllyActionData {
         AttackSetList.emplace_back(Attacking(ptr,this->actionTypeList));
     }
 
+    #pragma region SetMethod
+    void setDamageElement(ElementType element) {
+        Damage_element = element;
+    }
+    #pragma endregion
+
     private :
     void setupActionType(AType actionType){
         switch(actionType) {
@@ -122,6 +128,30 @@ class AllyAttackAction : public AllyActionData {
                 damageTypeList.push_back(AType::Entanglement);
                 toughnessAvgCalculate = 0;
                 break;
+            case AType::Shock:
+                actionTypeList.push_back(AType::Dot);
+                actionTypeList.push_back(AType::Shock);
+                damageTypeList.push_back(AType::Dot);
+                damageTypeList.push_back(AType::Shock);
+                break;
+            case AType::Bleed:
+                actionTypeList.push_back(AType::Dot);
+                actionTypeList.push_back(AType::Bleed);
+                damageTypeList.push_back(AType::Dot);
+                damageTypeList.push_back(AType::Bleed);
+                break;
+            case AType::WindShear:
+                actionTypeList.push_back(AType::Dot);
+                actionTypeList.push_back(AType::WindShear);
+                damageTypeList.push_back(AType::Dot);
+                damageTypeList.push_back(AType::WindShear);
+                break;
+            case AType::Burn:
+                actionTypeList.push_back(AType::Dot);
+                actionTypeList.push_back(AType::Burn);
+                damageTypeList.push_back(AType::Dot);
+                damageTypeList.push_back(AType::Burn);
+                break;    
             default:
                 break;
         }
@@ -328,6 +358,24 @@ class AllyAttackAction : public AllyActionData {
     
 
     #pragma region addEnemyTarget
+    void addEnemyToTargetList(){
+        if(!Attacker->isExsited())return;
+        std::shared_ptr<AllyActionData> self = shared_from_this();
+        vector<bool> check(Total_enemy+1, false);
+        for(auto &e : targetList){
+            check[e->Atv_stats->num] = true;
+        }
+        for (size_t i = 0; i < damageSplit.size(); ++i) {
+            for (size_t j = 0; j < damageSplit[i].size(); ++j) {
+                Damage& dmg = damageSplit[i][j];
+                if (dmg.target == nullptr)continue;
+                if(check[dmg.target->Atv_stats->num])continue; // สมมติว่า Enemy มี field index
+                check[dmg.target->Atv_stats->num] = true;
+                targetList.emplace_back(dmg.target);
+                
+            }
+        }
+    }
     void addToActionBar(){
         if(!Attacker->isExsited())return;
         std::shared_ptr<AllyActionData> self = shared_from_this();

@@ -38,6 +38,11 @@ int main(){
     // Saber::Setup(0,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::FirmanentFrontline(0));
     // Archer::Setup(6,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::FirmanentFrontline(0));
     
+    //Dot
+    Hysilens::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
+    Kafka::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
+
+
     //Driver
     // Hanabi::Setup(0,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
     // Sunday::Setup(0,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
@@ -48,11 +53,10 @@ int main(){
     // Jade::Setup(0,Erudition_Lightcone::Cosmos_Fell(5),Relic::Grand_Duke,Planar::Izumo);
     
     //Support
-    Kafka::Setup(6,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
-    Tribbie::Setup(0,Harmony_Lightcone::DDD(5),Relic::Poet_Dill,Planar::Lushaka);
+    // Tribbie::Setup(0,Harmony_Lightcone::DDD(5),Relic::Poet_Dill,Planar::Lushaka);
     // RMC::Setup(6,Remembrance_Lightcone::Victory_In_Blink(5),Relic::PairSet(Stats::SPD_P,Stats::SPD_P),Planar::Lushaka);
     // Robin::Setup(0,Harmony_Lightcone::For_Tomorrow_Journey(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
-    // Ruan_Mei::Setup(0,Harmony_Lightcone::Memories_of_the_Past(5),Relic::PairSet(Stats::BE,Stats::BE),Planar::Lushaka);
+    // Ruan_Mei::Setup(0,Harmony_Lightcone::Memories_of_the_Past(5),Relic::PairSet(PairSetType::BE,PairSetType::BE),Planar::Lushaka);
     // Tingyun::Setup(6,Harmony_Lightcone::DDD(5),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
     
     //Debuffer
@@ -76,8 +80,12 @@ int main(){
 
     //--------------------- Formula Check ------------------------
     
-    // Char1->enableCheckDamage();
-    Char1->enableCheckDamageFormula(DmgFormulaMode::All); 
+    Char1->enableCheckDamage();
+    Char1->enableCheckDamageFormula(DmgFormulaMode::DefShred); 
+    Char1->enableCheckDamageFormula(DmgFormulaMode::Src); 
+    Char1->enableCheckDamageFormula(DmgFormulaMode::Vul); 
+    Char1->enableCheckDamageFormula(DmgFormulaMode::Dmg); 
+    Char1->enableCheckDamageFormula(DmgFormulaMode::MtprInc); 
     // Char4->enableCheckHealFormula();
     // Char4->enableCheckHeal();
     
@@ -115,7 +123,7 @@ int main(){
     
     // EnemyCmd::setEnemyWeakness(0,1,0,1,0,1,0);
     SetupEnemy(158,160,{10,15},{200,300},{4,6},2,EnemyType::Main);
-    SetupEnemy(158,160,{10,10},{200,300},{4,6},2,EnemyType::Adjacent);
+    // SetupEnemy(158,160,{10,10},{200,300},{4,6},2,EnemyType::Adjacent);
     // SetupEnemy(158,80,{0,0},{200,200},{2,3},1,EnemyType::Adjacent);  
     // SetupEnemy(130,80,{0,0},{0,0},{2,0},1,EnemyType::Other);
     // SetupEnemy(130,80,{0,0},{0,0},{2,0},1,EnemyType::Other);

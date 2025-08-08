@@ -8,7 +8,7 @@ namespace Planar{
             ptr->Sub_Unit_ptr[0]->Atv_stats->speedPercent += 6;
         }));
 
-        When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] += 40;
         }));
        

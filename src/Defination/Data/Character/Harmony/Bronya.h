@@ -106,7 +106,7 @@ namespace Bronya{
             if(ptr->Sub_Unit_ptr[0]->Atv_stats->num != Driver_num) return;
         }));
 
-        When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
             buffAllAlly({{Stats::DMG,AType::None,10}});
         }));
 

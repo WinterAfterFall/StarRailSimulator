@@ -118,7 +118,7 @@ namespace Robin{
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 25);
         }));
 
-        When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
             buffAllAlly({{Stats::CD, AType::None, 20}});
         }));
 

@@ -8,7 +8,7 @@ namespace Planar{
             ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 12;
         }));
 
-        When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             for (int i = 1; i <= Total_ally; i++) {
                 if (ptr->Sub_Unit_ptr[0]->Atv_stats->Char_Name == Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->Char_Name) continue;
                 for (auto e1 : Ally_unit[i]->path) {

@@ -68,7 +68,7 @@ namespace Pela{
             }
         }));
 
-        When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             buffAllAlly({{Stats::EHR, AType::None, 10}});
         }));
 

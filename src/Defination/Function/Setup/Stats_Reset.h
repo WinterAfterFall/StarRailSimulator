@@ -249,8 +249,10 @@ void Memosprite_reset(){
         Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->turnCnt = 0;
         Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->priority = 0;
         Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->extraTurn = 0;
-        Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->flatSpeed = Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->flatSpeed*(Ally_unit[i]->Sub_Unit_ptr[j]->Unit_Speed_Ratio/100);
-        if(Ally_unit[i]->Sub_Unit_ptr[j]->Unit_Speed_Ratio!=0)Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->speedPercent = Ally_unit[i]->Sub_Unit_ptr[0]->Atv_stats->speedPercent;
+        Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->baseSpeed = 
+        Ally_unit[i]->Sub_Unit_ptr[j]->fixSpeed + calculateSpeedOnStats(Ally_unit[i]->getSubUnit())*Ally_unit[i]->Sub_Unit_ptr[j]->Unit_Speed_Ratio/100;
+        Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->speedPercent = 0;
+        Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->flatSpeed = 0;
         Ally_unit[i]->Sub_Unit_ptr[j]->currentAllyTargetNum = Ally_unit[i]->Sub_Unit_ptr[j]->defaultAllyTargetNum;
         Ally_unit[i]->Sub_Unit_ptr[j]->currentSubUnitTargetNum = Ally_unit[i]->Sub_Unit_ptr[j]->defaultSubUnitTargetNum;
         Ally_unit[i]->Sub_Unit_ptr[j]->currentSheild = 0;

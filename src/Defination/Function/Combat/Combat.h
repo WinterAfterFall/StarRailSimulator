@@ -82,7 +82,7 @@ void EnemyActionData::EnemyAction(){
     resetTurn(turn);
 }
 void Attack(shared_ptr<AllyAttackAction> &act){
-
+    if(act->targetList.empty())act->addEnemyToTargetList();
 
     //32 45
     if(act->Attacker->ptrToChar->canCheckDmgformula()||act->Attacker->ptrToChar->checkDamage){

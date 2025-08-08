@@ -34,6 +34,7 @@ void SetMemoStats(Ally *ptr,double fixHP,double Hp_ratio,double fixSpeed,double 
         ptr->Sub_Unit_ptr[num]->Unit_Speed_Ratio = Speed_ratio;
         ptr->Sub_Unit_ptr[num]->Atv_stats->baseSpeed = fixSpeed + Speed_ratio/100 * ptr->getSubUnit()->Atv_stats->baseSpeed;
         ptr->Sub_Unit_ptr[num]->fixHP =  fixHP;
+        ptr->Sub_Unit_ptr[num]->fixSpeed =  fixSpeed;
         ptr->Sub_Unit_ptr[num]->baseAtk = ptr->Sub_Unit_ptr[0]->baseAtk;
         ptr->Sub_Unit_ptr[num]->baseHp = ptr->Sub_Unit_ptr[0]->baseHp*(ptr->Sub_Unit_ptr[num]->Unit_Hp_Ratio/100);
         ptr->Sub_Unit_ptr[num]->baseDef = ptr->Sub_Unit_ptr[0]->baseDef;

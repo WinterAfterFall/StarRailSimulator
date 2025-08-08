@@ -99,7 +99,7 @@ namespace Serval{
             if (!target->getDebuff("Serval_Shock")) return;
             if (Dot_type != DotType::General && Dot_type != DotType::Shock) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Dot,ptr->getSubUnit(),TraceType::Single,"Serval Shock");
+            make_shared<AllyAttackAction>(AType::Shock,ptr->getSubUnit(),TraceType::Single,"Serval Shock");
             act->addDamageIns(DmgSrc(DmgSrcType::ATK,114),target);
             act->multiplyDmg(Dot_ratio);
             Attack(act);

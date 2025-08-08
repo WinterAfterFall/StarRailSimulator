@@ -288,6 +288,7 @@ public:
     // Set Requirements
     void setSpeed(double speed);
     void newSpeedRequire(double amount);
+    void newApplyBaseChanceRequire(double amount);
     void newEhrRequire(double amount);
 
     // Set Substats

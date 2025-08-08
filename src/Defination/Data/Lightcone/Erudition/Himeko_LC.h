@@ -5,7 +5,7 @@ namespace Erudition_Lightcone{
             ptr->SetAllyBaseStats(1164,582,397);
             ptr->Light_cone.Name = "Himeko_LC";
     
-            When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += (7.5 + superimpose * 1.5) * Total_enemy;
             }));
     

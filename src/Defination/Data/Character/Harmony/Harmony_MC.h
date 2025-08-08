@@ -54,7 +54,7 @@ namespace Harmony_MC{
             // substats
         }));
 
-        When_Combat_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,HMCptr](){
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,HMCptr](){
             ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"] = calculateBreakEffectForBuff(ptr->Sub_Unit_ptr[0].get(), 15);                  
             HMCptr->buffAllAllyExcludingBuffer({{Stats::BE,AType::TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"]}});
             HMCptr->buffAllAllyExcludingBuffer({{Stats::BE,AType::None,ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"]}});

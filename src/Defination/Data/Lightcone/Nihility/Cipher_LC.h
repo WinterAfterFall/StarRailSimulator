@@ -4,7 +4,7 @@ namespace Nihility_Lightcone{
         return [=](Ally *ptr) {
             ptr->SetAllyBaseStats(953,582,529);
             ptr->Light_cone.Name = "Cipher_LC";
-            ptr->newEhrRequire(120);
+            ptr->newApplyBaseChanceRequire(120);
 
             BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
                 debuffAllEnemyApply({{Stats::DEF_SHRED,AType::None,14.0 + (superimpose * 2)}},ptr->getSubUnit(),"Bamboozle",2);

@@ -35,6 +35,7 @@ public:
     double Unit_Speed_Ratio = 0;
     double Unit_Hp_Ratio = 0 ;
     double fixHP = 0;
+    double fixSpeed = 0;
 #pragma endregion
 
 #pragma region Record Buff Value

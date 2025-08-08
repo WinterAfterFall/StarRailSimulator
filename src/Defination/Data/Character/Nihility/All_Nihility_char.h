@@ -2,4 +2,5 @@
 #include"Silver Wolf.h"
 #include"Cipher.h"
 #include"Kafka.h"
+#include"Hysilens.h"
 //#include"Fugue.h"
