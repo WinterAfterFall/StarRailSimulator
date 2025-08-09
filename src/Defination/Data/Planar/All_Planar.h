@@ -11,6 +11,9 @@
 #include"Inert.h"
 
 
+//Dot
+#include"Revelry by the Sea.h"
+
 //Break
 #include"Talia.h"
 #include"Kalpagni_Lantern.h"
