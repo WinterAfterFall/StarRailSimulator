@@ -6,9 +6,9 @@ namespace SomeChar{
         ptr->SetAllyBaseStats(,,);
 
         //substats
-        ptr->pushSubstats();
-        ptr->pushSubstats();
-        ptr->pushSubstats();
+        ptr->pushSubstats(Stats::);
+        ptr->pushSubstats(Stats::);
+        ptr->pushSubstats(Stats::);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire();
         ptr->setApplyBaseChance();

@@ -42,7 +42,8 @@ int main(){
     Hysilens::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
     Kafka::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
     // BS::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
-    Guinaifen::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
+    // Guinaifen::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
+    Luka::Setup(6,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
 
 
     //Driver
