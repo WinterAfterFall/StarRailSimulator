@@ -12,6 +12,7 @@
 #include"GeniusBrilliant.h"
 #include"Goddess of Sun and Thunder.h"
 #include"Wavestrider Captain.h"
+#include"Prisoner in Deep Confinement.h"
 
 
 #endif
