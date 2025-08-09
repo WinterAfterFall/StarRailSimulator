@@ -2,8 +2,7 @@
 
 void Take_action(){
     
-    phaseStatus = PhaseStatus::BeforeTurn;
-    After_Turn_Check = 0;
+    phaseStatus = PhaseStatus::DotBeforeTurn;
     if(!turn->extraTurn){
         ++(turn->turnCnt);
         allEventBeforeTurn();
@@ -22,7 +21,6 @@ void Take_action(){
     
     
     allUltimateCheck();
-    After_Turn_Check = 1;
     
     if(!turn->extraTurn)allEventAfterTurn();
 
@@ -31,6 +29,7 @@ void Take_action(){
 void Deal_damage(){
     if(actionBarUse)return;
     actionBarUse = true;
+    PhaseStatus beforeStatus = phaseStatus;
     while(!Action_bar.empty()){
         shared_ptr<ActionData> temp = Action_bar.front();
         phaseStatus = PhaseStatus::WhileAction;
@@ -46,6 +45,7 @@ void Deal_damage(){
         Action_bar.pop();
     }
     actionBarUse = false;
+    phaseStatus = beforeStatus;
 }
 void AllyActionData::AllyAction(){
     std::shared_ptr<AllyActionData> self = shared_from_this();

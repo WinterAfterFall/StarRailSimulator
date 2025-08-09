@@ -12,7 +12,8 @@ enum class PhaseStatus{
     None,
     BeforeTurn,
     AfterTurn,
-    WhileAction
+    WhileAction,
+    DotBeforeTurn
 };
 enum class SubstatsRerollMode{
     Standard,

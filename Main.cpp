@@ -34,18 +34,19 @@ int main(){
     // Castorice::Setup(0,Remembrance_Lightcone::Castorice_LC(1),Relic::Poet_Dill,Planar::Bone_Collection);
     // Phainon::Setup(2,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::Arcadia);
     // Mydei::Setup(0,Destruction_Lightcone::Mydei_LC(1),Relic::Scholar,Planar::Bone_Collection);
-    Saber::Setup(0,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::FirmanentFrontline(0));
+    // Saber::Setup(0,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::FirmanentFrontline(0));
     // Archer::Setup(6,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::FirmanentFrontline(0));
     // Anaxa::Setup(2,Erudition_Lightcone::GreatCosmic(5),Relic::GeniusBrilliant,Planar::Lushaka);
     
     //Dot
-    // Hysilens::Setup(0,Nihility_Lightcone::Resolution(5),Relic::PairSet(PairSetType::Spd_P,PairSetType::Spd_P),Planar::Lushaka);
-    // Kafka::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
+    Hysilens::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
+    Kafka::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
+    BS::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
 
 
     //Driver
     // Hanabi::Setup(0,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
-    Sunday::Setup(0,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
+    // Sunday::Setup(0,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
     // Bronya::Setup(0,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
     
     //Sub dps
@@ -60,7 +61,7 @@ int main(){
     // Tingyun::Setup(6,Harmony_Lightcone::DDD(5),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
     
     //Debuffer
-    Cipher::Setup(0,Nihility_Lightcone::Resolution(5),Relic::PairSet(PairSetType::Spd_P,PairSetType::Spd_P),Planar::Lushaka);
+    // Cipher::Setup(0,Nihility_Lightcone::Resolution(5),Relic::PairSet(PairSetType::Spd_P,PairSetType::Spd_P),Planar::Lushaka);
     // SW::Setup(0,Nihility_Lightcone::Resolution(5),Relic::PairSet(PairSetType::Spd_P,PairSetType::Spd_P),Planar::Lushaka);
     // Pela::Setup(6,Nihility_Lightcone::Before_the_Tutorial(5),Relic::Eagle_Beaked_Helmet,Planar::Lushaka);
     
@@ -80,8 +81,8 @@ int main(){
 
     //--------------------- Formula Check ------------------------
     
-    Char1->enableCheckDamage();
-    Char1->enableCheckDamageFormula(DmgFormulaMode::All); 
+    Char3->enableCheckDamage();
+    Char3->enableCheckDamageFormula(DmgFormulaMode::All); 
     // Char4->enableCheckHealFormula();
     // Char4->enableCheckHeal();
     

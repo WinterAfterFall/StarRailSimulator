@@ -12,7 +12,7 @@ namespace Hysilens{
         ptr->setTotalSubstats(20);
         ptr->setApplyBaseChance(100);
         ptr->setEhrRequire(120);
-        ptr->setSpeedRequire(140);
+        // ptr->setSpeedRequire(140);
         ptr->setRelicMainStats(Stats::EHR,Stats::FLAT_SPD,Stats::DMG,Stats::ER);
 
         
@@ -166,6 +166,7 @@ namespace Hysilens{
                 DmgSrc(DmgSrcType::ATK,200,20)
             );
             act->addToActionBar();
+            Deal_damage();
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
@@ -186,7 +187,7 @@ namespace Hysilens{
 
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hys]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hys,Talent,E1]() {
                 Skill_point(hys,1);
                 for(int i=1;i<=Total_enemy;i++){
                     if(Enemy_unit[i]->debuffMark(hys,"Hys Ult")){
@@ -195,6 +196,14 @@ namespace Hysilens{
                     }
                 }
                 hys->isHaveToAddBuff("Hys Ult",3);
+                if(ptr->Technique){
+                    for(int i=1;i<=Total_enemy;i++){
+                    Talent(Enemy_unit[i].get());
+                    Talent(Enemy_unit[i].get());
+                    if(ptr->Eidolon>=1)E1(Enemy_unit[i].get());
+                    if(ptr->Eidolon>=1)E1(Enemy_unit[i].get());
+                }
+                }
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {

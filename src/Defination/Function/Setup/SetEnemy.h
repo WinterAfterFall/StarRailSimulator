@@ -13,6 +13,22 @@ Enemy* createNewEnemy(double speed,double Toughness,EnemyType type){
     Enemy_unit[num]->Atv_stats->Unit_Name = Enemy_unit[num]->Atv_stats->Char_Name;
     Enemy_unit[num]->Atv_stats->side = Side::Enemy;
     Enemy_unit[num]->Atv_stats->ptrToChar = Enemy_unit[num].get();
+    if(num == 2){
+        Enemy_unit[2]->nextToLeft = Enemy_unit[1].get();
+        Enemy_unit[1]->nextToRight = Enemy_unit[2].get();
+    }
+    else if(num == 3){
+        Enemy_unit[3]->nextToRight = Enemy_unit[1].get();
+        Enemy_unit[1]->nextToLeft = Enemy_unit[3].get();
+    }
+    else if(num == 4){
+        Enemy_unit[4]->nextToLeft = Enemy_unit[2].get();
+        Enemy_unit[2]->nextToRight = Enemy_unit[4].get();
+    }
+    else if(num == 5){
+        Enemy_unit[5]->nextToRight = Enemy_unit[3].get();
+        Enemy_unit[3]->nextToLeft = Enemy_unit[5].get();
+    }
     return Enemy_unit[num].get();
 }
 void SetupEnemy(double speed,double Toughness,pair<double,double> energy,pair<double,double> skillRatio,pair<int,int> attackCooldown,int action,EnemyType type){    

@@ -60,7 +60,6 @@ double Current_atv =0;
 double totalTaunt = 0;
 
 PhaseStatus phaseStatus = PhaseStatus::None;
-bool After_Turn_Check = 0;
 bool actionBarUse = 0;
 bool AdjustCheck = 0;
 bool Turn_Skip=0;

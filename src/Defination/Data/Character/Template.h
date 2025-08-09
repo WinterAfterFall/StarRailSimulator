@@ -22,7 +22,7 @@ namespace SomeChar{
         Relic(ptr);
         Planar(ptr);
 
-        SubUnit ally = ptr->getSubUnit();
+        SubUnit *ally = ptr->getSubUnit();
         #pragma region Ability
 
         function<void()> BA = [ptr]() {
@@ -40,7 +40,7 @@ namespace SomeChar{
         };
 
         #pragma endregion
-        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,ally]() {
+        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,ally,BA,Skill]() {
 
         };
         

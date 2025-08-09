@@ -58,6 +58,8 @@ public:
     vector<SubUnit*> tauntList;
     double toughnessReduceNote = 0;
     int hitCount = 0;
+    Enemy * nextToLeft = nullptr;
+    Enemy * nextToRight = nullptr;
 
     
     std::vector<BreakSideEffect> breakDotList;
@@ -266,7 +268,7 @@ public:
     void dotSingleStack(vector<DotType> dotType,SubUnit *ptr, int Stack_increase, int Stack_limit, string dotName);
     void dotSingleStack(vector<DotType> dotType,SubUnit *ptr, int Stack_increase, int Stack_limit, string dotName,int extend);
     void dotRemove(vector<DotType> dotType);
-    void dotStackRemove(vector<DotType> dotType,string dotName);
+    int dotStackRemove(vector<DotType> dotType,string dotName);
 
 }; 
 // Define DamageSrc cmp

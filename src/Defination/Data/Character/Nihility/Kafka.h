@@ -25,6 +25,7 @@ namespace Kafka{
 
         ptr->setAdjust("Kafka A2 Kafka",1);
         ptr->setAdjust("Kafka A2 Hysilens",1);
+        ptr->setAdjust("Kafka A2 Black Swan",1);
         #pragma region Ability
 
         function<void()> BA = [ptr,kafka]() {

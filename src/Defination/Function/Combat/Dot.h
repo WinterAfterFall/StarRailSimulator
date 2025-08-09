@@ -29,17 +29,17 @@ void Enemy::dotSingleMark(vector<DotType> dotType, SubUnit *ptr, string dotName,
 }
 
 void Enemy::dotSingleStack(vector<DotType> dotType, SubUnit *ptr, int Stack_increase, int Stack_limit, string dotName) {
-    int stack = this->calDebuffStack(ptr,dotName,Stack_increase,Stack_limit).first;
     for(auto &each : dotType) {
-        this->changeDotType(each,stack);
+        if(!this->getStack(dotName))this->changeDotType(each,1);
     }
+    int stack = this->calDebuffStack(ptr,dotName,Stack_increase,Stack_limit).first;
 }
 
 void Enemy::dotSingleStack(vector<DotType> dotType, SubUnit *ptr, int Stack_increase, int Stack_limit, string dotName, int extend) {
-    int stack = this->calDebuffStack(ptr,dotName,Stack_increase,Stack_limit).first;
     for(auto &each : dotType) {
-        this->changeDotType(each,stack);
+        if(!this->getStack(dotName))this->changeDotType(each,1);
     }
+    int stack = this->calDebuffStack(ptr,dotName,Stack_increase,Stack_limit).first;
     this->extendDebuff(dotName,extend);
 }
 
@@ -111,9 +111,10 @@ void Enemy::dotRemove(vector<DotType> dotType) {
         this->changeDotType(each,-1);
     }
 }
-void Enemy::dotStackRemove(vector<DotType> dotType, string dotName) {
+int Enemy::dotStackRemove(vector<DotType> dotType, string dotName) {
     int stack = this->debuffRemoveStack(dotName);
     for(auto &each : dotType) {
-        this->changeDotType(each,-stack);
+        this->changeDotType(each,-1);
     }
+    return stack;
 }
