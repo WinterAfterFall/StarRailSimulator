@@ -26,6 +26,8 @@ namespace Kafka{
         ptr->setAdjust("Kafka A2 Kafka",1);
         ptr->setAdjust("Kafka A2 Hysilens",1);
         ptr->setAdjust("Kafka A2 Black Swan",1);
+        ptr->setAdjust("Kafka A2 Guinaifen",1);
+        ptr->setAdjust("Kafka A2 Luka",1);
         #pragma region Ability
 
         function<void()> BA = [ptr,kafka]() {
@@ -143,9 +145,9 @@ namespace Kafka{
                     }
                 });
                 act->addDamageIns(
-                    DmgSrc(DmgSrcType::ATK,50,0),
-                    DmgSrc(DmgSrcType::ATK,50,0),
-                    DmgSrc(DmgSrcType::ATK,50,0)
+                    DmgSrc(DmgSrcType::ATK,50,20),
+                    DmgSrc(DmgSrcType::ATK,50,20),
+                    DmgSrc(DmgSrcType::ATK,50,20)
                 );
                 act->addToActionBar();
                 Deal_damage();

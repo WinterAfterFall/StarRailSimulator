@@ -32,25 +32,25 @@ namespace Hysilens{
             DotType dotType = DotType::Bleed;
             if(!enemy->getDebuff("Hys Bleed")){
             }
-            else if(!enemy->getDebuff("Hys Shock")){
-                dotName = "Hys Shock";
-                DotType dotType = DotType::Shock;
-            }
             else if(!enemy->getDebuff("Hys Burn")){
                 dotName = "Hys Burn";
                 DotType dotType = DotType::Burn;
+            }
+            else if(!enemy->getDebuff("Hys Shock")){
+                dotName = "Hys Shock";
+                DotType dotType = DotType::Shock;
             }
             else if(!enemy->getDebuff("Hys WindShear")){
                 dotName = "Hys WindShear";
                 DotType dotType = DotType::WindShear;
             }else{
-                if(enemy->getDebuffTimeCount(dotName) > enemy->getDebuffTimeCount("Hys Shock")){
-                    dotName = "Hys Shock";
-                    DotType dotType = DotType::Shock;
-                }
                 if(enemy->getDebuffTimeCount(dotName) > enemy->getDebuffTimeCount("Hys Burn")){
                     dotName = "Hys Burn";
                     DotType dotType = DotType::Burn;
+                }
+                if(enemy->getDebuffTimeCount(dotName) > enemy->getDebuffTimeCount("Hys Shock")){
+                    dotName = "Hys Shock";
+                    DotType dotType = DotType::Shock;
                 }
                 if(enemy->getDebuffTimeCount(dotName) > enemy->getDebuffTimeCount("Hys WindShear")){
                     dotName = "Hys WindShear";

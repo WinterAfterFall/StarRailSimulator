@@ -41,7 +41,8 @@ int main(){
     //Dot
     Hysilens::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
     Kafka::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
-    BS::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
+    // BS::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
+    Guinaifen::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
 
 
     //Driver
@@ -98,6 +99,8 @@ int main(){
     //--------------------- Set_Technique ------------------------
     
     
+    // CharCmd::Set_Technique(Ally_unit[1].get(),0);
+    // CharCmd::Set_Technique(Ally_unit[2].get(),0);
     // CharCmd::Set_Technique(Ally_unit[2].get(),0);
     // CharCmd::Set_Technique(Ally_unit[4].get(),0);
     

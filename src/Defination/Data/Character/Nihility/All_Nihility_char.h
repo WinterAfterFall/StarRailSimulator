@@ -6,5 +6,6 @@
 #include"Kafka.h"
 #include"Hysilens.h"
 #include"Black Swan.h"
+#include"Guinaifen.h"
 
 //#include"Fugue.h"

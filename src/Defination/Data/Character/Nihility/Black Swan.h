@@ -46,8 +46,8 @@ namespace BS{
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"BS Skill",
             [ptr,bs](shared_ptr<AllyAttackAction> &act){
-                Skill_point(bs,1);
-                Increase_energy(ptr,20);
+                Skill_point(bs,-1);
+                Increase_energy(ptr,30);
                 for(auto &each : act->targetList){
                     each->debuffSingleApply({{Stats::DEF_SHRED,AType::None,20.8}},bs,"BS DefShred",3);
                 }
@@ -84,7 +84,7 @@ namespace BS{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,bs]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"BS Skill",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"BS Ult",
             [ptr,bs](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Black Swan");
                 for(auto &each : act->targetList){

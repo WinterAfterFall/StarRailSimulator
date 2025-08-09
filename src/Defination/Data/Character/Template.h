@@ -1,8 +1,6 @@
 #include "../include.h"
 
 namespace SomeChar{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
-
     void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
         Ally *ptr = SetAllyBasicStats(speed,maxEnergy,UltCost,E,ElementType::,Path::,Name,UnitType::Standard);
         ptr->SetAllyBaseStats(,,);
@@ -25,10 +23,10 @@ namespace SomeChar{
         SubUnit *ally = ptr->getSubUnit();
         #pragma region Ability
 
-        function<void()> BA = [ptr]() {
+        function<void()> BA = [ptr,ally]() {
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::,ptr->getSubUnit(),TraceType::,,
-            [ptr](shared_ptr<AllyAttackAction> &act){
+            [ptr,ally](shared_ptr<AllyAttackAction> &act){
                 Skill_point(,1);
                 Increase_energy(,20);
                 Attack(act);
@@ -48,12 +46,12 @@ namespace SomeChar{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,ally]() {
             if (!ultUseCheck(ptr)) return;
 
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,ally]() {
             ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Ice][AType::None] += 22.4;
             ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 18;
             ptr->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += 10;

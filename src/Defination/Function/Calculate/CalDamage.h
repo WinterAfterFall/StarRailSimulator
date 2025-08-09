@@ -35,7 +35,7 @@ void calDamage(shared_ptr<AllyAttackAction> &act,Enemy *target,DmgSrc abilityRat
 
 void Cal_Break_damage(shared_ptr<AllyAttackAction> &act,Enemy *target,double &Constant){
     double Total_dmg = Constant *Level_multiplier;
-
+    allEventBeforeAttack(act);
     if(act->Attacker->ptrToChar->canCheckDmgformula()||act->Attacker->ptrToChar->checkDamage){
         cout<<"\033[0;38;5;45m";
         cout<<"\n-------------------- Break Dmg --------------------\n";
@@ -61,12 +61,13 @@ void Cal_Break_damage(shared_ptr<AllyAttackAction> &act,Enemy *target,double &Co
         cout<<"---------------------------------------------------\n";
         cout << "\033[0m";
     }
+    allEventAfterAttack(act);
 
     
 }
 void Cal_Freeze_damage(shared_ptr<AllyAttackAction> &act,Enemy *target){
     double Total_dmg = Level_multiplier;
-    
+        allEventBeforeAttack(act);
     if(act->Attacker->ptrToChar->canCheckDmgformula()||act->Attacker->ptrToChar->checkDamage){
         cout<<"\033[0;38;5;45m";
         cout<<"\n-------------------- Break Dmg --------------------\n";
@@ -91,11 +92,12 @@ void Cal_Freeze_damage(shared_ptr<AllyAttackAction> &act,Enemy *target){
         cout<<"---------------------------------------------------\n";
         cout << "\033[0m";
     }
+    allEventAfterAttack(act);
 }
 
 void Cal_Dot_Toughness_break_damage(shared_ptr<AllyAttackAction> &act,Enemy *target,double Dot_ratio){
     double Total_dmg = Level_multiplier*Dot_ratio/100;
-
+    allEventBeforeAttack(act);
     if(act->Attacker->ptrToChar->canCheckDmgformula()||act->Attacker->ptrToChar->checkDamage){
         cout<<"\033[0;38;5;45m";
         cout<<"\n-------------------- Dot Break Dmg --------------------\n";    
@@ -120,11 +122,12 @@ void Cal_Dot_Toughness_break_damage(shared_ptr<AllyAttackAction> &act,Enemy *tar
         cout<<"---------------------------------------------------\n";
         cout << "\033[0m";
     }
+    allEventAfterAttack(act);
 
 }
 void Cal_Superbreak_damage(shared_ptr<AllyAttackAction> &act,Enemy *target,double Superbreak_ratio){
     double Total_dmg = Level_multiplier*Superbreak_ratio/100;
-
+    allEventBeforeAttack(act);
     if(act->Attacker->ptrToChar->canCheckDmgformula()||act->Attacker->ptrToChar->checkDamage){
         cout<<"\033[0;38;5;191m";
         cout<<"\n----------------------- Super Break -----------------------\n";
@@ -149,6 +152,7 @@ void Cal_Superbreak_damage(shared_ptr<AllyAttackAction> &act,Enemy *target,doubl
         cout<<"-----------------------------------------------------------\n";
         cout << "\033[0m";
     }
+    allEventAfterAttack(act);
 
 }
 
