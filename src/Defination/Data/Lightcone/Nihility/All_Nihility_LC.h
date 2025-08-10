@@ -6,3 +6,4 @@
 #include"Hysilens_LC.h"
 #include"BlackSwan_LC.h"
 #include"Jiaoqiu_LC.h"
+#include"Kafka_LC.h"

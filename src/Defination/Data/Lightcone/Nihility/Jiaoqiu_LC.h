@@ -10,7 +10,7 @@ namespace Nihility_Lightcone{
                 ptr->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += 40 + 10 * superimpose;
             }));
             
-            AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,isDot,Unarmored,Cornered](shared_ptr<AllyAttackAction> &act) {
+            BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,isDot,Unarmored,Cornered](shared_ptr<AllyAttackAction> &act) {
                 if((act->isSameAction(AType::BA)||
                     act->isSameAction(AType::SKILL)||
                     act->isSameAction(AType::Ult))&&act->isSameUnit(ptr->getSubUnit())){
