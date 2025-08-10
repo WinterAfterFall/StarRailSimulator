@@ -5,3 +5,4 @@
 #include"Cipher_LC.h"
 #include"Hysilens_LC.h"
 #include"BlackSwan_LC.h"
+#include"Jiaoqiu_LC.h"

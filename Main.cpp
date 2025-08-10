@@ -39,7 +39,7 @@ int main(){
     // Anaxa::Setup(2,Erudition_Lightcone::GreatCosmic(5),Relic::GeniusBrilliant,Planar::Lushaka);
     
     //Dot
-    Hysilens::Setup(0,Nihility_Lightcone::BlackSwan_LC(1),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
+    Hysilens::Setup(0,Nihility_Lightcone::Jiaoqiu_LC(1,1),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
     Kafka::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
     // BS::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
     // Guinaifen::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
@@ -84,7 +84,7 @@ int main(){
     //--------------------- Formula Check ------------------------
     
     Char1->enableCheckDamage();
-    Char1->enableCheckDamageFormula(DmgFormulaMode::DefShred); 
+    Char1->enableCheckDamageFormula(DmgFormulaMode::Vul); 
     // Char4->enableCheckHealFormula();
     // Char4->enableCheckHeal();
     
