@@ -34,27 +34,27 @@ namespace Hysilens{
             }
             else if(!enemy->getDebuff("Hys Burn")){
                 dotName = "Hys Burn";
-                DotType dotType = DotType::Burn;
+                dotType = DotType::Burn;
             }
             else if(!enemy->getDebuff("Hys Shock")){
                 dotName = "Hys Shock";
-                DotType dotType = DotType::Shock;
+                dotType = DotType::Shock;
             }
             else if(!enemy->getDebuff("Hys WindShear")){
                 dotName = "Hys WindShear";
-                DotType dotType = DotType::WindShear;
+                dotType = DotType::WindShear;
             }else{
                 if(enemy->getDebuffTimeCount(dotName) > enemy->getDebuffTimeCount("Hys Burn")){
                     dotName = "Hys Burn";
-                    DotType dotType = DotType::Burn;
+                    dotType = DotType::Burn;
                 }
                 if(enemy->getDebuffTimeCount(dotName) > enemy->getDebuffTimeCount("Hys Shock")){
                     dotName = "Hys Shock";
-                    DotType dotType = DotType::Shock;
+                    dotType = DotType::Shock;
                 }
                 if(enemy->getDebuffTimeCount(dotName) > enemy->getDebuffTimeCount("Hys WindShear")){
                     dotName = "Hys WindShear";
-                    DotType dotType = DotType::WindShear;
+                    dotType = DotType::WindShear;
                 }
             }
             enemy->dotSingleApply({dotType},hys,dotName,2);
@@ -66,27 +66,27 @@ namespace Hysilens{
             }
             else if(!enemy->getDebuff("Hys E1 Shock")){
                 dotName = "Hys Shock";
-                DotType dotType = DotType::Shock;
+                dotType = DotType::Shock;
             }
             else if(!enemy->getDebuff("Hys E1 Burn")){
                 dotName = "Hys Burn";
-                DotType dotType = DotType::Burn;
+                dotType = DotType::Burn;
             }
             else if(!enemy->getDebuff("Hys E1 WindShear")){
                 dotName = "Hys WindShear";
-                DotType dotType = DotType::WindShear;
+                dotType = DotType::WindShear;
             }else{
                 if(enemy->getDebuffTimeCount(dotName) > enemy->getDebuffTimeCount("Hys E1 Shock")){
                     dotName = "Hys E1 Shock";
-                    DotType dotType = DotType::Shock;
+                    dotType = DotType::Shock;
                 }
                 if(enemy->getDebuffTimeCount(dotName) > enemy->getDebuffTimeCount("Hys E1 Burn")){
                     dotName = "Hys E1 Burn";
-                    DotType dotType = DotType::Burn;
+                    dotType = DotType::Burn;
                 }
                 if(enemy->getDebuffTimeCount(dotName) > enemy->getDebuffTimeCount("Hys E1 WindShear")){
                     dotName = "Hys E1 WindShear";
-                    DotType dotType = DotType::WindShear;
+                    dotType = DotType::WindShear;
                 }
             }
             enemy->dotSingleApply({dotType},hys,dotName,2);
@@ -130,13 +130,14 @@ namespace Hysilens{
 
         #pragma endregion
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,hys,Skill,BA]() {
-            for(int i = 1;i<= Total_enemy;i++){
-                if(!Enemy_unit[i]->getDebuff("Hys Vul")){
-                    Skill();
-                    return;
-                }
-            }
-            BA();
+            // for(int i = 1;i<= Total_enemy;i++){
+            //     if(!Enemy_unit[i]->getDebuff("Hys Vul")){
+            //         Skill();
+            //         return;
+            //     }
+            // }
+            if(hys->getTurnCnt()%3==1)Skill();
+            else BA();
         };
         
         ptr->addUltCondition([ptr]() -> bool {

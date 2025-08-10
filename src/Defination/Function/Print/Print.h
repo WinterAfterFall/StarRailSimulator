@@ -6,9 +6,6 @@ void Print(){
     cout<<""<<turn->Char_Name<<" ";
     cout<<turn->turnCnt<<" ";
     cout<<sp<<" ";
-    cout<<Enemy_unit[1]->getStack("Arcana")<<" ";
-    cout<<Enemy_unit[1]->getDebuff("Epiphany")<<" ";
-    cout<<Enemy_unit[1]->getDebuff("Arcana Ignore")<<" ";
 
     // cout<<endl;
     // cout<<Enemy_unit[1]->getDebuffTimeCount("Hys Bleed")<<" ";
