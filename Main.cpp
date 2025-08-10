@@ -39,11 +39,11 @@ int main(){
     // Anaxa::Setup(2,Erudition_Lightcone::GreatCosmic(5),Relic::GeniusBrilliant,Planar::Lushaka);
     
     //Dot
-    Hysilens::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
+    Hysilens::Setup(0,Nihility_Lightcone::Hysilens_LC(1),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
     Kafka::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
     // BS::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
     // Guinaifen::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
-    Luka::Setup(6,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
+    // Luka::Setup(6,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
 
 
     //Driver
@@ -59,7 +59,7 @@ int main(){
     // Tribbie::Setup(0,Harmony_Lightcone::DDD(5),Relic::Poet_Dill,Planar::Lushaka);
     // RMC::Setup(6,Remembrance_Lightcone::Victory_In_Blink(5),Relic::PairSet(PairSetType::Spd_P,PairSetType::Spd_P),Planar::Lushaka);
     // Robin::Setup(0,Harmony_Lightcone::For_Tomorrow_Journey(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
-    // Ruan_Mei::Setup(0,Harmony_Lightcone::Memories_of_the_Past(5),Relic::PairSet(PairSetType::BE,PairSetType::BE),Planar::Lushaka);
+    Ruan_Mei::Setup(0,Harmony_Lightcone::Memories_of_the_Past(5),Relic::PairSet(PairSetType::BE,PairSetType::BE),Planar::Lushaka);
     // Tingyun::Setup(6,Harmony_Lightcone::DDD(5),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
     
     //Debuffer
@@ -83,8 +83,8 @@ int main(){
 
     //--------------------- Formula Check ------------------------
     
-    Char3->enableCheckDamage();
-    Char3->enableCheckDamageFormula(DmgFormulaMode::All); 
+    Char1->enableCheckDamage();
+    Char1->enableCheckDamageFormula(DmgFormulaMode::All); 
     // Char4->enableCheckHealFormula();
     // Char4->enableCheckHeal();
     

@@ -190,7 +190,7 @@ void allEventBeforeApplyDebuff(SubUnit *ptr,Enemy* target){
     }
 }
 void allEventAfterApplyDebuff(SubUnit *ptr,Enemy* target){
-    for(TriggerBySomeAlly_Func &e : BeforeApplyDebuff){
+    for(TriggerBySomeAlly_Func &e : AfterApplyDebuff){
         e.Call(target,ptr);
     }
 }
