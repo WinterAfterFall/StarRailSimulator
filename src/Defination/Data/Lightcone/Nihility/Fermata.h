@@ -13,7 +13,7 @@ namespace Nihility_Lightcone{
                 if(act->isSameUnit(ptr->getSubUnit())){
                     for(auto &each : act->targetList ){
                         if(each->ShockCount||each->WindSheerCount){
-                            each->debuffSingle({{Stats::Mitigration,AType::None,12.0 + superimpose * 4}});
+                            each->debuffSingle({{Stats::DMG,AType::None,12.0 + superimpose * 4}});
                         }
                     }
                 }
@@ -23,7 +23,7 @@ namespace Nihility_Lightcone{
                 if(act->isSameUnit(ptr->getSubUnit())){
                     for(auto &each : act->targetList ){
                         if(each->ShockCount||each->WindSheerCount){
-                            each->debuffSingle({{Stats::Mitigration,AType::None,-(12.0 + superimpose * 4)}});
+                            each->debuffSingle({{Stats::DMG,AType::None,-(12.0 + superimpose * 4)}});
                         }
                     }
                 }
