@@ -39,7 +39,7 @@ int main(){
     // Anaxa::Setup(2,Erudition_Lightcone::GreatCosmic(5),Relic::GeniusBrilliant,Planar::Lushaka);
     
     //Dot
-    Hysilens::Setup(0,Nihility_Lightcone::HertaShop(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
+    Hysilens::Setup(0,Nihility_Lightcone::Fermata(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
     Kafka::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
     // BS::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
     // Guinaifen::Setup(0,Nihility_Lightcone::GNSW(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
