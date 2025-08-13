@@ -200,6 +200,8 @@ double calBonusDmgMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
 double calCritMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
     double Crit_rate_mtpr;
     double Crit_dam_mtpr;
+    
+    if(!act->critAble)return 1;
 
     Crit_rate_mtpr = act->Attacker->Stats_type[Stats::CR][AType::None] + target->Stats_type[Stats::CR][AType::None];
     Crit_dam_mtpr = act->Attacker->Stats_type[Stats::CD][AType::None] + target->Stats_type[Stats::CD][AType::None];

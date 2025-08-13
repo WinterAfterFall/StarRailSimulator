@@ -31,6 +31,8 @@ class AllyAttackAction : public AllyActionData {
     bool toughnessAvgCalculate = 1;
     bool damageNote = 1;
     double Dont_care_weakness = 0;
+    bool critAble = 1;
+    bool critGarantee = 0;
     function<void(shared_ptr<AllyAttackAction> &act)> actionFunction;
 
     DamageSplit damageSplit;
@@ -96,11 +98,13 @@ class AllyAttackAction : public AllyActionData {
             case AType::Dot:
                 actionTypeList.push_back(AType::Dot);
                 damageTypeList.push_back(AType::Dot);
+                critAble = 0;
                 break;
             case AType::Break:
                 actionTypeList.push_back(AType::Break);
                 damageTypeList.push_back(AType::Break);
                 toughnessAvgCalculate = 0;
+                critAble = 0;
                 break;
             case AType::SPB:
                 actionTypeList.push_back(AType::Break);
@@ -108,6 +112,7 @@ class AllyAttackAction : public AllyActionData {
                 damageTypeList.push_back(AType::Break);
                 damageTypeList.push_back(AType::SPB);
                 toughnessAvgCalculate = 0;
+                critAble = 0;
                 break;
             case AType::Addtional:
                 actionTypeList.push_back(AType::Addtional);
@@ -122,35 +127,41 @@ class AllyAttackAction : public AllyActionData {
                 actionTypeList.push_back(AType::Freeze);
                 damageTypeList.push_back(AType::Freeze);
                 toughnessAvgCalculate = 0;
+                critAble = 0;
                 break;
             case AType::Entanglement:
                 actionTypeList.push_back(AType::Entanglement);
                 damageTypeList.push_back(AType::Entanglement);
                 toughnessAvgCalculate = 0;
+                critAble = 0;
                 break;
             case AType::Shock:
                 actionTypeList.push_back(AType::Dot);
                 actionTypeList.push_back(AType::Shock);
                 damageTypeList.push_back(AType::Dot);
                 damageTypeList.push_back(AType::Shock);
+                critAble = 0;
                 break;
             case AType::Bleed:
                 actionTypeList.push_back(AType::Dot);
                 actionTypeList.push_back(AType::Bleed);
                 damageTypeList.push_back(AType::Dot);
                 damageTypeList.push_back(AType::Bleed);
+                critAble = 0;
                 break;
             case AType::WindShear:
                 actionTypeList.push_back(AType::Dot);
                 actionTypeList.push_back(AType::WindShear);
                 damageTypeList.push_back(AType::Dot);
                 damageTypeList.push_back(AType::WindShear);
+                critAble = 0;
                 break;
             case AType::Burn:
                 actionTypeList.push_back(AType::Dot);
                 actionTypeList.push_back(AType::Burn);
                 damageTypeList.push_back(AType::Dot);
                 damageTypeList.push_back(AType::Burn);
+                critAble = 0;
                 break;    
             default:
                 break;

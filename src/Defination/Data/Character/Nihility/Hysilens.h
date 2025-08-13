@@ -13,7 +13,7 @@ namespace Hysilens{
         ptr->setApplyBaseChance(100);
         ptr->setEhrRequire(120);
         // ptr->setSpeedRequire(140);
-        ptr->setRelicMainStats(Stats::EHR,Stats::FLAT_SPD,Stats::DMG,Stats::ER);
+        ptr->setRelicMainStats(Stats::EHR,Stats::ATK_P,Stats::DMG,Stats::ER);
 
         
         //func
@@ -65,15 +65,15 @@ namespace Hysilens{
             if(!enemy->getDebuff("Hys E1 Bleed")){
             }
             else if(!enemy->getDebuff("Hys E1 Shock")){
-                dotName = "Hys Shock";
+                dotName = "Hys E1 Shock";
                 dotType = DotType::Shock;
             }
             else if(!enemy->getDebuff("Hys E1 Burn")){
-                dotName = "Hys Burn";
+                dotName = "Hys E1 Burn";
                 dotType = DotType::Burn;
             }
             else if(!enemy->getDebuff("Hys E1 WindShear")){
-                dotName = "Hys WindShear";
+                dotName = "Hys E1 WindShear";
                 dotType = DotType::WindShear;
             }else{
                 if(enemy->getDebuffTimeCount(dotName) > enemy->getDebuffTimeCount("Hys E1 Shock")){
@@ -130,14 +130,14 @@ namespace Hysilens{
 
         #pragma endregion
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,hys,Skill,BA]() {
-            // for(int i = 1;i<= Total_enemy;i++){
-            //     if(!Enemy_unit[i]->getDebuff("Hys Vul")){
-            //         Skill();
-            //         return;
-            //     }
-            // }
-            if(hys->getTurnCnt()%3==1)Skill();
-            else BA();
+            for(int i = 1;i<= Total_enemy;i++){
+                if(!Enemy_unit[i]->getDebuff("Hys Vul")){
+                    Skill();
+                    return;
+                }
+            }
+            // if(hys->getTurnCnt()%3==1)Skill();
+            BA();
         };
         
         ptr->addUltCondition([ptr]() -> bool {
@@ -226,7 +226,9 @@ namespace Hysilens{
         }));
         
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hys]() {
-            hys->setStack("Hys Dot Limit",0);
+            for(int i=1;i<=Total_enemy;i++){
+                Enemy_unit[i]->setStack("Hys Dot Limit",0);
+            }
             SubUnit *ally = turn->canCastToSubUnit();
             if(!ally)return;
 
@@ -241,7 +243,9 @@ namespace Hysilens{
         }));
 
         BeforeAction_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,hys](shared_ptr<ActionData> &act) {
-            hys->setStack("Hys Dot Limit",0);
+            for(int i=1;i<=Total_enemy;i++){
+                Enemy_unit[i]->setStack("Hys Dot Limit",0);
+            }
         }));
 
 
@@ -257,9 +261,12 @@ namespace Hysilens{
                 shared_ptr<AllyAttackAction> Newact = 
             make_shared<AllyAttackAction>(AType::Dot,ptr->getSubUnit(),TraceType::Single,"Hys Ult Dot");
                 for (auto &each : act->targetList) {
-                    if(ptr->Eidolon>=6)if(hys->getStack("Hys Dot Limit")>=12)break;
-                    else if(hys->getStack("Hys Dot Limit")>=8)break;
-                    hys->addStack("Hys Dot Limit",1);
+                    if(ptr->Eidolon>=6){
+                        if(each->getStack("Hys Dot Limit")>=12)break;
+                    }else{
+                        if(each->getStack("Hys Dot Limit")>=8)break;
+                    }
+                    each->addStack("Hys Dot Limit",1);
                     if(ptr->Eidolon>=6)Newact->addDamageIns(DmgSrc(DmgSrcType::ATK,100));
                     else Newact->addDamageIns(DmgSrc(DmgSrcType::ATK,80));
                     Newact->addDamageType(AType::Ult);

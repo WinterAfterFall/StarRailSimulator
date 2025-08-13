@@ -4,7 +4,7 @@ namespace Nihility_Lightcone{
         return [=](Ally *ptr) {
             ptr->SetAllyBaseStats(1058,476,265);
             ptr->Light_cone.Name = "ShowTime";
-            ptr->setEhrRequire(80);
+            ptr->newEhrRequire(80);
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 16 + 4 * superimpose;
             }));

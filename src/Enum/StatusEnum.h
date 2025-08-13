@@ -3,6 +3,7 @@ enum class DriverType{
     DoubleTurn,
     AlwaysPull,
     SwapPull,
+    DotTrigger,
 };
 enum class SPMode{
     Positive,

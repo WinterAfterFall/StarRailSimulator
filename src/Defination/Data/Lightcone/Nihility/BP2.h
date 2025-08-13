@@ -4,7 +4,7 @@ namespace Nihility_Lightcone{
         return [=](Ally *ptr) {
             ptr->SetAllyBaseStats(1058,529,331);
             ptr->Light_cone.Name = "Holiday";
-            ptr->setApplyBaseChance(100);
+            ptr->newApplyBaseChanceRequire(100);
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::None] += 12 + 4 * superimpose;
             }));

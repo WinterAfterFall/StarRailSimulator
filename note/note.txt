@@ -6,6 +6,7 @@ set max substats ทุกตัว
 hanabi ult condition
 เพิ่ม immdialy use ult condition
 เพิ่มชื่อ ult condition
+เพิ่ม DotDriver
 # เพิ่มเรื่องของ เพิ่มดาเมจเฉพาะ A ตี B
 Char
 LC 

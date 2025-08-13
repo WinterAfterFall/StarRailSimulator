@@ -68,14 +68,14 @@ namespace BS{
 
         #pragma endregion
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,bs,BA,Skill]() {
-            // for(int i = 1;i<= Total_enemy&&i<=3;i++){
-            //     if(!Enemy_unit[i]->getDebuff("BS DefShred")){
-            //         Skill();
-            //         return;
-            //     }
-            // }
-            if(bs->getTurnCnt()%3==1)Skill();
-            else BA();
+            for(int i = 1;i<= Total_enemy&&i<=3;i++){
+                if(!Enemy_unit[i]->getDebuff("BS DefShred")){
+                    Skill();
+                    return;
+                }
+            }
+            // if(bs->getTurnCnt()%3==1)Skill();
+            BA();
         };
         
         ptr->addUltCondition([ptr]() -> bool {
