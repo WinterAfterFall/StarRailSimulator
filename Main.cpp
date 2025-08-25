@@ -39,8 +39,8 @@ int main(){
     // Anaxa::Setup(2,Erudition_Lightcone::GreatCosmic(5),Relic::GeniusBrilliant,Planar::Lushaka);
     
     //Dot
-    Hysilens::Setup(0,Nihility_Lightcone::EyesOfThePrey(5),Relic::Prisoner,Planar::Revelry);
-    // BS::Setup(0,Nihility_Lightcone::EyesOfThePrey(5),Relic::Prisoner,Planar::Lushaka);
+    Hysilens::Setup(4,Nihility_Lightcone::GNSW(5),Relic::Prisoner,Planar::Revelry);
+    BS::Setup(0,Nihility_Lightcone::EyesOfThePrey(5),Relic::Prisoner,Planar::Lushaka);
     // Guinaifen::Setup(0,Nihility_Lightcone::Resolution(5),Relic::Prisoner,Planar::Lushaka);
     // Luka::Setup(6,Nihility_Lightcone::Resolution(5),Relic::Prisoner,Planar::Lushaka);
     Kafka::Setup(0,Nihility_Lightcone::Before_the_Tutorial(5),Relic::Eagle_Beaked_Helmet,Planar::Lushaka);
@@ -58,7 +58,7 @@ int main(){
     //Support
     // Tribbie::Setup(0,Harmony_Lightcone::DDD(5),Relic::Poet_Dill,Planar::Lushaka);
     // RMC::Setup(6,Remembrance_Lightcone::Victory_In_Blink(5),Relic::PairSet(PairSetType::Spd_P,PairSetType::Spd_P),Planar::Lushaka);
-    Robin::Setup(0,Harmony_Lightcone::For_Tomorrow_Journey(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
+    // Robin::Setup(0,Harmony_Lightcone::For_Tomorrow_Journey(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
     // Ruan_Mei::Setup(0,Harmony_Lightcone::Memories_of_the_Past(5),Relic::PairSet(PairSetType::BE,PairSetType::BE),Planar::Lushaka);
     // Tingyun::Setup(6,Harmony_Lightcone::DDD(5),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
     

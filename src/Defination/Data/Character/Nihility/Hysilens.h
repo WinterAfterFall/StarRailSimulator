@@ -13,7 +13,7 @@ namespace Hysilens{
         ptr->setApplyBaseChance(100);
         ptr->setEhrRequire(120);
         // ptr->setSpeedRequire(140);
-        ptr->setRelicMainStats(Stats::EHR,Stats::ATK_P,Stats::DMG,Stats::ER);
+        ptr->setRelicMainStats(Stats::EHR,Stats::ATK_P,Stats::ATK_P,Stats::ER);
 
         
         //func
@@ -23,7 +23,6 @@ namespace Hysilens{
 
         SubUnit *hys =ptr->getSubUnit();
 
-        if(ptr->Eidolon>=4)Enemy_effect_res-=20;
 
 
         #pragma region Extra
@@ -155,6 +154,8 @@ namespace Hysilens{
                     if(each->debuffMark(hys,"Hys Ult")){
                         each->atkPercent-=15;
                         each->debuffSingle({{Stats::DEF_SHRED,AType::None,25}});
+                        if(ptr->Eidolon>=4)each->debuffSingle({{Stats::RESPEN,AType::None,20}});
+                        
                     }
                     Dot_trigger(150,each,DotType::General);
                 }
@@ -194,6 +195,7 @@ namespace Hysilens{
                     if(Enemy_unit[i]->debuffMark(hys,"Hys Ult")){
                         Enemy_unit[i]->atkPercent-=15;
                         Enemy_unit[i]->debuffSingle({{Stats::DEF_SHRED,AType::None,25}});
+                        if(ptr->Eidolon>=4)Enemy_unit[i]->debuffSingle({{Stats::RESPEN,AType::None,20}});
                     }
                 }
                 hys->isHaveToAddBuff("Hys Ult",3);
@@ -236,6 +238,7 @@ namespace Hysilens{
                 CharCmd::printUltEnd("Hysilens");
                 for(int i=1;i<=Total_enemy;i++){
                     Enemy_unit[i]->debuffSingle({{Stats::DEF_SHRED,AType::None,-25}});
+                    if(ptr->Eidolon>=4)Enemy_unit[i]->debuffSingle({{Stats::RESPEN,AType::None,-20}});
                     Enemy_unit[i]->atkPercent -=15;
                     Enemy_unit[i]->debuffRemove("Hys Ult");
                 }
