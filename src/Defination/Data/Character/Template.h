@@ -12,7 +12,7 @@ namespace SomeChar{
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire();
         ptr->setApplyBaseChance();
-        ptr->setRelicMainStats(,,,);
+        ptr->setRelicMainStats(Stats::,Stats::,Stats::,Stats::);
 
         
         //func

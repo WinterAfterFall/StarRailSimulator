@@ -34,21 +34,21 @@ int main(){
     // Castorice::Setup(0,Remembrance_Lightcone::Castorice_LC(1),Relic::Poet_Dill,Planar::Bone_Collection);
     // Phainon::Setup(2,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::Arcadia);
     // Mydei::Setup(0,Destruction_Lightcone::Mydei_LC(1),Relic::Scholar,Planar::Bone_Collection);
-    // Saber::Setup(0,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::FirmanentFrontline(0));
-    // Archer::Setup(6,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::FirmanentFrontline(0));
+    Saber::Setup(0,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::FirmanentFrontline(0));
+    // Archer::Setup(6,Destru   ction_Lightcone::Hertashop(5),Relic::Captain,Planar::FirmanentFrontline(0));
     // Anaxa::Setup(2,Erudition_Lightcone::GreatCosmic(5),Relic::GeniusBrilliant,Planar::Lushaka);
     
     //Dot
-    Hysilens::Setup(4,Nihility_Lightcone::GNSW(5),Relic::Prisoner,Planar::Revelry);
-    BS::Setup(0,Nihility_Lightcone::EyesOfThePrey(5),Relic::Prisoner,Planar::Lushaka);
+    // Hysilens::Setup(0,Nihility_Lightcone::Jiaoqiu_LC(1,1),Relic::Prisoner,Planar::Revelry);
+    // BS::Setup(0,Nihility_Lightcone::EyesOfThePrey(5),Relic::Prisoner,Planar::Lushaka);
     // Guinaifen::Setup(0,Nihility_Lightcone::Resolution(5),Relic::Prisoner,Planar::Lushaka);
     // Luka::Setup(6,Nihility_Lightcone::Resolution(5),Relic::Prisoner,Planar::Lushaka);
-    Kafka::Setup(0,Nihility_Lightcone::Before_the_Tutorial(5),Relic::Eagle_Beaked_Helmet,Planar::Lushaka);
+    // Kafka::Setup(0,Nihility_Lightcone::Before_the_Tutorial(5),Relic::Eagle_Beaked_Helmet,Planar::Lushaka);
 
 
     //Driver
     // Hanabi::Setup(0,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
-    // Sunday::Setup(0,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
+    Sunday::Setup(0,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
     // Bronya::Setup(0,Harmony_Lightcone::Bronya_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
     
     //Sub dps
@@ -58,6 +58,7 @@ int main(){
     //Support
     // Tribbie::Setup(0,Harmony_Lightcone::DDD(5),Relic::Poet_Dill,Planar::Lushaka);
     // RMC::Setup(6,Remembrance_Lightcone::Victory_In_Blink(5),Relic::PairSet(PairSetType::Spd_P,PairSetType::Spd_P),Planar::Lushaka);
+    Cerydra::Setup(6,Harmony_Lightcone::For_Tomorrow_Journey(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
     // Robin::Setup(0,Harmony_Lightcone::For_Tomorrow_Journey(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
     // Ruan_Mei::Setup(0,Harmony_Lightcone::Memories_of_the_Past(5),Relic::PairSet(PairSetType::BE,PairSetType::BE),Planar::Lushaka);
     // Tingyun::Setup(6,Harmony_Lightcone::DDD(5),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
@@ -78,13 +79,13 @@ int main(){
     //--------------------- Adjust ------------------------ 
     // Phainon::AddBuffCondition();
     // Char3->setTargetAlly(2);
-    // Saber::UltInTurnOnly();
+    // Saber::UltInTurnOnly();  
     
 
     //--------------------- Formula Check ------------------------
     
     // Char1->enableCheckDamage();
-    Char1->enableCheckDamageFormula(DmgFormulaMode::All); 
+    // Char3->enableCheckDamageFormula(DmgFormulaMode::All); 
     // Char4->enableCheckHealFormula();
     // Char4->enableCheckHeal();
     
@@ -145,6 +146,8 @@ int main(){
             
             Current_atv=0;
             Start_wave(i);
+            Deal_damage();
+            
 
             while(1){
             Turn_Skip=0;

@@ -102,6 +102,7 @@ namespace FireFly{
             Deal_damage();
             }
         }));
+        
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             allEventAdjustStats(ptr->Sub_Unit_ptr[0].get(), Stats::FLAT_ATK);
         }));

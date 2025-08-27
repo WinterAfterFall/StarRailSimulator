@@ -3,6 +3,7 @@
 enum class AType {
     TEMP,
     None,
+    Talent,
     BA,
     SKILL,
     Ult,

@@ -6,12 +6,9 @@ void Print(){
     cout<<""<<turn->Char_Name<<" ";
     cout<<turn->turnCnt<<" ";
     cout<<sp<<" ";
-
-    // cout<<endl;
-    // cout<<Enemy_unit[1]->getDebuffTimeCount("Hys Bleed")<<" ";
-    // cout<<Enemy_unit[1]->getDebuffTimeCount("Hys WindShear")<<" ";
-    // cout<<Enemy_unit[1]->getDebuffTimeCount("Hys Burn")<<" ";
-    // cout<<Enemy_unit[1]->getDebuffTimeCount("Hys Shock")<<" ";
+    cout<<Ally_unit[3]->getSubUnit()->getStack("Cerydra charge")<<" ";
+    cout<<Ally_unit[3]->getSubUnit()->getBuffCheck("Peerage")<<" ";
+    cout<<Ally_unit[3]->getSubUnit()->getBuffCheck("Coup de Main")<<" ";
     
     cout<<endl;
 }
