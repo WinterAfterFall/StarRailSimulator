@@ -39,10 +39,10 @@ namespace Phainon{
 
         #pragma region action
         function<void()> BA = [ptr,pn]() {
+            Skill_point(pn,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"PN BA",
             [ptr,pn](shared_ptr<AllyAttackAction> &act){
-                Skill_point(pn,1);
                 Attack(act);
             });
             act->addDamageIns(
@@ -52,10 +52,10 @@ namespace Phainon{
         };
 
         function<void()> Skill = [ptr,pn,CoreFlame]() {
+            Skill_point(pn,-1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"PN Skill",
             [ptr,pn,CoreFlame](shared_ptr<AllyAttackAction> &act){
-                Skill_point(pn,-1);
                 CoreFlame(2);
                 Attack(act);
             });
@@ -98,10 +98,11 @@ namespace Phainon{
         };
 
         function<void()> Foundation = [ptr,pn,Scourge]() {
+            Scourge(-4);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Bounce,"PN Foundation",
             [ptr,pn,Scourge](shared_ptr<AllyAttackAction> &act){
-                Scourge(-4);
+                CharCmd::printText("PN Foundation");
                 Attack(act);
             });
             act->addEnemyBounce(DmgSrc(DmgSrcType::ATK,45,10/3),16);
@@ -113,7 +114,7 @@ namespace Phainon{
 
         function<void()> FinalHit = [ptr,pn,Scourge,pnCD,CoreFlame]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Aoe,"PN FinalHit",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"PN FinalHit",
             [ptr,pn,pnCD,CoreFlame](shared_ptr<AllyAttackAction> &act){
                 Attack(act);
                 pn->buffSingle({
@@ -166,6 +167,7 @@ namespace Phainon{
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,BA,Skill](){
             if(sp>Sp_Safety) Skill();
             else BA();
+            // Skill();
              
         };
 
@@ -368,7 +370,8 @@ namespace Phainon{
                     CoreFlame(1);
                     pn->buffSingle({{Stats::CD,AType::None,30}},"PN Talent",3);
                     if(act->actionName=="TY Ult"
-                    || act->actionName=="SD Ult"){
+                    || act->actionName=="SD Ult"
+                    ||(act->actionName=="Crd Skill"&&act->Attacker->ptrToChar->Eidolon>=1)){
                         CoreFlame(1);
                     }
                     break;
@@ -411,12 +414,7 @@ namespace Phainon{
                 Cal_DamageNote(act,src,Enemy_unit[Main_Enemy_num].get(),damage,36,"PN True Foundation");
         }));
 
-    }
-
-    void AddBuffCondition(){
-        Ally *ptr = CharCmd::findAllyName("Phainon");
-        SubUnit *pn = ptr->getSubUnit();
-        
+        Setup_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,pn]() {
         Ally *sd = CharCmd::findAllyName("Sunday");
         Ally *tb = CharCmd::findAllyName("Tribbie");
         Ally *rb = CharCmd::findAllyName("Robin");
@@ -475,5 +473,7 @@ namespace Phainon{
         }
 
         
+        }));
+
     }
 }

@@ -77,6 +77,7 @@ SubstatsRerollMode rerollSubstatsMode = SubstatsRerollMode::Standard;
 function<bool(Ally *ptr)> rerollFunction;
 
 //-------- Trigger Function --------//
+vector<TriggerByYourSelf_Func> Setup_List;
 vector<TriggerByYourSelf_Func> Reset_List;
 vector<TriggerByYourSelf_Func> WhenOnField_List;
 vector<TriggerByYourSelf_Func> Tune_stats_List;

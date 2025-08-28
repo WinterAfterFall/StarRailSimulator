@@ -11,7 +11,7 @@ namespace Sunday{
         ptr->SetAllyBaseStats(1242, 640, 533);
         ptr->pushSubstats(Stats::CD);
         ptr->setTotalSubstats(20);
-        ptr->setSpeedRequire(134);
+        ptr->setSpeedRequire(160);
         ptr->setRelicMainStats(Stats::HP_P,Stats::FLAT_SPD,Stats::HP_P,Stats::ER);
 
         Driver_num = SDptr->Atv_stats->num;
@@ -161,7 +161,7 @@ namespace Sunday{
         }));
 
         Buff_List.push_back(TriggerByAllyBuffAction_Func(PRIORITY_IMMEDIATELY, [ptr,SDptr](shared_ptr<AllyBuffAction> &act) {
-            if (chooseCharacterBuff(ptr->getSubUnit())->getBuffCheck("Ode_to_Caress_and_Cicatrix") && act->actionName=="Sunday Skill") {
+            if (chooseCharacterBuff(ptr->getSubUnit())->getBuffCheck("Ode_to_Caress_and_Cicatrix") && act->actionName=="SD Skill") {
                 Skill_point(ptr->Sub_Unit_ptr[0].get(), 1);
             }
         }));

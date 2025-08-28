@@ -21,34 +21,15 @@ namespace Cerydra{
 
         function<void(int value)> charge = [ptr,crd](int value) {
             crd->addStack("Cerydra charge",value);
-            if(crd->getStack("Cerydra charge")>=6){
-            shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::Talent,ptr->getSubUnit(),TraceType::Single,"Crd Talent",
-            [ptr,crd](shared_ptr<AllyBuffAction> &act){
-                crd->addStack("Cerydra charge",-6);
-                crd->setBuffCheck("Peerage",1);
-                crd->setBuffCheck("Coup de Main",1);
-                chooseSubUnitBuff(crd)->buffSingle({
-                    {Stats::DMG,AType::SKILL,72},
-                    {Stats::RESPEN,AType::SKILL,10},
-                });
-                if(ptr->Eidolon>=1){
-                    chooseSubUnitBuff(crd)->buffSingle({
-                        {Stats::DEF_SHRED,AType::SKILL,20}
-                    });
-                }
-            });
-            act->addToActionBar();
-            }
         };
 
         #pragma region Ability
 
         function<void()> BA = [ptr,crd]() {
+            Skill_point(crd,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Crd BA",
             [ptr,crd](shared_ptr<AllyAttackAction> &act){
-                Skill_point(crd,1);
                 Increase_energy(crd,20);
                 Attack(act);
             });
@@ -59,10 +40,10 @@ namespace Cerydra{
         };
 
         function<void()> Skill = [ptr,crd,charge]() {
+            Skill_point(crd,-1);
             shared_ptr<AllyBuffAction> act = 
             make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"Crd Skill",
             [ptr,crd,charge](shared_ptr<AllyBuffAction> &act){
-                Skill_point(crd,-1);
                 Increase_energy(crd,30);
                 charge(1);
                 chooseSubUnitBuff(crd)->buffSingle({
@@ -77,7 +58,7 @@ namespace Cerydra{
 
         #pragma endregion
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,crd,BA,Skill]() {
-            if(sp>Sp_Safety)Skill();
+            if(sp>Sp_Safety+1)Skill();
             else BA();
         };
         
@@ -208,6 +189,20 @@ namespace Cerydra{
                         });
                     }                    
                 } 
+            }
+            if(crd->getStack("Cerydra charge")>=6){
+                crd->addStack("Cerydra charge",-6);
+                crd->setBuffCheck("Peerage",1);
+                crd->setBuffCheck("Coup de Main",1);
+                chooseSubUnitBuff(crd)->buffSingle({
+                    {Stats::DMG,AType::SKILL,72},
+                    {Stats::RESPEN,AType::SKILL,10},
+                });
+                if(ptr->Eidolon>=1){
+                    chooseSubUnitBuff(crd)->buffSingle({
+                        {Stats::DEF_SHRED,AType::SKILL,20}
+                    });
+                }
             }
         }));
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,crd,charge](shared_ptr<AllyAttackAction> &act) {

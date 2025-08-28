@@ -6,6 +6,8 @@ void Print(){
     cout<<""<<turn->Char_Name<<" ";
     cout<<turn->turnCnt<<" ";
     cout<<sp<<" ";
+    cout<<Ally_unit[1]->getSubUnit()->Buff_note["Core Flame"]<<" ";
+    cout<<Ally_unit[1]->getSubUnit()->Buff_note["Scourge"]<<" ";
     cout<<Ally_unit[3]->getSubUnit()->getStack("Cerydra charge")<<" ";
     cout<<Ally_unit[3]->getSubUnit()->getBuffCheck("Peerage")<<" ";
     cout<<Ally_unit[3]->getSubUnit()->getBuffCheck("Coup de Main")<<" ";

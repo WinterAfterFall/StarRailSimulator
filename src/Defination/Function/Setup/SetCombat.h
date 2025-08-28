@@ -51,13 +51,10 @@ void Setup(){
         Ally_unit[i]->StatsType_Compare_MAX_MIN.second = 1e9;
         Ally_unit[i]->TotalSubstats_Compare_MAX_MIN.first = -1;
         Ally_unit[i]->TotalSubstats_Compare_MAX_MIN.second = 1e9;
-
-
         Ally_unit[i]->AvgDmgRecord.resize(Total_enemy+1);
-
-
-
-
+    }
+    for(TriggerByYourSelf_Func &e : Setup_List){
+        e.Call();
     }
 }
 
