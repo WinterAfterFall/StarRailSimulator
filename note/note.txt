@@ -4,7 +4,6 @@ tech serval
 ทำ Using Skill()
 Check turn ต่อๆไป ว่าบัพจะหมดเมื่อไหร่หรือจะใช้อีกกี่แต้ม
 เพิ่ม Setup
-เพิ่ม Use Ult event
 แก้ windshear ของ Hys
 set max substats ทุกตัว
 เพิ่ม Death ของ Bronya กับ Tingyun

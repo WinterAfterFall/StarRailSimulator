@@ -61,6 +61,11 @@ namespace Cerydra{
             if(sp>Sp_Safety+1)Skill();
             else BA();
         };
+
+        // ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,crd,BA,Skill]() {
+        //     if(!chooseSubUnitBuff(crd)->getBuffCheck("Veci"))Skill();
+        //     else BA();
+        // };
         
         ptr->addUltCondition([ptr]() -> bool {
             return true;
