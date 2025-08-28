@@ -53,6 +53,7 @@ namespace Cerydra{
                     Increase_energy(chooseSubUnitBuff(crd),2);
                 }
             });
+            act->addBuffSingleTarget();
             act->addToActionBar();
         };
 

@@ -58,7 +58,7 @@ int main(){
     //Support
     // Tribbie::Setup(0,Harmony_Lightcone::DDD(5),Relic::Poet_Dill,Planar::Lushaka);
     // RMC::Setup(6,Remembrance_Lightcone::Victory_In_Blink(5),Relic::PairSet(PairSetType::Spd_P,PairSetType::Spd_P),Planar::Lushaka);
-    Cerydra::Setup(0,Harmony_Lightcone::ForeverVictual(5),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
+    Cerydra::Setup(0,Harmony_Lightcone::Cerydra_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
     // Robin::Setup(0,Harmony_Lightcone::For_Tomorrow_Journey(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
     // Ruan_Mei::Setup(0,Harmony_Lightcone::Memories_of_the_Past(5),Relic::PairSet(PairSetType::BE,PairSetType::BE),Planar::Lushaka);
     // Tingyun::Setup(6,Harmony_Lightcone::DDD(5),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
@@ -84,7 +84,7 @@ int main(){
     //--------------------- Formula Check ------------------------
     
     // Char1->enableCheckDamage();
-    // Char3->enableCheckDamageFormula(DmgFormulaMode::All); 
+    // Char1->enableCheckDamageFormula(DmgFormulaMode::MtprInc); 
     // Char4->enableCheckHealFormula();
     // Char4->enableCheckHeal();
     

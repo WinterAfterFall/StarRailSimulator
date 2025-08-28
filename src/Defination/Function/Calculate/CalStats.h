@@ -369,7 +369,7 @@ double calMultiplierIncrease(shared_ptr<AllyAttackAction> &act,Enemy *target){
         mtpr += act->Attacker->Stats_type[Stats::MtprInc][act->damageTypeList[i]] + target->Stats_type[Stats::MtprInc][act->damageTypeList[i]];
     }
 
-    if(act->getAlly()->canCheckDmgformulaMtgt()){
+    if(act->getAlly()->canCheckDmgformulaMtprInc()){
         cout<<"Base  Mtpr     : "<<setw(6)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::MtprInc][AType::None]
         <<" Enemy Mtpr     : "<<setw(6)<<fixed<<setprecision(2)<<target->Stats_type[Stats::MtprInc][AType::None]
         <<" Total Mtpr     : "<<setw(6)<<fixed<<setprecision(2)<<mtpr - 100<<endl;

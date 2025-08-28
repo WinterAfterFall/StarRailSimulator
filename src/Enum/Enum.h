@@ -42,6 +42,12 @@ enum class ElementType {
 #pragma endregion
 
 enum class Stats {
+    Test1,
+    Test2,
+    Test3,
+    Test4,
+    Test5,
+    Test6,
     HP_P,
     FLAT_HP,
     ATK_P,
