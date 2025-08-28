@@ -24,10 +24,10 @@ namespace Hanabi{
         #pragma region Ability
 
         function<void()> BA = [ptr,hnb]() {
+            Skill_point(hnb,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Hnb BA",
             [hnb](shared_ptr<AllyAttackAction> &act){
-                Skill_point(hnb,1);
                 Increase_energy(hnb,30);
                 Attack(act);
             });
@@ -36,10 +36,10 @@ namespace Hanabi{
         };
 
         function<void()> Skill = [ptr,hnb]() {
+            Skill_point(hnb,-1);
             shared_ptr<AllyBuffAction> act = 
             make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"Hnb Skill",
             [ptr,hnb](shared_ptr<AllyBuffAction> &act){
-                Skill_point(hnb,-1);
                 Increase_energy(hnb,30);
                 double buff = (ptr->Eidolon>=6)? calculateCritdamForBuff(hnb,54) + 45 :calculateCritdamForBuff(hnb,24) + 45;
 

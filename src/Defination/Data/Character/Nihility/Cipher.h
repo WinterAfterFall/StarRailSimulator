@@ -32,10 +32,10 @@ namespace Cipher{
 
         
         function<void()> BA = [ptr,cph]() {
+            Skill_point(cph,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Cipher BA",
             [ptr,cph](shared_ptr<AllyAttackAction> &act){
-                Skill_point(cph,1);
                 Increase_energy(ptr,20);
                 Attack(act);
             });
@@ -45,10 +45,10 @@ namespace Cipher{
             act->addToActionBar();
         };
         function<void()> Skill = [ptr,cph]() {
+            Skill_point(cph,-1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"Cipher Skill",
             [ptr,cph](shared_ptr<AllyAttackAction> &act){
-                Skill_point(cph,-1);
                 Increase_energy(ptr,30);
                 for(auto &each : act->targetList){
                     if(each->debuffApply(cph,"Cipher Weaken",2)){

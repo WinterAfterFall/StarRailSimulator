@@ -24,10 +24,10 @@ namespace Guinaifen{
         if(ptr->Eidolon>=1)Enemy_effect_res-=10;
 
         function<void()> BA = [ptr,gui]() {
+            Skill_point(gui,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Gui BA",
             [ptr,gui](shared_ptr<AllyAttackAction> &act){
-                Skill_point(gui,1);
                 Increase_energy(ptr,20);
                 for(auto &each : act->targetList){
                     each->dotSingleApply({DotType::Burn},gui,"Gui Burn",2);
@@ -41,10 +41,10 @@ namespace Guinaifen{
         };
 
         function<void()> Skill = [ptr,gui]() {
+            Skill_point(gui,-1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Gui Skill",
             [ptr,gui](shared_ptr<AllyAttackAction> &act){
-                Skill_point(gui,-1);
                 Increase_energy(ptr,30);
                 for(auto &each : act->targetList){
                     each->dotSingleApply({DotType::Burn},gui,"Gui Burn",2);

@@ -23,10 +23,10 @@ namespace BS{
         #pragma region Ability
 
         function<void()> BA = [ptr,bs]() {
+            Skill_point(bs,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"BS BA",
             [ptr,bs](shared_ptr<AllyAttackAction> &act){
-                Skill_point(bs,1);
                 Increase_energy(ptr,20);
                 for(auto &each : act->targetList){
                     each->dotSingleStack({DotType::WindShear},bs,1,50,"Arcana");
@@ -43,10 +43,10 @@ namespace BS{
         };
 
         function<void()> Skill = [ptr,bs]() {
+            Skill_point(bs,-1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"BS Skill",
             [ptr,bs](shared_ptr<AllyAttackAction> &act){
-                Skill_point(bs,-1);
                 Increase_energy(ptr,30);
                 for(auto &each : act->targetList){
                     each->debuffSingleApply({{Stats::DEF_SHRED,AType::None,20.8}},bs,"BS DefShred",3);

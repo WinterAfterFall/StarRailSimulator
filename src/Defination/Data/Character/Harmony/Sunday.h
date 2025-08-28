@@ -11,7 +11,7 @@ namespace Sunday{
         ptr->SetAllyBaseStats(1242, 640, 533);
         ptr->pushSubstats(Stats::CD);
         ptr->setTotalSubstats(20);
-        ptr->setSpeedRequire(160);
+        ptr->setSpeedRequire(134);
         ptr->setRelicMainStats(Stats::HP_P,Stats::FLAT_SPD,Stats::HP_P,Stats::ER);
 
         Driver_num = SDptr->Atv_stats->num;
@@ -229,10 +229,10 @@ namespace Sunday{
 
     
     void Skill(Ally *ptr){
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"SD Skill",
         [ptr,SDptr=ptr->getSubUnit()](shared_ptr<AllyBuffAction> &act){
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
             if(ptr->Eidolon>=6){
                 chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->buffStackAlly({{Stats::CR,AType::None,20}},1,3,"The_Sorrowing_Body",4);

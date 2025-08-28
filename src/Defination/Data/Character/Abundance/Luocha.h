@@ -105,11 +105,11 @@ namespace Luocha{
     }
     void Basic_Atk(Ally *ptr){
         
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Luocha BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(act);
             if(ptr->Sub_Unit_ptr[0]->Atv_stats->turnCnt%2==1){
                 Talent(ptr);

@@ -200,11 +200,11 @@ namespace The_Herta{
     }
 
     void Basic_Atk(Ally *ptr){
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"THerta BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(act);
         });
         act->addDamageIns(DmgSrc(DmgSrcType::ATK,100,10));
@@ -212,11 +212,11 @@ namespace The_Herta{
     }
 
     void Skill(Ally *ptr){
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"THerta Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30);
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Apply_Herta_Stack(ptr,Enemy_unit[Main_Enemy_num].get(),1);
             Attack(act);
         });
@@ -234,11 +234,11 @@ namespace The_Herta{
     }
 
     void Enchance_Skill(Ally *ptr){
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Aoe,"THerta ESkill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30);
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             double Increase_mtpr = Enemy_unit[Main_Enemy_num]->Debuff["Herta_Stack"];
             double mx =-1;
             if(ptr->Eidolon>=1){

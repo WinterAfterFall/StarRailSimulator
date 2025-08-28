@@ -161,10 +161,10 @@ namespace Gallagher{
 
     void Basic_Atk(Ally *ptr){
         
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Gall BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
             Attack(act);
         });
@@ -173,10 +173,10 @@ namespace Gallagher{
         act->addToActionBar();
     }
     void Enchance_Basic_Atk(Ally *ptr){
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
        shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Gall EBA",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
             for(Enemy* &target : act->targetList){
                 target->debuffApply(act->Attacker,"Nectar_Blitz");
@@ -192,12 +192,12 @@ namespace Gallagher{
 
     }
     void Skill_func(Ally *ptr){
-
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
+        
         shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"Gall Skill",
         [ptr](shared_ptr<AllyBuffAction> act){
             ptr->getSubUnit()->RestoreHP(HealSrc(HealSrcType::CONST,1768),HealSrc(),HealSrc());
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
         });
         act->addBuffSingleTarget(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));

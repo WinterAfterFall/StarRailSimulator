@@ -135,11 +135,20 @@ namespace Bronya{
 
     
     void Skill(Ally *ptr){
+
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
+        //E1 คืน Sp
+        if(ptr->Eidolon>=1){
+            if(ptr->Sub_Unit_ptr[0]->Stack["Bronya_Skill_E1"]==1&&ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Bronya_Skill_E1",1)){
+                Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
+                
+            }
+            ptr->Sub_Unit_ptr[0]->Stack["Bronya_Skill_E1"]++;
+        }
         shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"Bronya Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
 
             //Buff นานแค่ไหน
             if(ptr->Eidolon>=6)
@@ -153,14 +162,7 @@ namespace Bronya{
             if(ptr->Eidolon>=2)
             chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{Stats::SPD_P,AType::None,30}},"Bronya_Skill_E2",1  );
             
-            //E1 คืน Sp
-            if(ptr->Eidolon>=1){
-                if(ptr->Sub_Unit_ptr[0]->Stack["Bronya_Skill_E1"]==1&&ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Bronya_Skill_E1",1)){
-                    Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
-                    
-                }
-                ptr->Sub_Unit_ptr[0]->Stack["Bronya_Skill_E1"]++;
-            }
+
         });
         act->addBuffSingleTarget(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
         act->addToActionBar();

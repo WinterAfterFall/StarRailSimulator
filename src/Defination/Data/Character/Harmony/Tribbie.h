@@ -215,11 +215,11 @@ namespace Tribbie{
 
 
     void Basic_Atk(Ally *ptr){
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Blast,"TB BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
-                        Increase_energy(ptr,20);
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
+            Increase_energy(ptr,20);
             Attack(act);
         });
         act->addDamageIns(
@@ -230,11 +230,11 @@ namespace Tribbie{
     }
     
     void Skill(Ally *ptr){
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Aoe,"TB Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             buffAllAlly({{Stats::RESPEN,AType::None,24}});
             ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Numinosity", 3);
         });

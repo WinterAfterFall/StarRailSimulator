@@ -188,7 +188,7 @@ namespace Mydei{
 
 
     void Basic_Atk(Ally *ptr){
-        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         Increase_energy(ptr,30,0);
         shared_ptr<AllyActionData> act = make_shared<AllyActionData>();
         Action_bar.push(act);

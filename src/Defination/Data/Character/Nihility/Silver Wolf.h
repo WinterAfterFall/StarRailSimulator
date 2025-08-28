@@ -28,10 +28,10 @@ namespace SW{
         ptr->Adjust["SW Targets amount"] = 1;
         
         function<void()> BA = [ptr,sw]() {
+            Skill_point(sw,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"SW BA",
             [sw](shared_ptr<AllyAttackAction> &act){
-                Skill_point(sw,1);
                 Increase_energy(sw,20);
                 Attack(act);
             });
@@ -42,10 +42,10 @@ namespace SW{
         };
 
         function<void()> Skill = [ptr,sw]() {
+            Skill_point(sw,-1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"SW Skill",
             [sw](shared_ptr<AllyAttackAction> &act){
-                Skill_point(sw,-1);
                 Increase_energy(sw,30);
                 for(auto &enemy : act->targetList){
                     for(int i=1;i<=Total_ally;i++){

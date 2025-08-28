@@ -188,22 +188,22 @@ namespace RMC{
 
 
     void Basic_Atk(Ally *ptr){
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"RMC BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(act);
         });
         act->addDamageIns(DmgSrc(DmgSrcType::ATK,100,10));
         act->addToActionBar();
     }
     void Skill(Ally *ptr){
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"RMC Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             if(ptr->Sub_Unit_ptr[1]->isDeath()){
                 ptr->Sub_Unit_ptr[1]->summon(100);
                 ptr->Sub_Unit_ptr[1]->resetATV(130);

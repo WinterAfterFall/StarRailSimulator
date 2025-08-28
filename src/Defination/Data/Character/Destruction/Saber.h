@@ -42,10 +42,10 @@ namespace Saber{
         #pragma region Ability
 
         function<void()> BA = [ptr,sb,CoreResonance]() {
+            Skill_point(sb,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Saber BA",
             [ptr,sb,CoreResonance](shared_ptr<AllyAttackAction> &act){
-                Skill_point(sb,1);
                 Increase_energy(sb,20);
                 Attack(act);
                 if(ptr->Eidolon>=1)CoreResonance(1);
@@ -58,11 +58,11 @@ namespace Saber{
         };
 
         function<void()> EBA = [ptr,sb,CoreResonance]() {
+            Skill_point(sb,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Aoe,"Saber EBA",
             [ptr,sb,CoreResonance](shared_ptr<AllyAttackAction> &act){
                 sb->setBuffCheck("Saber EBA",0);
-                Skill_point(sb,1);
                 Increase_energy(sb,30);
                 sb->setBuffCheck("Mana Flow",1);
                 CoreResonance(2);
@@ -88,10 +88,10 @@ namespace Saber{
         };
 
         function<void()> Skill = [ptr,sb,CoreResonance]() {
+            Skill_point(sb,-1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"Saber Skill",
             [ptr,sb,CoreResonance](shared_ptr<AllyAttackAction> &act){
-                Skill_point(sb,-1);
                 Increase_energy(sb,30);
                 sb->buffSingle({{Stats::CD,AType::None,50}},"Saber A6",2);
                 CoreResonance(3);
@@ -119,10 +119,10 @@ namespace Saber{
         };
 
         function<void()> ESkill = [ptr,sb,resetCR,CoreResonance]() {
+            Skill_point(sb,-1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"Saber ESkill",
             [ptr,sb,resetCR,CoreResonance](shared_ptr<AllyAttackAction> &act){
-                Skill_point(sb,-1);
                 Increase_energy(sb,30);
                 Attack(act);
                 if(ptr->Eidolon>=1)CoreResonance(1);

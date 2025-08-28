@@ -208,10 +208,10 @@ namespace Rappa{
     }
     void Skill_func(Ally *ptr){
         
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Aoe,"Rappa Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
             Attack(act);
         });

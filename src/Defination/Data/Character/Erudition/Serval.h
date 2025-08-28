@@ -131,11 +131,11 @@ namespace Serval{
 
 
     void Basic_Atk(Ally *ptr){
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Serval BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),20);
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(act);
         });
         act->addDamageIns(DmgSrc(DmgSrcType::ATK,110,10),chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
@@ -149,11 +149,11 @@ namespace Serval{
         act->addToActionBar();
     }
     void Skill(Ally *ptr){
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"Serval Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30);
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             for (int i = 1; i <= Total_enemy; i++) {
                 if (Enemy_unit[i]->debuffApply(ptr->getSubUnit(),"Serval_Shock")) {
                         Enemy_unit[i]->changeShock(1);

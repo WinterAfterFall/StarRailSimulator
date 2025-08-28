@@ -158,11 +158,11 @@ namespace Jingyuan{
 
     void Basic_Atk(Ally *ptr){
         
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"JY BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(act);
         });
         act->addDamageIns(DmgSrc(DmgSrcType::ATK,55,5.5));
@@ -170,11 +170,11 @@ namespace Jingyuan{
         act->addToActionBar();
     }
     void Skill(Ally *ptr){
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Aoe,"JY Skill",
         [ptr,JYptr = ptr->getSubUnit()](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30);
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             JYptr->buffSingle({{Stats::CR,AType::None,10}},"War_Marshal",2);
             ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]+=2;
             if(ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]>=10){

@@ -125,10 +125,10 @@ namespace Tingyun{
     }
 
     void Skill(Ally *ptr){
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"TY Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
             act->buffTargetList[0]->buffSingle({{Stats::ATK_P,AType::None,55}},"Benediction",3);
             ptr->Sub_Unit_ptr[0]->buffSingle({{Stats::SPD_P,AType::None,20}},"Nourished_Joviality",1);
@@ -138,11 +138,11 @@ namespace Tingyun{
         act->addToActionBar();
     }
     void Basic_Atk(Ally *ptr){
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"TY BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Attack(act);
         });
         act->addDamageIns(DmgSrc(DmgSrcType::ATK,33,3));

@@ -32,11 +32,11 @@ namespace Luka{
         #pragma region Ability
 
         function<void()> BA = [ptr,lk,FW]() {
+            Skill_point(lk,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Luka BA",
             [ptr,lk,FW](shared_ptr<AllyAttackAction> &act){
                 FW(1);
-                Skill_point(lk,1);
                 Increase_energy(lk,20);
                 Attack(act);
             });
@@ -47,10 +47,10 @@ namespace Luka{
         };
 
         function<void()> EBA = [ptr,lk,FW]() {
+            Skill_point(lk,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Luka EBA",
             [ptr,lk,FW](shared_ptr<AllyAttackAction> &act){
-                Skill_point(lk,1);
                 Increase_energy(lk,20);
                 FW(-2);
                 Attack(act);
@@ -76,12 +76,12 @@ namespace Luka{
         };
 
         function<void()> Skill = [ptr,lk,FW]() {
+            Skill_point(lk,-1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Luka Skill",
             [ptr,lk,FW](shared_ptr<AllyAttackAction> &act){
                 FW(1);
                 if(ptr->Eidolon>=2)FW(1);
-                Skill_point(lk,-1);
                 Increase_energy(lk,30);
                 for(auto &each : act->targetList){
                     each->dotSingleApply({DotType::Burn},lk,"Luka Bleed",3);

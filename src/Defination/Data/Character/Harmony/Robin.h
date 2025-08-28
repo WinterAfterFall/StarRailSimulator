@@ -188,10 +188,10 @@ namespace Robin{
 
 
     void Skill(Ally *ptr){
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"RB Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,35);
             buffAllAlly({{Stats::DMG,AType::None,50}});
             ptr->Sub_Unit_ptr[0]->setBuffCheck("Pinion'sAria",true);
@@ -202,10 +202,10 @@ namespace Robin{
     }
 
     void Basic_Atk(Ally *ptr){
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"RB BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
             Attack(act);
         });

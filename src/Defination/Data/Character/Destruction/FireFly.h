@@ -141,10 +141,10 @@ namespace FireFly{
     }
     
     void Skill_func(Ally *ptr){   
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"FF Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,60,0);
             Attack(act);
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 25);
@@ -156,10 +156,10 @@ namespace FireFly{
 
     }
     void Enchance_Skill_func(Ally *ptr){
+        if(ptr->Eidolon<1)Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"FF ESkill",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            if(ptr->Eidolon<1)Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             double skill_dmg = 0;
             if(ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None]>=360){
                 skill_dmg = 272;

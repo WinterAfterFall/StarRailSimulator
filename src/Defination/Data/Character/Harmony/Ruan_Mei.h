@@ -70,7 +70,6 @@ namespace Ruan_Mei{
                 shared_ptr<AllyBuffAction> act = 
                 make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"RM SKill",
                 [ptr](shared_ptr<AllyBuffAction> &act){
-                    Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
                     Increase_energy(ptr,30);
                     buffAllAlly({
                         {Stats::DMG,AType::None,68},
@@ -138,10 +137,10 @@ namespace Ruan_Mei{
 
 
     void Basic_Atk(Ally *ptr){
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"RM BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
             Increase_energy(ptr,20);
             Attack(act);
         });
@@ -149,10 +148,10 @@ namespace Ruan_Mei{
         act->addToActionBar();
     }
     void Skill_func(Ally *ptr){
+        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"RM Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
-            Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
             Increase_energy(ptr,30);
             buffAllAlly({
                 {Stats::DMG,AType::None,68},

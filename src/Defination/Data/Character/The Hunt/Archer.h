@@ -32,10 +32,10 @@ namespace Archer{
         #pragma region Ability
 
         function<void()> BA = [ptr,ac]() {
+            Skill_point(ac,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Archer BA",
             [ptr,ac](shared_ptr<AllyAttackAction> &act){
-                Skill_point(ac,1);
                 Increase_energy(ptr,20);
                 Attack(act);
             });
@@ -46,12 +46,12 @@ namespace Archer{
         };
 
         function<void()> Skill = [ptr,ac]() {
+            Skill_point(ac,-2);
+            ac->calStack(1,5,"Archer Skill Limit");
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"Archer Skill",
             [ptr,ac](shared_ptr<AllyAttackAction> &act){
-                Skill_point(ac,-2);
                 Increase_energy(ptr,30);
-                ac->calStack(1,5,"Archer Skill Limit");
                 if(ptr->Eidolon>=6)ac->buffStackSingle({{Stats::DMG,AType::SKILL,100}},1,3,"Circuit Connection");
                 else ac->buffStackSingle({{Stats::DMG,AType::SKILL,100}},1,2,"Circuit Connection");
                 Attack(act);
