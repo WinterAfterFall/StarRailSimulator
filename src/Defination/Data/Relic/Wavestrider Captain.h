@@ -8,8 +8,8 @@ namespace Relic{
             ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None] += 16;
         }));
 
-        AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,help](shared_ptr<AllyActionData> &act){
-            if (act->isSameAction(ptr->getSubUnit(),AType::Ult)) {
+        WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,help](Ally *ally){
+            if (ally->isSameAlly(ptr)) {
                 if(ptr->getSubUnit()->getStack(help)>=2){
                     ptr->getSubUnit()->setStack(help,0);
                     ptr->getSubUnit()->buffSingle({{Stats::ATK_P,AType::None,48}},help,1);

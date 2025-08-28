@@ -13,13 +13,16 @@ namespace Harmony_Lightcone{
                 if (act->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
                     if (act->isSameAction(AType::SKILL)) {
                         ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_buff"] = 1;
-                    } else if (act->isSameAction(AType::Ult)) {
-                        if (ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_cnt"] == 0) {
-                            ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_cnt"] = true;
-                            Skill_point(ptr->Sub_Unit_ptr[0].get(), 1);
-                        } else {
-                            ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_cnt"] = false;
-                        }
+                    }
+                }
+            }));
+            WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](Ally *ally){
+                if (ally->isSameAlly(ptr)) {
+                    if (ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_cnt"] == 0) {
+                        ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_cnt"] = true;
+                        Skill_point(ptr->Sub_Unit_ptr[0].get(), 1);
+                    } else {
+                        ptr->Sub_Unit_ptr[0]->Buff_check["Battle_Isnt_Over_cnt"] = false;
                     }
                 }
             }));

@@ -9,8 +9,8 @@ namespace Relic{
             ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::SKILL] += 20;
         }));
 
-        AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr](shared_ptr<AllyActionData> &act){
-            if (act->isSameAction(ptr->getSubUnit(),AType::Ult)) {
+        WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr](Ally *ally){
+            if (ally->isSameAlly(ptr)) {
                 if (ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Scholar_buff")) {
                     ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::SKILL] += 25;
                 }

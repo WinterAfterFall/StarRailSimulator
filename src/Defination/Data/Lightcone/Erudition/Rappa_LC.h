@@ -13,8 +13,9 @@ namespace Erudition_Lightcone{
                 Increase_energy(ptr, (27.5 + superimpose * 2.5));
             }));
 
-            AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
-                if (act->isSameAction(ptr->getSubUnit(),AType::Ult)) {
+
+            WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](Ally *ally){
+                if (ally->isSameAlly(ptr)) {
                     ptr->Sub_Unit_ptr[0]->Buff_check["Ration"] = 1;
                     ptr->Sub_Unit_ptr[0]->Stack["Ration"] = 0;
                 }

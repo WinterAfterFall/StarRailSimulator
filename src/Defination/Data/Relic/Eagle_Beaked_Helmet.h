@@ -11,8 +11,8 @@ namespace Relic{
             ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Wind][AType::None] += 10;
         }));
 
-        AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr](shared_ptr<AllyActionData> &act){
-            if (act->isSameAction(ptr->getSubUnit(),AType::Ult)) {
+        WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr](Ally *ally){
+            if (ally->isSameAlly(ptr)) {
                 Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 25);
             }
         }));
