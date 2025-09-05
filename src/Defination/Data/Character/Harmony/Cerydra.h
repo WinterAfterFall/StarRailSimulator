@@ -46,6 +46,9 @@ namespace Cerydra{
             [ptr,crd,charge](shared_ptr<AllyBuffAction> &act){
                 Increase_energy(crd,30);
                 charge(1);
+                crd->buffSingle({
+                    {Stats::FLAT_SPD,AType::None,20}
+                },"Veci",3);
                 chooseSubUnitBuff(crd)->buffSingle({
                     {Stats::FLAT_SPD,AType::None,20}
                 },"Veci",3);
@@ -157,6 +160,9 @@ namespace Cerydra{
             [ptr,crd,charge](shared_ptr<AllyBuffAction> &act){
                 Increase_energy(crd,30);
                 charge(1);
+                crd->buffSingle({
+                    {Stats::FLAT_SPD,AType::None,20}
+                },"Veci",3);
                 chooseSubUnitBuff(crd)->buffSingle({
                     {Stats::FLAT_SPD,AType::None,20}
                 },"Veci",3);

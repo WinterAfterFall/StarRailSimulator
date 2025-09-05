@@ -17,7 +17,7 @@ namespace Phainon{
         ptr->pushSubstats(Stats::CR);
         ptr->pushSubstats(Stats::ATK_P);
         ptr->setTotalSubstats(20);
-        ptr->setSpeedRequire(100);
+        ptr->setSpeedRequire(116);
         ptr->setRelicMainStats(Stats::CR,Stats::ATK_P,Stats::DMG,Stats::ATK_P);
 
 
