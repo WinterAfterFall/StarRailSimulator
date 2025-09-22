@@ -4,6 +4,12 @@ void buffStackAllAlly(vector<BuffClass> buffSet , int Stack_increase, int Stack_
 void buffStackAllAlly(vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name, int extend);
 void buffStackAllAlly(vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name);
 void buffStackAllAlly(vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name, int extend);
+
+void buffStackAllMemosprite(vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name);
+void buffStackAllMemosprite(vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name, int extend);
+void buffStackAllMemosprite(vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name);
+void buffStackAllMemosprite(vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name, int extend);
+
 void buffStackTargets(vector<SubUnit*> targets, vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name);
 void buffStackTargets(vector<SubUnit*> targets,vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name, int extend);
 void buffStackTargets(vector<SubUnit*> targets,vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name);

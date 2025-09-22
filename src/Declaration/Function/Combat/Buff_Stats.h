@@ -12,6 +12,12 @@ void buffAllAlly(std::vector<BuffClass> buffSet);
 void buffAllAlly(std::vector<BuffElementClass> buffSet);
 void buffAllAlly(std::vector<BuffClass> buffSet, std::string Buff_name, int extend);
 void buffAllAlly(std::vector<BuffElementClass> buffSet, std::string Buff_name, int extend);
+
+void buffAllMemosprite(std::vector<BuffClass> buffSet);
+void buffAllMemosprite(std::vector<BuffElementClass> buffSet);
+void buffAllMemosprite(std::vector<BuffClass> buffSet, std::string Buff_name, int extend);
+void buffAllMemosprite(std::vector<BuffElementClass> buffSet, std::string Buff_name, int extend);
+
 void buffTargets(vector<SubUnit*> target,std::vector<BuffClass> buffSet);
 void buffTargets(vector<SubUnit*> target,std::vector<BuffElementClass> buffSet);
 void buffTargets(vector<SubUnit*> target,std::vector<BuffClass> buffSet, std::string Buff_name, int extend);

@@ -260,6 +260,11 @@ public:
     void buffAlly(vector<BuffClass> buffSet,string Buff_name,int extend);
     void buffAlly(vector<BuffElementClass> buffSet,string Buff_name,int extend);
 
+    void buffMemosprite(vector<BuffClass> buffSet);
+    void buffMemosprite(vector<BuffElementClass> buffSet);
+    void buffMemosprite(vector<BuffClass> buffSet,string Buff_name,int extend);
+    void buffMemosprite(vector<BuffElementClass> buffSet,string Buff_name,int extend);
+
     //StackBuff.h
     void buffResetStack(vector<BuffClass> buffSet,string Stack_Name);
     void buffResetStack(vector<BuffElementClass> buffSet,string Stack_Name);

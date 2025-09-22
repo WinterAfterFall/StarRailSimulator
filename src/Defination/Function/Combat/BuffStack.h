@@ -87,6 +87,36 @@ void buffStackAllAlly(vector<BuffElementClass> buffSet , int Stack_increase, int
         }
     }
 }
+//
+void buffStackAllMemosprite(vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name){
+    for (int i = 1; i <= Total_ally; i++) {
+        for (int j = 1; j < Ally_unit[i]->Sub_Unit_ptr.size(); j++) {
+            Ally_unit[i]->Sub_Unit_ptr[j]->buffStackSingle(buffSet,Stack_increase,Stack_limit,Stack_Name);
+        }
+    }
+}
+void buffStackAllMemosprite(vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name,int extend){
+    for (int i = 1; i <= Total_ally; i++) {
+        for (int j = 1; j < Ally_unit[i]->Sub_Unit_ptr.size(); j++) {
+            Ally_unit[i]->Sub_Unit_ptr[j]->buffStackSingle(buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
+        }
+    }
+}
+void buffStackAllMemosprite(vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name){
+    for (int i = 1; i <= Total_ally; i++) {
+        for (int j = 1; j < Ally_unit[i]->Sub_Unit_ptr.size(); j++) {
+            Ally_unit[i]->Sub_Unit_ptr[j]->buffStackSingle(buffSet,Stack_increase,Stack_limit,Stack_Name);
+        }
+    }
+}
+void buffStackAllMemosprite(vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name,int extend){
+    for (int i = 1; i <= Total_ally; i++) {
+        for (int j = 1; j < Ally_unit[i]->Sub_Unit_ptr.size(); j++) {
+            Ally_unit[i]->Sub_Unit_ptr[j]->buffStackSingle(buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
+        }
+    }
+}
+//
 void buffStackTargets(vector<SubUnit*> targets, vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name){
     for (auto &each : targets) {
             each->buffStackSingle(buffSet,Stack_increase,Stack_limit,Stack_Name);
