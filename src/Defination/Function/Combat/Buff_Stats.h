@@ -133,28 +133,25 @@ void Ally::buffAlly(vector<BuffElementClass> buffSet,string Buff_name,int extend
 }   
 
 void Ally::buffMemosprite(vector<BuffClass> buffSet){
-    for (auto &e : this->Sub_Unit_ptr) {
-        if(e->Atv_stats->side != Side::Memosprite) continue;
-        e->buffSingle(buffSet);
+    for (size_t i = 1; i < this->Sub_Unit_ptr.size(); ++i) {
+        if(this->Sub_Unit_ptr[i]->Atv_stats->side != Side::) continue;
+        this->Sub_Unit_ptr[i]->buffSingle(buffSet);
     }
 }
 void Ally::buffMemosprite(vector<BuffElementClass> buffSet){
-    for (auto &e : this->Sub_Unit_ptr) {
-        if(e->Atv_stats->side != Side::Memosprite) continue;
-        e->buffSingle(buffSet);
+    for (size_t i = 1; i < this->Sub_Unit_ptr.size(); ++i) {
+        this->Sub_Unit_ptr[i]->buffSingle(buffSet);
     }
 }
 
 void Ally::buffMemosprite(vector<BuffClass> buffSet,string Buff_name,int extend){
-    for (auto &e : this->Sub_Unit_ptr) {
-        if(e->Atv_stats->side != Side::Memosprite) continue;
-        e->buffSingle(buffSet,Buff_name,extend);
+    for (size_t i = 1; i < this->Sub_Unit_ptr.size(); ++i) {
+        this->Sub_Unit_ptr[i]->buffSingle(buffSet,Buff_name,extend);
     }
 }
 void Ally::buffMemosprite(vector<BuffElementClass> buffSet,string Buff_name,int extend){
-    for (auto &e : this->Sub_Unit_ptr) {
-        if(e->Atv_stats->side != Side::Memosprite) continue;
-        e->buffSingle(buffSet,Buff_name,extend);
+    for (size_t i = 1; i < this->Sub_Unit_ptr.size(); ++i) {
+        this->Sub_Unit_ptr[i]->buffSingle(buffSet,Buff_name,extend);
     }
 }   
 
