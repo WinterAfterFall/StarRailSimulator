@@ -2,6 +2,8 @@
 
 void IncreaseCurrentHP(SubUnit *ptr,double Value);
 void IncreaseHP(SubUnit *Healer,SubUnit *target,double Value);
+double decreaseSheild(SubUnit *ptr,double Value);
+
 
 void DecreaseCurrentHP(SubUnit *ptr,double Value);
 void DecreaseHP(SubUnit *target,Unit *Trigger,double Value,double percentFromTotalHP,double percentFromCurrentHP);

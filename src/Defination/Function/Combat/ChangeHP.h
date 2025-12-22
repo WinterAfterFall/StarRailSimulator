@@ -182,6 +182,10 @@ void DecreaseHP(Unit *Trigger,string Name,double Value,double percentFromTotalHP
     }
 
 }
+double decreaseSheild(SubUnit *ptr,double Value){
+    ptr->currentSheild = (ptr->currentSheild - Value < 0) ? 0 : ptr->currentSheild - Value;
+    return max(0.0,ptr->currentSheild - Value);
+}
 void SubUnit::death(){
     this->currentHP = 0;
     this->status = UnitStatus::Death;

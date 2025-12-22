@@ -134,7 +134,7 @@ void Ally::buffAlly(vector<BuffElementClass> buffSet,string Buff_name,int extend
 
 void Ally::buffMemosprite(vector<BuffClass> buffSet){
     for (size_t i = 1; i < this->Sub_Unit_ptr.size(); ++i) {
-        if(this->Sub_Unit_ptr[i]->Atv_stats->side != Side::) continue;
+        if(this->Sub_Unit_ptr[i]->Atv_stats->side != Side::Memosprite) continue;
         this->Sub_Unit_ptr[i]->buffSingle(buffSet);
     }
 }
