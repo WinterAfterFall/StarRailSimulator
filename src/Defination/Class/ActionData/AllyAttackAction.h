@@ -26,7 +26,7 @@ class SwitchAtk{
         : changeTo(changeTo), source(source), changeWhen(changeWhen) {}
 };
 
-class AllyAttackAction : public AllyActionData {
+class  AllyAttackAction : public AllyActionData {
     public:
     bool toughnessAvgCalculate = 1;
     bool damageNote = 1;
