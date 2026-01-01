@@ -250,7 +250,7 @@ void Memosprite_reset(){
         charUnit[i]->Sub_Unit_ptr[j]->Atv_stats->priority = 0;
         charUnit[i]->Sub_Unit_ptr[j]->Atv_stats->extraTurn = 0;
         charUnit[i]->Sub_Unit_ptr[j]->Atv_stats->baseSpeed = 
-        charUnit[i]->Sub_Unit_ptr[j]->fixSpeed + calculateSpeedOnStats(charUnit[i]->getMemosprite())*charUnit[i]->Sub_Unit_ptr[j]->Unit_Speed_Ratio/100;
+        charUnit[i]->Sub_Unit_ptr[j]->fixSpeed + calculateSpeedOnStats(charUnit[i])*charUnit[i]->Sub_Unit_ptr[j]->Unit_Speed_Ratio/100;
         charUnit[i]->Sub_Unit_ptr[j]->Atv_stats->speedPercent = 0;
         charUnit[i]->Sub_Unit_ptr[j]->Atv_stats->flatSpeed = 0;
         charUnit[i]->Sub_Unit_ptr[j]->currentAllyTargetNum = charUnit[i]->Sub_Unit_ptr[j]->defaultAllyTargetNum;

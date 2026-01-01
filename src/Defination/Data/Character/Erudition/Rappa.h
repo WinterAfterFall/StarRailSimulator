@@ -8,7 +8,7 @@ namespace Rappa{
     
     void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
         CharUnit *ptr = SetCharBasicStats(96, 140, 140, E, ElementType::Imaginary, Path::Erudition, "Rappa", UnitType::Standard);
-        AllyUnit *Rappaptr = ptr->getMemosprite();
+        AllyUnit *Rappaptr = ptr;
         ptr->SetAllyBaseStats(1087,718,461);
         //substats
         ptr->pushSubstats(Stats::BE);
@@ -38,7 +38,7 @@ namespace Rappa{
             if (!ultUseCheck(ptr)) return;
             
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::Ult,ptr->getMemosprite(),TraceType::Single,"Rappa Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Single,"Rappa Ult",
             [ptr](shared_ptr<AllyBuffAction> &act){
                 if (ptr->Print)CharCmd::printUltStart("Rappa");
                 ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"] = 1;
@@ -49,7 +49,7 @@ namespace Rappa{
                 
 
                 shared_ptr<AllyAttackAction> data_2 = 
-                make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Blast,"Rappa EBA",
+                make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Blast,"Rappa EBA",
                 [ptr](shared_ptr<AllyAttackAction> &data_2){
                     Increase_energy(ptr, 20);
                     Attack(data_2);
@@ -127,7 +127,7 @@ namespace Rappa{
                     Superbreak_trigger(act,60,"");
 
                     shared_ptr<AllyAttackAction> data_2 = 
-                    make_shared<AllyAttackAction>(AType::Break,ptr->getMemosprite(),TraceType::Aoe,"Rappa Talent");
+                    make_shared<AllyAttackAction>(AType::Break,ptr,TraceType::Aoe,"Rappa Talent");
                     double temp = ptr->Sub_Unit_ptr[0]->Buff_note["Rappa_Talent"];
                     for(int i=1;i<=Total_enemy;i++){
                         Cal_Break_damage(act,enemyUnit[i].get(),temp);
@@ -142,9 +142,9 @@ namespace Rappa{
             if (ptr->Technique == 1) {
                 Increase_energy(ptr, 10);
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Break,ptr->getMemosprite(),TraceType::Aoe,"Rappa Tech");
+                make_shared<AllyAttackAction>(AType::Break,ptr,TraceType::Aoe,"Rappa Tech");
                 shared_ptr<AllyAttackAction> data_2 = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr->getMemosprite(),TraceType::Aoe,"Rappa Tech");
+                make_shared<AllyAttackAction>(AType::Technique,ptr,TraceType::Aoe,"Rappa Tech");
                 for (int i = 1; i <= Total_enemy; i++) {
                     double temp;
                    
@@ -166,7 +166,7 @@ namespace Rappa{
                 ptr->Sub_Unit_ptr[0]->Stack["Rappa_Talent"]++;
                 Increase_energy(ptr, 10);
             }
-            double temp = floor((calculateAtkForBuff(ptr->getMemosprite(),100) - 2400) / 100) + 2;
+            double temp = floor((calculateAtkForBuff(ptr,100) - 2400) / 100) + 2;
             if (temp > 10) 
             temp = 10;
             if (temp < 0)
@@ -180,7 +180,7 @@ namespace Rappa{
     void Enchance_Basic_Atk(CharUnit *ptr){
         
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Blast,"Rappa BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Blast,"Rappa BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr, 20);
             Attack(act);
@@ -210,7 +210,7 @@ namespace Rappa{
         
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Aoe,"Rappa Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Aoe,"Rappa Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30);
             Attack(act);

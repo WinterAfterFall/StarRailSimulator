@@ -4,7 +4,7 @@ namespace Nihility_Lightcone{
         return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(953,476,331);
             ptr->Light_cone.Name = "Resolution";
-            string ensnared = ptr->getMemosprite()->getUnitName() + " Ensnared";
+            string ensnared = ptr->getUnitName() + " Ensnared";
             ptr->newApplyBaseChanceRequire(50 + superimpose*10);
 
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,ensnared](shared_ptr<AllyAttackAction> &act) {

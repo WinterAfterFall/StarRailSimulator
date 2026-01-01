@@ -3,7 +3,7 @@ namespace Relic{
     void Sacerdos_Relived_Ordeal(CharUnit *ptr);
     void Sacerdos_Relived_Ordeal(CharUnit *ptr){
         ptr->Relic.Name = "Sacerdos_Relived_Ordeal";
-        string Sacerdos = ptr->getMemosprite()->getUnitName() + " Sacerdos";
+        string Sacerdos = ptr->getUnitName() + " Sacerdos";
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Sacerdos]() {
             ptr->Sub_Unit_ptr[0]->Atv_stats->speedPercent += 6;

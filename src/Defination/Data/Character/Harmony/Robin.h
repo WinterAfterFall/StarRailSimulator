@@ -11,7 +11,7 @@ namespace Robin{
 
     void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
         CharUnit *ptr = SetCharBasicStats(102, 160, 160, E, ElementType::Physical, Path::Harmony, "Robin",UnitType::Standard);
-        AllyUnit *Robinptr = ptr->getMemosprite();
+        AllyUnit *Robinptr = ptr;
         ptr->SetAllyBaseStats(1280, 640, 485);
         ptr->pushSubstats(Stats::ATK_P);
         ptr->setTotalSubstats(20);
@@ -23,7 +23,7 @@ namespace Robin{
         Relic(ptr);
         Planar(ptr);
 
-        AllyUnit *rb = ptr->getMemosprite();
+        AllyUnit *rb = ptr;
 
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,allyptr = ptr->Sub_Unit_ptr[0].get()]() {
             if (!allyptr->getBuffCheck("Pinion'sAria")) {
@@ -50,7 +50,7 @@ namespace Robin{
                 return true;
             }
             AllyUnit *dps =charUnit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[ptr->Sub_Unit_ptr[0]->currentSubUnitTargetNum].get();
-            AllyUnit *driver = charUnit[Driver_num]->getMemosprite();
+            AllyUnit *driver = charUnit[Driver_num];
             if(driver->getATV()>dps->getATV())return false;
             return true;
         });
@@ -58,7 +58,7 @@ namespace Robin{
         ptr->addUltCondition([ptr]() -> bool {
             if(driverType!=DriverType::AlwaysPull)return true;
             AllyUnit *dps =charUnit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[ptr->Sub_Unit_ptr[0]->currentSubUnitTargetNum].get();
-            AllyUnit *driver = charUnit[Driver_num]->getMemosprite();
+            AllyUnit *driver = charUnit[Driver_num];
             if(driver->getATV()<dps->getATV())return false;
             return true;
         });
@@ -73,7 +73,7 @@ namespace Robin{
 
             if(ultUseCheck(ptr)){
                 shared_ptr<AllyBuffAction> act = 
-                make_shared<AllyBuffAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"RB Ult",
+                make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"RB Ult",
                 [ptr,Robinptr](shared_ptr<AllyBuffAction> &act){
                     ptr->countdownList[0]->summon();
                     ptr->Sub_Unit_ptr[0]->Atv_stats->baseSpeed = -1;
@@ -135,7 +135,7 @@ namespace Robin{
             }
             if(!ptr->countdownList[0]->isDeath()){
                 shared_ptr<AllyAttackAction> newAct = 
-                make_shared<AllyAttackAction>(AType::Addtional,ptr->getMemosprite(),TraceType::Single,"RB AddDmg");
+                make_shared<AllyAttackAction>(AType::Addtional,ptr,TraceType::Single,"RB AddDmg");
                 double x1 = 0, x2 = 0;
 
                 ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += 100;
@@ -190,7 +190,7 @@ namespace Robin{
     void Skill(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Single,"RB Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"RB Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,35);
             buffAllAlly({{Stats::DMG,AType::None,50}});
@@ -204,7 +204,7 @@ namespace Robin{
     void Basic_Atk(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"RB BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"RB BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Attack(act);

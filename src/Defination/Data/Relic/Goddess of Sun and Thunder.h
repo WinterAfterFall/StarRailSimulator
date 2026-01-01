@@ -8,9 +8,9 @@ namespace Relic{
         }));
 
         Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr](AllyUnit *Healer, AllyUnit *target, double Value) {
-            if(Healer->owner->getSubUnit()->isSameStatsOwnerName(ptr->getMemosprite())){
-                if(ptr->getMemosprite()->isHaveToAddBuff("Goddess of Sun and Thunder",2)){
-                    ptr->getMemosprite()->buffSingle({{Stats::SPD_P,AType::None,6}});
+            if(Healer->owner->getSubUnit()->isSameStatsOwnerName(ptr)){
+                if(ptr->isHaveToAddBuff("Goddess of Sun and Thunder",2)){
+                    ptr->buffSingle({{Stats::SPD_P,AType::None,6}});
                     buffAllAlly({
                         {Stats::CD,AType::None,15}
                     });
@@ -19,8 +19,8 @@ namespace Relic{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            if(ptr->getMemosprite()->isBuffEnd("Goddess of Sun and Thunder")){
-                    ptr->getMemosprite()->buffSingle({{Stats::SPD_P,AType::None,-6}});
+            if(ptr->isBuffEnd("Goddess of Sun and Thunder")){
+                    ptr->buffSingle({{Stats::SPD_P,AType::None,-6}});
                     buffAllAlly({
                         {Stats::CD,AType::None,-15}
                     });

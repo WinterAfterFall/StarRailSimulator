@@ -14,8 +14,8 @@ namespace Nihility_Lightcone{
 
             BeforeApplyDebuff.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](Enemy *target, AllyUnit *Trigger) {
                 // if(ptr->getSubUnit()->getBuffCheck("LC Hys using"))return;
-                ptr->getMemosprite()->setBuffCheck("LC Hys using",1);
-                if(Trigger->isSameStatsOwnerName(ptr->getMemosprite())){
+                ptr->setBuffCheck("LC Hys using",1);
+                if(Trigger->isSameStatsOwnerName(ptr)){
                     target->setDebuffNote("Hys LC TotalDebuff",target->Total_debuff);
                 }
                 // ptr->getSubUnit()->setBuffCheck("LC Hys using",0);
@@ -23,12 +23,12 @@ namespace Nihility_Lightcone{
 
             AfterApplyDebuff.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](Enemy *target, AllyUnit *Trigger) {
                 // if(ptr->getSubUnit()->getBuffCheck("LC Hys using"))return;
-                ptr->getMemosprite()->setBuffCheck("LC Hys using",1);
-                if(Trigger->isSameStatsOwnerName(ptr->getMemosprite())){
+                ptr->setBuffCheck("LC Hys using",1);
+                if(Trigger->isSameStatsOwnerName(ptr)){
                     if(target->Total_debuff-target->getDebuffNote("Hys LC TotalDebuff")==0)return;
                     // cout<<target->Total_debuff<<" "<<target->getDebuffNote("Hys LC TotalDebuff")<<endl;
                     // cout<<Trigger->getUnitName()<<" "<<target->getUnitName()<<endl;
-                    target->debuffStackSingle({{Stats::VUL,AType::Dot,3.75 + 1.25 * superimpose}},ptr->getMemosprite(),target->Total_debuff-
+                    target->debuffStackSingle({{Stats::VUL,AType::Dot,3.75 + 1.25 * superimpose}},ptr,target->Total_debuff-
                     target->getDebuffNote("Hys LC TotalDebuff"),6,"Hys LC");
                 }
                 // ptr->getSubUnit()->setBuffCheck("LC Hys using",0);

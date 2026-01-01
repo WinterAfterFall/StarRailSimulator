@@ -12,11 +12,11 @@ namespace Remembrance_Lightcone{
                 AllyActionData *allyaction = act->castToAllyActionData();
                 if(!allyaction)return;
                 if(allyaction->Attacker->Atv_stats->side == Side::AllyUnit
-                    &&allyaction->Attacker->Atv_stats->num==ptr->getMemosprite()->Atv_stats->num
+                    &&allyaction->Attacker->Atv_stats->num==ptr->Atv_stats->num
                     &&allyaction->isSameAction(AType::SKILL)){
                         debuffAllEnemyApply({{Stats::VUL,AType::None,(13.5 + 4.5 * superimpose)}},allyaction->Attacker,"Hyacnine_LC Debuff",2);
                 }
-                if(!ptr->getMemosprite()->isSameStatsOwnerName(allyaction->Attacker->Atv_stats->StatsOwnerName))return;
+                if(!ptr->isSameStatsOwnerName(allyaction->Attacker->Atv_stats->StatsOwnerName))return;
                 if(allyaction->isSameAction(AType::BA)
                 ||allyaction->isSameAction(AType::SKILL)
                 ||allyaction->isSameAction(AType::Ult)){
@@ -26,21 +26,21 @@ namespace Remembrance_Lightcone{
                             temp+=each->currentHP*0.01;
                         }
                     }
-                    ptr->getMemosprite()->Buff_note["Hyacnine_LC Note"] +=temp;
-                    DecreaseHP(ptr->getMemosprite(),0,0,(0.75 + 0.25 * superimpose));
+                    ptr->Buff_note["Hyacnine_LC Note"] +=temp;
+                    DecreaseHP(ptr,0,0,(0.75 + 0.25 * superimpose));
                 }
             }));
 
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
                 if(act->Attacker->Atv_stats->side == Side::AllyUnit
-                    &&act->Attacker->Atv_stats->num==ptr->getMemosprite()->Atv_stats->num
+                    &&act->Attacker->Atv_stats->num==ptr->Atv_stats->num
                     &&act->isSameAction(AType::SKILL)){
                         shared_ptr<AllyAttackAction> addtionaldmg = 
                         make_shared<AllyAttackAction>(AType::Addtional,act->Attacker,TraceType::Single,"Hyc LC AddDmg");
-                        act->addDamageIns(DmgSrc(DmgSrcType::CONST,ptr->getMemosprite()->Buff_note["Hyacnine_LC Note"] * (1.875 + 0.625 * superimpose),0));
+                        act->addDamageIns(DmgSrc(DmgSrcType::CONST,ptr->Buff_note["Hyacnine_LC Note"] * (1.875 + 0.625 * superimpose),0));
                         Attack(addtionaldmg);
                         
-                        ptr->getMemosprite()->setBuffNote("Hyacnine_LC Note",0);
+                        ptr->setBuffNote("Hyacnine_LC Note",0);
                 }
             }));
 

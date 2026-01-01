@@ -4,7 +4,7 @@ namespace Remembrance_Lightcone{
         return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(847,476,397);
             ptr->Light_cone.Name = "Victory_In_Blink";
-            string VictoryBlink = ptr->getMemosprite()->getUnitName() + " Victory_Blink";
+            string VictoryBlink = ptr->getUnitName() + " Victory_Blink";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,VictoryBlink]() {
                 ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None] += 9 + 3 * superimpose;

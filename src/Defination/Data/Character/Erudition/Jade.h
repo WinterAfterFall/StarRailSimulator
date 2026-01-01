@@ -45,7 +45,7 @@ namespace Jade{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"Jade Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Jade Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 ptr->Sub_Unit_ptr[0]->Stack["Jade_Ultimate_stack"] = 2;
                 Attack(act);
@@ -73,7 +73,7 @@ namespace Jade{
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 50);
             if (ptr->Technique == 1) {
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr->getMemosprite(),TraceType::Aoe,"Jade Tech",
+                make_shared<AllyAttackAction>(AType::Technique,ptr,TraceType::Aoe,"Jade Tech",
                 [ptr](shared_ptr<AllyAttackAction> &act){
                     Jade_Talent(ptr, 15);
                     Attack(act);
@@ -128,7 +128,7 @@ namespace Jade{
         
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Blast,"Jade BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Blast,"Jade BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(charUnit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),20);
             Attack(act);
@@ -143,7 +143,7 @@ namespace Jade{
         
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Single,"Jade Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"Jade Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(charUnit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),30);
             if(ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Jade_Skill",3)){
@@ -174,12 +174,12 @@ namespace Jade{
     }
     void Fua(CharUnit *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::Fua,ptr->getMemosprite(),TraceType::Aoe,"Jade Fua",
+        make_shared<AllyAttackAction>(AType::Fua,ptr,TraceType::Aoe,"Jade Fua",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,10);
-            if(ptr->Eidolon>=1)ptr->getMemosprite()->buffSingle({{Stats::DMG,AType::None,32}});
+            if(ptr->Eidolon>=1)ptr->buffSingle({{Stats::DMG,AType::None,32}});
             Attack(act);
-            if(ptr->Eidolon>=1)ptr->getMemosprite()->buffSingle({{Stats::DMG,AType::None,-32}});
+            if(ptr->Eidolon>=1)ptr->buffSingle({{Stats::DMG,AType::None,-32}});
         });
         act->addDamageIns(
             DmgSrc(DmgSrcType::ATK,18,1.5),
@@ -210,12 +210,12 @@ namespace Jade{
     }
     void Fua_Enchance(CharUnit *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::Fua,ptr->getMemosprite(),TraceType::Aoe,"Jade Fua",
+        make_shared<AllyAttackAction>(AType::Fua,ptr,TraceType::Aoe,"Jade Fua",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,10);
-            if(ptr->Eidolon>=1)ptr->getMemosprite()->buffSingle({{Stats::DMG,AType::None,32}});
+            if(ptr->Eidolon>=1)ptr->buffSingle({{Stats::DMG,AType::None,32}});
             Attack(act);
-            if(ptr->Eidolon>=1)ptr->getMemosprite()->buffSingle({{Stats::DMG,AType::None,-32}});
+            if(ptr->Eidolon>=1)ptr->buffSingle({{Stats::DMG,AType::None,-32}});
         });
         act->addDamageIns(
             DmgSrc(DmgSrcType::ATK,20,1),
@@ -245,12 +245,12 @@ namespace Jade{
         act->addToActionBar();
     }
     void Jade_Talent(CharUnit *ptr,int amount){
-        ptr->getMemosprite()->buffStackSingle(
+        ptr->buffStackSingle(
             {{Stats::ATK_P,AType::None,0.5},
             {Stats::CD,AType::None,2.4}},
             amount,50,"Pawned_Asset");
-        if(ptr->Eidolon>=2&&ptr->Sub_Unit_ptr[0]->Stack["Pawned_Asset"]>=15&&ptr->getMemosprite()->isHaveToAddBuff("Jade_E2")){
-            ptr->getMemosprite()->buffSingle({{Stats::CR,AType::None,18}});
+        if(ptr->Eidolon>=2&&ptr->Sub_Unit_ptr[0]->Stack["Pawned_Asset"]>=15&&ptr->isHaveToAddBuff("Jade_E2")){
+            ptr->buffSingle({{Stats::CR,AType::None,18}});
         }
 
     }

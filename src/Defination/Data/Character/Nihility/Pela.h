@@ -36,7 +36,7 @@ namespace Pela{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"Pela Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Pela Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 debuffAllEnemyApply({{Stats::DEF_SHRED, AType::None, 42}},ptr->Sub_Unit_ptr[0].get(), "Zone_Suppression",2);
                 Attack(act);
@@ -98,7 +98,7 @@ namespace Pela{
 
             if (ptr->Eidolon >= 6) {
                 shared_ptr<AllyAttackAction> addDmg = 
-                make_shared<AllyAttackAction>(AType::Addtional,ptr->getMemosprite(),TraceType::Single,"Pela E6");
+                make_shared<AllyAttackAction>(AType::Addtional,ptr,TraceType::Single,"Pela E6");
                 for (auto e : act->targetList) {
                     addDmg->addDamageIns(DmgSrc(DmgSrcType::ATK,40),e);
                 }
@@ -112,7 +112,7 @@ namespace Pela{
     void Basic_Atk(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Pela BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Pela BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(charUnit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),20);
             Attack(act);

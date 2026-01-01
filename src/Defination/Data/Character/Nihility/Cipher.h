@@ -24,7 +24,7 @@ namespace Cipher{
         Planar(ptr);
         
 
-        AllyUnit *cph = ptr->getMemosprite(); 
+        AllyUnit *cph = ptr; 
         
         ptr->Adjust["Cipher A2"] = 2;
         ptr->Adjust["Cipher Ult Share"] = 1;
@@ -34,7 +34,7 @@ namespace Cipher{
         function<void()> BA = [ptr,cph]() {
             Skill_point(cph,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Cipher BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Cipher BA",
             [ptr,cph](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,20);
                 Attack(act);
@@ -47,7 +47,7 @@ namespace Cipher{
         function<void()> Skill = [ptr,cph]() {
             Skill_point(cph,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Blast,"Cipher Skill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"Cipher Skill",
             [ptr,cph](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,30);
                 for(auto &each : act->targetList){
@@ -74,7 +74,7 @@ namespace Cipher{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,cph]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"Cipher Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Cipher Ult",
             [ptr,cph](shared_ptr<AllyAttackAction> &act){
                 Attack(act);
             });
@@ -132,7 +132,7 @@ namespace Cipher{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_Last,[ptr,cph](){
                 shared_ptr<AllyAttackAction> newAct = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr->getMemosprite(),TraceType::Aoe,"Cipher Tech",
+                make_shared<AllyAttackAction>(AType::Technique,ptr,TraceType::Aoe,"Cipher Tech",
                 [ptr,cph](shared_ptr<AllyAttackAction> &act){
                     Attack(act);
                 });
@@ -158,7 +158,7 @@ namespace Cipher{
                 if(!act->isSameUnitName("Cipher")&&!cph->getBuffCheck("Cipher Fua")){
                     cph->setBuffCheck("Cipher Fua",1);
                     shared_ptr<AllyAttackAction> newAct = 
-                    make_shared<AllyAttackAction>(AType::Fua,ptr->getMemosprite(),TraceType::Single,"Cipher Fua",
+                    make_shared<AllyAttackAction>(AType::Fua,ptr,TraceType::Single,"Cipher Fua",
                     [ptr,cph](shared_ptr<AllyAttackAction> &act){
                         Increase_energy(ptr,5);
 
@@ -206,13 +206,13 @@ namespace Cipher{
                     double totaldmg = 0;
                     for(int i=1;i<=Total_ally;i++){
                         for(int j=1;j<=Total_enemy;j++){
-                            totaldmg = charUnit[i]->getMemosprite()->getBuffNote("CipherNote" + enemyUnit[j]->getUnitName());
+                            totaldmg = charUnit[i]->getBuffNote("CipherNote" + enemyUnit[j]->getUnitName());
                             for(int k=1;k<=ptr->getAdjust("Cipher Ult Share")&&k<=Total_enemy;k++){
-                                act->Attacker = charUnit[i]->getMemosprite();
+                                act->Attacker = charUnit[i];
                                 Cal_DamageNote(act,enemyUnit[j].get(),enemyUnit[k].get(),totaldmg*0.75/ptr->getAdjust("Cipher Ult Share"),100,"Cph E6 " + act->Attacker->getUnitName());
                             }
                             Cal_DamageNote(act,enemyUnit[j].get(),enemyUnit[Main_Enemy_num].get(),totaldmg*0.25,100,"Cph E6 " + act->Attacker->getUnitName());
-                            charUnit[i]->getMemosprite()->Buff_note["CipherNote" + enemyUnit[j]->getUnitName()] *= 0.2;
+                            charUnit[i]->Buff_note["CipherNote" + enemyUnit[j]->getUnitName()] *= 0.2;
                         }  
                     }
                 }));

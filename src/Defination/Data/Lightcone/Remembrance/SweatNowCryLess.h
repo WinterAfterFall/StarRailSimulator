@@ -10,8 +10,8 @@ namespace Remembrance_Lightcone{
             }));
     
             Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                if (!ptr->Sub_Unit_ptr[1]->isDeath()&& ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("SweatNowCryLess")) {
-                    ptr->buffAlly({{Stats::DMG, AType::None, 20.0 + superimpose * 4}});
+                if (!ptr->memospriteList[0]->isDeath()&& ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("SweatNowCryLess")) {
+                    ptr->buffSingleChar({{Stats::DMG, AType::None, 20.0 + superimpose * 4}});
                 }
             }));
         };

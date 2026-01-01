@@ -8,7 +8,7 @@ namespace Tingyun{
 
     void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
         CharUnit *ptr =  SetCharBasicStats(112, 130, 130, E, ElementType::Lightning, Path::Harmony, "Tingyun",UnitType::Standard);
-        AllyUnit *TYptr = ptr->getMemosprite();
+        AllyUnit *TYptr = ptr;
         ptr->SetAllyBaseStats(847, 529, 397);
         ptr->Technique = 2;
         ptr->pushSubstats(Stats::ATK_P);
@@ -41,7 +41,7 @@ namespace Tingyun{
             if (!ultUseCheck(ptr)) return;
 
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::Ult,ptr->getMemosprite(),TraceType::Single,"TY Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Single,"TY Ult",
             [ptr,TYptr](shared_ptr<AllyBuffAction> &act){
                 CharCmd::printUltStart("Tingyun");
                 Increase_energy(charUnit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get(), 0, (ptr->Eidolon >= 6) ? 60 : 50);
@@ -127,7 +127,7 @@ namespace Tingyun{
     void Skill(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Single,"TY Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"TY Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
             act->buffTargetList[0]->buffSingle({{Stats::ATK_P,AType::None,55}},"Benediction",3);
@@ -140,7 +140,7 @@ namespace Tingyun{
     void Basic_Atk(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"TY BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"TY BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Attack(act);

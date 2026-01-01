@@ -8,7 +8,7 @@ namespace Nihility_Lightcone{
                 ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] += 15 + 5 * superimpose;
             }));
             WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](Ally *ally) {
-                if(ally->isSameChar(ptr))ptr->getMemosprite()->buffSingle({{Stats::DMG,AType::Dot,18.0 + 6 * superimpose}},"Solitary Healing",2);
+                if(ally->isSameChar(ptr))ptr->buffSingle({{Stats::DMG,AType::Dot,18.0 + 6 * superimpose}},"Solitary Healing",2);
             }));
             
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
@@ -16,7 +16,7 @@ namespace Nihility_Lightcone{
                 if(!ally)return;
 
                 if(ally->isBuffEnd("Solitary Healing")){
-                    ptr->getMemosprite()->buffSingle({{Stats::DMG,AType::Dot,-(18.0 + 6 * superimpose)}});
+                    ptr->buffSingle({{Stats::DMG,AType::Dot,-(18.0 + 6 * superimpose)}});
                 }
             }));
         };

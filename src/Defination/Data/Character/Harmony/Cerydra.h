@@ -17,7 +17,7 @@ namespace Cerydra{
         Relic(ptr);
         Planar(ptr);
 
-        AllyUnit *crd = ptr->getMemosprite();
+        AllyUnit *crd = ptr;
 
         function<void(int value)> charge = [ptr,crd](int value) {
             crd->addStack("Cerydra charge",value);
@@ -28,7 +28,7 @@ namespace Cerydra{
         function<void()> BA = [ptr,crd]() {
             Skill_point(crd,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Crd BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Crd BA",
             [ptr,crd](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(crd,20);
                 Attack(act);
@@ -42,7 +42,7 @@ namespace Cerydra{
         function<void()> Skill = [ptr,crd,charge]() {
             Skill_point(crd,-1);
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Single,"Crd Skill",
+            make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"Crd Skill",
             [ptr,crd,charge](shared_ptr<AllyBuffAction> &act){
                 Increase_energy(crd,30);
                 charge(1);
@@ -78,7 +78,7 @@ namespace Cerydra{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,crd,charge]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"Crd Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Crd Ult",
             [ptr,crd,charge](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Cerydra");
                 charge(2);
@@ -156,7 +156,7 @@ namespace Cerydra{
 
             if(ptr->Technique){
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Single,"Crd Skill",
+            make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"Crd Skill",
             [ptr,crd,charge](shared_ptr<AllyBuffAction> &act){
                 Increase_energy(crd,30);
                 charge(1);
@@ -221,7 +221,7 @@ namespace Cerydra{
             if(act->Attacker->isSameStatsOwnerName(chooseSubUnitBuff(crd))&&crd->getStack("Cerydra Talent Limit")<20){
                 crd->addStack("Cerydra Talent Limit",1);
                 shared_ptr<AllyAttackAction> newAct = 
-                    make_shared<AllyAttackAction>(AType::Addtional,ptr->getMemosprite(),TraceType::Single,"Crd AddDmg");
+                    make_shared<AllyAttackAction>(AType::Addtional,ptr,TraceType::Single,"Crd AddDmg");
                         newAct->addDamageIns(DmgSrc(DmgSrcType::ATK,60));
                         if(ptr->Eidolon>=6)newAct->multiplyDmg(600);
                     Attack(newAct);

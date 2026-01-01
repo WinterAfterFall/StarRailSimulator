@@ -4,7 +4,7 @@ namespace Nihility_Lightcone{
         return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(953,582,529);
             ptr->Light_cone.Name = "Fugue_LC";
-            string Charring = ptr->getMemosprite()->getUnitName() + " Charring";
+            string Charring = ptr->getUnitName() + " Charring";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,Charring]() {
                 ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] += 50 + 10 * superimpose;
             }));

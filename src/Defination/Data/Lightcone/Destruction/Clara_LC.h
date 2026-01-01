@@ -17,8 +17,8 @@ namespace Destruction_Lightcone{
                 }
             }));
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                if(ptr->getMemosprite()->isBuffEnd("Clara_LC")){
-                    ptr->getMemosprite()->buffSingle({{Stats::DMG,AType::None,-(20.0 + 4*superimpose)}});
+                if(ptr->isBuffEnd("Clara_LC")){
+                    ptr->buffSingle({{Stats::DMG,AType::None,-(20.0 + 4*superimpose)}});
                 }
             }));
             

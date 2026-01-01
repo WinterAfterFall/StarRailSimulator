@@ -4,7 +4,7 @@ namespace Destruction_Lightcone{
         return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(1164,476,529);
             ptr->Light_cone.Name = "FireFly_LC";
-            string debuffName = ptr->getMemosprite()->getUnitName() + " FireFlyLC debuff";
+            string debuffName = ptr->getUnitName() + " FireFlyLC debuff";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,debuffName]() {
                 ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] += 50 + 10 * superimpose;
             }));

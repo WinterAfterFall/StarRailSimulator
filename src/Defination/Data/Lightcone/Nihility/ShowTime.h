@@ -10,8 +10,8 @@ namespace Nihility_Lightcone{
             }));
 
             AfterApplyDebuff.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](Enemy *target, AllyUnit *Trigger) {
-                if(Trigger->isSameStatsOwnerName(ptr->getMemosprite())){
-                    ptr->getMemosprite()->buffStackSingle({{Stats::DMG,AType::None,5.0 + superimpose}},1,3,"ShowTime Trick",1);
+                if(Trigger->isSameStatsOwnerName(ptr)){
+                    ptr->buffStackSingle({{Stats::DMG,AType::None,5.0 + superimpose}},1,3,"ShowTime Trick",1);
                 }
             }));
 

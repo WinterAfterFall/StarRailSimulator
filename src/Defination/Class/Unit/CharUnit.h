@@ -220,6 +220,9 @@ public:
     int getNum(){
         return this->Atv_stats->num;
     }
+    AllyUnit* getMemosprite(){
+        return this->memospriteList[0].get();
+    }
     AllyUnit* getMemosprite(int num){
         return this->memospriteList[num].get();
     }

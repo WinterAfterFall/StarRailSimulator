@@ -9,7 +9,7 @@ namespace Bronya{
 
     void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
         CharUnit *ptr = SetCharBasicStats(99,120,120,E,ElementType::Wind,Path::Harmony,"Bronya",UnitType::Standard);
-        AllyUnit *Bronyaptr = ptr->getMemosprite();
+        AllyUnit *Bronyaptr = ptr;
         ptr->SetAllyBaseStats(1242,582,534);
         //substats
         ptr->pushSubstats(Stats::CD);
@@ -30,7 +30,7 @@ namespace Bronya{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Bronyaptr](){
             if(!ultUseCheck(ptr)) return;
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"Bronya Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"Bronya Ult",
             [ptr](shared_ptr<AllyBuffAction> &act){
                 //Ult ATKBUFF
                 buffAllAlly({{Stats::ATK_P,AType::None,55}},"Bronya_Ult",2);
@@ -116,7 +116,7 @@ namespace Bronya{
             }
             if(ptr->Eidolon >= 4 && act->isSameAttack(AType::BA)&&!act->isSameUnitName("Bronya")&& ptr->Sub_Unit_ptr[0]->Buff_check["Bronya_E4"] == 0){
                 shared_ptr<AllyAttackAction> newAct = 
-                make_shared<AllyAttackAction>(AType::Fua,ptr->getMemosprite(),TraceType::Single,"Bronya E4",
+                make_shared<AllyAttackAction>(AType::Fua,ptr,TraceType::Single,"Bronya E4",
                 [ptr](shared_ptr<AllyAttackAction> &act){
                     Increase_energy(ptr,5);
                     Attack(act);
@@ -146,7 +146,7 @@ namespace Bronya{
             ptr->Sub_Unit_ptr[0]->Stack["Bronya_Skill_E1"]++;
         }
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Single,"Bronya Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"Bronya Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
 

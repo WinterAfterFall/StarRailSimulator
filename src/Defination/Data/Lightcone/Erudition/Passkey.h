@@ -7,13 +7,13 @@ namespace Erudition_Lightcone{
             
 
             Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                if(turn->isSameCharName(ptr->Sub_Unit_ptr[0]->Atv_stats->UnitName))ptr->getMemosprite()->setBuffCheck("Passkey",0);
+                if(turn->isSameCharName(ptr->Sub_Unit_ptr[0]->Atv_stats->UnitName))ptr->setBuffCheck("Passkey",0);
             }));
 
             AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
-                if (act->isSameAction(ptr->getMemosprite(),AType::SKILL)&&!ptr->getMemosprite()->getBuffCheck("Passkey")) {
+                if (act->isSameAction(ptr,AType::SKILL)&&!ptr->getBuffCheck("Passkey")) {
                     Increase_energy(ptr, 7 + superimpose);
-                    ptr->getMemosprite()->setBuffCheck("Passkey",1);
+                    ptr->setBuffCheck("Passkey",1);
                 }
             }));
         };

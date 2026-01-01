@@ -22,7 +22,7 @@ namespace Relic{
 
         BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
             if (act->Attacker->Atv_stats->side == Side::Ally && ptr->Sub_Unit_ptr.size() > 1) {
-                ptr->buffAlly({{Stats::CD, AType::None, 30}}, "Hero_Wreath_buff",2);
+                ptr->buffSingleChar({{Stats::CD, AType::None, 30}}, "Hero_Wreath_buff",2);
             }
         }));
         

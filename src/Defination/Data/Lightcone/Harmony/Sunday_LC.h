@@ -4,7 +4,7 @@ namespace Harmony_Lightcone{
         return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(1164,476,529);
             ptr->Light_cone.Name = "Sunday_LC";
-            string hymn = ptr->getMemosprite()->getUnitName() +  " Hymn";
+            string hymn = ptr->getUnitName() +  " Hymn";
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,hymn]() {
                 if (turn->num != ptr->Sub_Unit_ptr[0]->currentAllyTargetNum) return;
                 AllyUnit *tempstats = dynamic_cast<AllyUnit*>(turn->charptr);

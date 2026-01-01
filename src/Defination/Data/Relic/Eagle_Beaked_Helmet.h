@@ -3,7 +3,7 @@ namespace Relic{
     void Eagle_Beaked_Helmet(CharUnit *ptr){
         ptr->Relic.Name = "Eagle_Beaked_Helmet";
         ptr->addUltCondition([ptr]() -> bool {
-            if(ptr->getMemosprite()->Atv_stats->atv<=ptr->getMemosprite()->Atv_stats->Max_atv*0.25)return false;
+            if(ptr->Atv_stats->atv<=ptr->Atv_stats->Max_atv*0.25)return false;
             return true;
         });
 

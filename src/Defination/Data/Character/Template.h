@@ -20,12 +20,12 @@ namespace SomeChar{
         Relic(ptr);
         Planar(ptr);
 
-        AllyUnit *ally = ptr->getMemosprite();
+        AllyUnit *ally = ptr;
         #pragma region Ability
 
         function<void()> BA = [ptr,ally]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::,ptr->getMemosprite(),TraceType::,,
+            make_shared<AllyAttackAction>(AType::,ptr,TraceType::,,
             [ptr,ally](shared_ptr<AllyAttackAction> &act){
                 Skill_point(,1);
                 Increase_energy(,20);

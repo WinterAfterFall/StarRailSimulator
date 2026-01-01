@@ -7,17 +7,17 @@ namespace Destruction_Lightcone{
     
             When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr,superimpose]
                 (shared_ptr<AllyAttackAction> &act) {
-                if(act->isSameUnitName(ptr->getMemosprite()))
-                ptr->getMemosprite()->buffStackSingle({{Stats::ATK_P,AType::None,6.0+superimpose*2.0}},1,4,"Aeon Atk");
+                if(act->isSameUnitName(ptr))
+                ptr->buffStackSingle({{Stats::ATK_P,AType::None,6.0+superimpose*2.0}},1,4,"Aeon Atk");
             }));
     
             Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_ACTTACK, [ptr,superimpose](Enemy *target, AllyUnit *Trigger) {
-                ptr->getMemosprite()->buffSingle({{Stats::DMG,AType::None,9.0 + 3 * superimpose}},"Aeon Dmg%",2);
+                ptr->buffSingle({{Stats::DMG,AType::None,9.0 + 3 * superimpose}},"Aeon Dmg%",2);
             }));
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,superimpose]() {
                 if (ptr->Sub_Unit_ptr[0]->isBuffEnd("Aeon Dmg%")) {
-                ptr->getMemosprite()->buffSingle({{Stats::DMG,AType::None,-(9.0 + 3 * superimpose)}});
+                ptr->buffSingle({{Stats::DMG,AType::None,-(9.0 + 3 * superimpose)}});
                 }
             }));
     

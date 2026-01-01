@@ -12,7 +12,7 @@ namespace Remembrance_Lightcone{
             AfterAction_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<ActionData> &act) {
                 AllyActionData *allyData_ = act->castToAllyActionData();
                 if(!allyData_)return;
-                if(allyData_->isSameAction(ptr->getMemosprite(),AType::SKILL)){
+                if(allyData_->isSameAction(ptr,AType::SKILL)){
                     buffAllAlly({
                         {Stats::DMG,AType::None,6.0 + 2* superimpose}
                     },"Curtain Never Falls",3);

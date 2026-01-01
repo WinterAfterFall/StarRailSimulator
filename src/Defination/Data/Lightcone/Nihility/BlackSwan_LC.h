@@ -9,25 +9,25 @@ namespace Nihility_Lightcone{
             }));
 
             AfterApplyDebuff.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](Enemy *target, AllyUnit *Trigger) {
-                if(target->ShockCount>0&&ptr->getMemosprite()->isHaveToAddBuff("BS LC Shock"))
-                ptr->getMemosprite()->buffSingle({
+                if(target->ShockCount>0&&ptr->isHaveToAddBuff("BS LC Shock"))
+                ptr->buffSingle({
                     {Stats::ATK_P,AType::None,4.0+superimpose},
                     {Stats::DEF_SHRED,AType::None,6.5+superimpose*0.7},
                 });
 
-                if(target->WindSheerCount>0&&ptr->getMemosprite()->isHaveToAddBuff("BS LC WindShear"))
-                ptr->getMemosprite()->buffSingle({
+                if(target->WindSheerCount>0&&ptr->isHaveToAddBuff("BS LC WindShear"))
+                ptr->buffSingle({
                     {Stats::ATK_P,AType::None,4.0+superimpose},
                     {Stats::DEF_SHRED,AType::None,6.5+superimpose*0.7},
                 });
-                if(target->BurnCount>0&&ptr->getMemosprite()->isHaveToAddBuff("BS LC Burn"))
-                ptr->getMemosprite()->buffSingle({
+                if(target->BurnCount>0&&ptr->isHaveToAddBuff("BS LC Burn"))
+                ptr->buffSingle({
                     {Stats::ATK_P,AType::None,4.0+superimpose},
                     {Stats::DEF_SHRED,AType::None,6.5+superimpose*0.7},
                 });
 
-                if(target->BleedCount>0&&ptr->getMemosprite()->isHaveToAddBuff("BS LC Bleed"))
-                ptr->getMemosprite()->buffSingle({
+                if(target->BleedCount>0&&ptr->isHaveToAddBuff("BS LC Bleed"))
+                ptr->buffSingle({
                     {Stats::ATK_P,AType::None,4.0+superimpose},
                     {Stats::DEF_SHRED,AType::None,6.5+superimpose*0.7},
                 });

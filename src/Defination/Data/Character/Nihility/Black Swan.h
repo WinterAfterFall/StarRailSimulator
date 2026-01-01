@@ -19,13 +19,13 @@ namespace BS{
         Relic(ptr);
         Planar(ptr);
 
-        AllyUnit *bs = ptr->getMemosprite();
+        AllyUnit *bs = ptr;
         #pragma region Ability
 
         function<void()> BA = [ptr,bs]() {
             Skill_point(bs,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"BS BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"BS BA",
             [ptr,bs](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,20);
                 for(auto &each : act->targetList){
@@ -45,7 +45,7 @@ namespace BS{
         function<void()> Skill = [ptr,bs]() {
             Skill_point(bs,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"BS Skill",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"BS Skill",
             [ptr,bs](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,30);
                 for(auto &each : act->targetList){
@@ -85,7 +85,7 @@ namespace BS{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,bs]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"BS Ult",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"BS Ult",
             [ptr,bs](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Black Swan");
                 for(auto &each : act->targetList){
@@ -176,7 +176,7 @@ namespace BS{
                     bs->buffSingle({{Stats::DEF_SHRED,AType::Dot,20}});
 
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::WindShear,ptr->getMemosprite(),TraceType::Single,"Arcana");
+                make_shared<AllyAttackAction>(AType::WindShear,ptr,TraceType::Single,"Arcana");
                 act->addDamageIns(DmgSrc(DmgSrcType::ATK,240 + target->getStack("Arcana") * 12.0),target);
 
                 if(target->getStack("Arcana")>=3&&phaseStatus == PhaseStatus::DotBeforeTurn){

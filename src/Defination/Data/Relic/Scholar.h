@@ -18,7 +18,7 @@ namespace Relic{
         }));
 
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
-            if (act->isSameAction(ptr->getMemosprite(),AType::SKILL)) {
+            if (act->isSameAction(ptr,AType::SKILL)) {
                 if (ptr->Sub_Unit_ptr[0]->getBuffCheck("Scholar_buff")) {
                     ptr->Sub_Unit_ptr[0]->Buff_check["Scholar_buff"] = 0;
                     ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::SKILL] -= 25;

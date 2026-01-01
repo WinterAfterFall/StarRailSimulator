@@ -13,7 +13,7 @@ namespace Jingyuan{
 
     void Setup_Jingyuan(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
         CharUnit *ptr = SetCharBasicStats(99, 130, 130, E, ElementType::Lightning, Path::Erudition, "Jingyuan",UnitType::Standard);
-        AllyUnit *JYptr = ptr->getMemosprite();
+        AllyUnit *JYptr = ptr;
         ptr->SetAllyBaseStats(1164, 698, 485);
 
         //substats
@@ -160,7 +160,7 @@ namespace Jingyuan{
         
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"JY BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"JY BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Attack(act);
@@ -172,8 +172,8 @@ namespace Jingyuan{
     void Skill(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Aoe,"JY Skill",
-        [ptr,JYptr = ptr->getMemosprite()](shared_ptr<AllyAttackAction> &act){
+        make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Aoe,"JY Skill",
+        [ptr,JYptr = ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30);
             JYptr->buffSingle({{Stats::CR,AType::None,10}},"War_Marshal",2);
             ptr->Sub_Unit_ptr[0]->Stack["LL_stack"]+=2;

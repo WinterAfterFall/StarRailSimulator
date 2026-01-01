@@ -4,7 +4,7 @@ namespace Harmony_Lightcone{
         return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(953,635,463);
             ptr->Light_cone.Name = "Cerydra LC";
-            string CerydraLCBuff = ptr->getMemosprite()->getUnitName() +  " Cerydra LC Buff";
+            string CerydraLCBuff = ptr->getUnitName() +  " Cerydra LC Buff";
 
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 48 + 16 * superimpose;

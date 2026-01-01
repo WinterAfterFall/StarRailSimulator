@@ -18,7 +18,7 @@ namespace Luka{
         Relic(ptr);
         Planar(ptr);
 
-        AllyUnit *lk = ptr->getMemosprite();
+        AllyUnit *lk = ptr;
 
         function<void(int amount)> FW = [ptr,lk](int amount) {
             if(amount>0){
@@ -34,7 +34,7 @@ namespace Luka{
         function<void()> BA = [ptr,lk,FW]() {
             Skill_point(lk,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Luka BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Luka BA",
             [ptr,lk,FW](shared_ptr<AllyAttackAction> &act){
                 FW(1);
                 Increase_energy(lk,20);
@@ -49,7 +49,7 @@ namespace Luka{
         function<void()> EBA = [ptr,lk,FW]() {
             Skill_point(lk,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Luka EBA",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Luka EBA",
             [ptr,lk,FW](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(lk,20);
                 FW(-2);
@@ -78,7 +78,7 @@ namespace Luka{
         function<void()> Skill = [ptr,lk,FW]() {
             Skill_point(lk,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Luka Skill",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Luka Skill",
             [ptr,lk,FW](shared_ptr<AllyAttackAction> &act){
                 FW(1);
                 if(ptr->Eidolon>=2)FW(1);
@@ -111,7 +111,7 @@ namespace Luka{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,lk,FW]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Luka BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Luka BA",
             [ptr,lk,FW](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Luka");
                 FW(2);
@@ -143,7 +143,7 @@ namespace Luka{
             if(ptr->Technique){
             FW(1);
             shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr->getMemosprite(),TraceType::Single,"Luka Tech",
+                make_shared<AllyAttackAction>(AType::Technique,ptr,TraceType::Single,"Luka Tech",
                 [ptr,lk](shared_ptr<AllyAttackAction> &act){
                     Attack(act);
                     for(auto &each : act->targetList){
@@ -172,7 +172,7 @@ namespace Luka{
             if (!target->getDebuff("Luka Bleed")) return;
             if (Dot_type != DotType::General && Dot_type != DotType::Bleed) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Burn,ptr->getMemosprite(),TraceType::Single,"Luka Bleed");
+            make_shared<AllyAttackAction>(AType::Burn,ptr,TraceType::Single,"Luka Bleed");
             act->addDamageIns(DmgSrc(DmgSrcType::ATK,372),target);
             act->multiplyDmg(Dot_ratio);
             Attack(act);

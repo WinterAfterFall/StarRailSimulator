@@ -18,7 +18,7 @@ namespace Hanabi{
         Relic(ptr);
         Planar(ptr);
         
-        AllyUnit *hnb = ptr->getMemosprite();
+        AllyUnit *hnb = ptr;
         Driver_num = hnb->Atv_stats->num;
 
         #pragma region Ability
@@ -26,7 +26,7 @@ namespace Hanabi{
         function<void()> BA = [ptr,hnb]() {
             Skill_point(hnb,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Hnb BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Hnb BA",
             [hnb](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(hnb,30);
                 Attack(act);
@@ -38,7 +38,7 @@ namespace Hanabi{
         function<void()> Skill = [ptr,hnb]() {
             Skill_point(hnb,-1);
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Single,"Hnb Skill",
+            make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"Hnb Skill",
             [ptr,hnb](shared_ptr<AllyBuffAction> &act){
                 Increase_energy(hnb,30);
                 double buff = (ptr->Eidolon>=6)? calculateCritdamForBuff(hnb,54) + 45 :calculateCritdamForBuff(hnb,24) + 45;
@@ -86,7 +86,7 @@ namespace Hanabi{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,hnb]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"Hnb Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"Hnb Ult",
             [ptr,hnb](shared_ptr<AllyBuffAction> &act){
                 if(ptr->Eidolon>=4)Skill_point(hnb,5);
                 else Skill_point(hnb,4);
@@ -135,7 +135,7 @@ namespace Hanabi{
             int qtCount = 0;
 
             for(int i=1;i<=Total_ally;i++){
-                if(charUnit[i]->getMemosprite()->Element_type[0] ==ElementType::Quantum)
+                if(charUnit[i]->Element_type[0] ==ElementType::Quantum)
                     qtCount++;
             }
 
@@ -143,10 +143,10 @@ namespace Hanabi{
             if(qtCount == 2)atkBuff = 30;
             else if(qtCount >= 3)atkBuff = 45;
             for(int i=1;i<=Total_ally;i++){
-                if(charUnit[i]->getMemosprite()->Element_type[0] ==ElementType::Quantum)
-                    charUnit[i]->getMemosprite()->buffSingle({{Stats::ATK_P,AType::None,atkBuff}});
+                if(charUnit[i]->Element_type[0] ==ElementType::Quantum)
+                    charUnit[i]->buffSingle({{Stats::ATK_P,AType::None,atkBuff}});
                 else
-                    charUnit[i]->getMemosprite()->buffSingle({{Stats::ATK_P,AType::None,15}});
+                    charUnit[i]->buffSingle({{Stats::ATK_P,AType::None,15}});
             }
         }));
 

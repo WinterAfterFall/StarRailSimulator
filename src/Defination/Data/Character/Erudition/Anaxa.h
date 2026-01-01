@@ -14,7 +14,7 @@ namespace  Anaxa{
     void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
         CharUnit *ptr = SetCharBasicStats(97,140,140,E,ElementType::Wind,Path::Erudition,"Anaxa",UnitType::Standard);
         ptr->SetAllyBaseStats(970,757,558);
-        AllyUnit *Anaxaptr = ptr->getMemosprite();
+        AllyUnit *Anaxaptr = ptr;
 
 
         //substats
@@ -121,12 +121,12 @@ namespace  Anaxa{
 
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr]() {
-            ptr->getMemosprite()->buffStackSingle({{Stats::DEF_SHRED,AType::None,4}},3,7,"Qualitative Shift");
+            ptr->buffStackSingle({{Stats::DEF_SHRED,AType::None,4}},3,7,"Qualitative Shift");
             for(int i=1; i<= Total_enemy ;i++){
                 AnaxaDebuff(ptr,enemyUnit[i].get());
                 if(ptr->Eidolon>=2){
                     AnaxaDebuff(ptr,enemyUnit[i].get());
-                    enemyUnit[i]->debuffSingleMark({{Stats::RESPEN,AType::None,20}},ptr->getMemosprite(),"AnaxaE2");
+                    enemyUnit[i]->debuffSingleMark({{Stats::RESPEN,AType::None,20}},ptr,"AnaxaE2");
                 }
                 
             }
@@ -196,7 +196,7 @@ namespace  Anaxa{
         
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Anaxa BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Anaxa BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(charUnit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),30);
             for(auto &each : act->targetList){
@@ -230,11 +230,11 @@ namespace  Anaxa{
 
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Bounce,"Anaxa Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Bounce,"Anaxa Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(charUnit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),30);
-            if(!ptr->getMemosprite()->getBuffCheck("AnaxaFirstTurn")){
-                ptr->getMemosprite()->setBuffCheck("AnaxaFirstTurn",true);
+            if(!ptr->getBuffCheck("AnaxaFirstTurn")){
+                ptr->setBuffCheck("AnaxaFirstTurn",true);
                 Increase_energy(ptr,30);
                 if(ptr->Eidolon>=1){
                     Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
@@ -248,7 +248,7 @@ namespace  Anaxa{
                 for(auto &each : act->targetList){
                     AnaxaDebuff(ptr,each);
                     --cnt;
-                    if(ptr->Eidolon>=1)each->debuffSingleApply({{Stats::DEF_SHRED,AType::None,16}},ptr->getMemosprite(),"AnaxaE1",2);
+                    if(ptr->Eidolon>=1)each->debuffSingleApply({{Stats::DEF_SHRED,AType::None,16}},ptr,"AnaxaE1",2);
                     if(cnt==0)break;
                 }
                 if(cnt==0)break;    
@@ -279,7 +279,7 @@ namespace  Anaxa{
     void AnaxaDebuff(CharUnit *ptr, Enemy *enemy) {
         string element;
         element = toString(enemy->weaknessApplyChoose(3));
-        enemy->debuffApply(ptr->getMemosprite(),"AnaxaTalent" + element,3);
+        enemy->debuffApply(ptr,"AnaxaTalent" + element,3);
     }
     
 

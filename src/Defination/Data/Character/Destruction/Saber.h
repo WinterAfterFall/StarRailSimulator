@@ -19,7 +19,7 @@ namespace Saber{
         Relic(ptr);
         Planar(ptr);
 
-        AllyUnit *sb = ptr->getMemosprite();
+        AllyUnit *sb = ptr;
 
         #pragma region extra
         function<void(int value)> CoreResonance = [ptr,sb](int value){
@@ -44,7 +44,7 @@ namespace Saber{
         function<void()> BA = [ptr,sb,CoreResonance]() {
             Skill_point(sb,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Saber BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Saber BA",
             [ptr,sb,CoreResonance](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(sb,20);
                 Attack(act);
@@ -60,7 +60,7 @@ namespace Saber{
         function<void()> EBA = [ptr,sb,CoreResonance]() {
             Skill_point(sb,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Aoe,"Saber EBA",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Aoe,"Saber EBA",
             [ptr,sb,CoreResonance](shared_ptr<AllyAttackAction> &act){
                 sb->setBuffCheck("Saber EBA",0);
                 Increase_energy(sb,30);
@@ -90,7 +90,7 @@ namespace Saber{
         function<void()> Skill = [ptr,sb,CoreResonance]() {
             Skill_point(sb,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Blast,"Saber Skill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"Saber Skill",
             [ptr,sb,CoreResonance](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(sb,30);
                 sb->buffSingle({{Stats::CD,AType::None,50}},"Saber A6",2);
@@ -121,7 +121,7 @@ namespace Saber{
         function<void()> ESkill = [ptr,sb,resetCR,CoreResonance]() {
             Skill_point(sb,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Blast,"Saber ESkill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"Saber ESkill",
             [ptr,sb,resetCR,CoreResonance](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(sb,30);
                 Attack(act);
@@ -165,7 +165,7 @@ namespace Saber{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,sb]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"Saber Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Saber Ult",
             [ptr,sb](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Saber");
                 sb->setBuffCheck("Saber EBA",1);

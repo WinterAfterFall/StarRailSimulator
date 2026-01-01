@@ -23,14 +23,14 @@ namespace SW{
         Planar(ptr);
         
         #pragma region Ability
-        AllyUnit *sw = ptr->getMemosprite();
+        AllyUnit *sw = ptr;
 
         ptr->Adjust["SW Targets amount"] = 1;
         
         function<void()> BA = [ptr,sw]() {
             Skill_point(sw,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"SW BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"SW BA",
             [sw](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(sw,20);
                 Attack(act);
@@ -44,7 +44,7 @@ namespace SW{
         function<void()> Skill = [ptr,sw]() {
             Skill_point(sw,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Single,"SW Skill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Single,"SW Skill",
             [sw](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(sw,30);
                 for(auto &enemy : act->targetList){
@@ -79,7 +79,7 @@ namespace SW{
             if (!ultUseCheck(ptr)) return;
 
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"SW Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"SW Ult",
             [ptr,sw](shared_ptr<AllyAttackAction> &act){
                 debuffAllEnemyApply({
                     {Stats::DEF_SHRED,AType::None,45}
@@ -98,7 +98,7 @@ namespace SW{
                     for(auto &enemy : act->targetList){
                         debuffcnt = (enemy->Total_debuff>=5) ? 5 : enemy->Total_debuff;
                         shared_ptr<AllyAttackAction> add = 
-                        make_shared<AllyAttackAction>(AType::Addtional,ptr->getMemosprite(),TraceType::Single,"SW AddDmg");
+                        make_shared<AllyAttackAction>(AType::Addtional,ptr,TraceType::Single,"SW AddDmg");
                             add->addDamageIns(DmgSrc(DmgSrcType::ATK,20*debuffcnt),enemy);  
                         Attack(add);
                     }
@@ -166,7 +166,7 @@ namespace SW{
             
             if(ptr->Technique){
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr->getMemosprite(),TraceType::Aoe,"SW Technique",
+                make_shared<AllyAttackAction>(AType::Technique,ptr,TraceType::Aoe,"SW Technique",
                 [sw](shared_ptr<AllyAttackAction> &act){
                     Attack(act);
                 });

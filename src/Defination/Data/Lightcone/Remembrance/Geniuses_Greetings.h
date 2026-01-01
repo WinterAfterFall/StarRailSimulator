@@ -11,15 +11,15 @@ namespace Remembrance_Lightcone{
 
             WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](Ally *ally){
                 if (ally->isSameChar(ptr)) {
-                    ptr->buffAlly({{Stats::DMG,AType::BA,(15.0 + superimpose * 5)}},"Geniuses_Greetings",3);
+                    ptr->buffSingleChar({{Stats::DMG,AType::BA,(15.0 + superimpose * 5)}},"Geniuses_Greetings",3);
                 }
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 AllyUnit *tempstats = dynamic_cast<AllyUnit *>(turn->charptr);
                 if (!tempstats) return;
-                if (ptr->getMemosprite()->isBuffEnd("Geniuses_Greetings")) {
-                    ptr->getMemosprite()->buffSingle({{Stats::DMG,AType::BA,-(15.0 + superimpose * 5)}});
+                if (ptr->isBuffEnd("Geniuses_Greetings")) {
+                    ptr->buffSingle({{Stats::DMG,AType::BA,-(15.0 + superimpose * 5)}});
                 }
             }));
         };

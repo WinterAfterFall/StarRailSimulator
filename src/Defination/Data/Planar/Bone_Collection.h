@@ -9,7 +9,7 @@ namespace Planar{
         }));
 
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->buffAlly({{Stats::CD, AType::None, 28.0}});
+            ptr->buffSingleChar({{Stats::CD, AType::None, 28.0}});
         }));
     }
 }

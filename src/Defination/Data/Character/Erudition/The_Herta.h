@@ -14,7 +14,7 @@ namespace The_Herta{
 
     void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
         CharUnit *ptr = SetCharBasicStats(99,220,220,E,ElementType::Ice,Path::Erudition,"The_Herta",UnitType::Standard);
-        AllyUnit* Hertaptr = ptr->getMemosprite();
+        AllyUnit* Hertaptr = ptr;
         ptr->SetAllyBaseStats(1164,679,485);
 
         //substats
@@ -50,7 +50,7 @@ namespace The_Herta{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr,Hertaptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"THerta Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"THerta Ult",
             [ptr,Hertaptr](shared_ptr<AllyAttackAction> &act){
                 double Increase_mtpr = ptr->Sub_Unit_ptr[0]->Stack["The_Herta_A6"];
                 act->addDamage(DmgSrcType::ATK,Increase_mtpr);
@@ -202,7 +202,7 @@ namespace The_Herta{
     void Basic_Atk(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"THerta BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"THerta BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Attack(act);
@@ -214,7 +214,7 @@ namespace The_Herta{
     void Skill(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Blast,"THerta Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"THerta Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30);
             Apply_Herta_Stack(ptr,enemyUnit[Main_Enemy_num].get(),1);
@@ -236,7 +236,7 @@ namespace The_Herta{
     void Enchance_Skill(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Aoe,"THerta ESkill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Aoe,"THerta ESkill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30);
             double Increase_mtpr = enemyUnit[Main_Enemy_num]->Debuff["Herta_Stack"];
@@ -267,7 +267,7 @@ namespace The_Herta{
             Herta_reset_Stack();
 
             Apply_Herta_Stack(ptr,enemyUnit[Main_Enemy_num].get(),1);
-            ptr->getMemosprite()->buffSingle({{Stats::DMG,AType::None,50}});
+            ptr->buffSingle({{Stats::DMG,AType::None,50}});
             Attack(act);
         });
         act->addDamageIns(DmgSrc(DmgSrcType::ATK,80,5));

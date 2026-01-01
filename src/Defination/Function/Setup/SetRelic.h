@@ -3,7 +3,7 @@
 function<void(CharUnit *ptr)> CharUnit::RelicPairSet(PairSetType Type){
     if(Type == PairSetType::Spd_P)
     return [=](CharUnit *ptr) {
-        ptr->getMemosprite()->Atv_stats->speedPercent+=6;
+        ptr->Atv_stats->speedPercent+=6;
     };
     if(Type == PairSetType::ATK)
     return [=](CharUnit *ptr) {

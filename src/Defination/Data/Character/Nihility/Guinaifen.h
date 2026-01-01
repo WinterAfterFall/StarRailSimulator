@@ -18,7 +18,7 @@ namespace Guinaifen{
         Relic(ptr);
         Planar(ptr);
 
-        AllyUnit *gui = ptr->getMemosprite();
+        AllyUnit *gui = ptr;
         #pragma region Ability
 
         if(ptr->Eidolon>=1)Enemy_effect_res-=10;
@@ -26,7 +26,7 @@ namespace Guinaifen{
         function<void()> BA = [ptr,gui]() {
             Skill_point(gui,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Gui BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Gui BA",
             [ptr,gui](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,20);
                 for(auto &each : act->targetList){
@@ -43,7 +43,7 @@ namespace Guinaifen{
         function<void()> Skill = [ptr,gui]() {
             Skill_point(gui,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Gui Skill",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Gui Skill",
             [ptr,gui](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,30);
                 for(auto &each : act->targetList){
@@ -71,7 +71,7 @@ namespace Guinaifen{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,gui]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Gui Skill",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Gui Skill",
             [ptr,gui](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Guinaifen");
                 for(auto &each : act->targetList){
@@ -101,7 +101,7 @@ namespace Guinaifen{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,gui]() {
             if(ptr->Technique){
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr->getMemosprite(),TraceType::Aoe,"Gui Tech",
+                make_shared<AllyAttackAction>(AType::Technique,ptr,TraceType::Aoe,"Gui Tech",
                 [ptr,gui](shared_ptr<AllyAttackAction> &act){
                     Attack(act);
                     for(auto &each : act->targetList){
@@ -141,7 +141,7 @@ namespace Guinaifen{
             if (!target->getDebuff("Gui Burn")) return;
             if (Dot_type != DotType::General && Dot_type != DotType::Burn) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Burn,ptr->getMemosprite(),TraceType::Single,"Gui Burn");
+            make_shared<AllyAttackAction>(AType::Burn,ptr,TraceType::Single,"Gui Burn");
             if(ptr->Eidolon>=2)act->addDamageIns(DmgSrc(DmgSrcType::ATK,280),target);
             else act->addDamageIns(DmgSrc(DmgSrcType::ATK,240),target);
             act->multiplyDmg(Dot_ratio);
