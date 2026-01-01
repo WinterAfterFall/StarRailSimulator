@@ -22,18 +22,18 @@ namespace Luocha{
         Relic(ptr);
         Planar(ptr);
         
-       ptr->Sub_Unit_ptr[0]->Turn_func = [ptr]() {
+       ptr->Turn_func = [ptr]() {
             Basic_Atk(ptr);
         };
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_DEBUFF, [ptr]() {
-            if (ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"] >= 2) return;
+            if (ptr->Stack["Abyss_Flower"] >= 2) return;
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"Luocha Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Luocha Ult",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Attack(act);
-            ++ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"];
+            ++ptr->Stack["Abyss_Flower"];
             Abyss_Flower(ptr);
         });
             act->addDamageIns(
@@ -45,9 +45,9 @@ namespace Luocha{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 28;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::HP_P][AType::None] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DEF_P][AType::None] += 12.5;
+            ptr->Stats_type[Stats::ATK_P][AType::None] += 28;
+            ptr->Stats_type[Stats::HP_P][AType::None] += 18;
+            ptr->Stats_type[Stats::DEF_P][AType::None] += 12.5;
 
             // relic
 
@@ -55,9 +55,9 @@ namespace Luocha{
         }));
 
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Charptr = ptr->Sub_Unit_ptr[0].get()]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Charptr = ptr]() {
             if (turn->UnitName == "Luocha") {
-                if (Charptr->isBuffEnd("Cycle_of_Life")) {
+                if (isBuffEnd(Charptr,"Cycle_of_Life")) {
                     if (ptr->Eidolon >= 1) {
                         buffAllAlly({{Stats::ATK_P,AType::None,-20}});
                     }
@@ -68,14 +68,14 @@ namespace Luocha{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (ptr->Technique == 1) {
-                ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"] = 2;
+                ptr->Stack["Abyss_Flower"] = 2;
                 Abyss_Flower(ptr);
             }
         }));
 
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
-            if (ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"] >= 2) {
-                ptr->getMemosprite()->RestoreHP(
+            if (ptr->Stack["Abyss_Flower"] >= 2) {
+                ptr->RestoreHP(
                     act->Attacker,
                     HealSrc(HealSrcType::ATK,18,HealSrcType::CONST,240),
                     HealSrc(HealSrcType::ATK,7,HealSrcType::CONST,93)
@@ -90,14 +90,14 @@ namespace Luocha{
 
     void Talent(CharUnit *ptr){
         Increase_energy(ptr,30);
-        ++ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"];
-        ptr->getMemosprite()->RestoreHP(HealSrc(HealSrcType::ATK,60,HealSrcType::CONST,800),HealSrc(),HealSrc());
+        ++ptr->Stack["Abyss_Flower"];
+        ptr->RestoreHP(HealSrc(HealSrcType::ATK,60,HealSrcType::CONST,800),HealSrc(),HealSrc());
         Abyss_Flower(ptr);
         
     }
     void Abyss_Flower(CharUnit *ptr){
-        if(ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"]==2){
-            ptr->Sub_Unit_ptr[0]->extendBuffTime("Cycle _of_Life",2);
+        if(ptr->Stack["Abyss_Flower"]==2){
+            extendBuffTime(ptr,"Cycle _of_Life",2);
         if(ptr->Eidolon>=1){
             buffAllAlly({{Stats::ATK_P,AType::None,20}});
         }
@@ -105,13 +105,13 @@ namespace Luocha{
     }
     void Basic_Atk(CharUnit *ptr){
         
-        Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
+        Skill_point(ptr,1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Luocha BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Luocha BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Attack(act);
-            if(ptr->Sub_Unit_ptr[0]->Atv_stats->turnCnt%2==1){
+            if(ptr->Atv_stats->turnCnt%2==1){
                 Talent(ptr);
             }
         });
