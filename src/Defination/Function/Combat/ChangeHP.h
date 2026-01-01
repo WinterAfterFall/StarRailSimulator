@@ -172,7 +172,15 @@ void DecreaseHP(Unit *Trigger,string Name,double Value,double percentFromTotalHP
     }
 
 }
+<<<<<<< HEAD
 void AllyUnit::death(){
+=======
+double decreaseSheild(SubUnit *ptr,double Value){
+    ptr->currentSheild = (ptr->currentSheild - Value < 0) ? 0 : ptr->currentSheild - Value;
+    return max(0.0,ptr->currentSheild - Value);
+}
+void SubUnit::death(){
+>>>>>>> 250397b99a41aaa83d5471df2a00d8322a219e3f
     this->currentHP = 0;
     this->status = UnitStatus::Death;
     allEventWhenAllyDeath(this);

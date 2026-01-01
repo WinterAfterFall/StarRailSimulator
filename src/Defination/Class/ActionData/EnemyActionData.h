@@ -22,8 +22,9 @@ class EnemyActionData : public ActionData{
         decreaseHPCount++;
         for(AllyUnit* e : vec){
             double damageDeal = calculateDmgReceive(enemy,e,SkillRatio);
-            DecreaseCurrentHP(e,damageDeal);
-            allEventChangeHP(enemy,e,damageDeal);
+            double hpDecreased = decreaseSheild(e,damageDeal);
+            DecreaseCurrentHP(e,hpDecreased);
+            allEventChangeHP(enemy,e,hpDecreased);
         }
         };
     }
@@ -48,8 +49,9 @@ class EnemyActionData : public ActionData{
             decreaseHPCount++;
             for(AllyUnit* e : UnitGotHit){
                 double damageDeal = calculateDmgReceive(enemy,e,SkillRatio);
-                DecreaseCurrentHP(e,damageDeal);
-                allEventChangeHP(enemy,e,damageDeal);
+                double hpDecreased = decreaseSheild(e,damageDeal);
+                DecreaseCurrentHP(e,hpDecreased);
+                allEventChangeHP(enemy,e,hpDecreased);
             }
         };
         else
@@ -71,8 +73,9 @@ class EnemyActionData : public ActionData{
             decreaseHPCount++;
             for(AllyUnit* e : UnitGotHit){
                 double damageDeal = calculateDmgReceive(enemy,e,SkillRatio);
-                DecreaseCurrentHP(e,damageDeal);
-                allEventChangeHP(enemy,e,damageDeal);
+                double hpDecreased = decreaseSheild(e,damageDeal);
+                DecreaseCurrentHP(e,hpDecreased);
+                allEventChangeHP(enemy,e,hpDecreased);
             }
         };
     }

@@ -35,5 +35,6 @@ using std::make_shared;
 using std::setw;
 using std::left;
 using std::right;
+using std::max;
 
 #endif
