@@ -6,7 +6,7 @@ namespace Nihility_Lightcone{
             ptr->Light_cone.Name = "ShowTime";
             ptr->newEhrRequire(80);
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 16 + 4 * superimpose;
+                ptr->Stats_type[Stats::ATK_P][AType::None] += 16 + 4 * superimpose;
             }));
 
             AfterApplyDebuff.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](Enemy *target, AllyUnit *Trigger) {

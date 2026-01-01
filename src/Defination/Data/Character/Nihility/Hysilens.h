@@ -128,7 +128,7 @@ namespace Hysilens{
         };
 
         #pragma endregion
-        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,hys,Skill,BA]() {
+        ptr->Turn_func = [ptr,hys,Skill,BA]() {
             for(int i = 1;i<= Total_enemy;i++){
                 if(!enemyUnit[i]->getDebuff("Hys Vul")){
                     Skill();
@@ -172,15 +172,15 @@ namespace Hysilens{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += 10;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 14;
+            ptr->Stats_type[Stats::ATK_P][AType::None] += 18;
+            ptr->Stats_type[Stats::EHR][AType::None] += 10;
+            ptr->Atv_stats->flatSpeed += 14;
         }));
 
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             //A6
             if(ptr->Eidolon>=2)buffAllAlly({{Stats::DMG,AType::None,90}});
-            else ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::None] += 90;
+            else ptr->Stats_type[Stats::DMG][AType::None] += 90;
 
             //Eidolon
             if(ptr->Eidolon>=1){

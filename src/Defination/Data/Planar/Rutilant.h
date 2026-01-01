@@ -5,12 +5,12 @@ namespace Planar{
         
         ptr->Planar.Name = "    ";
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += 8;
+            ptr->Stats_type[Stats::CR][AType::None] += 8;
         }));
 
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::SKILL] += 20;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::BA] += 20;
+            ptr->Stats_type[Stats::DMG][AType::SKILL] += 20;
+            ptr->Stats_type[Stats::DMG][AType::BA] += 20;
         }));
         
        

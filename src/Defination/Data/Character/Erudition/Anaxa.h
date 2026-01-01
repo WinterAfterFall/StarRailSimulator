@@ -31,7 +31,7 @@ namespace  Anaxa{
         LC(ptr);
         Relic(ptr);
         Planar(ptr);
-        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
+        ptr->Turn_func = [ptr, allyPtr = ptr]() {
             allyPtr->setBuffCheck("AnaxaTalent",true);
             if (sp>Sp_Safety||turn->turnCnt==1) {
                 Skill(ptr);
@@ -40,7 +40,7 @@ namespace  Anaxa{
             }
         };
         // ptr->addUltCondition([ptr,Anaxaptr]() -> bool {
-        //     AllyUnit *Driverptr = Ally_unit[Driver_num]->Sub_Unit_ptr[0].get();
+        //     AllyUnit *Driverptr = Ally_unit[Driver_num].get();
         //     if(Anaxaptr->Atv_stats->atv - Anaxaptr->Atv_stats->Max_atv*0.25 > Driverptr->Atv_stats->atv&&Anaxaptr->Atv_stats->atv!=0)
         //     return false;
         //     return true;
@@ -90,11 +90,11 @@ namespace  Anaxa{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += 12;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::HP_P][AType::None] += 10;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Wind][AType::None] += 22.4;
+            ptr->Stats_type[Stats::CR][AType::None] += 12;
+            ptr->Stats_type[Stats::HP_P][AType::None] += 10;
+            ptr->Stats_each_element[Stats::DMG][ElementType::Wind][AType::None] += 22.4;
 
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::None] += 30;
+            ptr->Stats_type[Stats::DMG][AType::None] += 30;
         }));
 
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr]() {
@@ -110,12 +110,12 @@ namespace  Anaxa{
             }
             if(ptr->Eidolon>=6){
                 buffAllAlly({{Stats::DMG,AType::None,50}});
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None] += 140;
+                ptr->Stats_type[Stats::CD][AType::None] += 140;
                 
             }else if(ptr->Adjust["AnaxaA4"]==2){
                 buffAllAlly({{Stats::DMG,AType::None,50}});
             }else if(ptr->Adjust["AnaxaA4"]==1){
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None] += 140;
+                ptr->Stats_type[Stats::CD][AType::None] += 140;
             }
         }));
 
@@ -194,11 +194,11 @@ namespace  Anaxa{
 
     void Basic_Atk(CharUnit *ptr){
         
-        Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
+        Skill_point(ptr,1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Anaxa BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(charUnit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),30);
+            Increase_energy(charUnit[ptr->Atv_stats->num].get(),30);
             for(auto &each : act->targetList){
                 AnaxaDebuff(ptr,each);
             }
@@ -228,16 +228,16 @@ namespace  Anaxa{
     }
     void Skill(CharUnit *ptr){
 
-        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
+        Skill_point(ptr,-1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Bounce,"Anaxa Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(charUnit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),30);
+            Increase_energy(charUnit[ptr->Atv_stats->num].get(),30);
             if(!ptr->getBuffCheck("AnaxaFirstTurn")){
                 ptr->setBuffCheck("AnaxaFirstTurn",true);
                 Increase_energy(ptr,30);
                 if(ptr->Eidolon>=1){
-                    Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
+                    Skill_point(ptr,1);
                 }
             }
 

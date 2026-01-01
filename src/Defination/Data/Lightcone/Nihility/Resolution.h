@@ -8,9 +8,9 @@ namespace Nihility_Lightcone{
             ptr->newApplyBaseChanceRequire(50 + superimpose*10);
 
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,ensnared](shared_ptr<AllyAttackAction> &act) {
-                if (act->Attacker->Atv_stats->StatsOwnerName != ptr->Sub_Unit_ptr[0]->Atv_stats->StatsOwnerName) return;
+                if (act->Attacker->Atv_stats->StatsOwnerName != ptr->Atv_stats->StatsOwnerName) return;
                 for (auto e : act->targetList) {
-                    if (!e->debuffApply(ptr->Sub_Unit_ptr[0].get(),ensnared)) continue;
+                    if (!e->debuffApply(ptr,ensnared)) continue;
                     e->Stats_type[Stats::DEF_SHRED][AType::None] += 11 + superimpose;
                     e->Debuff_time_count[ensnared] = 1 + e->Atv_stats->turnCnt;
                 }

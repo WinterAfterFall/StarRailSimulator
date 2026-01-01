@@ -6,8 +6,8 @@ namespace Nihility_Lightcone{
             ptr->Light_cone.Name = "Eyes of the Prey";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += 15 + superimpose * 5;
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::Dot] += 18 + superimpose * 6;
+                ptr->Stats_type[Stats::EHR][AType::None] += 15 + superimpose * 5;
+                ptr->Stats_type[Stats::DMG][AType::Dot] += 18 + superimpose * 6;
             }));
         };
     }

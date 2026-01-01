@@ -21,8 +21,8 @@ namespace Harmony_MC{
         LC(ptr);
         Relic(ptr);
         Planar(ptr);
-        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr](){
-            if(sp > Sp_Safety || ptr->Sub_Unit_ptr[0]->Atv_stats->turnCnt == 1){
+        ptr->Turn_func = [ptr](){
+            if(sp > Sp_Safety || ptr->Atv_stats->turnCnt == 1){
                 Skill_func(ptr);           
             } else {
                 Basic_Atk(ptr);
@@ -45,9 +45,9 @@ namespace Harmony_MC{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] += 37.3;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::RES][AType::None] += 10;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Imaginary][AType::None] += 14.4;
+            ptr->Stats_type[Stats::BE][AType::None] += 37.3;
+            ptr->Stats_type[Stats::RES][AType::None] += 10;
+            ptr->Stats_each_element[Stats::DMG][ElementType::Imaginary][AType::None] += 14.4;
 
             // relic
 
@@ -55,9 +55,9 @@ namespace Harmony_MC{
         }));
 
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,HMCptr](){
-            ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"] = calculateBreakEffectForBuff(ptr->Sub_Unit_ptr[0].get(), 15);                  
-            HMCptr->buffAllAllyExcludingBuffer({{Stats::BE,AType::TEMP,ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"]}});
-            HMCptr->buffAllAllyExcludingBuffer({{Stats::BE,AType::None,ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"]}});
+            ptr->Buff_note["Harmony_MC_E4"] = calculateBreakEffectForBuff(ptr, 15);                  
+            HMCptr->buffAllAllyExcludingBuffer({{Stats::BE,AType::TEMP,ptr->Buff_note["Harmony_MC_E4"]}});
+            HMCptr->buffAllAllyExcludingBuffer({{Stats::BE,AType::None,ptr->Buff_note["Harmony_MC_E4"]}});
         }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
@@ -79,13 +79,13 @@ namespace Harmony_MC{
             }
             if(turn->side == Side::Ally || turn->side == Side::AllyUnit){
                 if(turn->turnCnt == 2 && ptr->Technique == 1){
-                    charUnit[turn->num]->Sub_Unit_ptr[0]->buffSingle({{Stats::BE,AType::None,-30}});
+                    charUnit[turn->num]->buffSingle({{Stats::BE,AType::None,-30}});
                 }
             }
         }));
 
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act){
-            if(ptr->Sub_Unit_ptr[0]->Buff_check["Harmony_MC_ult"] == 1){
+            if(ptr->Buff_check["Harmony_MC_ult"] == 1){
                 Superbreak_trigger(act, 100 * (1.7 - (0.1 * Total_enemy)),"HMC");
             }
         }));
@@ -98,10 +98,10 @@ namespace Harmony_MC{
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,HMCptr](AllyUnit *target, Stats StatsType){
             if(target->Atv_stats->StatsOwnerName != "Harmony_MC") return;
             if(StatsType == Stats::BE){
-                double temp = calculateBreakEffectForBuff(ptr->Sub_Unit_ptr[0].get(), 15);
-                HMCptr->buffAllAllyExcludingBuffer({{Stats::BE,AType::TEMP,temp - ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"]}});
-                HMCptr->buffAllAllyExcludingBuffer({{Stats::BE,AType::None,temp - ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"]}});
-                ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"] =  temp ;
+                double temp = calculateBreakEffectForBuff(ptr, 15);
+                HMCptr->buffAllAllyExcludingBuffer({{Stats::BE,AType::TEMP,temp - ptr->Buff_note["Harmony_MC_E4"]}});
+                HMCptr->buffAllAllyExcludingBuffer({{Stats::BE,AType::None,temp - ptr->Buff_note["Harmony_MC_E4"]}});
+                ptr->Buff_note["Harmony_MC_E4"] =  temp ;
             }
         }));
  
@@ -110,7 +110,7 @@ namespace Harmony_MC{
 
 
 void Basic_Atk(CharUnit *ptr){
-        Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
+        Skill_point(ptr,1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"HMC BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
@@ -121,7 +121,7 @@ void Basic_Atk(CharUnit *ptr){
         act->addToActionBar();
     }
     void Skill_func(CharUnit *ptr){
-        if(ptr->Sub_Unit_ptr[0]->Atv_stats->turnCnt!=1)Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);     
+        if(ptr->Atv_stats->turnCnt!=1)Skill_point(ptr,-1);     
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Bounce,"RMC Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){

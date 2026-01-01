@@ -22,7 +22,7 @@ namespace Pela{
         LC(ptr);
         Relic(ptr);
         Planar(ptr);
-        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
+        ptr->Turn_func = [ptr, allyPtr = ptr]() {
             Basic_Atk(ptr);
         };
         
@@ -38,7 +38,7 @@ namespace Pela{
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Pela Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
-                debuffAllEnemyApply({{Stats::DEF_SHRED, AType::None, 42}},ptr->Sub_Unit_ptr[0].get(), "Zone_Suppression",2);
+                debuffAllEnemyApply({{Stats::DEF_SHRED, AType::None, 42}},ptr, "Zone_Suppression",2);
                 Attack(act);
             });
             act->addDamageIns(
@@ -51,9 +51,9 @@ namespace Pela{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Ice][AType::None] += 22.4;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += 10;
+            ptr->Stats_each_element[Stats::DMG][ElementType::Ice][AType::None] += 22.4;
+            ptr->Stats_type[Stats::ATK_P][AType::None] += 18;
+            ptr->Stats_type[Stats::EHR][AType::None] += 10;
 
             // relic
 
@@ -63,7 +63,7 @@ namespace Pela{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (ptr->Technique == 1) {
-                debuffAllEnemyApply({{Stats::DEF_SHRED, AType::None, 20}},ptr->Sub_Unit_ptr[0].get(), "Pela_Technique",2);
+                debuffAllEnemyApply({{Stats::DEF_SHRED, AType::None, 20}},ptr, "Pela_Technique",2);
                 Increase_energy(ptr, 20);
             }
         }));
@@ -110,11 +110,11 @@ namespace Pela{
 
 
     void Basic_Atk(CharUnit *ptr){
-        Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
+        Skill_point(ptr,1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Pela BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(charUnit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),20);
+            Increase_energy(charUnit[ptr->Atv_stats->num].get(),20);
             Attack(act);
         });
         act->addDamageIns(

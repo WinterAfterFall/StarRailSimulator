@@ -59,7 +59,7 @@ namespace Guinaifen{
         };
 
         #pragma endregion
-        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,gui,BA,Skill]() {
+        ptr->Turn_func = [ptr,gui,BA,Skill]() {
             if(sp>Sp_Safety)Skill();
             else BA();
         };
@@ -89,13 +89,13 @@ namespace Guinaifen{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,gui]() {
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Fire][AType::None] += 22.4;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] += 24;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += 10;
+            ptr->Stats_each_element[Stats::DMG][ElementType::Fire][AType::None] += 22.4;
+            ptr->Stats_type[Stats::BE][AType::None] += 24;
+            ptr->Stats_type[Stats::EHR][AType::None] += 10;
         }));
 
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,gui]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::None] += 20;
+            ptr->Stats_type[Stats::DMG][AType::None] += 20;
         }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,gui]() {

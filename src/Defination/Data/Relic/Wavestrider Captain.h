@@ -5,7 +5,7 @@ namespace Relic{
         string help = ptr->getUnitName() + " help";
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None] += 16;
+            ptr->Stats_type[Stats::CD][AType::None] += 16;
         }));
 
         WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,help](Ally *ally){

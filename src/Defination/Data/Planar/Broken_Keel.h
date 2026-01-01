@@ -4,7 +4,7 @@ namespace Planar{
     void Broken_Keel(CharUnit *ptr){
         ptr->Planar.Name="Broken_Keel";
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::RES][AType::None] += 10;
+            ptr->Stats_type[Stats::RES][AType::None] += 10;
         }));
 
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {

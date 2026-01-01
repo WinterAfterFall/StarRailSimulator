@@ -61,12 +61,12 @@ namespace Cerydra{
         };
 
         #pragma endregion
-        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,crd,BA,Skill]() {
+        ptr->Turn_func = [ptr,crd,BA,Skill]() {
             if(sp>Sp_Safety+1)Skill();
             else BA();
         };
 
-        // ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,crd,BA,Skill]() {
+        // ptr->Turn_func = [ptr,crd,BA,Skill]() {
         //     if(!chooseSubUnitBuff(crd)->getBuffCheck("Veci"))Skill();
         //     else BA();
         // };
@@ -96,11 +96,11 @@ namespace Cerydra{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,crd,charge]() {
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Wind][AType::None] += 22.4;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::HP_P][AType::None] += 10;
+            ptr->Stats_each_element[Stats::DMG][ElementType::Wind][AType::None] += 22.4;
+            ptr->Stats_type[Stats::ATK_P][AType::None] += 18;
+            ptr->Stats_type[Stats::HP_P][AType::None] += 10;
 
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += 100;
+            ptr->Stats_type[Stats::CR][AType::None] += 100;
             charge(2);
         }));
 

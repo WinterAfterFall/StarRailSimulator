@@ -6,7 +6,7 @@ namespace Destruction_Lightcone{
             ptr->Light_cone.Name = "Saber_LC";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](){
                         
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None]+=27 + (9*superimpose);
+                ptr->Stats_type[Stats::CD][AType::None]+=27 + (9*superimpose);
                 
                 }
             ));
@@ -23,10 +23,10 @@ namespace Destruction_Lightcone{
             }));
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,superimpose]() {
-                if (ptr->Sub_Unit_ptr[0]->isBuffEnd("Saber_LC")) {
+                if (ptr->isBuffEnd("Saber_LC")) {
                     ptr->buffSingle({{Stats::ATK_P,AType::None,-(30.0 + 10.0 * superimpose)}});
                 }
-                if (ptr->Sub_Unit_ptr[0]->isBuffEnd("Extra Saber_LC")) {
+                if (ptr->isBuffEnd("Extra Saber_LC")) {
                     ptr->buffSingle({{Stats::ATK_P,AType::None,-(30.0 + 10.0 * superimpose)}});
                 }
             }));

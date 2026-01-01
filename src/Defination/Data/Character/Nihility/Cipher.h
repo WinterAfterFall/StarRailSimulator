@@ -66,7 +66,7 @@ namespace Cipher{
         };
         
         
-        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,cph,BA,Skill]() {
+        ptr->Turn_func = [ptr,cph,BA,Skill]() {
             if(CharCmd::Using_Skill(ptr)&&!ptr->Adjust["Cipher Use Only BA"])Skill();
             else BA();
         };
@@ -91,16 +91,16 @@ namespace Cipher{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 14;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 14.4;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += 10;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += 25 * ptr->getAdjust("Cipher A2");
+            ptr->Atv_stats->flatSpeed += 14;
+            ptr->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 14.4;
+            ptr->Stats_type[Stats::EHR][AType::None] += 10;
+            ptr->Stats_type[Stats::CR][AType::None] += 25 * ptr->getAdjust("Cipher A2");
 
-            // ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 12;
-            // ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += 4;
-            // ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None] += 24;
+            // ptr->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 12;
+            // ptr->Stats_type[Stats::CR][AType::None] += 4;
+            // ptr->Stats_type[Stats::CD][AType::None] += 24;
 
-            debuffAllEnemyMark({{Stats::VUL,AType::None,40}},ptr->Sub_Unit_ptr[0].get(),"Cipher A6");
+            debuffAllEnemyMark({{Stats::VUL,AType::None,40}},ptr,"Cipher A6");
             // relic
 
             // substats

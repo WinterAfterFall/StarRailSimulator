@@ -69,7 +69,7 @@ namespace Hanabi{
         };
 
         #pragma endregion
-        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get(),Skill,BA]() {
+        ptr->Turn_func = [ptr, allyPtr = ptr,Skill,BA]() {
             Skill();
         };
         
@@ -125,9 +125,9 @@ namespace Hanabi{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::HP_P][AType::None] += 28;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None] += 24;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::RES][AType::None] += 10;
+            ptr->Stats_type[Stats::HP_P][AType::None] += 28;
+            ptr->Stats_type[Stats::CD][AType::None] += 24;
+            ptr->Stats_type[Stats::RES][AType::None] += 10;
 
             // relic
 

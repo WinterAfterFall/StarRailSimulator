@@ -5,7 +5,7 @@ namespace Planar{
         ptr->Planar.Name="Bone_Collection";
         
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::HP_P][AType::None] += 12;
+            ptr->Stats_type[Stats::HP_P][AType::None] += 12;
         }));
 
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {

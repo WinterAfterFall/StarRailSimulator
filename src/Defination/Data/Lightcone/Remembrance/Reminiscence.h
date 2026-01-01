@@ -13,7 +13,7 @@ namespace Remembrance_Lightcone{
                     }
                 }
     
-                if (turn->num == ptr->Sub_Unit_ptr[0]->Atv_stats->num && turn->side == Side::AllyUnit) {
+                if (turn->num == ptr->Atv_stats->num && turn->side == Side::AllyUnit) {
                     ptr->buffStackChar({{Stats::DMG,AType::None,7.0 + superimpose}}, 1, 4,"Reminiscence");
                 }
             }));

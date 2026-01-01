@@ -84,7 +84,7 @@ namespace Kafka{
         };
 
         #pragma endregion
-        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,kafka,Skill]() {
+        ptr->Turn_func = [ptr,kafka,Skill]() {
             Skill();
         };
         
@@ -116,9 +116,9 @@ namespace Kafka{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 28;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::HP_P][AType::None] += 10;
+            ptr->Stats_type[Stats::ATK_P][AType::None] += 28;
+            ptr->Stats_type[Stats::EHR][AType::None] += 18;
+            ptr->Stats_type[Stats::HP_P][AType::None] += 10;
         }));
 
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {

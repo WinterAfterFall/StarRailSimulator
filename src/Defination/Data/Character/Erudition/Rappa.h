@@ -22,7 +22,7 @@ namespace Rappa{
         LC(ptr);
         Relic(ptr);
         Planar(ptr);
-        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
+        ptr->Turn_func = [ptr, allyPtr = ptr]() {
             if (allyPtr->Buff_check["Rappa_Ult"] == 0) {
             Skill_func(ptr);
             } else {
@@ -31,7 +31,7 @@ namespace Rappa{
         };
 
         ptr->addUltCondition([ptr]() -> bool {
-            if(ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"] == 1)return false;
+            if(ptr->Buff_check["Rappa_Ult"] == 1)return false;
             return true;
         });
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
@@ -41,11 +41,11 @@ namespace Rappa{
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Single,"Rappa Ult",
             [ptr](shared_ptr<AllyBuffAction> &act){
                 if (ptr->Print)CharCmd::printUltStart("Rappa");
-                ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"] = 1;
-                ptr->Sub_Unit_ptr[0]->Stack["Rappa_Ult"] = 2;
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] += 30;
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BREAK_EFF][AType::None] += 50;
-                if (ptr->Eidolon >= 1)ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DEF_SHRED][AType::None] += 15;
+                ptr->Buff_check["Rappa_Ult"] = 1;
+                ptr->Stack["Rappa_Ult"] = 2;
+                ptr->Stats_type[Stats::BE][AType::None] += 30;
+                ptr->Stats_type[Stats::BREAK_EFF][AType::None] += 50;
+                if (ptr->Eidolon >= 1)ptr->Stats_type[Stats::DEF_SHRED][AType::None] += 15;
                 
 
                 shared_ptr<AllyAttackAction> data_2 = 
@@ -54,9 +54,9 @@ namespace Rappa{
                     Increase_energy(ptr, 20);
                     Attack(data_2);
                 });
-                double temp = ptr->Sub_Unit_ptr[0]->Stack["Rappa_Talent"] + 2;
-                ptr->Sub_Unit_ptr[0]->Buff_note["Rappa_Talent"] = ptr->Sub_Unit_ptr[0]->Stack["Rappa_Talent"] * 0.5 + 0.6;
-                ptr->Sub_Unit_ptr[0]->Stack["Rappa_Talent"] = 0;
+                double temp = ptr->Stack["Rappa_Talent"] + 2;
+                ptr->Buff_note["Rappa_Talent"] = ptr->Stack["Rappa_Talent"] * 0.5 + 0.6;
+                ptr->Stack["Rappa_Talent"] = 0;
 
                 data_2->Dont_care_weakness = 50;
                 data_2->addDamageIns(
@@ -75,15 +75,15 @@ namespace Rappa{
                 data_2->addToActionBar();
                 Deal_damage();
             });
-            act->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
+            act->addBuffSingleTarget(ptr);
             act->addToActionBar();
             Deal_damage();
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 28;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] += 13.3;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 9;
+            ptr->Stats_type[Stats::ATK_P][AType::None] += 28;
+            ptr->Stats_type[Stats::BE][AType::None] += 13.3;
+            ptr->Atv_stats->flatSpeed += 9;
 
             // relic
 
@@ -104,13 +104,13 @@ namespace Rappa{
                 }
             }
             if (turn->UnitName == "Rappa") {
-                if (ptr->Sub_Unit_ptr[0]->Stack["Rappa_Ult"] == 0 && ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"] == 1) {
-                    ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] -= 30;
-                    ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BREAK_EFF][AType::None] -= 50;
+                if (ptr->Stack["Rappa_Ult"] == 0 && ptr->Buff_check["Rappa_Ult"] == 1) {
+                    ptr->Stats_type[Stats::BE][AType::None] -= 30;
+                    ptr->Stats_type[Stats::BREAK_EFF][AType::None] -= 50;
 
-                    ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"] = 0;
+                    ptr->Buff_check["Rappa_Ult"] = 0;
                     if (ptr->Eidolon >= 1) {
-                        ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DEF_SHRED][AType::None] -= 15;
+                        ptr->Stats_type[Stats::DEF_SHRED][AType::None] -= 15;
                         Increase_energy(ptr, 20);
                     }
                     if (ptr->Print == 1) {
@@ -123,16 +123,16 @@ namespace Rappa{
 
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act){
             if(act->Attacker->Atv_stats->UnitName=="Rappa"){
-                if(ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"]==1){
+                if(ptr->Buff_check["Rappa_Ult"]==1){
                     Superbreak_trigger(act,60,"");
 
                     shared_ptr<AllyAttackAction> data_2 = 
                     make_shared<AllyAttackAction>(AType::Break,ptr,TraceType::Aoe,"Rappa Talent");
-                    double temp = ptr->Sub_Unit_ptr[0]->Buff_note["Rappa_Talent"];
+                    double temp = ptr->Buff_note["Rappa_Talent"];
                     for(int i=1;i<=Total_enemy;i++){
                         Cal_Break_damage(act,enemyUnit[i].get(),temp);
                     }
-                    ptr->Sub_Unit_ptr[0]->Buff_note["Rappa_Talent"] = 0;
+                    ptr->Buff_note["Rappa_Talent"] = 0;
                 }
             }
         }));
@@ -161,9 +161,9 @@ namespace Rappa{
         }));
 
         Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,Rappaptr](Enemy *target, AllyUnit *Breaker) {
-            ptr->Sub_Unit_ptr[0]->Stack["Rappa_Talent"]++;
+            ptr->Stack["Rappa_Talent"]++;
             if (target->Max_toughness > 90) {
-                ptr->Sub_Unit_ptr[0]->Stack["Rappa_Talent"]++;
+                ptr->Stack["Rappa_Talent"]++;
                 Increase_energy(ptr, 10);
             }
             double temp = floor((calculateAtkForBuff(ptr,100) - 2400) / 100) + 2;
@@ -185,9 +185,9 @@ namespace Rappa{
             Increase_energy(ptr, 20);
             Attack(act);
         });
-        double temp = ptr->Sub_Unit_ptr[0]->Stack["Rappa_Talent"]+2;
-        ptr->Sub_Unit_ptr[0]->Buff_note["Rappa_Talent"] = ptr->Sub_Unit_ptr[0]->Stack["Rappa_Talent"]*0.5+0.6;
-        ptr->Sub_Unit_ptr[0]->Stack["Rappa_Talent"] = 0;
+        double temp = ptr->Stack["Rappa_Talent"]+2;
+        ptr->Buff_note["Rappa_Talent"] = ptr->Stack["Rappa_Talent"]*0.5+0.6;
+        ptr->Stack["Rappa_Talent"] = 0;
 
         act->Dont_care_weakness = 50;
         act->addDamageIns(
@@ -204,11 +204,11 @@ namespace Rappa{
             DmgSrc(DmgSrcType::ATK, 100, 5.0 + temp) 
         );
         act->addToActionBar();
-        ptr->Sub_Unit_ptr[0]->Stack["Rappa_Ult"]--;
+        ptr->Stack["Rappa_Ult"]--;
     }
     void Skill_func(CharUnit *ptr){
         
-        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
+        Skill_point(ptr,-1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Aoe,"Rappa Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){

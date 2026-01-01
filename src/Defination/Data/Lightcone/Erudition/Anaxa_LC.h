@@ -6,7 +6,7 @@ namespace Erudition_Lightcone{
             ptr->Light_cone.Name = "Anaxa_LC";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::None] += 50 + 10*superimpose;
+                ptr->Stats_type[Stats::DMG][AType::None] += 50 + 10*superimpose;
             }));
 
             Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {

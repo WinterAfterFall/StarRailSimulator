@@ -8,7 +8,7 @@ namespace Phainon{
         Relic(ptr);
         Planar(ptr);
         SetCountdownStats(ptr,ptr->Atv_stats->baseSpeed*0.6*7,"Phainon Extra Turn");
-        Error *pn = ptr;
+        CharUnit *pn = ptr;
         Unit *pnCD = ptr->countdownList[0].get();
         
 
@@ -93,7 +93,7 @@ namespace Phainon{
                     enemyUnit[i]->dmgPercent-=75;
                 }
             });
-            act->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
+            act->addBuffSingleTarget(ptr);
             act->addToActionBar();
         };
 
@@ -117,30 +117,29 @@ namespace Phainon{
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"PN FinalHit",
             [ptr,pn,pnCD,CoreFlame](shared_ptr<AllyAttackAction> &act){
                 Attack(act);
-                pn->buffSingle({
+                buffSingle(pn,{
                     {Stats::ATK_P,AType::None,-80},
                     {Stats::HP_P,AType::None,-270}
                 });
                 pn->Atv_stats->extraTurn = 0;
                 pnCD->death();
-                for(int i=1;i<=Total_ally;i++){
-                    for(auto &each :charUnit[i]->Sub_Unit_ptr){
-                        if(each->isSameStatsOwnerName(pn)){
-                            each->status = UnitStatus::Alive;
-                        }else if(pn->getBuffNote("PN Retire " + each->getCharName())==1){
-                            each->status = UnitStatus::Alive;
-                        }else if(pn->getBuffNote("PN Retire " + each->getCharName())==2){
-                            each->status = UnitStatus::AtvFreeze;
-                        }
-                        pn->setBuffNote("PN Retire " + each->getCharName(),0);
+                for(auto &each : allyList){
+                    if(each->isSameStatsOwnerName(pn)){
+                        each->status = UnitStatus::Alive;
+                    }else if(pn->getBuffNote("PN Retire " + each->getCharName())==1){
+                        each->status = UnitStatus::Alive;
+                    }else if(pn->getBuffNote("PN Retire " + each->getCharName())==2){
+                        each->status = UnitStatus::AtvFreeze;
                     }
-
-                    for(auto &each :charUnit[i]->summonList){
+                    pn->setBuffNote("PN Retire " + each->getCharName(),0);
+                }
+                for(auto &c : charList){
+                    for(auto &each :c->summonList){
                         if(each->status==UnitStatus::AtvFreeze){
                             each->status = UnitStatus::Alive;
                         }
                     }
-                    for(auto &each :charUnit[i]->countdownList){
+                    for(auto &each : c->countdownList){
                         if(each->status==UnitStatus::AtvFreeze){
                             each->status = UnitStatus::Alive;
                         }
@@ -149,7 +148,7 @@ namespace Phainon{
                 buffAllAlly({
                     {Stats::SPD_P,AType::None,15}
                 },"PN Spd Buff",1);
-                pn->buffStackSingle({{Stats::ATK_P,AType::None,50}},1,2,"PN A6");
+                buffStackSingle(pn,{{Stats::ATK_P,AType::None,50}},1,2,"PN A6");
                 CoreFlame(3);
                 CharCmd::printUltEnd("Phainon");    
 
@@ -164,7 +163,7 @@ namespace Phainon{
 
         #pragma region Action Choice
 
-        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,BA,Skill](){
+        ptr->Turn_func = [ptr,BA,Skill](){
             if(sp>Sp_Safety) Skill();
             else BA();
             // Skill();
@@ -201,7 +200,7 @@ namespace Phainon{
                 make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Single,"PN Ult",
                 [ptr,pn,pnCD,Scourge,CoreFlame](shared_ptr<AllyBuffAction> &act){
                     CharCmd::printUltStart("Phainon");
-                    pn->buffSingle({
+                    buffSingle(pn,{
                         {Stats::ATK_P,AType::None,80},
                         {Stats::HP_P,AType::None,270}
                     });
@@ -217,25 +216,24 @@ namespace Phainon{
                     pnCD->Atv_stats->extraTurn = 1;
                     pn->setBuffCountdown("PN Extra Turn", 8);
 
-                    for(int i=1;i<=Total_ally;i++){
-                        for(auto &each :charUnit[i]->Sub_Unit_ptr){
-                            if(each->isSameStatsOwnerName(pn)){
-                                    each->status = UnitStatus::AtvFreeze;
-                            }else if(each->status==UnitStatus::Alive){
-                                pn->setBuffNote("PN Retire " + each->getCharName(),1);
-                                each->status = UnitStatus::Retire;
-                            }else if(each->status==UnitStatus::AtvFreeze){
-                                pn->setBuffNote("PN Retire " + each->getCharName(),2);
-                                each->status = UnitStatus::Retire;
-                            }
+                    for(auto &each :allyList){
+                        if(each->isSameStatsOwnerName(pn)){
+                                each->status = UnitStatus::AtvFreeze;
+                        }else if(each->status==UnitStatus::Alive){
+                            pn->setBuffNote("PN Retire " + each->getCharName(),1);
+                            each->status = UnitStatus::Retire;
+                        }else if(each->status==UnitStatus::AtvFreeze){
+                            pn->setBuffNote("PN Retire " + each->getCharName(),2);
+                            each->status = UnitStatus::Retire;
                         }
-
-                        for(auto &each :charUnit[i]->summonList){
+                    }
+                    for(auto &c : charList){
+                        for(auto &each :c->summonList){
                             if(each->status==UnitStatus::Alive){
                                 each->status = UnitStatus::AtvFreeze;
                             }
                         }
-                        for(auto &each :charUnit[i]->countdownList){
+                        for(auto &each :c->countdownList){
                             if(each->isSameUnit(pnCD))continue;
                             if(each->status==UnitStatus::Alive){
                                 each->status = UnitStatus::AtvFreeze;
@@ -244,7 +242,7 @@ namespace Phainon{
                     }
 
                     if(ptr->Eidolon>=1){
-                        pn->buffSingle({
+                        buffSingle(pn,{
                             {Stats::CD,AType::None,50}
                         },"PN E1",3);
                     }
@@ -257,15 +255,15 @@ namespace Phainon{
         #pragma endregion
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None] += 37.3;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += 12;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 5;
+            ptr->Stats_type[Stats::CD][AType::None] += 37.3;
+            ptr->Stats_type[Stats::CR][AType::None] += 12;
+            ptr->Atv_stats->flatSpeed += 5;
 
             // relic
             // substats
             // eidolon
             if(ptr->Eidolon>=2){
-                ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::RESPEN][ElementType::Physical][AType::None] += 20;
+                ptr->Stats_each_element[Stats::RESPEN][ElementType::Physical][AType::None] += 20;
             }
         }));
 
@@ -277,7 +275,7 @@ namespace Phainon{
                     Increase_energy(charUnit[i].get(),25);
                 }
             }
-            pn->buffStackSingle({{Stats::ATK_P,AType::None,50}},1,2,"PN A6");
+            buffStackSingle(pn,{{Stats::ATK_P,AType::None,50}},1,2,"PN A6");
             CoreFlame(3);
             if(ptr->Eidolon>=6){
                 CoreFlame(6);
@@ -303,7 +301,7 @@ namespace Phainon{
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,pn]() {
             Enemy *enemy = turn->canCastToEnemy();
-            Error *Error = turn->canCastToSubUnit();
+            AllyUnit *ally = turn->canCastToSubUnit();
             if(enemy&&enemy->getDebuff("Soulscorch")){
                 enemy->setDebuff("Soulscorch",0);
                 enemy->dmgPercent+=75;
@@ -330,14 +328,14 @@ namespace Phainon{
             Deal_damage();
             }
 
-            if(!Error)return;
-            if(Error->isBuffEnd("PN Spd Buff")){
-                Error->buffSingle({
+            if(!ally)return;
+            if(isBuffEnd(ally,"PN Spd Buff")){
+                buffSingle(ally,{
                     {Stats::SPD_P,AType::None,-15}
                 });
             }
-            if(Error->isBuffEnd("PN E1")){
-                pn->buffSingle({
+            if(isBuffEnd(ally,"PN E1")){
+                buffSingle(pn,{
                     {Stats::CD,AType::None,-50}
                 });
             }
@@ -352,7 +350,7 @@ namespace Phainon{
         }));
         
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD](shared_ptr<AllyAttackAction> &act) {
-            if(act->isSameAtker(pn)&&pnCD->status==UnitStatus::Alive){
+            if(act->isSameUnitName(pn)&&pnCD->status==UnitStatus::Alive){
                 pn->RestoreHP(pn,HealSrc(HealSrcType::TOTAL_HP,20));
             }
             if(ptr->Eidolon>=2&&act->actionName=="PN Foundation"){
@@ -368,7 +366,7 @@ namespace Phainon{
             for(auto &each : act->buffTargetList){
                 if(each->isSameStatsOwnerName(pn)){
                     CoreFlame(1);
-                    pn->buffSingle({{Stats::CD,AType::None,30}},"PN Talent",3);
+                    buffSingle(pn,{{Stats::CD,AType::None,30}},"PN Talent",3);
                     if(act->actionName=="TY Ult"
                     || act->actionName=="SD Ult"
                     ||(act->actionName=="Crd Skill"&&act->Attacker->owner->Eidolon>=1)){
@@ -380,7 +378,7 @@ namespace Phainon{
         }));
 
 
-        Enemy_hit_List.push_back(TriggerByEnemyHit(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD,CoreFlame](Enemy *Attacker, vector<Error*> target) {
+        Enemy_hit_List.push_back(TriggerByEnemyHit(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD,CoreFlame](Enemy *Attacker, vector<AllyUnit*> target) {
             if(pnCD->isAlive())return;
             for(auto &each : target){
                 if(each->isSameStatsOwnerName(pn)){
@@ -390,20 +388,20 @@ namespace Phainon{
             }
         }));
 
-        Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD,CoreFlame](Error *Healer, Error *target, double Value) {
+        Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD,CoreFlame](AllyUnit *Healer, AllyUnit *target, double Value) {
             if(target->isSameStatsOwnerName(pn)){
-                pn->buffSingle({{Stats::DMG,AType::None,45}},"PN A4",4);
+                buffSingle(pn,{{Stats::DMG,AType::None,45}},"PN A4",4);
             }
         }));
 
-        AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD](Error* target) {
-            if(target->isBuffGoneByDeath("PN Spd Buff")){
-                 target->buffSingle({
+        AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD](AllyUnit* target) {
+            if(isBuffGoneByDeath(target,"PN Spd Buff")){
+                 buffSingle(target,{
                     {Stats::SPD_P,AType::None,-15}
                 });
             }
-            if(target->isBuffGoneByDeath("PN Talent")){
-                pn->buffSingle({{Stats::CD,AType::None,-30}});
+            if(isBuffGoneByDeath(target,"PN Talent")){
+                buffSingle(pn,{{Stats::CD,AType::None,-30}});
             }
         }));
 

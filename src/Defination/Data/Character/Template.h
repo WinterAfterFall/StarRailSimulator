@@ -38,7 +38,7 @@ namespace SomeChar{
         };
 
         #pragma endregion
-        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,ally,BA,Skill]() {
+        ptr->Turn_func = [ptr,ally,BA,Skill]() {
 
         };
         
@@ -52,9 +52,9 @@ namespace SomeChar{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,ally]() {
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Ice][AType::None] += 22.4;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += 10;
+            ptr->Stats_each_element[Stats::DMG][ElementType::Ice][AType::None] += 22.4;
+            ptr->Stats_type[Stats::ATK_P][AType::None] += 18;
+            ptr->Stats_type[Stats::EHR][AType::None] += 10;
 
             // relic
 

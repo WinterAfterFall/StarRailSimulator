@@ -33,7 +33,7 @@ namespace Jade{
         LC(ptr);
         Relic(ptr);
         Planar(ptr);
-        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
+        ptr->Turn_func = [ptr, allyPtr = ptr]() {
             
             if (allyPtr->getBuffCheck("Jade_Skill")) {
                 Basic_Atk(ptr);
@@ -47,7 +47,7 @@ namespace Jade{
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Jade Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
-                ptr->Sub_Unit_ptr[0]->Stack["Jade_Ultimate_stack"] = 2;
+                ptr->Stack["Jade_Ultimate_stack"] = 2;
                 Attack(act);
             });
             act->addDamageIns(
@@ -60,9 +60,9 @@ namespace Jade{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::RES][AType::None] += 10;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 22.4;
+            ptr->Stats_type[Stats::ATK_P][AType::None] += 18;
+            ptr->Stats_type[Stats::RES][AType::None] += 10;
+            ptr->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 22.4;
 
             // relic
             // substats
@@ -70,7 +70,7 @@ namespace Jade{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             Jade_Talent(ptr, Total_enemy);
-            Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 50);
+            Action_forward(ptr->Atv_stats.get(), 50);
             if (ptr->Technique == 1) {
                 shared_ptr<AllyAttackAction> act = 
                 make_shared<AllyAttackAction>(AType::Technique,ptr,TraceType::Aoe,"Jade Tech",
@@ -89,12 +89,12 @@ namespace Jade{
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            if (chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats->UnitName == turn->UnitName) {
+            if (chooseSubUnitBuff(ptr)->Atv_stats->UnitName == turn->UnitName) {
                 Jade_Talent(ptr, 3);
             }
             
-            if (ptr->Sub_Unit_ptr[0].get()->isBuffEnd("Jade_Skill")) {
-                chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{Stats::SPD_P,AType::None,-30}});
+            if (ptr->isBuffEnd("Jade_Skill")) {
+                chooseSubUnitBuff(ptr)->buffSingle({{Stats::SPD_P,AType::None,-30}});
             }
         }));
 
@@ -103,12 +103,12 @@ namespace Jade{
                 Jade_Talent(ptr, 5);
                 return;
             }
-            if (ptr->Sub_Unit_ptr[0]->Buff_check["Jade_Skill"] == 0) return;
-            if (act->Attacker->Atv_stats->StatsOwnerName != "Jade" && act->Attacker->Atv_stats->StatsOwnerName != chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats->StatsOwnerName) return;
+            if (ptr->Buff_check["Jade_Skill"] == 0) return;
+            if (act->Attacker->Atv_stats->StatsOwnerName != "Jade" && act->Attacker->Atv_stats->StatsOwnerName != chooseSubUnitBuff(ptr)->Atv_stats->StatsOwnerName) return;
 
             int temp = act->targetList.size();
             if (ptr->Eidolon >= 1 && temp < 3) temp = 3;
-            ptr->Sub_Unit_ptr[0]->Stack["Jade_Talent"] += temp;
+            ptr->Stack["Jade_Talent"] += temp;
             Jade_Fua(ptr);
         }));
 
@@ -126,11 +126,11 @@ namespace Jade{
 
     void Basic_Atk(CharUnit *ptr){
         
-        Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
+        Skill_point(ptr,1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Blast,"Jade BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(charUnit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),20);
+            Increase_energy(charUnit[ptr->Atv_stats->num].get(),20);
             Attack(act);
         });
         act->addDamageIns(
@@ -141,16 +141,16 @@ namespace Jade{
     }
     void Skill(CharUnit *ptr){
         
-        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
+        Skill_point(ptr,-1);
         shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"Jade Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
-            Increase_energy(charUnit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),30);
-            if(ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Jade_Skill",3)){
-                chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->buffSingle({{Stats::SPD_P,AType::None,30}});
+            Increase_energy(charUnit[ptr->Atv_stats->num].get(),30);
+            if(ptr->isHaveToAddBuff("Jade_Skill",3)){
+                chooseSubUnitBuff(ptr)->buffSingle({{Stats::SPD_P,AType::None,30}});
             }
         });
-        act->addBuffSingleTarget(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));
+        act->addBuffSingleTarget(chooseSubUnitBuff(ptr));
         act->addToActionBar();
 
     }
@@ -161,11 +161,11 @@ namespace Jade{
 
     void Jade_Fua(CharUnit *ptr){
 
-        while(ptr->Sub_Unit_ptr[0]->Stack["Jade_Talent"]>8){
-            ptr->Sub_Unit_ptr[0]->Stack["Jade_Talent"]-=8;
-            if(ptr->Sub_Unit_ptr[0]->Stack["Jade_Ultimate_stack"]>0){
+        while(ptr->Stack["Jade_Talent"]>8){
+            ptr->Stack["Jade_Talent"]-=8;
+            if(ptr->Stack["Jade_Ultimate_stack"]>0){
                 Fua_Enchance(ptr);
-                ptr->Sub_Unit_ptr[0]->Stack["Jade_Ultimate_stack"]--;             
+                ptr->Stack["Jade_Ultimate_stack"]--;             
             }else{
                 Fua(ptr);
             }
@@ -249,7 +249,7 @@ namespace Jade{
             {{Stats::ATK_P,AType::None,0.5},
             {Stats::CD,AType::None,2.4}},
             amount,50,"Pawned_Asset");
-        if(ptr->Eidolon>=2&&ptr->Sub_Unit_ptr[0]->Stack["Pawned_Asset"]>=15&&ptr->isHaveToAddBuff("Jade_E2")){
+        if(ptr->Eidolon>=2&&ptr->Stack["Pawned_Asset"]>=15&&ptr->isHaveToAddBuff("Jade_E2")){
             ptr->buffSingle({{Stats::CR,AType::None,18}});
         }
 

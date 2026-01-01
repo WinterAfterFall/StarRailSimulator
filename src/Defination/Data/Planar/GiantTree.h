@@ -5,16 +5,16 @@ namespace Planar{
         return [=](CharUnit *ptr) {
             ptr->Planar.Name = "GiantTree";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-                ptr->Sub_Unit_ptr[0]->Atv_stats->speedPercent += 6;
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::HEALING_OUT][AType::None] += 20;
+                ptr->Atv_stats->speedPercent += 6;
+                ptr->Stats_type[Stats::HEALING_OUT][AType::None] += 20;
             }));
         };
         else 
         return [=](CharUnit *ptr) {
             ptr->Planar.Name = "GiantTree";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-                ptr->Sub_Unit_ptr[0]->Atv_stats->speedPercent += 6;
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::HEALING_OUT][AType::None] += 12;
+                ptr->Atv_stats->speedPercent += 6;
+                ptr->Stats_type[Stats::HEALING_OUT][AType::None] += 12;
             }));
         };
     }

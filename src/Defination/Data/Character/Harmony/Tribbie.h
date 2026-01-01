@@ -29,7 +29,7 @@ namespace Tribbie{
         LC(ptr);
         Relic(ptr);
         Planar(ptr);
-        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
+        ptr->Turn_func = [ptr, allyPtr = ptr]() {
             if (allyPtr->getBuffCheck("Numinosity")) {
                 Basic_Atk(ptr);
             } else {
@@ -39,9 +39,9 @@ namespace Tribbie{
 
         ptr->Char.Print_Func = Print_Stats;
         ptr->addUltCondition([ptr,TBptr]() -> bool {
-            if (ptr->Light_cone.Name == "DDD" && chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats->atv <= 0) return false;
-            if (ptr->Light_cone.Name == "DDD" && Driver_num != 0 && charUnit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv <= 0) return false;
-            if (ptr->Light_cone.Name == "Eagle_Beaked_Helmet" && ptr->Sub_Unit_ptr[0]->Atv_stats->atv <= 0) return false;
+            if (ptr->Light_cone.Name == "DDD" && chooseSubUnitBuff(ptr)->Atv_stats->atv <= 0) return false;
+            if (ptr->Light_cone.Name == "DDD" && Driver_num != 0 && charUnit[Driver_num]->Atv_stats->atv <= 0) return false;
+            if (ptr->Light_cone.Name == "Eagle_Beaked_Helmet" && ptr->Atv_stats->atv <= 0) return false;
             return true;
         });
 
@@ -52,23 +52,23 @@ namespace Tribbie{
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"TB Ult",
             [ptr,TBptr](shared_ptr<AllyAttackAction> &act){
                 if (TBptr->isHaveToAddBuff("Tribbie_Zone",2)) {
-                        debuffAllEnemyMark({{Stats::VUL,AType::None,30}},ptr->Sub_Unit_ptr[0].get(),"Tribbie_Zone");
+                        debuffAllEnemyMark({{Stats::VUL,AType::None,30}},ptr,"Tribbie_Zone");
     
                     // A4 Trace
-                    ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"] = 0;
+                    ptr->Buff_note["Tribbie_A4"] = 0;
                     for (int i = 1; i <= Total_ally; i++) {
-                        ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"] += calculateHpForBuff(charUnit[i]->Sub_Unit_ptr[0].get(), 9);
+                        ptr->Buff_note["Tribbie_A4"] += calculateHpForBuff(charUnit[i].get(), 9);
                     }
-                    TBptr->buffSingle({{Stats::FLAT_HP, AType::TEMP , ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]}});
-                    TBptr->buffSingle({{Stats::FLAT_HP, AType::None, ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]}});
+                    TBptr->buffSingle({{Stats::FLAT_HP, AType::TEMP , ptr->Buff_note["Tribbie_A4"]}});
+                    TBptr->buffSingle({{Stats::FLAT_HP, AType::None, ptr->Buff_note["Tribbie_A4"]}});
     
                     if (ptr->Eidolon >= 4) {
                         buffAllAlly({{Stats::DEF_SHRED, AType::None, 18}});
                     }
                 }
                 for (int i = 1; i <= Total_ally; i++) {
-                    if (i == ptr->Sub_Unit_ptr[0]->Atv_stats->num) continue;
-                    charUnit[i]->Sub_Unit_ptr[0]->Buff_check["Tribbie_ult_launch"] = 0;
+                    if (i == ptr->Atv_stats->num) continue;
+                    charUnit[i]->Buff_check["Tribbie_ult_launch"] = 0;
                 }
                 Attack(act);
                 
@@ -99,22 +99,22 @@ namespace Tribbie{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None] += 37.3;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += 12;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::HP_P][AType::None] += 10;
+            ptr->Stats_type[Stats::CD][AType::None] += 37.3;
+            ptr->Stats_type[Stats::CR][AType::None] += 12;
+            ptr->Stats_type[Stats::HP_P][AType::None] += 10;
 
             // relic
 
             // substats
             if (ptr->Eidolon >= 6) {
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::Fua] += 729;
+                ptr->Stats_type[Stats::DMG][AType::Fua] += 729;
             }
         }));
 
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr]() {
             if (TBptr->isBuffEnd("Tribbie_Zone")) {
-                ptr->Sub_Unit_ptr[0]->Buff_check["Tribbie_Zone"] = 0;
+                ptr->Buff_check["Tribbie_Zone"] = 0;
                 for(int i=1;i<=Total_enemy;i++){
                     enemyUnit[i]->debuffRemove("Tribbie_Zone");
                     enemyUnit[i]->debuffSingle({{Stats::VUL,AType::None,-30}});
@@ -123,10 +123,10 @@ namespace Tribbie{
                     buffAllAlly({{Stats::DEF_SHRED, AType::None, -18}});
                 }
 
-                TBptr->buffSingle({{Stats::FLAT_HP, AType::TEMP , -ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]}});
-                TBptr->buffSingle({{Stats::FLAT_HP, AType::None, -ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]}});
+                TBptr->buffSingle({{Stats::FLAT_HP, AType::TEMP , -ptr->Buff_note["Tribbie_A4"]}});
+                TBptr->buffSingle({{Stats::FLAT_HP, AType::None, -ptr->Buff_note["Tribbie_A4"]}});
 
-                ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"] = 0;
+                ptr->Buff_note["Tribbie_A4"] = 0;
                 if (ptr->Print)CharCmd::printUltEnd("Tribbie");
             }
             if (TBptr->isBuffEnd("Numinosity")) {
@@ -187,13 +187,13 @@ namespace Tribbie{
                 // adjust
                 double temp = 0;
                 for (int i = 1; i <= Total_ally; i++) {
-                    temp += calculateHpForBuff(charUnit[i]->Sub_Unit_ptr[0].get(), 9);
+                    temp += calculateHpForBuff(charUnit[i].get(), 9);
                 }
                 
                 // after
-                TBptr->buffSingle({{Stats::FLAT_HP, AType::TEMP , temp - ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]}});
-                TBptr->buffSingle({{Stats::FLAT_HP, AType::None, temp - ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]}});
-                ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"] = temp;
+                TBptr->buffSingle({{Stats::FLAT_HP, AType::TEMP , temp - ptr->Buff_note["Tribbie_A4"]}});
+                TBptr->buffSingle({{Stats::FLAT_HP, AType::None, temp - ptr->Buff_note["Tribbie_A4"]}});
+                ptr->Buff_note["Tribbie_A4"] = temp;
                 return;
             }
         }));  
@@ -215,7 +215,7 @@ namespace Tribbie{
 
 
     void Basic_Atk(CharUnit *ptr){
-        Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
+        Skill_point(ptr,1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Blast,"TB BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
@@ -230,13 +230,13 @@ namespace Tribbie{
     }
     
     void Skill(CharUnit *ptr){
-        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
+        Skill_point(ptr,-1);
         shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Aoe,"TB Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
             buffAllAlly({{Stats::RESPEN,AType::None,24}});
-            ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Numinosity", 3);
+            ptr->isHaveToAddBuff("Numinosity", 3);
         });
         act->addBuffAllAllies();
         act->addToActionBar();
@@ -250,13 +250,13 @@ namespace Tribbie{
     void Print_Stats(CharUnit *ptr){
         cout<<endl;
         cout<<"Tribbie : ";
-        cout<<ptr->Sub_Unit_ptr[0]->Buff_check["Numinosity"]<<" ";
-        cout<<ptr->Sub_Unit_ptr[0]->Buff_check["Tribbie_Zone"]<<" ";
-        cout<<ptr->Sub_Unit_ptr[0]->Stack["Tribbie_A2"]<<" ";
-        cout<<ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]<<" ";
+        cout<<ptr->Buff_check["Numinosity"]<<" ";
+        cout<<ptr->Buff_check["Tribbie_Zone"]<<" ";
+        cout<<ptr->Stack["Tribbie_A2"]<<" ";
+        cout<<ptr->Buff_note["Tribbie_A4"]<<" ";
         for(int i=1;i<=Total_ally;i++){
-                if(i==ptr->Sub_Unit_ptr[0]->Atv_stats->num)continue;
-                cout<<charUnit[i]->Sub_Unit_ptr[0]->Buff_check["Tribbie_ult_launch"]<<" ";
+                if(i==ptr->Atv_stats->num)continue;
+                cout<<charUnit[i]->Buff_check["Tribbie_ult_launch"]<<" ";
             }
     }
 }

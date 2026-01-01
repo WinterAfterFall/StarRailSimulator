@@ -6,7 +6,7 @@ namespace Harmony_Lightcone{
             ptr->Light_cone.Name = "The Forever Victual";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 12 + 4 * superimpose;
+                ptr->Stats_type[Stats::ATK_P][AType::None] += 12 + 4 * superimpose;
             }));
 
             AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){

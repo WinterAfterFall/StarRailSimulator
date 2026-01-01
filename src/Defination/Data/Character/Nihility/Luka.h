@@ -95,7 +95,7 @@ namespace Luka{
         };
 
         #pragma endregion
-        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,lk,BA,Skill,EBA]() {
+        ptr->Turn_func = [ptr,lk,BA,Skill,EBA]() {
             if(!enemyUnit[Main_Enemy_num]->getDebuff("Luka Bleed")){
                 Skill();
                 return;
@@ -128,14 +128,14 @@ namespace Luka{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,lk]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 28;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DEF_P][AType::None] += 12.5;
+            ptr->Stats_type[Stats::ATK_P][AType::None] += 28;
+            ptr->Stats_type[Stats::EHR][AType::None] += 18;
+            ptr->Stats_type[Stats::DEF_P][AType::None] += 12.5;
         }));
 
         if(ptr->Eidolon>=1)
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,lk]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::None] += 15;
+            ptr->Stats_type[Stats::DMG][AType::None] += 15;
         }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,lk,FW]() {

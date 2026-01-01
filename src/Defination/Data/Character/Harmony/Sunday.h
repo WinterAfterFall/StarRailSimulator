@@ -19,25 +19,25 @@ namespace Sunday{
         LC(ptr);
         Relic(ptr);
         Planar(ptr);
-        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
+        ptr->Turn_func = [ptr, allyPtr = ptr]() {
             Skill(ptr);
         };
 
         ptr->addUltCondition([ptr,SDptr]() -> bool {
-            if(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->isSameStatsOwnerName("Saber"))return true;
-            if(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy!=0){
-                if (chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy <= 200 &&
-                    chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy - 
-                    chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Current_energy < 30) return false;
-                if (chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy >= 200 &&
-                    chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy - 
-                    chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Current_energy 
-                    < chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy * 0.2) return false;
+            if(chooseCharacterBuff(ptr)->isSameStatsOwnerName("Saber"))return true;
+            if(chooseCharacterBuff(ptr)->Max_energy!=0){
+                if (chooseCharacterBuff(ptr)->Max_energy <= 200 &&
+                    chooseCharacterBuff(ptr)->Max_energy - 
+                    chooseCharacterBuff(ptr)->Current_energy < 30) return false;
+                if (chooseCharacterBuff(ptr)->Max_energy >= 200 &&
+                    chooseCharacterBuff(ptr)->Max_energy - 
+                    chooseCharacterBuff(ptr)->Current_energy 
+                    < chooseCharacterBuff(ptr)->Max_energy * 0.2) return false;
             }
             return true;
         });
         // ptr->addUltImmediatelyUseCondition([ptr,SDptr]() -> bool {
-        //     if(Buff_check(ptr->Sub_Unit_ptr[0].get(), "Ode_to_Caress_and_Cicatrix"))return false;
+        //     if(Buff_check(ptr, "Ode_to_Caress_and_Cicatrix"))return false;
         //     return true;
         // });
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,SDptr]() {
@@ -47,19 +47,19 @@ namespace Sunday{
             [ptr,SDptr](shared_ptr<AllyBuffAction> &act){
                 if (ptr->Print)CharCmd::printUltStart("Sunday");
                 if (ptr->Eidolon >= 2) {
-                    if (ptr->Sub_Unit_ptr[0]->Buff_check["Ult_first_time"] == 0) {
-                        ptr->Sub_Unit_ptr[0]->Buff_check["Ult_first_time"] = 1;
-                        Skill_point(ptr->Sub_Unit_ptr[0].get(), 2);
+                    if (ptr->Buff_check["Ult_first_time"] == 0) {
+                        ptr->Buff_check["Ult_first_time"] = 1;
+                        Skill_point(ptr, 2);
                     }
                 }
 
                 if(ptr->Eidolon>=6)
-                chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->buffStackChar({{Stats::CR,AType::None,20}},1,3,"The_Sorrowing_Body",4);
+                chooseCharacterBuff(ptr)->buffStackChar({{Stats::CR,AType::None,20}},1,3,"The_Sorrowing_Body",4);
 
-                if (chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Max_energy > 200)
-                Increase_energy(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()), 20, 0);
+                if (chooseCharacterBuff(ptr)->Max_energy > 200)
+                Increase_energy(chooseCharacterBuff(ptr), 20, 0);
                 else
-                Increase_energy(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()), 0, 40);
+                Increase_energy(chooseCharacterBuff(ptr), 0, 40);
 
                 if (!SDptr->isHaveToAddBuff("Ode_to_Caress_and_Cicatrix",3))
                 {
@@ -75,9 +75,9 @@ namespace Sunday{
                         }
                     }
                 }
-                ptr->Sub_Unit_ptr[0]->Buff_check["Ode_to_Caress_and_Cicatrix"] = 1;
+                ptr->Buff_check["Ode_to_Caress_and_Cicatrix"] = 1;
                 ptr->setBuffAllyTarget("Ode_to_Caress_and_Cicatrix",chooseCharacterBuff(ptr));
-                ptr->setBuffNote("Ode_to_Caress_and_Cicatrix",calculateCritdamForBuff(ptr->Sub_Unit_ptr[0].get(), 30) + 12);
+                ptr->setBuffNote("Ode_to_Caress_and_Cicatrix",calculateCritdamForBuff(ptr, 30) + 12);
                 for(unique_ptr<AllyUnit> &each : ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->Sub_Unit_ptr){
                     if(!each->isExsited())continue;
                     each->setBuffCheck("Ode_to_Caress_and_Cicatrix",true);
@@ -87,15 +87,15 @@ namespace Sunday{
                     each->buffSingle({{Stats::DMG, AType::None, 30}});
                 }
             });
-            act->addBuffChar(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()));
+            act->addBuffChar(chooseCharacterBuff(ptr));
             act->addToActionBar();
             Deal_damage();
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,SDptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None] += 37.3;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DEF_P][AType::None] += 12.5;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::RES][AType::None] += 18;
+            ptr->Stats_type[Stats::CD][AType::None] += 37.3;
+            ptr->Stats_type[Stats::DEF_P][AType::None] += 12.5;
+            ptr->Stats_type[Stats::RES][AType::None] += 18;
 
 
             // relic
@@ -162,7 +162,7 @@ namespace Sunday{
 
         Buff_List.push_back(TriggerByAllyBuffAction_Func(PRIORITY_IMMEDIATELY, [ptr,SDptr](shared_ptr<AllyBuffAction> &act) {
             if (chooseCharacterBuff(ptr)->getBuffCheck("Ode_to_Caress_and_Cicatrix") && act->actionName=="SD Skill") {
-                Skill_point(ptr->Sub_Unit_ptr[0].get(), 1);
+                Skill_point(ptr, 1);
             }
         }));
 
@@ -177,13 +177,13 @@ namespace Sunday{
             if (target->Atv_stats->StatsOwnerName != "Sunday") return;
             if (!target->getBuffCheck("Ode_to_Caress_and_Cicatrix")) return;
             if (StatsType != Stats::CD) return;   
-            double buffValue = calculateCritdamForBuff(ptr->Sub_Unit_ptr[0].get(), 30) + 12;
+            double buffValue = calculateCritdamForBuff(ptr, 30) + 12;
             for(unique_ptr<AllyUnit> &each : chooseCharacterBuff(ptr)->Sub_Unit_ptr ){
                 if(!each->getBuffCheck("Ode_to_Caress_and_Cicatrix"))continue;
                 each->buffSingle({{Stats::CD, AType::TEMP, buffValue - ptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
                 each->buffSingle({{Stats::CD, AType::None, buffValue - ptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
             }
-            ptr->Sub_Unit_ptr[0]->Buff_note["Ode_to_Caress_and_Cicatrix"] =  buffValue;
+            ptr->Buff_note["Ode_to_Caress_and_Cicatrix"] =  buffValue;
             
         }));
 
@@ -229,35 +229,35 @@ namespace Sunday{
 
     
     void Skill(CharUnit *ptr){
-        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
+        Skill_point(ptr,-1);
         shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"SD Skill",
         [ptr,SDptr=ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
             if(ptr->Eidolon>=6){
-                chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->buffStackChar({{Stats::CR,AType::None,20}},1,3,"The_Sorrowing_Body",4);
+                chooseCharacterBuff(ptr)->buffStackChar({{Stats::CR,AType::None,20}},1,3,"The_Sorrowing_Body",4);
             }
             else
             {
-                chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->buffSingleChar({{Stats::CR,AType::None,20}},"The_Sorrowing_Body",3);
+                chooseCharacterBuff(ptr)->buffSingleChar({{Stats::CR,AType::None,20}},"The_Sorrowing_Body",3);
             }
 
-            if(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->isAllyHaveSummon())
-            chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->buffSingleChar({{Stats::DMG,AType::None,80}},"Benison_of_Paper_and_Rites",2);
+            if(chooseCharacterBuff(ptr)->isAllyHaveSummon())
+            chooseCharacterBuff(ptr)->buffSingleChar({{Stats::DMG,AType::None,80}},"Benison_of_Paper_and_Rites",2);
             else
-            chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->buffSingleChar({{Stats::DMG,AType::None,30}},"Benison_of_Paper_and_Rites",2);
+            chooseCharacterBuff(ptr)->buffSingleChar({{Stats::DMG,AType::None,30}},"Benison_of_Paper_and_Rites",2);
 
             if(ptr->Eidolon>=1){
-                chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->Sub_Unit_ptr[0]->buffSingle({
+                chooseCharacterBuff(ptr)->buffSingle({
                     {Stats::DEF_SHRED,AType::None,16},
                     {Stats::DEF_SHRED,AType::Summon,24},
                 },"Sunday_E1",2);
-                chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->buffSingleChar({{Stats::DEF_SHRED,AType::None,40}},"Sunday_E1",2);
+                chooseCharacterBuff(ptr)->buffSingleChar({{Stats::DEF_SHRED,AType::None,40}},"Sunday_E1",2);
             }
             
             if(ptr->Technique==1&&!SDptr->getBuffCheck("Technique_use")){
                 ptr->setBuffCheck("Technique_use",1);
-                chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get())->buffSingleChar({{Stats::DMG,AType::None,50}},"The_Glorious_Mysteries",2);
+                chooseCharacterBuff(ptr)->buffSingleChar({{Stats::DMG,AType::None,50}},"The_Glorious_Mysteries",2);
             }
             
             //Action Forward
@@ -269,7 +269,7 @@ namespace Sunday{
             }
             Action_forward(chooseCharacterBuff(ptr)->Atv_stats.get(),100);
         });
-        act->addBuffChar(chooseCharacterBuff(ptr->Sub_Unit_ptr[0].get()));
+        act->addBuffChar(chooseCharacterBuff(ptr));
         act->addToActionBar();
     }
 

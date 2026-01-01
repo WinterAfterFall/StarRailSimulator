@@ -22,7 +22,7 @@ namespace Ruan_Mei{
 
         
         
-        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,allyptr = ptr->Sub_Unit_ptr[0].get() ]() {
+        ptr->Turn_func = [ptr,allyptr = ptr ]() {
             if (allyptr->Buff_check["Mei_Skill"] == 0) {
                 Skill_func(ptr);
             } else {
@@ -48,9 +48,9 @@ namespace Ruan_Mei{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] += 37.3;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DEF_P][AType::None] += 22.5;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 5;
+            ptr->Stats_type[Stats::BE][AType::None] += 37.3;
+            ptr->Stats_type[Stats::DEF_P][AType::None] += 22.5;
+            ptr->Atv_stats->flatSpeed += 5;
 
             // relic
 
@@ -75,9 +75,9 @@ namespace Ruan_Mei{
                         {Stats::DMG,AType::None,68},
                         {Stats::BREAK_EFF,AType::None,50},
                     });
-                    ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Mei_Skill",3);
+                    ptr->isHaveToAddBuff("Mei_Skill",3);
                 });
-                act->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
+                act->addBuffSingleTarget(ptr);
                 act->setTurnReset(false);
                 act->addToActionBar();
                 Deal_damage();
@@ -104,7 +104,7 @@ namespace Ruan_Mei{
                 if(enemyUnit[turn->num]->Debuff["RuanMei_Ult_bloom"] == 1){
                     Turn_Skip = 1;
                     enemyUnit[turn->num]->debuffRemove("RuanMei_Ult_bloom");
-                    Action_forward(enemyUnit[turn->num]->Atv_stats.get(), -10 - (0.2 * (ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None])));
+                    Action_forward(enemyUnit[turn->num]->Atv_stats.get(), -10 - (0.2 * (ptr->Stats_type[Stats::BE][AType::None])));
                     shared_ptr<AllyAttackAction> act = 
                     make_shared<AllyAttackAction>(AType::Break,ptr,TraceType::Single,"RM Ult Break");
                     double temp = 0.5;
@@ -119,7 +119,7 @@ namespace Ruan_Mei{
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,RMptr](shared_ptr<AllyAttackAction> &act){
             if(RMptr->getBuffCheck("RuanMei_Ult")){
                 for(Enemy * &e : act->targetList){
-                    e->debuffApply(ptr->Sub_Unit_ptr[0].get(),"RuanMei_Ult_bloom");
+                    e->debuffApply(ptr,"RuanMei_Ult_bloom");
                 }
             }
         }));
@@ -137,7 +137,7 @@ namespace Ruan_Mei{
 
 
     void Basic_Atk(CharUnit *ptr){
-        Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
+        Skill_point(ptr,1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"RM BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
@@ -148,7 +148,7 @@ namespace Ruan_Mei{
         act->addToActionBar();
     }
     void Skill_func(CharUnit *ptr){
-        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
+        Skill_point(ptr,-1);
         shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"RM Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
@@ -157,9 +157,9 @@ namespace Ruan_Mei{
                 {Stats::DMG,AType::None,68},
                 {Stats::BREAK_EFF,AType::None,50},
             });
-            ptr->Sub_Unit_ptr[0]->isHaveToAddBuff("Mei_Skill",3);
+            ptr->isHaveToAddBuff("Mei_Skill",3);
         });
-        act->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
+        act->addBuffSingleTarget(ptr);
         act->addToActionBar();
     }
 }

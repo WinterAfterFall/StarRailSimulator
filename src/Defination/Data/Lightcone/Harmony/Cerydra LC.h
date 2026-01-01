@@ -7,7 +7,7 @@ namespace Harmony_Lightcone{
             string CerydraLCBuff = ptr->getUnitName() +  " Cerydra LC Buff";
 
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 48 + 16 * superimpose;
+                ptr->Stats_type[Stats::ATK_P][AType::None] += 48 + 16 * superimpose;
             }));
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,CerydraLCBuff]() {

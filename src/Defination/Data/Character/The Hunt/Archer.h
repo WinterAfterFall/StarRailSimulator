@@ -85,7 +85,7 @@ namespace Archer{
         };
 
         #pragma endregion
-        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,ac,BA,Skill]() {
+        ptr->Turn_func = [ptr,ac,BA,Skill]() {
             if(sp>=2 * ptr->Adjust["Archer Minimum"])Skill();
             else BA();
         };
@@ -116,15 +116,15 @@ namespace Archer{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 22.4;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += 6.7;
+            ptr->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 22.4;
+            ptr->Stats_type[Stats::ATK_P][AType::None] += 18;
+            ptr->Stats_type[Stats::CR][AType::None] += 6.7;
 
             // relic
 
             // substats
-            if(ptr->Eidolon>=4)ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::Ult] += 150;
-            if(ptr->Eidolon>=6)ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DEF_SHRED][AType::SKILL] += 20;
+            if(ptr->Eidolon>=4)ptr->Stats_type[Stats::DMG][AType::Ult] += 150;
+            if(ptr->Eidolon>=6)ptr->Stats_type[Stats::DEF_SHRED][AType::SKILL] += 20;
 
         }));
 

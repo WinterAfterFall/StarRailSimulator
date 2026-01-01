@@ -5,7 +5,7 @@ namespace Remembrance_Lightcone{
             ptr->SetAllyBaseStats(1164,476,529);
             ptr->Light_cone.Name = "Hyacnine_LC";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Atv_stats->speedPercent += 15 + 3 * superimpose;
+                ptr->Atv_stats->speedPercent += 15 + 3 * superimpose;
             }));
 
             BeforeAction_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<ActionData> &act) {

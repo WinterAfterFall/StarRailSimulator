@@ -5,7 +5,7 @@ namespace Destruction_Lightcone{
             ptr->SetAllyBaseStats(1164,582,397);
             ptr->Light_cone.Name = "Jingliu_LC";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](){
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None]+=17 + (3*superimpose);
+                ptr->Stats_type[Stats::CD][AType::None]+=17 + (3*superimpose);
             }));
 
             Enemy_hit_List.push_back(TriggerByEnemyHit(PRIORITY_ACTTACK,[ptr,superimpose](Enemy *Attacker,vector<AllyUnit*> target){
@@ -27,7 +27,7 @@ namespace Destruction_Lightcone{
 
             }));
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyAttackAction> &act){
-                if(!act->Attacker->isSameStatsOwnerName(ptr->Sub_Unit_ptr[0].get()))return;
+                if(!act->Attacker->isSameStatsOwnerName(ptr))return;
                 ptr->buffResetStack({{Stats::DMG,AType::None,11.5 +2.5*superimpose}},"Jingliu_LC");
                 if(ptr->getBuffCheck("Jingliu_LC Def Shred")){
                     ptr->buffSingle({{Stats::DEF_SHRED,AType::None,-(10.0 +2*superimpose)}});

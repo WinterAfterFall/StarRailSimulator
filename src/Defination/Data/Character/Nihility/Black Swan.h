@@ -67,7 +67,7 @@ namespace BS{
         };
 
         #pragma endregion
-        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,bs,BA,Skill]() {
+        ptr->Turn_func = [ptr,bs,BA,Skill]() {
             for(int i = 1;i<= Total_enemy&&i<=3;i++){
                 if(!enemyUnit[i]->getDebuff("BS DefShred")){
                     Skill();
@@ -109,11 +109,11 @@ namespace BS{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 28;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Wind][AType::None] += 14.4;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += 10;
+            ptr->Stats_type[Stats::ATK_P][AType::None] += 28;
+            ptr->Stats_each_element[Stats::DMG][ElementType::Wind][AType::None] += 14.4;
+            ptr->Stats_type[Stats::EHR][AType::None] += 10;
 
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::None] += 72;
+            ptr->Stats_type[Stats::DMG][AType::None] += 72;
         }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,bs]() {

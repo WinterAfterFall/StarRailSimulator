@@ -5,13 +5,13 @@ void Basic_reset(){
     for(int i=1;i<=Total_ally;i++){
         
         //flat atk
-        for(auto &e1:charUnit[i]->Sub_Unit_ptr[0]->Stats_type){
+        for(auto &e1:charUnit[i]->Stats_type){
             for(auto &e2:e1.second){
                 e2.second = 0;
             }
 
         }
-        for(auto &e1:charUnit[i]->Sub_Unit_ptr[0]->Stats_each_element){
+        for(auto &e1:charUnit[i]->Stats_each_element){
             for(auto &e2:e1.second){
                 for(auto &e3:e2.second){
                     e3.second = 0;
@@ -23,38 +23,38 @@ void Basic_reset(){
         
         
         //ally edit
-            charUnit[i]->Sub_Unit_ptr[0]->Atv_stats->flatSpeed = 0;
-            charUnit[i]->Sub_Unit_ptr[0]->Atv_stats->speedPercent = 0;
-            charUnit[i]->Sub_Unit_ptr[0]->Atv_stats->turnCnt = 0;
-            charUnit[i]->Sub_Unit_ptr[0]->Atv_stats->priority = 0;
-            charUnit[i]->Sub_Unit_ptr[0]->Atv_stats->extraTurn = 0;
+            charUnit[i]->Atv_stats->flatSpeed = 0;
+            charUnit[i]->Atv_stats->speedPercent = 0;
+            charUnit[i]->Atv_stats->turnCnt = 0;
+            charUnit[i]->Atv_stats->priority = 0;
+            charUnit[i]->Atv_stats->extraTurn = 0;
 
             charUnit[i]->Energy_recharge = 100;
             charUnit[i]->Current_energy = charUnit[i]->Max_energy/2;
-            charUnit[i]->Sub_Unit_ptr[0]->currentAllyTargetNum = charUnit[i]->Sub_Unit_ptr[0]->defaultAllyTargetNum;
-            charUnit[i]->Sub_Unit_ptr[0]->currentSubUnitTargetNum = charUnit[i]->Sub_Unit_ptr[0]->defaultSubUnitTargetNum;
-            charUnit[i]->Sub_Unit_ptr[0]->tauntMtpr = 1;
-            charUnit[i]->Sub_Unit_ptr[0]->taunt = charUnit[i]->Sub_Unit_ptr[0]->baseTaunt;
-            charUnit[i]->Sub_Unit_ptr[0]->currentSheild = 0;
-            charUnit[i]->Sub_Unit_ptr[0]->status = UnitStatus::Alive;
+            charUnit[i]->currentAllyTargetNum = charUnit[i]->defaultAllyTargetNum;
+            charUnit[i]->currentSubUnitTargetNum = charUnit[i]->defaultSubUnitTargetNum;
+            charUnit[i]->tauntMtpr = 1;
+            charUnit[i]->taunt = charUnit[i]->baseTaunt;
+            charUnit[i]->currentSheild = 0;
+            charUnit[i]->status = UnitStatus::Alive;
 
             
-            for(auto &e:charUnit[i]->Sub_Unit_ptr[0]->Stack){
+            for(auto &e:charUnit[i]->Stack){
                 e.second = 0;
             }
-            for(auto &e:charUnit[i]->Sub_Unit_ptr[0]->Buff_countdown){
+            for(auto &e:charUnit[i]->Buff_countdown){
                 e.second = 0;
             }
-            for(auto &e:charUnit[i]->Sub_Unit_ptr[0]->Buff_note){
+            for(auto &e:charUnit[i]->Buff_note){
                 e.second = 0;
             }
-            for(auto &e:charUnit[i]->Sub_Unit_ptr[0]->Buff_check){
+            for(auto &e:charUnit[i]->Buff_check){
                 e.second = 0;
             }
-            for(std::pair<const std::string, AllyUnit *> &e : charUnit[i]->Sub_Unit_ptr[0]->buffSubUnitTarget){
+            for(std::pair<const std::string, AllyUnit *> &e : charUnit[i]->buffSubUnitTarget){
                 e.second = nullptr;
             }
-            for(std::pair<const std::string, CharUnit *> &e : charUnit[i]->Sub_Unit_ptr[0]->buffAllyTarget){
+            for(std::pair<const std::string, CharUnit *> &e : charUnit[i]->buffAllyTarget){
                 e.second = nullptr;
             }
 
@@ -79,28 +79,28 @@ void Basic_reset(){
 
 
             
-            charUnit[i]->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 3.888*2;
-            charUnit[i]->Sub_Unit_ptr[0]->Stats_type[Stats::FLAT_ATK][AType::None] += 352.8+38;
-            charUnit[i]->Sub_Unit_ptr[0]->Stats_type[Stats::HP_P][AType::None] += 3.888*2;
-            charUnit[i]->Sub_Unit_ptr[0]->Stats_type[Stats::FLAT_HP][AType::None] += 76+705.6;
-            charUnit[i]->Sub_Unit_ptr[0]->Stats_type[Stats::DEF_P][AType::None] += 4.86*2;
-            charUnit[i]->Sub_Unit_ptr[0]->Stats_type[Stats::FLAT_DEF][AType::None] += 38;
-            charUnit[i]->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += 5+2.9*2;
-            charUnit[i]->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None] += 50+5.8*2;
-            charUnit[i]->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] += 5.8*2;
-            charUnit[i]->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += 3.888*2;
-            charUnit[i]->Sub_Unit_ptr[0]->Stats_type[Stats::HEALING_OUT][AType::None] += 0;
-            charUnit[i]->Sub_Unit_ptr[0]->Stats_type[Stats::RES][AType::None] += 4.32*2;
-            charUnit[i]->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += 3.888*2;
-            charUnit[i]->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 2.3*2;
+            charUnit[i]->Stats_type[Stats::ATK_P][AType::None] += 3.888*2;
+            charUnit[i]->Stats_type[Stats::FLAT_ATK][AType::None] += 352.8+38;
+            charUnit[i]->Stats_type[Stats::HP_P][AType::None] += 3.888*2;
+            charUnit[i]->Stats_type[Stats::FLAT_HP][AType::None] += 76+705.6;
+            charUnit[i]->Stats_type[Stats::DEF_P][AType::None] += 4.86*2;
+            charUnit[i]->Stats_type[Stats::FLAT_DEF][AType::None] += 38;
+            charUnit[i]->Stats_type[Stats::CR][AType::None] += 5+2.9*2;
+            charUnit[i]->Stats_type[Stats::CD][AType::None] += 50+5.8*2;
+            charUnit[i]->Stats_type[Stats::BE][AType::None] += 5.8*2;
+            charUnit[i]->Stats_type[Stats::EHR][AType::None] += 3.888*2;
+            charUnit[i]->Stats_type[Stats::HEALING_OUT][AType::None] += 0;
+            charUnit[i]->Stats_type[Stats::RES][AType::None] += 4.32*2;
+            charUnit[i]->Stats_type[Stats::EHR][AType::None] += 3.888*2;
+            charUnit[i]->Atv_stats->flatSpeed += 2.3*2;
 
 
             charUnit[i]->Body(charUnit[i].get());
             charUnit[i]->Boot(charUnit[i].get());
             charUnit[i]->Orb(charUnit[i].get());
             charUnit[i]->Rope(charUnit[i].get());
-            charUnit[i]->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += charUnit[i]->ExtraEhr;
-            charUnit[i]->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += charUnit[i]->ExtraSpeed;
+            charUnit[i]->Stats_type[Stats::EHR][AType::None] += charUnit[i]->ExtraEhr;
+            charUnit[i]->Atv_stats->flatSpeed += charUnit[i]->ExtraSpeed;
             
     }
 
@@ -209,13 +209,13 @@ void Memosprite_reset(){
                 }
 
             }
-            for(auto &e1:charUnit[i]->Sub_Unit_ptr[0]->Stats_type){
+            for(auto &e1:charUnit[i]->Stats_type){
                 for(auto &e2:e1.second){
                     charUnit[i]->Sub_Unit_ptr[j]->Stats_type[e1.first][e2.first] = e2.second;
                 }
 
             }
-            for(auto &e1:charUnit[i]->Sub_Unit_ptr[0]->Stats_each_element){
+            for(auto &e1:charUnit[i]->Stats_each_element){
                 for(auto &e2:e1.second){
                     for(auto &e3:e2.second){
                         charUnit[i]->Sub_Unit_ptr[j]->Stats_each_element[e1.first][e2.first][e3.first] = e3.second;

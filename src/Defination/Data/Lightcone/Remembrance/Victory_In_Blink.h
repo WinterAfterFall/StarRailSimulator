@@ -7,12 +7,12 @@ namespace Remembrance_Lightcone{
             string VictoryBlink = ptr->getUnitName() + " Victory_Blink";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,VictoryBlink]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None] += 9 + 3 * superimpose;
+                ptr->Stats_type[Stats::CD][AType::None] += 9 + 3 * superimpose;
             }));
     
             Buff_List.push_back(TriggerByAllyBuffAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,VictoryBlink](shared_ptr<AllyBuffAction> &act) {
                 if (act->Attacker->Atv_stats->side == Side::AllyUnit &&
-                    act->Attacker->owner->Sub_Unit_ptr[0]->Atv_stats->UnitName == ptr->Sub_Unit_ptr[0]->Atv_stats->UnitName) {
+                    act->Attacker->owner->Atv_stats->UnitName == ptr->Atv_stats->UnitName) {
                     buffAllAlly({{Stats::DMG, AType::None, (6.0 + 2 * superimpose)}}, VictoryBlink,3);
                 }
             }));

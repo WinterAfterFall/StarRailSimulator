@@ -6,7 +6,7 @@ namespace Destruction_Lightcone{
             ptr->Light_cone.Name = "Phainon_LC";
             ptr->Atv_stats->baseSpeed += 10 + superimpose * 2;
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DEF_SHRED][AType::None] += 13.5 + 4.5 * superimpose;
+                ptr->Stats_type[Stats::DEF_SHRED][AType::None] += 13.5 + 4.5 * superimpose;
             }));
     
             WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](Ally *ally){
@@ -16,7 +16,7 @@ namespace Destruction_Lightcone{
             }));
 
             Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,superimpose]() {
-                if (ptr->Sub_Unit_ptr[0]->isBuffEnd("Blazing Sun")) {
+                if (ptr->isBuffEnd("Blazing Sun")) {
                     ptr->buffSingle({{Stats::DMG,AType::None,-(42.0 + 18.0 * superimpose)}});
                 }
             }));

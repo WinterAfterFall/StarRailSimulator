@@ -40,7 +40,7 @@ namespace CharCmd{
         if(spMode==SPMode::Positive)return true;
         if(sp>Sp_Safety)return true;
         // if(Robin_num!=0){
-        //     if(Ally_unit[Robin_num ]->Sub_Unit_ptr[0]->Atv_stats->Base_speed==-1)return true;
+        //     if(Ally_unit[Robin_num ]->Atv_stats->Base_speed==-1)return true;
         //     if(!Ally_unit[Robin_num]->Wait_Other_Buff)return false;   
         // }
         return false;

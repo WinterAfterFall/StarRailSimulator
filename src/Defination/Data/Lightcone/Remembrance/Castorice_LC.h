@@ -6,7 +6,7 @@ namespace Remembrance_Lightcone{
             ptr->Light_cone.Name = "Castorice_LC";
 
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr, superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::HP_P][AType::None] += 22 + 8*superimpose;
+                ptr->Stats_type[Stats::HP_P][AType::None] += 22 + 8*superimpose;
             }));
 
             AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr, superimpose](AllyUnit* target) {

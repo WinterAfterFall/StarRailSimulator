@@ -6,7 +6,7 @@ namespace Remembrance_Lightcone{
             ptr->Light_cone.Name = "RemembranceHertaShop";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Atv_stats->speedPercent += 4.5 + 1.5 * superimpose;
+                ptr->Atv_stats->speedPercent += 4.5 + 1.5 * superimpose;
             }));
     
             AfterAction_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<ActionData> &act) {

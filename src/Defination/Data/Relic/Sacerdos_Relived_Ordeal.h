@@ -6,11 +6,11 @@ namespace Relic{
         string Sacerdos = ptr->getUnitName() + " Sacerdos";
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Sacerdos]() {
-            ptr->Sub_Unit_ptr[0]->Atv_stats->speedPercent += 6;
+            ptr->Atv_stats->speedPercent += 6;
         }));
 
         Buff_List.push_back(TriggerByAllyBuffAction_Func(PRIORITY_IMMEDIATELY, [ptr,Sacerdos](shared_ptr<AllyBuffAction> &act) {
-            if (act->Attacker->Atv_stats->StatsOwnerName == ptr->Sub_Unit_ptr[0]->Atv_stats->StatsOwnerName && act->traceType == TraceType::Single) {
+            if (act->Attacker->Atv_stats->StatsOwnerName == ptr->Atv_stats->StatsOwnerName && act->traceType == TraceType::Single) {
                 for (auto each : act->buffTargetList) {
                     each->buffStackSingle({{Stats::CD, AType::None, 18}}, 1, 2, Sacerdos,2);
                 }
@@ -18,7 +18,7 @@ namespace Relic{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Sacerdos]() {
-            if (turn->num != ptr->Sub_Unit_ptr[0]->currentAllyTargetNum) return;
+            if (turn->num != ptr->currentAllyTargetNum) return;
             AllyUnit *tempstats = dynamic_cast<AllyUnit *>(turn->charptr);
             if (!tempstats) return;
             if (tempstats->isBuffEnd(Sacerdos)) {

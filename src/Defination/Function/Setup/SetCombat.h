@@ -86,12 +86,12 @@ void Reset(){
     }
     for(int i=1;i<=Total_ally;i++){
         for(int j=0;j<charUnit[i]->Sub_Unit_ptr.size();j++){
-        charUnit[i]->Sub_Unit_ptr[j]->totalATK = calculateAtkOnStats(charUnit[i]->Sub_Unit_ptr[0].get());
+        charUnit[i]->Sub_Unit_ptr[j]->totalATK = calculateAtkOnStats(charUnit[i].get());
         charUnit[i]->Sub_Unit_ptr[j]->totalHP = calculateHpOnStats(charUnit[i]->Sub_Unit_ptr[j].get());
         charUnit[i]->Sub_Unit_ptr[j]->totalDEF = calculateDefOnStats(charUnit[i]->Sub_Unit_ptr[j].get());
         totalTaunt += charUnit[i]->Sub_Unit_ptr[j]->taunt;
         }
-        charUnit[i]->Sub_Unit_ptr[0]->currentHP = charUnit[i]->Sub_Unit_ptr[0]->totalHP;
+        charUnit[i]->currentHP = charUnit[i]->totalHP;
     }
     
 }

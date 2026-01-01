@@ -6,12 +6,12 @@ namespace Erudition_Lightcone{
             ptr->Light_cone.Name = "Himeko_LC";
     
             WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += (7.5 + superimpose * 1.5) * Total_enemy;
+                ptr->Stats_type[Stats::ATK_P][AType::None] += (7.5 + superimpose * 1.5) * Total_enemy;
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 if (ptr->isBuffEnd("Himeko_LC_buff")) {
-                    ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::None] -= 25+superimpose*5;
+                    ptr->Stats_type[Stats::DMG][AType::None] -= 25+superimpose*5;
                 }
             }));
     

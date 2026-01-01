@@ -2,7 +2,7 @@
 void Set_Stats(CharUnit *ptr){
     for(int i=0,sz = ptr->Substats.size();i<sz;i++){
         if(ptr->Substats[i].first==Stats::FLAT_SPD){
-            ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed+=2.3*ptr->Substats[i].second;
+            ptr->Atv_stats->flatSpeed+=2.3*ptr->Substats[i].second;
             for(int j=1,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
             ptr->Sub_Unit_ptr[j]->Atv_stats->flatSpeed+=(2.3*ptr->Substats[i].second)*(ptr->Sub_Unit_ptr[j]->Unit_Speed_Ratio/100);
             }

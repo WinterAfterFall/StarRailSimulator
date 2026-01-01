@@ -6,9 +6,9 @@ namespace Erudition_Lightcone{
         ptr->Light_cone.Name = "BP_Erudition";
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
             if (ptr->Max_energy > 160) {
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::None] += 24 + superimpose * 8;
+                ptr->Stats_type[Stats::DMG][AType::None] += 24 + superimpose * 8;
             } else {
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::None] += ptr->Max_energy * (0.15 + 0.05 * superimpose);
+                ptr->Stats_type[Stats::DMG][AType::None] += ptr->Max_energy * (0.15 + 0.05 * superimpose);
             }
         }));
     };

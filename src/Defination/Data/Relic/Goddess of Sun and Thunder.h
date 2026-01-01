@@ -4,7 +4,7 @@ namespace Relic{
         ptr->Relic.Name = "Goddess of Sun and Thunder";
         
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Atv_stats->speedPercent += 6;
+            ptr->Atv_stats->speedPercent += 6;
         }));
 
         Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr](AllyUnit *Healer, AllyUnit *target, double Value) {

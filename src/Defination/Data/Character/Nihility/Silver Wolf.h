@@ -49,9 +49,9 @@ namespace SW{
                 Increase_energy(sw,30);
                 for(auto &enemy : act->targetList){
                     for(int i=1;i<=Total_ally;i++){
-                        if(enemy->Default_Weakness_type[charUnit[i]->Sub_Unit_ptr[0]->Element_type[0]])continue;
-                        enemy->weaknessApply(charUnit[i]->Sub_Unit_ptr[0]->Element_type[0],3);
-                        enemy->debuffSingleApply({{Stats::RESPEN,charUnit[i]->Sub_Unit_ptr[0]->Element_type[0],AType::None,20}},sw,"SW Weakness",3);
+                        if(enemy->Default_Weakness_type[charUnit[i]->Element_type[0]])continue;
+                        enemy->weaknessApply(charUnit[i]->Element_type[0],3);
+                        enemy->debuffSingleApply({{Stats::RESPEN,charUnit[i]->Element_type[0],AType::None,20}},sw,"SW Weakness",3);
                         sw->setBuffNote("SW Weakness num",i);
                         break;
                     }
@@ -65,7 +65,7 @@ namespace SW{
 
         #pragma endregion
 
-        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get(),BA,Skill]() {
+        ptr->Turn_func = [ptr, allyPtr = ptr,BA,Skill]() {
             for(int i = 1;i<= Total_enemy&&i<=ptr->Adjust["SW Targets amount"];i++){
                 if(!enemyUnit[i]->getDebuff("SW Res")){
                     Skill();
@@ -115,17 +115,17 @@ namespace SW{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 8;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 28;
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += 18;
+            ptr->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 8;
+            ptr->Stats_type[Stats::ATK_P][AType::None] += 28;
+            ptr->Stats_type[Stats::EHR][AType::None] += 18;
 
             // relic
 
             // Trace
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 50;
+            ptr->Stats_type[Stats::ATK_P][AType::None] += 50;
 
             if(ptr->Eidolon>=6){
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::None] += 100;
+            ptr->Stats_type[Stats::DMG][AType::None] += 100;
             }
 
         }));
@@ -142,7 +142,7 @@ namespace SW{
             Enemy *enemy = turn->canCastToEnemy();
             if(enemy){
                 if(enemy->isDebuffEnd("SW Weakness")){
-                    enemy->debuffSingle({{Stats::RESPEN,charUnit[sw->getBuffNote("SW Weakness num")]->Sub_Unit_ptr[0]->Element_type[0],AType::None,-20}});
+                    enemy->debuffSingle({{Stats::RESPEN,charUnit[sw->getBuffNote("SW Weakness num")]->Element_type[0],AType::None,-20}});
                 }
                 if(enemy->isDebuffEnd("SW Res")){
                     enemy->debuffSingle({{Stats::RESPEN,AType::None,-13}});

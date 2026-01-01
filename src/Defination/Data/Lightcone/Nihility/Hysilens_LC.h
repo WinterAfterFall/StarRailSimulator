@@ -5,7 +5,7 @@ namespace Nihility_Lightcone{
             ptr->SetAllyBaseStats(953,635,463);
             ptr->Light_cone.Name = "Hysilens_LC";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += 35 + 5 * superimpose;
+                ptr->Stats_type[Stats::EHR][AType::None] += 35 + 5 * superimpose;
             }));
 
             WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {

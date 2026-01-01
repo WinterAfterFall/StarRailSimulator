@@ -6,7 +6,7 @@ namespace Nihility_Lightcone{
             ptr->Light_cone.Name = "Kafka_LC";
             string Erode = ptr->getUnitName() + " Erode";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::None] += 20 + 4 * superimpose;
+                ptr->Stats_type[Stats::DMG][AType::None] += 20 + 4 * superimpose;
             }));
             
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,Erode](shared_ptr<AllyAttackAction> &act) {

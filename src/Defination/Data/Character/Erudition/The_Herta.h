@@ -31,7 +31,7 @@ namespace The_Herta{
         Relic(ptr);
         Planar(ptr);
 
-        ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
+        ptr->Turn_func = [ptr, allyPtr = ptr]() {
 
             if (Enchance_Skill_Condition(ptr)) {
                 return;
@@ -43,7 +43,7 @@ namespace The_Herta{
         };
 
         ptr->addUltCondition([ptr]() -> bool {
-            if ((ptr->Sub_Unit_ptr[0]->Atv_stats->atv < ptr->Sub_Unit_ptr[0]->Atv_stats->Max_atv * 0.2)) return false;
+            if ((ptr->Atv_stats->atv < ptr->Atv_stats->Max_atv * 0.2)) return false;
             return true;
         });
 
@@ -52,18 +52,18 @@ namespace The_Herta{
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"THerta Ult",
             [ptr,Hertaptr](shared_ptr<AllyAttackAction> &act){
-                double Increase_mtpr = ptr->Sub_Unit_ptr[0]->Stack["The_Herta_A6"];
+                double Increase_mtpr = ptr->Stack["The_Herta_A6"];
                 act->addDamage(DmgSrcType::ATK,Increase_mtpr);
-                ptr->Sub_Unit_ptr[0]->Buff_note["The_Herta_Skill_Enchance"]++;
+                ptr->Buff_note["The_Herta_Skill_Enchance"]++;
                 if (ptr->Eidolon >= 2) {
-                    ptr->Sub_Unit_ptr[0]->Buff_note["The_Herta_Skill_Enchance"]++;
+                    ptr->Buff_note["The_Herta_Skill_Enchance"]++;
                 }
                 Hertaptr->buffSingle({{Stats::ATK_P,AType::None,80}},"Ult_The_Herta_Buff",3);
 
                 if (ptr->Print)CharCmd::printUltStart("The Herta");
                 Attack(act);
 
-                Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
+                Action_forward(ptr->Atv_stats.get(), 100);
                 Herta_reset_Stack();
             });
             act->addDamageIns(
@@ -76,9 +76,9 @@ namespace The_Herta{
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 18;
-            ptr->Sub_Unit_ptr[0]->Stats_each_element[Stats::DMG][ElementType::Ice][AType::None] += 22.4;
-            ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed += 5;
+            ptr->Stats_type[Stats::ATK_P][AType::None] += 18;
+            ptr->Stats_each_element[Stats::DMG][ElementType::Ice][AType::None] += 22.4;
+            ptr->Atv_stats->flatSpeed += 5;
 
             // relic
 
@@ -89,7 +89,7 @@ namespace The_Herta{
                     if (e == Path::Erudition) cnt++;
                 }
                 if (cnt >= 2) {
-                    ptr->Sub_Unit_ptr[0]->Buff_check["Two_Erudition"] = 1;
+                    ptr->Buff_check["Two_Erudition"] = 1;
                     break;
                 }
             }
@@ -116,7 +116,7 @@ namespace The_Herta{
         }));
 
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            if (ptr->Sub_Unit_ptr[0]->Buff_check["Two_Erudition"] == 1) {
+            if (ptr->Buff_check["Two_Erudition"] == 1) {
                 buffAllAlly({{Stats::CD,AType::None,80}});
             }
         }));
@@ -124,7 +124,7 @@ namespace The_Herta{
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_BUFF, [ptr,Hertaptr](shared_ptr<AllyAttackAction> &act){
             if(act->actionName=="THerta ESkill"){
                 Hertaptr->buffSingle({{Stats::DMG,AType::None,-50}});
-                if(ptr->Eidolon >= 2)Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(),35);
+                if(ptr->Eidolon >= 2)Action_forward(ptr->Atv_stats.get(),35);
             }
             bool Erudition_check = 0;
 
@@ -169,9 +169,9 @@ namespace The_Herta{
         return true;
     }
     bool Enchance_Skill_Condition(CharUnit *ptr){
-        if(ptr->Eidolon>=2&&driverType==DriverType::DoubleTurn&&charUnit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->Max_atv < ptr->Sub_Unit_ptr[0]->Atv_stats->Max_atv&&ptr->Sub_Unit_ptr[0]->Atv_stats->Max_atv*0.65<charUnit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv){
+        if(ptr->Eidolon>=2&&driverType==DriverType::DoubleTurn&&charUnit[Driver_num]->Atv_stats->Max_atv < ptr->Atv_stats->Max_atv&&ptr->Atv_stats->Max_atv*0.65<charUnit[Driver_num]->Atv_stats->atv){
             if(ptr->Current_energy>=190&&(CharCmd::Using_Skill(ptr)||ptr->Current_energy<200)){
-                if(ptr->Sub_Unit_ptr[0]->Buff_note["The_Herta_Skill_Enchance"]>0){
+                if(ptr->Buff_note["The_Herta_Skill_Enchance"]>0){
                     Enchance_Skill(ptr);
                 }else{
                     Skill(ptr);  
@@ -186,7 +186,7 @@ namespace The_Herta{
             }
             
         }
-        if(ptr->Sub_Unit_ptr[0]->Buff_note["The_Herta_Skill_Enchance"]>0){
+        if(ptr->Buff_note["The_Herta_Skill_Enchance"]>0){
             // if(CharCmd::Using_Skill(ptr)&&Stack_Herta_Check(ptr)){
             //     Enchance_Skill(ptr);
             // }else{
@@ -200,7 +200,7 @@ namespace The_Herta{
     }
 
     void Basic_Atk(CharUnit *ptr){
-        Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
+        Skill_point(ptr,1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"THerta BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
@@ -212,7 +212,7 @@ namespace The_Herta{
     }
 
     void Skill(CharUnit *ptr){
-        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
+        Skill_point(ptr,-1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"THerta Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
@@ -234,7 +234,7 @@ namespace The_Herta{
     }
 
     void Enchance_Skill(CharUnit *ptr){
-        Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
+        Skill_point(ptr,-1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Aoe,"THerta ESkill",
         [ptr](shared_ptr<AllyAttackAction> &act){
@@ -250,7 +250,7 @@ namespace The_Herta{
                 Increase_mtpr+=(0.5*mx);
             }
             
-            if(ptr->Sub_Unit_ptr[0]->Buff_check["Two_Erudition"]==1){
+            if(ptr->Buff_check["Two_Erudition"]==1){
                 Increase_mtpr*=2;
             }
             act->addDamageIns(
@@ -258,7 +258,7 @@ namespace The_Herta{
                 DmgSrc(DmgSrcType::ATK,40+Increase_mtpr*4,5),
                 DmgSrc(DmgSrcType::ATK,40+Increase_mtpr*4,5)
             );
-            ptr->Sub_Unit_ptr[0]->Buff_note["The_Herta_Skill_Enchance"]--;
+            ptr->Buff_note["The_Herta_Skill_Enchance"]--;
 
             enemyUnit[Main_Enemy_num]->Debuff["Herta_Stack"] = 1;
             if(ptr->Eidolon>=1){
@@ -296,10 +296,10 @@ namespace The_Herta{
         
     }
     void Apply_Herta_Stack(CharUnit* ptr ,Enemy* target,int Stack){
-        if(ptr->Sub_Unit_ptr[0]->Stack["The_Herta_A6"]+Stack>99){
-            ptr->Sub_Unit_ptr[0]->Stack["The_Herta_A6"] = 99;
+        if(ptr->Stack["The_Herta_A6"]+Stack>99){
+            ptr->Stack["The_Herta_A6"] = 99;
         }else{
-            ptr->Sub_Unit_ptr[0]->Stack["The_Herta_A6"]+=Stack;
+            ptr->Stack["The_Herta_A6"]+=Stack;
         }
         if(target->Debuff["Herta_Stack"]==42){
             for(int i=1;i<=Total_enemy;i++){

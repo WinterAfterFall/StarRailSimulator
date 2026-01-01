@@ -7,7 +7,7 @@ namespace Nihility_Lightcone{
             string Cornered = ptr->getUnitName() + " Cornered";
             string Unarmored = ptr->getUnitName() + " Unarmored";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::EHR][AType::None] += 40 + 10 * superimpose;
+                ptr->Stats_type[Stats::EHR][AType::None] += 40 + 10 * superimpose;
             }));
             
             BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,isDot,Unarmored,Cornered](shared_ptr<AllyAttackAction> &act) {

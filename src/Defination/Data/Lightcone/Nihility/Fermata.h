@@ -6,7 +6,7 @@ namespace Nihility_Lightcone{
             ptr->Light_cone.Name = "Fermata";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] += 12 + superimpose * 4;
+                ptr->Stats_type[Stats::BE][AType::None] += 12 + superimpose * 4;
             }));
 
             BeforeAttack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
