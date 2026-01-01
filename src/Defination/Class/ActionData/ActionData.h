@@ -4,10 +4,10 @@
 
 class PointerWithValue{
     public : 
-    SubUnit* ptr;
+    AllyUnit* ptr;
     double value = 0;
 
-    PointerWithValue(SubUnit *ptr ,double value) : ptr(ptr),value(value){
+    PointerWithValue(AllyUnit *ptr ,double value) : ptr(ptr),value(value){
 
     }
 

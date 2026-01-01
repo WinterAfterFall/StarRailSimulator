@@ -1,7 +1,7 @@
 #include "../include.h"
 namespace Erudition_Lightcone{
-    function<void(Ally *ptr)> The_Herta_LC(int superimpose){
-        return [=](Ally *ptr) {
+    function<void(CharUnit *ptr)> The_Herta_LC(int superimpose){
+        return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(953,635,463);
             ptr->Light_cone.Name = "The_Herta_LC";
     
@@ -10,8 +10,8 @@ namespace Erudition_Lightcone{
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                if (ptr->getSubUnit()->isBuffEnd("The_Herta_LC_buff")) {
-                    ptr->getSubUnit()->buffSingle({
+                if (ptr->getMemosprite()->isBuffEnd("The_Herta_LC_buff")) {
+                    ptr->getMemosprite()->buffSingle({
                         {Stats::DMG,AType::SKILL,-(50.0 + 10 * superimpose)},
                         {Stats::DMG,AType::Ult,-(50.0 + 10 * superimpose)},
                 });
@@ -19,8 +19,8 @@ namespace Erudition_Lightcone{
             }));
 
             AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
-                if (act->isSameAction(ptr->getSubUnit(),AType::Ult)) {
-                    ptr->getSubUnit()->buffSingle({
+                if (act->isSameAction(ptr->getMemosprite(),AType::Ult)) {
+                    ptr->getMemosprite()->buffSingle({
                         {Stats::DMG,AType::SKILL,(50.0 + 10 * superimpose)},
                         {Stats::DMG,AType::Ult,(50.0 + 10 * superimpose)},
                         },"The_Herta_LC_buff",3);

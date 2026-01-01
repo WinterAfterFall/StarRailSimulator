@@ -2,19 +2,19 @@
 #include "../include.h"
 
 namespace Castorice{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
 
-    void BasicAttack(Ally *ptr);
-    void Skill(Ally *ptr);
-    void Enchance_Skill(Ally *ptr);
-    void Kamikaze(Ally *ptr);
-    void DriverCondition(Ally *ptr, Ally *target);
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
+    void BasicAttack(CharUnit *ptr);
+    void Skill(CharUnit *ptr);
+    void Enchance_Skill(CharUnit *ptr);
+    void Kamikaze(CharUnit *ptr);
+    void DriverCondition(CharUnit *ptr, CharUnit *target);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
 
-        Ally *ptr = SetAllyBasicStats(95,0,0,E,ElementType::Quantum,Path::Remembrance,"Castorice",UnitType::Standard);
+        CharUnit *ptr = SetCharBasicStats(95,0,0,E,ElementType::Quantum,Path::Remembrance,"Castorice",UnitType::Standard);
         SetMemoStats(ptr,34000,0,165,0,ElementType::Quantum,"Netherwing",UnitType::Backup);
-        SubUnit *Casptr = ptr->getSubUnit();
-        SubUnit *Polluxptr = ptr->getSubUnit(1);
+        AllyUnit *Casptr = ptr->getMemosprite();
+        AllyUnit *Polluxptr = ptr->getMemosprite(1);
         LC(ptr);
         Relic(ptr);
         Planar(ptr);
@@ -37,7 +37,7 @@ namespace Castorice{
         
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
 
-            if (ptr->getSubUnit(1)->isDeath()) {
+            if (ptr->getMemosprite(1)->isDeath()) {
                 Skill(ptr);
             } else {
                 Enchance_Skill(ptr);
@@ -46,17 +46,17 @@ namespace Castorice{
         
         ptr->Sub_Unit_ptr[1]->Turn_func = [ptr,Casptr,Polluxptr](){
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(1),TraceType::Aoe,"Pollux Skill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(1),TraceType::Aoe,"Pollux Skill",
             [ptr,Casptr,Polluxptr](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,0);
-                while(ptr->getSubUnit(1)->currentHP>8500){
-                    if(ptr->getSubUnit(1)->Stack["Breath Scorches the Shadow"]==0){
+                while(ptr->getMemosprite(1)->currentHP>8500){
+                    if(ptr->getMemosprite(1)->Stack["Breath Scorches the Shadow"]==0){
                         for(auto &each : act->damageSplit[0]){
                             each.dmgSrc.HP = 24;
                         }
                     }
                     else
-                    if(ptr->getSubUnit(1)->Stack["Breath Scorches the Shadow"]==1){
+                    if(ptr->getMemosprite(1)->Stack["Breath Scorches the Shadow"]==1){
                         for(auto &each : act->damageSplit[0]){
                             each.dmgSrc.HP = 28;
                         }
@@ -72,22 +72,22 @@ namespace Castorice{
                             each.dmgSrc.HP *= 1.239;
                         }
                     }
-                    ptr->getSubUnit(1)->Stack["Breath Scorches the Shadow"]++;
+                    ptr->getMemosprite(1)->Stack["Breath Scorches the Shadow"]++;
                     Polluxptr->buffStackSingle({{Stats::DMG,AType::None,30}},1,6,"Where The West Wind Dwells");
                     Attack(act);
-                    if(ptr->getSubUnit(1)->getStack("Ardent Will")>0)
-                    ptr->getSubUnit(1)->Stack["Ardent Will"]--;
+                    if(ptr->getMemosprite(1)->getStack("Ardent Will")>0)
+                    ptr->getMemosprite(1)->Stack["Ardent Will"]--;
                     else 
-                    ptr->getSubUnit(1)->currentHP-=8500;
+                    ptr->getMemosprite(1)->currentHP-=8500;
                 }
                 if(Polluxptr->isBuffEnd("NetherwingLifeSpan")){
-                    if(ptr->getSubUnit(1)->Stack["Breath Scorches the Shadow"]==0){
+                    if(ptr->getMemosprite(1)->Stack["Breath Scorches the Shadow"]==0){
                         for(auto &each : act->damageSplit[0]){
                             each.dmgSrc.HP = 24;
                         }
                     }
                     else
-                    if(ptr->getSubUnit(1)->Stack["Breath Scorches the Shadow"]==1){
+                    if(ptr->getMemosprite(1)->Stack["Breath Scorches the Shadow"]==1){
                         for(auto &each : act->damageSplit[0]){
                             each.dmgSrc.HP = 28;
                         }
@@ -111,9 +111,9 @@ namespace Castorice{
                 }
                 Attack(act);
             });
-            act->addAttacknType(AType::Summon);
+            act->addAttackType(AType::Summon);
             if(ptr->Eidolon>=6)act->Dont_care_weakness = 100;
-            act->source = ptr->getSubUnit();
+            act->source = ptr->getMemosprite();
             act->addDamageIns(
                 DmgSrc(DmgSrcType::HP,24,10),
                 DmgSrc(DmgSrcType::HP,24,10),
@@ -130,31 +130,31 @@ namespace Castorice{
         }));
         
         ptr->addUltCondition([ptr,Casptr,Polluxptr]() -> bool {
-            if(ptr->getSubUnit()->Buff_note["Newbud"] >= 34000)return true;
+            if(ptr->getMemosprite()->Buff_note["Newbud"] >= 34000)return true;
             return false;
         });
         ptr->addUltCondition([ptr,Casptr,Polluxptr]() -> bool {
-            if(ptr->getSubUnit(1)->isDeath())return true;
+            if(ptr->getMemosprite(1)->isDeath())return true;
             return false;
         });
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Casptr,Polluxptr]() {
             if(!ultUseCheck(ptr))return;
-            ptr->getSubUnit()->Buff_note["Newbud"] = 0;
+            ptr->getMemosprite()->Buff_note["Newbud"] = 0;
 
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TraceType::Single,"Cas Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr->getMemosprite(),TraceType::Single,"Cas Ult",
             [ptr,Casptr,Polluxptr](shared_ptr<AllyBuffAction> &act){
                 if(ptr->Print)CharCmd::printUltStart("Castorice");
                 debuffAllEnemyMark({{Stats::RESPEN,AType::None,20}},Polluxptr,"Lost Netherland");
-                ptr->getSubUnit(1)->summon(100);
-                Action_forward(ptr->getSubUnit(1)->Atv_stats.get(),100);
+                ptr->getMemosprite(1)->summon(100);
+                Action_forward(ptr->getMemosprite(1)->Atv_stats.get(),100);
                 Polluxptr->extendBuffTime("NetherwingLifeSpan",ptr->Adjust["NetherwingLifeSpan"]);
                 buffAllAlly({{Stats::DMG,AType::None,10}},"Roar Rumbles the Realm",3);
                 if(ptr->Eidolon>=2){
-                    ptr->getSubUnit(1)->setStack("Ardent Will",2);
-                    Action_forward(ptr->getSubUnit()->Atv_stats.get(),100);
-                    ptr->getSubUnit()->Buff_note["Newbud"] = 10200;
+                    ptr->getMemosprite(1)->setStack("Ardent Will",2);
+                    Action_forward(ptr->getMemosprite()->Atv_stats.get(),100);
+                    ptr->getMemosprite()->Buff_note["Newbud"] = 10200;
                 }
             });
             act->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
@@ -177,63 +177,63 @@ namespace Castorice{
                 debuffAllEnemyMark({{Stats::RESPEN,AType::None,20}},Polluxptr,"Lost Netherland");
                 
 
-                ptr->getSubUnit(1)->summon(50);
-                Action_forward(ptr->getSubUnit(1)->Atv_stats.get(),100);
-                turn = ptr->getSubUnit(1)->Atv_stats.get();
+                ptr->getMemosprite(1)->summon(50);
+                Action_forward(ptr->getMemosprite(1)->Atv_stats.get(),100);
+                turn = ptr->getMemosprite(1)->Atv_stats.get();
                 Polluxptr->extendBuffTime("NetherwingLifeSpan",1);
                 DecreaseHP(ptr->Sub_Unit_ptr[0].get(),"Netherwing",0,0,40);
                 buffAllAlly({{Stats::DMG,AType::None,10}},"Roar Rumbles the Realm",3);
                 if(ptr->Eidolon>=2){
-                    ptr->getSubUnit(1)->setStack("Ardent Will",2);
-                    Action_forward(ptr->getSubUnit()->Atv_stats.get(),100);
-                    ptr->getSubUnit()->Buff_note["Newbud"] = 10200;
+                    ptr->getMemosprite(1)->setStack("Ardent Will",2);
+                    Action_forward(ptr->getMemosprite()->Atv_stats.get(),100);
+                    ptr->getMemosprite()->Buff_note["Newbud"] = 10200;
                 }
             }
             else
             {
-                ptr->getSubUnit()->Buff_note["Newbud"]=10200;
+                ptr->getMemosprite()->Buff_note["Newbud"]=10200;
             }
-            if(!ptr->getSubUnit()->getBuffCheck("Inverted Torch")&&ptr->getSubUnit()->currentHP>=ptr->getSubUnit()->totalHP*0.5){
+            if(!ptr->getMemosprite()->getBuffCheck("Inverted Torch")&&ptr->getMemosprite()->currentHP>=ptr->getMemosprite()->totalHP*0.5){
                 Casptr->buffSingle({{Stats::SPD_P,AType::None,40}});
-                ptr->getSubUnit()->setBuffCheck("Inverted Torch",true);
+                ptr->getMemosprite()->setBuffCheck("Inverted Torch",true);
             }
         }));
 
-        Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr,Casptr,Polluxptr](SubUnit *Healer, SubUnit *target, double Value) {
-            if(target->isSameUnitName("Netherwing"))return;
+        Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr,Casptr,Polluxptr](AllyUnit *Healer, AllyUnit *target, double Value) {
+            if(target->isSameStatsOwnerName("Netherwing"))return;
             Value = (Value + target->getBuffNote("NetherwingHealLimit") > 4080) 
             ? 4080 - target->getBuffNote("NetherwingHealLimit")
             : Value;
             target->Buff_note["NetherwingHealLimit"]+=Value;
-            if(ptr->getSubUnit(1)->isDeath()){
-                ptr->getSubUnit()->Buff_note["Newbud"]+=Value;
+            if(ptr->getMemosprite(1)->isDeath()){
+                ptr->getMemosprite()->Buff_note["Newbud"]+=Value;
             }
             else {
-                ptr->getSubUnit(1)->RestoreHP(ptr->getSubUnit(1),HealSrc(HealSrcType::CONST,Value));
+                ptr->getMemosprite(1)->RestoreHP(ptr->getMemosprite(1),HealSrc(HealSrcType::CONST,Value));
             }
-            if(target->isSameUnitName("Castorice")){
-                if(!ptr->getSubUnit()->getBuffCheck("Inverted Torch")&&ptr->getSubUnit()->currentHP>=ptr->getSubUnit()->totalHP*0.5){
+            if(target->isSameStatsOwnerName("Castorice")){
+                if(!ptr->getMemosprite()->getBuffCheck("Inverted Torch")&&ptr->getMemosprite()->currentHP>=ptr->getMemosprite()->totalHP*0.5){
                 Casptr->buffSingle({{Stats::SPD_P,AType::None,40}});
-                ptr->getSubUnit()->setBuffCheck("Inverted Torch",true);
+                ptr->getMemosprite()->setBuffCheck("Inverted Torch",true);
                 }
             }
             
         }));
 
-        HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_IMMEDIATELY, [ptr,Casptr,Polluxptr](Unit *Trigger, SubUnit *target, double Value) {
-            if(ptr->getSubUnit(1)->isDeath()){
-                ptr->getSubUnit()->Buff_note["Newbud"]+=Value;
+        HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_IMMEDIATELY, [ptr,Casptr,Polluxptr](Unit *Trigger, AllyUnit *target, double Value) {
+            if(ptr->getMemosprite(1)->isDeath()){
+                ptr->getMemosprite()->Buff_note["Newbud"]+=Value;
             }else {
-                ptr->getSubUnit(1)->RestoreHP(ptr->getSubUnit(1),HealSrc(HealSrcType::CONST,Value));
+                ptr->getMemosprite(1)->RestoreHP(ptr->getMemosprite(1),HealSrc(HealSrcType::CONST,Value));
             }
-            if(ptr->getSubUnit()->Buff_note["CastoriceTalentBuff"]!=decreaseHPCount){
-                ptr->getSubUnit()->Buff_note["CastoriceTalentBuff"] = decreaseHPCount;
+            if(ptr->getMemosprite()->Buff_note["CastoriceTalentBuff"]!=decreaseHPCount){
+                ptr->getMemosprite()->Buff_note["CastoriceTalentBuff"] = decreaseHPCount;
                 ptr->buffStackAlly({{Stats::DMG,AType::None,20}},1,3,"CastoriceTalentBuff",3);
             }
-            if(target->isSameUnitName("Castorice")){
-                if(ptr->getSubUnit()->getBuffCheck("Inverted Torch")&&ptr->getSubUnit()->currentHP<ptr->getSubUnit()->totalHP*0.5){
+            if(target->isSameStatsOwnerName("Castorice")){
+                if(ptr->getMemosprite()->getBuffCheck("Inverted Torch")&&ptr->getMemosprite()->currentHP<ptr->getMemosprite()->totalHP*0.5){
                     Casptr->buffSingle({{Stats::SPD_P,AType::None,-40}});
-                    ptr->getSubUnit()->setBuffCheck("Inverted Torch",false);
+                    ptr->getMemosprite()->setBuffCheck("Inverted Torch",false);
                 }
             }
         }));
@@ -246,7 +246,7 @@ namespace Castorice{
             if(turn->isSameCharName("Netherwing")){
                 Polluxptr->buffResetStack({{Stats::DMG,AType::None,30}},"Where The West Wind Dwells");
             }
-            SubUnit *tempUnit = turn->canCastToSubUnit();
+            AllyUnit *tempUnit = turn->canCastToSubUnit();
             if(tempUnit){
                 if(tempUnit->isBuffEnd("Roar Rumbles the Realm")){
                     tempUnit->buffSingle({{Stats::DMG,AType::None,-10}});
@@ -260,7 +260,7 @@ namespace Castorice{
 
         Buff_List.push_back(TriggerByAllyBuffAction_Func(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](shared_ptr<AllyBuffAction> &act) {
             for(int i=1;i<=Total_ally;i++){
-                for(unique_ptr<SubUnit> &e : Ally_unit[i]->Sub_Unit_ptr){
+                for(unique_ptr<AllyUnit> &e : charUnit[i]->Sub_Unit_ptr){
                     e->Buff_note["NetherwingHealLimit"] = 0;
                 }
             }
@@ -270,30 +270,30 @@ namespace Castorice{
 
         BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](shared_ptr<AllyAttackAction> &act) {
             for(int i=1;i<=Total_ally;i++){
-                for(unique_ptr<SubUnit> &e : Ally_unit[i]->Sub_Unit_ptr){
+                for(unique_ptr<AllyUnit> &e : charUnit[i]->Sub_Unit_ptr){
                     e->Buff_note["NetherwingHealLimit"] = 0;
                 }
             }
         }));
         
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](SubUnit* Target, Stats StatsType) {
-            if(!Target->isSameUnitName("Netherwing"))return;
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](AllyUnit* Target, Stats StatsType) {
+            if(!Target->isSameStatsOwnerName("Netherwing"))return;
             if(StatsType != Stats::FLAT_HP && StatsType != Stats::HP_P)return;
             double temp;
-            temp = 34000 - calculateHpOnStats(ptr->getSubUnit(1));
+            temp = 34000 - calculateHpOnStats(ptr->getMemosprite(1));
             Polluxptr->buffSingle({{Stats::FLAT_HP,AType::None,temp}});
             
         }));
 
-        AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](SubUnit* target) {
+        AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](AllyUnit* target) {
             if(target->isBuffGoneByDeath("Roar Rumbles the Realm")){
                 target->buffSingle({{Stats::DMG,AType::None,-10}});
             }
         }));
     }
-    void BasicAttack(Ally *ptr){
+    void BasicAttack(CharUnit *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Cas BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Cas BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Attack(act);
         });
@@ -302,9 +302,9 @@ namespace Castorice{
         );
         act->addToActionBar();
     }
-    void Skill(Ally *ptr){
+    void Skill(CharUnit *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"Cas Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Blast,"Cas Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),"Netherwing",0,0,30);
@@ -317,9 +317,9 @@ namespace Castorice{
         
         act->addToActionBar();
     }
-    void Enchance_Skill(Ally *ptr){
+    void Enchance_Skill(CharUnit *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Aoe,"Cas ESkill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Aoe,"Cas ESkill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),"Netherwing",0,0,40);
@@ -343,26 +343,26 @@ namespace Castorice{
             DmgSrc(DmgSrcType::HP,50,10)
         );
         act->setJoint();
-        act->switchAttacker.push_back(SwitchAtk(1,ptr->getSubUnit(),1));
+        act->switchAttacker.push_back(SwitchAtk(1,ptr->getMemosprite(),1));
         act->addToActionBar();
     }
-    void Kamikaze(Ally *ptr){
+    void Kamikaze(CharUnit *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(1),TraceType::Bounce,"Pullux Kamikaze",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(1),TraceType::Bounce,"Pullux Kamikaze",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,0);
             Attack(act);
-            ptr->getSubUnit()->RestoreHP(HealSrc(HealSrcType::HP,6,HealSrcType::CONST,800));
+            ptr->getMemosprite()->RestoreHP(HealSrc(HealSrcType::HP,6,HealSrcType::CONST,800));
             for(int i=1;i<=Total_enemy;i++){
-                Enemy_unit[i]->debuffRemove("Lost Netherland"); 
-                Enemy_unit[i]->debuffSingle({{Stats::RESPEN,AType::None,-20}});
+                enemyUnit[i]->debuffRemove("Lost Netherland"); 
+                enemyUnit[i]->debuffSingle({{Stats::RESPEN,AType::None,-20}});
             }
-            ptr->getSubUnit(1)->death();
-            ptr->getSubUnit(1)->setStack("Breath Scorches the Shadow",0);
+            ptr->getMemosprite(1)->death();
+            ptr->getMemosprite(1)->setStack("Breath Scorches the Shadow",0);
             if(ptr->Print)CharCmd::printUltEnd("Castorice");
         });
-        act->addAttacknType(AType::Summon);
-        act->source = ptr->getSubUnit();
+        act->addAttackType(AType::Summon);
+        act->source = ptr->getMemosprite();
         if(ptr->Eidolon>=6){
             act->addEnemyBounce(DmgSrc(DmgSrcType::HP,40,5),9);
             act->Dont_care_weakness = 100;
@@ -380,23 +380,23 @@ namespace Castorice{
         Deal_damage();
         
     }
-    void DriverCondition(Ally *ptr, Ally *target) {
+    void DriverCondition(CharUnit *ptr, CharUnit *target) {
         target->ultCondition.push_back([ptr, target]() -> bool {
-            if(ptr->getSubUnit(1)->isDeath())return false;
+            if(ptr->getMemosprite(1)->isDeath())return false;
             return true;
         });
     }
-    void HealerCondition(Ally *ptr, Ally *target) {
+    void HealerCondition(CharUnit *ptr, CharUnit *target) {
         target->ultCondition.push_back([ptr, target]() -> bool {
-            if(ptr->getSubUnit()->Buff_note["Newbud"] >= 34000||ptr->getSubUnit(1)->currentHP==34000)return false;
+            if(ptr->getMemosprite()->Buff_note["Newbud"] >= 34000||ptr->getMemosprite(1)->currentHP==34000)return false;
             return true;
         });
     }
-    void CastoriceWithDriver(Ally *ptr, Ally *target) {
+    void CastoriceWithDriver(CharUnit *ptr, CharUnit *target) {
         ptr->ultCondition.push_back([ptr, target]() -> bool {
-            if(target->getSubUnit()->Atv_stats->atv>=10000/165)return true;
+            if(target->getMemosprite()->Atv_stats->atv>=10000/165)return true;
             // if(target->getSubUnit()->Atv_stats->atv>=10)return true;
-            if(turn->isSameUnit(target->getSubUnit())&&phaseStatus == PhaseStatus::BeforeTurn)return true;
+            if(turn->isSameUnit(target->getMemosprite())&&phaseStatus == PhaseStatus::BeforeTurn)return true;
             return false;
         });
     } 

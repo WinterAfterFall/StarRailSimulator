@@ -1,10 +1,10 @@
 #include "../include.h"
 
 namespace Kafka{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
 
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(100,120,120,E,ElementType::Lightning,Path::Nihility,"Kafka",UnitType::Standard);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = SetCharBasicStats(100,120,120,E,ElementType::Lightning,Path::Nihility,"Kafka",UnitType::Standard);
         ptr->SetAllyBaseStats(1087,679,485);
 
         //substats
@@ -21,7 +21,7 @@ namespace Kafka{
         Planar(ptr);
         
         
-        SubUnit *kafka = ptr->getSubUnit();
+        AllyUnit *kafka = ptr->getMemosprite();
 
         ptr->setAdjust("Kafka A2 Kafka",1);
         ptr->setAdjust("Kafka A2 Hysilens",1);
@@ -34,7 +34,7 @@ namespace Kafka{
         function<void()> BA = [ptr,kafka]() {
             Skill_point(kafka,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Kafka BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Kafka BA",
             [ptr,kafka](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,20);
                 Attack(act);
@@ -48,7 +48,7 @@ namespace Kafka{
         function<void()> Skill = [ptr,kafka]() {
             Skill_point(kafka,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"Kafka Skill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Blast,"Kafka Skill",
             [ptr,kafka](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,30);
                 Attack(act);
@@ -66,7 +66,7 @@ namespace Kafka{
 
         function<void()> Fua = [ptr,kafka]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TraceType::Single,"Kafka Fua",
+            make_shared<AllyAttackAction>(AType::Fua,ptr->getMemosprite(),TraceType::Single,"Kafka Fua",
             [ptr,kafka](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,10);
                 Attack(act);
@@ -95,7 +95,7 @@ namespace Kafka{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,kafka]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"Kafka Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"Kafka Ult",
             [ptr,kafka](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Kafka");
                 Attack(act);
@@ -123,9 +123,9 @@ namespace Kafka{
 
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             for(int i=1;i<=Total_ally;i++){
-                if(ptr->getAdjust("Kafka A2 " + Ally_unit[i]->getSubUnit()->getUnitName())){
-                    Ally_unit[i]->buffAlly({{Stats::ATK_P,AType::None,100}});
-                    Ally_unit[i]->newEhrRequire(75);
+                if(ptr->getAdjust("Kafka A2 " + charUnit[i]->getMemosprite()->getUnitName())){
+                    charUnit[i]->buffAlly({{Stats::ATK_P,AType::None,100}});
+                    charUnit[i]->newEhrRequire(75);
                 }
             }
 
@@ -137,7 +137,7 @@ namespace Kafka{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,kafka]() {
             if(ptr->Technique){
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TraceType::Aoe,"Kafka Tech",
+                make_shared<AllyAttackAction>(AType::Technique,ptr->getMemosprite(),TraceType::Aoe,"Kafka Tech",
                 [ptr,kafka](shared_ptr<AllyAttackAction> &act){
                     Attack(act);
                     for(auto &each : act->targetList){
@@ -174,7 +174,7 @@ namespace Kafka{
             if (!target->getDebuff("Kafka Shock")) return;
             if (Dot_type != DotType::General && Dot_type != DotType::Shock) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Shock,ptr->getSubUnit(),TraceType::Single,"Kafka Shock");
+            make_shared<AllyAttackAction>(AType::Shock,ptr->getMemosprite(),TraceType::Single,"Kafka Shock");
             if(ptr->Eidolon>=6)act->addDamageIns(DmgSrc(DmgSrcType::ATK,290+156),target);
             else act->addDamageIns(DmgSrc(DmgSrcType::ATK,290),target);
             act->multiplyDmg(Dot_ratio);
@@ -200,9 +200,9 @@ namespace Kafka{
     }
 
     void useKafkaA2(int num){
-        Ally *ptr = CharCmd::findAllyName("Kafka");
+        CharUnit *ptr = CharCmd::findAllyName("Kafka");
         if(!ptr)return;
-        ptr->setAdjust("Kafka A2 " + Ally_unit[num]->getSubUnit()->getUnitName(),1);
-        Ally_unit[num]->newApplyBaseChanceRequire(75);
+        ptr->setAdjust("Kafka A2 " + charUnit[num]->getMemosprite()->getUnitName(),1);
+        charUnit[num]->newApplyBaseChanceRequire(75);
     }
 }

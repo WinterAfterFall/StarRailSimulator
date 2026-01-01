@@ -2,16 +2,16 @@
 #include "../include.h"
 
 namespace Gallagher{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
-    void Basic_Atk(Ally *ptr);
-    void Enchance_Basic_Atk(Ally *ptr);
-    void Skill_func(Ally *ptr);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
+    void Basic_Atk(CharUnit *ptr);
+    void Enchance_Basic_Atk(CharUnit *ptr);
+    void Skill_func(CharUnit *ptr);
 
 
 
     
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(98,110,110,E,ElementType::Fire,Path::Abundance,"Gallagher",UnitType::Standard);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = SetCharBasicStats(98,110,110,E,ElementType::Fire,Path::Abundance,"Gallagher",UnitType::Standard);
         ptr->SetAllyBaseStats(1305,529,441);
 
         //substats
@@ -97,11 +97,11 @@ namespace Gallagher{
             }
         }});
 
-        WhenOnField_List.push_back({PRIORITY_IMMEDIATELY, [ptr,Charptr = ptr->getSubUnit()]() {
-            double temp = calculateBreakEffectForBuff(ptr->getSubUnit(),50);
+        WhenOnField_List.push_back({PRIORITY_IMMEDIATELY, [ptr,Charptr = ptr->getMemosprite()]() {
+            double temp = calculateBreakEffectForBuff(ptr->getMemosprite(),50);
             if(temp>75)temp = 75;
             Charptr->buffSingle({{Stats::HEALING_OUT,AType::None,temp - Charptr->getBuffNote("Novel Concoction")}});
-            ptr->getSubUnit()->Buff_note["Novel Concoction"] = temp;
+            ptr->getMemosprite()->Buff_note["Novel Concoction"] = temp;
             if (ptr->Technique) {
                 shared_ptr<AllyAttackAction> act = 
                 make_shared<AllyAttackAction>(AType::Technique,Charptr,TraceType::Aoe,"Gall Tech",
@@ -130,7 +130,7 @@ namespace Gallagher{
                         
                     }
                 }
-                ptr->getSubUnit()->RestoreHP(HealSrc(HealSrcType::CONST,707.0*cnt));
+                ptr->getMemosprite()->RestoreHP(HealSrc(HealSrcType::CONST,707.0*cnt));
             } else {
                 int cnt = 0;
                 for (Enemy *e : act->targetList) {
@@ -138,16 +138,16 @@ namespace Gallagher{
                         cnt++;           
                     }
                 }
-                ptr->getSubUnit()->RestoreHP(act->Attacker,HealSrc(HealSrcType::CONST,707.0*cnt));
+                ptr->getMemosprite()->RestoreHP(act->Attacker,HealSrc(HealSrcType::CONST,707.0*cnt));
             }
         }));
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_HEAL, [ptr](SubUnit* Target, Stats StatsType) {
-            if(StatsType!=Stats::BE||!Target->isSameUnitName("Gallagher"))return;
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_HEAL, [ptr](AllyUnit* Target, Stats StatsType) {
+            if(StatsType!=Stats::BE||!Target->isSameStatsOwnerName("Gallagher"))return;
 
-            double temp = calculateBreakEffectForBuff( ptr->getSubUnit(),50);
+            double temp = calculateBreakEffectForBuff( ptr->getMemosprite(),50);
             if(temp>75)temp = 75;
-            ptr->getSubUnit()->buffSingle({{Stats::HEALING_OUT,AType::None,temp - ptr->getSubUnit()->Buff_note["Novel Concoction"]}});
-            ptr->getSubUnit()->Buff_note["Novel Concoction"] = temp;
+            ptr->getMemosprite()->buffSingle({{Stats::HEALING_OUT,AType::None,temp - ptr->getMemosprite()->Buff_note["Novel Concoction"]}});
+            ptr->getMemosprite()->Buff_note["Novel Concoction"] = temp;
         }));
 
         
@@ -159,11 +159,11 @@ namespace Gallagher{
 
 
 
-    void Basic_Atk(Ally *ptr){
+    void Basic_Atk(CharUnit *ptr){
         
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Gall BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Gall BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Attack(act);
@@ -172,10 +172,10 @@ namespace Gallagher{
         act->addDamageIns(DmgSrc(DmgSrcType::ATK,55,5));
         act->addToActionBar();
     }
-    void Enchance_Basic_Atk(Ally *ptr){
+    void Enchance_Basic_Atk(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
        shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Gall EBA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Gall EBA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             for(Enemy* &target : act->targetList){
@@ -191,13 +191,13 @@ namespace Gallagher{
         act->addToActionBar();
 
     }
-    void Skill_func(Ally *ptr){
+    void Skill_func(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"Gall Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Single,"Gall Skill",
         [ptr](shared_ptr<AllyBuffAction> act){
-            ptr->getSubUnit()->RestoreHP(HealSrc(HealSrcType::CONST,1768),HealSrc(),HealSrc());
+            ptr->getMemosprite()->RestoreHP(HealSrc(HealSrcType::CONST,1768),HealSrc(),HealSrc());
             Increase_energy(ptr,30);
         });
         act->addBuffSingleTarget(chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get()));

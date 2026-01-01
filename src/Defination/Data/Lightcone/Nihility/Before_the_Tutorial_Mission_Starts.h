@@ -1,7 +1,7 @@
 #include "../include.h"
 namespace Nihility_Lightcone{
-    function<void(Ally *ptr)> Before_the_Tutorial(int superimpose){
-        return [=](Ally *ptr) {
+    function<void(CharUnit *ptr)> Before_the_Tutorial(int superimpose){
+        return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(953,476,331);
             ptr->Light_cone.Name = "Before_the_Tutorial";
     
@@ -10,7 +10,7 @@ namespace Nihility_Lightcone{
             }));
     
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                if (act->Attacker->Atv_stats->Unit_Name != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) return;
+                if (act->Attacker->Atv_stats->StatsOwnerName != ptr->Sub_Unit_ptr[0]->Atv_stats->StatsOwnerName) return;
                 for (auto e : act->targetList) {
                     if (e->Stats_type[Stats::DEF_SHRED][AType::None] > 0) {
                         Increase_energy(ptr, 3 + superimpose);

@@ -1,9 +1,9 @@
 #include "src/Library.h"
 
-Ally* Char1;
-Ally* Char2;
-Ally* Char3;
-Ally* Char4; 
+CharUnit* Char1;
+CharUnit* Char2;
+CharUnit* Char3;
+CharUnit* Char4; 
 void SetValue(){
     driverType = DriverType::None;
     spMode = SPMode::Negative;      
@@ -18,10 +18,10 @@ void SetValue(){
 
 }
 void SetCharacterPtr(){
-    Char1 = Ally_unit[1].get();
-    Char2 = Ally_unit[2].get();
-    Char3 = Ally_unit[3].get();
-    Char4 = Ally_unit[4].get(); 
+    Char1 = charUnit[1].get();
+    Char2 = charUnit[2].get();
+    Char3 = charUnit[3].get();
+    Char4 = charUnit[4].get(); 
 }
 
 int main(){
@@ -115,10 +115,10 @@ int main(){
     // CharCmd::Set_Reroll_check(Ally_unit[4].get(),0);
     
     
-    CharCmd::Timing_print(Ally_unit[1].get());
-    CharCmd::Timing_print(Ally_unit[2].get());
-    CharCmd::Timing_print(Ally_unit[3].get());
-    CharCmd::Timing_print(Ally_unit[4].get());
+    CharCmd::Timing_print(charUnit[1].get());
+    CharCmd::Timing_print(charUnit[2].get());
+    CharCmd::Timing_print(charUnit[3].get());
+    CharCmd::Timing_print(charUnit[4].get());
     
     
     
@@ -137,7 +137,7 @@ int main(){
         bool skip = 0;
         Reset();
         for(int i=1;i<=Total_ally;i++){
-            Set_Stats(Ally_unit[i].get());
+            Set_Stats(charUnit[i].get());
         }
         Start_game();cout<<endl;
         

@@ -1,16 +1,16 @@
 #include "../include.h"
 
-double calculateHeal(HealSrc healSrc, SubUnit *Healer, SubUnit *target) {
+double calculateHeal(HealSrc healSrc, AllyUnit *Healer, AllyUnit *target) {
     double TotalHeal = 0;
-
-    if((Healer->ptrToChar->checkHealFormula&&target->ptrToChar->checkHealReceiveFormula)
-        ||(Healer->ptrToChar->checkHeal&&target->ptrToChar->checkHealReceive)){
+    
+    if((Healer->owner->checkHealFormula&&target->owner->checkHealReceiveFormula)
+        ||(Healer->owner->checkHeal&&target->owner->checkHealReceive)){
         cout<<"\033[0;38;5;85m";
         cout<<endl;
         cout<<"From "<<Healer->getCharName()<<" to "<<target->getCharName()<<endl;
         cout << "\033[0m";
     }
-    if(Healer->ptrToChar->checkHealFormula&&target->ptrToChar->checkHealReceiveFormula){
+    if(Healer->owner->checkHealFormula&&target->owner->checkHealReceiveFormula){
        
         cout<<"Atk Ratio : "<<healSrc.ATK<<" Hp Ratio : "<<healSrc.HP<<" Def Ratio : "<<healSrc.DEF<<" Fix Dmg : "<<endl;
 
@@ -52,21 +52,21 @@ double calculateHeal(HealSrc healSrc, SubUnit *Healer, SubUnit *target) {
     
 
 
-    if(Healer->ptrToChar->checkHeal&&target->ptrToChar->checkHealReceive){
+    if(Healer->owner->checkHeal&&target->owner->checkHealReceive){
         cout<<"Total Heal : "<<setw(6)<<TotalHeal<<endl;
     }
 
     return TotalHeal < 0 ? 0 : TotalHeal;
 }
 
-double calculateHealFromLostHP(SubUnit *target, double percent) {
+double calculateHealFromLostHP(AllyUnit *target, double percent) {
     double TotalHeal;
     TotalHeal = (percent / 100.0) * (target->totalHP - target->currentHP);
     
     return (TotalHeal < 0) ? 0 : TotalHeal;
 }
 
-double calculateHealFromTotalHP(SubUnit *target, double percent) {
+double calculateHealFromTotalHP(AllyUnit *target, double percent) {
     double TotalHeal = 0;
     TotalHeal = (percent / 100.0) * (target->totalHP);
     

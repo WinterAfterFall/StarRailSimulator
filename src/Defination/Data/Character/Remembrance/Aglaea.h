@@ -1,19 +1,19 @@
 #include "../include.h"
 
 namespace Aglaea{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
 
 //temp
-    void Basic_Atk(Ally *ptr);
-    void Skill(Ally *ptr);
-    void Memo_Skill(Ally *ptr);
-    void Enchance_Basic_Atk(Ally *ptr);
-    void Summon(Ally *ptr);
+    void Basic_Atk(CharUnit *ptr);
+    void Skill(CharUnit *ptr);
+    void Memo_Skill(CharUnit *ptr);
+    void Enchance_Basic_Atk(CharUnit *ptr);
+    void Summon(CharUnit *ptr);
 
 
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(102,350,350,E,ElementType::Lightning,Path::Remembrance,"Aglaea",UnitType::Standard);
-        SubUnit *AGptr = ptr->getSubUnit();
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = SetCharBasicStats(102,350,350,E,ElementType::Lightning,Path::Remembrance,"Aglaea",UnitType::Standard);
+        AllyUnit *AGptr = ptr->getMemosprite();
         ptr->SetAllyBaseStats(1242,699,485);
         LC(ptr);
         Relic(ptr);
@@ -35,20 +35,20 @@ namespace Aglaea{
         //func
         
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get()]() {
-            if (ptr->getSubUnit(1)->isDeath()) {
+            if (ptr->getMemosprite(1)->isDeath()) {
                 Skill(ptr);
                 return;
             }
 
-            if (ptr->Countdown_ptr[0]->isDeath()) {
+            if (ptr->countdownList[0]->isDeath()) {
                 Basic_Atk(ptr);
             } else {
                 Enchance_Basic_Atk(ptr);
             }
         };
         ptr->addUltCondition([ptr,AGptr]() -> bool {
-            if (ptr->Countdown_ptr[0]->isDeath() && 
-                (ptr->Countdown_ptr[0]->Atv_stats->atv > ptr->Sub_Unit_ptr[0]->Atv_stats->atv && 
+            if (ptr->countdownList[0]->isDeath() && 
+                (ptr->countdownList[0]->Atv_stats->atv > ptr->Sub_Unit_ptr[0]->Atv_stats->atv && 
                 (ptr->Sub_Unit_ptr[0]->Atv_stats->atv != ptr->Sub_Unit_ptr[0]->Atv_stats->Max_atv))) return false;
             if (ptr->Sub_Unit_ptr[1]->Atv_stats->atv == 0 || ptr->Sub_Unit_ptr[0]->Atv_stats->atv == 0) return false;
             return true;
@@ -58,15 +58,15 @@ namespace Aglaea{
             if (!ultUseCheck(ptr)) return;
 
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TraceType::Single,"AG Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr->getMemosprite(),TraceType::Single,"AG Ult",
             [ptr,AGptr](shared_ptr<AllyBuffAction> &act){
                 if (ptr->Sub_Unit_ptr[1]->isDeath()) Summon(ptr);
 
-                if (ptr->Countdown_ptr[0]->isDeath()) 
+                if (ptr->countdownList[0]->isDeath()) 
                 AGptr->buffSingle({{Stats::SPD_P, AType::None, 15.0 * ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"]}});
                 
                 Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
-                ptr->Countdown_ptr[0]->summon();
+                ptr->countdownList[0]->summon();
                 double BuffValue = calculateSpeedForBuff(ptr->Sub_Unit_ptr[0].get(), 360) + 
                 calculateSpeedForBuff(ptr->Sub_Unit_ptr[1].get(), 720);
 
@@ -89,7 +89,7 @@ namespace Aglaea{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr]() {
             if (ptr->Technique == 1) {
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TraceType::Aoe,"AG Tech",
+                make_shared<AllyAttackAction>(AType::Technique,ptr->getMemosprite(),TraceType::Aoe,"AG Tech",
                 [ptr](shared_ptr<AllyAttackAction> &act){
                     Increase_energy(ptr, 30);
                     Summon(ptr);
@@ -106,25 +106,25 @@ namespace Aglaea{
         }));
 
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr,AGptr](shared_ptr<AllyAttackAction> &act) {
-            if (act->Attacker->Atv_stats->Unit_Name == "Garmentmaker") {
+            if (act->Attacker->Atv_stats->StatsOwnerName == "Garmentmaker") {
                 if (act->Attacker->Stack["Brewed_by_Tears"] < 6) {
                     act->Attacker->buffSingle({{Stats::FLAT_SPD, AType::None, 55.0}});
                     act->Attacker->Stack["Brewed_by_Tears"]++;
-                    if (!ptr->Countdown_ptr[0]->isDeath()) {
+                    if (!ptr->countdownList[0]->isDeath()) {
                         AGptr->buffSingle({{Stats::SPD_P, AType::None, 15.0}});
                     }
                 }
             }
-            if (act->Attacker->isSameUnitName("Aglaea")) {
-                if (Enemy_unit[Main_Enemy_num]->debuffApply(ptr->getSubUnit(),"Seam_Stitch")) {
+            if (act->Attacker->isSameStatsOwnerName("Aglaea")) {
+                if (enemyUnit[Main_Enemy_num]->debuffApply(ptr->getMemosprite(),"Seam_Stitch")) {
                     if (ptr->Eidolon >= 1) {
-                        Enemy_unit[Main_Enemy_num]->debuffSingle({{Stats::VUL, AType::None, 15}});
+                        enemyUnit[Main_Enemy_num]->debuffSingle({{Stats::VUL, AType::None, 15}});
                     }
                 }
             }
             if (act->Attacker->Atv_stats->num == ptr->Sub_Unit_ptr[0]->Atv_stats->num) {
                 shared_ptr<AllyAttackAction> data_Additional = 
-                make_shared<AllyAttackAction>(AType::Addtional,ptr->getSubUnit(),TraceType::Single,"AG AddDmg");
+                make_shared<AllyAttackAction>(AType::Addtional,ptr->getMemosprite(),TraceType::Single,"AG AddDmg");
                 data_Additional->addDamageIns(DmgSrc(DmgSrcType::ATK,30));
                 Attack(data_Additional);
                 if (ptr->Eidolon >= 1) {
@@ -135,7 +135,7 @@ namespace Aglaea{
 
         BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr](shared_ptr<AllyAttackAction> &act) {
             if (ptr->Eidolon >= 2) {
-                if (act->Attacker->Atv_stats->Unit_Name == "Aglaea" || act->Attacker->Atv_stats->Unit_Name == "Garmentmaker") {
+                if (act->Attacker->Atv_stats->StatsOwnerName == "Aglaea" || act->Attacker->Atv_stats->StatsOwnerName == "Garmentmaker") {
                     ptr->buffStackAlly({{Stats::DEF_SHRED,AType::None,14}},1,3,"Aglaea_E2");
                 } else {
                     ptr->buffResetStack({{Stats::DEF_SHRED,AType::None,14}},"Aglaea_E2");
@@ -145,7 +145,7 @@ namespace Aglaea{
 
         Buff_List.push_back(TriggerByAllyBuffAction_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr](shared_ptr<AllyBuffAction> &act) {
             if (ptr->Eidolon >= 2) {
-                if (act->Attacker->Atv_stats->Unit_Name == "Aglaea" || act->Attacker->Atv_stats->Unit_Name == "Garmentmaker") {
+                if (act->Attacker->Atv_stats->StatsOwnerName == "Aglaea" || act->Attacker->Atv_stats->StatsOwnerName == "Garmentmaker") {
                     ptr->buffStackAlly({{Stats::DEF_SHRED,AType::None,14}},1,3,"Aglaea_E2");
                 } else {
                     ptr->buffResetStack({{Stats::DEF_SHRED,AType::None,14}},"Aglaea_E2");
@@ -153,9 +153,9 @@ namespace Aglaea{
             }
         }));
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,AGptr](SubUnit *target, Stats StatsType) {
-            if (target->Atv_stats->Unit_Name != "Aglaea") return;
-            if (ptr->Countdown_ptr[0]->isDeath()) return;
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,AGptr](AllyUnit *target, Stats StatsType) {
+            if (target->Atv_stats->StatsOwnerName != "Aglaea") return;
+            if (ptr->countdownList[0]->isDeath()) return;
             if (StatsType == Stats::FLAT_SPD||StatsType == Stats::SPD_P) {
                 // adjust
                 double BuffValue = calculateSpeedForBuff(ptr->Sub_Unit_ptr[0].get(), 360) + 
@@ -175,10 +175,10 @@ namespace Aglaea{
             
         };
 
-        ptr->Countdown_ptr[0]->Turn_func = [ptr,AGptr](){
+        ptr->countdownList[0]->Turn_func = [ptr,AGptr](){
             AGptr->buffSingle({{Stats::SPD_P, AType::None, -15.0 * ptr->Sub_Unit_ptr[1]->Stack["Brewed_by_Tears"]}});
             
-            ptr->Countdown_ptr[0]->death();
+            ptr->countdownList[0]->death();
             
             ptr->buffAlly({{Stats::FLAT_ATK, AType::TEMP,-ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]}});
             ptr->buffAlly({{Stats::FLAT_ATK, AType::None,-ptr->Sub_Unit_ptr[0]->Buff_note["Aglaea_A2"]}});
@@ -202,10 +202,10 @@ namespace Aglaea{
 
 
 
-    void Enchance_Basic_Atk(Ally *ptr){
+    void Enchance_Basic_Atk(CharUnit *ptr){
        
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Blast,"AG Joint",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Blast,"AG Joint",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Attack(act);
@@ -222,11 +222,11 @@ namespace Aglaea{
         act->switchAttacker.push_back(SwitchAtk(1,1));
         act->addToActionBar();
     }
-    void Basic_Atk(Ally *ptr){
+    void Basic_Atk(CharUnit *ptr){
         
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"AG BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"AG BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Attack(act);
@@ -236,10 +236,10 @@ namespace Aglaea{
         );
         act->addToActionBar();
     }
-    void Skill(Ally *ptr){
+    void Skill(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"AG Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Single,"AG Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
             if(ptr->Sub_Unit_ptr[1]->isDeath()){
@@ -251,16 +251,16 @@ namespace Aglaea{
         act->addActionType(AType::Summon);
         act->addToActionBar();
     }
-    void Summon(Ally *ptr){
-        ptr->getSubUnit(1)->summon(100);
+    void Summon(CharUnit *ptr){
+        ptr->getMemosprite(1)->summon(100);
         Action_forward(ptr->Sub_Unit_ptr[1]->Atv_stats.get(),100);
     }
     
 
     
-    void Memo_Skill(Ally *ptr){
+    void Memo_Skill(CharUnit *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(1),TraceType::Blast,"AG Memo Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(1),TraceType::Blast,"AG Memo Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,10);
             Attack(act);
@@ -269,7 +269,7 @@ namespace Aglaea{
             DmgSrc(DmgSrcType::ATK,110,10),
             DmgSrc(DmgSrcType::ATK,65,5)
         );
-        act->addAttacknType(AType::Summon);
+        act->addAttackType(AType::Summon);
         act->addToActionBar();
     }
 }

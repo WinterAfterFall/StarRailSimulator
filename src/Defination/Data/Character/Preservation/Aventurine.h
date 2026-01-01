@@ -31,8 +31,8 @@
 //         Ally_unit[num]->Atv_stats->Character_num = num;
 //         Ally_unit[num]->Atv_stats->Name = "Aventurine";
 //         Ally_unit[num]->Atv_stats->Side = Side::Ally;
-//         Ally_unit[num]->Atv_stats->ptrToChar = Ally_unit[num].get();
-//         unit[num] = Ally_unit[num]->Atv_stats->ptrToChar;
+//         Ally_unit[num]->Atv_stats->owner = Ally_unit[num].get();
+//         unit[num] = Ally_unit[num]->Atv_stats->owner;
 //         Ally_unit[num]->stats->Ult_priority +=0;
 
 //         //func

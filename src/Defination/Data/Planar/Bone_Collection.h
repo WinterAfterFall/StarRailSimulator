@@ -1,7 +1,7 @@
 #include "../include.h"
 namespace Planar{
-    void Bone_Collection(Ally *ptr);
-    void Bone_Collection(Ally *ptr){
+    void Bone_Collection(CharUnit *ptr);
+    void Bone_Collection(CharUnit *ptr){
         ptr->Planar.Name="Bone_Collection";
         
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {

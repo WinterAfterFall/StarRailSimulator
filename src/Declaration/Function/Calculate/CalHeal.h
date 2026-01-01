@@ -1,5 +1,5 @@
 #include "../include.h"
 
-double calculateHeal(HealSrc healSrc, SubUnit *Healer, SubUnit *target);
-double calculateHealFromLostHP(SubUnit *target, double percent);
-double calculateHealFromTotalHP(SubUnit *target, double percent);
+double calculateHeal(HealSrc healSrc, AllyUnit *Healer, AllyUnit *target);
+double calculateHealFromLostHP(AllyUnit *target, double percent);
+double calculateHealFromTotalHP(AllyUnit *target, double percent);

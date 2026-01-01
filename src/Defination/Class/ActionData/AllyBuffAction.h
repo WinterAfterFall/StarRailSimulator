@@ -4,22 +4,22 @@
 
 class AllyBuffAction : public AllyActionData {
     public:
-    vector<SubUnit*> buffTargetList;
+    vector<AllyUnit*> buffTargetList;
     function<void(shared_ptr<AllyBuffAction> &act)> actionFunction;
 
 
     #pragma region checkMethod
 
-    bool isSameBuffer(SubUnit *ptr){
-        if(this->Attacker->isSameUnit(ptr))return true;
+    bool isSameBufferName(AllyUnit *ptr){
+        if(this->Attacker->isSameStatsOwnerName(ptr))return true;
         return false;
     }
-    bool isSameBuffer(Ally *ptr){
-        if(ptr->isSameAlly(this->Attacker))return true;
+    bool isSameBufferName(CharUnit *ptr){
+        if(ptr->isSameChar(this->Attacker))return true;
         return false;
     }
     bool isSameBufferName(string name){
-        if(this->Attacker->isSameUnitName(name))return true;
+        if(this->Attacker->isSameStatsOwnerName(name))return true;
         return false;
     }
     bool isSameBuff(AType ability){
@@ -28,16 +28,16 @@ class AllyBuffAction : public AllyActionData {
         }  
         return false;    
     }
-    bool isSameBuff(SubUnit *ptr,AType ability){
-        if(this->Attacker->isSameUnit(ptr)){
+    bool isSameBuff(AllyUnit *ptr,AType ability){
+        if(this->Attacker->isSameStatsOwnerName(ptr)){
             for(auto &each : actionTypeList){
                 if(each == ability)return true;
             }
         }
         return false;    
     }
-    bool isSameBuff(Ally *ptr,AType ability){
-        if(ptr->isSameAlly(this->Attacker)){
+    bool isSameBuff(CharUnit *ptr,AType ability){
+        if(ptr->isSameChar(this->Attacker)){
             for(auto &each : actionTypeList){
                 if(each == ability)return true;
             }
@@ -45,7 +45,7 @@ class AllyBuffAction : public AllyActionData {
         return false;    
     }
     bool isSameBuff(string name,AType ability){
-        if(this->Attacker->isSameUnitName(name)){
+        if(this->Attacker->isSameStatsOwnerName(name)){
             for(auto &each : actionTypeList){
                 if(each == ability)return true;
             }
@@ -105,19 +105,23 @@ class AllyBuffAction : public AllyActionData {
         buffTargetList.push_back(chooseSubUnitBuff(Attacker));
     }
 
-    void addBuffSingleTarget(SubUnit* ptr){
+    void addBuffSingleTarget(AllyUnit* ptr){
         buffTargetList.push_back(ptr);
     }
-    void addBuffAlly(Ally* ptr){
-        for(auto &e:ptr->Sub_Unit_ptr){
-            buffTargetList.push_back(e.get());
+    void addBuffChar(CharUnit* ptr){
+        if(ptr->getType() != UnitType::OutofBounds)buffTargetList.push_back(ptr);
+        for(auto &e:ptr->memospriteList){
+            if(e->getType() != UnitType::OutofBounds)buffTargetList.push_back(e.get());
         }
     }
     void addBuffAllAllies(){
-        
         for(int i=1;i<=Total_ally;i++){
-            for(auto &e:Ally_unit[i]->Sub_Unit_ptr){
-                buffTargetList.push_back(e.get());
+            if(charUnit[i]->getType() != UnitType::OutofBounds)
+                buffTargetList.push_back(charUnit[i].get());\
+
+            for(auto &e:charUnit[i]->memospriteList){
+                if(e->getType() != UnitType::OutofBounds)
+                    buffTargetList.push_back(e.get());
             }
         }
     }
@@ -127,7 +131,7 @@ class AllyBuffAction : public AllyActionData {
         Action_bar.push(self);
     }
     AllyBuffAction(){}
-    AllyBuffAction(AType actionType,SubUnit* ptr,TraceType traceType, string name)
+    AllyBuffAction(AType actionType,AllyUnit* ptr,TraceType traceType, string name)
     {
         Attacker = ptr;
         source = ptr;
@@ -135,7 +139,7 @@ class AllyBuffAction : public AllyActionData {
         this->traceType = traceType;
         setupActionType(actionType);
     }
-    AllyBuffAction(AType actionType,SubUnit* ptr,TraceType traceType, string name,function<void(shared_ptr<AllyBuffAction> &act)> actionFunction)
+    AllyBuffAction(AType actionType,AllyUnit* ptr,TraceType traceType, string name,function<void(shared_ptr<AllyBuffAction> &act)> actionFunction)
     {
         Attacker = ptr;
         source = ptr;

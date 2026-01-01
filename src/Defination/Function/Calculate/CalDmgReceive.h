@@ -1,6 +1,6 @@
 #include "../include.h"
 
-double calculateDmgReceive(Enemy *Attacker, SubUnit *ptr, double ratio) {
+double calculateDmgReceive(Enemy *Attacker, AllyUnit *ptr, double ratio) {
     double Damage = ratio / 100;
     Damage *= calEnemyATK(Attacker);
     Damage *= calEnemyDMG(Attacker);
@@ -20,7 +20,7 @@ double calEnemyDMG(Enemy *enemy) {
     return (Dmg < 0) ? 0 : Dmg;
 }
 
-double calAllyDefMultiplier(SubUnit *ptr) {
+double calAllyDefMultiplier(AllyUnit *ptr) {
     double Def = (ptr->totalDEF > 0) ? ptr->totalDEF : 0;
     Def = (1.0 - (Def) / (Def + 1000));
     return (Def < 0) ? 0 : Def;

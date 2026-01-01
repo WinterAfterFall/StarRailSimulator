@@ -1,5 +1,5 @@
 #include "../include.h"
-void Set_Stats(Ally *ptr){
+void Set_Stats(CharUnit *ptr){
     for(int i=0,sz = ptr->Substats.size();i<sz;i++){
         if(ptr->Substats[i].first==Stats::FLAT_SPD){
             ptr->Sub_Unit_ptr[0]->Atv_stats->flatSpeed+=2.3*ptr->Substats[i].second;
@@ -43,10 +43,10 @@ bool Reroll_substats(){
     bool ans = true;
     for(int i=1; i<= Total_ally; i++){
         again:
-        if(rerollFunction(Ally_unit[i].get()))
+        if(rerollFunction(charUnit[i].get()))
         ans = false;
         else continue;
-        for(auto &e:Ally_unit[i]->Substats){
+        for(auto &e:charUnit[i]->Substats){
             if(e.second<0){
                 goto again;
             }
@@ -56,7 +56,7 @@ bool Reroll_substats(){
     return ans;
     
 }
-bool StandardReroll(Ally *ptr){
+bool StandardReroll(CharUnit *ptr){
 
     if(0 == ptr->Reroll_check) return false;
     
@@ -108,7 +108,7 @@ bool StandardReroll(Ally *ptr){
     return 1;
 
 }
-bool AllCombinationReroll(Ally *ptr){
+bool AllCombinationReroll(CharUnit *ptr){
     if(0 == ptr->Reroll_check&&ptr->AvgDmgRecord[0].maxDmgRecord>=0)return false;
     changeMaxDamage(ptr);
     if(ptr->Substats.size()<=1||ptr->Reroll_check==0){
@@ -141,7 +141,7 @@ bool AllCombinationReroll(Ally *ptr){
     }
     return false;
 }
-bool AllPossibleReroll(Ally *ptr){
+bool AllPossibleReroll(CharUnit *ptr){
     if(0 == ptr->Reroll_check)return false;
     changeMaxDamage(ptr);
     if(ptr->Substats.size()<=1){

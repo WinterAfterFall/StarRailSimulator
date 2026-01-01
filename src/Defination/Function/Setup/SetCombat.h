@@ -47,11 +47,11 @@ void Setup(){
     if(rerollSubstatsMode == SubstatsRerollMode::AllPossible)rerollFunction = AllPossibleReroll;
     
     for(int i=1;i<=Total_ally;i++){
-        Ally_unit[i]->StatsType_Compare_MAX_MIN.first = -1;
-        Ally_unit[i]->StatsType_Compare_MAX_MIN.second = 1e9;
-        Ally_unit[i]->TotalSubstats_Compare_MAX_MIN.first = -1;
-        Ally_unit[i]->TotalSubstats_Compare_MAX_MIN.second = 1e9;
-        Ally_unit[i]->AvgDmgRecord.resize(Total_enemy+1);
+        charUnit[i]->StatsType_Compare_MAX_MIN.first = -1;
+        charUnit[i]->StatsType_Compare_MAX_MIN.second = 1e9;
+        charUnit[i]->TotalSubstats_Compare_MAX_MIN.first = -1;
+        charUnit[i]->TotalSubstats_Compare_MAX_MIN.second = 1e9;
+        charUnit[i]->AvgDmgRecord.resize(Total_enemy+1);
     }
     for(TriggerByYourSelf_Func &e : Setup_List){
         e.Call();
@@ -78,20 +78,20 @@ void Reset(){
         e.Call();
     }
     for(int i=1;i<=Total_ally;i++){
-        Ally_unit[i]->SpeedRequirment();
-        Ally_unit[i]->EhrRequirment();
+        charUnit[i]->SpeedRequirment();
+        charUnit[i]->EhrRequirment();
     }
     for(TriggerByYourSelf_Func &e : Tune_stats_List){
         e.Call();
     }
     for(int i=1;i<=Total_ally;i++){
-        for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
-        Ally_unit[i]->Sub_Unit_ptr[j]->totalATK = calculateAtkOnStats(Ally_unit[i]->Sub_Unit_ptr[0].get());
-        Ally_unit[i]->Sub_Unit_ptr[j]->totalHP = calculateHpOnStats(Ally_unit[i]->Sub_Unit_ptr[j].get());
-        Ally_unit[i]->Sub_Unit_ptr[j]->totalDEF = calculateDefOnStats(Ally_unit[i]->Sub_Unit_ptr[j].get());
-        totalTaunt += Ally_unit[i]->Sub_Unit_ptr[j]->taunt;
+        for(int j=0;j<charUnit[i]->Sub_Unit_ptr.size();j++){
+        charUnit[i]->Sub_Unit_ptr[j]->totalATK = calculateAtkOnStats(charUnit[i]->Sub_Unit_ptr[0].get());
+        charUnit[i]->Sub_Unit_ptr[j]->totalHP = calculateHpOnStats(charUnit[i]->Sub_Unit_ptr[j].get());
+        charUnit[i]->Sub_Unit_ptr[j]->totalDEF = calculateDefOnStats(charUnit[i]->Sub_Unit_ptr[j].get());
+        totalTaunt += charUnit[i]->Sub_Unit_ptr[j]->taunt;
         }
-        Ally_unit[i]->Sub_Unit_ptr[0]->currentHP = Ally_unit[i]->Sub_Unit_ptr[0]->totalHP;
+        charUnit[i]->Sub_Unit_ptr[0]->currentHP = charUnit[i]->Sub_Unit_ptr[0]->totalHP;
     }
     
 }
@@ -109,8 +109,8 @@ void Start_wave(int WAVE){
     for(int i =1;i<=Total_enemy;i++){
         //Enemy_unit[i]->stats->Toughness_status=1;
         //Enemy_unit[i]->stats->Current_toughness=Enemy_unit[i]->Max_toughness;
-        Enemy_unit[i]->when_toughness_broken = 0;
-        Enemy_unit[i]->Total_toughness_broken_time = 0;
+        enemyUnit[i]->when_toughness_broken = 0;
+        enemyUnit[i]->Total_toughness_broken_time = 0;
     }
     for(TriggerByYourSelf_Func &e : Start_wave_List){
         e.Call();

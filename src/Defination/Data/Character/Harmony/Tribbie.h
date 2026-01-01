@@ -1,20 +1,20 @@
 #include "../include.h"
 
 namespace Tribbie{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
-    void Print_Stats(Ally *ptr);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
+    void Print_Stats(CharUnit *ptr);
 
     
 
 
 
 //temp
-    void Skill(Ally *ptr);
-    void Basic_Atk(Ally *ptr);
+    void Skill(CharUnit *ptr);
+    void Basic_Atk(CharUnit *ptr);
 
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(96,120,120,E,ElementType::Quantum,Path::Harmony,"Tribbie",UnitType::Standard);
-        SubUnit *TBptr = ptr->getSubUnit();
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = SetCharBasicStats(96,120,120,E,ElementType::Quantum,Path::Harmony,"Tribbie",UnitType::Standard);
+        AllyUnit *TBptr = ptr->getMemosprite();
         ptr->SetAllyBaseStats(1048,524,728);
         //substats
         ptr->pushSubstats(Stats::CD);
@@ -40,7 +40,7 @@ namespace Tribbie{
         ptr->Char.Print_Func = Print_Stats;
         ptr->addUltCondition([ptr,TBptr]() -> bool {
             if (ptr->Light_cone.Name == "DDD" && chooseSubUnitBuff(ptr->Sub_Unit_ptr[0].get())->Atv_stats->atv <= 0) return false;
-            if (ptr->Light_cone.Name == "DDD" && Driver_num != 0 && Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv <= 0) return false;
+            if (ptr->Light_cone.Name == "DDD" && Driver_num != 0 && charUnit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv <= 0) return false;
             if (ptr->Light_cone.Name == "Eagle_Beaked_Helmet" && ptr->Sub_Unit_ptr[0]->Atv_stats->atv <= 0) return false;
             return true;
         });
@@ -49,7 +49,7 @@ namespace Tribbie{
             if (!ultUseCheck(ptr)) return;
             
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"TB Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"TB Ult",
             [ptr,TBptr](shared_ptr<AllyAttackAction> &act){
                 if (TBptr->isHaveToAddBuff("Tribbie_Zone",2)) {
                         debuffAllEnemyMark({{Stats::VUL,AType::None,30}},ptr->Sub_Unit_ptr[0].get(),"Tribbie_Zone");
@@ -57,7 +57,7 @@ namespace Tribbie{
                     // A4 Trace
                     ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"] = 0;
                     for (int i = 1; i <= Total_ally; i++) {
-                        ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"] += calculateHpForBuff(Ally_unit[i]->Sub_Unit_ptr[0].get(), 9);
+                        ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"] += calculateHpForBuff(charUnit[i]->Sub_Unit_ptr[0].get(), 9);
                     }
                     TBptr->buffSingle({{Stats::FLAT_HP, AType::TEMP , ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]}});
                     TBptr->buffSingle({{Stats::FLAT_HP, AType::None, ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]}});
@@ -68,14 +68,14 @@ namespace Tribbie{
                 }
                 for (int i = 1; i <= Total_ally; i++) {
                     if (i == ptr->Sub_Unit_ptr[0]->Atv_stats->num) continue;
-                    Ally_unit[i]->Sub_Unit_ptr[0]->Buff_check["Tribbie_ult_launch"] = 0;
+                    charUnit[i]->Sub_Unit_ptr[0]->Buff_check["Tribbie_ult_launch"] = 0;
                 }
                 Attack(act);
                 
                 if (ptr->Print)CharCmd::printUltStart("Tribbie");
                 if (ptr->Eidolon >= 6) {
                     shared_ptr<AllyAttackAction> data_2 = 
-                    make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TraceType::Aoe,"TB Fua",
+                    make_shared<AllyAttackAction>(AType::Fua,ptr->getMemosprite(),TraceType::Aoe,"TB Fua",
                     [ptr](shared_ptr<AllyAttackAction> &act){
                         Increase_energy(ptr, 5);
                         Attack(act);
@@ -116,8 +116,8 @@ namespace Tribbie{
             if (TBptr->isBuffEnd("Tribbie_Zone")) {
                 ptr->Sub_Unit_ptr[0]->Buff_check["Tribbie_Zone"] = 0;
                 for(int i=1;i<=Total_enemy;i++){
-                    Enemy_unit[i]->debuffRemove("Tribbie_Zone");
-                    Enemy_unit[i]->debuffSingle({{Stats::VUL,AType::None,-30}});
+                    enemyUnit[i]->debuffRemove("Tribbie_Zone");
+                    enemyUnit[i]->debuffSingle({{Stats::VUL,AType::None,-30}});
                 }
                 if (ptr->Eidolon >= 4) {
                     buffAllAlly({{Stats::DEF_SHRED, AType::None, -18}});
@@ -154,7 +154,7 @@ namespace Tribbie{
             Increase_energy(ptr, (1.5) * temp);
             if (TBptr->getBuffCheck("Tribbie_Zone")) {
                 shared_ptr<AllyAttackAction> data_1 = 
-                make_shared<AllyAttackAction>(AType::Addtional,ptr->getSubUnit(),TraceType::Single,"TB AddDmg");
+                make_shared<AllyAttackAction>(AType::Addtional,ptr->getMemosprite(),TraceType::Single,"TB AddDmg");
                 if (ptr->Eidolon >= 2) {
                     data_1->addDamageIns(DmgSrc(DmgSrcType::HP,14.4 * (temp + 1)));
                 } else {
@@ -163,10 +163,10 @@ namespace Tribbie{
 
                 Attack(data_1);
             }
-            if (act->isSameAttack(AType::Ult)&& act->Attacker->getBuffCheck("Tribbie_ult_launch") == 0 && act->Attacker->Atv_stats->Char_Name != "Tribbie" && act->Attacker->Atv_stats->side == Side::Ally) {
+            if (act->isSameAttack(AType::Ult)&& act->Attacker->getBuffCheck("Tribbie_ult_launch") == 0 && act->Attacker->Atv_stats->UnitName != "Tribbie" && act->Attacker->Atv_stats->side == Side::Ally) {
                 act->Attacker->Buff_check["Tribbie_ult_launch"] = 1;
                 shared_ptr<AllyAttackAction> data_2 = 
-                make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TraceType::Aoe,"TB Fua",
+                make_shared<AllyAttackAction>(AType::Fua,ptr->getMemosprite(),TraceType::Aoe,"TB Fua",
                 [ptr](shared_ptr<AllyAttackAction> &act){
                     Increase_energy(ptr, 5);
                     Attack(act);
@@ -181,13 +181,13 @@ namespace Tribbie{
             }
         }));
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,TBptr](SubUnit *target, Stats StatsType) {
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,TBptr](AllyUnit *target, Stats StatsType) {
             if (!TBptr->getBuffCheck("Tribbie_Zone")) return;
             if (StatsType == Stats::HP_P || StatsType == Stats::FLAT_HP) {
                 // adjust
                 double temp = 0;
                 for (int i = 1; i <= Total_ally; i++) {
-                    temp += calculateHpForBuff(Ally_unit[i]->Sub_Unit_ptr[0].get(), 9);
+                    temp += calculateHpForBuff(charUnit[i]->Sub_Unit_ptr[0].get(), 9);
                 }
                 
                 // after
@@ -207,17 +207,17 @@ namespace Tribbie{
             AfterDealingDamage_List.push_back(TriggerAfterDealDamage(PRIORITY_IMMEDIATELY, [ptr,TBptr]
                 (shared_ptr<AllyAttackAction> &act, Enemy *src, double damage) {
                 if(!TBptr->getBuffCheck("TB_TrueDmg"))return;
-                Cal_DamageNote(act,src,Enemy_unit[Main_Enemy_num].get(),damage,24,"TB True " + act->actionName);
+                Cal_DamageNote(act,src,enemyUnit[Main_Enemy_num].get(),damage,24,"TB True " + act->actionName);
             }));
         }
 
     }
 
 
-    void Basic_Atk(Ally *ptr){
+    void Basic_Atk(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Blast,"TB BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Blast,"TB BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Attack(act);
@@ -229,10 +229,10 @@ namespace Tribbie{
         act->addToActionBar();
     }
     
-    void Skill(Ally *ptr){
+    void Skill(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Aoe,"TB Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Aoe,"TB Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
             buffAllAlly({{Stats::RESPEN,AType::None,24}});
@@ -247,7 +247,7 @@ namespace Tribbie{
 
 
 
-    void Print_Stats(Ally *ptr){
+    void Print_Stats(CharUnit *ptr){
         cout<<endl;
         cout<<"Tribbie : ";
         cout<<ptr->Sub_Unit_ptr[0]->Buff_check["Numinosity"]<<" ";
@@ -256,7 +256,7 @@ namespace Tribbie{
         cout<<ptr->Sub_Unit_ptr[0]->Buff_note["Tribbie_A4"]<<" ";
         for(int i=1;i<=Total_ally;i++){
                 if(i==ptr->Sub_Unit_ptr[0]->Atv_stats->num)continue;
-                cout<<Ally_unit[i]->Sub_Unit_ptr[0]->Buff_check["Tribbie_ult_launch"]<<" ";
+                cout<<charUnit[i]->Sub_Unit_ptr[0]->Buff_check["Tribbie_ult_launch"]<<" ";
             }
     }
 }

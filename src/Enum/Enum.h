@@ -20,7 +20,7 @@ enum class AType {
     Shock,
     Bleed,
     WindShear,
-    ERROR,
+    AllyUnit,
 };
 enum class UnitStatus{
     Alive,
@@ -122,14 +122,15 @@ enum class Path{
 enum class Side{
     Ally,
     Enemy,
-    Memosprite,
+    AllyUnit,
     Summon,
     Countdown,
 };
 enum class UnitType{
     Standard,
-    Backup
-};
+    Backup,
+    OutofBounds
+};  
 enum class EnemyType{
     Main,
     Adjacent,

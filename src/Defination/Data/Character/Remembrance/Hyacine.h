@@ -1,27 +1,27 @@
 #include "../include.h"
 
 namespace Hyacine{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
 //temp
-    void Basic_Atk(Ally *ptr);
-    void Skill(Ally *ptr);
-    void Memo_Skill(Ally *ptr);
-    void SummonIca(Ally *ptr);
-    void IcaAttack(Ally *ptr);
+    void Basic_Atk(CharUnit *ptr);
+    void Skill(CharUnit *ptr);
+    void Memo_Skill(CharUnit *ptr);
+    void SummonIca(CharUnit *ptr);
+    void IcaAttack(CharUnit *ptr);
     void BeforeHycHeal();
     void AfterHycHeal();
 
 
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(110,140,140,E,ElementType::Wind,Path::Remembrance,"Hyacine",UnitType::Standard);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = SetCharBasicStats(110,140,140,E,ElementType::Wind,Path::Remembrance,"Hyacine",UnitType::Standard);
         ptr->SetAllyBaseStats(1087,388,631);
         LC(ptr);
         Relic(ptr);
         Planar(ptr);
         SetMemoStats(ptr,0,50,0,0,ElementType::Wind,"Little Ica",UnitType::Standard);
         
-        SubUnit *Hycptr = ptr->getSubUnit();
-        SubUnit *Icaptr = ptr->getSubUnit(1);
+        AllyUnit *Hycptr = ptr->getMemosprite();
+        AllyUnit *Icaptr = ptr->getMemosprite(1);
         //substats
         
 
@@ -56,12 +56,12 @@ namespace Hyacine{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Hycptr,Icaptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"Hyc Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"Hyc Ult",
             [ptr,Hycptr](shared_ptr<AllyBuffAction> &act){
                 if(ptr->Print)CharCmd::printUltStart("Hyacine");
                 SummonIca(ptr);
                 BeforeHycHeal();
-                ptr->getSubUnit()->RestoreHP(ptr->getSubUnit(1),
+                ptr->getMemosprite()->RestoreHP(ptr->getMemosprite(1),
                 HealSrc(HealSrcType::HP,12,HealSrcType::CONST,240),
                 HealSrc(HealSrcType::HP,10,HealSrcType::CONST,200)
                 );
@@ -98,7 +98,7 @@ namespace Hyacine{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr]() {
             if(ptr->Technique){
                 BeforeHycHeal();
-                ptr->getSubUnit()->RestoreHP(HealSrc(HealSrcType::HP,30,HealSrcType::CONST,600));
+                ptr->getMemosprite()->RestoreHP(HealSrc(HealSrcType::HP,30,HealSrcType::CONST,600));
                 AfterHycHeal();
                 buffAllAlly({
                         {Stats::HP_P,AType::None,20}
@@ -152,7 +152,7 @@ namespace Hyacine{
             if(Icaptr->isBuffEnd("First Light Heals the World")){
                 Icaptr->buffResetStack({{Stats::DMG,AType::None,80}},"First Light Heals the World");
             }
-            SubUnit *allyptr = turn->canCastToSubUnit();
+            AllyUnit *allyptr = turn->canCastToSubUnit();
             if(!allyptr)return;
             if(allyptr->isBuffEnd("Day So Right, Life So Fine!")){
                 allyptr->buffSingle({{Stats::HP_P,AType::None,-20}});
@@ -162,7 +162,7 @@ namespace Hyacine{
         BeforeAction_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](shared_ptr<ActionData> &act) {
             
             for(int i=1;i<=Total_ally;i++){
-                for(auto &each : Ally_unit[i]->Sub_Unit_ptr){
+                for(auto &each : charUnit[i]->Sub_Unit_ptr){
                     each->setBuffCheck("Ica Talent Heal",0);
                 }
             }
@@ -178,7 +178,7 @@ namespace Hyacine{
             DecreaseHP(Icaptr,Icaptr,0,4,0);
             BeforeHycHeal();
             for(int i=1;i<=Total_ally;i++){
-                for(auto &each : Ally_unit[i]->Sub_Unit_ptr){
+                for(auto &each : charUnit[i]->Sub_Unit_ptr){
                     if(each->getBuffCheck("Ica Talent Heal"))
                     Icaptr->RestoreHP(each.get(),HealSrc(HealSrcType::HP,4,HealSrcType::CONST,40));
                     else
@@ -190,8 +190,8 @@ namespace Hyacine{
             healCount++;
         }));
 
-        AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](SubUnit* target) {
-            if(target->isSameUnit(Icaptr)){
+        AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](AllyUnit* target) {
+            if(target->isSameStatsOwnerName(Icaptr)){
                 Action_forward(Hycptr->Atv_stats.get(),30);
             }
             if(target->isBuffGoneByDeath("First Light Heals the World")){
@@ -202,8 +202,8 @@ namespace Hyacine{
             }
         }));
         
-        Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](SubUnit *Healer, SubUnit *target, double Value) {
-            if(Healer->isSameUnitName("Hyacine")||Healer->isSameUnitName("Little Ica")){
+        Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](AllyUnit *Healer, AllyUnit *target, double Value) {
+            if(Healer->isSameStatsOwnerName("Hyacine")||Healer->isSameStatsOwnerName("Little Ica")){
                 Icaptr->buffStackSingle({
                     {Stats::DMG,AType::None,80}
                 },1,3,"First Light Heals the World",2);
@@ -211,14 +211,14 @@ namespace Hyacine{
             }
         }));
         
-        HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](Unit *Trigger, SubUnit *target, double Value) {
-            if(target->isSameUnit(Icaptr))return;
+        HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](Unit *Trigger, AllyUnit *target, double Value) {
+            if(target->isSameStatsOwnerName(Icaptr))return;
             Hycptr->setBuffCheck("Ica Talent Trigger",1);
             target->setBuffCheck("Ica Talent Heal",1);
         }));
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](SubUnit* Target, Stats StatsType) {
-            if(!Target->isSameUnitName("Hyacine"))return;
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](AllyUnit* Target, Stats StatsType) {
+            if(!Target->isSameStatsOwnerName("Hyacine"))return;
             if(StatsType!=Stats::SPD_P||StatsType!=Stats::FLAT_SPD)return;
             double spd = calculateSpeedForBuff(Hycptr,100);
             double healout = floor((spd-200.0));
@@ -251,19 +251,19 @@ namespace Hyacine{
         if(ptr->Eidolon>=1)
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](shared_ptr<AllyAttackAction> &act) {
             if(Hycptr->getBuffCheck("After Rain")){
-                ptr->getSubUnit()->RestoreHP(act->Attacker,
+                ptr->getMemosprite()->RestoreHP(act->Attacker,
                 HealSrc(HealSrcType::HP,8)
                 );
             }
         }));
 
         if(ptr->Eidolon>=2){
-            HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](Unit *Trigger, SubUnit *target, double Value) {
+            HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](Unit *Trigger, AllyUnit *target, double Value) {
                 target->buffSingle({{Stats::SPD_P,AType::None,30}},"Hyacine E2",2);
             }));
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr]() {
-                SubUnit *allyptr = turn->canCastToSubUnit();
+                AllyUnit *allyptr = turn->canCastToSubUnit();
                 if(allyptr&&allyptr->isBuffEnd("Hyacine E2")){
                     allyptr->buffSingle({{Stats::SPD_P,AType::None,-30}});
                 }
@@ -285,10 +285,10 @@ namespace Hyacine{
     }
 
 
-    void Basic_Atk(Ally *ptr){
+    void Basic_Atk(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Hyc BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Hyc BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Attack(act);
@@ -297,15 +297,15 @@ namespace Hyacine{
         act->addDamageIns(DmgSrc(DmgSrcType::HP,50,10));
         act->addToActionBar();
     }
-    void Skill(Ally *ptr){
+    void Skill(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Aoe,"Hyc Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Aoe,"Hyc Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
             SummonIca(ptr);
             BeforeHycHeal();
-            ptr->getSubUnit()->RestoreHP(ptr->getSubUnit(1),
+            ptr->getMemosprite()->RestoreHP(ptr->getMemosprite(1),
             HealSrc(HealSrcType::HP,10,HealSrcType::CONST,200),
             HealSrc(HealSrcType::HP,8,HealSrcType::CONST,160)
             );
@@ -319,28 +319,28 @@ namespace Hyacine{
 
 
 
-    void Memo_Skill(Ally *ptr){
+    void Memo_Skill(CharUnit *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(1),TraceType::Aoe,"Ica Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(1),TraceType::Aoe,"Ica Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,5);
             Attack(act);
-            ptr->getSubUnit(1)->resetATV(-1);
+            ptr->getMemosprite(1)->resetATV(-1);
         });
-        act->addAttacknType(AType::Summon);
+        act->addAttackType(AType::Summon);
         act->addDamageIns(
-            DmgSrc(DmgSrcType::CONST,ptr->getSubUnit(1)->getBuffNote("Tally RestoreHP")*0.2,10),
-            DmgSrc(DmgSrcType::CONST,ptr->getSubUnit(1)->getBuffNote("Tally RestoreHP")*0.2,10),
-            DmgSrc(DmgSrcType::CONST,ptr->getSubUnit(1)->getBuffNote("Tally RestoreHP")*0.2,10)
+            DmgSrc(DmgSrcType::CONST,ptr->getMemosprite(1)->getBuffNote("Tally RestoreHP")*0.2,10),
+            DmgSrc(DmgSrcType::CONST,ptr->getMemosprite(1)->getBuffNote("Tally RestoreHP")*0.2,10),
+            DmgSrc(DmgSrcType::CONST,ptr->getMemosprite(1)->getBuffNote("Tally RestoreHP")*0.2,10)
         );
         if(ptr->Eidolon>=6)
-        ptr->getSubUnit(1)->Buff_note["Tally RestoreHP"] *= 0.88;
+        ptr->getMemosprite(1)->Buff_note["Tally RestoreHP"] *= 0.88;
         else
-        ptr->getSubUnit(1)->Buff_note["Tally RestoreHP"] *= 0.5;
+        ptr->getMemosprite(1)->Buff_note["Tally RestoreHP"] *= 0.5;
         act->addToActionBar();
     }
 
-    void SummonIca(Ally *ptr){
+    void SummonIca(CharUnit *ptr){
         if(!ptr->Sub_Unit_ptr[1]->isDeath())return;
         ptr->Sub_Unit_ptr[1]->summon(100);
         if(ptr->Sub_Unit_ptr[1]->Buff_check["Ica First Summon"]==0){
@@ -350,16 +350,16 @@ namespace Hyacine{
         Increase_energy(ptr,15);
     }
 
-    void IcaAttack(Ally *ptr){
-        if(ptr->getSubUnit()->getBuffCheck("After Rain")){
-            ptr->getSubUnit(1)->resetATV(100);
-            Action_forward(ptr->getSubUnit(1)->Atv_stats.get(),100);
+    void IcaAttack(CharUnit *ptr){
+        if(ptr->getMemosprite()->getBuffCheck("After Rain")){
+            ptr->getMemosprite(1)->resetATV(100);
+            Action_forward(ptr->getMemosprite(1)->Atv_stats.get(),100);
         }
     }
 
     void BeforeHycHeal(){
         for(int i=1;i<=Total_ally;i++){
-            for(auto &each : Ally_unit[i]->Sub_Unit_ptr){
+            for(auto &each : charUnit[i]->Sub_Unit_ptr){
                 if(each->currentHP*2<=each->totalHP){
                     if(each->isHaveToAddBuff("Hyc A2")){
                         each->buffSingle({
@@ -372,7 +372,7 @@ namespace Hyacine{
     }
     void AfterHycHeal(){
         for(int i=1;i<=Total_ally;i++){
-            for(auto &each : Ally_unit[i]->Sub_Unit_ptr){
+            for(auto &each : charUnit[i]->Sub_Unit_ptr){
                 if(each->getBuffCheck("Hyc A2")){
                     each->buffSingle({
                         {Stats::HEALING_IN,AType::None,-25}

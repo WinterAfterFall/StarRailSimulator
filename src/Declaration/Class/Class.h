@@ -6,8 +6,10 @@ class BuffClass;
 class BuffElementClass;
 class ActionValueStats;
 class Unit;
-class SubUnit;
-class Ally;
+class AllyUnit;
+class CharUnit;
+class Memosprite;
+class CharUnit;
 class Enemy;
 
 //CombatData

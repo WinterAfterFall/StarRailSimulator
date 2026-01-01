@@ -1,8 +1,8 @@
 #include "../include.h"
 
 namespace Saber{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(101,360,360,E,ElementType::Wind,Path::Destruction,"Saber",UnitType::Standard);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = SetCharBasicStats(101,360,360,E,ElementType::Wind,Path::Destruction,"Saber",UnitType::Standard);
         ptr->SetAllyBaseStats(1242,602,655);
 
         //substats
@@ -19,7 +19,7 @@ namespace Saber{
         Relic(ptr);
         Planar(ptr);
 
-        SubUnit *sb = ptr->getSubUnit();
+        AllyUnit *sb = ptr->getMemosprite();
 
         #pragma region extra
         function<void(int value)> CoreResonance = [ptr,sb](int value){
@@ -44,7 +44,7 @@ namespace Saber{
         function<void()> BA = [ptr,sb,CoreResonance]() {
             Skill_point(sb,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Saber BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Saber BA",
             [ptr,sb,CoreResonance](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(sb,20);
                 Attack(act);
@@ -60,7 +60,7 @@ namespace Saber{
         function<void()> EBA = [ptr,sb,CoreResonance]() {
             Skill_point(sb,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Aoe,"Saber EBA",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Aoe,"Saber EBA",
             [ptr,sb,CoreResonance](shared_ptr<AllyAttackAction> &act){
                 sb->setBuffCheck("Saber EBA",0);
                 Increase_energy(sb,30);
@@ -90,7 +90,7 @@ namespace Saber{
         function<void()> Skill = [ptr,sb,CoreResonance]() {
             Skill_point(sb,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"Saber Skill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Blast,"Saber Skill",
             [ptr,sb,CoreResonance](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(sb,30);
                 sb->buffSingle({{Stats::CD,AType::None,50}},"Saber A6",2);
@@ -121,7 +121,7 @@ namespace Saber{
         function<void()> ESkill = [ptr,sb,resetCR,CoreResonance]() {
             Skill_point(sb,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"Saber ESkill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Blast,"Saber ESkill",
             [ptr,sb,resetCR,CoreResonance](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(sb,30);
                 Attack(act);
@@ -165,7 +165,7 @@ namespace Saber{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,sb]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"Saber Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"Saber Ult",
             [ptr,sb](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Saber");
                 sb->setBuffCheck("Saber EBA",1);
@@ -244,7 +244,7 @@ namespace Saber{
         }));
 
         When_Energy_Increase_List.push_back(TriggerEnergy_Increase_Func(PRIORITY_IMMEDIATELY, [ptr,sb,CoreResonance](Ally *target, double Energy) {
-            if(!ptr->isSameAlly(target))return;
+            if(!ptr->isSameChar(target))return;
 
             if(ptr->Current_energy + Energy >= ptr->Max_energy){
                 sb->Buff_note["Saber A4"] += ptr->Current_energy + Energy - ptr->Max_energy ;
@@ -254,7 +254,7 @@ namespace Saber{
     }
 
     void UltInTurnOnly(){
-        Ally *ally = CharCmd::findAllyName("Saber");
+        CharUnit *ally = CharCmd::findAllyName("Saber");
         ally->addUltCondition([ally]() -> bool {
             if(turn->isSameUnitName("Saber")&&phaseStatus == PhaseStatus::BeforeTurn)return true;
             return false;

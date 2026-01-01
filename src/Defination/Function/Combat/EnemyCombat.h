@@ -10,20 +10,20 @@ void Enemy::BaAttack(double SkillRatio,double energy){
     act->setBaAttack(this,SkillRatio,energy);
     Action_bar.push(act);
 }
-void Enemy::addTaunt(SubUnit* ptr){
+void Enemy::addTaunt(AllyUnit* ptr){
     this->tauntList.push_back(ptr);
 }
 void Enemy::removeTaunt(string name){
     for (auto it = this->tauntList.begin(); it != this->tauntList.end(); ++it) {
-        if ((*it)->isSameCharName(name)) {
+        if ((*it)->isSameUnitName(name)) {
             this->tauntList.erase(it); // Remove the pointer from the vector
             break; // Exit the loop after removing the taunt
         }
     }
 }
-void Enemy::removeTaunt(SubUnit *ptr){
+void Enemy::removeTaunt(AllyUnit *ptr){
     for (auto it = this->tauntList.begin(); it != this->tauntList.end(); ++it) {
-        if ((*it)->isSameUnit(ptr)) {
+        if ((*it)->isSameStatsOwnerName(ptr)) {
             this->tauntList.erase(it); // Remove the pointer from the vector
             break; // Exit the loop after removing the taunt
         }
@@ -31,7 +31,7 @@ void Enemy::removeTaunt(SubUnit *ptr){
 }
 
 // void EnemyHit(Enemy *Attacker,double energy){
-//     vector<SubUnit*> vec;
+//     vector<AllyUnit*> vec;
 //     for(int i=1;i<=Total_ally;i++){
 //         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
 //             if(Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->Type == UnitType::Backup)continue;
@@ -41,17 +41,17 @@ void Enemy::removeTaunt(SubUnit *ptr){
 //     }
 //     EnemyHit(Attacker,vec,energy);
 // }
-// void EnemyHit(Enemy *Attacker,vector<SubUnit*> target,double energy){
+// void EnemyHit(Enemy *Attacker,vector<AllyUnit*> target,double energy){
 //     double damageDeal;
 //     allEventWhenEnemyHit(Attacker,target);
-//     for(SubUnit* e : target){
-//         Increase_energy(e->ptrToChar,energy);
+//     for(AllyUnit* e : target){
+//         Increase_energy(e->owner,energy);
 //     }
 //     DamageFormEnemy(Attacker,target);
 // }
-// void DamageFormEnemy(Enemy *Attacker,vector<SubUnit*> target){
+// void DamageFormEnemy(Enemy *Attacker,vector<AllyUnit*> target){
 //     decreaseHPCount++;
-//     for(SubUnit* e : target){
+//     for(AllyUnit* e : target){
 //         double damageDeal = calculateDmgReceive(Attacker,e,Attacker->skillRatio);
 //         if(e->currentHP<=0)return;
 //         DecreaseCurrentHP(e,damageDeal);

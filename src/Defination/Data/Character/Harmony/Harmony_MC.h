@@ -1,14 +1,14 @@
 #include "../include.h"
 
 namespace Harmony_MC{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
-    void Basic_Atk(Ally *ptr);  
-    void Skill_func(Ally *ptr);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
+    void Basic_Atk(CharUnit *ptr);  
+    void Skill_func(CharUnit *ptr);
 
     
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally* ptr = SetAllyBasicStats( 105, 140, 140, E, ElementType::Imaginary, Path::Harmony, "Harmony_MC",UnitType::Standard);
-        SubUnit *HMCptr = ptr->getSubUnit();
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit* ptr = SetCharBasicStats( 105, 140, 140, E, ElementType::Imaginary, Path::Harmony, "Harmony_MC",UnitType::Standard);
+        AllyUnit *HMCptr = ptr->getMemosprite();
         ptr->SetAllyBaseStats(1087, 446, 679);
         //substats
         ptr->pushSubstats(Stats::BE);
@@ -33,7 +33,7 @@ namespace Harmony_MC{
             if(!ultUseCheck(ptr)) return;
             
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"HMC Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"HMC Ult",
             [ptr,HMCptr](shared_ptr<AllyBuffAction> &act){
                 if(HMCptr->isHaveToAddBuff("Harmony_MC_ult",3))
                 buffAllAlly({{Stats::BE,AType::None,33}});
@@ -74,12 +74,12 @@ namespace Harmony_MC{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr](){
-            if(turn->Char_Name == "Harmony_MC" && turn->turnCnt == 3){
+            if(turn->UnitName == "Harmony_MC" && turn->turnCnt == 3){
                 ptr->Energy_recharge -= 25;
             }
-            if(turn->side == Side::Ally || turn->side == Side::Memosprite){
+            if(turn->side == Side::Ally || turn->side == Side::AllyUnit){
                 if(turn->turnCnt == 2 && ptr->Technique == 1){
-                    Ally_unit[turn->num]->Sub_Unit_ptr[0]->buffSingle({{Stats::BE,AType::None,-30}});
+                    charUnit[turn->num]->Sub_Unit_ptr[0]->buffSingle({{Stats::BE,AType::None,-30}});
                 }
             }
         }));
@@ -90,13 +90,13 @@ namespace Harmony_MC{
             }
         }));
 
-        Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, SubUnit *Breaker){
+        Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, AllyUnit *Breaker){
             Increase_energy(ptr, 11);
             Action_forward(target->Atv_stats.get(), -30);
         }));
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,HMCptr](SubUnit *target, Stats StatsType){
-            if(target->Atv_stats->Unit_Name != "Harmony_MC") return;
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,HMCptr](AllyUnit *target, Stats StatsType){
+            if(target->Atv_stats->StatsOwnerName != "Harmony_MC") return;
             if(StatsType == Stats::BE){
                 double temp = calculateBreakEffectForBuff(ptr->Sub_Unit_ptr[0].get(), 15);
                 HMCptr->buffAllAllyExcludingBuffer({{Stats::BE,AType::TEMP,temp - ptr->Sub_Unit_ptr[0]->Buff_note["Harmony_MC_E4"]}});
@@ -109,10 +109,10 @@ namespace Harmony_MC{
 
 
 
-void Basic_Atk(Ally *ptr){
+void Basic_Atk(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"HMC BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"HMC BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Attack(act);
@@ -120,10 +120,10 @@ void Basic_Atk(Ally *ptr){
         act->addDamageIns(DmgSrc(DmgSrcType::ATK,110,10));
         act->addToActionBar();
     }
-    void Skill_func(Ally *ptr){
+    void Skill_func(CharUnit *ptr){
         if(ptr->Sub_Unit_ptr[0]->Atv_stats->turnCnt!=1)Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);     
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Bounce,"RMC Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Bounce,"RMC Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30);
             Attack(act);

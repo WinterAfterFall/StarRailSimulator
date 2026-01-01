@@ -1,8 +1,8 @@
 #include "../include.h"
 
 namespace Archer{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(105,220,220,E,ElementType::Quantum,Path::Hunt,"Archer",UnitType::Standard);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = SetCharBasicStats(105,220,220,E,ElementType::Quantum,Path::Hunt,"Archer",UnitType::Standard);
         ptr->SetAllyBaseStats(1164,621,485);
 
         //substats
@@ -17,7 +17,7 @@ namespace Archer{
         Relic(ptr);
         Planar(ptr);
 
-        SubUnit *ac = ptr->getSubUnit();
+        AllyUnit *ac = ptr->getMemosprite();
         Max_sp +=2;
         ptr->Adjust["Archer Minimum"] = 3;
 
@@ -34,7 +34,7 @@ namespace Archer{
         function<void()> BA = [ptr,ac]() {
             Skill_point(ac,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Archer BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Archer BA",
             [ptr,ac](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,20);
                 Attack(act);
@@ -49,7 +49,7 @@ namespace Archer{
             Skill_point(ac,-2);
             ac->calStack(1,5,"Archer Skill Limit");
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"Archer Skill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Single,"Archer Skill",
             [ptr,ac](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,30);
                 if(ptr->Eidolon>=6)ac->buffStackSingle({{Stats::DMG,AType::SKILL,100}},1,3,"Circuit Connection");
@@ -71,7 +71,7 @@ namespace Archer{
 
         function<void()> Fua = [ptr,ac]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TraceType::Single,"Archer Fua",
+            make_shared<AllyAttackAction>(AType::Fua,ptr->getMemosprite(),TraceType::Single,"Archer Fua",
             [ptr,ac](shared_ptr<AllyAttackAction> &act){
                 Skill_point(ac,1);
                 Increase_energy(ptr,5);
@@ -97,7 +97,7 @@ namespace Archer{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr,ac,Charge]() {
             if (!ultUseCheck(ptr))return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TraceType::Single,"Archer Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getMemosprite(),TraceType::Single,"Archer Ult",
             [ptr,ac,Charge](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Archer");
                 Charge(2);
@@ -132,7 +132,7 @@ namespace Archer{
             Charge(1);
             if(ptr->Technique){
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TraceType::Aoe,"Archer Tech",
+                make_shared<AllyAttackAction>(AType::Technique,ptr->getMemosprite(),TraceType::Aoe,"Archer Tech",
                 [ptr](shared_ptr<AllyAttackAction> &act){
                     Attack(act);
                 });
@@ -178,7 +178,7 @@ namespace Archer{
             }
         }));
 
-        Skill_point_List.push_back(TriggerSkill_point_func(PRIORITY_Last, [ptr,Skill,ac,Charge,Fua](SubUnit *SP_maker, int SP) {
+        Skill_point_List.push_back(TriggerSkill_point_func(PRIORITY_Last, [ptr,Skill,ac,Charge,Fua](AllyUnit *SP_maker, int SP) {
             if(sp>=4){
                 ac->buffSingle({{Stats::CD,AType::None,120}},"Archer A6",1);
             }

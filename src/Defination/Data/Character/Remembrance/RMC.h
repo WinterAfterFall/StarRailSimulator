@@ -1,25 +1,25 @@
 #include "../include.h"
 
 namespace RMC{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
 //temp
-    void Basic_Atk(Ally *ptr);
-    void Skill(Ally *ptr);
-    void Increase_Charge(Ally *ptr,double charge);
-    void Memo_Skill(Ally *ptr);
-    void Memo_Echance_Skill(Ally *ptr);
+    void Basic_Atk(CharUnit *ptr);
+    void Skill(CharUnit *ptr);
+    void Increase_Charge(CharUnit *ptr,double charge);
+    void Memo_Skill(CharUnit *ptr);
+    void Memo_Echance_Skill(CharUnit *ptr);
 
 
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(103,160,160,E,ElementType::Ice,Path::Remembrance,"RMC",UnitType::Standard);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = SetCharBasicStats(103,160,160,E,ElementType::Ice,Path::Remembrance,"RMC",UnitType::Standard);
         ptr->SetAllyBaseStats(1048,543,631);
         LC(ptr);
         Relic(ptr);
         Planar(ptr);
         SetMemoStats(ptr,688,68,130,0,ElementType::Ice,"Mem",UnitType::Standard);
         
-        SubUnit *RMCptr = ptr->getSubUnit();
-        SubUnit *Memptr = ptr->getSubUnit(1);
+        AllyUnit *RMCptr = ptr->getMemosprite();
+        AllyUnit *Memptr = ptr->getMemosprite(1);
         //substats
         
 
@@ -56,7 +56,7 @@ namespace RMC{
             if (!ultUseCheck(ptr)) return;
 
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(1),TraceType::Aoe,"RMC Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getMemosprite(1),TraceType::Aoe,"RMC Ult",
             [ptr,RMCptr,Memptr](shared_ptr<AllyAttackAction> &act){
                 Increase_Charge(ptr, 40);
                 Memptr->buffSingle({{Stats::CR,AType::None,100.0}});
@@ -85,8 +85,8 @@ namespace RMC{
             // substats
         }));
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr](SubUnit *target, Stats StatsType) {
-            if (target->Atv_stats->Unit_Name != "Mem") return;
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr](AllyUnit *target, Stats StatsType) {
+            if (target->Atv_stats->StatsOwnerName != "Mem") return;
             if (StatsType == Stats::CD) {
                 double buffValue = (calculateCritdamForBuff(ptr->Sub_Unit_ptr[1].get(), 13.2) + 26.4);
                 buffAllAlly({{Stats::CD, AType::TEMP, buffValue - ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Talent_Buff"]}});
@@ -99,10 +99,10 @@ namespace RMC{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
             if (ptr->Technique == 1) {
                 for (int i = 1; i <= Total_enemy; i++) {
-                    Action_forward(Enemy_unit[i]->Atv_stats.get(), -50);
+                    Action_forward(enemyUnit[i]->Atv_stats.get(), -50);
                 }
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TraceType::Aoe,"RMC Tech",
+                make_shared<AllyAttackAction>(AType::Technique,ptr->getMemosprite(),TraceType::Aoe,"RMC Tech",
                 [ptr](shared_ptr<AllyAttackAction> &act){
                     Attack(act);
                 });
@@ -136,17 +136,17 @@ namespace RMC{
         }));
         AfterDealingDamage_List.push_back(TriggerAfterDealDamage(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]
             (shared_ptr<AllyAttackAction> &act, Enemy *src, double damage) {
-            Ally *ptr = act->Attacker->ptrToChar;
-            SubUnit *subUnit ;
+            CharUnit *ptr = act->Attacker->owner;
+            AllyUnit *AllyUnit ;
             for(auto &each : ptr->Sub_Unit_ptr){
                 if (each->getBuffCheck("Mem_Support")){
-                    subUnit = each.get();
+                    AllyUnit = each.get();
                     goto jump;
                 }
             }
             return;
             jump:
-            Cal_DamageNote(act,src,src,damage,subUnit->getBuffNote("Mem_Support"),"Mem True " + act->actionName);
+            Cal_DamageNote(act,src,src,damage,AllyUnit->getBuffNote("Mem_Support"),"Mem True " + act->actionName);
         }));
 
         When_Energy_Increase_List.push_back(TriggerEnergy_Increase_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr](Ally *target, double Energy) {
@@ -163,7 +163,7 @@ namespace RMC{
         }));
 
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr](shared_ptr<AllyAttackAction> &act) {
-            if (act->Attacker->Atv_stats->Unit_Name != "Mem" && act->Attacker->Atv_stats->side == Side::Memosprite && ptr->Sub_Unit_ptr[1]->Buff_check["RMC_E2"] == 1) {
+            if (act->Attacker->Atv_stats->StatsOwnerName != "Mem" && act->Attacker->Atv_stats->side == Side::AllyUnit && ptr->Sub_Unit_ptr[1]->Buff_check["RMC_E2"] == 1) {
                 Increase_energy(ptr, 8);
                 ptr->Sub_Unit_ptr[1]->Buff_check["RMC_E2"] = 0;
             }
@@ -176,7 +176,7 @@ namespace RMC{
     }
 
 
-    void Increase_Charge(Ally *ptr,double charge){
+    void Increase_Charge(CharUnit *ptr,double charge){
         if(ptr->Sub_Unit_ptr[1]->isDeath())return;
         ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Charge"]+=charge;
         if(ptr->Sub_Unit_ptr[1]->Buff_note["Mem_Charge"]>=100){
@@ -187,10 +187,10 @@ namespace RMC{
     }
 
 
-    void Basic_Atk(Ally *ptr){
+    void Basic_Atk(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"RMC BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"RMC BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Attack(act);
@@ -198,10 +198,10 @@ namespace RMC{
         act->addDamageIns(DmgSrc(DmgSrcType::ATK,100,10));
         act->addToActionBar();
     }
-    void Skill(Ally *ptr){
+    void Skill(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"RMC Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Single,"RMC Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
             if(ptr->Sub_Unit_ptr[1]->isDeath()){
@@ -218,15 +218,15 @@ namespace RMC{
 
 
 
-    void Memo_Skill(Ally *ptr){
+    void Memo_Skill(CharUnit *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(1),TraceType::Bounce,"Mem Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(1),TraceType::Bounce,"Mem Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,10);
             Increase_Charge(ptr,5);
             Attack(act);
         });
-        act->addAttacknType(AType::Summon);
+        act->addAttackType(AType::Summon);
         act->addEnemyBounce(DmgSrc(DmgSrcType::ATK,39.6,5),4);
         act->addDamageIns(
             DmgSrc(DmgSrcType::ATK,99,10),
@@ -235,12 +235,12 @@ namespace RMC{
         );
         act->addToActionBar();
     }
-    void Memo_Echance_Skill(Ally *ptr){
+    void Memo_Echance_Skill(CharUnit *ptr){
 
         ptr->Sub_Unit_ptr[1]->Buff_check["Mem_Charge"]=0;
 
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(1),TraceType::Single,"Mem Buff",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr->getMemosprite(1),TraceType::Single,"Mem Buff",
         [ptr,RMCptr = ptr->Sub_Unit_ptr[1].get()](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,10);
             if(ptr->Print)CharCmd::printUltStart("Mem");

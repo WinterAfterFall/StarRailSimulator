@@ -1,15 +1,15 @@
 #include "../include.h"
 
 namespace Phainon{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(94,0,0,E,ElementType::Physical,Path::Destruction,"Phainon",UnitType::Standard);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = SetCharBasicStats(94,0,0,E,ElementType::Physical,Path::Destruction,"Phainon",UnitType::Standard);
         ptr->SetAllyBaseStats(1436,582,703);
         LC(ptr);
         Relic(ptr);
         Planar(ptr);
-        SetCountdownStats(ptr,ptr->getSubUnit()->Atv_stats->baseSpeed*0.6*7,"Phainon Extra Turn");
-        SubUnit *pn = ptr->getSubUnit();
-        Unit *pnCD = ptr->Countdown_ptr[0].get();
+        SetCountdownStats(ptr,ptr->getMemosprite()->Atv_stats->baseSpeed*0.6*7,"Phainon Extra Turn");
+        Error *pn = ptr->getMemosprite();
+        Unit *pnCD = ptr->countdownList[0].get();
         
 
         //substats
@@ -41,7 +41,7 @@ namespace Phainon{
         function<void()> BA = [ptr,pn]() {
             Skill_point(pn,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"PN BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"PN BA",
             [ptr,pn](shared_ptr<AllyAttackAction> &act){
                 Attack(act);
             });
@@ -54,7 +54,7 @@ namespace Phainon{
         function<void()> Skill = [ptr,pn,CoreFlame]() {
             Skill_point(pn,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"PN Skill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Blast,"PN Skill",
             [ptr,pn,CoreFlame](shared_ptr<AllyAttackAction> &act){
                 CoreFlame(2);
                 Attack(act);
@@ -68,7 +68,7 @@ namespace Phainon{
         
         function<void()> Creation = [ptr,pn,Scourge]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Blast,"PN Creation",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Blast,"PN Creation",
             [ptr,pn,Scourge](shared_ptr<AllyAttackAction> &act){
                 Scourge(2);
                 Attack(act);
@@ -82,15 +82,15 @@ namespace Phainon{
 
         function<void()> Calamity = [ptr,pn,Scourge]() {
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"PN Calamity",
+            make_shared<AllyBuffAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Single,"PN Calamity",
             [ptr,pn,Scourge](shared_ptr<AllyBuffAction> &act){
                 pn->setBuffCheck("Soulscorch",1);
                 pn->setBuffCountdown("PN Counter",Total_enemy);
                 Scourge(Total_enemy);
                 for(int i=1;i<=Total_enemy;i++){
-                    Action_forward(Enemy_unit[i]->getAtvStats(),1000);
-                    Enemy_unit[i]->setDebuff("Soulscorch",1);
-                    Enemy_unit[i]->dmgPercent-=75;
+                    Action_forward(enemyUnit[i]->getAtvStats(),1000);
+                    enemyUnit[i]->setDebuff("Soulscorch",1);
+                    enemyUnit[i]->dmgPercent-=75;
                 }
             });
             act->addBuffSingleTarget(ptr->Sub_Unit_ptr[0].get());
@@ -100,7 +100,7 @@ namespace Phainon{
         function<void()> Foundation = [ptr,pn,Scourge]() {
             Scourge(-4);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Bounce,"PN Foundation",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Bounce,"PN Foundation",
             [ptr,pn,Scourge](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printText("PN Foundation");
                 Attack(act);
@@ -114,7 +114,7 @@ namespace Phainon{
 
         function<void()> FinalHit = [ptr,pn,Scourge,pnCD,CoreFlame]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"PN FinalHit",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"PN FinalHit",
             [ptr,pn,pnCD,CoreFlame](shared_ptr<AllyAttackAction> &act){
                 Attack(act);
                 pn->buffSingle({
@@ -124,8 +124,8 @@ namespace Phainon{
                 pn->Atv_stats->extraTurn = 0;
                 pnCD->death();
                 for(int i=1;i<=Total_ally;i++){
-                    for(auto &each :Ally_unit[i]->Sub_Unit_ptr){
-                        if(each->isSameUnit(pn)){
+                    for(auto &each :charUnit[i]->Sub_Unit_ptr){
+                        if(each->isSameStatsOwnerName(pn)){
                             each->status = UnitStatus::Alive;
                         }else if(pn->getBuffNote("PN Retire " + each->getCharName())==1){
                             each->status = UnitStatus::Alive;
@@ -135,12 +135,12 @@ namespace Phainon{
                         pn->setBuffNote("PN Retire " + each->getCharName(),0);
                     }
 
-                    for(auto &each :Ally_unit[i]->Summon_ptr){
+                    for(auto &each :charUnit[i]->summonList){
                         if(each->status==UnitStatus::AtvFreeze){
                             each->status = UnitStatus::Alive;
                         }
                     }
-                    for(auto &each :Ally_unit[i]->Countdown_ptr){
+                    for(auto &each :charUnit[i]->countdownList){
                         if(each->status==UnitStatus::AtvFreeze){
                             each->status = UnitStatus::Alive;
                         }
@@ -171,7 +171,7 @@ namespace Phainon{
              
         };
 
-        ptr->Countdown_ptr[0]->Turn_func = [ptr,pn,Creation,Calamity,Foundation,FinalHit](){
+        ptr->countdownList[0]->Turn_func = [ptr,pn,Creation,Calamity,Foundation,FinalHit](){
             if(pn->getBuffCountdown("PN Extra Turn")==4||(ptr->Eidolon>=4&&ptr->getAdjust("choose Calamity")&&pn->getBuffNote("Scourge")<4&&Total_enemy>=2))
                 Calamity();
             else if(pn->getBuffCountdown("PN Extra Turn")==1)
@@ -198,7 +198,7 @@ namespace Phainon{
             if (!ultUseCheck(ptr)) return;
             CoreFlame(-12);
             shared_ptr<AllyBuffAction> act = 
-                make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TraceType::Single,"PN Ult",
+                make_shared<AllyBuffAction>(AType::Ult,ptr->getMemosprite(),TraceType::Single,"PN Ult",
                 [ptr,pn,pnCD,Scourge,CoreFlame](shared_ptr<AllyBuffAction> &act){
                     CharCmd::printUltStart("Phainon");
                     pn->buffSingle({
@@ -218,8 +218,8 @@ namespace Phainon{
                     pn->setBuffCountdown("PN Extra Turn", 8);
 
                     for(int i=1;i<=Total_ally;i++){
-                        for(auto &each :Ally_unit[i]->Sub_Unit_ptr){
-                            if(each->isSameUnit(pn)){
+                        for(auto &each :charUnit[i]->Sub_Unit_ptr){
+                            if(each->isSameStatsOwnerName(pn)){
                                     each->status = UnitStatus::AtvFreeze;
                             }else if(each->status==UnitStatus::Alive){
                                 pn->setBuffNote("PN Retire " + each->getCharName(),1);
@@ -230,12 +230,12 @@ namespace Phainon{
                             }
                         }
 
-                        for(auto &each :Ally_unit[i]->Summon_ptr){
+                        for(auto &each :charUnit[i]->summonList){
                             if(each->status==UnitStatus::Alive){
                                 each->status = UnitStatus::AtvFreeze;
                             }
                         }
-                        for(auto &each :Ally_unit[i]->Countdown_ptr){
+                        for(auto &each :charUnit[i]->countdownList){
                             if(each->isSameUnit(pnCD))continue;
                             if(each->status==UnitStatus::Alive){
                                 each->status = UnitStatus::AtvFreeze;
@@ -274,7 +274,7 @@ namespace Phainon{
                 Skill_point(pn,1);
                 Scourge(2);
                 for(int i=1;i<=Total_ally;i++){
-                    Increase_energy(Ally_unit[i].get(),25);
+                    Increase_energy(charUnit[i].get(),25);
                 }
             }
             pn->buffStackSingle({{Stats::ATK_P,AType::None,50}},1,2,"PN A6");
@@ -287,7 +287,7 @@ namespace Phainon{
         Start_wave_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,pn]() {
             if(ptr->Technique){
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TraceType::Aoe,"PN Tech",
+                make_shared<AllyAttackAction>(AType::Technique,ptr->getMemosprite(),TraceType::Aoe,"PN Tech",
                 [ptr](shared_ptr<AllyAttackAction> &act){
                     Attack(act);
                 });
@@ -303,7 +303,7 @@ namespace Phainon{
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,pn]() {
             Enemy *enemy = turn->canCastToEnemy();
-            SubUnit *subunit = turn->canCastToSubUnit();
+            Error *Error = turn->canCastToSubUnit();
             if(enemy&&enemy->getDebuff("Soulscorch")){
                 enemy->setDebuff("Soulscorch",0);
                 enemy->dmgPercent+=75;
@@ -312,7 +312,7 @@ namespace Phainon{
             
             if(!pn->getBuffCountdown("PN Counter")&&pn->getBuffCheck("Soulscorch")){
                 shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TraceType::Blast,"PN Calamity",
+            make_shared<AllyAttackAction>(AType::Fua,ptr->getMemosprite(),TraceType::Blast,"PN Calamity",
             [ptr,pn](shared_ptr<AllyAttackAction> &act){
                 Attack(act);
             });
@@ -330,13 +330,13 @@ namespace Phainon{
             Deal_damage();
             }
 
-            if(!subunit)return;
-            if(subunit->isBuffEnd("PN Spd Buff")){
-                subunit->buffSingle({
+            if(!Error)return;
+            if(Error->isBuffEnd("PN Spd Buff")){
+                Error->buffSingle({
                     {Stats::SPD_P,AType::None,-15}
                 });
             }
-            if(subunit->isBuffEnd("PN E1")){
+            if(Error->isBuffEnd("PN E1")){
                 pn->buffSingle({
                     {Stats::CD,AType::None,-50}
                 });
@@ -366,12 +366,12 @@ namespace Phainon{
             
             if(pnCD->isAlive())return;
             for(auto &each : act->buffTargetList){
-                if(each->isSameUnit(pn)){
+                if(each->isSameStatsOwnerName(pn)){
                     CoreFlame(1);
                     pn->buffSingle({{Stats::CD,AType::None,30}},"PN Talent",3);
                     if(act->actionName=="TY Ult"
                     || act->actionName=="SD Ult"
-                    ||(act->actionName=="Crd Skill"&&act->Attacker->ptrToChar->Eidolon>=1)){
+                    ||(act->actionName=="Crd Skill"&&act->Attacker->owner->Eidolon>=1)){
                         CoreFlame(1);
                     }
                     break;
@@ -380,23 +380,23 @@ namespace Phainon{
         }));
 
 
-        Enemy_hit_List.push_back(TriggerByEnemyHit(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD,CoreFlame](Enemy *Attacker, vector<SubUnit*> target) {
+        Enemy_hit_List.push_back(TriggerByEnemyHit(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD,CoreFlame](Enemy *Attacker, vector<Error*> target) {
             if(pnCD->isAlive())return;
             for(auto &each : target){
-                if(each->isSameUnit(pn)){
+                if(each->isSameStatsOwnerName(pn)){
                     CoreFlame(1);
                     break;
                 }
             }
         }));
 
-        Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD,CoreFlame](SubUnit *Healer, SubUnit *target, double Value) {
-            if(target->isSameUnit(pn)){
+        Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD,CoreFlame](Error *Healer, Error *target, double Value) {
+            if(target->isSameStatsOwnerName(pn)){
                 pn->buffSingle({{Stats::DMG,AType::None,45}},"PN A4",4);
             }
         }));
 
-        AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD](SubUnit* target) {
+        AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD](Error* target) {
             if(target->isBuffGoneByDeath("PN Spd Buff")){
                  target->buffSingle({
                     {Stats::SPD_P,AType::None,-15}
@@ -411,17 +411,17 @@ namespace Phainon{
         AfterDealingDamage_List.push_back(TriggerAfterDealDamage(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD]
             (shared_ptr<AllyAttackAction> &act,Enemy *src,double damage) {
                 if(act->actionName!="PN Foundation")return;
-                Cal_DamageNote(act,src,Enemy_unit[Main_Enemy_num].get(),damage,36,"PN True Foundation");
+                Cal_DamageNote(act,src,enemyUnit[Main_Enemy_num].get(),damage,36,"PN True Foundation");
         }));
 
         Setup_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,pn]() {
-        Ally *sd = CharCmd::findAllyName("Sunday");
-        Ally *tb = CharCmd::findAllyName("Tribbie");
-        Ally *rb = CharCmd::findAllyName("Robin");
-        Ally *bn = CharCmd::findAllyName("Bronya");
-        Ally *rmc = CharCmd::findAllyName("RMC");
-        Ally *rm = CharCmd::findAllyName("Ruan_Mei");
-        Ally *ty = CharCmd::findAllyName("Tingyun");
+        CharUnit *sd = CharCmd::findAllyName("Sunday");
+        CharUnit *tb = CharCmd::findAllyName("Tribbie");
+        CharUnit *rb = CharCmd::findAllyName("Robin");
+        CharUnit *bn = CharCmd::findAllyName("Bronya");
+        CharUnit *rmc = CharCmd::findAllyName("RMC");
+        CharUnit *rm = CharCmd::findAllyName("Ruan_Mei");
+        CharUnit *ty = CharCmd::findAllyName("Tingyun");
 
         if(sd){
             ptr->addUltCondition([sd,ptr,pn]() -> bool {
@@ -432,14 +432,14 @@ namespace Phainon{
 
         if(tb){
             ptr->addUltCondition([ptr,pn,tb]() -> bool {
-                if(tb->getSubUnit()->getBuffCheck("Tribbie_Zone")&&tb->getSubUnit()->getBuffCheck("Numinosity"))return true;
+                if(tb->getMemosprite()->getBuffCheck("Tribbie_Zone")&&tb->getMemosprite()->getBuffCheck("Numinosity"))return true;
                 return false;
             });
         }
 
         if(rb){
             ptr->addUltCondition([ptr,pn,rb]() -> bool {
-                if(rb->getSubUnit()->getBuffCheck("Pinion'sAria")&&!rb->Countdown_ptr[0]->isDeath())return true;
+                if(rb->getMemosprite()->getBuffCheck("Pinion'sAria")&&!rb->countdownList[0]->isDeath())return true;
                 return false;
             });
         }
@@ -460,7 +460,7 @@ namespace Phainon{
 
         if(rm){
             ptr->addUltCondition([ptr,pn,rm]() -> bool {
-                if(rm->getSubUnit()->getBuffCheck("Mei_Skill")&&rm->getSubUnit()->getBuffCheck("RuanMei_Ult"))return true;
+                if(rm->getMemosprite()->getBuffCheck("Mei_Skill")&&rm->getMemosprite()->getBuffCheck("RuanMei_Ult"))return true;
                 return false;
             });
         }

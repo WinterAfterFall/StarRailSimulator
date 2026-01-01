@@ -1,7 +1,7 @@
 #include "../include.h"
 namespace Harmony_Lightcone{
-    function<void(Ally *ptr)> ForeverVictual(int superimpose){
-        return [=](Ally *ptr) {
+    function<void(CharUnit *ptr)> ForeverVictual(int superimpose){
+        return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(953,476,331);
             ptr->Light_cone.Name = "The Forever Victual";
     
@@ -11,7 +11,7 @@ namespace Harmony_Lightcone{
 
             AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
                 if(act->isSameAction(ptr,AType::SKILL))
-                ptr->getSubUnit()->buffStackSingle({{Stats::ATK_P,AType::None,6.0 + 2 * superimpose}},1,3,"The Forever Victual");
+                ptr->getMemosprite()->buffStackSingle({{Stats::ATK_P,AType::None,6.0 + 2 * superimpose}},1,3,"The Forever Victual");
             }));
         };
     }

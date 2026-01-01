@@ -1,17 +1,17 @@
 #include "../include.h"
 
 namespace Robin{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
     
     //temp
-    void Basic_Atk(Ally *ptr);
-    void Skill(Ally *ptr);
-    bool Double_Turn(Ally *ptr);
+    void Basic_Atk(CharUnit *ptr);
+    void Skill(CharUnit *ptr);
+    bool Double_Turn(CharUnit *ptr);
     
 
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(102, 160, 160, E, ElementType::Physical, Path::Harmony, "Robin",UnitType::Standard);
-        SubUnit *Robinptr = ptr->getSubUnit();
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = SetCharBasicStats(102, 160, 160, E, ElementType::Physical, Path::Harmony, "Robin",UnitType::Standard);
+        AllyUnit *Robinptr = ptr->getMemosprite();
         ptr->SetAllyBaseStats(1280, 640, 485);
         ptr->pushSubstats(Stats::ATK_P);
         ptr->setTotalSubstats(20);
@@ -23,7 +23,7 @@ namespace Robin{
         Relic(ptr);
         Planar(ptr);
 
-        SubUnit *rb = ptr->getSubUnit();
+        AllyUnit *rb = ptr->getMemosprite();
 
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,allyptr = ptr->Sub_Unit_ptr[0].get()]() {
             if (!allyptr->getBuffCheck("Pinion'sAria")) {
@@ -35,36 +35,36 @@ namespace Robin{
 
         ptr->addUltCondition([ptr]() -> bool {
             if(driverType!=DriverType::DoubleTurn)return true;
-            SubUnit *target =Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[ptr->Sub_Unit_ptr[0]->currentSubUnitTargetNum].get();
-            if((Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv<Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->Max_atv*0.2 || target->Atv_stats->atv == 0))return false;
-            if((Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv < target->Atv_stats->atv))return false;
+            AllyUnit *target =charUnit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[ptr->Sub_Unit_ptr[0]->currentSubUnitTargetNum].get();
+            if((charUnit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv<charUnit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->Max_atv*0.2 || target->Atv_stats->atv == 0))return false;
+            if((charUnit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv < target->Atv_stats->atv))return false;
             return true;
         });
 
         ptr->addUltCondition([ptr,rb]() -> bool {
             if(driverType!=DriverType::AlwaysPull){
-                Ally *ally =Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get();
+                CharUnit *ally =charUnit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum].get();
                 for(auto &each : ally->Sub_Unit_ptr){
                 if(each->getATV()==0)return false;
                 }
                 return true;
             }
-            SubUnit *dps =Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[ptr->Sub_Unit_ptr[0]->currentSubUnitTargetNum].get();
-            SubUnit *driver = Ally_unit[Driver_num]->getSubUnit();
+            AllyUnit *dps =charUnit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[ptr->Sub_Unit_ptr[0]->currentSubUnitTargetNum].get();
+            AllyUnit *driver = charUnit[Driver_num]->getMemosprite();
             if(driver->getATV()>dps->getATV())return false;
             return true;
         });
 
         ptr->addUltCondition([ptr]() -> bool {
             if(driverType!=DriverType::AlwaysPull)return true;
-            SubUnit *dps =Ally_unit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[ptr->Sub_Unit_ptr[0]->currentSubUnitTargetNum].get();
-            SubUnit *driver = Ally_unit[Driver_num]->getSubUnit();
+            AllyUnit *dps =charUnit[ptr->Sub_Unit_ptr[0]->currentAllyTargetNum]->Sub_Unit_ptr[ptr->Sub_Unit_ptr[0]->currentSubUnitTargetNum].get();
+            AllyUnit *driver = charUnit[Driver_num]->getMemosprite();
             if(driver->getATV()<dps->getATV())return false;
             return true;
         });
 
         ptr->addUltCondition([ptr]() -> bool {
-            if(!ptr->Countdown_ptr[0]->isDeath())return false;
+            if(!ptr->countdownList[0]->isDeath())return false;
             if(!ptr->Sub_Unit_ptr[0]->getBuffCheck("Pinion'sAria"))return false;
             return true;
         });
@@ -73,9 +73,9 @@ namespace Robin{
 
             if(ultUseCheck(ptr)){
                 shared_ptr<AllyBuffAction> act = 
-                make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"RB Ult",
+                make_shared<AllyBuffAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"RB Ult",
                 [ptr,Robinptr](shared_ptr<AllyBuffAction> &act){
-                    ptr->Countdown_ptr[0]->summon();
+                    ptr->countdownList[0]->summon();
                     ptr->Sub_Unit_ptr[0]->Atv_stats->baseSpeed = -1;
                     Update_Max_atv(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
                     resetTurn(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
@@ -133,29 +133,29 @@ namespace Robin{
             if(ptr->Eidolon >= 2){
                 Increase_energy(ptr, 1);
             }
-            if(!ptr->Countdown_ptr[0]->isDeath()){
+            if(!ptr->countdownList[0]->isDeath()){
                 shared_ptr<AllyAttackAction> newAct = 
-                make_shared<AllyAttackAction>(AType::Addtional,ptr->getSubUnit(),TraceType::Single,"RB AddDmg");
+                make_shared<AllyAttackAction>(AType::Addtional,ptr->getMemosprite(),TraceType::Single,"RB AddDmg");
                 double x1 = 0, x2 = 0;
 
                 ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] += 100;
                 x1 = ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None];
-                x2 = Enemy_unit[Main_Enemy_num]->Stats_type[Stats::CD][AType::None];
+                x2 = enemyUnit[Main_Enemy_num]->Stats_type[Stats::CD][AType::None];
                 ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None] = 150;
-                Enemy_unit[Main_Enemy_num]->Stats_type[Stats::CD][AType::None] = 0;
+                enemyUnit[Main_Enemy_num]->Stats_type[Stats::CD][AType::None] = 0;
 
                 newAct->addDamageIns(DmgSrc(DmgSrcType::ATK,120));
                 Attack(newAct);
 
                 ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CR][AType::None] -= 100;
                 ptr->Sub_Unit_ptr[0]->Stats_type[Stats::CD][AType::None] = x1;
-                Enemy_unit[Main_Enemy_num]->Stats_type[Stats::CD][AType::None] = x2;
+                enemyUnit[Main_Enemy_num]->Stats_type[Stats::CD][AType::None] = x2;
             }
         }));
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTTACK, [ptr](SubUnit *target, Stats StatsType){
-            if(target->Atv_stats->Unit_Name != "Robin")return;
-            if(ptr->Countdown_ptr[0]->isDeath())return;
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTTACK, [ptr](AllyUnit *target, Stats StatsType){
+            if(target->Atv_stats->StatsOwnerName != "Robin")return;
+            if(ptr->countdownList[0]->isDeath())return;
             if(StatsType == Stats::ATK_P || StatsType == Stats::FLAT_ATK){
                 double buffValue = calculateAtkForBuff(ptr->Sub_Unit_ptr[0].get(), 22.8) + 200;
                 buffAllAlly({{Stats::FLAT_ATK, AType::TEMP, buffValue - ptr->Sub_Unit_ptr[0]->Buff_note["Concerto_state"]}});
@@ -167,9 +167,9 @@ namespace Robin{
 
         // countdown
         SetCountdownStats(ptr,90, "Concerto_state");
-        ptr->Countdown_ptr[0]->Turn_func = [ptr,Robinptr](){
-            if( !ptr->Countdown_ptr[0]->isDeath()){
-                ptr->Countdown_ptr[0]->death();
+        ptr->countdownList[0]->Turn_func = [ptr,Robinptr](){
+            if( !ptr->countdownList[0]->isDeath()){
+                ptr->countdownList[0]->death();
                 ptr->Sub_Unit_ptr[0]->Atv_stats->baseSpeed = 102;
                 Update_Max_atv(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
                 resetTurn(ptr->Sub_Unit_ptr[0]->Atv_stats.get());
@@ -187,10 +187,10 @@ namespace Robin{
     }
 
 
-    void Skill(Ally *ptr){
+    void Skill(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"RB Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Single,"RB Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,35);
             buffAllAlly({{Stats::DMG,AType::None,50}});
@@ -201,10 +201,10 @@ namespace Robin{
         act->addToActionBar();
     }
 
-    void Basic_Atk(Ally *ptr){
+    void Basic_Atk(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"RB BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"RB BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Attack(act);

@@ -1,7 +1,7 @@
 #include "../include.h"
 namespace Erudition_Lightcone{
-    function<void(Ally *ptr)> BP_Erudition(int superimpose){
-    return [=](Ally *ptr) {
+    function<void(CharUnit *ptr)> BP_Erudition(int superimpose){
+    return [=](CharUnit *ptr) {
         ptr->SetAllyBaseStats(847,529,331);
         ptr->Light_cone.Name = "BP_Erudition";
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {

@@ -1,7 +1,7 @@
 #include "../include.h"
 namespace Nihility_Lightcone{
-    function<void(Ally *ptr)> Hysilens_LC(int superimpose){
-        return [=](Ally *ptr) {
+    function<void(CharUnit *ptr)> Hysilens_LC(int superimpose){
+        return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(953,635,463);
             ptr->Light_cone.Name = "Hysilens_LC";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
@@ -12,23 +12,23 @@ namespace Nihility_Lightcone{
                 buffAllAlly({{Stats::SPD_P,AType::None,7.5 + 2.5*superimpose}});
             }));
 
-            BeforeApplyDebuff.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](Enemy *target, SubUnit *Trigger) {
+            BeforeApplyDebuff.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](Enemy *target, AllyUnit *Trigger) {
                 // if(ptr->getSubUnit()->getBuffCheck("LC Hys using"))return;
-                ptr->getSubUnit()->setBuffCheck("LC Hys using",1);
-                if(Trigger->isSameUnit(ptr->getSubUnit())){
+                ptr->getMemosprite()->setBuffCheck("LC Hys using",1);
+                if(Trigger->isSameStatsOwnerName(ptr->getMemosprite())){
                     target->setDebuffNote("Hys LC TotalDebuff",target->Total_debuff);
                 }
                 // ptr->getSubUnit()->setBuffCheck("LC Hys using",0);
             }));
 
-            AfterApplyDebuff.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](Enemy *target, SubUnit *Trigger) {
+            AfterApplyDebuff.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](Enemy *target, AllyUnit *Trigger) {
                 // if(ptr->getSubUnit()->getBuffCheck("LC Hys using"))return;
-                ptr->getSubUnit()->setBuffCheck("LC Hys using",1);
-                if(Trigger->isSameUnit(ptr->getSubUnit())){
+                ptr->getMemosprite()->setBuffCheck("LC Hys using",1);
+                if(Trigger->isSameStatsOwnerName(ptr->getMemosprite())){
                     if(target->Total_debuff-target->getDebuffNote("Hys LC TotalDebuff")==0)return;
                     // cout<<target->Total_debuff<<" "<<target->getDebuffNote("Hys LC TotalDebuff")<<endl;
                     // cout<<Trigger->getUnitName()<<" "<<target->getUnitName()<<endl;
-                    target->debuffStackSingle({{Stats::VUL,AType::Dot,3.75 + 1.25 * superimpose}},ptr->getSubUnit(),target->Total_debuff-
+                    target->debuffStackSingle({{Stats::VUL,AType::Dot,3.75 + 1.25 * superimpose}},ptr->getMemosprite(),target->Total_debuff-
                     target->getDebuffNote("Hys LC TotalDebuff"),6,"Hys LC");
                 }
                 // ptr->getSubUnit()->setBuffCheck("LC Hys using",0);

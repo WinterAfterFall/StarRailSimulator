@@ -1,12 +1,12 @@
 #include "../include.h"
 namespace Harmony_Lightcone{
-    function<void(Ally *ptr)> Memories_of_the_Past(int superimpose){
-        return [=](Ally *ptr) {
+    function<void(CharUnit *ptr)> Memories_of_the_Past(int superimpose){
+        return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats( 953, 423, 397);
             ptr->Light_cone.Name = "Memories_of_the_Past";
     
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                if (act->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) {
+                if (act->Attacker->Atv_stats->StatsOwnerName == ptr->Sub_Unit_ptr[0]->Atv_stats->StatsOwnerName) {
                     Increase_energy(ptr, 3 + superimpose);
                 }
             }));

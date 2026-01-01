@@ -1,15 +1,15 @@
 #include "../include.h"
 
 namespace Luocha{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
-    void Basic_Atk(Ally *ptr);
-    void Talent(Ally *ptr);
-    void Abyss_Flower(Ally *ptr);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
+    void Basic_Atk(CharUnit *ptr);
+    void Talent(CharUnit *ptr);
+    void Abyss_Flower(CharUnit *ptr);
 
 
     
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(101,100,100,E,ElementType::Imaginary,Path::Abundance,"Luocha",UnitType::Standard);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = SetCharBasicStats(101,100,100,E,ElementType::Imaginary,Path::Abundance,"Luocha",UnitType::Standard);
         ptr->SetAllyBaseStats(1280,756,363);
 
         ptr->pushSubstats(Stats::ATK_P);
@@ -30,7 +30,7 @@ namespace Luocha{
             if (ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"] >= 2) return;
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"Luocha Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"Luocha Ult",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Attack(act);
             ++ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"];
@@ -56,7 +56,7 @@ namespace Luocha{
 
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Charptr = ptr->Sub_Unit_ptr[0].get()]() {
-            if (turn->Char_Name == "Luocha") {
+            if (turn->UnitName == "Luocha") {
                 if (Charptr->isBuffEnd("Cycle_of_Life")) {
                     if (ptr->Eidolon >= 1) {
                         buffAllAlly({{Stats::ATK_P,AType::None,-20}});
@@ -75,7 +75,7 @@ namespace Luocha{
 
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
             if (ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"] >= 2) {
-                ptr->getSubUnit()->RestoreHP(
+                ptr->getMemosprite()->RestoreHP(
                     act->Attacker,
                     HealSrc(HealSrcType::ATK,18,HealSrcType::CONST,240),
                     HealSrc(HealSrcType::ATK,7,HealSrcType::CONST,93)
@@ -88,14 +88,14 @@ namespace Luocha{
     }
 
 
-    void Talent(Ally *ptr){
+    void Talent(CharUnit *ptr){
         Increase_energy(ptr,30);
         ++ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"];
-        ptr->getSubUnit()->RestoreHP(HealSrc(HealSrcType::ATK,60,HealSrcType::CONST,800),HealSrc(),HealSrc());
+        ptr->getMemosprite()->RestoreHP(HealSrc(HealSrcType::ATK,60,HealSrcType::CONST,800),HealSrc(),HealSrc());
         Abyss_Flower(ptr);
         
     }
-    void Abyss_Flower(Ally *ptr){
+    void Abyss_Flower(CharUnit *ptr){
         if(ptr->Sub_Unit_ptr[0]->Stack["Abyss_Flower"]==2){
             ptr->Sub_Unit_ptr[0]->extendBuffTime("Cycle _of_Life",2);
         if(ptr->Eidolon>=1){
@@ -103,11 +103,11 @@ namespace Luocha{
         }
         }
     }
-    void Basic_Atk(Ally *ptr){
+    void Basic_Atk(CharUnit *ptr){
         
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Luocha BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Luocha BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Attack(act);

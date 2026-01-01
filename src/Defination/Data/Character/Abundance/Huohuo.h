@@ -1,8 +1,8 @@
 #include "../include.h"
 
 namespace Huohuo{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(98,140,140,E,ElementType::Wind,Path::Abundance,"Huohuo",UnitType::Standard);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = SetCharBasicStats(98,140,140,E,ElementType::Wind,Path::Abundance,"Huohuo",UnitType::Standard);
         ptr->SetAllyBaseStats(1358,602,509);
 
         //substats
@@ -17,7 +17,7 @@ namespace Huohuo{
         Relic(ptr);
         Planar(ptr);
 
-        SubUnit *hh = ptr->getSubUnit();
+        AllyUnit *hh = ptr->getMemosprite();
 
         
         #pragma region Ability
@@ -25,7 +25,7 @@ namespace Huohuo{
         function<void()> BA = [ptr,hh]() {
             Skill_point(hh,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"HH BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"HH BA",
             [hh](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(hh,20);
                 Attack(act);
@@ -37,7 +37,7 @@ namespace Huohuo{
         function<void()> Skill = [ptr,hh]() {
             Skill_point(hh,-1);
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"HH Skill",
+            make_shared<AllyBuffAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Blast,"HH Skill",
             [ptr,hh](shared_ptr<AllyBuffAction> &act){
                 Increase_energy(hh,30);
                 hh->RestoreHP(HealSrc(HealSrcType::HP,21,HealSrcType::CONST,560),
@@ -68,12 +68,12 @@ namespace Huohuo{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,hh]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"HH Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"HH Ult",
             [hh](shared_ptr<AllyBuffAction> &act){
                 CharCmd::printUltStart("Huohuo");
                 buffAllAlly({{Stats::ATK_P,AType::None,40}},"HH Ult",2);
                 for(int i=1;i<=Total_ally;i++){
-                    for(auto &each : Ally_unit[i]->Sub_Unit_ptr){
+                    for(auto &each : charUnit[i]->Sub_Unit_ptr){
                         Increase_energy(each.get(),20,0);
                     }
                 }
@@ -96,7 +96,7 @@ namespace Huohuo{
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hh]() {
-            SubUnit *ally = turn->canCastToSubUnit();
+            AllyUnit *ally = turn->canCastToSubUnit();
             if(!ally)return;
             if(hh->isBuffEnd("Divine Provision")){
                 hh->setStack("Divine Provision",0);
@@ -106,7 +106,7 @@ namespace Huohuo{
                 hh->Stack["Divine Provision"]--;
                 Increase_energy(hh,1);
                 for(int i=1;i<=Total_ally;i++){
-                    for(auto &each : Ally_unit[i]->Sub_Unit_ptr){
+                    for(auto &each : charUnit[i]->Sub_Unit_ptr){
                         if(each->currentHP<=each->totalHP/2)
                         hh->RestoreHP(each.get(),HealSrc(HealSrcType::HP,4.5,HealSrcType::CONST,120));
                     }
@@ -117,7 +117,7 @@ namespace Huohuo{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            SubUnit *ally = turn->canCastToSubUnit();
+            AllyUnit *ally = turn->canCastToSubUnit();
             if(ally){
                 if(ally->isBuffEnd("HH Ult")){
                     ally->buffSingle({{Stats::ATK_P,AType::None,-40}});
@@ -128,7 +128,7 @@ namespace Huohuo{
             }
         }));
 
-        AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr](SubUnit *target) {
+        AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr](AllyUnit *target) {
             if(target->isBuffGoneByDeath("HH Ult")){
                     target->buffSingle({{Stats::ATK_P,AType::None,-40}});
             }
@@ -142,7 +142,7 @@ namespace Huohuo{
                 hh->Stack["Divine Provision"]--;
                 Increase_energy(hh,1);
                 for(int i=1;i<=Total_ally;i++){
-                    for(auto &each : Ally_unit[i]->Sub_Unit_ptr){
+                    for(auto &each : charUnit[i]->Sub_Unit_ptr){
                         if(each->currentHP<=each->totalHP/2)
                         hh->RestoreHP(each.get(),HealSrc(HealSrcType::HP,4.5,HealSrcType::CONST,120));
                     }
@@ -153,8 +153,8 @@ namespace Huohuo{
         }));
 
         if(ptr->Eidolon>=6)
-        Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr,hh](SubUnit *Healer, SubUnit *target, double Value) {
-            if(Healer->isSameUnit(hh)){
+        Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr,hh](AllyUnit *Healer, AllyUnit *target, double Value) {
+            if(Healer->isSameStatsOwnerName(hh)){
                 target->buffSingle({{Stats::DMG,AType::None,50}},"HH E6",2);
             }
         }));

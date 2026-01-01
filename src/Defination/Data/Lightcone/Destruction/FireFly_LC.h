@@ -1,10 +1,10 @@
 #include "../include.h"
 namespace Destruction_Lightcone{
-    function<void(Ally *ptr)> FireFly_LC(int superimpose){
-        return [=](Ally *ptr) {
+    function<void(CharUnit *ptr)> FireFly_LC(int superimpose){
+        return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(1164,476,529);
             ptr->Light_cone.Name = "FireFly_LC";
-            string debuffName = ptr->getSubUnit()->getUnitName() + " FireFlyLC debuff";
+            string debuffName = ptr->getMemosprite()->getUnitName() + " FireFlyLC debuff";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,debuffName]() {
                 ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] += 50 + 10 * superimpose;
             }));
@@ -22,8 +22,8 @@ namespace Destruction_Lightcone{
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,debuffName]() {
                 if (turn != nullptr && turn->side == Side::Enemy) {
-                    if (Enemy_unit[turn->num]->isDebuffEnd(debuffName)) {
-                        Enemy_unit[turn->num]->debuffSingle({
+                    if (enemyUnit[turn->num]->isDebuffEnd(debuffName)) {
+                        enemyUnit[turn->num]->debuffSingle({
                             {Stats::VUL,AType::Break,-20.0 - 4 * superimpose},
                             {Stats::SPD_P,AType::None,20.0}
                         });

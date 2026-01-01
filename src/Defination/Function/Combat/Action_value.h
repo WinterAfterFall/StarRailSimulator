@@ -33,35 +33,14 @@ void resetTurn(ActionValueStats *ptr) {
     
 }
 void All_atv_reset() {
-    for(int i=1;i<=Total_enemy;i++){
-        Update_Max_atv(Enemy_unit[i]->Atv_stats.get());
-        resetTurn(Enemy_unit[i]->Atv_stats.get());
+    for(auto &each : atvList){
+        Update_Max_atv(each);
+        resetTurn(each);
     }
-    
-    for(int i=1;i<=Total_ally;i++){
-        for(int j=0,sz = Ally_unit[i]->Summon_ptr.size();j<sz;j++){
-        Update_Max_atv(Ally_unit[i]->Summon_ptr[j]->Atv_stats.get());
-        resetTurn(Ally_unit[i]->Summon_ptr[j]->Atv_stats.get());
-        }
-    }
-    for(int i=1;i<=Total_ally;i++){
-        for(int j=0,sz = Ally_unit[i]->Countdown_ptr.size();j<sz;j++){
-        Update_Max_atv(Ally_unit[i]->Countdown_ptr[j]->Atv_stats.get());
-        resetTurn(Ally_unit[i]->Countdown_ptr[j]->Atv_stats.get());
-        }
-    }
-    for(int i=1;i<=Total_ally;i++){
-        for(int j=0,sz = Ally_unit[i]->Sub_Unit_ptr.size();j<sz;j++){
-        Update_Max_atv(Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats.get());
-        resetTurn(Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats.get());
-        }
-    }
-       
-    
 }
 void Action_forward(ActionValueStats *ptr,double fwd) {
     if(ptr->baseSpeed<=0)return;
-    if(!ptr->ptrToChar->isAlive())return;
+    if(!ptr->charptr->isAlive())return;
     if (ptr->atv <= ptr->Max_atv*fwd/100 ) {
         ptr->atv = 0;
         ptr->priority = ++Turn_priority;
@@ -73,15 +52,12 @@ void Action_forward(ActionValueStats *ptr,double fwd) {
 }
 void All_Action_forward(double fwd){
     vector<ActionValueStats*> vec;
-    for(int i=1;i<=Total_ally;i++){
-        for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
-            vec.push_back(Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats.get());
-        }
+    for(auto &each : allyList){
+        vec.push_back(each->Atv_stats.get());
     }
     sort(vec.begin(),vec.end(),compareActionValueStats);
     for(int i=0;i<vec.size();i++){
         Action_forward(vec[i],fwd);
-      
     }
 }
 void Find_turn(){
@@ -89,95 +65,28 @@ void Find_turn(){
     turn = nullptr;
     mx.first = 1e9;
     mx.second = 0;
-    for(int i=1;i<=Total_enemy;i++){
-        if(!Enemy_unit[i]->isAtvChangeAble())continue;
-        if(mx.first > Enemy_unit[i]->Atv_stats->atv){
-            mx.first = Enemy_unit[i]->Atv_stats->atv;
-            mx.second = Enemy_unit[i]->Atv_stats->priority;
-            turn = Enemy_unit[i]->Atv_stats.get();
+
+    for(auto &each : atvList){
+        if(!each->charptr->isAtvChangeAble())continue;
+        if(mx.first > each->atv){
+            mx.first = each->atv;
+            mx.second = each->priority;
+            turn = each;
             continue;
         }
-        if(mx.first == Enemy_unit[i]->Atv_stats->atv){
-            if(mx.second<Enemy_unit[i]->Atv_stats->priority){
-                mx.second = Enemy_unit[i]->Atv_stats->priority;
-            turn = Enemy_unit[i]->Atv_stats.get();
+        if(mx.first == each->atv){
+            if(mx.second<each->priority){
+                mx.second = each->priority;
+                turn = each;
             }
         }
-    }
-    for(int i=1;i<=Total_ally;i++){
-        for(int j=0,sz = Ally_unit[i]->Summon_ptr.size();j<sz;j++){ 
-            if(!Ally_unit[i]->Summon_ptr[j]->isAtvChangeAble())continue;
-            if(mx.first >Ally_unit[i]->Summon_ptr[j]->Atv_stats->atv){
-                mx.first = Ally_unit[i]->Summon_ptr[j]->Atv_stats->atv;
-                mx.second = Ally_unit[i]->Summon_ptr[j]->Atv_stats->priority;
-                turn = Ally_unit[i]->Summon_ptr[j]->Atv_stats.get();
-                continue;
-            }
-            if(mx.first == Ally_unit[i]->Summon_ptr[j]->Atv_stats->atv){
-                if(mx.second<Ally_unit[i]->Summon_ptr[j]->Atv_stats->priority){
-                    mx.second = Ally_unit[i]->Summon_ptr[j]->Atv_stats->priority;
-                turn = Ally_unit[i]->Summon_ptr[j]->Atv_stats.get();
-                }
-            }
-        }
-    }
-    for(int i=1;i<=Total_ally;i++){
-        for(int j=0,sz = Ally_unit[i]->Countdown_ptr.size();j<sz;j++){ 
-            if(!Ally_unit[i]->Countdown_ptr[j]->isAtvChangeAble())continue;
-        if(mx.first >Ally_unit[i]->Countdown_ptr[j]->Atv_stats->atv){
-            mx.first = Ally_unit[i]->Countdown_ptr[j]->Atv_stats->atv;
-            mx.second = Ally_unit[i]->Countdown_ptr[j]->Atv_stats->priority;
-            turn = Ally_unit[i]->Countdown_ptr[j]->Atv_stats.get();
-            continue;
-        }
-        if(mx.first == Ally_unit[i]->Countdown_ptr[j]->Atv_stats->atv){
-            if(mx.second<Ally_unit[i]->Countdown_ptr[j]->Atv_stats->priority){
-                mx.second = Ally_unit[i]->Countdown_ptr[j]->Atv_stats->priority;
-            turn = Ally_unit[i]->Countdown_ptr[j]->Atv_stats.get();
-            }
-        }
-    }
-    }
-    for(int i=1;i<=Total_ally;i++){
-        for(int j=0,sz = Ally_unit[i]->Sub_Unit_ptr.size();j<sz;j++){ 
-            if(!Ally_unit[i]->Sub_Unit_ptr[j]->isAtvChangeAble())continue;
-        if(mx.first >Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->atv){
-            mx.first = Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->atv;
-            mx.second = Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->priority;
-            turn = Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats.get();
-            continue;
-        }
-        if(mx.first == Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->atv){
-            if(mx.second<Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->priority){
-                mx.second = Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->priority;
-            turn = Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats.get();
-            }
-        }
-    }
     }
 }
+
 void Atv_fix(double Atv_reduce){
-    for(int i=1;i<=Total_enemy;i++){
-        if(!Enemy_unit[i]->isAtvChangeAble())continue;;
-        Enemy_unit[i]->Atv_stats->atv -= Atv_reduce;
-    }
-    for(int i=1;i<=Total_ally;i++){
-        for(int j=0,sz = Ally_unit[i]->Sub_Unit_ptr.size();j<sz;j++){
-        if(!Ally_unit[i]->Sub_Unit_ptr[j]->isAtvChangeAble())continue;
-        Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->atv -= Atv_reduce;
-        }
-    }
-    for(int i=1;i<=Total_ally;i++){
-        for(int j=0,sz = Ally_unit[i]->Summon_ptr.size();j<sz;j++){
-        if(!Ally_unit[i]->Summon_ptr[j]->isAtvChangeAble())continue;
-        Ally_unit[i]->Summon_ptr[j]->Atv_stats->atv -= Atv_reduce;
-        }
-    }
-    for(int i=1;i<=Total_ally;i++){
-        for(int j=0,sz = Ally_unit[i]->Countdown_ptr.size();j<sz;j++){
-        if(!Ally_unit[i]->Countdown_ptr[j]->isAtvChangeAble())continue;
-        Ally_unit[i]->Countdown_ptr[j]->Atv_stats->atv -= Atv_reduce;
-        }
+    for(auto &each : atvList){
+        if(!each->charptr->isAtvChangeAble())continue;
+        each->atv -= Atv_reduce;
     }
     Current_atv+=Atv_reduce;
 }

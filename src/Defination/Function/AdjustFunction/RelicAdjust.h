@@ -2,33 +2,33 @@
 
 
 //SetReuqirements
-void Ally::setSpeed(double speed) {
+void CharUnit::setSpeed(double speed) {
     this->SpeedRequire = speed;
 }
-void Ally::newSpeedRequire(double amount){
+void CharUnit::newSpeedRequire(double amount){
     if(this->SpeedRequire<amount)this->SpeedRequire = amount;
 }
 
-void Ally::newApplyBaseChanceRequire(double amount){
+void CharUnit::newApplyBaseChanceRequire(double amount){
     if(this->ApplyBaseChance>amount)this->ApplyBaseChance = amount;
 }
-void Ally::newEhrRequire(double amount){
+void CharUnit::newEhrRequire(double amount){
     if(this->EhrRequire<amount)this->EhrRequire = amount;
 }
 
 
 // Set Substats
-void Ally::setTotalSubstats(int Value) {
+void CharUnit::setTotalSubstats(int Value) {
     this->Total_substats = Value;
     this->currentTotalSubstats = Value;
     this->SeparateRatio = Value;
     this->Substats[0].second = Value;
     this->Max_damage_Substats.resize(this->Substats.size());
 }
-void Ally::pushSubstats(Stats StatsType) {
+void CharUnit::pushSubstats(Stats StatsType) {
     this->Substats.push_back({StatsType, 0});
 }
-void Ally::changeTotalSubStats(int amount) {
+void CharUnit::changeTotalSubStats(int amount) {
     amount = (this->Total_substats + amount >= 0) ? amount : -this->Total_substats;
     this->Total_substats += amount;
     this->currentTotalSubstats += amount;

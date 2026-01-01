@@ -8,8 +8,8 @@
 #include".\Preservation\All_Preservation_LC.h"
 #include".\Remembrance\All_Remembrance_LC.h"
 
-function<void(Ally *ptr)> LightCone_temp(double HP,double ATK,double DEF){
-    return [=](Ally *ptr) {
+function<void(CharUnit *ptr)> LightCone_temp(double HP,double ATK,double DEF){
+    return [=](CharUnit *ptr) {
         ptr->SetAllyBaseStats( HP, ATK, DEF);
     };
 }

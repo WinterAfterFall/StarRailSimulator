@@ -2,19 +2,19 @@
 #include "../include.h"
 
 namespace The_Herta{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
 //temp
-    void Basic_Atk(Ally *ptr);
-    void Skill(Ally *ptr);
-    void Enchance_Skill(Ally *ptr);
-    void Apply_Herta_Stack(Ally* ptr ,Enemy* target,int Stack);
+    void Basic_Atk(CharUnit *ptr);
+    void Skill(CharUnit *ptr);
+    void Enchance_Skill(CharUnit *ptr);
+    void Apply_Herta_Stack(CharUnit* ptr ,Enemy* target,int Stack);
     void Herta_reset_Stack();
-    bool Enchance_Skill_Condition(Ally *ptr);
+    bool Enchance_Skill_Condition(CharUnit *ptr);
 
 
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(99,220,220,E,ElementType::Ice,Path::Erudition,"The_Herta",UnitType::Standard);
-        SubUnit* Hertaptr = ptr->getSubUnit();
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = SetCharBasicStats(99,220,220,E,ElementType::Ice,Path::Erudition,"The_Herta",UnitType::Standard);
+        AllyUnit* Hertaptr = ptr->getMemosprite();
         ptr->SetAllyBaseStats(1164,679,485);
 
         //substats
@@ -50,7 +50,7 @@ namespace The_Herta{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr,Hertaptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"THerta Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"THerta Ult",
             [ptr,Hertaptr](shared_ptr<AllyAttackAction> &act){
                 double Increase_mtpr = ptr->Sub_Unit_ptr[0]->Stack["The_Herta_A6"];
                 act->addDamage(DmgSrcType::ATK,Increase_mtpr);
@@ -85,7 +85,7 @@ namespace The_Herta{
             // substats
             int cnt = 0;
             for (int i = 1; i <= Total_ally; i++) {
-                for (auto e : Ally_unit[i]->path) {
+                for (auto e : charUnit[i]->path) {
                     if (e == Path::Erudition) cnt++;
                 }
                 if (cnt >= 2) {
@@ -100,9 +100,9 @@ namespace The_Herta{
             if (ptr->Technique == 1) {
                 Hertaptr->buffSingle({{Stats::ATK_P,AType::None,60}},"The_Herta_Technique",2);
             }
-            Apply_Herta_Stack(ptr, Enemy_unit[Main_Enemy_num].get(), 25);
+            Apply_Herta_Stack(ptr, enemyUnit[Main_Enemy_num].get(), 25);
             for (int i = 1; i <= Total_enemy; i++) {
-                Apply_Herta_Stack(ptr, Enemy_unit[i].get(), 1);
+                Apply_Herta_Stack(ptr, enemyUnit[i].get(), 1);
             }
         }));
 
@@ -128,24 +128,24 @@ namespace The_Herta{
             }
             bool Erudition_check = 0;
 
-            for(auto e : act->Attacker->ptrToChar->path){
+            for(auto e : act->Attacker->owner->path){
                 if(e == Path::Erudition) Erudition_check = 1;
             }
             for(auto e : act->targetList){
                 Apply_Herta_Stack(ptr, e, 1);
             }
             if(Erudition_check){
-                Apply_Herta_Stack(ptr, Enemy_unit[Main_Enemy_num].get(), 3);
+                Apply_Herta_Stack(ptr, enemyUnit[Main_Enemy_num].get(), 3);
             } else {
-                Apply_Herta_Stack(ptr, Enemy_unit[Main_Enemy_num].get(), 1);
+                Apply_Herta_Stack(ptr, enemyUnit[Main_Enemy_num].get(), 1);
             }
             int energy_gen = act->targetList.size();
             if(energy_gen < 9) energy_gen = 9;
             Increase_energy(ptr, 0, energy_gen);
         }));
 
-        Enemy_Death_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, SubUnit *Killer) {
-            Apply_Herta_Stack(ptr, Enemy_unit[Main_Enemy_num].get(), 1);
+        Enemy_Death_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, AllyUnit *Killer) {
+            Apply_Herta_Stack(ptr, enemyUnit[Main_Enemy_num].get(), 1);
         }));
 
 
@@ -153,13 +153,13 @@ namespace The_Herta{
     }
     
 
-    bool Stack_Herta_Check(Ally *ptr){
-        int temp = Enemy_unit[Main_Enemy_num]->Debuff["Herta_Stack"];
+    bool Stack_Herta_Check(CharUnit *ptr){
+        int temp = enemyUnit[Main_Enemy_num]->Debuff["Herta_Stack"];
         if(ptr->Eidolon>=1){
             int mx = -1;
             for(int i=1;i<=Total_enemy;i++){
                 if(i==Main_Enemy_num)continue;
-                mx = max(mx,Enemy_unit[i]->Debuff["Herta_Stack"]);
+                mx = max(mx,enemyUnit[i]->Debuff["Herta_Stack"]);
             }
             temp+=mx;
 
@@ -168,8 +168,8 @@ namespace The_Herta{
         
         return true;
     }
-    bool Enchance_Skill_Condition(Ally *ptr){
-        if(ptr->Eidolon>=2&&driverType==DriverType::DoubleTurn&&Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->Max_atv < ptr->Sub_Unit_ptr[0]->Atv_stats->Max_atv&&ptr->Sub_Unit_ptr[0]->Atv_stats->Max_atv*0.65<Ally_unit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv){
+    bool Enchance_Skill_Condition(CharUnit *ptr){
+        if(ptr->Eidolon>=2&&driverType==DriverType::DoubleTurn&&charUnit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->Max_atv < ptr->Sub_Unit_ptr[0]->Atv_stats->Max_atv&&ptr->Sub_Unit_ptr[0]->Atv_stats->Max_atv*0.65<charUnit[Driver_num]->Sub_Unit_ptr[0]->Atv_stats->atv){
             if(ptr->Current_energy>=190&&(CharCmd::Using_Skill(ptr)||ptr->Current_energy<200)){
                 if(ptr->Sub_Unit_ptr[0]->Buff_note["The_Herta_Skill_Enchance"]>0){
                     Enchance_Skill(ptr);
@@ -199,10 +199,10 @@ namespace The_Herta{
         return false;
     }
 
-    void Basic_Atk(Ally *ptr){
+    void Basic_Atk(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"THerta BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"THerta BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             Attack(act);
@@ -211,13 +211,13 @@ namespace The_Herta{
         act->addToActionBar();
     }
 
-    void Skill(Ally *ptr){
+    void Skill(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"THerta Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Blast,"THerta Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30);
-            Apply_Herta_Stack(ptr,Enemy_unit[Main_Enemy_num].get(),1);
+            Apply_Herta_Stack(ptr,enemyUnit[Main_Enemy_num].get(),1);
             Attack(act);
         });
         act->addDamageIns(DmgSrc(DmgSrcType::ATK,70,5));
@@ -233,18 +233,18 @@ namespace The_Herta{
         act->addToActionBar();
     }
 
-    void Enchance_Skill(Ally *ptr){
+    void Enchance_Skill(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Aoe,"THerta ESkill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Aoe,"THerta ESkill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30);
-            double Increase_mtpr = Enemy_unit[Main_Enemy_num]->Debuff["Herta_Stack"];
+            double Increase_mtpr = enemyUnit[Main_Enemy_num]->Debuff["Herta_Stack"];
             double mx =-1;
             if(ptr->Eidolon>=1){
                 for(int i=2;i<=Total_enemy;i++){
-                if(Enemy_unit[i]->Debuff["Herta_Stack"]>mx){
-                    mx = Enemy_unit[i]->Debuff["Herta_Stack"];
+                if(enemyUnit[i]->Debuff["Herta_Stack"]>mx){
+                    mx = enemyUnit[i]->Debuff["Herta_Stack"];
                 }
                 }
                 Increase_mtpr+=(0.5*mx);
@@ -260,14 +260,14 @@ namespace The_Herta{
             );
             ptr->Sub_Unit_ptr[0]->Buff_note["The_Herta_Skill_Enchance"]--;
 
-            Enemy_unit[Main_Enemy_num]->Debuff["Herta_Stack"] = 1;
+            enemyUnit[Main_Enemy_num]->Debuff["Herta_Stack"] = 1;
             if(ptr->Eidolon>=1){
-                Enemy_unit[Main_Enemy_num]->Debuff["Herta_Stack"] = 15;
+                enemyUnit[Main_Enemy_num]->Debuff["Herta_Stack"] = 15;
             }
             Herta_reset_Stack();
 
-            Apply_Herta_Stack(ptr,Enemy_unit[Main_Enemy_num].get(),1);
-            ptr->getSubUnit()->buffSingle({{Stats::DMG,AType::None,50}});
+            Apply_Herta_Stack(ptr,enemyUnit[Main_Enemy_num].get(),1);
+            ptr->getMemosprite()->buffSingle({{Stats::DMG,AType::None,50}});
             Attack(act);
         });
         act->addDamageIns(DmgSrc(DmgSrcType::ATK,80,5));
@@ -287,15 +287,15 @@ namespace The_Herta{
     void Herta_reset_Stack(){
         vector<int> vec;
         for(int i=1;i<=Total_enemy;i++){
-            vec.push_back(Enemy_unit[i]->Debuff["Herta_Stack"]);
+            vec.push_back(enemyUnit[i]->Debuff["Herta_Stack"]);
         }
         sort(vec.begin(),vec.end(),greater<int>());
         for(int i=1;i<=Total_enemy;i++){
-            Enemy_unit[i]->Debuff["Herta_Stack"] = vec[i-1];
+            enemyUnit[i]->Debuff["Herta_Stack"] = vec[i-1];
         }
         
     }
-    void Apply_Herta_Stack(Ally* ptr ,Enemy* target,int Stack){
+    void Apply_Herta_Stack(CharUnit* ptr ,Enemy* target,int Stack){
         if(ptr->Sub_Unit_ptr[0]->Stack["The_Herta_A6"]+Stack>99){
             ptr->Sub_Unit_ptr[0]->Stack["The_Herta_A6"] = 99;
         }else{
@@ -303,11 +303,11 @@ namespace The_Herta{
         }
         if(target->Debuff["Herta_Stack"]==42){
             for(int i=1;i<=Total_enemy;i++){
-                if(Enemy_unit[i]->Debuff["Herta_Stack"]<42){
-                    if(Enemy_unit[i]->Debuff["Herta_Stack"]+Stack>42){
-                        Enemy_unit[i]->Debuff["Herta_Stack"] = 42;
+                if(enemyUnit[i]->Debuff["Herta_Stack"]<42){
+                    if(enemyUnit[i]->Debuff["Herta_Stack"]+Stack>42){
+                        enemyUnit[i]->Debuff["Herta_Stack"] = 42;
                     }else{
-                        Enemy_unit[i]->Debuff["Herta_Stack"] += Stack;
+                        enemyUnit[i]->Debuff["Herta_Stack"] += Stack;
                     }               
                     return;     
                 }

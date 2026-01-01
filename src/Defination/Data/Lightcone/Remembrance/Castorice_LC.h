@@ -1,7 +1,7 @@
 #include "../include.h"
 namespace Remembrance_Lightcone{
-    function<void(Ally *ptr)> Castorice_LC(int superimpose){
-        return [=](Ally *ptr) {
+    function<void(CharUnit *ptr)> Castorice_LC(int superimpose){
+        return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(1270,529,397);
             ptr->Light_cone.Name = "Castorice_LC";
 
@@ -9,34 +9,34 @@ namespace Remembrance_Lightcone{
                 ptr->Sub_Unit_ptr[0]->Stats_type[Stats::HP_P][AType::None] += 22 + 8*superimpose;
             }));
 
-            AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr, superimpose](SubUnit* target) {
-                if (target->Atv_stats->num==ptr->getSubUnit()->Atv_stats->num
-                &&target->Atv_stats->side==Side::Memosprite
-                &&ptr->getSubUnit()->getBuffCheck("Castorice_LC_check")==0){
-                    Action_forward(ptr->getSubUnit()->Atv_stats.get(),9+3*superimpose);
-                    ptr->getSubUnit()->setBuffCheck("Castorice_LC_check",1);
+            AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr, superimpose](AllyUnit* target) {
+                if (target->Atv_stats->num==ptr->getMemosprite()->Atv_stats->num
+                &&target->Atv_stats->side==Side::AllyUnit
+                &&ptr->getMemosprite()->getBuffCheck("Castorice_LC_check")==0){
+                    Action_forward(ptr->getMemosprite()->Atv_stats.get(),9+3*superimpose);
+                    ptr->getMemosprite()->setBuffCheck("Castorice_LC_check",1);
                 }
             }));
 
             WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](Ally *ally){
-                if (ally->isSameAlly(ptr)) {
-                    ptr->getSubUnit()->setBuffCheck("Castorice_LC_check",0);
+                if (ally->isSameChar(ptr)) {
+                    ptr->getMemosprite()->setBuffCheck("Castorice_LC_check",0);
                 }
             }));
             
-            HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_IMMEDIATELY, [ptr, superimpose](Unit *Trigger, SubUnit *target, double Value) {
+            HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_IMMEDIATELY, [ptr, superimpose](Unit *Trigger, AllyUnit *target, double Value) {
                 if(!turn)return;
-                if((turn->side==Side::Memosprite||turn->side==Side::Ally)
-                &&turn->num==ptr->getSubUnit()->Atv_stats->num
-                &&target->Atv_stats->num==ptr->getSubUnit()->Atv_stats->num){
-                    if(ptr->getSubUnit()->isHaveToAddBuff("Death Flower",2))
+                if((turn->side==Side::AllyUnit||turn->side==Side::Ally)
+                &&turn->num==ptr->getMemosprite()->Atv_stats->num
+                &&target->Atv_stats->num==ptr->getMemosprite()->Atv_stats->num){
+                    if(ptr->getMemosprite()->isHaveToAddBuff("Death Flower",2))
                     ptr->buffAlly({{Stats::DEF_SHRED, AType::None, 25.0 + 5 * superimpose}});
                 }
             }));
 
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr, superimpose]() {
-                if(ptr->getSubUnit()->isBuffEnd("Death Flower")){
+                if(ptr->getMemosprite()->isBuffEnd("Death Flower")){
                     ptr->buffAlly({{Stats::DEF_SHRED, AType::None, -(25.0 + 5 * superimpose)}});
                 }
             }));

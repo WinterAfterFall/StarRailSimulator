@@ -3,33 +3,33 @@
 Enemy* createNewEnemy(double speed,double Toughness,EnemyType type){
     Total_enemy++; 
     int num = Total_enemy;
-    Enemy_unit.push_back(make_unique<Enemy>());
-    Enemy_unit[num]->Atv_stats->baseSpeed = speed;
-    Enemy_unit[num]->Max_toughness = Toughness;
-    Enemy_unit[num]->Target_type = type;
-    Enemy_unit[num]->Atv_stats->num = num;
-    Enemy_unit[num]->Atv_stats->Char_Name = "Enemy-";
-    Enemy_unit[num]->Atv_stats->Char_Name += std::to_string(num);
-    Enemy_unit[num]->Atv_stats->Unit_Name = Enemy_unit[num]->Atv_stats->Char_Name;
-    Enemy_unit[num]->Atv_stats->side = Side::Enemy;
-    Enemy_unit[num]->Atv_stats->ptrToChar = Enemy_unit[num].get();
+    enemyUnit.push_back(make_unique<Enemy>());
+    enemyUnit[num]->Atv_stats->baseSpeed = speed;
+    enemyUnit[num]->Max_toughness = Toughness;
+    enemyUnit[num]->Target_type = type;
+    enemyUnit[num]->Atv_stats->num = num;
+    enemyUnit[num]->Atv_stats->UnitName = "Enemy-";
+    enemyUnit[num]->Atv_stats->UnitName += std::to_string(num);
+    enemyUnit[num]->Atv_stats->StatsOwnerName = enemyUnit[num]->Atv_stats->UnitName;
+    enemyUnit[num]->Atv_stats->side = Side::Enemy;
+    enemyUnit[num]->Atv_stats->charptr = enemyUnit[num].get();
     if(num == 2){
-        Enemy_unit[2]->nextToLeft = Enemy_unit[1].get();
-        Enemy_unit[1]->nextToRight = Enemy_unit[2].get();
+        enemyUnit[2]->nextToLeft = enemyUnit[1].get();
+        enemyUnit[1]->nextToRight = enemyUnit[2].get();
     }
     else if(num == 3){
-        Enemy_unit[3]->nextToRight = Enemy_unit[1].get();
-        Enemy_unit[1]->nextToLeft = Enemy_unit[3].get();
+        enemyUnit[3]->nextToRight = enemyUnit[1].get();
+        enemyUnit[1]->nextToLeft = enemyUnit[3].get();
     }
     else if(num == 4){
-        Enemy_unit[4]->nextToLeft = Enemy_unit[2].get();
-        Enemy_unit[2]->nextToRight = Enemy_unit[4].get();
+        enemyUnit[4]->nextToLeft = enemyUnit[2].get();
+        enemyUnit[2]->nextToRight = enemyUnit[4].get();
     }
     else if(num == 5){
-        Enemy_unit[5]->nextToRight = Enemy_unit[3].get();
-        Enemy_unit[3]->nextToLeft = Enemy_unit[5].get();
+        enemyUnit[5]->nextToRight = enemyUnit[3].get();
+        enemyUnit[3]->nextToLeft = enemyUnit[5].get();
     }
-    return Enemy_unit[num].get();
+    return enemyUnit[num].get();
 }
 void SetupEnemy(double speed,double Toughness,pair<double,double> energy,pair<double,double> skillRatio,pair<int,int> attackCooldown,int action,EnemyType type){    
     Enemy *enemyPtr = createNewEnemy(speed,Toughness,type);

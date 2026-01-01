@@ -1,7 +1,7 @@
 #include "../include.h"
 namespace Nihility_Lightcone{
-    function<void(Ally *ptr)> GNSW(int superimpose){
-        return [=](Ally *ptr) {
+    function<void(CharUnit *ptr)> GNSW(int superimpose){
+        return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(953,476,331);
             ptr->Light_cone.Name = "GNSW";
     

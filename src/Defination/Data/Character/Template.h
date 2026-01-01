@@ -1,8 +1,8 @@
 #include "../include.h"
 
 namespace SomeChar{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(speed,maxEnergy,UltCost,E,ElementType::,Path::,Name,UnitType::Standard);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = SetCharBasicStats(speed,maxEnergy,UltCost,E,ElementType::,Path::,Name,UnitType::Standard);
         ptr->SetAllyBaseStats(,,);
 
         //substats
@@ -20,12 +20,12 @@ namespace SomeChar{
         Relic(ptr);
         Planar(ptr);
 
-        SubUnit *ally = ptr->getSubUnit();
+        AllyUnit *ally = ptr->getMemosprite();
         #pragma region Ability
 
         function<void()> BA = [ptr,ally]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::,ptr->getSubUnit(),TraceType::,,
+            make_shared<AllyAttackAction>(AType::,ptr->getMemosprite(),TraceType::,,
             [ptr,ally](shared_ptr<AllyAttackAction> &act){
                 Skill_point(,1);
                 Increase_energy(,20);

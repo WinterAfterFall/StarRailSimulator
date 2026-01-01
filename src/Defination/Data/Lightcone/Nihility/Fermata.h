@@ -1,7 +1,7 @@
 #include "../include.h"
 namespace Nihility_Lightcone{
-    function<void(Ally *ptr)> Fermata(int superimpose){
-        return [=](Ally *ptr) {
+    function<void(CharUnit *ptr)> Fermata(int superimpose){
+        return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(953,476,331);
             ptr->Light_cone.Name = "Fermata";
     
@@ -10,7 +10,7 @@ namespace Nihility_Lightcone{
             }));
 
             BeforeAttack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                if(act->isSameUnit(ptr->getSubUnit())){
+                if(act->isSameUnitName(ptr->getMemosprite())){
                     for(auto &each : act->targetList ){
                         if(each->ShockCount||each->WindSheerCount){
                             each->debuffSingle({{Stats::DMG,AType::None,12.0 + superimpose * 4}});
@@ -20,7 +20,7 @@ namespace Nihility_Lightcone{
             }));
 
             AfterAttack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                if(act->isSameUnit(ptr->getSubUnit())){
+                if(act->isSameUnitName(ptr->getMemosprite())){
                     for(auto &each : act->targetList ){
                         if(each->ShockCount||each->WindSheerCount){
                             each->debuffSingle({{Stats::DMG,AType::None,-(12.0 + superimpose * 4)}});

@@ -1,9 +1,9 @@
 #include "../include.h"
 namespace Relic{
-    void Eagle_Beaked_Helmet(Ally *ptr){
+    void Eagle_Beaked_Helmet(CharUnit *ptr){
         ptr->Relic.Name = "Eagle_Beaked_Helmet";
         ptr->addUltCondition([ptr]() -> bool {
-            if(ptr->getSubUnit()->Atv_stats->atv<=ptr->getSubUnit()->Atv_stats->Max_atv*0.25)return false;
+            if(ptr->getMemosprite()->Atv_stats->atv<=ptr->getMemosprite()->Atv_stats->Max_atv*0.25)return false;
             return true;
         });
 
@@ -12,7 +12,7 @@ namespace Relic{
         }));
 
         WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr](Ally *ally){
-            if (ally->isSameAlly(ptr)) {
+            if (ally->isSameChar(ptr)) {
                 Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 25);
             }
         }));

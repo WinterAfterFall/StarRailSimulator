@@ -1,7 +1,7 @@
 #include "../include.h"
 namespace Relic{
-    void Hero_Wreath(Ally *ptr);
-    void Hero_Wreath(Ally *ptr){
+    void Hero_Wreath(CharUnit *ptr);
+    void Hero_Wreath(CharUnit *ptr){
         ptr->Relic.Name = "Hero_Wreath";
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {

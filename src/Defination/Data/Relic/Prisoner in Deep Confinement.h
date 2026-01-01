@@ -1,6 +1,6 @@
 #include "../include.h"
 namespace Relic{
-    void Prisoner(Ally *ptr){
+    void Prisoner(CharUnit *ptr){
         ptr->Relic.Name = "Prisoner";
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {

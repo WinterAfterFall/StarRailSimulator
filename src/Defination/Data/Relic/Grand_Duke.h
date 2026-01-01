@@ -1,14 +1,14 @@
 #include "../include.h"
 namespace Relic{
-    void Grand_Duke(Ally *ptr);
-    void Grand_Duke(Ally *ptr){
+    void Grand_Duke(CharUnit *ptr);
+    void Grand_Duke(CharUnit *ptr){
         ptr->Relic.Name = "Grand_Duke";
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Sub_Unit_ptr[0]->Stats_type[Stats::DMG][AType::Fua] += 20;
         }));
 
         BeforeAttackPerHit_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
-            if (act->Attacker->Atv_stats->Unit_Name != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) return;
+            if (act->Attacker->Atv_stats->StatsOwnerName != ptr->Sub_Unit_ptr[0]->Atv_stats->StatsOwnerName) return;
 
             bool check = false;
             for (auto e : act->actionTypeList) {
@@ -31,7 +31,7 @@ namespace Relic{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            if (turn->Char_Name != ptr->Sub_Unit_ptr[0]->Atv_stats->Char_Name) return;
+            if (turn->UnitName != ptr->Sub_Unit_ptr[0]->Atv_stats->UnitName) return;
 
             if (ptr->Sub_Unit_ptr[0].get()->isBuffEnd("Grand_Duke")) {
                 ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] -= ptr->Sub_Unit_ptr[0]->Stack["Grand_Duke"] * 6;

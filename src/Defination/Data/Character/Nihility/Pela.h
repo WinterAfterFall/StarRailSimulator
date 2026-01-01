@@ -1,11 +1,11 @@
 #include "../include.h"
 
 namespace Pela{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
-    void Basic_Atk(Ally *ptr);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
+    void Basic_Atk(CharUnit *ptr);
 
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(105,110,110,E,ElementType::Ice,Path::Nihility,"Pela",UnitType::Standard);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = SetCharBasicStats(105,110,110,E,ElementType::Ice,Path::Nihility,"Pela",UnitType::Standard);
         ptr->SetAllyBaseStats(1087,660,509);
 
         //substats
@@ -28,7 +28,7 @@ namespace Pela{
         
         ptr->addUltCondition([ptr]() -> bool {
             for (int i = 1; i <= Total_enemy; i++) {
-                if (Enemy_unit[i]->Debuff["Zone_Suppression"] == 0) return true;
+                if (enemyUnit[i]->Debuff["Zone_Suppression"] == 0) return true;
             }
             return false;
         });
@@ -36,7 +36,7 @@ namespace Pela{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"Pela Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"Pela Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 debuffAllEnemyApply({{Stats::DEF_SHRED, AType::None, 42}},ptr->Sub_Unit_ptr[0].get(), "Zone_Suppression",2);
                 Attack(act);
@@ -74,21 +74,21 @@ namespace Pela{
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (turn->side == Side::Enemy) {
-                if (Enemy_unit[turn->num]->Debuff_time_count["Zone_Suppression"] == Enemy_unit[turn->num]->Atv_stats->turnCnt) {
-                    Enemy_unit[turn->num]->Debuff["Zone_Suppression"] = 0;
-                    Enemy_unit[turn->num]->Stats_type[Stats::DEF_SHRED][AType::None] -= 42;
-                    --Enemy_unit[turn->num]->Total_debuff;
+                if (enemyUnit[turn->num]->Debuff_time_count["Zone_Suppression"] == enemyUnit[turn->num]->Atv_stats->turnCnt) {
+                    enemyUnit[turn->num]->Debuff["Zone_Suppression"] = 0;
+                    enemyUnit[turn->num]->Stats_type[Stats::DEF_SHRED][AType::None] -= 42;
+                    --enemyUnit[turn->num]->Total_debuff;
                 }
-                if (Enemy_unit[turn->num]->Debuff_time_count["Pela_Technique"] == turn->turnCnt) {
-                    Enemy_unit[turn->num]->Stats_type[Stats::DEF_SHRED][AType::None] -= 20;
-                    Enemy_unit[turn->num]->Debuff["Pela_Technique"] = 0;
-                    --Enemy_unit[turn->num]->Total_debuff;
+                if (enemyUnit[turn->num]->Debuff_time_count["Pela_Technique"] == turn->turnCnt) {
+                    enemyUnit[turn->num]->Stats_type[Stats::DEF_SHRED][AType::None] -= 20;
+                    enemyUnit[turn->num]->Debuff["Pela_Technique"] = 0;
+                    --enemyUnit[turn->num]->Total_debuff;
                 }
             }
         }));
         
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
-            if (act->Attacker->Atv_stats->Char_Name != "Pela") return;
+            if (act->Attacker->Atv_stats->UnitName != "Pela") return;
 
             for (auto e : act->targetList) {
                 if (e->Total_debuff == 0) continue;
@@ -98,7 +98,7 @@ namespace Pela{
 
             if (ptr->Eidolon >= 6) {
                 shared_ptr<AllyAttackAction> addDmg = 
-                make_shared<AllyAttackAction>(AType::Addtional,ptr->getSubUnit(),TraceType::Single,"Pela E6");
+                make_shared<AllyAttackAction>(AType::Addtional,ptr->getMemosprite(),TraceType::Single,"Pela E6");
                 for (auto e : act->targetList) {
                     addDmg->addDamageIns(DmgSrc(DmgSrcType::ATK,40),e);
                 }
@@ -109,12 +109,12 @@ namespace Pela{
 
 
 
-    void Basic_Atk(Ally *ptr){
+    void Basic_Atk(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Pela BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Pela BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),20);
+            Increase_energy(charUnit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),20);
             Attack(act);
         });
         act->addDamageIns(

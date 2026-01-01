@@ -1,10 +1,10 @@
 #include "../include.h"
 
 namespace SW{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
 
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(107,110,110,E,ElementType::Quantum,Path::Nihility,"SW",UnitType::Standard);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = SetCharBasicStats(107,110,110,E,ElementType::Quantum,Path::Nihility,"SW",UnitType::Standard);
         ptr->SetAllyBaseStats(1048,640,461);
 
         //substats
@@ -23,14 +23,14 @@ namespace SW{
         Planar(ptr);
         
         #pragma region Ability
-        SubUnit *sw = ptr->getSubUnit();
+        AllyUnit *sw = ptr->getMemosprite();
 
         ptr->Adjust["SW Targets amount"] = 1;
         
         function<void()> BA = [ptr,sw]() {
             Skill_point(sw,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"SW BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"SW BA",
             [sw](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(sw,20);
                 Attack(act);
@@ -44,14 +44,14 @@ namespace SW{
         function<void()> Skill = [ptr,sw]() {
             Skill_point(sw,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"SW Skill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Single,"SW Skill",
             [sw](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(sw,30);
                 for(auto &enemy : act->targetList){
                     for(int i=1;i<=Total_ally;i++){
-                        if(enemy->Default_Weakness_type[Ally_unit[i]->Sub_Unit_ptr[0]->Element_type[0]])continue;
-                        enemy->weaknessApply(Ally_unit[i]->Sub_Unit_ptr[0]->Element_type[0],3);
-                        enemy->debuffSingleApply({{Stats::RESPEN,Ally_unit[i]->Sub_Unit_ptr[0]->Element_type[0],AType::None,20}},sw,"SW Weakness",3);
+                        if(enemy->Default_Weakness_type[charUnit[i]->Sub_Unit_ptr[0]->Element_type[0]])continue;
+                        enemy->weaknessApply(charUnit[i]->Sub_Unit_ptr[0]->Element_type[0],3);
+                        enemy->debuffSingleApply({{Stats::RESPEN,charUnit[i]->Sub_Unit_ptr[0]->Element_type[0],AType::None,20}},sw,"SW Weakness",3);
                         sw->setBuffNote("SW Weakness num",i);
                         break;
                     }
@@ -67,7 +67,7 @@ namespace SW{
 
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr, allyPtr = ptr->Sub_Unit_ptr[0].get(),BA,Skill]() {
             for(int i = 1;i<= Total_enemy&&i<=ptr->Adjust["SW Targets amount"];i++){
-                if(!Enemy_unit[i]->getDebuff("SW Res")){
+                if(!enemyUnit[i]->getDebuff("SW Res")){
                     Skill();
                     return;
                 }
@@ -79,7 +79,7 @@ namespace SW{
             if (!ultUseCheck(ptr)) return;
 
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"SW Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"SW Ult",
             [ptr,sw](shared_ptr<AllyAttackAction> &act){
                 debuffAllEnemyApply({
                     {Stats::DEF_SHRED,AType::None,45}
@@ -98,7 +98,7 @@ namespace SW{
                     for(auto &enemy : act->targetList){
                         debuffcnt = (enemy->Total_debuff>=5) ? 5 : enemy->Total_debuff;
                         shared_ptr<AllyAttackAction> add = 
-                        make_shared<AllyAttackAction>(AType::Addtional,ptr->getSubUnit(),TraceType::Single,"SW AddDmg");
+                        make_shared<AllyAttackAction>(AType::Addtional,ptr->getMemosprite(),TraceType::Single,"SW AddDmg");
                             add->addDamageIns(DmgSrc(DmgSrcType::ATK,20*debuffcnt),enemy);  
                         Attack(add);
                     }
@@ -142,7 +142,7 @@ namespace SW{
             Enemy *enemy = turn->canCastToEnemy();
             if(enemy){
                 if(enemy->isDebuffEnd("SW Weakness")){
-                    enemy->debuffSingle({{Stats::RESPEN,Ally_unit[sw->getBuffNote("SW Weakness num")]->Sub_Unit_ptr[0]->Element_type[0],AType::None,-20}});
+                    enemy->debuffSingle({{Stats::RESPEN,charUnit[sw->getBuffNote("SW Weakness num")]->Sub_Unit_ptr[0]->Element_type[0],AType::None,-20}});
                 }
                 if(enemy->isDebuffEnd("SW Res")){
                     enemy->debuffSingle({{Stats::RESPEN,AType::None,-13}});
@@ -166,7 +166,7 @@ namespace SW{
             
             if(ptr->Technique){
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TraceType::Aoe,"SW Technique",
+                make_shared<AllyAttackAction>(AType::Technique,ptr->getMemosprite(),TraceType::Aoe,"SW Technique",
                 [sw](shared_ptr<AllyAttackAction> &act){
                     Attack(act);
                 });
@@ -187,7 +187,7 @@ namespace SW{
         }));
 
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,sw](shared_ptr<AllyAttackAction> &act) {
-            if(ptr->Eidolon>=2||act->isSameUnit(sw)){
+            if(ptr->Eidolon>=2||act->isSameUnitName(sw)){
                 for(auto &enemy : act->targetList){
                     if(!enemy->getDebuff("Bug 1")){
                         enemy->debuffApply(sw,"Bug 1",4);
@@ -207,7 +207,7 @@ namespace SW{
             }
         }));
 
-        Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,sw](Enemy *target, SubUnit *Trigger) {
+        Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,sw](Enemy *target, AllyUnit *Trigger) {
                 if(!target->getDebuff("Bug 1")){
                     target->debuffApply(sw,"Bug 1",4);
                 }

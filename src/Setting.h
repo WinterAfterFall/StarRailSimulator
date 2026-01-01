@@ -21,8 +21,13 @@ int Total_enemy = 0;
 int Force_break = 0;
 
 DriverType driverType  = DriverType::None;
-vector<unique_ptr<Ally>> Ally_unit(1);
-vector<unique_ptr<Enemy>> Enemy_unit(1);
+vector<unique_ptr<CharUnit>> charUnit(1);
+vector<unique_ptr<Enemy>> enemyUnit(1);
+vector<CharUnit*> charList;
+vector<AllyUnit*> allyList;
+vector<Enemy*> enemyList;
+vector<ActionValueStats*> atvList;
+
 unordered_map<ElementType, double> Enemy_res = {
         {ElementType::Fire, 0.0},
         {ElementType::Ice, 0.0},
@@ -74,7 +79,7 @@ int Turn_priority = 0;
 double Enemy_effect_res =40;
 
 SubstatsRerollMode rerollSubstatsMode = SubstatsRerollMode::Standard; 
-function<bool(Ally *ptr)> rerollFunction;
+function<bool(CharUnit *ptr)> rerollFunction;
 
 //-------- Trigger Function --------//
 vector<TriggerByYourSelf_Func> Setup_List;

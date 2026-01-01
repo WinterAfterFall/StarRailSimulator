@@ -1,24 +1,25 @@
 #include "../include.h"
 
-SubUnit* ActionValueStats::canCastToSubUnit(){
-    return dynamic_cast<SubUnit*>(this->ptrToChar);
+AllyUnit* ActionValueStats::canCastToSubUnit(){
+    return dynamic_cast<AllyUnit*>(this->charptr);
 }
 Enemy* ActionValueStats::canCastToEnemy(){
-    return dynamic_cast<Enemy*>(this->ptrToChar);
+    return dynamic_cast<Enemy*>(this->charptr);
 }
-SubUnit* Unit::canCastToSubUnit() {
-    return dynamic_cast<SubUnit*>(this);
+AllyUnit* Unit::canCastToSubUnit() {
+    return dynamic_cast<AllyUnit*>(this);
 }
 Enemy* Unit::canCastToEnemy(){
     return dynamic_cast<Enemy*>(this);
 }
 
-SubUnit* chooseSubUnitBuff(SubUnit *ptr){
-    return Ally_unit[ptr->currentAllyTargetNum]->Sub_Unit_ptr[ptr->currentSubUnitTargetNum].get();
+AllyUnit* chooseSubUnitBuff(AllyUnit *ptr){
+    if(ptr->currentMemoNum)return charUnit[ptr->currentCharNum]->memospriteList[ptr->currentMemoNum].get();
+    return charUnit[ptr->currentCharNum].get();
 }
-Ally* chooseCharacterBuff(SubUnit *ptr){
-    return Ally_unit[ptr->currentAllyTargetNum].get();
+CharUnit* chooseCharacterBuff(AllyUnit *ptr){
+    return charUnit[ptr->currentCharNum].get();
 }
-Enemy* chooseEnemyTarget(SubUnit *ptr){
-    return Enemy_unit[ptr->Enemy_target_num].get();
+Enemy* chooseEnemyTarget(AllyUnit *ptr){
+    return enemyUnit[ptr->Enemy_target_num].get();
 }

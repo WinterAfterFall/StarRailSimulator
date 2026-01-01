@@ -1,25 +1,19 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 #include <bits/stdc++.h>
-#include "Ally.h"
-using namespace std;
-#define endl '\n'
-#define F first
-#define S second
-#define DMG_CAL 12
-
+#include "CharUnit.h"
 
 class BreakSideEffect{
         public:
         BreakSEType type;
-        SubUnit *ptr = nullptr;
+        AllyUnit *ptr = nullptr;
         int countdown = 0;
         int stack = 0;
         
         
-        BreakSideEffect(BreakSEType type, SubUnit *ptr, int countdown,int stack) 
+        BreakSideEffect(BreakSEType type, AllyUnit *ptr, int countdown,int stack) 
             : type(type), countdown(countdown), ptr(ptr), stack(stack) {}
-        BreakSideEffect(BreakSEType type, SubUnit *ptr, int countdown) 
+        BreakSideEffect(BreakSEType type, AllyUnit *ptr, int countdown) 
             : type(type), countdown(countdown), ptr(ptr) {}
 
             bool operator<(const BreakSideEffect& other) const {
@@ -55,7 +49,7 @@ public:
     EnemyType Target_type;//*
     unordered_map<string,double> AttackCoolDown;
     int AoeCharge = 0;
-    vector<SubUnit*> tauntList;
+    vector<AllyUnit*> tauntList;
     double toughnessReduceNote = 0;
     int hitCount = 0;
     Enemy * nextToLeft = nullptr;
@@ -99,7 +93,7 @@ public:
     bool addBreakSEList(BreakSideEffect input) {
         if(input.type == BreakSEType::Freeze) {
             for(auto itr = breakFrzList.begin(); itr != breakFrzList.end();) {
-                if(itr->ptr->isSameUnit(input.ptr)) {
+                if(itr->ptr->isSameStatsOwnerName(input.ptr)) {
                     itr->countdown = input.countdown;
                     return false;
                 } else {
@@ -109,7 +103,7 @@ public:
             breakFrzList.push_back(input);
         } else if(input.type == BreakSEType::Imprisonment) {
             for(auto itr = breakImsList.begin(); itr != breakImsList.end();) {
-                if(itr->ptr->isSameUnit(input.ptr)) {
+                if(itr->ptr->isSameStatsOwnerName(input.ptr)) {
                     itr->countdown = input.countdown;
                     return false;
                 } else {
@@ -119,7 +113,7 @@ public:
             breakImsList.push_back(input);
         } else if(input.type == BreakSEType::Entanglement) {
             for(auto itr = breakEngList.begin(); itr != breakEngList.end();) {
-                if(itr->ptr->isSameUnit(input.ptr)) {
+                if(itr->ptr->isSameStatsOwnerName(input.ptr)) {
                     itr->countdown = input.countdown;
                     return false;
                 } else {
@@ -129,7 +123,7 @@ public:
             breakEngList.push_back(input);
         }else{
             for(auto itr = breakDotList.begin(); itr != breakDotList.end();) {
-                if(itr->ptr->isSameUnit(input.ptr)) {
+                if(itr->ptr->isSameStatsOwnerName(input.ptr)) {
                     itr->countdown = input.countdown;
                     itr->stack += input.stack;
                     return false;
@@ -161,8 +155,8 @@ public:
     double Total_toughness_broken_time =0;
     double when_toughness_broken;
  
-    //Constructor now calls the base class constructor to initialize Atv_stats and set ptrToChar
-    Enemy() : Unit() {  // Call Unit constructor to initialize Atv_stats and set ptrToChar
+    //Constructor now calls the base class constructor to initialize Atv_stats and set owner
+    Enemy() : Unit() {  // Call Unit constructor to initialize Atv_stats and set owner
     
     }
 
@@ -216,59 +210,20 @@ public:
     //create
     void BaAttack(double SkillRatio,double energy);
     void AoeAttack(double SkillRatio,double energy);
-    void addTaunt(SubUnit* ptr);
+    void addTaunt(AllyUnit* ptr);
     void removeTaunt(string name);
-    void removeTaunt(SubUnit* ptr);
+    void removeTaunt(AllyUnit* ptr);
 
     //weaknessapply
-    // string debuffWeaknessapply(SubUnit *ptr, string debuffName);
-    // string debuffWeaknessapply(SubUnit *ptr, string debuffName,int extend);
+    // string debuffWeaknessapply(AllyUnit *ptr, string debuffName);
+    // string debuffWeaknessapply(AllyUnit *ptr, string debuffName,int extend);
     // bool debuffWeaknessEND(string debuffName);
 
-    //debuff.h
-    bool debuffApply(SubUnit *ptr, string debuffName);
-    bool debuffApply(SubUnit *ptr, string debuffName,int extend);
-    bool debuffMark(SubUnit *ptr, string debuffName);
-    bool debuffMark(SubUnit *ptr, string debuffName,int extend);
-    void debuffRemove(string debuffName);
 
-    ElementType weaknessApplyChoose(int extend);
-    void weaknessApply(ElementType Debuff_name ,int extend);
-    
-    bool isDebuffEnd(string Debuff_name);
-    void extendDebuff(string Debuff_name,int Turn_extend);
-    
-    //Single target
-    void debuffSingle(vector<BuffClass> debuffSet);
-    void debuffSingle(vector<BuffElementClass> debuffSet);
-    void debuffSingleApply(vector<BuffClass> debuffSet,SubUnit *ptr,string debuffName);
-    void debuffSingleApply(vector<BuffElementClass> debuffSet,SubUnit *ptr,string debuffName);
-    void debuffSingleMark(vector<BuffClass> debuffSet,SubUnit *ptr,string debuffName);
-    void debuffSingleMark(vector<BuffElementClass> ,SubUnit *ptr,string debuffName);
-    void debuffSingleApply(vector<BuffClass> debuffSet,SubUnit *ptr,string debuffName ,int extend);
-    void debuffSingleApply(vector<BuffElementClass> debuffSet,SubUnit *ptr,string debuffName ,int extend);
-    void debuffSingleMark(vector<BuffClass> buffSet, SubUnit* ptr, string debuffName, int extend);
-    void debuffSingleMark(vector<BuffElementClass> buffSet, SubUnit* ptr, string debuffName, int extend);
 
-    //Stack
-    int debuffRemoveStack(string debuffName);
-    pair<int,int> calDebuffStack(SubUnit *ptr,string debuffName,int Stack_increase,int StackLimit);
-    void debuffStackRemove(vector<BuffClass> buffSet,string debuffName);
-    void debuffStackRemove(vector<BuffElementClass> buffSet,string debuffName);
-    void debuffStackSingle(vector<BuffClass>,SubUnit *ptr, int Stack_increase, int Stack_limit, string Stack_Name);
-    void debuffStackSingle(vector<BuffElementClass>,SubUnit *ptr, int Stack_increase, int Stack_limit, string Stack_Name);
-    void debuffStackSingle(vector<BuffClass>,SubUnit *ptr, int Stack_increase, int Stack_limit, string Stack_Name,int extend);
-    void debuffStackSingle(vector<BuffElementClass>,SubUnit *ptr, int Stack_increase, int Stack_limit, string Stack_Name,int extend);
 
-    //Dot
-    void dotSingleApply(vector<DotType> dotType,SubUnit *ptr,string dotName);
-    void dotSingleApply(vector<DotType> dotType,SubUnit *ptr,string dotName, int extend);
-    void dotSingleMark(vector<DotType> dotType,SubUnit *ptr,string dotName);
-    void dotSingleMark(vector<DotType> dotType,SubUnit *ptr,string dotName, int extend);
-    void dotSingleStack(vector<DotType> dotType,SubUnit *ptr, int Stack_increase, int Stack_limit, string dotName);
-    void dotSingleStack(vector<DotType> dotType,SubUnit *ptr, int Stack_increase, int Stack_limit, string dotName,int extend);
-    void dotRemove(vector<DotType> dotType);
-    int dotStackRemove(vector<DotType> dotType,string dotName);
+
+
 
 }; 
 // Define DamageSrc cmp

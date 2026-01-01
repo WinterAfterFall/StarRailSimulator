@@ -1,7 +1,7 @@
 #include "../include.h"
 namespace Planar{
-    void Kalpagni_Lantern(Ally *ptr);
-    void Kalpagni_Lantern(Ally *ptr){
+    void Kalpagni_Lantern(CharUnit *ptr);
+    void Kalpagni_Lantern(CharUnit *ptr){
         
         ptr->Planar.Name="Kalpagni_Lantern";
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {

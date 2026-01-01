@@ -1,15 +1,15 @@
 #include "../include.h"
 
 namespace Bronya{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
     
 
 //temp
-    void Skill(Ally *ptr);
+    void Skill(CharUnit *ptr);
 
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(99,120,120,E,ElementType::Wind,Path::Harmony,"Bronya",UnitType::Standard);
-        SubUnit *Bronyaptr = ptr->getSubUnit();
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = SetCharBasicStats(99,120,120,E,ElementType::Wind,Path::Harmony,"Bronya",UnitType::Standard);
+        AllyUnit *Bronyaptr = ptr->getMemosprite();
         ptr->SetAllyBaseStats(1242,582,534);
         //substats
         ptr->pushSubstats(Stats::CD);
@@ -30,7 +30,7 @@ namespace Bronya{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Bronyaptr](){
             if(!ultUseCheck(ptr)) return;
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"Bronya Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"Bronya Ult",
             [ptr](shared_ptr<AllyBuffAction> &act){
                 //Ult ATKBUFF
                 buffAllAlly({{Stats::ATK_P,AType::None,55}},"Bronya_Ult",2);
@@ -44,8 +44,8 @@ namespace Bronya{
                 }
 
                 //ดักในกรณีที่บัพในเทิร์นตัวละครอื่น
-                if(phaseStatus == PhaseStatus::BeforeTurn && (turn->side == Side::Memosprite || turn->side == Side::Ally)){
-                    SubUnit *temp = dynamic_cast<SubUnit*>(turn->ptrToChar);
+                if(phaseStatus == PhaseStatus::BeforeTurn && (turn->side == Side::AllyUnit || turn->side == Side::Ally)){
+                    AllyUnit *temp = dynamic_cast<AllyUnit*>(turn->charptr);
                     temp->extendBuffTime("Bronya_Ult",1);
                 }
                 if(ptr->Print)CharCmd::printUltStart("Bronya");
@@ -69,7 +69,7 @@ namespace Bronya{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Bronyaptr](){
-            SubUnit *tempstats = dynamic_cast<SubUnit*>(turn->ptrToChar);
+            AllyUnit *tempstats = dynamic_cast<AllyUnit*>(turn->charptr);
             if(!tempstats) return;
             
             //BuffEND Skill
@@ -100,7 +100,7 @@ namespace Bronya{
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
-            if(turn->Char_Name == "Bronya"){
+            if(turn->UnitName == "Bronya"){
                 ptr->Sub_Unit_ptr[0]->Buff_check["Bronya_E4"] = 0;
             }
             if(ptr->Sub_Unit_ptr[0]->Atv_stats->num != Driver_num) return;
@@ -116,7 +116,7 @@ namespace Bronya{
             }
             if(ptr->Eidolon >= 4 && act->isSameAttack(AType::BA)&&!act->isSameUnitName("Bronya")&& ptr->Sub_Unit_ptr[0]->Buff_check["Bronya_E4"] == 0){
                 shared_ptr<AllyAttackAction> newAct = 
-                make_shared<AllyAttackAction>(AType::Fua,ptr->getSubUnit(),TraceType::Single,"Bronya E4",
+                make_shared<AllyAttackAction>(AType::Fua,ptr->getMemosprite(),TraceType::Single,"Bronya E4",
                 [ptr](shared_ptr<AllyAttackAction> &act){
                     Increase_energy(ptr,5);
                     Attack(act);
@@ -134,7 +134,7 @@ namespace Bronya{
 
 
     
-    void Skill(Ally *ptr){
+    void Skill(CharUnit *ptr){
 
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         //E1 คืน Sp
@@ -146,7 +146,7 @@ namespace Bronya{
             ptr->Sub_Unit_ptr[0]->Stack["Bronya_Skill_E1"]++;
         }
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"Bronya Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Single,"Bronya Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
 

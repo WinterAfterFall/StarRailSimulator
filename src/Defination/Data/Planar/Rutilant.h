@@ -1,7 +1,7 @@
 #include "../include.h"
 namespace Planar{
-    void Rutilant(Ally *ptr);
-    void Rutilant(Ally *ptr){
+    void Rutilant(CharUnit *ptr);
+    void Rutilant(CharUnit *ptr){
         
         ptr->Planar.Name = "    ";
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {

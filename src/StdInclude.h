@@ -15,67 +15,6 @@
 #define PRIORITY_Last -1000
 
 #pragma endregion
-#pragma region StatsType
-
-// #define Stats::HP_P "Hp%"
-// #define Stats::FLAT_HP "Flat_Hp"
-// #define Stats::ATK_P "Atk%"
-// #define Stats::FLAT_ATK "Flat_Atk"
-// #define Stats::DEF_P "Def%"
-// #define Stats::FLAT_DEF "Flat_Def"
-// #define Stats::DMG "Dmg%"
-// #define Stats::CR "Crit_rate"
-// #define Stats::CD "Crit_dam"
-// #define Stats::BE "Break_effect"
-// #define Stats::DEF_SHRED "Def_shred"
-// #define Stats::RESPEN "Respen"
-// #define Stats::VUL "Vul"
-// #define Stats::RES "Res"
-// #define Stats::EHR "Ehr"
-// #define Stats::ER "Energy_recharge"
-// #define Stats::HEALING_OUT "outGoingHeal"
-// #define Stats::HEALING_IN "inComingHeal"
-// #define Stats::SHEILD "SheildBonus"
-// #define Stats::FLAT_SPD "Flat_Speed"
-// #define Stats::SPD_P "Speed%"
-// #define Stats::BREAK_EFF "Weakness_Break_Efficiency"
-// #define Stats::TOUGH_REDUCE "Toughness_reduction"
-
-#pragma endregion
-
-#pragma region ActionType
-
-// #define AType::TEMP "Temporary"
-// #define AType::None "None"
-// #define AType::BA "Basic_Attack"
-// #define AType::SKILL "Skill"
-// #define AType::Ult "Ultimate"
-// #define AType::Fua "Fua"
-// #define AType::Summon Side::Summon
-// #define AType::Dot "Dot"
-// #define AType::Break "Break_dmg"
-// #define AType::SPB "Super_break"
-// #define AType::Addtional "Additional"
-// #define AType::Technique "Technique"
-// #define AType::Freeze "Freeze"
-// #define AType::Entanglement "Entanglement"
-
-#pragma endregion
-#pragma region TargetType
-
-// #define TraceType::Single "Single_target"
-// #define TraceType::Blast "Blast"
-// #define TraceType::Aoe "Aoe"
-// #define TraceType::Bounce "Bounce"
-
-#pragma endregion
-#pragma region Type
-
-// #define UnitType::Standard "Standard"
-// #define UnitType::Backup "Backup"
-
-#pragma endregion
-
 
 using std::cout;
 using std::setprecision;

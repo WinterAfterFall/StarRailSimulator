@@ -1,7 +1,7 @@
 #include "../include.h"
 namespace Remembrance_Lightcone{
-    function<void(Ally *ptr)> RemembranceHertaShop(int superimpose){
-        return [=](Ally *ptr) {
+    function<void(CharUnit *ptr)> RemembranceHertaShop(int superimpose){
+        return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(1058,529,397);
             ptr->Light_cone.Name = "RemembranceHertaShop";
     
@@ -12,7 +12,7 @@ namespace Remembrance_Lightcone{
             AfterAction_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<ActionData> &act) {
                 AllyActionData *allyData_ = act->castToAllyActionData();
                 if(!allyData_)return;
-                if(allyData_->isSameAction(ptr->getSubUnit(),AType::SKILL)){
+                if(allyData_->isSameAction(ptr->getMemosprite(),AType::SKILL)){
                     buffAllAlly({
                         {Stats::DMG,AType::None,6.0 + 2* superimpose}
                     },"Curtain Never Falls",3);
@@ -20,7 +20,7 @@ namespace Remembrance_Lightcone{
             }));
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                SubUnit *allyptr = turn->canCastToSubUnit();
+                AllyUnit *allyptr = turn->canCastToSubUnit();
                 if(!allyptr)return;
                 if(allyptr->isBuffEnd("Curtain Never Falls")){
                     allyptr->buffSingle({
@@ -29,7 +29,7 @@ namespace Remembrance_Lightcone{
                 }
             }));
 
-            AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,superimpose](SubUnit* target) {
+            AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,superimpose](AllyUnit* target) {
                 if(target->isBuffGoneByDeath("Curtain Never Falls")){
                     target->buffSingle({
                         {Stats::DMG,AType::None,-(6.0 + 2* superimpose)}

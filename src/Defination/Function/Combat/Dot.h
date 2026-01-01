@@ -1,120 +1,120 @@
 #include "../include.h"
 
-void Enemy::dotSingleApply(vector<DotType> dotType, SubUnit *ptr, string dotName) {
-    if(!this->debuffApply(ptr,dotName))return;
+void dotSingleApply(AllyUnit *ptr, Enemy *enemy ,vector<DotType> dotType,string dotName) {
+    if(!debuffApply(ptr,enemy,dotName))return;
     for(auto &each : dotType) {
-        this->changeDotType(each,1);
+        enemy->changeDotType(each,1);
     }
 }
 
-void Enemy::dotSingleApply(vector<DotType> dotType, SubUnit *ptr, string dotName, int extend) {
-    if(!this->debuffApply(ptr,dotName,extend))return;
+void dotSingleApply(AllyUnit *ptr, Enemy *enemy ,vector<DotType> dotType,string dotName, int extend) {
+    if(!debuffApply(ptr,enemy,dotName,extend))return;
     for(auto &each : dotType) {
-        this->changeDotType(each,1);
+        enemy->changeDotType(each,1);
     }
 }
 
-void Enemy::dotSingleMark(vector<DotType> dotType, SubUnit *ptr, string dotName) {
-    if(!this->debuffMark(ptr,dotName))return;
+void dotSingleMark(AllyUnit *ptr, Enemy *enemy ,vector<DotType> dotType,string dotName) {
+    if(!debuffMark(ptr,enemy,dotName))return;
     for(auto &each : dotType) {
-        this->changeDotType(each,1);
+        enemy->changeDotType(each,1);
     }
 }
 
-void Enemy::dotSingleMark(vector<DotType> dotType, SubUnit *ptr, string dotName, int extend) {
-    if(!this->debuffMark(ptr,dotName,extend))return;
+void dotSingleMark(AllyUnit *ptr, Enemy *enemy ,vector<DotType> dotType,string dotName, int extend) {
+    if(!debuffMark(ptr,enemy,dotName,extend))return;
     for(auto &each : dotType) {
-        this->changeDotType(each,1);
+        enemy->changeDotType(each,1);
     }
 }
 
-void Enemy::dotSingleStack(vector<DotType> dotType, SubUnit *ptr, int Stack_increase, int Stack_limit, string dotName) {
+void dotSingleStack(AllyUnit *ptr, Enemy *enemy ,vector<DotType> dotType,int Stack_increase, int Stack_limit, string dotName) {
     for(auto &each : dotType) {
-        if(!this->getStack(dotName))this->changeDotType(each,1);
+        if(!enemy->getStack(dotName))enemy->changeDotType(each,1);
     }
-    int stack = this->calDebuffStack(ptr,dotName,Stack_increase,Stack_limit).first;
+    int stack = calDebuffStack(ptr,enemy,dotName,Stack_increase,Stack_limit).first;
 }
 
-void Enemy::dotSingleStack(vector<DotType> dotType, SubUnit *ptr, int Stack_increase, int Stack_limit, string dotName, int extend) {
+void dotSingleStack(AllyUnit *ptr, Enemy *enemy,vector<DotType> dotType,int Stack_increase, int Stack_limit, string dotName, int extend) {
     for(auto &each : dotType) {
-        if(!this->getStack(dotName))this->changeDotType(each,1);
+        if(!enemy->getStack(dotName))enemy->changeDotType(each,1);
     }
-    int stack = this->calDebuffStack(ptr,dotName,Stack_increase,Stack_limit).first;
-    this->extendDebuff(dotName,extend);
+    int stack = calDebuffStack(ptr,enemy,dotName,Stack_increase,Stack_limit).first;
+    extendDebuff(enemy,dotName,extend);
 }
 
-void dotAllEnemyApply(vector<DotType> dotType, SubUnit *ptr, string dotName){
-    for(int i =1 ;i<=Total_enemy;i++){
-        Enemy_unit[i]->dotSingleApply(dotType,ptr,dotName);
+void dotAllEnemyApply(AllyUnit *ptr,vector<DotType> dotType,string dotName){
+    for(auto &each : enemyList){
+        dotSingleApply(ptr,each,dotType,dotName);
     }
 }
-void dotAllEnemyApply(vector<DotType> dotType, SubUnit *ptr, string dotName,int extend){
-    for(int i =1 ;i<=Total_enemy;i++){
-        Enemy_unit[i]->dotSingleApply(dotType,ptr,dotName,extend);
+void dotAllEnemyApply(AllyUnit *ptr,vector<DotType> dotType,string dotName,int extend){
+    for(auto &each : enemyList){
+        dotSingleApply(ptr,each,dotType,dotName,extend);
     }
 }
-void dotEnemyTargetsApply(vector<Enemy*> targets, vector<DotType> dotType, SubUnit *ptr, string dotName) {
+void dotEnemyTargetsApply(AllyUnit *ptr,vector<Enemy*> targets, vector<DotType> dotType,string dotName) {
     for (auto &enemy : targets) {
-        enemy->dotSingleApply(dotType, ptr, dotName);
+        dotSingleApply(ptr,enemy,dotType, dotName);
     }
 }
-void dotEnemyTargetsApply(vector<Enemy*> targets, vector<DotType> dotType, SubUnit *ptr, string dotName, int extend) {
+void dotEnemyTargetsApply(AllyUnit *ptr,vector<Enemy*> targets, vector<DotType> dotType,string dotName, int extend) {
     for (auto &enemy : targets) {
-        enemy->dotSingleApply(dotType, ptr, dotName, extend);
+        dotSingleApply(ptr,enemy,dotType,dotName, extend);
     }
 }
 
-void dotAllEnemyMark(vector<DotType> dotType, SubUnit *ptr, string dotName){
-    for(int i =1 ;i<=Total_enemy;i++){
-        Enemy_unit[i]->dotSingleMark(dotType,ptr,dotName);
+void dotAllEnemyMark(AllyUnit *ptr,vector<DotType> dotType,string dotName){
+    for(auto &each : enemyList){
+        dotSingleMark(ptr,each,dotType,dotName);
     }
 }
-void dotAllEnemyMark(vector<DotType> dotType, SubUnit *ptr, string dotName,int extend){
-    for(int i =1 ;i<=Total_enemy;i++){
-        Enemy_unit[i]->dotSingleMark(dotType,ptr,dotName,extend);
+void dotAllEnemyMark(AllyUnit *ptr,vector<DotType> dotType,string dotName,int extend){
+    for(auto &each : enemyList){
+        dotSingleMark(ptr,each,dotType,dotName,extend);
     }
 }
-void dotEnemyTargetsMark(vector<Enemy*> targets,vector<DotType> dotType, SubUnit *ptr, string dotName){
+void dotEnemyTargetsMark(AllyUnit *ptr,vector<Enemy*> targets,vector<DotType> dotType,string dotName){
     for (auto &enemy : targets) {
-        enemy->dotSingleMark(dotType, ptr, dotName);
+        dotSingleMark(ptr,enemy,dotType,dotName);
     }    
 }
-void dotEnemyTargetsMark(vector<Enemy*> targets,vector<DotType> dotType, SubUnit *ptr, string dotName,int extend){
+void dotEnemyTargetsMark(AllyUnit *ptr,vector<Enemy*> targets,vector<DotType> dotType,string dotName,int extend){
     for (auto &enemy : targets) {
-        enemy->dotSingleMark(dotType, ptr, dotName, extend);
+        dotSingleMark(ptr,enemy,dotType,dotName, extend);
     }
 }
 
-void dotAllEnemyStack(vector<DotType> dotType, SubUnit *ptr, int Stack_increase, int Stack_limit, string dotName){
-    for(int i =1 ;i<=Total_enemy;i++){
-        Enemy_unit[i]->dotSingleStack(dotType,ptr,Stack_increase,Stack_limit,dotName);
+void dotAllEnemyStack(AllyUnit *ptr,vector<DotType> dotType,int Stack_increase, int Stack_limit, string dotName){
+    for(auto &each : enemyList){
+        dotSingleStack(ptr,each,dotType,Stack_increase,Stack_limit,dotName);
     }
 }
-void dotAllEnemyStack(vector<DotType> dotType, SubUnit *ptr, int Stack_increase, int Stack_limit, string dotName,int extend){
-    for(int i =1 ;i<=Total_enemy;i++){
-        Enemy_unit[i]->dotSingleStack(dotType,ptr,Stack_increase,Stack_limit,dotName,extend);
+void dotAllEnemyStack(AllyUnit *ptr,vector<DotType> dotType,int Stack_increase, int Stack_limit, string dotName,int extend){
+    for(auto &each : enemyList){
+        dotSingleStack(ptr,each,dotType,Stack_increase,Stack_limit,dotName,extend);
     }
 }
-void dotEnemyTargetsStack(vector<Enemy*> targets,vector<DotType> dotType, SubUnit *ptr, int Stack_increase, int Stack_limit, string dotName){
+void dotEnemyTargetsStack(AllyUnit *ptr,vector<Enemy*> targets,vector<DotType> dotType,int Stack_increase, int Stack_limit, string dotName){
     for (auto &enemy : targets) {
-        enemy->dotSingleStack(dotType,ptr,Stack_increase,Stack_limit,dotName);
+        dotSingleStack(ptr,enemy,dotType,Stack_increase,Stack_limit,dotName);
     }
 }
-void dotEnemyTargetsStack(vector<Enemy*> targets,vector<DotType> dotType, SubUnit *ptr, int Stack_increase, int Stack_limit, string dotName,int extend){
+void dotEnemyTargetsStack(AllyUnit *ptr,vector<Enemy*> targets,vector<DotType> dotType,int Stack_increase, int Stack_limit, string dotName,int extend){
     for (auto &enemy : targets) {
-        enemy->dotSingleStack(dotType,ptr,Stack_increase,Stack_limit,dotName);
+        dotSingleStack(ptr,enemy,dotType,Stack_increase,Stack_limit,dotName);
     }
 }
 
-void Enemy::dotRemove(vector<DotType> dotType) {
+void dotRemove(Enemy *enemy,vector<DotType> dotType) {
     for(auto &each : dotType) {
-        this->changeDotType(each,-1);
+        enemy->changeDotType(each,-1);
     }
 }
-int Enemy::dotStackRemove(vector<DotType> dotType, string dotName) {
-    int stack = this->debuffRemoveStack(dotName);
+int dotStackRemove(Enemy *enemy,vector<DotType> dotType, string dotName) {
+    int stack = debuffRemoveStack(enemy,dotName);
     for(auto &each : dotType) {
-        this->changeDotType(each,-1);
+        enemy->changeDotType(each,-1);
     }
     return stack;
 }

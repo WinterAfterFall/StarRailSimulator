@@ -1,23 +1,23 @@
 #include "../include.h"
 
-double calculateAtkOnStats(SubUnit *ptr);
-double calculateHpOnStats(SubUnit *ptr);
-double calculateDefOnStats(SubUnit *ptr);
-double calculateSpeedOnStats(SubUnit *ptr);
-double calculateCritrateOnStats(SubUnit *ptr);
-double calculateCritdamOnStats(SubUnit *ptr);
-double calculateBreakEffectOnStats(SubUnit *ptr);
-double calculateEhrOnStats(SubUnit *ptr);
-double calculateHPLost(SubUnit *ptr);
+double calculateAtkOnStats(AllyUnit *ptr);
+double calculateHpOnStats(AllyUnit *ptr);
+double calculateDefOnStats(AllyUnit *ptr);
+double calculateSpeedOnStats(AllyUnit *ptr);
+double calculateCritrateOnStats(AllyUnit *ptr);
+double calculateCritdamOnStats(AllyUnit *ptr);
+double calculateBreakEffectOnStats(AllyUnit *ptr);
+double calculateEhrOnStats(AllyUnit *ptr);
+double calculateHPLost(AllyUnit *ptr);
 
-double calculateAtkForBuff(SubUnit *ptr, double ratio);
-double calculateHpForBuff(SubUnit *ptr, double ratio);
-double calculateDefForBuff(SubUnit *ptr, double ratio);
-double calculateSpeedForBuff(SubUnit *ptr, double ratio);
-double calculateCritrateForBuff(SubUnit *ptr, double ratio);
-double calculateCritdamForBuff(SubUnit *ptr, double ratio);
-double calculateBreakEffectForBuff(SubUnit *ptr, double ratio);
-double calculateEhrForBuff(SubUnit *ptr,double ratio);
+double calculateAtkForBuff(AllyUnit *ptr, double ratio);
+double calculateHpForBuff(AllyUnit *ptr, double ratio);
+double calculateDefForBuff(AllyUnit *ptr, double ratio);
+double calculateSpeedForBuff(AllyUnit *ptr, double ratio);
+double calculateCritrateForBuff(AllyUnit *ptr, double ratio);
+double calculateCritdamForBuff(AllyUnit *ptr, double ratio);
+double calculateBreakEffectForBuff(AllyUnit *ptr, double ratio);
+double calculateEhrForBuff(AllyUnit *ptr,double ratio);
 
 double calAtkMultiplier(std::shared_ptr<AllyAttackAction> &act, Enemy *target);
 double calHpMultiplier(std::shared_ptr<AllyAttackAction> &act, Enemy *target);

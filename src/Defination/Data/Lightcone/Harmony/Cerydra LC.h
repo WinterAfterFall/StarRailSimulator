@@ -1,24 +1,24 @@
 #include "../include.h"
 namespace Harmony_Lightcone{
-    function<void(Ally *ptr)> Cerydra_LC(int superimpose){
-        return [=](Ally *ptr) {
+    function<void(CharUnit *ptr)> Cerydra_LC(int superimpose){
+        return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(953,635,463);
             ptr->Light_cone.Name = "Cerydra LC";
-            string CerydraLCBuff = ptr->getSubUnit()->getUnitName() +  " Cerydra LC Buff";
+            string CerydraLCBuff = ptr->getMemosprite()->getUnitName() +  " Cerydra LC Buff";
 
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 48 + 16 * superimpose;
             }));
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,CerydraLCBuff]() {
-                SubUnit *sptr = turn->canCastToSubUnit();
+                AllyUnit *sptr = turn->canCastToSubUnit();
                 if(!sptr)return;
                 if(sptr->isBuffEnd(CerydraLCBuff)){
                     sptr->buffSingle({{Stats::DMG,AType::None,-(40.5 + (13.5)*superimpose)}});
                 }
             }));
     
-            AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,superimpose,CerydraLCBuff](SubUnit* target) {
+            AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,superimpose,CerydraLCBuff](AllyUnit* target) {
                 if(target->isBuffGoneByDeath(CerydraLCBuff)){
                     target->buffSingle({{Stats::DMG,AType::None,-(40.5 + (13.5)*superimpose)}});
                 }

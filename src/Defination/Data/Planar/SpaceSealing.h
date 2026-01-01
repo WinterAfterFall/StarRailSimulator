@@ -1,6 +1,6 @@
 #include "../include.h"
 namespace Planar{
-    void SpaceSealing(Ally *ptr){
+    void SpaceSealing(CharUnit *ptr){
         
         ptr->Planar.Name = "SpaceSealing";
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {

@@ -1,8 +1,8 @@
 #include "../include.h"
 namespace Planar{
-    function<void(Ally *ptr)> GiantTree(bool trigger){
+    function<void(CharUnit *ptr)> GiantTree(bool trigger){
         if(trigger)
-        return [=](Ally *ptr) {
+        return [=](CharUnit *ptr) {
             ptr->Planar.Name = "GiantTree";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
                 ptr->Sub_Unit_ptr[0]->Atv_stats->speedPercent += 6;
@@ -10,7 +10,7 @@ namespace Planar{
             }));
         };
         else 
-        return [=](Ally *ptr) {
+        return [=](CharUnit *ptr) {
             ptr->Planar.Name = "GiantTree";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
                 ptr->Sub_Unit_ptr[0]->Atv_stats->speedPercent += 6;

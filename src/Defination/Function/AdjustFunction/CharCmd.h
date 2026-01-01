@@ -14,29 +14,29 @@ namespace CharCmd{
         cout<<"------------------------------------------------------- "<<text<<" at "<<Current_atv<<endl;
     }
 
-    Ally* findAllyName(string name){
+    CharUnit* findAllyName(string name){
         for(int i = 1; i<= Total_ally;i++){
-            if(Ally_unit[i]->getSubUnit()->Atv_stats->Char_Name == name)return Ally_unit[i].get();
+            if(charUnit[i]->Atv_stats->UnitName == name)return charUnit[i].get();
         }
         return nullptr;
     }
     
-    void Set_Technique(Ally *ptr,int tech){
+    void Set_Technique(CharUnit *ptr,int tech){
         ptr->Technique = tech;
     }
     
     
-    void Set_Tune_Speed(Ally *ptr,double value){
+    void Set_Tune_Speed(CharUnit *ptr,double value){
         if(value==0)return;
         ptr->SpeedRequire = value;
     }
-    void Set_Reroll_check(Ally *ptr,bool Bool){
+    void Set_Reroll_check(CharUnit *ptr,bool Bool){
         ptr->Reroll_check = Bool;
     }
-    void Timing_print(Ally *ptr){
+    void Timing_print(CharUnit *ptr){
         ptr->Print = 1;
     }
-    bool Using_Skill(Ally *ptr){
+    bool Using_Skill(CharUnit *ptr){
         if(spMode==SPMode::Positive)return true;
         if(sp>Sp_Safety)return true;
         // if(Robin_num!=0){
@@ -45,7 +45,7 @@ namespace CharCmd{
         // }
         return false;
     }
-    void Set_Other_buff(Ally *ptr,bool Bool){
+    void Set_Other_buff(CharUnit *ptr,bool Bool){
         ptr->Wait_Other_Buff=Bool;
     }
 }

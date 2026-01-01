@@ -1,6 +1,6 @@
 #include "../include.h"
 namespace Planar{
-    void Revelry(Ally *ptr){
+    void Revelry(CharUnit *ptr){
         ptr->Planar.Name="Revelry";
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {

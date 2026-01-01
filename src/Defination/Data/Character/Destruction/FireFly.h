@@ -1,14 +1,14 @@
 #include "../include.h"
 
 namespace FireFly{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
-    void Skill_func(Ally *ptr);
-    void Enchance_Skill_func(Ally *ptr);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
+    void Skill_func(CharUnit *ptr);
+    void Enchance_Skill_func(CharUnit *ptr);
 
     
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats( 104, 240, 240, E, ElementType::Fire, Path::Destruction, "FireFly", UnitType::Standard);
-        SubUnit *FFptr = ptr->getSubUnit();
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = SetCharBasicStats( 104, 240, 240, E, ElementType::Fire, Path::Destruction, "FireFly", UnitType::Standard);
+        AllyUnit *FFptr = ptr->getMemosprite();
         ptr->SetAllyBaseStats( 815, 524, 776);
 
         //func
@@ -24,7 +24,7 @@ namespace FireFly{
         
 
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr] (){
-            if(ptr->Countdown_ptr[0]->isDeath()){
+            if(ptr->countdownList[0]->isDeath()){
                 Skill_func(ptr);
             }else {
                 Enchance_Skill_func(ptr);
@@ -57,14 +57,14 @@ namespace FireFly{
                     {Stats::VUL,AType::None,20},
                 });
             Action_forward(FFptr->Atv_stats.get(), 100);
-            ptr->Countdown_ptr[0]->summon();
+            ptr->countdownList[0]->summon();
             if (ptr->Print)CharCmd::printUltStart("FireFly");
             }
         ));
         
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,FFptr](SubUnit *target, Stats StatsType) {
-            if (target->Atv_stats->Unit_Name != "FireFly") return;
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,FFptr](AllyUnit *target, Stats StatsType) {
+            if (target->Atv_stats->StatsOwnerName != "FireFly") return;
             if (StatsType == Stats::ATK_P || StatsType == Stats::FLAT_ATK) {
             double temp = 0;
             temp = floor(((ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] / 100 * ptr->Sub_Unit_ptr[0]->baseAtk + ptr->Sub_Unit_ptr[0]->baseAtk) + ptr->Sub_Unit_ptr[0]->Stats_type[Stats::FLAT_ATK][AType::None] - 1800) / 100) * 0.8;
@@ -79,8 +79,8 @@ namespace FireFly{
             }
         }));
 
-        Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr] (Enemy *target, SubUnit *Breaker) {
-            if (ptr->Eidolon >= 2 && ptr->Sub_Unit_ptr[0]->Atv_stats->num == Breaker->Atv_stats->num && !ptr->Countdown_ptr[0]->isDeath()) {
+        Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr] (Enemy *target, AllyUnit *Breaker) {
+            if (ptr->Eidolon >= 2 && ptr->Sub_Unit_ptr[0]->Atv_stats->num == Breaker->Atv_stats->num && !ptr->countdownList[0]->isDeath()) {
                 ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"]++;
             }
             }
@@ -89,7 +89,7 @@ namespace FireFly{
         Start_wave_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
             if (ptr->Technique == 1) {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TraceType::Aoe,"FF Tech",
+            make_shared<AllyAttackAction>(AType::Technique,ptr->getMemosprite(),TraceType::Aoe,"FF Tech",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 Attack(act);
             });
@@ -109,7 +109,7 @@ namespace FireFly{
         
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr]( shared_ptr<AllyAttackAction> &act ) {
 
-            if (ptr->Eidolon >= 2 && ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"] > 0 && !ptr->Countdown_ptr[0]->isDeath()) {
+            if (ptr->Eidolon >= 2 && ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"] > 0 && !ptr->countdownList[0]->isDeath()) {
             ptr->Sub_Unit_ptr[0]->Stack["FireFly_E2"]--;
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
             }
@@ -126,7 +126,7 @@ namespace FireFly{
 
         //countdown
         SetCountdownStats(ptr,70, "Combustion_state");
-        ptr->Countdown_ptr[0]->Turn_func = [ptr,FFptr](){
+        ptr->countdownList[0]->Turn_func = [ptr,FFptr](){
 
 
             if(ptr->Print)CharCmd::printUltEnd("FireFly");
@@ -136,14 +136,14 @@ namespace FireFly{
                     {Stats::BREAK_EFF,AType::None,-50},
                     {Stats::VUL,AType::None,-20},
                 });
-            ptr->Countdown_ptr[0]->death();
+            ptr->countdownList[0]->death();
         };
     }
     
-    void Skill_func(Ally *ptr){   
+    void Skill_func(CharUnit *ptr){   
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Single,"FF Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Single,"FF Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,60,0);
             Attack(act);
@@ -155,10 +155,10 @@ namespace FireFly{
 
 
     }
-    void Enchance_Skill_func(Ally *ptr){
+    void Enchance_Skill_func(CharUnit *ptr){
         if(ptr->Eidolon<1)Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"FF ESkill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Blast,"FF ESkill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             double skill_dmg = 0;
             if(ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None]>=360){

@@ -1,5 +1,5 @@
 #include "../include.h"
 
-SubUnit* chooseSubUnitBuff(SubUnit *ptr);
-Ally* chooseCharacterBuff(SubUnit *ptr);
-Enemy* chooseEnemyTarget(SubUnit *ptr);
+AllyUnit* chooseSubUnitBuff(AllyUnit *ptr);
+CharUnit* chooseCharacterBuff(AllyUnit *ptr);
+Enemy* chooseEnemyTarget(AllyUnit *ptr);

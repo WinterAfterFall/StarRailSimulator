@@ -1,14 +1,14 @@
 #include "../include.h"
 
 namespace Rappa{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
-    void Enchance_Basic_Atk(Ally *ptr);
-    void Skill_func(Ally *ptr);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
+    void Enchance_Basic_Atk(CharUnit *ptr);
+    void Skill_func(CharUnit *ptr);
 
     
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(96, 140, 140, E, ElementType::Imaginary, Path::Erudition, "Rappa", UnitType::Standard);
-        SubUnit *Rappaptr = ptr->getSubUnit();
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = SetCharBasicStats(96, 140, 140, E, ElementType::Imaginary, Path::Erudition, "Rappa", UnitType::Standard);
+        AllyUnit *Rappaptr = ptr->getMemosprite();
         ptr->SetAllyBaseStats(1087,718,461);
         //substats
         ptr->pushSubstats(Stats::BE);
@@ -38,7 +38,7 @@ namespace Rappa{
             if (!ultUseCheck(ptr)) return;
             
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::Ult,ptr->getSubUnit(),TraceType::Single,"Rappa Ult",
+            make_shared<AllyBuffAction>(AType::Ult,ptr->getMemosprite(),TraceType::Single,"Rappa Ult",
             [ptr](shared_ptr<AllyBuffAction> &act){
                 if (ptr->Print)CharCmd::printUltStart("Rappa");
                 ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"] = 1;
@@ -49,7 +49,7 @@ namespace Rappa{
                 
 
                 shared_ptr<AllyAttackAction> data_2 = 
-                make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Blast,"Rappa EBA",
+                make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Blast,"Rappa EBA",
                 [ptr](shared_ptr<AllyAttackAction> &data_2){
                     Increase_energy(ptr, 20);
                     Attack(data_2);
@@ -103,7 +103,7 @@ namespace Rappa{
                     enemyUnit->debuffSingle({{Stats::VUL,AType::Break,-enemyUnit->DebuffNote["Withered_Leaf"]}});
                 }
             }
-            if (turn->Char_Name == "Rappa") {
+            if (turn->UnitName == "Rappa") {
                 if (ptr->Sub_Unit_ptr[0]->Stack["Rappa_Ult"] == 0 && ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"] == 1) {
                     ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BE][AType::None] -= 30;
                     ptr->Sub_Unit_ptr[0]->Stats_type[Stats::BREAK_EFF][AType::None] -= 50;
@@ -122,15 +122,15 @@ namespace Rappa{
 
 
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act){
-            if(act->Attacker->Atv_stats->Char_Name=="Rappa"){
+            if(act->Attacker->Atv_stats->UnitName=="Rappa"){
                 if(ptr->Sub_Unit_ptr[0]->Buff_check["Rappa_Ult"]==1){
                     Superbreak_trigger(act,60,"");
 
                     shared_ptr<AllyAttackAction> data_2 = 
-                    make_shared<AllyAttackAction>(AType::Break,ptr->getSubUnit(),TraceType::Aoe,"Rappa Talent");
+                    make_shared<AllyAttackAction>(AType::Break,ptr->getMemosprite(),TraceType::Aoe,"Rappa Talent");
                     double temp = ptr->Sub_Unit_ptr[0]->Buff_note["Rappa_Talent"];
                     for(int i=1;i<=Total_enemy;i++){
-                        Cal_Break_damage(act,Enemy_unit[i].get(),temp);
+                        Cal_Break_damage(act,enemyUnit[i].get(),temp);
                     }
                     ptr->Sub_Unit_ptr[0]->Buff_note["Rappa_Talent"] = 0;
                 }
@@ -142,31 +142,31 @@ namespace Rappa{
             if (ptr->Technique == 1) {
                 Increase_energy(ptr, 10);
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Break,ptr->getSubUnit(),TraceType::Aoe,"Rappa Tech");
+                make_shared<AllyAttackAction>(AType::Break,ptr->getMemosprite(),TraceType::Aoe,"Rappa Tech");
                 shared_ptr<AllyAttackAction> data_2 = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TraceType::Aoe,"Rappa Tech");
+                make_shared<AllyAttackAction>(AType::Technique,ptr->getMemosprite(),TraceType::Aoe,"Rappa Tech");
                 for (int i = 1; i <= Total_enemy; i++) {
                     double temp;
                    
-                    if (Enemy_unit[i]->Target_type == EnemyType::Main) {
+                    if (enemyUnit[i]->Target_type == EnemyType::Main) {
                         temp = 2;
-                        Cal_Break_damage(act, Enemy_unit[i].get(), temp);
+                        Cal_Break_damage(act, enemyUnit[i].get(), temp);
                     } else {
                         temp = 1.8;
-                        Cal_Break_damage(act, Enemy_unit[i].get(), temp);
+                        Cal_Break_damage(act, enemyUnit[i].get(), temp);
                     }
-                    Cal_Toughness_reduction(data_2, Enemy_unit[i].get(), 30);
+                    Cal_Toughness_reduction(data_2, enemyUnit[i].get(), 30);
                 }
             }
         }));
 
-        Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,Rappaptr](Enemy *target, SubUnit *Breaker) {
+        Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,Rappaptr](Enemy *target, AllyUnit *Breaker) {
             ptr->Sub_Unit_ptr[0]->Stack["Rappa_Talent"]++;
             if (target->Max_toughness > 90) {
                 ptr->Sub_Unit_ptr[0]->Stack["Rappa_Talent"]++;
                 Increase_energy(ptr, 10);
             }
-            double temp = floor((calculateAtkForBuff(ptr->getSubUnit(),100) - 2400) / 100) + 2;
+            double temp = floor((calculateAtkForBuff(ptr->getMemosprite(),100) - 2400) / 100) + 2;
             if (temp > 10) 
             temp = 10;
             if (temp < 0)
@@ -177,10 +177,10 @@ namespace Rappa{
     }
 
 
-    void Enchance_Basic_Atk(Ally *ptr){
+    void Enchance_Basic_Atk(CharUnit *ptr){
         
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Blast,"Rappa BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Blast,"Rappa BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr, 20);
             Attack(act);
@@ -206,11 +206,11 @@ namespace Rappa{
         act->addToActionBar();
         ptr->Sub_Unit_ptr[0]->Stack["Rappa_Ult"]--;
     }
-    void Skill_func(Ally *ptr){
+    void Skill_func(CharUnit *ptr){
         
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Aoe,"Rappa Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Aoe,"Rappa Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30);
             Attack(act);

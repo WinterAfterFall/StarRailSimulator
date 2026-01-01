@@ -1,7 +1,7 @@
 #include "../include.h"
 namespace Planar{
-    void Talia(Ally *ptr);
-    void Talia(Ally *ptr){
+    void Talia(CharUnit *ptr);
+    void Talia(CharUnit *ptr){
         
         ptr->Planar.Name = "Talia";
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {

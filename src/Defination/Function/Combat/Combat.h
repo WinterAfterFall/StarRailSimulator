@@ -12,7 +12,7 @@ void Take_action(){
     Print();
     if(Turn_Skip==0){
         
-        turn->ptrToChar->Turn_func();  
+        turn->charptr->Turn_func();  
         
         Deal_damage();
     }
@@ -68,7 +68,7 @@ void AllyActionData::AllyAction(){
         attackAction->actionTypeList = attackAction->AttackSetList[0].actionTypeList;
         attackAction->damageTypeList = attackAction->AttackSetList[0].damageTypeList;
         allEventAfterAttackAction(attackAction); 
-        if(attackAction->damageNote)Cal_AverageDamage(attackAction->Attacker->ptrToChar,attackAction->targetList); 
+        if(attackAction->damageNote)Cal_AverageDamage(attackAction->Attacker->owner,attackAction->targetList); 
 
     }else{
         if(buffAction->actionFunction)buffAction->actionFunction(buffAction);
@@ -85,7 +85,7 @@ void Attack(shared_ptr<AllyAttackAction> &act){
     if(act->targetList.empty())act->addEnemyToTargetList();
 
     //32 45
-    if(act->Attacker->ptrToChar->canCheckDmgformula()||act->Attacker->ptrToChar->checkDamage){
+    if(act->Attacker->owner->canCheckDmgformula()||act->Attacker->owner->checkDamage){
         cout<<"\033[0;38;5;2m";
         cout<<"----------------------------------------- Damage Check -----------------------------------------\n";
         cout << "\033[0m";
@@ -130,7 +130,7 @@ void Attack(shared_ptr<AllyAttackAction> &act){
 
     
 
-    if(act->Attacker->ptrToChar->canCheckDmgformula()||act->Attacker->ptrToChar->checkDamage){
+    if(act->Attacker->owner->canCheckDmgformula()||act->Attacker->owner->checkDamage){
         cout<<"\033[0;38;5;2m";
         cout<<"------------------------------------------------------------------------------------------------\n";  
         cout << "\033[0m";
@@ -138,7 +138,7 @@ void Attack(shared_ptr<AllyAttackAction> &act){
     
     if(act->Turn_reset)resetTurn(turn);
 }
-void Skill_point(SubUnit *ptr,int p){
+void Skill_point(AllyUnit *ptr,int p){
     
     allEventSkillPoint(ptr,p);
     sp+=p;
@@ -149,7 +149,7 @@ void Skill_point(SubUnit *ptr,int p){
 }
 void Superbreak_trigger(shared_ptr<AllyAttackAction> &act, double Superbreak_ratio,string triggerName){
     shared_ptr<AllyAttackAction> data_2 = 
-    make_shared<AllyAttackAction>(AType::SPB,act->Attacker,act->traceType,act->Attacker->Atv_stats->Unit_Name + " " + triggerName +" SPB");
+    make_shared<AllyAttackAction>(AType::SPB,act->Attacker,act->traceType,act->Attacker->Atv_stats->StatsOwnerName + " " + triggerName +" SPB");
     
     for(auto &each1 : act->damageSplit){
         for(auto &each2 : each1){
@@ -157,15 +157,15 @@ void Superbreak_trigger(shared_ptr<AllyAttackAction> &act, double Superbreak_rat
         }
     }
     for(int i=1;i<=Total_enemy;i++){
-        if(Enemy_unit[i]->Toughness_status==1)continue;
-        double toughness_reduce = Enemy_unit[i]->toughnessReduceNote;
-        Enemy_unit[i]->toughnessReduceNote = 0;
+        if(enemyUnit[i]->Toughness_status==1)continue;
+        double toughness_reduce = enemyUnit[i]->toughnessReduceNote;
+        enemyUnit[i]->toughnessReduceNote = 0;
         if(toughness_reduce==0)continue;
-        toughness_reduce = Cal_Total_Toughness_Reduce(act,Enemy_unit[i].get(),toughness_reduce);
-        if(Enemy_unit[i]->Current_toughness+toughness_reduce<=0){
-        Cal_Superbreak_damage(data_2,Enemy_unit[i].get(),Superbreak_ratio*toughness_reduce/10);
+        toughness_reduce = Cal_Total_Toughness_Reduce(act,enemyUnit[i].get(),toughness_reduce);
+        if(enemyUnit[i]->Current_toughness+toughness_reduce<=0){
+        Cal_Superbreak_damage(data_2,enemyUnit[i].get(),Superbreak_ratio*toughness_reduce/10);
         }else{
-        Cal_Superbreak_damage(data_2,Enemy_unit[i].get(),Superbreak_ratio*(-1)*Enemy_unit[i]->Current_toughness/10);
+        Cal_Superbreak_damage(data_2,enemyUnit[i].get(),Superbreak_ratio*(-1)*enemyUnit[i]->Current_toughness/10);
         }
     }
 }
@@ -232,7 +232,7 @@ void Toughness_break(shared_ptr<AllyAttackAction> &act,Enemy* target){
     double Constant = 0;
     if(Force_break)
     data_2 = 
-    make_shared<AllyAttackAction>(AType::Break, Ally_unit[Force_break]->Sub_Unit_ptr[0].get(),TraceType::Single,"Break");
+    make_shared<AllyAttackAction>(AType::Break, charUnit[Force_break].get(),TraceType::Single,"Break");
     else
     data_2 =
     make_shared<AllyAttackAction>(AType::Break, act->Attacker,TraceType::Single,"Break");

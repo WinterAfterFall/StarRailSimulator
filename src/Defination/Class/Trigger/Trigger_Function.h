@@ -26,8 +26,8 @@ class TriggerByYourSelf_Func : public TriggerFunc{
 };
 class TriggerByAlly_Func : public TriggerFunc{
     public:
-    function<void(Ally *ally)> Call;
-    TriggerByAlly_Func(int priority, function<void(Ally *ally)> Call) 
+    function<void(CharUnit *ally)> Call;
+    TriggerByAlly_Func(int priority, function<void(CharUnit *ally)> Call) 
     : TriggerFunc(priority), Call(Call) {}
 };
 class TriggerByAction_Func : public TriggerFunc{
@@ -57,41 +57,41 @@ class TriggerByAllyBuffAction_Func : public TriggerFunc{
 
 class TriggerByStats : public TriggerFunc{
     public:
-    function<void(SubUnit* Target, Stats StatsType)> Call;
-    TriggerByStats(int priority, function<void(SubUnit* Target, Stats StatsType)> Call) 
+    function<void(AllyUnit* Target, Stats StatsType)> Call;
+    TriggerByStats(int priority, function<void(AllyUnit* Target, Stats StatsType)> Call) 
     : TriggerFunc(priority), Call(Call) {}
 };
 
 class TriggerAllyDeath : public TriggerFunc{
     public:
-    function<void(SubUnit* target)> Call;
-    TriggerAllyDeath(int priority, function<void(SubUnit* target)> Call) 
+    function<void(AllyUnit* target)> Call;
+    TriggerAllyDeath(int priority, function<void(AllyUnit* target)> Call) 
     : TriggerFunc(priority), Call(Call) {}
 };
 
 class TriggerBySomeAlly_Func : public TriggerFunc{
     public:
-    function<void(Enemy *target, SubUnit *Trigger)> Call;
-    TriggerBySomeAlly_Func(int priority, function<void(Enemy *target, SubUnit *Trigger)> Call) 
+    function<void(Enemy *target, AllyUnit *Trigger)> Call;
+    TriggerBySomeAlly_Func(int priority, function<void(Enemy *target, AllyUnit *Trigger)> Call) 
     : TriggerFunc(priority), Call(Call) {}
 };
 
 class TriggerHealing : public TriggerFunc{
     public:
-    function<void(SubUnit *Healer, SubUnit *target, double Value)> Call;
-    TriggerHealing(int priority, function<void(SubUnit *Healer, SubUnit *target, double Value)> Call) 
+    function<void(AllyUnit *Healer, AllyUnit *target, double Value)> Call;
+    TriggerHealing(int priority, function<void(AllyUnit *Healer, AllyUnit *target, double Value)> Call) 
     : TriggerFunc(priority), Call(Call) {}
 };
 class TriggerDecreaseHP : public TriggerFunc{
     public:
-    function<void(Unit *Trigger, SubUnit *target, double Value)> Call;
-    TriggerDecreaseHP(int priority, function<void(Unit *Trigger, SubUnit *target, double Value)> Call) 
+    function<void(Unit *Trigger, AllyUnit *target, double Value)> Call;
+    TriggerDecreaseHP(int priority, function<void(Unit *Trigger, AllyUnit *target, double Value)> Call) 
     : TriggerFunc(priority), Call(Call) {}
 };
 class TriggerByEnemyHit : public TriggerFunc{
     public:
-    function<void(Enemy *Attacker, vector<SubUnit*> target)> Call;
-    TriggerByEnemyHit(int priority, function<void(Enemy *Attacker, vector<SubUnit*> target)> Call) 
+    function<void(Enemy *Attacker, vector<AllyUnit*> target)> Call;
+    TriggerByEnemyHit(int priority, function<void(Enemy *Attacker, vector<AllyUnit*> target)> Call) 
     : TriggerFunc(priority), Call(Call) {}
 };
 
@@ -104,15 +104,15 @@ class TriggerDot_Func : public TriggerFunc{
 
 class TriggerEnergy_Increase_Func : public TriggerFunc{
     public:
-    function<void(Ally *target, double Energy)> Call;
-    TriggerEnergy_Increase_Func(int priority, function<void(Ally *target, double Energy)> Call) 
+    function<void(CharUnit *target, double Energy)> Call;
+    TriggerEnergy_Increase_Func(int priority, function<void(CharUnit *target, double Energy)> Call) 
     : TriggerFunc(priority), Call(Call) {}
 };
 
 class TriggerSkill_point_func : public TriggerFunc{
     public:
-    function<void(SubUnit *SP_maker, int SP)> Call;
-    TriggerSkill_point_func(int priority, function<void(SubUnit *SP_maker, int SP)> Call) 
+    function<void(AllyUnit *SP_maker, int SP)> Call;
+    TriggerSkill_point_func(int priority, function<void(AllyUnit *SP_maker, int SP)> Call) 
     : TriggerFunc(priority), Call(Call) {}
 };
 

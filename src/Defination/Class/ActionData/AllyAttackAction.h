@@ -5,24 +5,24 @@
 
 class Attacking{
     public : 
-    SubUnit* attacker = nullptr;
+    AllyUnit* attacker = nullptr;
     vector<AType> actionTypeList;
     vector<AType> damageTypeList;
 
-    Attacking(SubUnit* attacker,vector<AType> abilityList)
+    Attacking(AllyUnit* attacker,vector<AType> abilityList)
         : attacker(attacker), actionTypeList(abilityList),damageTypeList(abilityList) {}
-    Attacking(SubUnit* attacker,vector<AType> abilityList,vector<AType> damageTypeList)
+    Attacking(AllyUnit* attacker,vector<AType> abilityList,vector<AType> damageTypeList)
         : attacker(attacker), actionTypeList(abilityList),damageTypeList(damageTypeList) {}
     
 };
 class SwitchAtk{
     public : 
-    SubUnit* source = nullptr;
+    AllyUnit* source = nullptr;
     int changeWhen = -1;
     int changeTo = -1;
     SwitchAtk(int changeTo,int changeWhen)
         : changeTo(changeTo), changeWhen(changeWhen) {}
-    SwitchAtk(int changeTo, SubUnit* source,int changeWhen)
+    SwitchAtk(int changeTo, AllyUnit* source,int changeWhen)
         : changeTo(changeTo), source(source), changeWhen(changeWhen) {}
 };
 
@@ -46,7 +46,7 @@ class AllyAttackAction : public AllyActionData {
 
     #pragma region constructor
     AllyAttackAction(){}
-    AllyAttackAction(AType actionType,SubUnit* ptr,TraceType traceType,string name)
+    AllyAttackAction(AType actionType,AllyUnit* ptr,TraceType traceType,string name)
     {
         Attacker = ptr;
         source = ptr;
@@ -56,7 +56,7 @@ class AllyAttackAction : public AllyActionData {
         setupActionType(actionType);
         AttackSetList.emplace_back(Attacking(ptr,this->actionTypeList));
     }
-    AllyAttackAction(AType actionType,SubUnit* ptr,TraceType traceType,string name,function<void(shared_ptr<AllyAttackAction> &act)> actionFunction)
+    AllyAttackAction(AType actionType,AllyUnit* ptr,TraceType traceType,string name,function<void(shared_ptr<AllyAttackAction> &act)> actionFunction)
     {
         Attacker = ptr;
         source = ptr;
@@ -172,59 +172,17 @@ class AllyAttackAction : public AllyActionData {
 
     #pragma region checkMethod
     //check แค่ว่าตัวหลักตัวเดียวกันไหม
-    bool isSameAtker(SubUnit *ptr){
-        if(this->Attacker->isSameUnit(ptr))return true;
-        return false;
-    }
-    bool isSameAtker(Ally *ptr){
-        if(ptr->isSameAlly(this->Attacker))return true;
-        return false;
-    }
-    bool isSameAtkerName(string name){
-        if(this->Attacker->isSameUnitName(name))return true;
-        return false;
-    }
-    bool isSameAttack(AType ability){
-        for(auto &each : actionTypeList){
-            if(each == ability)return true;
-        }  
-        return false;    
-    }
-    bool isSameAttack(SubUnit *ptr,AType ability){
-        if(this->Attacker->isSameUnit(ptr)){
-            for(auto &each : actionTypeList){
-                if(each == ability)return true;
-            }
-        }
-        return false;    
-    }
-    bool isSameAttack(Ally *ptr,AType ability){
-        if(ptr->isSameAlly(this->Attacker)){
-            for(auto &each : actionTypeList){
-                if(each == ability)return true;
-            }
-        }        
-        return false;    
-    }
-    bool isSameAttack(string name,AType ability){
-        if(this->Attacker->isSameUnitName(name)){
-            for(auto &each : actionTypeList){
-                if(each == ability)return true;
-            }
-        }
-        return false;    
-    }
     bool isSameDamageType(AType ability);
-    bool isSameDamageType(SubUnit *ptr,AType ability);
+    bool isSameDamageType(AllyUnit *ptr,AType ability);
     bool isSameDamageType(string name,AType ability);
-    bool isSameDamageType(Ally *ptr,AType ability);
+    bool isSameDamageType(CharUnit *ptr,AType ability);
 
 
 
     #pragma endregion
 
     void setJoint() {
-        AttackSetList.emplace_back(Attacking(Attacker->ptrToChar->getSubUnit(1),this->actionTypeList));
+        AttackSetList.emplace_back(Attacking(Attacker,this->actionTypeList));
         AttackSetList[1].actionTypeList.push_back(AType::Summon);
         AttackSetList[1].damageTypeList.push_back(AType::Summon);
     }
@@ -236,7 +194,7 @@ class AllyAttackAction : public AllyActionData {
         damageTypeList.push_back(actionType);
         AttackSetList[0].damageTypeList.emplace_back(actionType);
     }
-    void addAttacknType(AType actionType){
+    void addAttackType(AType actionType){
         actionTypeList.push_back(actionType);
         damageTypeList.push_back(actionType);
         AttackSetList[0].actionTypeList.emplace_back(actionType);
@@ -249,8 +207,8 @@ class AllyAttackAction : public AllyActionData {
     void addDamageIns(DmgSrc main){
             damageSplit.emplace_back();
             for(int i = 1;i<= Total_enemy;i++){
-                if(Enemy_unit[i]->Target_type == EnemyType::Main){
-                    damageSplit.back().emplace_back(main, Enemy_unit[i].get());
+                if(enemyUnit[i]->Target_type == EnemyType::Main){
+                    damageSplit.back().emplace_back(main, enemyUnit[i].get());
                     break;
                 }
             }
@@ -269,10 +227,10 @@ class AllyAttackAction : public AllyActionData {
     void addDamageIns(DmgSrc main,DmgSrc adjacent){
             damageSplit.emplace_back();
             for(int i = 1;i<= Total_enemy;i++){
-                if(Enemy_unit[i]->Target_type == EnemyType::Main)
-                    damageSplit.back().emplace_back(main, Enemy_unit[i].get());
-                else if(Enemy_unit[i]->Target_type == EnemyType::Adjacent)
-                    damageSplit.back().emplace_back(adjacent, Enemy_unit[i].get());
+                if(enemyUnit[i]->Target_type == EnemyType::Main)
+                    damageSplit.back().emplace_back(main, enemyUnit[i].get());
+                else if(enemyUnit[i]->Target_type == EnemyType::Adjacent)
+                    damageSplit.back().emplace_back(adjacent, enemyUnit[i].get());
             }
 
     }
@@ -292,19 +250,19 @@ class AllyAttackAction : public AllyActionData {
     void addDamageIns(DmgSrc main,DmgSrc adjacent,DmgSrc other){
             damageSplit.emplace_back();
             for(int i = 1;i<= Total_enemy;i++){
-                if(Enemy_unit[i]->Target_type == EnemyType::Main)
-                    damageSplit.back().emplace_back(main, Enemy_unit[i].get());
-                else if(Enemy_unit[i]->Target_type == EnemyType::Adjacent)
-                    damageSplit.back().emplace_back(adjacent, Enemy_unit[i].get());
+                if(enemyUnit[i]->Target_type == EnemyType::Main)
+                    damageSplit.back().emplace_back(main, enemyUnit[i].get());
+                else if(enemyUnit[i]->Target_type == EnemyType::Adjacent)
+                    damageSplit.back().emplace_back(adjacent, enemyUnit[i].get());
                 else
-                    damageSplit.back().emplace_back(other, Enemy_unit[i].get());
+                    damageSplit.back().emplace_back(other, enemyUnit[i].get());
             }
         }
         
     void addDamageInsByDebuff(DmgSrc dmgsrc,string debuffName){
         for(int i = 1;i<= Total_enemy;i++){
-            if(!Enemy_unit[i]->getDebuff(debuffName)){
-                addDamageIns(dmgsrc,Enemy_unit[i].get());
+            if(!enemyUnit[i]->getDebuff(debuffName)){
+                addDamageIns(dmgsrc,enemyUnit[i].get());
                 return;
             }
         }
@@ -313,8 +271,8 @@ class AllyAttackAction : public AllyActionData {
 
     void addDamageInsByDebuff(DmgSrc dmgsrc,string debuffName,int max){
         for(int i = 1;i<= Total_enemy&&i<=max;i++){
-            if(!Enemy_unit[i]->getDebuff(debuffName)){
-                addDamageIns(dmgsrc,Enemy_unit[i].get());
+            if(!enemyUnit[i]->getDebuff(debuffName)){
+                addDamageIns(dmgsrc,enemyUnit[i].get());
                 return;
             }
         }
@@ -408,8 +366,8 @@ class AllyAttackAction : public AllyActionData {
     }
     void addEnemyBounce(DmgSrc ins,int amount){
         for(int i = 1;i<= Total_enemy&&i<= amount;i++){
-                if(Enemy_unit[i]->Target_type == EnemyType::Main||(Enemy_unit[i]->Target_type == EnemyType::Adjacent&&!bestBounce))
-                    this->targetList.push_back(Enemy_unit[i].get());
+                if(enemyUnit[i]->Target_type == EnemyType::Main||(enemyUnit[i]->Target_type == EnemyType::Adjacent&&!bestBounce))
+                    this->targetList.push_back(enemyUnit[i].get());
         }
         for(int i = 0;i< amount;i++){
                 damageSplit.emplace_back();
@@ -418,7 +376,7 @@ class AllyAttackAction : public AllyActionData {
     }
     void addEnemyFairBounce(DmgSrc ins,int amount){
         for(int i = 1;i<= Total_enemy&&i<= amount;i++){
-                    this->targetList.push_back(Enemy_unit[i].get());
+                    this->targetList.push_back(enemyUnit[i].get());
         }
         for(int i = 0;i< amount;i++){
                 damageSplit.emplace_back();

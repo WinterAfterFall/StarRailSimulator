@@ -1,7 +1,7 @@
 #include "../include.h"
 namespace Remembrance_Lightcone{
-    function<void(Ally *ptr)> Aglaea_LC(int superimpose){
-        return [=](Ally *ptr) {
+    function<void(CharUnit *ptr)> Aglaea_LC(int superimpose){
+        return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(1058,635,397);
             ptr->Light_cone.Name = "Aglaea_LC";
             ptr->Sub_Unit_ptr[0]->Atv_stats->baseSpeed+= 10 + superimpose * 2;

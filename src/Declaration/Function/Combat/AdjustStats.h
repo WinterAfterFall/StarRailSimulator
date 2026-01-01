@@ -1,6 +1,6 @@
 #include "../include.h"
 
-void StatsAdjust(SubUnit *ptr,Stats statsType);
-void AtkAdjust(SubUnit *ptr);
-void HpAdjust(SubUnit *ptr);
-void DefAdjust(SubUnit *ptr);
+void StatsAdjust(AllyUnit *ptr,Stats statsType);
+void AtkAdjust(AllyUnit *ptr);
+void HpAdjust(AllyUnit *ptr);
+void DefAdjust(AllyUnit *ptr);

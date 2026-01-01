@@ -1,9 +1,9 @@
 #include "../include.h"
 
-void Ally::enableCheckDamage() {
+void CharUnit::enableCheckDamage() {
     checkDamage = 1;
 }
-void Ally::enableCheckDamageFormula(DmgFormulaMode mode) {
+void CharUnit::enableCheckDamageFormula(DmgFormulaMode mode) {
 
     checkDmgFormula =1;
     if (mode == DmgFormulaMode::All) checkDmgFormulaAll = 1;
@@ -24,28 +24,28 @@ void Ally::enableCheckDamageFormula(DmgFormulaMode mode) {
     else if (mode == DmgFormulaMode::BE) checkDmgFormulaBE = 1;
     else if (mode == DmgFormulaMode::SpbInc) checkDmgFormulaSpbInc = 1;
 }
-void Ally::enableCheckHeal() {
+void CharUnit::enableCheckHeal() {
     checkHeal = 1;
 }
-void Ally::enableCheckHealFormula() {
+void CharUnit::enableCheckHealFormula() {
     checkHealFormula = 1;
 }
-void Ally::enableCheckHealReceive() {
+void CharUnit::enableCheckHealReceive() {
     checkHealReceive = 1;
 }
-void Ally::enableCheckHealReceiveFormula() {
+void CharUnit::enableCheckHealReceiveFormula() {
     checkHealReceiveFormula = 1;
 }
-void Ally::enableCheckHpChange() {
+void CharUnit::enableCheckHpChange() {
     checkHpChange = 1;
 }
-void Ally::enableCheckHpChangeFormula() {
+void CharUnit::enableCheckHpChangeFormula() {
     checkHpChangeFormula = 1;
 }
-bool Ally::canCheckDmgformula() {
+bool CharUnit::canCheckDmgformula() {
     return checkDmgFormula; 
 }
-bool Ally::canCheckDmgformulaMtpr() {
+bool CharUnit::canCheckDmgformulaMtpr() {
     return checkDmgFormulaAll 
         || checkDmgFormulaSrc
         || checkDmgFormulaHP 
@@ -53,65 +53,65 @@ bool Ally::canCheckDmgformulaMtpr() {
         || checkDmgFormulaDEF 
         || checkDmgFormulaConst;
 }
-bool Ally::canCheckDmgformulaHP() {
+bool CharUnit::canCheckDmgformulaHP() {
     return checkDmgFormulaAll
         || checkDmgFormulaSrc
         || checkDmgFormulaHP;
 }
-bool Ally::canCheckDmgformulaATK() {
+bool CharUnit::canCheckDmgformulaATK() {
     return checkDmgFormulaAll
         || checkDmgFormulaSrc
         || checkDmgFormulaATK;
 }
-bool Ally::canCheckDmgformulaDEF() {
+bool CharUnit::canCheckDmgformulaDEF() {
     return checkDmgFormulaAll
         || checkDmgFormulaSrc
         || checkDmgFormulaDEF;
 }
-bool Ally::canCheckDmgformulaConst() {
+bool CharUnit::canCheckDmgformulaConst() {
     return checkDmgFormulaAll
         || checkDmgFormulaSrc
         || checkDmgFormulaConst;
 }
-bool Ally::canCheckDmgformulaCritRate() {
+bool CharUnit::canCheckDmgformulaCritRate() {
     return checkDmgFormulaAll
         || checkDmgFormulaCrit
         || checkDmgFormulaCritRate;
 }
-bool Ally::canCheckDmgformulaCritDam() {
+bool CharUnit::canCheckDmgformulaCritDam() {
     return checkDmgFormulaAll
         || checkDmgFormulaCrit
         || checkDmgFormulaCritDam;
 }
-bool Ally::canCheckDmgformulaDmg() {
+bool CharUnit::canCheckDmgformulaDmg() {
     return checkDmgFormulaAll
         || checkDmgFormulaDmg;
 }
-bool Ally::canCheckDmgformulaDefShred() {
+bool CharUnit::canCheckDmgformulaDefShred() {
     return checkDmgFormulaAll
         || checkDmgFormulaDefShred;
 }
-bool Ally::canCheckDmgformulaRespen() {
+bool CharUnit::canCheckDmgformulaRespen() {
     return checkDmgFormulaAll
         || checkDmgFormulaRespen;
 }
-bool Ally::canCheckDmgformulaVul() {
+bool CharUnit::canCheckDmgformulaVul() {
     return checkDmgFormulaAll
         || checkDmgFormulaVul;
 }
-bool Ally::canCheckDmgformulaMtgt() {
+bool CharUnit::canCheckDmgformulaMtgt() {
     return checkDmgFormulaAll
         || checkDmgFormulaMtgt;
 }
-bool Ally::canCheckDmgformulaMtprInc() {
+bool CharUnit::canCheckDmgformulaMtprInc() {
     return checkDmgFormulaAll
         || checkDmgFormulaMtprInc;
 }
-bool Ally::canCheckDmgformulaBE() {
+bool CharUnit::canCheckDmgformulaBE() {
     return checkDmgFormulaAll
         || checkDmgFormulaBE;
 }
-bool Ally::canCheckDmgformulaSpbInc() {
+bool CharUnit::canCheckDmgformulaSpbInc() {
     return checkDmgFormulaAll
         || checkDmgFormulaSpbInc;
 }

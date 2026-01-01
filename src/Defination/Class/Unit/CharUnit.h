@@ -1,16 +1,12 @@
-#ifndef ALLY_H
-#define ALLY_H
+#ifndef CHAR_UNIT_H
+#define CHAR_UNIT_H
 #include <bits/stdc++.h>
-#include "SubUnit.h"
-using namespace std;
-#define endl '\n'
-#define F first
-#define S second
-#define DMG_CAL 12
+#include "Memosprite.h"
+
 class Func_class{
     public:
     string Name;
-    function<void(Ally *ptr)> Print_Func;
+    function<void(CharUnit *ptr)> Print_Func;
 };
 class DamageSrc {
     public:
@@ -33,7 +29,7 @@ class DamageAvgRecord{
     double maxDmgRecord = -1e9;
 };
 
-class Ally{
+class CharUnit : public AllyUnit {
 public:
     #pragma region attribute
     #pragma region status
@@ -119,9 +115,9 @@ public:
 
     vector<Path> path ;//*
     //*
-    vector<unique_ptr<Unit>> Summon_ptr;  //
-    vector<unique_ptr<SubUnit>> Sub_Unit_ptr;  // 
-    vector<unique_ptr<Unit>> Countdown_ptr;  // 
+    vector<unique_ptr<Unit>> summonList;  //
+    vector<unique_ptr<Memosprite>> memospriteList;  // 
+    vector<unique_ptr<Unit>> countdownList;  // 
 
     int Technique = 1;
     //Ult condition
@@ -130,10 +126,10 @@ public:
     
     bool Print =0;
     bool Wait_Other_Buff = 0;
-    function<void(Ally *ptr)> Body;
-    function<void(Ally *ptr)> Boot;
-    function<void(Ally *ptr)> Orb;
-    function<void(Ally *ptr)> Rope;
+    function<void(CharUnit *ptr)> Body;
+    function<void(CharUnit *ptr)> Boot;
+    function<void(CharUnit *ptr)> Orb;
+    function<void(CharUnit *ptr)> Rope;
 
     double SpeedRequire = 0;
     double ApplyBaseChance = 0;
@@ -143,40 +139,37 @@ public:
     
     #pragma endregion
     #pragma region constructor
-    Ally() {  // Call Unit constructor to initialize Atv_stats and set ptrToChar
-        Sub_Unit_ptr.resize(1);
-        Sub_Unit_ptr[0] = make_unique<SubUnit>();
-        Sub_Unit_ptr[0]->ptrToChar = this;
+    CharUnit() {  // Call Unit constructor to initialize Atv_stats and set owner
           // Using unique_ptr for stats
     }
 
-    ~Ally() {}
+    ~CharUnit() {}
     #pragma endregion
     
     bool isAllyHaveSummon(){
-        if(this->Summon_ptr.size()!=0||this->Sub_Unit_ptr.size()>1)return true;
+        if(this->summonList.size()!=0||this->memospriteList.size()!=0)return true;
         return false;
     }
     
     #pragma region set_methods
 
     void setStack(string buffName, int value) {
-        this->Sub_Unit_ptr[0]->Stack[buffName] = value;
+        this->Stack[buffName] = value;
     }
     void setBuffNote(string buffName, double value) {
-        this->Sub_Unit_ptr[0]->Buff_note[buffName] = value;
+        this->Buff_note[buffName] = value;
     }
     void setBuffCountdown(string buffName, int value) {
-        this->Sub_Unit_ptr[0]->Buff_countdown[buffName] = value;
+        this->Buff_countdown[buffName] = value;
     }
     void setBuffCheck(string buffName, bool value) {
-        this->Sub_Unit_ptr[0]->Buff_check[buffName] = value;
+        this->Buff_check[buffName] = value;
     }
-    void setBuffSubUnitTarget(string buffName, SubUnit* target) {
-        this->Sub_Unit_ptr[0]->buffSubUnitTarget[buffName] = target;
+    void setBuffSubUnitTarget(string buffName, AllyUnit* target) {
+        this->buffSubUnitTarget[buffName] = target;
     }
-    void setBuffAllyTarget(string buffName, Ally* target) {
-        this->Sub_Unit_ptr[0]->buffAllyTarget[buffName] = target;
+    void setBuffAllyTarget(string buffName, CharUnit* target) {
+        this->buffAllyTarget[buffName] = target;
     }
     void setAdjust(string adjustName, double value) {
         this->Adjust[adjustName] = value;
@@ -191,59 +184,59 @@ public:
         this->EhrRequire = value;
     }
     void setTargetAlly(int num){
-        this->getSubUnit()->setDefaultAllyTargetNum(num);
+        this->setDefaultAllyTargetNum(num);
     }
     void setTargetSubUnit(int num){
-        this->getSubUnit()->setDefaultSubUnitTargetNum(num);
+        this->setDefaultSubUnitTargetNum(num);
     }
-    void setTargetBuff(int ally,int subUnit){
-        this->getSubUnit()->setDefaultTargetNum(ally,subUnit);
+    void setTargetBuff(int ally,int AllyUnit){
+        this->setDefaultTargetNum(ally,AllyUnit);
     }
 
     #pragma endregion
 
     #pragma region get_methods
     int getStack(string buffName) {
-        return this->Sub_Unit_ptr[0]->Stack[buffName];
+        return this->Stack[buffName];
     }
     double getBuffNote(string buffName) {
-        return this->Sub_Unit_ptr[0]->Buff_note[buffName];
+        return this->Buff_note[buffName];
     }
     int getBuffCountdown(string buffName) {
-        return this->Sub_Unit_ptr[0]->Buff_countdown[buffName];
+        return this->Buff_countdown[buffName];
     }
     bool getBuffCheck(string buffName) {
-        return this->Sub_Unit_ptr[0]->Buff_check[buffName];
+        return this->Buff_check[buffName];
     }
-    SubUnit* getBuffSubUnitTarget(string buffName) {
-        return this->Sub_Unit_ptr[0]->buffSubUnitTarget[buffName];
+    AllyUnit* getBuffSubUnitTarget(string buffName) {
+        return this->buffSubUnitTarget[buffName];
     }
-    Ally* getBuffAllyTarget(string buffName) {
-        return this->Sub_Unit_ptr[0]->buffAllyTarget[buffName];
+    CharUnit* getBuffAllyTarget(string buffName) {
+        return this->buffAllyTarget[buffName];
     }
     double getAdjust(string adjustName) {
         return this->Adjust[adjustName];
     }
     int getNum(){
-        return this->Sub_Unit_ptr[0]->Atv_stats->num;
+        return this->Atv_stats->num;
     }
-    SubUnit* getSubUnit(){
-        return this->Sub_Unit_ptr[0].get();
-    }
-    SubUnit* getSubUnit(int num){
-        return this->Sub_Unit_ptr[num].get();
+    AllyUnit* getMemosprite(int num){
+        return this->memospriteList[num].get();
     }
     
     #pragma endregion
 
     #pragma region checkMethod
 
-    bool isSameAlly(SubUnit *ptr){
-        if(ptr->ptrToChar->getSubUnit()->isSameUnit(this->getSubUnit()))return true;
-        return false;
-    }
-    bool isSameAlly(Ally *ptr){
-        if(ptr->getSubUnit()->isSameUnit(this->getSubUnit()))return true;
+    bool isSameChar(AllyUnit *ptr){
+
+        Memosprite* memo = dynamic_cast<Memosprite*>(ptr);
+        if(memo){
+            if(memo->owner->isSameStatsOwnerName(this))return true;
+            return false;
+        }
+
+        if(ptr->isSameStatsOwnerName(this))return true;
         return false;
     }
     #pragma endregion
@@ -253,26 +246,7 @@ public:
     /*--------------------Declaration--------------------*/
     void SetAllyBaseStats(double BaseHp,double BaseAtk,double BaseDef);
     /*-----------------Combat-----------------*/
-    //BuffStats.h
-    void extendBuffTime(string Buff_name,int Turn_extend);
-    void buffAlly(vector<BuffClass> buffSet);
-    void buffAlly(vector<BuffElementClass> buffSet);
-    void buffAlly(vector<BuffClass> buffSet,string Buff_name,int extend);
-    void buffAlly(vector<BuffElementClass> buffSet,string Buff_name,int extend);
 
-    void buffMemosprite(vector<BuffClass> buffSet);
-    void buffMemosprite(vector<BuffElementClass> buffSet);
-    void buffMemosprite(vector<BuffClass> buffSet,string Buff_name,int extend);
-    void buffMemosprite(vector<BuffElementClass> buffSet,string Buff_name,int extend);
-
-    //StackBuff.h
-    void buffResetStack(vector<BuffClass> buffSet,string Stack_Name);
-    void buffResetStack(vector<BuffElementClass> buffSet,string Stack_Name);
-    
-    void buffStackAlly(vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name);
-    void buffStackAlly(vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name,int extend);
-    void buffStackAlly(vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name);
-    void buffStackAlly(vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Nam,int extend);
 
     //Energy.h
     void addUltCondition(function<bool()> condition);
@@ -287,8 +261,8 @@ public:
     void setBoot(Stats stats);
     void setOrb(Stats stats);
     void setRope(Stats stats);
-    function<void(Ally *ptr)> RelicPairSet(PairSetType stats);
-    function<void(Ally *ptr)> RelicMainStatsSet(Stats stats);
+    function<void(CharUnit *ptr)> RelicPairSet(PairSetType stats);
+    function<void(CharUnit *ptr)> RelicMainStatsSet(Stats stats);
 
     // Set Requirements
     void setSpeed(double speed);
@@ -339,7 +313,5 @@ public:
 
     #pragma endregion
 
-    
 };
-
 #endif

@@ -13,12 +13,12 @@ public:
     function<void()> Turn_func ;
     Common_stats_each_element Stats_each_element;//Ice Quantum
     Common_stats_type Stats_type;// Atk% Flat_Atk Def% Dmg% Crit_rate Crit_dam Def_shred Respen Vul Break_effect Weakness_Break_Efficiency HealingBonus 
-    // Constructor to initialize Atv_stats and set ptrToChar to 'this'
+    // Constructor to initialize Atv_stats and set owner to 'this'
 
     UnitStatus status;
     Unit() {
         Atv_stats = make_unique<ActionValueStats>();  // Create Atv_stats in Unit
-        Atv_stats->ptrToChar = this;  // Set ptrToChar to this object (Unit, Ally, or Enemy)
+        Atv_stats->charptr = this;  // Set owner to this object (Unit, Ally, or Enemy)
     }
        
     void speedBuff(BuffClass buffSet){
@@ -76,10 +76,10 @@ public:
         return Atv_stats->priority;
     }
     string getCharName(){
-        return Atv_stats->Char_Name;
+        return Atv_stats->UnitName;
     }
     string getUnitName(){
-        return Atv_stats->Unit_Name;
+        return Atv_stats->StatsOwnerName;
     }
     
 #pragma endregion
@@ -117,29 +117,29 @@ public:
         Atv_stats->priority = priority;
     }
     void setCharName(string Char_Name) {
-        Atv_stats->Char_Name = Char_Name;
+        Atv_stats->UnitName = Char_Name;
     }
     void setUnitName(string Unit_Name) {
-        Atv_stats->Unit_Name = Unit_Name;
+        Atv_stats->StatsOwnerName = Unit_Name;
     }
 #pragma endregion
 #pragma endregion
 
 #pragma region Check Method
     bool isSameChar(Unit *ptr){
-        if(this->Atv_stats->Char_Name== ptr->Atv_stats->Char_Name)return true;
+        if(this->Atv_stats->UnitName== ptr->Atv_stats->UnitName)return true;
         return false;
     }
     bool isSameUnit(Unit *ptr){
-        if(this->Atv_stats->Unit_Name == ptr->Atv_stats->Unit_Name)return true;
+        if(this->Atv_stats->StatsOwnerName == ptr->Atv_stats->StatsOwnerName)return true;
         return false;
     }
     bool isSameCharName(string name){
-        if(this->Atv_stats->Char_Name == name)return true;
+        if(this->Atv_stats->UnitName == name)return true;
         return false;
     }
     bool isSameUnitName(string name){
-        if(this->Atv_stats->Unit_Name == name)return true;
+        if(this->Atv_stats->StatsOwnerName == name)return true;
         return false;
     }
     bool isSameNum(Unit *ptr){
@@ -166,9 +166,13 @@ public:
         if(this->status == UnitStatus::Death||this->status == UnitStatus::Retire)return false;
         return true;
     }
+    bool isTargetable(){
+        if(this->status == UnitStatus::Death||this->status == UnitStatus::Retire||this->getType()==UnitType::OutofBounds)return false;
+        return true;
+    }
 
 #pragma endregion
-    SubUnit* canCastToSubUnit();
+    AllyUnit* canCastToSubUnit();
     Enemy* canCastToEnemy();
     
     void summon(){
@@ -183,10 +187,10 @@ public:
 };
 #pragma region ATV get/set
     bool ActionValueStats::isSameChar(Unit* ptr) {
-        return this->Char_Name == ptr->Atv_stats->Char_Name;
+        return this->UnitName == ptr->Atv_stats->UnitName;
     }
     bool ActionValueStats::isSameUnit(Unit* ptr) {
-        return this->Unit_Name == ptr->Atv_stats->Unit_Name;
+        return this->StatsOwnerName == ptr->Atv_stats->StatsOwnerName;
     }
     bool ActionValueStats::isSameNum(Unit* ptr) {
         return this->num == ptr->Atv_stats->num;

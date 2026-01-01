@@ -3,26 +3,26 @@
 
 #include "AllyAttackAction.h"
 #include "AllyBuffAction.h"
-bool AllyActionData::isSameUnit(SubUnit *ptr){
+bool AllyActionData::isSameUnitName(AllyUnit *ptr){
     AllyAttackAction * attackAct = dynamic_cast<AllyAttackAction*>(this);
     if(attackAct){
         for(auto &each : attackAct->AttackSetList){
-            if(each.attacker->isSameUnit(ptr))return true;
+            if(each.attacker->isSameStatsOwnerName(ptr))return true;
         }
     }else{
-        if(this->Attacker->isSameUnit(ptr))return true;
+        if(this->Attacker->isSameStatsOwnerName(ptr))return true;
     }
     return false;
 }
 
-bool AllyActionData::isSameAlly(Ally *ptr){
+bool AllyActionData::isSameCharName(CharUnit *ptr){
     AllyAttackAction * attackAct = dynamic_cast<AllyAttackAction*>(this);
     if(attackAct){
         for(auto &each : attackAct->AttackSetList){
-            if(ptr->isSameAlly(each.attacker))return true;
+            if(ptr->isSameChar(each.attacker))return true;
         }
     }else{
-        if(ptr->isSameAlly(this->Attacker))return true;
+        if(ptr->isSameChar(this->Attacker))return true;
     }
     return false;
 }
@@ -32,10 +32,10 @@ bool AllyActionData::isSameUnitName(string name){
     AllyAttackAction * attackAct = dynamic_cast<AllyAttackAction*>(this);
     if(attackAct){
         for(auto &each : attackAct->AttackSetList){
-            if(each.attacker->isSameUnitName(name))return true;
+            if(each.attacker->isSameStatsOwnerName(name))return true;
         }
     }else{
-        if(this->Attacker->isSameUnitName(name))return true;
+        if(this->Attacker->isSameStatsOwnerName(name))return true;
     }
     return false;
 }
@@ -57,18 +57,18 @@ bool AllyActionData::isSameAction(AType ability){
     return false;
 }
 
-bool AllyActionData::isSameAction(SubUnit *ptr,AType ability){
+bool AllyActionData::isSameAction(AllyUnit *ptr,AType ability){
     AllyAttackAction * attackAct = dynamic_cast<AllyAttackAction*>(this);
     if(attackAct){
         for(auto &each : attackAct->AttackSetList){
-            if(each.attacker->isSameUnit(ptr)){
+            if(each.attacker->isSameStatsOwnerName(ptr)){
                 for(auto &each2 : each.actionTypeList){
                     if(each2 == ability)return true;
                 }
             }
         }
     }else{
-        if(this->Attacker->isSameUnit(ptr)){
+        if(this->Attacker->isSameStatsOwnerName(ptr)){
             for(auto &each : actionTypeList){
                 if(each == ability)return true;
             }
@@ -81,14 +81,14 @@ bool AllyActionData::isSameAction(string name,AType ability){
     AllyAttackAction * attackAct = dynamic_cast<AllyAttackAction*>(this);
     if(attackAct){
         for(auto &each : attackAct->AttackSetList){
-            if(each.attacker->isSameUnitName(name)){
+            if(each.attacker->isSameStatsOwnerName(name)){
                 for(auto &each2 : each.actionTypeList){
                     if(each2 == ability)return true;
                 }
             }
         }
     }else{
-        if(this->Attacker->isSameUnitName(name)){
+        if(this->Attacker->isSameStatsOwnerName(name)){
             for(auto &each : actionTypeList){
                 if(each == ability)return true;
             }
@@ -96,18 +96,18 @@ bool AllyActionData::isSameAction(string name,AType ability){
     }
     return false;
 }
-bool AllyActionData::isSameAction(Ally *ptr,AType ability){
+bool AllyActionData::isSameAction(CharUnit *ptr,AType ability){
     AllyAttackAction * attackAct = dynamic_cast<AllyAttackAction*>(this);
     if(attackAct){
         for(auto &each : attackAct->AttackSetList){
-            if(ptr->isSameAlly(each.attacker)){
+            if(ptr->isSameChar(each.attacker)){
                 for(auto &each2 : each.actionTypeList){
                     if(each2 == ability)return true;
                 }
             }
         }
     }else{
-        if(ptr->isSameAlly(this->Attacker)){
+        if(ptr->isSameChar(this->Attacker)){
             for(auto &each : actionTypeList){
                 if(each == ability)return true;
             }
@@ -124,9 +124,9 @@ bool AllyAttackAction::isSameDamageType(AType ability){
     return false;
 }
 
-bool AllyAttackAction::isSameDamageType(SubUnit *ptr, AType ability){
+bool AllyAttackAction::isSameDamageType(AllyUnit *ptr, AType ability){
     for(auto &each : AttackSetList){
-        if(each.attacker->isSameUnit(ptr)){
+        if(each.attacker->isSameStatsOwnerName(ptr)){
             for(auto &each2 : each.damageTypeList){
                 if(each2 == ability) return true;
             }
@@ -137,7 +137,7 @@ bool AllyAttackAction::isSameDamageType(SubUnit *ptr, AType ability){
 
 bool AllyAttackAction::isSameDamageType(string name, AType ability){
     for(auto &each : AttackSetList){
-        if(each.attacker->isSameUnitName(name)){
+        if(each.attacker->isSameStatsOwnerName(name)){
             for(auto &each2 : each.damageTypeList){
                 if(each2 == ability) return true;
             }
@@ -146,9 +146,9 @@ bool AllyAttackAction::isSameDamageType(string name, AType ability){
     return false;
 }
 
-bool AllyAttackAction::isSameDamageType(Ally *ptr, AType ability){
+bool AllyAttackAction::isSameDamageType(CharUnit *ptr, AType ability){
     for(auto &each : AttackSetList){
-        if(ptr->isSameAlly(each.attacker)){
+        if(ptr->isSameChar(each.attacker)){
             for(auto &each2 : each.damageTypeList){
                 if(each2 == ability) return true;
             }

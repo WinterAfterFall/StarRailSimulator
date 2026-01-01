@@ -1,7 +1,7 @@
 #include "../include.h"
 namespace Destruction_Lightcone{
-    function<void(Ally *ptr)> Mydei_LC(int superimpose){
-        return [=](Ally *ptr) {
+    function<void(CharUnit *ptr)> Mydei_LC(int superimpose){
+        return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(1376,476,397);
             ptr->Light_cone.Name = "Mydei_LC";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
@@ -10,12 +10,12 @@ namespace Destruction_Lightcone{
             }));
     
             BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                if (!act->Attacker->isSameUnit(ptr->Sub_Unit_ptr[0].get())) return;
+                if (!act->Attacker->isSameStatsOwnerName(ptr->Sub_Unit_ptr[0].get())) return;
                 if (act->isSameAttack(AType::SKILL)||act->isSameAttack(AType::Ult)) {
                     ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_LC_Mark"]++;
-                    ptr->getSubUnit()->buffSingle({{Stats::DMG, AType::None, (25.0 + 5 * superimpose)}});
+                    ptr->getMemosprite()->buffSingle({{Stats::DMG, AType::None, (25.0 + 5 * superimpose)}});
                     if (ptr->Sub_Unit_ptr[0]->currentHP >= 50000.0 / (5.5 + 0.5 * superimpose)) {
-                        ptr->getSubUnit()->buffSingle({{Stats::DMG, AType::None, (25.0 + 5 * superimpose)}});
+                        ptr->getMemosprite()->buffSingle({{Stats::DMG, AType::None, (25.0 + 5 * superimpose)}});
                         ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_LC_Mark"]++;
                         DecreaseHP(ptr->Sub_Unit_ptr[0].get(), ptr->Sub_Unit_ptr[0].get(), 0, (5.5 + 0.5 * superimpose), 0);
                     }
@@ -23,8 +23,8 @@ namespace Destruction_Lightcone{
             }));
     
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                if (!act->Attacker->isSameUnit(ptr->Sub_Unit_ptr[0].get())) return;
-                ptr->getSubUnit()->buffSingle({{Stats::DMG, AType::None, -(25 + 5 * superimpose) * ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_LC_Mark"]}});
+                if (!act->Attacker->isSameStatsOwnerName(ptr->Sub_Unit_ptr[0].get())) return;
+                ptr->getMemosprite()->buffSingle({{Stats::DMG, AType::None, -(25 + 5 * superimpose) * ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_LC_Mark"]}});
                 ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_LC_Mark"] = 0;
             }));
         };

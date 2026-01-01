@@ -16,13 +16,13 @@ public:
     double Max_atv;
     int turnCnt = 0;
     int num = 0;
-    Side side;//Memosprite Ally Summon
+    Side side;//AllyUnit Ally Summon
     UnitType Type;
     int priority = 0;
-    string Char_Name;
-    string Unit_Name;//ชื่อเจ้าของเทิร์น
+    string UnitName;
+    string StatsOwnerName;//ชื่อเจ้าของเทิร์น
     bool extraTurn = false;
-    Unit* ptrToChar = nullptr; //* // This will be set to point back to the unit (Ally or Enemy)
+    Unit* charptr = nullptr; //* // This will be set to point back to the unit (Ally or Enemy)
 
 #pragma region Get Method
     double getBaseSpeed(){
@@ -56,13 +56,13 @@ public:
         return priority;
     }
     string getCharName(){
-        return Char_Name;
+        return UnitName;
     }
     string getUnitName(){
-        return Unit_Name;
+        return StatsOwnerName;
     }
     Unit* getPtrToChar(){
-        return ptrToChar;
+        return charptr;
     }
 #pragma endregion
 
@@ -98,19 +98,19 @@ public:
         this->priority = priority;
     }
     void setCharName(string Char_Name) {
-        this->Char_Name = Char_Name;
+        this->UnitName = Char_Name;
     }
     void setUnitName(string Unit_Name) {
-        this->Unit_Name = Unit_Name;
+        this->StatsOwnerName = Unit_Name;
     }
 #pragma endregion
 
 #pragma region Check Method
     bool isSameCharName(const string& name) {
-        return this->Char_Name == name;
+        return this->UnitName == name;
     }
     bool isSameUnitName(const string& name) {
-        return this->Unit_Name == name;
+        return this->StatsOwnerName == name;
     }
     bool isSameNum(int num) {
         return this->num == num;
@@ -119,7 +119,7 @@ public:
     bool isSameUnit(Unit* ptr);
     bool isSameNum(Unit* ptr);
 #pragma endregion
-    SubUnit* canCastToSubUnit();
+    AllyUnit* canCastToSubUnit();
     Enemy* canCastToEnemy();
 #pragma region SpeedCombat Function
     void speedBuff(double spd_percent ,double flat_spd);

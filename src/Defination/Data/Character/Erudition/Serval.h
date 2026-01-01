@@ -1,17 +1,17 @@
 #include "../include.h"
 
 namespace Serval{
-    void Basic_Atk(Ally *ptr);
-    void Skill(Ally *ptr);
+    void Basic_Atk(CharUnit *ptr);
+    void Skill(CharUnit *ptr);
 
 
 
 
 
 //temp
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(104,100,100,E,ElementType::Lightning,Path::Erudition,"Serval",UnitType::Standard);
-        SubUnit *Servalptr = ptr->getSubUnit();
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = SetCharBasicStats(104,100,100,E,ElementType::Lightning,Path::Erudition,"Serval",UnitType::Standard);
+        AllyUnit *Servalptr = ptr->getMemosprite();
         ptr->SetAllyBaseStats(917,653,375);
         //substats
         ptr->pushSubstats(Stats::CD);
@@ -51,13 +51,13 @@ namespace Serval{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TraceType::Aoe,"Serval Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"Serval Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 Attack(act);
                 if (ptr->Eidolon >= 4){
                     for (int i = 1; i <= Total_enemy; i++) {
-                        if (Enemy_unit[i]->debuffApply(ptr->getSubUnit(),"Serval_Shock")) {
-                            Enemy_unit[i]->changeShock(1);
+                        if (enemyUnit[i]->debuffApply(ptr->getMemosprite(),"Serval_Shock")) {
+                            enemyUnit[i]->changeShock(1);
                         }
                     }
                     extendDebuffAll("Serval_Shock", 2);
@@ -73,13 +73,13 @@ namespace Serval{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
-            if (turn->Unit_Name == "Serval") {
+            if (turn->StatsOwnerName == "Serval") {
                 if (ptr->Sub_Unit_ptr[0].get()->isBuffEnd("Serval_A6")) {
                     ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] -= 20;
                 }
             }
             if (turn->side == Side::Enemy) {
-                Enemy *tempstats = dynamic_cast<Enemy*>(turn->ptrToChar);
+                Enemy *tempstats = dynamic_cast<Enemy*>(turn->charptr);
                 if (tempstats) {
                     if (tempstats->isDebuffEnd("Serval_Shock")) {
                         tempstats->changeShock(-1);
@@ -99,18 +99,18 @@ namespace Serval{
             if (!target->getDebuff("Serval_Shock")) return;
             if (Dot_type != DotType::General && Dot_type != DotType::Shock) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Shock,ptr->getSubUnit(),TraceType::Single,"Serval Shock");
+            make_shared<AllyAttackAction>(AType::Shock,ptr->getMemosprite(),TraceType::Single,"Serval Shock");
             act->addDamageIns(DmgSrc(DmgSrcType::ATK,114),target);
             act->multiplyDmg(Dot_ratio);
             Attack(act);
         }));
 
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act) {
-            if (act->Attacker->Atv_stats->Unit_Name != "Serval") return;
+            if (act->Attacker->Atv_stats->StatsOwnerName != "Serval") return;
             shared_ptr<AllyAttackAction> data_2 = 
-            make_shared<AllyAttackAction>(AType::Addtional,ptr->getSubUnit(),TraceType::Single,"Serval AddDmg");
+            make_shared<AllyAttackAction>(AType::Addtional,ptr->getMemosprite(),TraceType::Single,"Serval AddDmg");
             for (int i = 1; i <= Total_enemy; i++) {
-                if (Enemy_unit[i]->getDebuff("Serval_Shock")) {
+                if (enemyUnit[i]->getDebuff("Serval_Shock")) {
                     data_2->addDamageIns(DmgSrc(DmgSrcType::ATK,79));
                     Attack(data_2);
                     if (ptr->Eidolon >= 2) {
@@ -120,7 +120,7 @@ namespace Serval{
             }
         }));
 
-        Enemy_Death_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,Servalptr](Enemy *target, SubUnit *Killer) {
+        Enemy_Death_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,Servalptr](Enemy *target, AllyUnit *Killer) {
             Servalptr->buffSingle({{Stats::ATK_P,AType::None,20}},"Serval_A6",2);
         }));
 
@@ -130,33 +130,33 @@ namespace Serval{
 
 
 
-    void Basic_Atk(Ally *ptr){
+    void Basic_Atk(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"Serval BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"Serval BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(Ally_unit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),20);
+            Increase_energy(charUnit[ptr->Sub_Unit_ptr[0]->Atv_stats->num].get(),20);
             Attack(act);
         });
         act->addDamageIns(DmgSrc(DmgSrcType::ATK,110,10),chooseEnemyTarget(ptr->Sub_Unit_ptr[0].get()));
         if(Total_enemy>=2&&ptr->Eidolon>=1){
             if(ptr->Sub_Unit_ptr[0]->Enemy_target_num==1){
-                act->addDamageHit(DmgSrc(DmgSrcType::ATK,60,0),Enemy_unit[2].get());
+                act->addDamageHit(DmgSrc(DmgSrcType::ATK,60,0),enemyUnit[2].get());
             }else{
-                act->addDamageHit(DmgSrc(DmgSrcType::ATK,60,0),Enemy_unit[1].get());
+                act->addDamageHit(DmgSrc(DmgSrcType::ATK,60,0),enemyUnit[1].get());
             }
         }
         act->addToActionBar();
     }
-    void Skill(Ally *ptr){
+    void Skill(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),-1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"Serval Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Blast,"Serval Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30);
             for (int i = 1; i <= Total_enemy; i++) {
-                if (Enemy_unit[i]->debuffApply(ptr->getSubUnit(),"Serval_Shock")) {
-                        Enemy_unit[i]->changeShock(1);
+                if (enemyUnit[i]->debuffApply(ptr->getMemosprite(),"Serval_Shock")) {
+                        enemyUnit[i]->changeShock(1);
                 }
             }
             extendDebuffAll("Serval_Shock", 2);

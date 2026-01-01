@@ -1,7 +1,7 @@
 #include "../include.h"
 namespace Nihility_Lightcone{
-    function<void(Ally *ptr)> BP2(int superimpose){
-        return [=](Ally *ptr) {
+    function<void(CharUnit *ptr)> BP2(int superimpose){
+        return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(1058,529,331);
             ptr->Light_cone.Name = "Holiday";
             ptr->newApplyBaseChanceRequire(100);
@@ -10,8 +10,8 @@ namespace Nihility_Lightcone{
             }));
             
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                if(act->isSameUnit(ptr->getSubUnit())){
-                    debuffEnemyTargetsApply(act->targetList,{{Stats::VUL,AType::None,8.5+1.5*superimpose}},ptr->getSubUnit(),"Holiday Vul",2);
+                if(act->isSameUnitName(ptr->getMemosprite())){
+                    debuffEnemyTargetsApply(act->targetList,{{Stats::VUL,AType::None,8.5+1.5*superimpose}},ptr->getMemosprite(),"Holiday Vul",2);
                 }
             }));
 

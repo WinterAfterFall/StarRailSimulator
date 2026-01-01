@@ -1,10 +1,10 @@
 #include "../include.h"
 
 namespace BS{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
 
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(102,120,120,E,ElementType::Wind,Path::Nihility,"Black Swan",UnitType::Standard);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = SetCharBasicStats(102,120,120,E,ElementType::Wind,Path::Nihility,"Black Swan",UnitType::Standard);
         ptr->SetAllyBaseStats(1087,660,485);
 
         //substats
@@ -19,13 +19,13 @@ namespace BS{
         Relic(ptr);
         Planar(ptr);
 
-        SubUnit *bs = ptr->getSubUnit();
+        AllyUnit *bs = ptr->getMemosprite();
         #pragma region Ability
 
         function<void()> BA = [ptr,bs]() {
             Skill_point(bs,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"BS BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"BS BA",
             [ptr,bs](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,20);
                 for(auto &each : act->targetList){
@@ -45,7 +45,7 @@ namespace BS{
         function<void()> Skill = [ptr,bs]() {
             Skill_point(bs,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"BS Skill",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"BS Skill",
             [ptr,bs](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,30);
                 for(auto &each : act->targetList){
@@ -69,7 +69,7 @@ namespace BS{
         #pragma endregion
         ptr->Sub_Unit_ptr[0]->Turn_func = [ptr,bs,BA,Skill]() {
             for(int i = 1;i<= Total_enemy&&i<=3;i++){
-                if(!Enemy_unit[i]->getDebuff("BS DefShred")){
+                if(!enemyUnit[i]->getDebuff("BS DefShred")){
                     Skill();
                     return;
                 }
@@ -85,7 +85,7 @@ namespace BS{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,bs]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr->getSubUnit(),TraceType::Single,"BS Ult",
+            make_shared<AllyAttackAction>(AType::BA,ptr->getMemosprite(),TraceType::Single,"BS Ult",
             [ptr,bs](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Black Swan");
                 for(auto &each : act->targetList){
@@ -176,7 +176,7 @@ namespace BS{
                     bs->buffSingle({{Stats::DEF_SHRED,AType::Dot,20}});
 
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::WindShear,ptr->getSubUnit(),TraceType::Single,"Arcana");
+                make_shared<AllyAttackAction>(AType::WindShear,ptr->getMemosprite(),TraceType::Single,"Arcana");
                 act->addDamageIns(DmgSrc(DmgSrcType::ATK,240 + target->getStack("Arcana") * 12.0),target);
 
                 if(target->getStack("Arcana")>=3&&phaseStatus == PhaseStatus::DotBeforeTurn){

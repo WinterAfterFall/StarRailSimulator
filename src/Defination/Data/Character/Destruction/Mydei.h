@@ -1,21 +1,21 @@
 #include "../include.h"
 
 namespace Mydei{
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar);
-    void Print(Ally *ptr);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
+    void Print(CharUnit *ptr);
     
 
     //
-    void Basic_Atk(Ally *ptr);      
-    void Skill(Ally *ptr);
-    void Enchance_Skill(Ally *ptr);
-    void GodSlayer(Ally *ptr);
-    void ChargePoint(Ally *ptr,double point);
-    double CalculateChargePoint(SubUnit *ptr,double Value);
+    void Basic_Atk(CharUnit *ptr);      
+    void Skill(CharUnit *ptr);
+    void Enchance_Skill(CharUnit *ptr);
+    void GodSlayer(CharUnit *ptr);
+    void ChargePoint(CharUnit *ptr,double point);
+    double CalculateChargePoint(AllyUnit *ptr,double Value);
     
-    void Setup(int E,function<void(Ally *ptr)> LC,function<void(Ally *ptr)> Relic,function<void(Ally *ptr)> Planar){
-        Ally *ptr = SetAllyBasicStats(95,160,160,E,ElementType::Imaginary,Path::Destruction,"Mydei",UnitType::Standard);
-        SubUnit *Mydeiptr = ptr->getSubUnit();
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = SetCharBasicStats(95,160,160,E,ElementType::Imaginary,Path::Destruction,"Mydei",UnitType::Standard);
+        AllyUnit *Mydeiptr = ptr->getMemosprite();
         ptr->SetAllyBaseStats(1552,427,194);
 
         //substats
@@ -45,14 +45,14 @@ namespace Mydei{
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr->getSubUnit(),TraceType::Blast,"Mydei Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr->getMemosprite(),TraceType::Blast,"Mydei Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 for (Enemy* e : act->targetList) {
                     e->addTaunt(ptr->Sub_Unit_ptr[0].get());
                     e->debuffApply(ptr->Sub_Unit_ptr[0].get(),"Mydei_Taunt");
                 }
-                ptr->getSubUnit()->RestoreHP(
-                    ptr->getSubUnit(),
+                ptr->getMemosprite()->RestoreHP(
+                    ptr->getMemosprite(),
                     HealSrc(HealSrcType::TOTAL_HP,20)
                 );
                 ChargePoint(ptr, 20);
@@ -90,8 +90,8 @@ namespace Mydei{
             if (ptr->Eidolon >= 6) {
             ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_Vendetta"] = true;
             Action_forward(ptr->Sub_Unit_ptr[0]->Atv_stats.get(), 100);
-            ptr->getSubUnit()->RestoreHP(
-                ptr->getSubUnit(),
+            ptr->getMemosprite()->RestoreHP(
+                ptr->getMemosprite(),
                 HealSrc(HealSrcType::TOTAL_HP,25)
             );
             ptr->Sub_Unit_ptr[0]->Stats_type[Stats::FLAT_DEF][AType::None] -= 10000;
@@ -104,7 +104,7 @@ namespace Mydei{
             allEventAdjustStats(ptr->Sub_Unit_ptr[0].get(), Stats::HP_P);
             if (ptr->Technique) {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Technique,ptr->getSubUnit(),TraceType::Aoe,"Mydei Tech",
+            make_shared<AllyAttackAction>(AType::Technique,ptr->getMemosprite(),TraceType::Aoe,"Mydei Tech",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 ChargePoint(ptr, 50);
                 Attack(act);
@@ -119,8 +119,8 @@ namespace Mydei{
             }
         }));
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTTACK, [ptr,Mydeiptr](SubUnit *target, Stats StatsType) {
-            if (target->Atv_stats->Unit_Name != "Mydei") return;
+        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTTACK, [ptr,Mydeiptr](AllyUnit *target, Stats StatsType) {
+            if (target->Atv_stats->StatsOwnerName != "Mydei") return;
             if (StatsType == Stats::FLAT_HP || StatsType == Stats::HP_P) {
                 
             if (Mydeiptr->getBuffCheck("Mydei_Vendetta")) {
@@ -132,8 +132,8 @@ namespace Mydei{
             }
         }));
 
-        HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_ACTTACK, [ptr](Unit *Trigger, SubUnit *target, double Value) {
-            if (!target->isSameUnitName("Mydei")) return;
+        HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_ACTTACK, [ptr](Unit *Trigger, AllyUnit *target, double Value) {
+            if (!target->isSameStatsOwnerName("Mydei")) return;
             if (Trigger->canCastToEnemy()) {
             ChargePoint(ptr, ((ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"] * 2.5 + 100.0) / 100.0) * CalculateChargePoint(ptr->Sub_Unit_ptr[0].get(), Value));
             } else {
@@ -141,22 +141,22 @@ namespace Mydei{
             }
         }));
 
-        Healing_List.push_back(TriggerHealing(PRIORITY_ACTTACK, [ptr](SubUnit *Healer, SubUnit *target, double Value) {
-            if (!target->isSameUnitName("Mydei")) return;
+        Healing_List.push_back(TriggerHealing(PRIORITY_ACTTACK, [ptr](AllyUnit *Healer, AllyUnit *target, double Value) {
+            if (!target->isSameStatsOwnerName("Mydei")) return;
             if (ptr->Eidolon < 2) return;
             Value = (Value + ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_E2"] <= target->totalHP) ? Value : target->totalHP - ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_E2"];
             ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_E2"] += Value;
             ChargePoint(ptr, CalculateChargePoint(ptr->Sub_Unit_ptr[0].get(), Value * 0.4));
         }));
 
-        Enemy_hit_List.push_back(TriggerByEnemyHit(PRIORITY_ACTTACK, [ptr](Enemy *Attacker, vector<SubUnit *> target) {
+        Enemy_hit_List.push_back(TriggerByEnemyHit(PRIORITY_ACTTACK, [ptr](Enemy *Attacker, vector<AllyUnit *> target) {
             if (ptr->Eidolon < 4) return;
-            for (SubUnit *e : target) {
-            if (e->isSameUnitName("Mydei")) goto jump;
+            for (AllyUnit *e : target) {
+            if (e->isSameStatsOwnerName("Mydei")) goto jump;
             }
             return;
         jump:
-        ptr->getSubUnit()->RestoreHP(ptr->getSubUnit(),HealSrc(HealSrcType::TOTAL_HP,10));
+        ptr->getMemosprite()->RestoreHP(ptr->getMemosprite(),HealSrc(HealSrcType::TOTAL_HP,10));
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
@@ -179,15 +179,15 @@ namespace Mydei{
             }
         }));
         
-        // SetMemoStats(ptr,66,35,ElementType::Lightning,"MemName",Side::Memosprite);
+        // SetMemoStats(ptr,66,35,ElementType::Lightning,"MemName",Side::AllyUnit);
         // SetCountdownStats(ptr,"Name");
         // ptr->Sub_Unit_ptr[1]->Turn_func = Mem_turn;
-        // ptr->Countdown_ptr[0]->Turn_func = CountDown_turn;
+        // ptr->countdownList[0]->Turn_func = CountDown_turn;
 
     }
 
 
-    void Basic_Atk(Ally *ptr){
+    void Basic_Atk(CharUnit *ptr){
         Skill_point(ptr->Sub_Unit_ptr[0].get(),1);
         Increase_energy(ptr,30,0);
         shared_ptr<AllyActionData> act = make_shared<AllyActionData>();
@@ -195,10 +195,10 @@ namespace Mydei{
         //none complete
 
     }
-    void Skill(Ally *ptr){
+    void Skill(CharUnit *ptr){
         
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"Mydei Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Blast,"Mydei Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),ptr->Sub_Unit_ptr[0].get(),0,0,50);
@@ -210,10 +210,10 @@ namespace Mydei{
         );
         act->addToActionBar();
     }
-    void Enchance_Skill(Ally *ptr){
+    void Enchance_Skill(CharUnit *ptr){
         
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"KingSlayer",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Blast,"KingSlayer",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30,0);
             DecreaseHP(ptr->Sub_Unit_ptr[0].get(),ptr->Sub_Unit_ptr[0].get(),0,0,35);
@@ -225,10 +225,10 @@ namespace Mydei{
         );
         act->addToActionBar();
     }
-    void GodSlayer(Ally *ptr){
+    void GodSlayer(CharUnit *ptr){
         
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr->getSubUnit(),TraceType::Blast,"GodSlayer",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Blast,"GodSlayer",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,10);
             Attack(act);
@@ -266,7 +266,7 @@ namespace Mydei{
     
     
     
-    void Print(Ally *ptr){
+    void Print(CharUnit *ptr){
         cout<<"Talent :"<<ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_Vendetta"]<<" ";
         cout<<"A6 :"<<ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_A6"]<<" ";
         cout<<"Talent hp :"<<ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Talent"]<<" ";
@@ -276,18 +276,18 @@ namespace Mydei{
     
     
     
-    double CalculateChargePoint(SubUnit *ptr,double Value){
+    double CalculateChargePoint(AllyUnit *ptr,double Value){
         return (Value/ptr->totalHP*100.0);
     }
-    void ChargePoint(Ally *ptr,double point){
+    void ChargePoint(CharUnit *ptr,double point){
         if(ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_cannot_charge"])return;
         ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Charge_point"]+=point;
         if(ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Charge_point"]>=100&&ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_Vendetta"]==false){
             ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_Vendetta"]=true;
             ptr->Sub_Unit_ptr[0]->Buff_note["Mydei_Charge_point"]-=100;
             ptr->Sub_Unit_ptr[0]->Buff_check["Mydei_action"]=1;
-            ptr->getSubUnit()->RestoreHP(
-                    ptr->getSubUnit(),
+            ptr->getMemosprite()->RestoreHP(
+                    ptr->getMemosprite(),
                     HealSrc(HealSrcType::TOTAL_HP,25)
                 );
             ptr->Sub_Unit_ptr[0]->Stats_type[Stats::FLAT_DEF][AType::None] -= 10000;

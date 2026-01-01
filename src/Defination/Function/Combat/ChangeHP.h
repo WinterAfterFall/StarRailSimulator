@@ -1,27 +1,25 @@
 #include "../include.h"
 
-void SubUnit::RestoreHP(HealSrc main,HealSrc adjacent,HealSrc other){
+void AllyUnit::RestoreHP(HealSrc main,HealSrc adjacent,HealSrc other){
     healCount++;
     priority_queue<PointerWithValue, vector<PointerWithValue>, decltype(&PointerWithValue::Greater_cmp)> pq(&PointerWithValue::Less_cmp);
     
-    if(this->ptrToChar->checkHeal||this->ptrToChar->checkHealFormula){
+    if(this->owner->checkHeal||this->owner->checkHealFormula){
         cout<<"\033[0;38;5;2m";
         cout<<"\n----------------------- Heal Count : "<<healCount<<" -----------------------\n";
         cout << "\033[0m";
     }
     
-    for(int i=1;i<=Total_ally;i++){
-        for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
-            if(!Ally_unit[i]->Sub_Unit_ptr[j]->isExsited())continue;
-            pq.push(PointerWithValue(Ally_unit[i]->Sub_Unit_ptr[j].get(),calculateHPLost(Ally_unit[i]->Sub_Unit_ptr[j].get())));
-            if(pq.size()>3){
-                double totalHeal = 0;
-                if(other.ATK!=0||other.HP!=0||other.DEF!=0||other.constHeal!=0||other.healFromTotalHP!=0||other.healFromLostHP!=0){
-                    totalHeal = calculateHeal(other,this,pq.top().ptr);
-                    IncreaseHP(this,pq.top().ptr,totalHeal);
-                }
-                pq.pop();
+    for(auto &each : allyList){
+        if(!each->isTargetable())continue;
+        pq.push(PointerWithValue(each,calculateHPLost(each)));
+        if(pq.size()>3){
+            double totalHeal = 0;
+            if(other.ATK!=0||other.HP!=0||other.DEF!=0||other.constHeal!=0||other.healFromTotalHP!=0||other.healFromLostHP!=0){
+                totalHeal = calculateHeal(other,this,pq.top().ptr);
+                IncreaseHP(this,pq.top().ptr,totalHeal);
             }
+            pq.pop();
         }
     }
     
@@ -36,7 +34,7 @@ void SubUnit::RestoreHP(HealSrc main,HealSrc adjacent,HealSrc other){
         pq.pop();
     }
     
-    if(this->ptrToChar->checkHeal||this->ptrToChar->checkHealFormula){
+    if(this->owner->checkHeal||this->owner->checkHealFormula){
         cout<<"\033[0;38;5;2m";
         cout<<"-----------------------------------------------------------\n";
         cout << "\033[0m";
@@ -44,10 +42,10 @@ void SubUnit::RestoreHP(HealSrc main,HealSrc adjacent,HealSrc other){
     
 }
 //heal เดี่ยว
-void SubUnit::RestoreHP(SubUnit *target,HealSrc Healptr){
+void AllyUnit::RestoreHP(AllyUnit *target,HealSrc Healptr){
     healCount++;
 
-    if(this->ptrToChar->checkHeal||this->ptrToChar->checkHealFormula){
+    if(this->owner->checkHeal||this->owner->checkHealFormula){
         cout<<"\033[0;38;5;2m";
         cout<<"\n----------------------- Heal Count : "<<healCount<<" -----------------------\n";
         cout << "\033[0m";
@@ -56,7 +54,7 @@ void SubUnit::RestoreHP(SubUnit *target,HealSrc Healptr){
     double totalHeal = calculateHeal(Healptr,this,target);
     IncreaseHP(this,target,totalHeal);
 
-    if(this->ptrToChar->checkHeal||this->ptrToChar->checkHealFormula){
+    if(this->owner->checkHeal||this->owner->checkHealFormula){
         cout<<"\033[0;38;5;2m";
         cout<<"-----------------------------------------------------------\n";
         cout << "\033[0m";
@@ -64,24 +62,22 @@ void SubUnit::RestoreHP(SubUnit *target,HealSrc Healptr){
 
 }
 //heal ทั้งทีมแบบเท่าเที่ยม
-void SubUnit::RestoreHP(HealSrc healSrc){
+void AllyUnit::RestoreHP(HealSrc healSrc){
     healCount++;
     
-    if(this->ptrToChar->checkHeal||this->ptrToChar->checkHealFormula){
+    if(this->owner->checkHeal||this->owner->checkHealFormula){
         cout<<"\033[0;38;5;2m";
         cout<<"\n----------------------- Heal Count : "<<healCount<<" -----------------------\n";
         cout << "\033[0m";
     }
 
-    for(int i=1;i<=Total_ally;i++){
-        for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
-            if(Ally_unit[i]->Sub_Unit_ptr[j]->currentHP==0)continue;
-            double totalHeal = calculateHeal(healSrc,this,Ally_unit[i]->Sub_Unit_ptr[j].get());
-            IncreaseHP(this,Ally_unit[i]->Sub_Unit_ptr[j].get(),totalHeal);
-        }
+    for(auto &each : allyList){
+        if(!each->isTargetable())continue;
+        double totalHeal = calculateHeal(healSrc,this,each);
+        IncreaseHP(this,each,totalHeal);
     }
 
-    if(this->ptrToChar->checkHeal||this->ptrToChar->checkHealFormula){
+    if(this->owner->checkHeal||this->owner->checkHealFormula){
         cout<<"\033[0;38;5;2m";
         cout<<"-----------------------------------------------------------\n";
         cout << "\033[0m";
@@ -89,45 +85,43 @@ void SubUnit::RestoreHP(HealSrc healSrc){
 
 }
 //heal ทั้งทีมแบบฮีลคนนึงเยอะสุด
-void SubUnit::RestoreHP(SubUnit *target,HealSrc main,HealSrc other){
+void AllyUnit::RestoreHP(AllyUnit *target,HealSrc main,HealSrc other){
     healCount++;
 
-    if(this->ptrToChar->checkHeal||this->ptrToChar->checkHealFormula){
+    if(this->owner->checkHeal||this->owner->checkHealFormula){
         cout<<"\033[0;38;5;2m";
         cout<<"\n----------------------- Heal Count : "<<healCount<<" -----------------------\n";
         cout << "\033[0m";
     }
 
-    for(int i=1;i<=Total_ally;i++){
-        for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
-            if(!Ally_unit[i]->Sub_Unit_ptr[j]->isExsited())continue;
-            double totalHeal = (target->Atv_stats->Unit_Name == Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->Unit_Name) ? 
-            calculateHeal(main,this,Ally_unit[i]->Sub_Unit_ptr[j].get())
+    for(auto &each : allyList){
+            if(!each->isTargetable())continue;
+            double totalHeal = (target->Atv_stats->StatsOwnerName == each->Atv_stats->StatsOwnerName) ? 
+            calculateHeal(main,this,each)
             :
-            calculateHeal(other,this,Ally_unit[i]->Sub_Unit_ptr[j].get());
-            IncreaseHP(this,Ally_unit[i]->Sub_Unit_ptr[j].get(),totalHeal);
-        }
+            calculateHeal(other,this,each);
+            IncreaseHP(this,each,totalHeal);
     }
 
-    if(this->ptrToChar->checkHeal||this->ptrToChar->checkHealFormula){
+    if(this->owner->checkHeal||this->owner->checkHealFormula){
         cout<<"\033[0;38;5;2m";
         cout<<"-----------------------------------------------------------\n";
         cout << "\033[0m";
     }
 }
-void IncreaseCurrentHP(SubUnit *ptr,double Value){
+void IncreaseCurrentHP(AllyUnit *ptr,double Value){
     ptr->currentHP = (ptr->currentHP + Value > ptr->totalHP) ? ptr->totalHP : ptr->currentHP + Value;
 }
-void IncreaseHP(SubUnit *Healer,SubUnit *target,double Value){
+void IncreaseHP(AllyUnit *Healer,AllyUnit *target,double Value){
     if(Value==0||!target->isExsited())return;
     IncreaseCurrentHP(target,Value);
     allEventHeal(Healer,target,Value);
 }
 
-void DecreaseCurrentHP(SubUnit *ptr,double Value){
+void DecreaseCurrentHP(AllyUnit *ptr,double Value){
     ptr->currentHP = (ptr->currentHP - Value < 1) ? 1 : ptr->currentHP - Value;
 }
-void DecreaseHP(SubUnit *target,Unit *Trigger,double Value,double percentFromTotalHP,double percentFromCurrentHP){
+void DecreaseHP(AllyUnit *target,Unit *Trigger,double Value,double percentFromTotalHP,double percentFromCurrentHP){
     decreaseHPCount++;
 
     double Total = Value;
@@ -142,47 +136,43 @@ void DecreaseHP(SubUnit *target,Unit *Trigger,double Value,double percentFromTot
 void DecreaseHP(Unit *Trigger,double Value,double percentFromTotalHP,double percentFromCurrentHP){
     decreaseHPCount++;
 
-    for (int i = 1; i <= Total_ally; ++i) {
-        for (unique_ptr<SubUnit> &subUnit : Ally_unit[i]->Sub_Unit_ptr) {
-            double Total = Value;
-            if(!subUnit->isExsited())return;
-            Total += (percentFromTotalHP/100.0*subUnit->totalHP);
-            Total += (percentFromCurrentHP/100.0*subUnit->currentHP);
-            DecreaseCurrentHP(subUnit.get(),Total);
-            allEventChangeHP(Trigger,subUnit.get(),Total);
-        }
+    for (auto &each : allyList) {
+        double Total = Value;
+        if(!each->isTargetable())return;
+        Total += (percentFromTotalHP/100.0*each->totalHP);
+        Total += (percentFromCurrentHP/100.0*each->currentHP);
+        DecreaseCurrentHP(each,Total);
+        allEventChangeHP(Trigger,each,Total);
     }
 
 }
-void DecreaseHP(Unit *Trigger,vector<SubUnit*> target,double Value,double percentFromTotalHP,double percentFromCurrentHP){
+void DecreaseHP(Unit *Trigger,vector<AllyUnit*> target,double Value,double percentFromTotalHP,double percentFromCurrentHP){
     decreaseHPCount++;
-    for (SubUnit* &subUnit : target) {
+    for (AllyUnit* &AllyUnit : target) {
         double Total = Value;
-        if(!subUnit->isExsited())return;
-        Total += (percentFromTotalHP/100.0*subUnit->totalHP);
-        Total += (percentFromCurrentHP/100.0*subUnit->currentHP);
-        DecreaseCurrentHP(subUnit,Total);
-        allEventChangeHP(Trigger,subUnit,Total);
+        if(!AllyUnit->isTargetable())return;
+        Total += (percentFromTotalHP/100.0*AllyUnit->totalHP);
+        Total += (percentFromCurrentHP/100.0*AllyUnit->currentHP);
+        DecreaseCurrentHP(AllyUnit,Total);
+        allEventChangeHP(Trigger,AllyUnit,Total);
     }
     
 }
 //ลดเลือดทั้งทีมยกเว้นตัวเอง
 void DecreaseHP(Unit *Trigger,string Name,double Value,double percentFromTotalHP,double percentFromCurrentHP){
     decreaseHPCount++;
-    for (int i = 1; i <= Total_ally; ++i) {
-        for (unique_ptr<SubUnit> &subUnit : Ally_unit[i]->Sub_Unit_ptr) {
-            if(subUnit->isSameCharName(Name))continue;
-            double Total = Value;
-            if(!subUnit->isExsited())return;
-            Total += (percentFromTotalHP/100.0*subUnit->totalHP);
-            Total += (percentFromCurrentHP/100.0*subUnit->currentHP);
-            DecreaseCurrentHP(subUnit.get(),Total);
-            allEventChangeHP(Trigger,subUnit.get(),Total);
-        }
+    for (auto &each : allyList) {
+        if(each->isSameUnitName(Name))continue;
+        double Total = Value;
+        if(!each->isTargetable())return;
+        Total += (percentFromTotalHP/100.0*each->totalHP);
+        Total += (percentFromCurrentHP/100.0*each->currentHP);
+        DecreaseCurrentHP(each,Total);
+        allEventChangeHP(Trigger,each,Total);
     }
 
 }
-void SubUnit::death(){
+void AllyUnit::death(){
     this->currentHP = 0;
     this->status = UnitStatus::Death;
     allEventWhenAllyDeath(this);

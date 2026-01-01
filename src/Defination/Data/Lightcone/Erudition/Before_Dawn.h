@@ -1,7 +1,7 @@
 #include "../include.h"
 namespace Erudition_Lightcone{
-    function<void(Ally *ptr)> Before_Dawn(int superimpose){
-        return [=](Ally *ptr) {
+    function<void(CharUnit *ptr)> Before_Dawn(int superimpose){
+        return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(1058,582,463);
 
             ptr->Light_cone.Name = "Before_Dawn";
@@ -12,7 +12,7 @@ namespace Erudition_Lightcone{
             }));
     
             BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                if (act->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name &&
+                if (act->Attacker->Atv_stats->StatsOwnerName == ptr->Sub_Unit_ptr[0]->Atv_stats->StatsOwnerName &&
                     ptr->Sub_Unit_ptr[0]->Stack["Somnus_Corpus"] == 1) {
                     for (auto e : act->actionTypeList) {
                         if (e == AType::Fua) {
@@ -24,7 +24,7 @@ namespace Erudition_Lightcone{
             }));
     
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                if (act->Attacker->Atv_stats->Unit_Name != ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name) return;
+                if (act->Attacker->Atv_stats->StatsOwnerName != ptr->Sub_Unit_ptr[0]->Atv_stats->StatsOwnerName) return;
     
                 for (auto e : act->actionTypeList) {
                     if (e == AType::SKILL || e == AType::Ult) {
@@ -33,7 +33,7 @@ namespace Erudition_Lightcone{
                     }
                 }
     
-                if (act->Attacker->Atv_stats->Unit_Name == ptr->Sub_Unit_ptr[0]->Atv_stats->Unit_Name &&
+                if (act->Attacker->Atv_stats->StatsOwnerName == ptr->Sub_Unit_ptr[0]->Atv_stats->StatsOwnerName &&
                     ptr->Sub_Unit_ptr[0]->Stack["Somnus_Corpus"] == 1) {
                     for (auto e : act->actionTypeList) {
                         if (e == AType::Fua) {

@@ -11,18 +11,16 @@ class EnemyActionData : public ActionData{
     void setAoeAttack(Enemy* enemy,double SkillRatio,double energy){
         this->enemy = enemy;
         this->actionFunction = [enemy,SkillRatio,energy](){
-        vector<SubUnit*> vec;
-        for(int i=1;i<=Total_ally;i++){
-            for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
-                if(Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->Type == UnitType::Backup)continue;
-                if(!Ally_unit[i]->Sub_Unit_ptr[j]->isExsited())continue;
-                vec.push_back(Ally_unit[i]->Sub_Unit_ptr[j].get());
-                Increase_energy(Ally_unit[i].get(),energy);
-            }
+        vector<AllyUnit*> vec;
+        for(auto &each : allyList){
+            if(each->getType()== UnitType::Backup)continue;
+            if(!each->isTargetable())continue;
+            vec.push_back(each);
+            Increase_energy(each,energy);
         }
         allEventWhenEnemyHit(enemy,vec);
         decreaseHPCount++;
-        for(SubUnit* e : vec){
+        for(AllyUnit* e : vec){
             double damageDeal = calculateDmgReceive(enemy,e,SkillRatio);
             DecreaseCurrentHP(e,damageDeal);
             allEventChangeHP(enemy,e,damageDeal);
@@ -33,22 +31,22 @@ class EnemyActionData : public ActionData{
         this->enemy = enemy;
         if(enemy->tauntList.size()>0)
         this->actionFunction = [enemy,SkillRatio,energy](){
-            vector<SubUnit*> vec;
-            vector<SubUnit*> UnitGotHit;
+            vector<AllyUnit*> vec;
+            vector<AllyUnit*> UnitGotHit;
             for(auto &e: enemy->tauntList){
                 if(e->Atv_stats->Type == UnitType::Backup)continue;
-                if(!e->isExsited())continue;
+                if(!e->isTargetable())continue;
                 vec.push_back(e);
             }
-            for(SubUnit* each : vec){
-                enemy->AttackCoolDown[each->Atv_stats->Char_Name] += each->calHitChance(vec);
-                if(enemy->AttackCoolDown[each->Atv_stats->Char_Name]>=100)enemy->AttackCoolDown[each->Atv_stats->Char_Name]-=100;
+            for(AllyUnit* each : vec){
+                enemy->AttackCoolDown[each->Atv_stats->UnitName] += each->calHitChance(vec);
+                if(enemy->AttackCoolDown[each->Atv_stats->UnitName]>=100)enemy->AttackCoolDown[each->Atv_stats->UnitName]-=100;
                 else continue;
                 Increase_energy(each,energy);
             }
             allEventWhenEnemyHit(enemy,UnitGotHit);
             decreaseHPCount++;
-            for(SubUnit* e : UnitGotHit){
+            for(AllyUnit* e : UnitGotHit){
                 double damageDeal = calculateDmgReceive(enemy,e,SkillRatio);
                 DecreaseCurrentHP(e,damageDeal);
                 allEventChangeHP(enemy,e,damageDeal);
@@ -56,24 +54,22 @@ class EnemyActionData : public ActionData{
         };
         else
         this->actionFunction = [enemy,SkillRatio,energy](){
-            vector<SubUnit*> vec;
-            vector<SubUnit*> UnitGotHit;
-            for(int i=1;i<=Total_ally;i++){
-                for(auto &e:Ally_unit[i]->Sub_Unit_ptr){
-                    if(e->Atv_stats->Type == UnitType::Backup)continue;
-                    if(!e->isExsited())continue;
-                    vec.push_back(e.get());
-                }
+            vector<AllyUnit*> vec;
+            vector<AllyUnit*> UnitGotHit;
+            for(auto &e:allyList){
+                if(e->Atv_stats->Type == UnitType::Backup)continue;
+                if(!e->isTargetable())continue;
+                vec.push_back(e);
             }
-            for(SubUnit* each : vec){
-                enemy->AttackCoolDown[each->Atv_stats->Char_Name] += each->calHitChance(vec);
-                if(enemy->AttackCoolDown[each->Atv_stats->Char_Name]>=100)enemy->AttackCoolDown[each->Atv_stats->Char_Name]-=100;
+            for(AllyUnit* each : vec){
+                enemy->AttackCoolDown[each->Atv_stats->UnitName] += each->calHitChance(vec);
+                if(enemy->AttackCoolDown[each->Atv_stats->UnitName]>=100)enemy->AttackCoolDown[each->Atv_stats->UnitName]-=100;
                 else continue;
                 Increase_energy(each,energy);
             }
             allEventWhenEnemyHit(enemy,UnitGotHit);
             decreaseHPCount++;
-            for(SubUnit* e : UnitGotHit){
+            for(AllyUnit* e : UnitGotHit){
                 double damageDeal = calculateDmgReceive(enemy,e,SkillRatio);
                 DecreaseCurrentHP(e,damageDeal);
                 allEventChangeHP(enemy,e,damageDeal);

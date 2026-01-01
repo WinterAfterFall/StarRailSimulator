@@ -1,8 +1,8 @@
 #include "../include.h"
 namespace Planar{
-    function<void(Ally *ptr)> FirmanentFrontline(bool trigger){
+    function<void(CharUnit *ptr)> FirmanentFrontline(bool trigger){
         if(trigger)
-        return [=](Ally *ptr) {
+        return [=](CharUnit *ptr) {
             ptr->Planar.Name = "FirmanentFrontline";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
                 ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 12;
@@ -10,7 +10,7 @@ namespace Planar{
             }));
         };
         else 
-        return [=](Ally *ptr) {
+        return [=](CharUnit *ptr) {
             ptr->Planar.Name = "FirmanentFrontline";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
                 ptr->Sub_Unit_ptr[0]->Stats_type[Stats::ATK_P][AType::None] += 12;

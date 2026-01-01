@@ -1,7 +1,7 @@
 #include "../include.h"
 namespace Remembrance_Lightcone{
-    function<void(Ally *ptr)> SweatNowCryLess(int superimpose){
-        return [=](Ally *ptr) {
+    function<void(CharUnit *ptr)> SweatNowCryLess(int superimpose){
+        return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(1058,529,198);
             ptr->Light_cone.Name = "SweatNowCryLess";
     
