@@ -166,18 +166,11 @@
         }
     }
 
-<<<<<<< HEAD
 //buff ทุกคน
     void buffAllAlly(vector<BuffClass> buffSet) {
         for (auto &e : allyList) {
             buffSingle(e,buffSet);
         }
-=======
-void Ally::buffMemosprite(vector<BuffClass> buffSet){
-    for (size_t i = 1; i < this->Sub_Unit_ptr.size(); ++i) {
-        if(this->Sub_Unit_ptr[i]->Atv_stats->side != Side::Memosprite) continue;
-        this->Sub_Unit_ptr[i]->buffSingle(buffSet);
->>>>>>> 250397b99a41aaa83d5471df2a00d8322a219e3f
     }
     void buffAllAlly(vector<BuffElementClass> buffSet) {
         for (auto &e : allyList) {
