@@ -9,7 +9,7 @@ namespace Gallagher{
 
 
 
-    dsdsdsdsdsds
+    
     void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
         CharUnit *ptr = SetCharBasicStats(98,110,110,E,ElementType::Fire,Path::Abundance,"Gallagher",UnitType::Standard);
         ptr->SetAllyBaseStats(1305,529,441);
