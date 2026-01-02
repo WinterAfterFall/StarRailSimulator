@@ -18,8 +18,8 @@ namespace Remembrance_Lightcone{
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 AllyUnit *tempstats = dynamic_cast<AllyUnit *>(turn->charptr);
                 if (!tempstats) return;
-                if (ptr->isBuffEnd("Geniuses_Greetings")) {
-                    ptr->buffSingle({{Stats::DMG,AType::BA,-(15.0 + superimpose * 5)}});
+                if (isBuffEnd(ptr,"Geniuses_Greetings")) {
+                    buffSingle(ptr,{{Stats::DMG,AType::BA,-(15.0 + superimpose * 5)}});
                 }
             }));
         };

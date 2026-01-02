@@ -12,12 +12,12 @@ namespace Destruction_Lightcone{
             }));
     
             Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_ACTTACK, [ptr,superimpose](Enemy *target, AllyUnit *Trigger) {
-                ptr->buffSingle({{Stats::DMG,AType::None,9.0 + 3 * superimpose}},"Aeon Dmg%",2);
+                buffSingle(ptr,{{Stats::DMG,AType::None,9.0 + 3 * superimpose}},"Aeon Dmg%",2);
             }));
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,superimpose]() {
-                if (ptr->isBuffEnd("Aeon Dmg%")) {
-                ptr->buffSingle({{Stats::DMG,AType::None,-(9.0 + 3 * superimpose)}});
+                if (isBuffEnd(ptr,"Aeon Dmg%")) {
+                buffSingle(ptr,{{Stats::DMG,AType::None,-(9.0 + 3 * superimpose)}});
                 }
             }));
     

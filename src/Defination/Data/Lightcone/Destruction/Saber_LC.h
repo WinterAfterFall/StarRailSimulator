@@ -13,21 +13,21 @@ namespace Destruction_Lightcone{
 
             WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](Ally *ally){
                 if (ally->isSameChar(ptr)) {
-                    ptr->buffSingle({{Stats::ATK_P,AType::None,30.0 + 10.0 * superimpose}},"Saber_LC",2);
+                    buffSingle(ptr,{{Stats::ATK_P,AType::None,30.0 + 10.0 * superimpose}},"Saber_LC",2);
                     if(ptr->Max_energy>=300){
                         Increase_energy(ptr,10,0);
-                        ptr->buffSingle({{Stats::ATK_P,AType::None,30.0 + 10.0 * superimpose}},"Extra Saber_LC",2);
+                        buffSingle(ptr,{{Stats::ATK_P,AType::None,30.0 + 10.0 * superimpose}},"Extra Saber_LC",2);
 
                     }
                 }
             }));
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,superimpose]() {
-                if (ptr->isBuffEnd("Saber_LC")) {
-                    ptr->buffSingle({{Stats::ATK_P,AType::None,-(30.0 + 10.0 * superimpose)}});
+                if (isBuffEnd(ptr,"Saber_LC")) {
+                    buffSingle(ptr,{{Stats::ATK_P,AType::None,-(30.0 + 10.0 * superimpose)}});
                 }
-                if (ptr->isBuffEnd("Extra Saber_LC")) {
-                    ptr->buffSingle({{Stats::ATK_P,AType::None,-(30.0 + 10.0 * superimpose)}});
+                if (isBuffEnd(ptr,"Extra Saber_LC")) {
+                    buffSingle(ptr,{{Stats::ATK_P,AType::None,-(30.0 + 10.0 * superimpose)}});
                 }
             }));
         };

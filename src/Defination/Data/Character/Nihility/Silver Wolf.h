@@ -219,7 +219,7 @@ namespace SW{
                     target->debuffSingleApply({{Stats::DEF_SHRED,AType::None,12}},sw,"Bug 2",4);
                     if(target->debuffApply(sw,"Bug 3",4)){
                         target->atkPercent-=10;
-                        target->debuffSingle({{Stats::SPD_P,AType::None,-6}});
+                        debuffSingle(target,{{Stats::SPD_P,AType::None,-6}});
                     }
                 }
         }));

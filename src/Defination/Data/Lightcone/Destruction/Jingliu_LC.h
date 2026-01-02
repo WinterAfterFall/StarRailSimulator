@@ -13,16 +13,16 @@ namespace Destruction_Lightcone{
                     ptr->buffStackSingle({{Stats::DMG,AType::None,11.5 +2.5*superimpose}},1,3,"Jingliu_LC");
                 }
                 if(ptr->getStack("Jingliu_LC")>=3){
-                    if(ptr->isHaveToAddBuff("Jingliu_LC Def Shred"))
-                        ptr->buffSingle({{Stats::DEF_SHRED,AType::None,10.0 +2*superimpose}});
+                    if(isHaveToAddBuff(ptr,"Jingliu_LC Def Shred"))
+                        buffSingle(ptr,{{Stats::DEF_SHRED,AType::None,10.0 +2*superimpose}});
                 }
             }));
 
             HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_ACTTACK,[ptr,superimpose](Unit *Trigger,AllyUnit *target,double Value){
                 ptr->buffStackSingle({{Stats::DMG,AType::None,11.5 +2.5*superimpose}},1,3,"Jingliu_LC");
                 if(ptr->getStack("Jingliu_LC")>=3){
-                    if(ptr->isHaveToAddBuff("Jingliu_LC Def Shred"))
-                        ptr->buffSingle({{Stats::DEF_SHRED,AType::None,10.0 +2*superimpose}});
+                    if(isHaveToAddBuff(ptr,"Jingliu_LC Def Shred"))
+                        buffSingle(ptr,{{Stats::DEF_SHRED,AType::None,10.0 +2*superimpose}});
                 }
 
             }));
@@ -30,7 +30,7 @@ namespace Destruction_Lightcone{
                 if(!act->Attacker->isSameStatsOwnerName(ptr))return;
                 ptr->buffResetStack({{Stats::DMG,AType::None,11.5 +2.5*superimpose}},"Jingliu_LC");
                 if(ptr->getBuffCheck("Jingliu_LC Def Shred")){
-                    ptr->buffSingle({{Stats::DEF_SHRED,AType::None,-(10.0 +2*superimpose)}});
+                    buffSingle(ptr,{{Stats::DEF_SHRED,AType::None,-(10.0 +2*superimpose)}});
                     ptr->setBuffCheck("Jingliu_LC Def Shred",0);
                 }
 

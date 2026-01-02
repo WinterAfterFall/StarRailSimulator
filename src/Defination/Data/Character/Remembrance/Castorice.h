@@ -389,7 +389,7 @@ namespace Castorice{
     void CastoriceWithDriver(CharUnit *ptr, CharUnit *target) {
         ptr->ultCondition.push_back([ptr, target]() -> bool {
             if(target->Atv_stats->atv>=10000/165)return true;
-            // if(target->getSubUnit()->Atv_stats->atv>=10)return true;
+            // if(target->Atv_stats->atv>=10)return true;
             if(turn->isSameUnit(target)&&phaseStatus == PhaseStatus::BeforeTurn)return true;
             return false;
         });

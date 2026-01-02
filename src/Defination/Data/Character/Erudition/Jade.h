@@ -93,7 +93,7 @@ namespace Jade{
                 Jade_Talent(ptr, 3);
             }
             
-            if (ptr->isBuffEnd("Jade_Skill")) {
+            if (isBuffEnd(ptr,"Jade_Skill")) {
                 chooseSubUnitBuff(ptr)->buffSingle({{Stats::SPD_P,AType::None,-30}});
             }
         }));
@@ -146,7 +146,7 @@ namespace Jade{
         make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"Jade Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(charUnit[ptr->Atv_stats->num].get(),30);
-            if(ptr->isHaveToAddBuff("Jade_Skill",3)){
+            if(isHaveToAddBuff(ptr,"Jade_Skill",3)){
                 chooseSubUnitBuff(ptr)->buffSingle({{Stats::SPD_P,AType::None,30}});
             }
         });
@@ -177,9 +177,9 @@ namespace Jade{
         make_shared<AllyAttackAction>(AType::Fua,ptr,TraceType::Aoe,"Jade Fua",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,10);
-            if(ptr->Eidolon>=1)ptr->buffSingle({{Stats::DMG,AType::None,32}});
+            if(ptr->Eidolon>=1)buffSingle(ptr,{{Stats::DMG,AType::None,32}});
             Attack(act);
-            if(ptr->Eidolon>=1)ptr->buffSingle({{Stats::DMG,AType::None,-32}});
+            if(ptr->Eidolon>=1)buffSingle(ptr,{{Stats::DMG,AType::None,-32}});
         });
         act->addDamageIns(
             DmgSrc(DmgSrcType::ATK,18,1.5),
@@ -213,9 +213,9 @@ namespace Jade{
         make_shared<AllyAttackAction>(AType::Fua,ptr,TraceType::Aoe,"Jade Fua",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,10);
-            if(ptr->Eidolon>=1)ptr->buffSingle({{Stats::DMG,AType::None,32}});
+            if(ptr->Eidolon>=1)buffSingle(ptr,{{Stats::DMG,AType::None,32}});
             Attack(act);
-            if(ptr->Eidolon>=1)ptr->buffSingle({{Stats::DMG,AType::None,-32}});
+            if(ptr->Eidolon>=1)buffSingle(ptr,{{Stats::DMG,AType::None,-32}});
         });
         act->addDamageIns(
             DmgSrc(DmgSrcType::ATK,20,1),
@@ -249,8 +249,8 @@ namespace Jade{
             {{Stats::ATK_P,AType::None,0.5},
             {Stats::CD,AType::None,2.4}},
             amount,50,"Pawned_Asset");
-        if(ptr->Eidolon>=2&&ptr->Stack["Pawned_Asset"]>=15&&ptr->isHaveToAddBuff("Jade_E2")){
-            ptr->buffSingle({{Stats::CR,AType::None,18}});
+        if(ptr->Eidolon>=2&&ptr->Stack["Pawned_Asset"]>=15&&isHaveToAddBuff(ptr,"Jade_E2")){
+            buffSingle(ptr,{{Stats::CR,AType::None,18}});
         }
 
     }

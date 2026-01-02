@@ -65,7 +65,7 @@ void allEventAfterTurn(){
                 continue;
             }
             itr = target->breakImsList.erase(itr);
-            target->debuffSingle({{Stats::SPD_P,AType::None,10}});
+            debuffSingle(target,{{Stats::SPD_P,AType::None,10}});
             --target->Total_debuff;
             
         }

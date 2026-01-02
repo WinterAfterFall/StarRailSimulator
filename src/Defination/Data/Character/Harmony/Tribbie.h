@@ -236,7 +236,7 @@ namespace Tribbie{
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
             buffAllAlly({{Stats::RESPEN,AType::None,24}});
-            ptr->isHaveToAddBuff("Numinosity", 3);
+            isHaveToAddBuff(ptr,"Numinosity", 3);
         });
         act->addBuffAllAllies();
         act->addToActionBar();

@@ -14,8 +14,8 @@ namespace Destruction_Lightcone{
             Enemy_hit_List.push_back(TriggerByEnemyHit(PRIORITY_ACTTACK,[ptr,superimpose](Enemy *Attacker,vector<AllyUnit*> target){
                 for(AllyUnit* e : target){
                     if(e->isSameStatsOwnerName(ptr)){
-                        if(ptr->isHaveToAddBuff("Blade_LC_Mark")){
-                            ptr->buffSingle({{Stats::DMG,AType::None,(20.0 + 4*superimpose)}});
+                        if(isHaveToAddBuff(ptr,"Blade_LC_Mark")){
+                            buffSingle(ptr,{{Stats::DMG,AType::None,(20.0 + 4*superimpose)}});
                         }
                         return;
                     }
@@ -23,15 +23,15 @@ namespace Destruction_Lightcone{
             }));
             HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_ACTTACK,[ptr,superimpose](Unit *Trigger,AllyUnit *target,double Value){
                 if(!target->isSameStatsOwnerName(ptr))return;
-                if(ptr->isHaveToAddBuff("Blade_LC_Mark")){
-                            ptr->buffSingle({{Stats::DMG,AType::None,(20.0 + 4*superimpose)}});
+                if(isHaveToAddBuff(ptr,"Blade_LC_Mark")){
+                            buffSingle(ptr,{{Stats::DMG,AType::None,(20.0 + 4*superimpose)}});
                 }
                 
             }));
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyAttackAction> &act){
                 if(!act->Attacker->isSameStatsOwnerName(ptr))return;
                 if(ptr->getBuffCheck("Blade_LC_Mark")){
-                    ptr->buffSingle({{Stats::DMG,AType::None,-(20.0 + 4*superimpose)}});
+                    buffSingle(ptr,{{Stats::DMG,AType::None,-(20.0 + 4*superimpose)}});
                     ptr->Buff_check["Blade_LC_Mark"] = 0;
                 }
             }));

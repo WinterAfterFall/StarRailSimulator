@@ -11,13 +11,13 @@ namespace Destruction_Lightcone{
     
             WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](Ally *ally){
                 if (ally->isSameChar(ptr)) {
-                    ptr->buffSingle({{Stats::DMG,AType::None,42.0 + 18.0 * superimpose}},"Blazing Sun",1);
+                    buffSingle(ptr,{{Stats::DMG,AType::None,42.0 + 18.0 * superimpose}},"Blazing Sun",1);
                 }
             }));
 
             Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,superimpose]() {
-                if (ptr->isBuffEnd("Blazing Sun")) {
-                    ptr->buffSingle({{Stats::DMG,AType::None,-(42.0 + 18.0 * superimpose)}});
+                if (isBuffEnd(ptr,"Blazing Sun")) {
+                    buffSingle(ptr,{{Stats::DMG,AType::None,-(42.0 + 18.0 * superimpose)}});
                 }
             }));
         };

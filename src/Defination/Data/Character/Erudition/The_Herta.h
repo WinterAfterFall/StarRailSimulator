@@ -267,7 +267,7 @@ namespace The_Herta{
             Herta_reset_Stack();
 
             Apply_Herta_Stack(ptr,enemyUnit[Main_Enemy_num].get(),1);
-            ptr->buffSingle({{Stats::DMG,AType::None,50}});
+            buffSingle(ptr,{{Stats::DMG,AType::None,50}});
             Attack(act);
         });
         act->addDamageIns(DmgSrc(DmgSrcType::ATK,80,5));

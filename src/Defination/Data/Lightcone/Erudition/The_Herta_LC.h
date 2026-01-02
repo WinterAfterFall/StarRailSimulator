@@ -10,8 +10,8 @@ namespace Erudition_Lightcone{
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                if (ptr->isBuffEnd("The_Herta_LC_buff")) {
-                    ptr->buffSingle({
+                if (isBuffEnd(ptr,"The_Herta_LC_buff")) {
+                    buffSingle(ptr,{
                         {Stats::DMG,AType::SKILL,-(50.0 + 10 * superimpose)},
                         {Stats::DMG,AType::Ult,-(50.0 + 10 * superimpose)},
                 });
@@ -20,7 +20,7 @@ namespace Erudition_Lightcone{
 
             AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
                 if (act->isSameAction(ptr,AType::Ult)) {
-                    ptr->buffSingle({
+                    buffSingle(ptr,{
                         {Stats::DMG,AType::SKILL,(50.0 + 10 * superimpose)},
                         {Stats::DMG,AType::Ult,(50.0 + 10 * superimpose)},
                         },"The_Herta_LC_buff",3);

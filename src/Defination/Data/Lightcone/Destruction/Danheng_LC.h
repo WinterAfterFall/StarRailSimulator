@@ -12,14 +12,14 @@ namespace Destruction_Lightcone{
                 if(!act->isSameUnitName(ptr))return;
                 if(act->isSameAction(AType::BA)){
                     double value = ptr->calStack(1,2,"Danheng LC").first;
-                    ptr->buffSingle({{Stats::ATK_P,AType::None,value*(15 + (3*superimpose))}});
+                    buffSingle(ptr,{{Stats::ATK_P,AType::None,value*(15 + (3*superimpose))}});
                     ptr->Energy_recharge += (5 + superimpose) * value;
                     ptr->extendBuffTime("Danheng LC",2);
                 }
             }));
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                if(ptr->isBuffEnd("Danheng LC")){
+                if(isBuffEnd(ptr,"Danheng LC")){
                     ptr->Energy_recharge -= (5 + superimpose) * ptr->getStack("Danheng LC");
                     ptr->buffResetStack({{Stats::ATK_P,AType::None,(15.0 + (3*superimpose))}},"Danheng LC");
                 }

@@ -9,25 +9,25 @@ namespace Nihility_Lightcone{
             }));
 
             AfterApplyDebuff.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](Enemy *target, AllyUnit *Trigger) {
-                if(target->ShockCount>0&&ptr->isHaveToAddBuff("BS LC Shock"))
-                ptr->buffSingle({
+                if(target->ShockCount>0&&isHaveToAddBuff(ptr,"BS LC Shock"))
+                buffSingle(ptr,{
                     {Stats::ATK_P,AType::None,4.0+superimpose},
                     {Stats::DEF_SHRED,AType::None,6.5+superimpose*0.7},
                 });
 
-                if(target->WindSheerCount>0&&ptr->isHaveToAddBuff("BS LC WindShear"))
-                ptr->buffSingle({
+                if(target->WindSheerCount>0&&isHaveToAddBuff(ptr,"BS LC WindShear"))
+                buffSingle(ptr,{
                     {Stats::ATK_P,AType::None,4.0+superimpose},
                     {Stats::DEF_SHRED,AType::None,6.5+superimpose*0.7},
                 });
-                if(target->BurnCount>0&&ptr->isHaveToAddBuff("BS LC Burn"))
-                ptr->buffSingle({
+                if(target->BurnCount>0&&isHaveToAddBuff(ptr,"BS LC Burn"))
+                buffSingle(ptr,{
                     {Stats::ATK_P,AType::None,4.0+superimpose},
                     {Stats::DEF_SHRED,AType::None,6.5+superimpose*0.7},
                 });
 
-                if(target->BleedCount>0&&ptr->isHaveToAddBuff("BS LC Bleed"))
-                ptr->buffSingle({
+                if(target->BleedCount>0&&isHaveToAddBuff(ptr,"BS LC Bleed"))
+                buffSingle(ptr,{
                     {Stats::ATK_P,AType::None,4.0+superimpose},
                     {Stats::DEF_SHRED,AType::None,6.5+superimpose*0.7},
                 });

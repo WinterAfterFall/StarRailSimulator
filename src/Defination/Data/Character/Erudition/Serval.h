@@ -74,7 +74,7 @@ namespace Serval{
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
             if (turn->StatsOwnerName == "Serval") {
-                if (ptr->isBuffEnd("Serval_A6")) {
+                if (isBuffEnd(ptr,"Serval_A6")) {
                     ptr->Stats_type[Stats::ATK_P][AType::None] -= 20;
                 }
             }

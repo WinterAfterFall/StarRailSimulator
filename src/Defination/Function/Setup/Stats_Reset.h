@@ -31,8 +31,8 @@ void Basic_reset(){
 
             charUnit[i]->Energy_recharge = 100;
             charUnit[i]->Current_energy = charUnit[i]->Max_energy/2;
-            charUnit[i]->currentAllyTargetNum = charUnit[i]->defaultAllyTargetNum;
-            charUnit[i]->currentSubUnitTargetNum = charUnit[i]->defaultSubUnitTargetNum;
+            charUnit[i]->currentCharNum = charUnit[i]->defaultCharNum;
+            charUnit[i]->currentMemoNum = charUnit[i]->currentMemoNum;
             charUnit[i]->tauntMtpr = 1;
             charUnit[i]->taunt = charUnit[i]->baseTaunt;
             charUnit[i]->currentSheild = 0;
@@ -253,8 +253,8 @@ void Memosprite_reset(){
         charUnit[i]->Sub_Unit_ptr[j]->fixSpeed + calculateSpeedOnStats(charUnit[i])*charUnit[i]->Sub_Unit_ptr[j]->Unit_Speed_Ratio/100;
         charUnit[i]->Sub_Unit_ptr[j]->Atv_stats->speedPercent = 0;
         charUnit[i]->Sub_Unit_ptr[j]->Atv_stats->flatSpeed = 0;
-        charUnit[i]->Sub_Unit_ptr[j]->currentAllyTargetNum = charUnit[i]->Sub_Unit_ptr[j]->defaultAllyTargetNum;
-        charUnit[i]->Sub_Unit_ptr[j]->currentSubUnitTargetNum = charUnit[i]->Sub_Unit_ptr[j]->defaultSubUnitTargetNum;
+        charUnit[i]->Sub_Unit_ptr[j]->currentCharNum = charUnit[i]->Sub_Unit_ptr[j]->defaultCharNum;
+        charUnit[i]->Sub_Unit_ptr[j]->currentMemoNum = charUnit[i]->Sub_Unit_ptr[j]->currentMemoNum;
         charUnit[i]->Sub_Unit_ptr[j]->currentSheild = 0;
         charUnit[i]->Sub_Unit_ptr[j]->currentHP = 0;
         charUnit[i]->Sub_Unit_ptr[j]->status = UnitStatus::Death;

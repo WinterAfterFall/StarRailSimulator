@@ -29,14 +29,14 @@ namespace Remembrance_Lightcone{
                 if((turn->side==Side::AllyUnit||turn->side==Side::Ally)
                 &&turn->num==ptr->Atv_stats->num
                 &&target->Atv_stats->num==ptr->Atv_stats->num){
-                    if(ptr->isHaveToAddBuff("Death Flower",2))
+                    if(isHaveToAddBuff(ptr,"Death Flower",2))
                     ptr->buffSingleChar({{Stats::DEF_SHRED, AType::None, 25.0 + 5 * superimpose}});
                 }
             }));
 
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr, superimpose]() {
-                if(ptr->isBuffEnd("Death Flower")){
+                if(isBuffEnd(ptr,"Death Flower")){
                     ptr->buffSingleChar({{Stats::DEF_SHRED, AType::None, -(25.0 + 5 * superimpose)}});
                 }
             }));

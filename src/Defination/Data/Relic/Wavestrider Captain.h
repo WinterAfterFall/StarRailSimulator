@@ -12,7 +12,7 @@ namespace Relic{
             if (ally->isSameChar(ptr)) {
                 if(ptr->getStack(help)>=2){
                     ptr->setStack(help,0);
-                    ptr->buffSingle({{Stats::ATK_P,AType::None,48}},help,1);
+                    buffSingle(ptr,{{Stats::ATK_P,AType::None,48}},help,1);
                 }
             }
         }));
@@ -26,15 +26,15 @@ namespace Relic{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,help]() {
-            if(ptr->isBuffEnd(help)){
-                ptr->buffSingle({{Stats::ATK_P,AType::None,-48}});
+            if(isBuffEnd(ptr,help)){
+                buffSingle(ptr,{{Stats::ATK_P,AType::None,-48}});
             }
         }));
 
 
         AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,help](AllyUnit* target) {
             if(target->isBuffGoneByDeath(help)){
-                ptr->buffSingle({{Stats::ATK_P,AType::None,-48}});
+                buffSingle(ptr,{{Stats::ATK_P,AType::None,-48}});
             }
         }));
 

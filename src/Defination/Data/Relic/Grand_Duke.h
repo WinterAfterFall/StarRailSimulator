@@ -33,7 +33,7 @@ namespace Relic{
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (turn->UnitName != ptr->Atv_stats->UnitName) return;
 
-            if (ptr->isBuffEnd("Grand_Duke")) {
+            if (isBuffEnd(ptr,"Grand_Duke")) {
                 ptr->Stats_type[Stats::ATK_P][AType::None] -= ptr->Stack["Grand_Duke"] * 6;
                 ptr->Stack["Grand_Duke"] = 0;
             }

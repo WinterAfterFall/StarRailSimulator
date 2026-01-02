@@ -32,8 +32,8 @@ namespace Tingyun{
 
         ptr->addUltCondition([ptr,TYptr]() -> bool {
             if(chooseSubUnitBuff(TYptr)->isSameStatsOwnerName("Saber"))return true;
-            if(charUnit[ptr->currentAllyTargetNum]->Max_energy==0)return true;
-            if (charUnit[ptr->currentAllyTargetNum]->Max_energy - charUnit[ptr->currentAllyTargetNum]->Current_energy <= 30) return false;
+            if(charUnit[ptr->currentCharNum]->Max_energy==0)return true;
+            if (charUnit[ptr->currentCharNum]->Max_energy - charUnit[ptr->currentCharNum]->Current_energy <= 30) return false;
             return true;
         });
 
@@ -44,11 +44,11 @@ namespace Tingyun{
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Single,"TY Ult",
             [ptr,TYptr](shared_ptr<AllyBuffAction> &act){
                 CharCmd::printUltStart("Tingyun");
-                Increase_energy(charUnit[ptr->currentAllyTargetNum].get(), 0, (ptr->Eidolon >= 6) ? 60 : 50);
+                Increase_energy(charUnit[ptr->currentCharNum].get(), 0, (ptr->Eidolon >= 6) ? 60 : 50);
                 if (ptr->Eidolon >= 1)
                 chooseSubUnitBuff(ptr)->buffSingle({{Stats::SPD_P,AType::None,20}},"Windfall_of_Lucky_Springs",1);
                 
-                if (turn->UnitName == charUnit[ptr->currentAllyTargetNum]->Atv_stats->UnitName && phaseStatus == PhaseStatus::BeforeTurn)
+                if (turn->UnitName == charUnit[ptr->currentCharNum]->Atv_stats->UnitName && phaseStatus == PhaseStatus::BeforeTurn)
                 chooseSubUnitBuff(ptr)->buffSingle({{Stats::DMG,AType::None,56}},"Rejoicing_Clouds",1);
                 else
                 chooseSubUnitBuff(ptr)->buffSingle({{Stats::DMG,AType::None,56}},"Rejoicing_Clouds",2);
@@ -105,7 +105,7 @@ namespace Tingyun{
                     make_shared<AllyAttackAction>(AType::Addtional,chooseSubUnitBuff(ptr),TraceType::Single,"TY Talent");
                     temp->addDamageIns(DmgSrc(DmgSrcType::ATK,66));
                     Attack(temp);
-                } else if (act->Attacker->Atv_stats->StatsOwnerName == charUnit[ptr->currentAllyTargetNum]->Sub_Unit_ptr[ptr->currentSubUnitTargetNum]->Atv_stats->StatsOwnerName) {
+                } else if (act->Attacker->Atv_stats->StatsOwnerName == charUnit[ptr->currentCharNum]->Sub_Unit_ptr[ptr->currentMemoNum]->Atv_stats->StatsOwnerName) {
                     shared_ptr<AllyAttackAction> temp = 
                     make_shared<AllyAttackAction>(AType::Addtional,tempUnit,TraceType::Single,"TY Talent");
 
@@ -131,7 +131,7 @@ namespace Tingyun{
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
             act->buffTargetList[0]->buffSingle({{Stats::ATK_P,AType::None,55}},"Benediction",3);
-            ptr->buffSingle({{Stats::SPD_P,AType::None,20}},"Nourished_Joviality",1);
+            buffSingle(ptr,{{Stats::SPD_P,AType::None,20}},"Nourished_Joviality",1);
 
         });
         act->addBuffSingleTarget(chooseSubUnitBuff(ptr));

@@ -199,7 +199,7 @@ namespace Cipher{
                             
 
                     if(ptr->Eidolon<6)return;
-                    act->Attacker->owner->getSubUnit()
+                    act->Attacker->owner
                     ->Buff_note["CipherNote" + src->getUnitName()] += damage * percent/100 * 0.2;
                     if(act->actionName!="Cipher Ult")return;
                     

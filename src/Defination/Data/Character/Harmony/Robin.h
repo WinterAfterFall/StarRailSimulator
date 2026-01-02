@@ -35,7 +35,7 @@ namespace Robin{
 
         ptr->addUltCondition([ptr]() -> bool {
             if(driverType!=DriverType::DoubleTurn)return true;
-            AllyUnit *target =charUnit[ptr->currentAllyTargetNum]->Sub_Unit_ptr[ptr->currentSubUnitTargetNum].get();
+            AllyUnit *target =charUnit[ptr->currentCharNum]->Sub_Unit_ptr[ptr->currentMemoNum].get();
             if((charUnit[Driver_num]->Atv_stats->atv<charUnit[Driver_num]->Atv_stats->Max_atv*0.2 || target->Atv_stats->atv == 0))return false;
             if((charUnit[Driver_num]->Atv_stats->atv < target->Atv_stats->atv))return false;
             return true;
@@ -43,13 +43,13 @@ namespace Robin{
 
         ptr->addUltCondition([ptr,rb]() -> bool {
             if(driverType!=DriverType::AlwaysPull){
-                CharUnit *ally =charUnit[ptr->currentAllyTargetNum].get();
+                CharUnit *ally =charUnit[ptr->currentCharNum].get();
                 for(auto &each : ally->Sub_Unit_ptr){
                 if(each->getATV()==0)return false;
                 }
                 return true;
             }
-            AllyUnit *dps =charUnit[ptr->currentAllyTargetNum]->Sub_Unit_ptr[ptr->currentSubUnitTargetNum].get();
+            AllyUnit *dps =charUnit[ptr->currentCharNum]->Sub_Unit_ptr[ptr->currentMemoNum].get();
             AllyUnit *driver = charUnit[Driver_num];
             if(driver->getATV()>dps->getATV())return false;
             return true;
@@ -57,7 +57,7 @@ namespace Robin{
 
         ptr->addUltCondition([ptr]() -> bool {
             if(driverType!=DriverType::AlwaysPull)return true;
-            AllyUnit *dps =charUnit[ptr->currentAllyTargetNum]->Sub_Unit_ptr[ptr->currentSubUnitTargetNum].get();
+            AllyUnit *dps =charUnit[ptr->currentCharNum]->Sub_Unit_ptr[ptr->currentMemoNum].get();
             AllyUnit *driver = charUnit[Driver_num];
             if(driver->getATV()<dps->getATV())return false;
             return true;

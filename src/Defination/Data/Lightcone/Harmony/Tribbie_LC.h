@@ -11,13 +11,13 @@ namespace Harmony_Lightcone{
     
             Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 Increase_energy(ptr, 21);
-                if(ptr->isHaveToAddBuff("Presage",2)){
+                if(isHaveToAddBuff(ptr,"Presage",2)){
                     buffAllAlly({{Stats::CD, AType::None, (36.0 + 12 * superimpose)}});
                 }
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                if (ptr->isBuffEnd("Presage")) {
+                if (isBuffEnd(ptr,"Presage")) {
                     buffAllAlly({{Stats::CD, AType::None, -(36.0 + 12 * superimpose)}});
                 }
             }));
@@ -25,7 +25,7 @@ namespace Harmony_Lightcone{
             AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
                 if (act->isSameAction(ptr,AType::Fua)) {
                     Increase_energy(ptr, 12);
-                    if(ptr->isHaveToAddBuff("Presage",2)){
+                    if(isHaveToAddBuff(ptr,"Presage",2)){
                         buffAllAlly({{Stats::CD, AType::None, (36.0 + 12 * superimpose)}});
                     }
                 }

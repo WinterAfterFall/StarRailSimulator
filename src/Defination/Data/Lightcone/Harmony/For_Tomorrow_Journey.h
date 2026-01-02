@@ -11,15 +11,15 @@ namespace Harmony_Lightcone{
 
             WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](Ally *ally){
                 if (ally->isSameChar(ptr)) {
-                    ptr->buffSingle({
+                    buffSingle(ptr,{
                         {Stats::DMG,AType::None,(15.0 + 3 * superimpose)}
                     },"For_Tomorrow_Journey_Buff",1);
                 }
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                if (ptr->isBuffEnd("Himeko_LC_buff")) {
-                    ptr->buffSingle({
+                if (isBuffEnd(ptr,"Himeko_LC_buff")) {
+                    buffSingle(ptr,{
                         {Stats::DMG,AType::None,-(15.0 + 3 * superimpose)}
                     });
                 }

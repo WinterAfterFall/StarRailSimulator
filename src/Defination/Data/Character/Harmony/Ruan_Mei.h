@@ -75,7 +75,7 @@ namespace Ruan_Mei{
                         {Stats::DMG,AType::None,68},
                         {Stats::BREAK_EFF,AType::None,50},
                     });
-                    ptr->isHaveToAddBuff("Mei_Skill",3);
+                    isHaveToAddBuff(ptr,"Mei_Skill",3);
                 });
                 act->addBuffSingleTarget(ptr);
                 act->setTurnReset(false);
@@ -157,7 +157,7 @@ namespace Ruan_Mei{
                 {Stats::DMG,AType::None,68},
                 {Stats::BREAK_EFF,AType::None,50},
             });
-            ptr->isHaveToAddBuff("Mei_Skill",3);
+            isHaveToAddBuff(ptr,"Mei_Skill",3);
         });
         act->addBuffSingleTarget(ptr);
         act->addToActionBar();

@@ -139,7 +139,7 @@ namespace Bronya{
         Skill_point(ptr,-1);
         //E1 คืน Sp
         if(ptr->Eidolon>=1){
-            if(ptr->Stack["Bronya_Skill_E1"]==1&&ptr->isHaveToAddBuff("Bronya_Skill_E1",1)){
+            if(ptr->Stack["Bronya_Skill_E1"]==1&&isHaveToAddBuff(ptr,"Bronya_Skill_E1",1)){
                 Skill_point(ptr,1);
                 
             }

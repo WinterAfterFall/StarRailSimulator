@@ -10,13 +10,13 @@ namespace Erudition_Lightcone{
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                if (ptr->isBuffEnd("Himeko_LC_buff")) {
+                if (isBuffEnd(ptr,"Himeko_LC_buff")) {
                     ptr->Stats_type[Stats::DMG][AType::None] -= 25+superimpose*5;
                 }
             }));
     
             Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](Enemy *target, AllyUnit *Breaker) {
-                ptr->buffSingle({{Stats::DMG,AType::None,(25.0 + superimpose*5)}},"Himeko_LC_buff",1);
+                buffSingle(ptr,{{Stats::DMG,AType::None,(25.0 + superimpose*5)}},"Himeko_LC_buff",1);
             }));
         };
     }

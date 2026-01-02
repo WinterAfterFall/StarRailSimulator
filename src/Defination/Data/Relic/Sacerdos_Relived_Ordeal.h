@@ -18,7 +18,7 @@ namespace Relic{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Sacerdos]() {
-            if (turn->num != ptr->currentAllyTargetNum) return;
+            if (turn->num != ptr->currentCharNum) return;
             AllyUnit *tempstats = dynamic_cast<AllyUnit *>(turn->charptr);
             if (!tempstats) return;
             if (tempstats->isBuffEnd(Sacerdos)) {

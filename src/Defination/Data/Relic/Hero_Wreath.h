@@ -13,7 +13,7 @@ namespace Relic{
                 for (int i = 1; i < ptr->Sub_Unit_ptr.size(); i++) {
                     if (!ptr->Sub_Unit_ptr[i]->isDeath()) {
                         ptr->Buff_check["Hero_Wreath"] = 1;
-                        ptr->buffSingle({{Stats::SPD_P,AType::None,6}});
+                        buffSingle(ptr,{{Stats::SPD_P,AType::None,6}});
                         break;
                     }
                 }
