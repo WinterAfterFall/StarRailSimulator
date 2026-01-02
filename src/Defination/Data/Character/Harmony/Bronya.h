@@ -38,15 +38,15 @@ namespace Bronya{
                 //Ult CritBuff
                 double temp = calculateCritdamForBuff(ptr,16)+20;
                 for(auto &e : act->buffTargetList){
-                    e->buffSingle({{Stats::CD,AType::None,temp - e->Buff_note["Bronya_Ult"]}});
-                    e->buffSingle({{Stats::CD,AType::TEMP,temp - e->Buff_note["Bronya_Ult"]}});
+                    buffSingle(e,{{Stats::CD,AType::None,temp - e->Buff_note["Bronya_Ult"]}});
+                    buffSingle(e,{{Stats::CD,AType::TEMP,temp - e->Buff_note["Bronya_Ult"]}});
                     e->Buff_note["Bronya_Ult"] = temp;
                 }
 
                 //ดักในกรณีที่บัพในเทิร์นตัวละครอื่น
                 if(phaseStatus == PhaseStatus::BeforeTurn && (turn->side == Side::AllyUnit || turn->side == Side::Ally)){
                     AllyUnit *temp = dynamic_cast<AllyUnit*>(turn->charptr);
-                    temp->extendBuffTime("Bronya_Ult",1);
+                    extendBuffTime(temp,"Bronya_Ult",1);
                 }
                 if(ptr->Print)CharCmd::printUltStart("Bronya");
             });
@@ -73,29 +73,29 @@ namespace Bronya{
             if(!tempstats) return;
             
             //BuffEND Skill
-            if(tempstats->isBuffEnd("Bronya_Skill")){
-                tempstats->buffSingle({{Stats::DMG,AType::None,-66}});
+            if(isBuffEnd(tempstats,"Bronya_Skill")){
+                buffSingle(tempstats,{{Stats::DMG,AType::None,-66}});
             }
 
             //E1 Cooldon reset
-            if(Bronyaptr->isBuffEnd("Bronya_Skill_E1")){
+            if(isBuffEnd(Bronyaptr,"Bronya_Skill_E1")){
                 ptr->Stack["Bronya_Skill_E1"] = 0;
             }
              //E2 buffend
-            if(tempstats->isBuffEnd("Bronya_Skill_E2")){
-                tempstats->buffSingle({{Stats::SPD_P,AType::None,-30}});
+            if(isBuffEnd(tempstats,"Bronya_Skill_E2")){
+                buffSingle(tempstats,{{Stats::SPD_P,AType::None,-30}});
             }
-            if(tempstats->isBuffEnd("Bronya_Ult")){
-                tempstats->buffSingle({{Stats::ATK_P,AType::None,-55}});
-                tempstats->buffSingle({{Stats::CD,AType::TEMP,-tempstats->Buff_note["Bronya_Ult"]}});
-                tempstats->buffSingle({{Stats::CD,AType::None,-tempstats->Buff_note["Bronya_Ult"]}});
+            if(isBuffEnd(tempstats,"Bronya_Ult")){
+                buffSingle(tempstats,{{Stats::ATK_P,AType::None,-55}});
+                buffSingle(tempstats,{{Stats::CD,AType::TEMP,-tempstats->Buff_note["Bronya_Ult"]}});
+                buffSingle(tempstats,{{Stats::CD,AType::None,-tempstats->Buff_note["Bronya_Ult"]}});
                 tempstats->Buff_note["Bronya_Ult"] = 0;
             }
-            if(tempstats->isBuffEnd("Bronya_A4")){
-                tempstats->buffSingle({{Stats::DEF_P,AType::None,-20}});
+            if(isBuffEnd(tempstats,"Bronya_A4")){
+                buffSingle(tempstats,{{Stats::DEF_P,AType::None,-20}});
             }
-            if(tempstats->isBuffEnd("Bronya_Technique")){
-                tempstats->buffSingle({{Stats::ATK_P,AType::None,-15}});
+            if(isBuffEnd(tempstats,"Bronya_Technique")){
+                buffSingle(tempstats,{{Stats::ATK_P,AType::None,-15}});
             }
         }));
 
@@ -111,10 +111,10 @@ namespace Bronya{
         }));
 
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act){
-            if(act->isSameAttack("Bronya",AType::BA)){
+            if(act->isSameAction("Bronya",AType::BA)){
                 Action_forward(ptr->Atv_stats.get(),30);
             }
-            if(ptr->Eidolon >= 4 && act->isSameAttack(AType::BA)&&!act->isSameStatsOwnerName("Bronya")&& ptr->Buff_check["Bronya_E4"] == 0){
+            if(ptr->Eidolon >= 4 && act->isSameAction(AType::BA)&&!act->isSameStatsOwnerName("Bronya")&& ptr->Buff_check["Bronya_E4"] == 0){
                 shared_ptr<AllyAttackAction> newAct = 
                 make_shared<AllyAttackAction>(AType::Fua,ptr,TraceType::Single,"Bronya E4",
                 [ptr](shared_ptr<AllyAttackAction> &act){

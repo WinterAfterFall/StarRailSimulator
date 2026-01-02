@@ -35,7 +35,7 @@ namespace Harmony_MC{
             shared_ptr<AllyBuffAction> act = 
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"HMC Ult",
             [ptr,HMCptr](shared_ptr<AllyBuffAction> &act){
-                if(HMCptr->isHaveToAddBuff("Harmony_MC_ult",3))
+                if(isHaveToAddBuff(HMCptr,"Harmony_MC_ult",3))
                 buffAllAlly({{Stats::BE,AType::None,33}});
             });
             act->addBuffAllAllies();
@@ -56,8 +56,8 @@ namespace Harmony_MC{
 
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,HMCptr](){
             ptr->Buff_note["Harmony_MC_E4"] = calculateBreakEffectForBuff(ptr, 15);                  
-            HMCptr->buffAllAllyExcludingBuffer({{Stats::BE,AType::TEMP,ptr->Buff_note["Harmony_MC_E4"]}});
-            HMCptr->buffAllAllyExcludingBuffer({{Stats::BE,AType::None,ptr->Buff_note["Harmony_MC_E4"]}});
+            buffAllAllyExcludingBuffer(HMCptr,{{Stats::BE,AType::TEMP,ptr->Buff_note["Harmony_MC_E4"]}});
+            buffAllAllyExcludingBuffer(HMCptr,{{Stats::BE,AType::None,ptr->Buff_note["Harmony_MC_E4"]}});
         }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
@@ -68,7 +68,7 @@ namespace Harmony_MC{
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,HMCptr](){
-            if(HMCptr->isBuffEnd("Harmony_MC_ult")){
+            if(isBuffEnd(HMCptr,"Harmony_MC_ult")){
                 buffAllAlly({{Stats::BE,AType::None,-33}});
             }
         }));
@@ -79,7 +79,7 @@ namespace Harmony_MC{
             }
             if(turn->side == Side::Ally || turn->side == Side::AllyUnit){
                 if(turn->turnCnt == 2 && ptr->Technique == 1){
-                    charUnit[turn->num]->buffSingle({{Stats::BE,AType::None,-30}});
+                    buffSingle(charUnit[turn->num].get(),{{Stats::BE,AType::None,-30}});
                 }
             }
         }));
@@ -99,8 +99,8 @@ namespace Harmony_MC{
             if(target->Atv_stats->StatsOwnerName != "Harmony_MC") return;
             if(StatsType == Stats::BE){
                 double temp = calculateBreakEffectForBuff(ptr, 15);
-                HMCptr->buffAllAllyExcludingBuffer({{Stats::BE,AType::TEMP,temp - ptr->Buff_note["Harmony_MC_E4"]}});
-                HMCptr->buffAllAllyExcludingBuffer({{Stats::BE,AType::None,temp - ptr->Buff_note["Harmony_MC_E4"]}});
+                buffAllAllyExcludingBuffer(HMCptr,{{Stats::BE,AType::TEMP,temp - ptr->Buff_note["Harmony_MC_E4"]}});
+                buffAllAllyExcludingBuffer(HMCptr,{{Stats::BE,AType::None,temp - ptr->Buff_note["Harmony_MC_E4"]}});
                 ptr->Buff_note["Harmony_MC_E4"] =  temp ;
             }
         }));

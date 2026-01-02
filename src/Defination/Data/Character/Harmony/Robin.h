@@ -35,7 +35,7 @@ namespace Robin{
 
         ptr->addUltCondition([ptr]() -> bool {
             if(driverType!=DriverType::DoubleTurn)return true;
-            AllyUnit *target =charUnit[ptr->currentCharNum]->Sub_Unit_ptr[ptr->currentMemoNum].get();
+            AllyUnit *target = chooseSubUnitBuff(ptr);  
             if((charUnit[Driver_num]->Atv_stats->atv<charUnit[Driver_num]->Atv_stats->Max_atv*0.2 || target->Atv_stats->atv == 0))return false;
             if((charUnit[Driver_num]->Atv_stats->atv < target->Atv_stats->atv))return false;
             return true;
@@ -44,21 +44,22 @@ namespace Robin{
         ptr->addUltCondition([ptr,rb]() -> bool {
             if(driverType!=DriverType::AlwaysPull){
                 CharUnit *ally =charUnit[ptr->currentCharNum].get();
-                for(auto &each : ally->Sub_Unit_ptr){
-                if(each->getATV()==0)return false;
+                    if(ally->getATV()==0)return false;
+                for(auto &each : ally->memospriteList){
+                    if(each->getATV()==0)return false;
                 }
                 return true;
             }
-            AllyUnit *dps =charUnit[ptr->currentCharNum]->Sub_Unit_ptr[ptr->currentMemoNum].get();
-            AllyUnit *driver = charUnit[Driver_num];
+            AllyUnit *dps = chooseSubUnitBuff(ptr);
+            AllyUnit *driver = charUnit[Driver_num].get();
             if(driver->getATV()>dps->getATV())return false;
             return true;
         });
 
         ptr->addUltCondition([ptr]() -> bool {
             if(driverType!=DriverType::AlwaysPull)return true;
-            AllyUnit *dps =charUnit[ptr->currentCharNum]->Sub_Unit_ptr[ptr->currentMemoNum].get();
-            AllyUnit *driver = charUnit[Driver_num];
+            AllyUnit *dps = chooseSubUnitBuff(ptr);
+            AllyUnit *driver = charUnit[Driver_num].get();
             if(driver->getATV()<dps->getATV())return false;
             return true;
         });
@@ -86,7 +87,7 @@ namespace Robin{
 
                     buffAllAlly({{Stats::CD, AType::Fua, 25}});
                     if(ptr->Eidolon >= 1)buffAllAlly({{Stats::RESPEN, AType::None, 24}});
-                    if(ptr->Eidolon >= 2)Robinptr->buffAllAllyExcludingBuffer({{Stats::SPD_P,AType::None,16}});
+                    if(ptr->Eidolon >= 2)buffAllAllyExcludingBuffer(Robinptr,{{Stats::SPD_P,AType::None,16}});
                     
                     All_Action_forward(100);
                 });
@@ -123,7 +124,7 @@ namespace Robin{
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Robinptr](){
-            if(Robinptr->isBuffEnd("Pinion'sAria")){
+            if(isBuffEnd(Robinptr,"Pinion'sAria")){
                 buffAllAlly({{Stats::DMG, AType::None, -50}});
             }
         }));
@@ -177,7 +178,7 @@ namespace Robin{
                 buffAllAlly({{Stats::FLAT_ATK, AType::None, -ptr->Buff_note["Concerto_state"]}});
                 buffAllAlly({{Stats::CD, AType::Fua, -25}});
                 if(ptr->Eidolon >= 1)buffAllAlly({{Stats::RESPEN, AType::None, -24}});
-                if(ptr->Eidolon >= 2)Robinptr->buffAllAllyExcludingBuffer({{Stats::SPD_P,AType::None,-16}});
+                if(ptr->Eidolon >= 2)buffAllAllyExcludingBuffer(Robinptr,{{Stats::SPD_P,AType::None,-16}});
                 }
                 Action_forward(ptr->Atv_stats.get(),100);
                 if(ptr->Print)CharCmd::printUltEnd("Robin");
@@ -195,7 +196,7 @@ namespace Robin{
             Increase_energy(ptr,35);
             buffAllAlly({{Stats::DMG,AType::None,50}});
             ptr->setBuffCheck("Pinion'sAria",true);
-            ptr->extendBuffTime("Pinion'sAria", 3);
+            extendBuffTime(ptr,"Pinion'sAria", 3);
         });
         act->addBuffSingleTarget(ptr);
         act->addToActionBar();

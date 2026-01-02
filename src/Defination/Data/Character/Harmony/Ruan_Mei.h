@@ -37,7 +37,7 @@ namespace Ruan_Mei{
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"RM Ult",
             [ptr,RMptr](shared_ptr<AllyBuffAction> &act){
                 if(ptr->Print)CharCmd::printUltStart("Ruan Mei");
-                if(RMptr->isHaveToAddBuff("RuanMei_Ult",2)){
+                if(isHaveToAddBuff(RMptr,"RuanMei_Ult",2)){
                     buffAllAlly({{Stats::RESPEN, AType::None, 25}});
                     if(ptr->Eidolon >= 1)buffAllAlly({{Stats::DEF_SHRED, AType::None, 20}});
                 }
@@ -86,7 +86,7 @@ namespace Ruan_Mei{
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMptr](){
-            if(RMptr->isBuffEnd("Mei_Skill")){
+            if(isBuffEnd(RMptr,"Mei_Skill")){
                 buffAllAlly({
                     {Stats::DMG,AType::None,-68},
                     {Stats::BREAK_EFF,AType::None,-50},
@@ -94,7 +94,7 @@ namespace Ruan_Mei{
             }
             if(turn->UnitName == "Ruan_Mei"){
                 Increase_energy(ptr, 5);
-                if(RMptr->isBuffEnd("RuanMei_Ult")){
+                if(isBuffEnd(RMptr,"RuanMei_Ult")){
                     buffAllAlly({{Stats::RESPEN, AType::None, -25}});
                     if(ptr->Eidolon >= 1)buffAllAlly({{Stats::DEF_SHRED, AType::None, -20}});
                     if(ptr->Print == 1)CharCmd::printUltEnd("Ruan Mei");
@@ -103,7 +103,7 @@ namespace Ruan_Mei{
             if(turn->side == Side::Enemy && Turn_Skip == 0){
                 if(enemyUnit[turn->num]->Debuff["RuanMei_Ult_bloom"] == 1){
                     Turn_Skip = 1;
-                    enemyUnit[turn->num]->debuffRemove("RuanMei_Ult_bloom");
+                    debuffRemove(enemyUnit[turn->num].get(),"RuanMei_Ult_bloom");
                     Action_forward(enemyUnit[turn->num]->Atv_stats.get(), -10 - (0.2 * (ptr->Stats_type[Stats::BE][AType::None])));
                     shared_ptr<AllyAttackAction> act = 
                     make_shared<AllyAttackAction>(AType::Break,ptr,TraceType::Single,"RM Ult Break");
@@ -119,7 +119,7 @@ namespace Ruan_Mei{
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,RMptr](shared_ptr<AllyAttackAction> &act){
             if(RMptr->getBuffCheck("RuanMei_Ult")){
                 for(Enemy * &e : act->targetList){
-                    e->debuffApply(ptr,"RuanMei_Ult_bloom");
+                    debuffApply(ptr,e,"RuanMei_Ult_bloom");
                 }
             }
         }));

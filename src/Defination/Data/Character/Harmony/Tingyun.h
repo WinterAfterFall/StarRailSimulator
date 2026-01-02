@@ -78,18 +78,18 @@ namespace Tingyun{
             AllyUnit* tempUnit = turn->canCastToSubUnit();
             if (!tempUnit) return;
             
-            if (tempUnit->isBuffEnd("Nourished_Joviality")) {
-                tempUnit->buffSingle({{Stats::SPD_P,AType::None,-20}});
+            if (isBuffEnd(tempUnit,"Nourished_Joviality")) {
+                buffSingle(tempUnit,{{Stats::SPD_P,AType::None,-20}});
             }
             
-            if (tempUnit->isBuffEnd("Benediction")) {
-                tempUnit->buffSingle({{Stats::ATK_P,AType::None,-55}});
+            if (isBuffEnd(tempUnit,"Benediction")) {
+                buffSingle(tempUnit,{{Stats::ATK_P,AType::None,-55}});
             }
-            if (tempUnit->isBuffEnd("Windfall_of_Lucky_Springs")) {
-                tempUnit->buffSingle({{Stats::SPD_P,AType::None,-20}});
+            if (isBuffEnd(tempUnit,"Windfall_of_Lucky_Springs")) {
+                buffSingle(tempUnit,{{Stats::SPD_P,AType::None,-20}});
             }
-            if (tempUnit->isBuffEnd("Rejoicing_Clouds")) {
-                tempUnit->buffSingle({{Stats::DMG,AType::None,-56}});
+            if (isBuffEnd(tempUnit,"Rejoicing_Clouds")) {
+                buffSingle(tempUnit,{{Stats::DMG,AType::None,-56}});
             }
         }));
 
@@ -105,7 +105,7 @@ namespace Tingyun{
                     make_shared<AllyAttackAction>(AType::Addtional,chooseSubUnitBuff(ptr),TraceType::Single,"TY Talent");
                     temp->addDamageIns(DmgSrc(DmgSrcType::ATK,66));
                     Attack(temp);
-                } else if (act->Attacker->Atv_stats->StatsOwnerName == charUnit[ptr->currentCharNum]->Sub_Unit_ptr[ptr->currentMemoNum]->Atv_stats->StatsOwnerName) {
+                } else if (act->Attacker->isSameStatsOwnerName(chooseSubUnitBuff(ptr))) {
                     shared_ptr<AllyAttackAction> temp = 
                     make_shared<AllyAttackAction>(AType::Addtional,tempUnit,TraceType::Single,"TY Talent");
 
@@ -130,7 +130,7 @@ namespace Tingyun{
         make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"TY Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
-            act->buffTargetList[0]->buffSingle({{Stats::ATK_P,AType::None,55}},"Benediction",3);
+            buffSingle(act->buffTargetList[0],{{Stats::ATK_P,AType::None,55}},"Benediction",3);
             buffSingle(ptr,{{Stats::SPD_P,AType::None,20}},"Nourished_Joviality",1);
 
         });

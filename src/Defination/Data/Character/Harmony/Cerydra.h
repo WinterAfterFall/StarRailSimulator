@@ -46,10 +46,10 @@ namespace Cerydra{
             [ptr,crd,charge](shared_ptr<AllyBuffAction> &act){
                 Increase_energy(crd,30);
                 charge(1);
-                crd->buffSingle({
+                buffSingle(crd,{
                     {Stats::FLAT_SPD,AType::None,20}
                 },"Veci",3);
-                chooseSubUnitBuff(crd)->buffSingle({
+                buffSingle(chooseSubUnitBuff(crd),{
                     {Stats::FLAT_SPD,AType::None,20}
                 },"Veci",3);
                 if(ptr->Eidolon>=1){
@@ -106,23 +106,23 @@ namespace Cerydra{
 
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,crd,charge]() {
             if(ptr->Eidolon>=1){
-                chooseSubUnitBuff(crd)->buffSingle({
+                buffSingle(chooseSubUnitBuff(crd),{
                     {Stats::DEF_SHRED,AType::None,16}
                 });
             }
             if(ptr->Eidolon>=2){
-                chooseSubUnitBuff(crd)->buffSingle({
+                buffSingle(chooseSubUnitBuff(crd),{
                     {Stats::DMG,AType::None,40}
                 });
-                crd->buffSingle({
+                buffSingle(crd,{
                     {Stats::DMG,AType::None,140}
                 });
             }
             if(ptr->Eidolon>=6){
-                chooseSubUnitBuff(crd)->buffSingle({
+                buffSingle(chooseSubUnitBuff(crd),{
                     {Stats::RESPEN,AType::None,20}
                 });
-                crd->buffSingle({
+                buffSingle(crd,{
                     {Stats::RESPEN,AType::None,20}
                 });
             }
@@ -132,14 +132,14 @@ namespace Cerydra{
             AllyUnit *ally = turn->canCastToSubUnit();
             if(!ally)return;
             if(isBuffEnd(ally,"Veci")){
-                ally->buffSingle({{Stats::FLAT_SPD,AType::None,-20}});
+                buffSingle(ally,{{Stats::FLAT_SPD,AType::None,-20}});
             }
         }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,crd,charge]() {
             double temp = 0;
             temp = calculateAtkForBuff(crd,24);
-            chooseSubUnitBuff(crd)->buffSingle(
+            buffSingle(chooseSubUnitBuff(crd),
                 {
                     {Stats::FLAT_ATK,AType::TEMP,temp - crd->Buff_note["Cerydra Atk Buff"]},
                     {Stats::FLAT_ATK,AType::None,temp - crd->Buff_note["Cerydra Atk Buff"]}
@@ -147,7 +147,7 @@ namespace Cerydra{
             crd->Buff_note["Cerydra Atk Buff"] = temp;
 
             double temp2 = min(max(0.0,floor((calculateAtkForBuff(crd,100) - 2000)/100)),20.0)*18;
-            crd->buffSingle(
+            buffSingle(crd,
                 {
                     {Stats::CD,AType::TEMP,temp2 - crd->Buff_note["Cerydra Crit dam Buff"]},
                     {Stats::CD,AType::None,temp2 - crd->Buff_note["Cerydra Crit dam Buff"]}
@@ -160,10 +160,10 @@ namespace Cerydra{
             [ptr,crd,charge](shared_ptr<AllyBuffAction> &act){
                 Increase_energy(crd,30);
                 charge(1);
-                crd->buffSingle({
+                buffSingle(crd,{
                     {Stats::FLAT_SPD,AType::None,20}
                 },"Veci",3);
-                chooseSubUnitBuff(crd)->buffSingle({
+                buffSingle(chooseSubUnitBuff(crd),{
                     {Stats::FLAT_SPD,AType::None,20}
                 },"Veci",3);
                 if(ptr->Eidolon>=1){
@@ -191,12 +191,12 @@ namespace Cerydra{
                     crd->setBuffCheck("Coup de Main",0);
                 }else{
                     crd->setBuffCheck("Peerage",0);
-                    chooseSubUnitBuff(crd)->buffSingle({
+                    buffSingle(chooseSubUnitBuff(crd),{
                         {Stats::DMG,AType::SKILL,-72},
                         {Stats::RESPEN,AType::SKILL,-10},
                     });
                     if(ptr->Eidolon>=1){
-                        chooseSubUnitBuff(crd)->buffSingle({
+                        buffSingle(chooseSubUnitBuff(crd),{
                             {Stats::DEF_SHRED,AType::SKILL,-20}
                         });
                     }                    
@@ -206,12 +206,12 @@ namespace Cerydra{
                 crd->addStack("Cerydra charge",-6);
                 crd->setBuffCheck("Peerage",1);
                 crd->setBuffCheck("Coup de Main",1);
-                chooseSubUnitBuff(crd)->buffSingle({
+                buffSingle(chooseSubUnitBuff(crd),{
                     {Stats::DMG,AType::SKILL,72},
                     {Stats::RESPEN,AType::SKILL,10},
                 });
                 if(ptr->Eidolon>=1){
-                    chooseSubUnitBuff(crd)->buffSingle({
+                    buffSingle(chooseSubUnitBuff(crd),{
                         {Stats::DEF_SHRED,AType::SKILL,20}
                     });
                 }
@@ -233,14 +233,14 @@ namespace Cerydra{
             if (StatsType == Stats::ATK_P || StatsType == Stats::FLAT_ATK) {
             double temp = 0;
             temp = calculateAtkForBuff(crd,24);
-            chooseSubUnitBuff(crd)->buffSingle(
+            buffSingle(chooseSubUnitBuff(crd),
                 {
                     {Stats::FLAT_ATK,AType::TEMP,temp - crd->Buff_note["Cerydra Atk Buff"]},
                     {Stats::FLAT_ATK,AType::None,temp - crd->Buff_note["Cerydra Atk Buff"]}
                 });
             crd->Buff_note["Cerydra Atk Buff"] = temp;
             double temp2 = min(max(0.0,floor((temp - 2000)/100)),20.0)*18;
-            crd->buffSingle(
+            buffSingle(crd,
                 {
                     {Stats::CD,AType::TEMP,temp2 - crd->Buff_note["Cerydra Crit dam Buff"]},
                     {Stats::CD,AType::None,temp2 - crd->Buff_note["Cerydra Crit dam Buff"]}
