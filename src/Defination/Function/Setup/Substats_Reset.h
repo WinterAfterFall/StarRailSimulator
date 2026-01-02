@@ -3,38 +3,38 @@ void Set_Stats(CharUnit *ptr){
     for(int i=0,sz = ptr->Substats.size();i<sz;i++){
         if(ptr->Substats[i].first==Stats::FLAT_SPD){
             ptr->Atv_stats->flatSpeed+=2.3*ptr->Substats[i].second;
-            for(int j=1,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            ptr->Sub_Unit_ptr[j]->Atv_stats->flatSpeed+=(2.3*ptr->Substats[i].second)*(ptr->Sub_Unit_ptr[j]->Unit_Speed_Ratio/100);
+            for(auto &memo : ptr->memospriteList){
+            memo->Atv_stats->flatSpeed+=(2.3*ptr->Substats[i].second)*(memo->Unit_Speed_Ratio/100);
             }
             
         }else if(ptr->Substats[i].first==Stats::HP_P){ 
-            for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){ 
-            ptr->Sub_Unit_ptr[j]->buffSingle({{Stats::HP_P,AType::None,3.888*ptr->Substats[i].second}});
+            for(auto &memo : ptr->memospriteList){ 
+            buffSingle(memo.get(),{{Stats::HP_P,AType::None,3.888*ptr->Substats[i].second}});
             }
         }
         if(ptr->Substats[i].first==Stats::CR){
-            for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            ptr->Sub_Unit_ptr[j]->buffSingle({{Stats::CR,AType::None,2.9*ptr->Substats[i].second}});
+            for(auto &memo : ptr->memospriteList){
+            buffSingle(memo.get(),{{Stats::CR,AType::None,2.9*ptr->Substats[i].second}});
             }
 
         }else if(ptr->Substats[i].first==Stats::CD){
-            for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            ptr->Sub_Unit_ptr[j]->buffSingle({{Stats::CD,AType::None,5.8*ptr->Substats[i].second}});
+            for(auto &memo : ptr->memospriteList){
+            buffSingle(memo.get(),{{Stats::CD,AType::None,5.8*ptr->Substats[i].second}});
             }
             
         }else if(ptr->Substats[i].first==Stats::ATK_P){
-            for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            ptr->Sub_Unit_ptr[j]->buffSingle({{Stats::ATK_P,AType::None,3.888*ptr->Substats[i].second}});
+            for(auto &memo : ptr->memospriteList){
+            buffSingle(memo.get(),{{Stats::ATK_P,AType::None,3.888*ptr->Substats[i].second}});
             }
             
         }else if(ptr->Substats[i].first==Stats::DEF_P){
-            for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            ptr->Sub_Unit_ptr[j]->buffSingle({{Stats::DEF_P,AType::None,4.86*ptr->Substats[i].second}});
+            for(auto &memo : ptr->memospriteList){
+            buffSingle(memo.get(),{{Stats::DEF_P,AType::None,4.86*ptr->Substats[i].second}});
             }
             
         }else if(ptr->Substats[i].first==Stats::BE){
-            for(int j=0,SZ = ptr->Sub_Unit_ptr.size();j<SZ;j++){
-            ptr->Sub_Unit_ptr[j]->buffSingle({{Stats::BE,AType::None,5.8*ptr->Substats[i].second}});
+            for(auto &memo : ptr->memospriteList){
+            buffSingle(memo.get(),{{Stats::BE,AType::None,5.8*ptr->Substats[i].second}});
             }
         }
     }

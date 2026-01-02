@@ -192,15 +192,15 @@ void Basic_reset(){
 
 }
 void Memosprite_reset(){
-    for(int i=1;i<=Total_ally;i++){
-        for(int j=1,sz = charUnit[i]->Sub_Unit_ptr.size();j<sz;j++){
-            for(auto &e1:charUnit[i]->Sub_Unit_ptr[j]->Stats_type){
+    for(auto &each : charList){
+        for(auto &memo : each->memospriteList){
+            for(auto &e1:memo->Stats_type){
                 for(auto &e2:e1.second){
                     e2.second = 0;
                 }
 
             }
-            for(auto &e1:charUnit[i]->Sub_Unit_ptr[j]->Stats_each_element){
+            for(auto &e1:memo->Stats_each_element){
                 for(auto &e2:e1.second){
                     for(auto &e3:e2.second){
                         e3.second = 0;
@@ -209,57 +209,57 @@ void Memosprite_reset(){
                 }
 
             }
-            for(auto &e1:charUnit[i]->Stats_type){
+            for(auto &e1:each->Stats_type){
                 for(auto &e2:e1.second){
-                    charUnit[i]->Sub_Unit_ptr[j]->Stats_type[e1.first][e2.first] = e2.second;
+                    memo->Stats_type[e1.first][e2.first] = e2.second;
                 }
 
             }
-            for(auto &e1:charUnit[i]->Stats_each_element){
+            for(auto &e1:each->Stats_each_element){
                 for(auto &e2:e1.second){
                     for(auto &e3:e2.second){
-                        charUnit[i]->Sub_Unit_ptr[j]->Stats_each_element[e1.first][e2.first][e3.first] = e3.second;
+                        memo->Stats_each_element[e1.first][e2.first][e3.first] = e3.second;
                     }
 
                 }
 
             }
-            for(auto &e :charUnit[i]->Sub_Unit_ptr[j]->Stats_type[Stats::FLAT_HP]){    
-                e.second *=(charUnit[i]->Sub_Unit_ptr[j]->Unit_Hp_Ratio/100);
+            for(auto &e :memo->Stats_type[Stats::FLAT_HP]){    
+                e.second *=(memo->Unit_Hp_Ratio/100);
             }
-            charUnit[i]->Sub_Unit_ptr[j]->Stats_type[Stats::FLAT_HP][AType::None] += charUnit[i]->Sub_Unit_ptr[j]->fixHP;
+            memo->Stats_type[Stats::FLAT_HP][AType::None] += memo->fixHP;
         //speed
         
-            for(auto &e:charUnit[i]->Sub_Unit_ptr[j]->Stack){
+            for(auto &e:memo->Stack){
                 e.second = 0;
             }
-            for(auto &e:charUnit[i]->Sub_Unit_ptr[j]->Buff_countdown){
+            for(auto &e:memo->Buff_countdown){
                 e.second = 0;
             }
-            for(auto &e:charUnit[i]->Sub_Unit_ptr[j]->Buff_note){
+            for(auto &e:memo->Buff_note){
                 e.second = 0;
             }
-            for(auto &e:charUnit[i]->Sub_Unit_ptr[j]->Buff_check){
+            for(auto &e:memo->Buff_check){
                 e.second = 0;
             }
-            for(std::pair<const std::string, AllyUnit *> &e : charUnit[i]->Sub_Unit_ptr[j]->buffSubUnitTarget){
+            for(std::pair<const std::string, AllyUnit *> &e : memo->buffSubUnitTarget){
                 e.second = nullptr;
             }
             
-        charUnit[i]->Sub_Unit_ptr[j]->Atv_stats->turnCnt = 0;
-        charUnit[i]->Sub_Unit_ptr[j]->Atv_stats->priority = 0;
-        charUnit[i]->Sub_Unit_ptr[j]->Atv_stats->extraTurn = 0;
-        charUnit[i]->Sub_Unit_ptr[j]->Atv_stats->baseSpeed = 
-        charUnit[i]->Sub_Unit_ptr[j]->fixSpeed + calculateSpeedOnStats(charUnit[i])*charUnit[i]->Sub_Unit_ptr[j]->Unit_Speed_Ratio/100;
-        charUnit[i]->Sub_Unit_ptr[j]->Atv_stats->speedPercent = 0;
-        charUnit[i]->Sub_Unit_ptr[j]->Atv_stats->flatSpeed = 0;
-        charUnit[i]->Sub_Unit_ptr[j]->currentCharNum = charUnit[i]->Sub_Unit_ptr[j]->defaultCharNum;
-        charUnit[i]->Sub_Unit_ptr[j]->currentMemoNum = charUnit[i]->Sub_Unit_ptr[j]->currentMemoNum;
-        charUnit[i]->Sub_Unit_ptr[j]->currentSheild = 0;
-        charUnit[i]->Sub_Unit_ptr[j]->currentHP = 0;
-        charUnit[i]->Sub_Unit_ptr[j]->status = UnitStatus::Death;
-        charUnit[i]->Sub_Unit_ptr[j]->tauntMtpr = 1;
-        charUnit[i]->Sub_Unit_ptr[j]->taunt = charUnit[i]->Sub_Unit_ptr[j]->baseTaunt;
+        memo->Atv_stats->turnCnt = 0;
+        memo->Atv_stats->priority = 0;
+        memo->Atv_stats->extraTurn = 0;
+        memo->Atv_stats->baseSpeed = 
+        memo->fixSpeed + calculateSpeedOnStats(each)*memo->Unit_Speed_Ratio/100;
+        memo->Atv_stats->speedPercent = 0;
+        memo->Atv_stats->flatSpeed = 0;
+        memo->currentCharNum = memo->defaultCharNum;
+        memo->currentMemoNum = memo->currentMemoNum;
+        memo->currentSheild = 0;
+        memo->currentHP = 0;
+        memo->status = UnitStatus::Death;
+        memo->tauntMtpr = 1;
+        memo->taunt = memo->baseTaunt;
 
         }
         

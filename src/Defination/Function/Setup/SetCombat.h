@@ -84,14 +84,18 @@ void Reset(){
     for(TriggerByYourSelf_Func &e : Tune_stats_List){
         e.Call();
     }
-    for(int i=1;i<=Total_ally;i++){
-        for(int j=0;j<charUnit[i]->Sub_Unit_ptr.size();j++){
-        charUnit[i]->Sub_Unit_ptr[j]->totalATK = calculateAtkOnStats(charUnit[i].get());
-        charUnit[i]->Sub_Unit_ptr[j]->totalHP = calculateHpOnStats(charUnit[i]->Sub_Unit_ptr[j].get());
-        charUnit[i]->Sub_Unit_ptr[j]->totalDEF = calculateDefOnStats(charUnit[i]->Sub_Unit_ptr[j].get());
-        totalTaunt += charUnit[i]->Sub_Unit_ptr[j]->taunt;
+    for(auto &each : charList){
+        each->totalATK = calculateAtkOnStats(each);
+        each->totalHP = calculateHpOnStats(each);
+        each->totalDEF = calculateDefOnStats(each);
+        totalTaunt += each->taunt;
+        for(auto &memo : each->memospriteList){
+            memo->totalATK = calculateAtkOnStats(memo.get());
+            memo->totalHP = calculateHpOnStats(memo.get());
+            memo->totalDEF = calculateDefOnStats(memo.get());
+            totalTaunt += memo->taunt;
         }
-        charUnit[i]->currentHP = charUnit[i]->totalHP;
+        each->currentHP = each->totalHP;
     }
     
 }
