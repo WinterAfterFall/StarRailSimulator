@@ -23,7 +23,7 @@ namespace Luka{
         function<void(int amount)> FW = [ptr,lk](int amount) {
             if(amount>0){
                 Increase_energy(lk,3.0*amount);
-                if(ptr->Eidolon>=4)lk->buffStackSingle({{Stats::ATK_P,AType::None,5}},amount,4,"Luka E4");
+                if(ptr->Eidolon>=4)buffStackSingle(lk,{{Stats::ATK_P,AType::None,5}},amount,4,"Luka E4");
             }else{
             }
             lk->addStack("Fighting Will",amount);
@@ -84,7 +84,7 @@ namespace Luka{
                 if(ptr->Eidolon>=2)FW(1);
                 Increase_energy(lk,30);
                 for(auto &each : act->targetList){
-                    each->dotSingleApply({DotType::Burn},lk,"Luka Bleed",3);
+                    dotSingleApply(lk,each,{DotType::Burn},"Luka Bleed",3);
                 }
                 Attack(act);
             });
@@ -117,7 +117,7 @@ namespace Luka{
                 FW(2);
                 Attack(act);
                 for(auto &each : act->targetList){
-                    debuffSingleApply(each,{{Stats::VUL,AType::None,21.6}},lk,"Luka Vul",3);
+                    debuffSingleApply(lk,each,{{Stats::VUL,AType::None,21.6}},"Luka Vul",3);
                 }
             });
             act->addDamageIns(
@@ -147,7 +147,7 @@ namespace Luka{
                 [ptr,lk](shared_ptr<AllyAttackAction> &act){
                     Attack(act);
                     for(auto &each : act->targetList){
-                        each->dotSingleApply({DotType::Burn},lk,"Luka Bleed",3);
+                        dotSingleApply(lk,each,{DotType::Burn},"Luka Bleed",3);
                     }
                 });
                 act->addDamageIns(
@@ -162,7 +162,7 @@ namespace Luka{
             Enemy *enemy = turn->canCastToEnemy();
             if(!enemy)return;
             if(isDebuffEnd(enemy,"Luka Bleed")){
-                enemy->dotRemove({DotType::Bleed});
+                dotRemove(enemy,{DotType::Bleed});
             }    
             if(isDebuffEnd(enemy,"Luka Vul")){
                 debuffSingle(enemy,{{Stats::VUL,AType::None,-21.6}});

@@ -56,7 +56,7 @@ namespace Hysilens{
                     dotType = DotType::WindShear;
                 }
             }
-            enemy->dotSingleApply({dotType},hys,dotName,2);
+            dotSingleApply(hys,enemy,{dotType},dotName,2);
         };
         function<void(Enemy* enemy)> E1 = [ptr,hys](Enemy* enemy) {
             string dotName = "Hys E1 Bleed";
@@ -88,7 +88,7 @@ namespace Hysilens{
                     dotType = DotType::WindShear;
                 }
             }
-            enemy->dotSingleApply({dotType},hys,dotName,2);
+            dotSingleApply(hys,enemy,{dotType},dotName,2);
         };
         
 
@@ -116,7 +116,7 @@ namespace Hysilens{
             make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Aoe,"Hys Skill",
             [ptr,hys](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,30);
-                debuffAllEnemyApply({{Stats::VUL,AType::None,20}},hys,"Hys Vul",3);
+                debuffAllEnemyApply(hys,{{Stats::VUL,AType::None,20}},"Hys Vul",3);
                 Attack(act);
             });
             act->addDamageIns(
@@ -151,7 +151,7 @@ namespace Hysilens{
             [ptr,hys](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Hysilens");
                 for(auto &each : act->targetList){
-                    if(each->debuffMark(hys,"Hys Ult")){
+                    if(debuffMark(hys,each,"Hys Ult")){
                         each->atkPercent-=15;
                         debuffSingle(each,{{Stats::DEF_SHRED,AType::None,25}});
                         if(ptr->Eidolon>=4)debuffSingle(each,{{Stats::RESPEN,AType::None,20}});
@@ -159,7 +159,7 @@ namespace Hysilens{
                     }
                     Dot_trigger(150,each,DotType::General);
                 }
-                hys->isHaveToAddBuff("Hys Ult",3);
+                isHaveToAddBuff(hys,"Hys Ult",3);
                 Attack(act);
             });
             act->addDamageIns(
@@ -191,14 +191,14 @@ namespace Hysilens{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hys,Talent,E1]() {
                 Skill_point(hys,1);
-                for(int i=1;i<=Total_enemy;i++){
-                    if(enemyUnit[i]->debuffMark(hys,"Hys Ult")){
-                        enemyUnit[i]->atkPercent-=15;
-                        enemyUnit[i]->debuffSingle({{Stats::DEF_SHRED,AType::None,25}});
-                        if(ptr->Eidolon>=4)enemyUnit[i]->debuffSingle({{Stats::RESPEN,AType::None,20}});
+                for(auto &each : enemyList){
+                    if(debuffMark(hys,each,"Hys Ult")){
+                        each->atkPercent-=15;
+                        debuffSingle(each,{{Stats::DEF_SHRED,AType::None,25}});
+                        if(ptr->Eidolon>=4)debuffSingle(each,{{Stats::RESPEN,AType::None,20}});
                     }
                 }
-                hys->isHaveToAddBuff("Hys Ult",3);
+                isHaveToAddBuff(hys,"Hys Ult",3);
                 if(ptr->Technique){
                     for(int i=1;i<=Total_enemy;i++){
                     Talent(enemyUnit[i].get());
@@ -216,14 +216,14 @@ namespace Hysilens{
             if(isDebuffEnd(enemy,"Hys Vul")){
                 debuffSingle(enemy,{{Stats::VUL,AType::None,-20}});
             }
-            if(isDebuffEnd(enemy,"Hys Bleed"))enemy->dotRemove({DotType::Bleed});
-            if(isDebuffEnd(enemy,"Hys WindShear"))enemy->dotRemove({DotType::WindShear});
-            if(isDebuffEnd(enemy,"Hys Burn"))enemy->dotRemove({DotType::Burn});
-            if(isDebuffEnd(enemy,"Hys Shock"))enemy->dotRemove({DotType::Shock});
-            if(isDebuffEnd(enemy,"Hys E1 Bleed"))enemy->dotRemove({DotType::Bleed});
-            if(isDebuffEnd(enemy,"Hys E1 WindShear"))enemy->dotRemove({DotType::WindShear});
-            if(isDebuffEnd(enemy,"Hys E1 Burn"))enemy->dotRemove({DotType::Burn});
-            if(isDebuffEnd(enemy,"Hys E1 Shock"))enemy->dotRemove({DotType::Shock});
+            if(isDebuffEnd(enemy,"Hys Bleed"))dotRemove(enemy,{DotType::Bleed});
+            if(isDebuffEnd(enemy,"Hys WindShear"))dotRemove(enemy,{DotType::WindShear});
+            if(isDebuffEnd(enemy,"Hys Burn"))dotRemove(enemy,{DotType::Burn});
+            if(isDebuffEnd(enemy,"Hys Shock"))dotRemove(enemy,{DotType::Shock});
+            if(isDebuffEnd(enemy,"Hys E1 Bleed"))dotRemove(enemy,{DotType::Bleed});
+            if(isDebuffEnd(enemy,"Hys E1 WindShear"))dotRemove(enemy,{DotType::WindShear});
+            if(isDebuffEnd(enemy,"Hys E1 Burn"))dotRemove(enemy,{DotType::Burn});
+            if(isDebuffEnd(enemy,"Hys E1 Shock"))dotRemove(enemy,{DotType::Shock});
             
         }));
         
@@ -236,11 +236,11 @@ namespace Hysilens{
 
             if(isBuffEnd(ally,"Hys Ult")){
                 CharCmd::printUltEnd("Hysilens");
-                for(int i=1;i<=Total_enemy;i++){
-                    enemyUnit[i]->debuffSingle({{Stats::DEF_SHRED,AType::None,-25}});
-                    if(ptr->Eidolon>=4)enemyUnit[i]->debuffSingle({{Stats::RESPEN,AType::None,-20}});
-                    enemyUnit[i]->atkPercent -=15;
-                    enemyUnit[i]->debuffRemove("Hys Ult");
+                for(auto &each : enemyList){
+                    debuffSingle(each,{{Stats::DEF_SHRED,AType::None,-25}});
+                    if(ptr->Eidolon>=4)debuffSingle(each,{{Stats::RESPEN,AType::None,-20}});
+                    each->atkPercent -=15;
+                    debuffRemove(each,"Hys Ult");
                 }
             }
         }));

@@ -51,11 +51,11 @@ namespace Cipher{
             [ptr,cph](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,30);
                 for(auto &each : act->targetList){
-                    if(debuffApply(each,cph,"Cipher Weaken",2)){
+                    if(debuffApply(cph,each,"Cipher Weaken",2)){
                         each->dmgPercent -= 10;
                     }
                 }
-                cph->buffSingle({{Stats::ATK_P,AType::None,30}},"Cipher Skill",2);
+                buffSingle(cph,{{Stats::ATK_P,AType::None,30}},"Cipher Skill",2);
                 Attack(act);
             });
             act->addDamageIns(
@@ -115,10 +115,10 @@ namespace Cipher{
             auto ally =  turn->canCastToSubUnit();
             if(ally){
                 if(isBuffEnd(ally,"Cipher Skill")){
-                    ally->buffSingle({{Stats::ATK_P,AType::None,-30}});
+                    buffSingle(ally,{{Stats::ATK_P,AType::None,-30}});
                 }
                 if(ptr->Eidolon>=1&&isBuffEnd(ally,"Cipher E1"))
-                    ally->buffSingle({{Stats::ATK_P,AType::None,-80}});
+                    buffSingle(ally,{{Stats::ATK_P,AType::None,-80}});
             }
             if(enemy){
                 if(isDebuffEnd(enemy,"Cipher Weaken")){
@@ -149,11 +149,11 @@ namespace Cipher{
             shared_ptr<AllyAttackAction> &act){
                 if(ptr->Eidolon>=2&&act->isSameUnitName(cph)){
                     for(auto &each : act->targetList){
-                        debuffSingleApply(each,{{Stats::VUL,AType::None,30}},cph,"Cipher E2",2);
+                        debuffSingleApply(cph,each,{{Stats::VUL,AType::None,30}},"Cipher E2",2);
                     }
                 }
                 if(act->isSameAction("Cipher",AType::SKILL)||act->isSameAction("Cipher",AType::Ult))
-                    enemyUnit[Main_Enemy_num]->debuffApply(cph,"Patron");
+                    debuffApply(cph,enemyUnit[Main_Enemy_num].get(),"Patron");
 
                 if(!act->isSameStatsOwnerName("Cipher")&&!cph->getBuffCheck("Cipher Fua")){
                     cph->setBuffCheck("Cipher Fua",1);
@@ -163,13 +163,13 @@ namespace Cipher{
                         Increase_energy(ptr,5);
 
                         if(ptr->Eidolon>=1)
-                            cph->buffSingle({{Stats::ATK_P,AType::None,80}},"Cipher E1",2);
+                            buffSingle(cph,{{Stats::ATK_P,AType::None,80}},"Cipher E1",2);
 
-                        cph->buffSingle({{Stats::CD,AType::None,100}});
-                        if(ptr->Eidolon>=6)cph->buffSingle({{Stats::DMG,AType::None,350}});
+                        buffSingle(cph,{{Stats::CD,AType::None,100}});
+                        if(ptr->Eidolon>=6)buffSingle(cph,{{Stats::DMG,AType::None,350}});
                         Attack(act);
-                        cph->buffSingle({{Stats::CD,AType::None,-100}});
-                        if(ptr->Eidolon>=6)cph->buffSingle({{Stats::DMG,AType::None,-350}});
+                        buffSingle(cph,{{Stats::CD,AType::None,-100}});
+                        if(ptr->Eidolon>=6)buffSingle(cph,{{Stats::DMG,AType::None,-350}});
                     });
                     newAct->addDamageIns(
                         DmgSrc(DmgSrcType::ATK,150,20)
@@ -208,7 +208,7 @@ namespace Cipher{
                         for(int j=1;j<=Total_enemy;j++){
                             totaldmg = charUnit[i]->getBuffNote("CipherNote" + enemyUnit[j]->getUnitName());
                             for(int k=1;k<=ptr->getAdjust("Cipher Ult Share")&&k<=Total_enemy;k++){
-                                act->Attacker = charUnit[i];
+                                act->Attacker = charUnit[i].get();
                                 Cal_DamageNote(act,enemyUnit[j].get(),enemyUnit[k].get(),totaldmg*0.75/ptr->getAdjust("Cipher Ult Share"),100,"Cph E6 " + act->Attacker->getUnitName());
                             }
                             Cal_DamageNote(act,enemyUnit[j].get(),enemyUnit[Main_Enemy_num].get(),totaldmg*0.25,100,"Cph E6 " + act->Attacker->getUnitName());

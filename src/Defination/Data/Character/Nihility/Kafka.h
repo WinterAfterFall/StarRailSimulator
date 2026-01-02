@@ -71,8 +71,8 @@ namespace Kafka{
                 Increase_energy(ptr,10);
                 Attack(act);
                 for(auto &each : act->targetList){
-                    if(ptr->Eidolon>=6)each->dotSingleApply({DotType::Shock},kafka,"Kafka Shock",3);
-                    each->dotSingleApply({DotType::Shock},kafka,"Kafka Shock",2);
+                    if(ptr->Eidolon>=6)dotSingleApply(kafka,each,{DotType::Shock},"Kafka Shock",3);
+                    dotSingleApply(kafka,each,{DotType::Shock},"Kafka Shock",2);
                     Dot_trigger(80,each,DotType::General);
                 }
             });
@@ -100,8 +100,8 @@ namespace Kafka{
                 CharCmd::printUltStart("Kafka");
                 Attack(act);
                 for(auto &each : act->targetList){
-                    if(ptr->Eidolon>=6)each->dotSingleApply({DotType::Shock},kafka,"Kafka Shock",3);
-                    each->dotSingleApply({DotType::Shock},kafka,"Kafka Shock",2);
+                    if(ptr->Eidolon>=6)dotSingleApply(kafka,each,{DotType::Shock},"Kafka Shock",3);
+                    dotSingleApply(kafka,each,{DotType::Shock},"Kafka Shock",2);
                     Dot_trigger(120,each,DotType::General);
                 }
                 kafka->addStack("Kafka Talent",1);
@@ -122,10 +122,10 @@ namespace Kafka{
         }));
 
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            for(int i=1;i<=Total_ally;i++){
-                if(ptr->getAdjust("Kafka A2 " + charUnit[i]->getUnitName())){
-                    charUnit[i]->buffSingleChar({{Stats::ATK_P,AType::None,100}});
-                    charUnit[i]->newEhrRequire(75);
+            for(auto &each : charList){
+                if(ptr->getAdjust("Kafka A2 " + each->getUnitName())){
+                    buffSingleChar(each,{{Stats::ATK_P,AType::None,100}});
+                    each->newEhrRequire(75);
                 }
             }
 
@@ -141,8 +141,8 @@ namespace Kafka{
                 [ptr,kafka](shared_ptr<AllyAttackAction> &act){
                     Attack(act);
                     for(auto &each : act->targetList){
-                    if(ptr->Eidolon>=6)each->dotSingleApply({DotType::Shock},kafka,"Kafka Shock",3);
-                    each->dotSingleApply({DotType::Shock},kafka,"Kafka Shock",2);
+                    if(ptr->Eidolon>=6)dotSingleApply(kafka,each,{DotType::Shock},"Kafka Shock",3);
+                    dotSingleApply(kafka,each,{DotType::Shock},"Kafka Shock",2);
                     }
                 });
                 act->addDamageIns(
@@ -159,12 +159,12 @@ namespace Kafka{
             if(turn->isSameUnitName("Kafka"))kafka->addStack("Kafka Talent",1);
             Enemy *enemy = turn->canCastToEnemy();
             if(enemy&&isDebuffEnd(enemy,"Kafka Shock")){
-                enemy->dotRemove({DotType::Shock});
+                dotRemove(enemy,{DotType::Shock});
             }
         }));
 
         AfterAttack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,Fua,kafka](shared_ptr<AllyAttackAction> &act) {
-            if(!act->isSameAtkerName("Kafka")&&kafka->getStack("Kafka Talent")>0){
+            if(!act->isSameStatsOwnerName("Kafka")&&kafka->getStack("Kafka Talent")>0){
                 kafka->addStack("Kafka Talent",-1);
                 Fua();
             }
@@ -184,9 +184,9 @@ namespace Kafka{
 
         if(ptr->Eidolon>=1){
         BeforeAttack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,Fua,kafka](shared_ptr<AllyAttackAction> &act) {
-            if(act->isSameAtkerName("Kafka")){
+            if(act->isSameStatsOwnerName("Kafka")){
                 for(auto &each : act->targetList){
-                    debuffSingleApply(each,{{Stats::VUL,AType::Dot,30}},kafka,"kafka E1",2);
+                    debuffSingleApply(kafka,each,{{Stats::VUL,AType::Dot,30}},"kafka E1",2);
                 }
             }
         }));

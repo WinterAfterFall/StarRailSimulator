@@ -50,12 +50,12 @@ namespace SW{
                 for(auto &enemy : act->targetList){
                     for(int i=1;i<=Total_ally;i++){
                         if(enemy->Default_Weakness_type[charUnit[i]->Element_type[0]])continue;
-                        enemy->weaknessApply(charUnit[i]->Element_type[0],3);
-                        enemy->debuffSingleApply({{Stats::RESPEN,charUnit[i]->Element_type[0],AType::None,20}},sw,"SW Weakness",3);
+                        weaknessApply(enemy,charUnit[i]->Element_type[0],3);
+                        debuffSingleApply(sw,enemy,{{Stats::RESPEN,charUnit[i]->Element_type[0],AType::None,20}},"SW Weakness",3);
                         sw->setBuffNote("SW Weakness num",i);
                         break;
                     }
-                    enemy->debuffSingleApply({{Stats::RESPEN,AType::None,13}},sw,"SW Res",2);
+                    debuffSingleApply(sw,enemy,{{Stats::RESPEN,AType::None,13}},"SW Res",2);
                 }
                 Attack(act);
             });
@@ -81,9 +81,9 @@ namespace SW{
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"SW Ult",
             [ptr,sw](shared_ptr<AllyAttackAction> &act){
-                debuffAllEnemyApply({
+                debuffAllEnemyApply(sw,{
                     {Stats::DEF_SHRED,AType::None,45}
-                },sw,"SW Ult",3);
+                },"SW Ult",3);
                 Attack(act);
                 if(ptr->Eidolon>=1){
                     int debuffcnt = 0;
@@ -190,15 +190,15 @@ namespace SW{
             if(ptr->Eidolon>=2||act->isSameUnitName(sw)){
                 for(auto &enemy : act->targetList){
                     if(!enemy->getDebuff("Bug 1")){
-                        enemy->debuffApply(sw,"Bug 1",4);
+                        debuffApply(sw,enemy,"Bug 1",4);
                     }
                     else if(!enemy->getDebuff("Bug 2")){
-                        enemy->debuffSingleApply({{Stats::DEF_SHRED,AType::None,12}},sw,"Bug 2",4);
+                        debuffSingleApply(sw,enemy,{{Stats::DEF_SHRED,AType::None,12}},"Bug 2",4);
                     }
                     else {
-                        enemy->debuffApply(sw,"Bug 1",4);
-                        enemy->debuffSingleApply({{Stats::DEF_SHRED,AType::None,12}},sw,"Bug 2",4);
-                        if(enemy->debuffApply(sw,"Bug 3",4)){
+                        debuffApply(sw,enemy,"Bug 1",4);
+                        debuffSingleApply(sw,enemy,{{Stats::DEF_SHRED,AType::None,12}},"Bug 2",4);
+                        if(debuffApply(sw,enemy,"Bug 3",4)){
                             enemy->atkPercent-=10;
                             debuffSingle(enemy,{{Stats::SPD_P,AType::None,-6}});
                         }
@@ -209,15 +209,15 @@ namespace SW{
 
         Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,sw](Enemy *target, AllyUnit *Trigger) {
                 if(!target->getDebuff("Bug 1")){
-                    target->debuffApply(sw,"Bug 1",4);
+                    debuffApply(sw,target,"Bug 1",4);
                 }
                 else if(!target->getDebuff("Bug 2")){
-                    target->debuffSingleApply({{Stats::DEF_SHRED,AType::None,12}},sw,"Bug 2",4);
+                    debuffSingleApply(sw,target,{{Stats::DEF_SHRED,AType::None,12}},"Bug 2",4);
                 }
                 else {
-                    target->debuffApply(sw,"Bug 1",4);
-                    target->debuffSingleApply({{Stats::DEF_SHRED,AType::None,12}},sw,"Bug 2",4);
-                    if(target->debuffApply(sw,"Bug 3",4)){
+                    debuffApply(sw,target,"Bug 1",4);
+                    debuffSingleApply(sw,target,{{Stats::DEF_SHRED,AType::None,12}},"Bug 2",4);
+                    if(debuffApply(sw,target,"Bug 3",4)){
                         target->atkPercent-=10;
                         debuffSingle(target,{{Stats::SPD_P,AType::None,-6}});
                     }

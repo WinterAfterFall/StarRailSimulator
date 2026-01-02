@@ -38,7 +38,7 @@ namespace Pela{
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Pela Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
-                debuffAllEnemyApply({{Stats::DEF_SHRED, AType::None, 42}},ptr, "Zone_Suppression",2);
+                debuffAllEnemyApply(ptr,{{Stats::DEF_SHRED, AType::None, 42}}, "Zone_Suppression",2);
                 Attack(act);
             });
             act->addDamageIns(
@@ -63,7 +63,7 @@ namespace Pela{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (ptr->Technique == 1) {
-                debuffAllEnemyApply({{Stats::DEF_SHRED, AType::None, 20}},ptr, "Pela_Technique",2);
+                debuffAllEnemyApply(ptr,{{Stats::DEF_SHRED, AType::None, 20}}, "Pela_Technique",2);
                 Increase_energy(ptr, 20);
             }
         }));

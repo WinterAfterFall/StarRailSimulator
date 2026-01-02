@@ -30,7 +30,7 @@ namespace Guinaifen{
             [ptr,gui](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,20);
                 for(auto &each : act->targetList){
-                    each->dotSingleApply({DotType::Burn},gui,"Gui Burn",2);
+                    dotSingleApply(gui,each,{DotType::Burn},"Gui Burn",2);
                 }
                 Attack(act);
             });
@@ -47,7 +47,7 @@ namespace Guinaifen{
             [ptr,gui](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,30);
                 for(auto &each : act->targetList){
-                    each->dotSingleApply({DotType::Burn},gui,"Gui Burn",2);
+                    dotSingleApply(gui,each,{DotType::Burn},"Gui Burn",2);
                 }
                 Attack(act);
             });
@@ -105,7 +105,7 @@ namespace Guinaifen{
                 [ptr,gui](shared_ptr<AllyAttackAction> &act){
                     Attack(act);
                     for(auto &each : act->targetList){
-                        each->dotSingleApply({DotType::Burn},gui,"Gui Burn",2);
+                        dotSingleApply(gui,each,{DotType::Burn},"Gui Burn",2);
                     }
                 });
                 act->addDamageIns(
@@ -123,16 +123,16 @@ namespace Guinaifen{
             Enemy *enemy = turn->canCastToEnemy();
             if(!enemy)return;
             if(isDebuffEnd(enemy,"Gui Burn")){
-                enemy->dotRemove({DotType::Burn});
+                dotRemove(enemy,{DotType::Burn});
             }       
         }));
 
         BeforeAttack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,gui](shared_ptr<AllyAttackAction> &act) {
             if(act->isSameDamageType(AType::Burn)){
                 if(ptr->Eidolon>=6){
-                    debuffStackEnemyTargets(act->targetList,{{Stats::VUL,AType::None,7.6}},gui,1,4,"Firekiss");
+                    debuffStackEnemyTargets(gui,act->targetList,{{Stats::VUL,AType::None,7.6}},1,4,"Firekiss");
                 }else{
-                    debuffStackEnemyTargets(act->targetList,{{Stats::VUL,AType::None,7.6}},gui,1,3,"Firekiss");
+                    debuffStackEnemyTargets(gui,act->targetList,{{Stats::VUL,AType::None,7.6}},1,3,"Firekiss");
                 }
             }      
         }));
