@@ -47,13 +47,13 @@ namespace Archer{
 
         function<void()> Skill = [ptr,ac]() {
             Skill_point(ac,-2);
-            ac->calStack(1,5,"Archer Skill Limit");
+            calStack(ac,1,5,"Archer Skill Limit");
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Single,"Archer Skill",
             [ptr,ac](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,30);
-                if(ptr->Eidolon>=6)ac->buffStackSingle({{Stats::DMG,AType::SKILL,100}},1,3,"Circuit Connection");
-                else ac->buffStackSingle({{Stats::DMG,AType::SKILL,100}},1,2,"Circuit Connection");
+                if(ptr->Eidolon>=6)buffStackSingle(ac,{{Stats::DMG,AType::SKILL,100}},1,3,"Circuit Connection");
+                else buffStackSingle(ac,{{Stats::DMG,AType::SKILL,100}},1,2,"Circuit Connection");
                 Attack(act);
                 if(ptr->Eidolon>=1){
                     ac->addStack("Archer E1",1);
@@ -103,7 +103,7 @@ namespace Archer{
                 Charge(2);
                 if(ptr->Eidolon>=2){
                     for(auto &each : act->targetList){
-                        debuffSingleApply(each,{{Stats::RESPEN,ElementType::Quantum,AType::None,20}},ac,"Archer E2",2);
+                        debuffSingleApply(ac,each,{{Stats::RESPEN,ElementType::Quantum,AType::None,20}},"Archer E2",2);
                     }
                 }
                 Attack(act);
@@ -155,8 +155,8 @@ namespace Archer{
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,ac]() {
             Enemy *enemy = turn->canCastToEnemy();
-            if(ac->isBuffEnd("Archer A6")){
-                ac->buffSingle({{Stats::CD,AType::None,-120}});
+            if(isBuffEnd(ac,"Archer A6")){
+                buffSingle(ac,{{Stats::CD,AType::None,-120}});
             }
             if(enemy&&isDebuffEnd(enemy,"Archer E2")){
                 debuffSingle(enemy,{{Stats::RESPEN,ElementType::Quantum,AType::None,-20}});
@@ -168,11 +168,11 @@ namespace Archer{
                 if(sp>=2&&ac->getStack("Archer Skill Limit")<5){
                     Skill();
                 }else{
-                ac->buffResetStack({{Stats::DMG,AType::SKILL,100}},"Circuit Connection");
+                buffResetStack(ac,{{Stats::DMG,AType::SKILL,100}},"Circuit Connection");
                 ac->setStack("Archer Skill Limit",0);
                 }
             }
-            if(ac->getStack("Archer Charge")&&!act->isSameAtkerName("Archer")){
+            if(ac->getStack("Archer Charge")&&!act->isSameStatsOwnerName("Archer")){
                 Charge(-1);
                 Fua();
             }
@@ -180,7 +180,7 @@ namespace Archer{
 
         Skill_point_List.push_back(TriggerSkill_point_func(PRIORITY_Last, [ptr,Skill,ac,Charge,Fua](AllyUnit *SP_maker, int SP) {
             if(sp>=4){
-                ac->buffSingle({{Stats::CD,AType::None,120}},"Archer A6",1);
+                buffSingle(ac,{{Stats::CD,AType::None,120}},"Archer A6",1);
             }
         }));
     }

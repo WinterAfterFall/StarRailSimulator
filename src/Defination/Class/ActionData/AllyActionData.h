@@ -51,8 +51,8 @@ class AllyActionData : public ActionData, public std::enable_shared_from_this<Al
     #pragma region checkMethod
 
     bool isSameUnitName(AllyUnit *ptr);
-    bool isSameCharName(CharUnit *ptr);
-    bool isSameUnitName(string name);
+    bool isSameUnitName(CharUnit *ptr);
+    bool isSameStatsOwnerName(string name);
     bool isSameAction(AType ability);
     bool isSameAction(AllyUnit *ptr,AType ability);
     bool isSameAction(string name,AType ability);

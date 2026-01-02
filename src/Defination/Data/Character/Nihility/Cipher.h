@@ -155,7 +155,7 @@ namespace Cipher{
                 if(act->isSameAction("Cipher",AType::SKILL)||act->isSameAction("Cipher",AType::Ult))
                     enemyUnit[Main_Enemy_num]->debuffApply(cph,"Patron");
 
-                if(!act->isSameUnitName("Cipher")&&!cph->getBuffCheck("Cipher Fua")){
+                if(!act->isSameStatsOwnerName("Cipher")&&!cph->getBuffCheck("Cipher Fua")){
                     cph->setBuffCheck("Cipher Fua",1);
                     shared_ptr<AllyAttackAction> newAct = 
                     make_shared<AllyAttackAction>(AType::Fua,ptr,TraceType::Single,"Cipher Fua",

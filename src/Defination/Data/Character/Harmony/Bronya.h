@@ -114,7 +114,7 @@ namespace Bronya{
             if(act->isSameAttack("Bronya",AType::BA)){
                 Action_forward(ptr->Atv_stats.get(),30);
             }
-            if(ptr->Eidolon >= 4 && act->isSameAttack(AType::BA)&&!act->isSameUnitName("Bronya")&& ptr->Buff_check["Bronya_E4"] == 0){
+            if(ptr->Eidolon >= 4 && act->isSameAttack(AType::BA)&&!act->isSameStatsOwnerName("Bronya")&& ptr->Buff_check["Bronya_E4"] == 0){
                 shared_ptr<AllyAttackAction> newAct = 
                 make_shared<AllyAttackAction>(AType::Fua,ptr,TraceType::Single,"Bronya E4",
                 [ptr](shared_ptr<AllyAttackAction> &act){

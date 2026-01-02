@@ -113,7 +113,7 @@ namespace FireFly{
             ptr->Stack["FireFly_E2"]--;
             Action_forward(ptr->Atv_stats.get(), 100);
             }
-            if (act->isSameUnitName("FireFly")) {
+            if (act->isSameStatsOwnerName("FireFly")) {
             if (ptr->Stats_type[Stats::BE][AType::None] >= 360) {
                 Superbreak_trigger(act, 50,"");
             } else if (ptr->Stats_type[Stats::BE][AType::None] >= 200) {
