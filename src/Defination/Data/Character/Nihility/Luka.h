@@ -117,7 +117,7 @@ namespace Luka{
                 FW(2);
                 Attack(act);
                 for(auto &each : act->targetList){
-                    each->debuffSingleApply({{Stats::VUL,AType::None,21.6}},lk,"Luka Vul",3);
+                    debuffSingleApply(each,{{Stats::VUL,AType::None,21.6}},lk,"Luka Vul",3);
                 }
             });
             act->addDamageIns(
@@ -161,11 +161,11 @@ namespace Luka{
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,lk]() {
             Enemy *enemy = turn->canCastToEnemy();
             if(!enemy)return;
-            if(enemy->isDebuffEnd("Luka Bleed")){
+            if(isDebuffEnd(enemy,"Luka Bleed")){
                 enemy->dotRemove({DotType::Bleed});
             }    
-            if(enemy->isDebuffEnd("Luka Vul")){
-                enemy->debuffSingle({{Stats::VUL,AType::None,-21.6}});
+            if(isDebuffEnd(enemy,"Luka Vul")){
+                debuffSingle(enemy,{{Stats::VUL,AType::None,-21.6}});
             }    
         }));
         Dot_List.push_back(TriggerDot_Func(PRIORITY_ACTTACK, [ptr,lk](Enemy* target, double Dot_ratio, DotType Dot_type) {

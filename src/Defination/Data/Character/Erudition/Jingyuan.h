@@ -66,12 +66,12 @@ namespace Jingyuan{
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,JYptr]() {
             if (!(ptr->Atv_stats->num == turn->num && turn->side == Side::Ally)) return;
             
-            if (JYptr->isBuffEnd("War_Marshal")) {
-                JYptr->buffSingle({{Stats::CR,AType::None,-10}});
+            if (isBuffEnd(JYptr,"War_Marshal")) {
+                buffSingle(JYptr,{{Stats::CR,AType::None,-10}});
             }
             ;
-            if (ptr->Eidolon >= 2 && JYptr->isBuffEnd("Swing_Skies_Squashed")) {
-                JYptr->buffSingle({
+            if (ptr->Eidolon >= 2 && isBuffEnd(JYptr,"Swing_Skies_Squashed")) {
+                buffSingle(JYptr,{
                     {Stats::DMG,AType::BA,-20},
                     {Stats::DMG,AType::SKILL,-20},
                     {Stats::DMG,AType::Ult,-20}
@@ -140,7 +140,7 @@ namespace Jingyuan{
                 
                 
                 if(ptr->Eidolon>=2){
-                    JYptr->buffSingle({
+                    buffSingle(JYptr,{
                         {Stats::DMG,AType::BA,20},
                         {Stats::DMG,AType::SKILL,20},
                         {Stats::DMG,AType::Ult,20}},
@@ -175,7 +175,7 @@ namespace Jingyuan{
         make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Aoe,"JY Skill",
         [ptr,JYptr = ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30);
-            JYptr->buffSingle({{Stats::CR,AType::None,10}},"War_Marshal",2);
+            buffSingle(JYptr,{{Stats::CR,AType::None,10}},"War_Marshal",2);
             ptr->Stack["LL_stack"]+=2;
             if(ptr->Stack["LL_stack"]>=10){
                 ptr->summonList[0]->Atv_stats->flatSpeed=70;

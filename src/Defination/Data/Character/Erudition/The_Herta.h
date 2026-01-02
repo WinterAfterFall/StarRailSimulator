@@ -58,7 +58,7 @@ namespace The_Herta{
                 if (ptr->Eidolon >= 2) {
                     ptr->Buff_note["The_Herta_Skill_Enchance"]++;
                 }
-                Hertaptr->buffSingle({{Stats::ATK_P,AType::None,80}},"Ult_The_Herta_Buff",3);
+                buffSingle(Hertaptr,{{Stats::ATK_P,AType::None,80}},"Ult_The_Herta_Buff",3);
 
                 if (ptr->Print)CharCmd::printUltStart("The Herta");
                 Attack(act);
@@ -98,7 +98,7 @@ namespace The_Herta{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hertaptr]() {
             if (ptr->Technique == 1) {
-                Hertaptr->buffSingle({{Stats::ATK_P,AType::None,60}},"The_Herta_Technique",2);
+                buffSingle(Hertaptr,{{Stats::ATK_P,AType::None,60}},"The_Herta_Technique",2);
             }
             Apply_Herta_Stack(ptr, enemyUnit[Main_Enemy_num].get(), 25);
             for (int i = 1; i <= Total_enemy; i++) {
@@ -107,11 +107,11 @@ namespace The_Herta{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Hertaptr]() {
-            if (Hertaptr->isBuffEnd("The_Herta_Technique")) {
-                Hertaptr->buffSingle({{Stats::ATK_P,AType::None,-60}});
+            if (isBuffEnd(Hertaptr,"The_Herta_Technique")) {
+                buffSingle(Hertaptr,{{Stats::ATK_P,AType::None,-60}});
             }
-            if (Hertaptr->isBuffEnd("Ult_The_Herta_Buff")) {
-                Hertaptr->buffSingle({{Stats::ATK_P,AType::None,-80}});
+            if (isBuffEnd(Hertaptr,"Ult_The_Herta_Buff")) {
+                buffSingle(Hertaptr,{{Stats::ATK_P,AType::None,-80}});
             }
         }));
 
@@ -123,7 +123,7 @@ namespace The_Herta{
 
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_BUFF, [ptr,Hertaptr](shared_ptr<AllyAttackAction> &act){
             if(act->actionName=="THerta ESkill"){
-                Hertaptr->buffSingle({{Stats::DMG,AType::None,-50}});
+                buffSingle(Hertaptr,{{Stats::DMG,AType::None,-50}});
                 if(ptr->Eidolon >= 2)Action_forward(ptr->Atv_stats.get(),35);
             }
             bool Erudition_check = 0;

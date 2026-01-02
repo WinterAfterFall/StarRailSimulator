@@ -8,7 +8,7 @@ namespace Destruction_Lightcone{
             When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr,superimpose]
                 (shared_ptr<AllyAttackAction> &act) {
                 if(act->isSameUnitName(ptr))
-                ptr->buffStackSingle({{Stats::ATK_P,AType::None,6.0+superimpose*2.0}},1,4,"Aeon Atk");
+                buffStackSingle(ptr,{{Stats::ATK_P,AType::None,6.0+superimpose*2.0}},1,4,"Aeon Atk");
             }));
     
             Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_ACTTACK, [ptr,superimpose](Enemy *target, AllyUnit *Trigger) {

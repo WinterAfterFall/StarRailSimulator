@@ -94,12 +94,12 @@ namespace Jade{
             }
             
             if (isBuffEnd(ptr,"Jade_Skill")) {
-                chooseSubUnitBuff(ptr)->buffSingle({{Stats::SPD_P,AType::None,-30}});
+                buffSingle(chooseSubUnitBuff(ptr),{{Stats::SPD_P,AType::None,-30}});
             }
         }));
 
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
-            if (act->isSameAttack("Jade",AType::Fua)) {
+            if (act->isSameAction("Jade",AType::Fua)) {
                 Jade_Talent(ptr, 5);
                 return;
             }
@@ -147,7 +147,7 @@ namespace Jade{
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(charUnit[ptr->Atv_stats->num].get(),30);
             if(isHaveToAddBuff(ptr,"Jade_Skill",3)){
-                chooseSubUnitBuff(ptr)->buffSingle({{Stats::SPD_P,AType::None,30}});
+                buffSingle(chooseSubUnitBuff(ptr),{{Stats::SPD_P,AType::None,30}});
             }
         });
         act->addBuffSingleTarget(chooseSubUnitBuff(ptr));
@@ -245,7 +245,7 @@ namespace Jade{
         act->addToActionBar();
     }
     void Jade_Talent(CharUnit *ptr,int amount){
-        ptr->buffStackSingle(
+        buffStackSingle(ptr,
             {{Stats::ATK_P,AType::None,0.5},
             {Stats::CD,AType::None,2.4}},
             amount,50,"Pawned_Asset");

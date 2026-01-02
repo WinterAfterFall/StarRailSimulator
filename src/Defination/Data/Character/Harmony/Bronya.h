@@ -152,15 +152,15 @@ namespace Bronya{
 
             //Buff นานแค่ไหน
             if(ptr->Eidolon>=6)
-            chooseSubUnitBuff(ptr)->buffSingle({{Stats::DMG,AType::None,66}},"Bronya_Skill",2);
+            buffSingle(chooseSubUnitBuff(ptr),{{Stats::DMG,AType::None,66}},"Bronya_Skill",2);
             else
-            chooseSubUnitBuff(ptr)->buffSingle({{Stats::DMG,AType::None,66}},"Bronya_Skill",1);
+            buffSingle(chooseSubUnitBuff(ptr),{{Stats::DMG,AType::None,66}},"Bronya_Skill",1);
 
             Action_forward(chooseSubUnitBuff(ptr)->Atv_stats.get(),100);
 
             //E2 buff Speed
             if(ptr->Eidolon>=2)
-            chooseSubUnitBuff(ptr)->buffSingle({{Stats::SPD_P,AType::None,30}},"Bronya_Skill_E2",1  );
+            buffSingle(chooseSubUnitBuff(ptr),{{Stats::SPD_P,AType::None,30}},"Bronya_Skill_E2",1  );
             
 
         });

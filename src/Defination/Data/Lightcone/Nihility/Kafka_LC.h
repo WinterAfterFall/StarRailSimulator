@@ -11,7 +11,7 @@ namespace Nihility_Lightcone{
             
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,Erode](shared_ptr<AllyAttackAction> &act) {
                 if(act->isSameUnitName(ptr)){
-                    ptr->buffStackSingle({{Stats::SPD_P,AType::None,4.0 + 0.8*superimpose}},1,3,"Kafka LC");
+                    buffStackSingle(ptr,{{Stats::SPD_P,AType::None,4.0 + 0.8*superimpose}},1,3,"Kafka LC");
                     for(auto &each : act->targetList ){
                         if(!each->getDebuff(Erode))each->dotSingleApply({DotType::Shock},ptr,Erode,1);
                     }
@@ -23,7 +23,7 @@ namespace Nihility_Lightcone{
                 Enemy *enemy = turn->canCastToEnemy();
                 if(!enemy)return;
 
-                if(enemy->isDebuffEnd(Erode)){
+                if(isDebuffEnd(enemy,Erode)){
                     enemy->changeShock(-1);
                 }
             }));

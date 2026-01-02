@@ -46,12 +46,12 @@ namespace Tingyun{
                 CharCmd::printUltStart("Tingyun");
                 Increase_energy(charUnit[ptr->currentCharNum].get(), 0, (ptr->Eidolon >= 6) ? 60 : 50);
                 if (ptr->Eidolon >= 1)
-                chooseSubUnitBuff(ptr)->buffSingle({{Stats::SPD_P,AType::None,20}},"Windfall_of_Lucky_Springs",1);
+                buffSingle(chooseSubUnitBuff(ptr),{{Stats::SPD_P,AType::None,20}},"Windfall_of_Lucky_Springs",1);
                 
                 if (turn->UnitName == charUnit[ptr->currentCharNum]->Atv_stats->UnitName && phaseStatus == PhaseStatus::BeforeTurn)
-                chooseSubUnitBuff(ptr)->buffSingle({{Stats::DMG,AType::None,56}},"Rejoicing_Clouds",1);
+                buffSingle(chooseSubUnitBuff(ptr),{{Stats::DMG,AType::None,56}},"Rejoicing_Clouds",1);
                 else
-                chooseSubUnitBuff(ptr)->buffSingle({{Stats::DMG,AType::None,56}},"Rejoicing_Clouds",2);
+                buffSingle(chooseSubUnitBuff(ptr),{{Stats::DMG,AType::None,56}},"Rejoicing_Clouds",2);
             });
             act->addBuffSingleTarget(ptr);
             act->addToActionBar();

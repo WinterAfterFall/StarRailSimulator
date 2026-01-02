@@ -55,9 +55,9 @@ namespace Serval{
             [ptr](shared_ptr<AllyAttackAction> &act){
                 Attack(act);
                 if (ptr->Eidolon >= 4){
-                    for (int i = 1; i <= Total_enemy; i++) {
-                        if (enemyUnit[i]->debuffApply(ptr,"Serval_Shock")) {
-                            enemyUnit[i]->changeShock(1);
+                    for (auto &each : enemyList) {
+                        if (debuffApply(ptr,each,"Serval_Shock")) {
+                            each->changeShock(1);
                         }
                     }
                     extendDebuffAll("Serval_Shock", 2);
@@ -81,7 +81,7 @@ namespace Serval{
             if (turn->side == Side::Enemy) {
                 Enemy *tempstats = dynamic_cast<Enemy*>(turn->charptr);
                 if (tempstats) {
-                    if (tempstats->isDebuffEnd("Serval_Shock")) {
+                    if (isDebuffEnd(tempstats,"Serval_Shock")) {
                         tempstats->changeShock(-1);
                     }
                 }
@@ -121,7 +121,7 @@ namespace Serval{
         }));
 
         Enemy_Death_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,Servalptr](Enemy *target, AllyUnit *Killer) {
-            Servalptr->buffSingle({{Stats::ATK_P,AType::None,20}},"Serval_A6",2);
+            buffSingle(Servalptr,{{Stats::ATK_P,AType::None,20}},"Serval_A6",2);
         }));
 
 
@@ -154,9 +154,9 @@ namespace Serval{
         make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"Serval Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,30);
-            for (int i = 1; i <= Total_enemy; i++) {
-                if (enemyUnit[i]->debuffApply(ptr,"Serval_Shock")) {
-                        enemyUnit[i]->changeShock(1);
+            for (auto &each : enemyList) {
+                if (debuffApply(ptr,each,"Serval_Shock")) {
+                        each->changeShock(1);
                 }
             }
             extendDebuffAll("Serval_Shock", 2);

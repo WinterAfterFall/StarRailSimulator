@@ -141,22 +141,22 @@ namespace SW{
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,sw]() {
             Enemy *enemy = turn->canCastToEnemy();
             if(enemy){
-                if(enemy->isDebuffEnd("SW Weakness")){
-                    enemy->debuffSingle({{Stats::RESPEN,charUnit[sw->getBuffNote("SW Weakness num")]->Element_type[0],AType::None,-20}});
+                if(isDebuffEnd(enemy,"SW Weakness")){
+                    debuffSingle(enemy,{{Stats::RESPEN,charUnit[sw->getBuffNote("SW Weakness num")]->Element_type[0],AType::None,-20}});
                 }
-                if(enemy->isDebuffEnd("SW Res")){
-                    enemy->debuffSingle({{Stats::RESPEN,AType::None,-13}});
+                if(isDebuffEnd(enemy,"SW Res")){
+                    debuffSingle(enemy,{{Stats::RESPEN,AType::None,-13}});
                 }
-                if(enemy->isDebuffEnd("SW Ult")){
-                    enemy->debuffSingle({{Stats::DEF_SHRED,AType::None,-45}});
+                if(isDebuffEnd(enemy,"SW Ult")){
+                    debuffSingle(enemy,{{Stats::DEF_SHRED,AType::None,-45}});
                 }
-                enemy->isDebuffEnd("Bug 1");
-                if(enemy->isDebuffEnd("Bug 2")){
-                    enemy->debuffSingle({{Stats::DEF_SHRED,AType::None,-12}});
+                isDebuffEnd(enemy,"Bug 1");
+                if(isDebuffEnd(enemy,"Bug 2")){
+                    debuffSingle(enemy,{{Stats::DEF_SHRED,AType::None,-12}});
                 }
-                if(enemy->isDebuffEnd("Bug 3")){
+                if(isDebuffEnd(enemy,"Bug 3")){
                     enemy->atkPercent+=10;
-                    enemy->debuffSingle({{Stats::SPD_P,AType::None,6}});
+                    debuffSingle(enemy,{{Stats::SPD_P,AType::None,6}});
                 }
 
             }
@@ -200,7 +200,7 @@ namespace SW{
                         enemy->debuffSingleApply({{Stats::DEF_SHRED,AType::None,12}},sw,"Bug 2",4);
                         if(enemy->debuffApply(sw,"Bug 3",4)){
                             enemy->atkPercent-=10;
-                            enemy->debuffSingle({{Stats::SPD_P,AType::None,-6}});
+                            debuffSingle(enemy,{{Stats::SPD_P,AType::None,-6}});
                         }
                     }
                 }

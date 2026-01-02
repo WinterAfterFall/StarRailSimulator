@@ -47,8 +47,8 @@ namespace Remembrance_Lightcone{
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 Enemy *enemy = turn->canCastToEnemy();
                 if(!enemy)return;
-                if(enemy->isDebuffEnd("Hyacnine_LC Debuff")){
-                    enemy->debuffSingle({{Stats::VUL,AType::None,-(13.5 + 4.5 * superimpose)}});
+                if(isDebuffEnd(enemy,"Hyacnine_LC Debuff")){
+                    debuffSingle(enemy,{{Stats::VUL,AType::None,-(13.5 + 4.5 * superimpose)}});
                 }
             }));
         };

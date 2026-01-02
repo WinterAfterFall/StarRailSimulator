@@ -15,8 +15,8 @@ namespace Nihility_Lightcone{
                     act->isSameAction(AType::SKILL)||
                     act->isSameAction(AType::Ult))&&act->isSameUnitName(ptr)){
                         for(auto &each : act->targetList){
-                            if(isDot) each->debuffSingleApply({{Stats::VUL,AType::None,20.0 + superimpose*4}},ptr,Cornered,2);
-                            else each->debuffSingleApply({{Stats::VUL,AType::None,8.0 + superimpose*2}},ptr,Unarmored,2);
+                            if(isDot) debuffSingleApply(each,{{Stats::VUL,AType::None,20.0 + superimpose*4}},ptr,Cornered,2);
+                            else debuffSingleApply(each,{{Stats::VUL,AType::None,8.0 + superimpose*2}},ptr,Unarmored,2);
                             
                         }
                     }
@@ -26,11 +26,11 @@ namespace Nihility_Lightcone{
                 Enemy *enemy = turn->canCastToEnemy();
                 if(!enemy)return;
 
-                if(enemy->isDebuffEnd(Cornered)){
-                    enemy->debuffSingle({{Stats::VUL,AType::None,-(20.0 + superimpose*4)}});
+                if(isDebuffEnd(enemy,Cornered)){
+                    debuffSingle(enemy,{{Stats::VUL,AType::None,-(20.0 + superimpose*4)}});
                 }
-                if(enemy->isDebuffEnd(Unarmored)){
-                    enemy->debuffSingle({{Stats::VUL,AType::None,-(8.0 + superimpose*2)}});
+                if(isDebuffEnd(enemy,Unarmored)){
+                    debuffSingle(enemy,{{Stats::VUL,AType::None,-(8.0 + superimpose*2)}});
                 }
             }));
     

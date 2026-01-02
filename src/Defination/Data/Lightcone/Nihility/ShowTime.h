@@ -11,7 +11,7 @@ namespace Nihility_Lightcone{
 
             AfterApplyDebuff.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](Enemy *target, AllyUnit *Trigger) {
                 if(Trigger->isSameStatsOwnerName(ptr)){
-                    ptr->buffStackSingle({{Stats::DMG,AType::None,5.0 + superimpose}},1,3,"ShowTime Trick",1);
+                    buffStackSingle(ptr,{{Stats::DMG,AType::None,5.0 + superimpose}},1,3,"ShowTime Trick",1);
                 }
             }));
 
@@ -19,8 +19,8 @@ namespace Nihility_Lightcone{
                 AllyUnit *ally = turn->canCastToSubUnit();
                 if(!ally)return;
 
-                if(ally->isBuffEnd("ShowTime Trick")){
-                    ally->buffResetStack({{Stats::DMG,AType::None,5.0 + superimpose}},"ShowTime Trick");
+                if(isBuffEnd(ally,"ShowTime Trick")){
+                    buffResetStack(ally,{{Stats::DMG,AType::None,5.0 + superimpose}},"ShowTime Trick");
                 }
             }));
     

@@ -158,7 +158,7 @@ namespace Kafka{
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,kafka]() {
             if(turn->isSameUnitName("Kafka"))kafka->addStack("Kafka Talent",1);
             Enemy *enemy = turn->canCastToEnemy();
-            if(enemy&&enemy->isDebuffEnd("Kafka Shock")){
+            if(enemy&&isDebuffEnd(enemy,"Kafka Shock")){
                 enemy->dotRemove({DotType::Shock});
             }
         }));
@@ -186,14 +186,14 @@ namespace Kafka{
         BeforeAttack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,Fua,kafka](shared_ptr<AllyAttackAction> &act) {
             if(act->isSameAtkerName("Kafka")){
                 for(auto &each : act->targetList){
-                    each->debuffSingleApply({{Stats::VUL,AType::Dot,30}},kafka,"kafka E1",2);
+                    debuffSingleApply(each,{{Stats::VUL,AType::Dot,30}},kafka,"kafka E1",2);
                 }
             }
         }));
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,kafka]() {
             Enemy *enemy = turn->canCastToEnemy();
-            if(enemy&&enemy->isDebuffEnd("Kafka E1")){
-                enemy->debuffSingle({{Stats::VUL,AType::Dot,-30}});
+            if(enemy&&isDebuffEnd(enemy,"Kafka E1")){
+                debuffSingle(enemy,{{Stats::VUL,AType::Dot,-30}});
             }
         }));
         }

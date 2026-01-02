@@ -15,7 +15,7 @@ namespace Erudition_Lightcone{
 
             When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
                 for(auto &each : act->targetList){
-                    each->debuffSingleApply({{Stats::DEF_SHRED,AType::None,(9.0 + superimpose * 3.0)}},ptr,"AnaxaLC_Debuff",2);
+                    debuffSingleApply(each,{{Stats::DEF_SHRED,AType::None,(9.0 + superimpose * 3.0)}},ptr,"AnaxaLC_Debuff",2);
                 }
             }));
 
@@ -23,8 +23,8 @@ namespace Erudition_Lightcone{
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 Enemy *enemy = turn->canCastToEnemy();
                 if(!enemy)return;
-                if(enemy->isDebuffEnd("AnaxaLC_Debuff")){
-                    enemy->debuffSingle({{Stats::DEF_SHRED,AType::None,-(9.0 + superimpose * 3.0)}});
+                if(isDebuffEnd(enemy,"AnaxaLC_Debuff")){
+                    debuffSingle(enemy,{{Stats::DEF_SHRED,AType::None,-(9.0 + superimpose * 3.0)}});
                 }
             }));
         };

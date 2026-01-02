@@ -20,8 +20,8 @@ namespace Nihility_Lightcone{
                 Enemy *enemy = turn->canCastToEnemy();
                 if(!enemy)return;
 
-                if(enemy->isDebuffEnd("Holiday Vul")){
-                    enemy->debuffSingle({{Stats::VUL,AType::None,-(8.5+1.5*superimpose)}});
+                if(isDebuffEnd(enemy,"Holiday Vul")){
+                    debuffSingle(enemy,{{Stats::VUL,AType::None,-(8.5+1.5*superimpose)}});
                 }
             }));
         };

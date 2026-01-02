@@ -15,7 +15,7 @@ namespace Nihility_Lightcone{
                 AllyUnit *ally = turn->canCastToSubUnit();
                 if(!ally)return;
 
-                if(ally->isBuffEnd("Solitary Healing")){
+                if(isBuffEnd(ally,"Solitary Healing")){
                     buffSingle(ptr,{{Stats::DMG,AType::Dot,-(18.0 + 6 * superimpose)}});
                 }
             }));

@@ -51,7 +51,7 @@ namespace Cipher{
             [ptr,cph](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,30);
                 for(auto &each : act->targetList){
-                    if(each->debuffApply(cph,"Cipher Weaken",2)){
+                    if(debuffApply(each,cph,"Cipher Weaken",2)){
                         each->dmgPercent -= 10;
                     }
                 }
@@ -114,18 +114,18 @@ namespace Cipher{
             auto enemy =  turn->canCastToEnemy();
             auto ally =  turn->canCastToSubUnit();
             if(ally){
-                if(ally->isBuffEnd("Cipher Skill")){
+                if(isBuffEnd(ally,"Cipher Skill")){
                     ally->buffSingle({{Stats::ATK_P,AType::None,-30}});
                 }
-                if(ptr->Eidolon>=1&&ally->isBuffEnd("Cipher E1"))
+                if(ptr->Eidolon>=1&&isBuffEnd(ally,"Cipher E1"))
                     ally->buffSingle({{Stats::ATK_P,AType::None,-80}});
             }
             if(enemy){
-                if(enemy->isDebuffEnd("Cipher Weaken")){
+                if(isDebuffEnd(enemy,"Cipher Weaken")){
                     enemy->dmgPercent +=10;
                 }
-                if(ptr->Eidolon>=2&&enemy->isDebuffEnd("Cipher E2")){
-                    enemy->debuffSingle({{Stats::VUL,AType::None,-30}});
+                if(ptr->Eidolon>=2&&isDebuffEnd(enemy,"Cipher E2")){
+                    debuffSingle(enemy,{{Stats::VUL,AType::None,-30}});
                 }
             }
         }));
@@ -149,7 +149,7 @@ namespace Cipher{
             shared_ptr<AllyAttackAction> &act){
                 if(ptr->Eidolon>=2&&act->isSameUnitName(cph)){
                     for(auto &each : act->targetList){
-                        each->debuffSingleApply({{Stats::VUL,AType::None,30}},cph,"Cipher E2",2);
+                        debuffSingleApply(each,{{Stats::VUL,AType::None,30}},cph,"Cipher E2",2);
                     }
                 }
                 if(act->isSameAction("Cipher",AType::SKILL)||act->isSameAction("Cipher",AType::Ult))

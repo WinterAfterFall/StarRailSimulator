@@ -149,7 +149,7 @@ namespace Tribbie{
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr](shared_ptr<AllyAttackAction> &act) {
             int temp = act->targetList.size();
             if (act->isSameAttack("Tribbie",AType::Fua)) {
-                TBptr->buffStackSingle({{Stats::DMG, AType::None, 72}},1,3,"Tribbie_A2",3);
+                TBbuffStackSingle(ptr,{{Stats::DMG, AType::None, 72}},1,3,"Tribbie_A2",3);
             }
             Increase_energy(ptr, (1.5) * temp);
             if (TBptr->getBuffCheck("Tribbie_Zone")) {

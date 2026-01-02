@@ -10,7 +10,7 @@ namespace Destruction_Lightcone{
 
             Enemy_hit_List.push_back(TriggerByEnemyHit(PRIORITY_ACTTACK,[ptr,superimpose](Enemy *Attacker,vector<AllyUnit*> target){
                 for(AllyUnit* e : target){
-                    ptr->buffStackSingle({{Stats::DMG,AType::None,11.5 +2.5*superimpose}},1,3,"Jingliu_LC");
+                    buffStackSingle(ptr,{{Stats::DMG,AType::None,11.5 +2.5*superimpose}},1,3,"Jingliu_LC");
                 }
                 if(ptr->getStack("Jingliu_LC")>=3){
                     if(isHaveToAddBuff(ptr,"Jingliu_LC Def Shred"))
@@ -19,7 +19,7 @@ namespace Destruction_Lightcone{
             }));
 
             HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_ACTTACK,[ptr,superimpose](Unit *Trigger,AllyUnit *target,double Value){
-                ptr->buffStackSingle({{Stats::DMG,AType::None,11.5 +2.5*superimpose}},1,3,"Jingliu_LC");
+                buffStackSingle(ptr,{{Stats::DMG,AType::None,11.5 +2.5*superimpose}},1,3,"Jingliu_LC");
                 if(ptr->getStack("Jingliu_LC")>=3){
                     if(isHaveToAddBuff(ptr,"Jingliu_LC Def Shred"))
                         buffSingle(ptr,{{Stats::DEF_SHRED,AType::None,10.0 +2*superimpose}});

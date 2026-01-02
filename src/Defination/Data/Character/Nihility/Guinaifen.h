@@ -122,7 +122,7 @@ namespace Guinaifen{
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,gui]() {
             Enemy *enemy = turn->canCastToEnemy();
             if(!enemy)return;
-            if(enemy->isDebuffEnd("Gui Burn")){
+            if(isDebuffEnd(enemy,"Gui Burn")){
                 enemy->dotRemove({DotType::Burn});
             }       
         }));

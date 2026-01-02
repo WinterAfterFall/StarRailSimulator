@@ -49,7 +49,7 @@ namespace BS{
             [ptr,bs](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,30);
                 for(auto &each : act->targetList){
-                    each->debuffSingleApply({{Stats::DEF_SHRED,AType::None,20.8}},bs,"BS DefShred",3);
+                    debuffSingleApply(each,{{Stats::DEF_SHRED,AType::None,20.8}},bs,"BS DefShred",3);
                 }
                 for(auto &each : act->targetList){
                     each->dotSingleStack({DotType::WindShear},bs,1,50,"Arcana");
@@ -89,12 +89,12 @@ namespace BS{
             [ptr,bs](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Black Swan");
                 for(auto &each : act->targetList){
-                    if(each->debuffApply(bs,"Epiphany",2)){
+                    if(debuffApply(each,bs,"Epiphany",2)){
                         each->changeBleed(1);
                         each->changeBurn(1);
                         each->changeShock(1);
                         each->setDebuff("Arcana Ignore",1);
-                        if(turn->isSameUnit(each))each->debuffSingle({{Stats::VUL,AType::None,25}});
+                        if(turn->isSameUnit(each))debuffSingle(each,{{Stats::VUL,AType::None,25}});
                     }
                 }
                 Attack(act);
@@ -127,7 +127,7 @@ namespace BS{
             
             enemy->dotSingleStack({DotType::WindShear},bs,1,50,"Arcana");
             if(enemy->getDebuff("Epiphany")){
-                enemy->debuffSingle({{Stats::VUL,AType::None,25}});
+                debuffSingle(enemy,{{Stats::VUL,AType::None,25}});
             }
         }));
 
@@ -136,14 +136,14 @@ namespace BS{
             if(!enemy)return;
             
             if(enemy->getDebuff("Epiphany")){
-                enemy->debuffSingle({{Stats::VUL,AType::None,-25}});
+                debuffSingle(enemy,{{Stats::VUL,AType::None,-25}});
             }
 
-            if(enemy->isDebuffEnd("BS DefShred")){
-                enemy->debuffSingle({{Stats::DEF_SHRED,AType::None,-20.8}});
+            if(isDebuffEnd(enemy,"BS DefShred")){
+                debuffSingle(enemy,{{Stats::DEF_SHRED,AType::None,-20.8}});
             }
 
-            if(enemy->isDebuffEnd("Epiphany")){
+            if(isDebuffEnd(enemy,"Epiphany")){
                 enemy->changeBleed(-1);
                 enemy->changeWindSheer(-1);
                 enemy->changeShock(-1);

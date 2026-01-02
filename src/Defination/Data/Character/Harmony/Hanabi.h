@@ -157,7 +157,7 @@ namespace Hanabi{
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hnb]() {
             AllyUnit *ally = turn->canCastToSubUnit();
             if(!ally)return;
-            if(ally->isBuffEnd("Hnb Skill")){
+            if(isBuffEnd(ally,"Hnb Skill")){
                 ally->buffSingle({
                     {Stats::CD,AType::TEMP,-ally->getBuffNote("Hnb Skill")},
                     {Stats::CD,AType::None,-ally->getBuffNote("Hnb Skill")}
@@ -181,7 +181,7 @@ namespace Hanabi{
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hnb]() {
             AllyUnit *ally = turn->canCastToSubUnit();
             if(!ally)return;
-            if(ally->isBuffEnd("Hnb Cipher")){
+            if(isBuffEnd(ally,"Hnb Cipher")){
                 ally->buffSingle({{Stats::DMG,AType::None,-10.0 * ally->getStack("Hnb Talent")}});
                 if(ptr->Eidolon>=1)ally->buffSingle({{Stats::ATK_P,AType::None,-40}});
                 if(ptr->Eidolon>=6){
@@ -197,12 +197,12 @@ namespace Hanabi{
                     }
                 }
             }
-            if(ally->isBuffEnd("Hnb Talent")){
+            if(isBuffEnd(ally,"Hnb Talent")){
                 if(ally->getBuffCheck("Hnb Cipher"))
-                    ally->buffResetStack({{Stats::DMG,AType::None,16}},"Hnb Talent");
+                    buffResetStack(ally,{{Stats::DMG,AType::None,16}},"Hnb Talent");
                 else
-                    ally->buffResetStack({{Stats::DMG,AType::None,6}},"Hnb Talent");
-                if(ptr->Eidolon>=2)ally->buffResetStack({{Stats::DEF_SHRED,AType::None,8}},"Hnb E2");
+                    buffResetStack(ally,{{Stats::DMG,AType::None,6}},"Hnb Talent");
+                if(ptr->Eidolon>=2)buffResetStack(ally,{{Stats::DEF_SHRED,AType::None,8}},"Hnb E2");
             }
         }));
 

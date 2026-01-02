@@ -103,7 +103,7 @@ namespace Archer{
                 Charge(2);
                 if(ptr->Eidolon>=2){
                     for(auto &each : act->targetList){
-                        each->debuffSingleApply({{Stats::RESPEN,ElementType::Quantum,AType::None,20}},ac,"Archer E2",2);
+                        debuffSingleApply(each,{{Stats::RESPEN,ElementType::Quantum,AType::None,20}},ac,"Archer E2",2);
                     }
                 }
                 Attack(act);
@@ -158,8 +158,8 @@ namespace Archer{
             if(ac->isBuffEnd("Archer A6")){
                 ac->buffSingle({{Stats::CD,AType::None,-120}});
             }
-            if(enemy&&enemy->isDebuffEnd("Archer E2")){
-                enemy->debuffSingle({{Stats::RESPEN,ElementType::Quantum,AType::None,-20}});
+            if(enemy&&isDebuffEnd(enemy,"Archer E2")){
+                debuffSingle(enemy,{{Stats::RESPEN,ElementType::Quantum,AType::None,-20}});
             }
         }));
 

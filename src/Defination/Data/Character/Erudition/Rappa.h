@@ -99,8 +99,8 @@ namespace Rappa{
             Enemy *enemyUnit = turn->canCastToEnemy();
             if (enemyUnit) {
                 
-                if (enemyUnit->isDebuffEnd("Withered_Leaf")) {
-                    enemyUnit->debuffSingle({{Stats::VUL,AType::Break,-enemyUnit->DebuffNote["Withered_Leaf"]}});
+                if (isDebuffEnd(enemyUnit,"Withered_Leaf")) {
+                    debuffSingle(enemyUnit,{{Stats::VUL,AType::Break,-enemyUnit->DebuffNote["Withered_Leaf"]}});
                 }
             }
             if (turn->UnitName == "Rappa") {
@@ -172,7 +172,7 @@ namespace Rappa{
             if (temp < 0)
             temp = 0;
             target->DebuffNote["Withered_Leaf"] = target->DebuffNote["Withered_Leaf"];
-            target->debuffSingleApply({{Stats::VUL, AType::Break, temp - target->DebuffNote["Withered_Leaf"]}},Rappaptr,"Withered_Leaf",2);
+            debuffSingleApply(Rappaptr,target,{{Stats::VUL, AType::Break, temp - target->DebuffNote["Withered_Leaf"]}},"Withered_Leaf",2);
         }));
     }
 

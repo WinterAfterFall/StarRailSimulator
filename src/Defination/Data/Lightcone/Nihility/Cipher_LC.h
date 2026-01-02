@@ -18,11 +18,11 @@ namespace Nihility_Lightcone{
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 Enemy *enemy = turn->canCastToEnemy();
                 if(!enemy)return;
-                if(enemy->isDebuffEnd("Bamboozle")){
-                    enemy->debuffSingle({{Stats::DEF_SHRED,AType::None,-(14.0 + (superimpose * 2))}});
+                if(isDebuffEnd(enemy,"Bamboozle")){
+                    debuffSingle(enemy,{{Stats::DEF_SHRED,AType::None,-(14.0 + (superimpose * 2))}});
                 }
-                if(enemy->isDebuffEnd("Theft")){
-                    enemy->debuffSingle({{Stats::DEF_SHRED,AType::None,-(7.0 + superimpose)}});
+                if(isDebuffEnd(enemy,"Theft")){
+                    debuffSingle(enemy,{{Stats::DEF_SHRED,AType::None,-(7.0 + superimpose)}});
                 }
             }));
         };
