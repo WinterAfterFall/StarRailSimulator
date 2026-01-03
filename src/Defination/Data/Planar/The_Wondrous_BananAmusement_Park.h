@@ -9,7 +9,7 @@ namespace Planar{
         }));
 
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            if (ptr->summonList.size() != 0 || ptr->Sub_Unit_ptr.size() > 1) {
+            if (ptr->summonList.size() != 0 || ptr->memospriteList.size() > 0) {
                 ptr->Stats_type[Stats::CD][AType::None] += 32;
             }
         }));
