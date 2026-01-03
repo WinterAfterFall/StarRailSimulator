@@ -9,7 +9,7 @@ namespace Planar{
         }));
 
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            ptr->buffSingleChar({{Stats::CD, AType::None, 28.0}});
+            buffSingleChar(ptr,{{Stats::CD, AType::None, 28.0}});
         }));
     }
 }

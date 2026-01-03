@@ -17,7 +17,7 @@ namespace Planar{
                 buff = (cnt - 4)* 12;
             }
 
-            ptr->buffSingleChar({{Stats::DMG,AType::None,buff - ptr->getBuffNote("Arcadia")}});
+            buffSingleChar(ptr,{{Stats::DMG,AType::None,buff - ptr->getBuffNote("Arcadia")}});
             ptr->setBuffNote("Arcadia",buff);
         }));
     }

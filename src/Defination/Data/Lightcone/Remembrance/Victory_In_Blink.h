@@ -20,13 +20,13 @@ namespace Remembrance_Lightcone{
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,VictoryBlink]() {
                 AllyUnit *tempstats = dynamic_cast<AllyUnit *>(turn->charptr);
                 if (!tempstats) return;
-                if (tempstats->isBuffEnd(VictoryBlink)) {
+                if (isBuffEnd(tempstats,VictoryBlink)) {
                     tempstats->Stats_type[Stats::DMG][AType::None] -= (6 + 2 * superimpose);
                 }
             }));
     
             AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,superimpose,VictoryBlink](AllyUnit* target) {
-                if(target->isBuffGoneByDeath(VictoryBlink)){
+                if(isBuffGoneByDeath(target,VictoryBlink)){
                     target->Stats_type[Stats::DMG][AType::None] -= (6 + 2 * superimpose);
                 }
             }));

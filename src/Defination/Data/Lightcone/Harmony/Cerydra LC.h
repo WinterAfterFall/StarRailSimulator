@@ -19,7 +19,7 @@ namespace Harmony_Lightcone{
             }));
     
             AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,superimpose,CerydraLCBuff](AllyUnit* target) {
-                if(target->isBuffGoneByDeath(CerydraLCBuff)){
+                if(isBuffGoneByDeath(target,CerydraLCBuff)){
                     target->buffSingle({{Stats::DMG,AType::None,-(40.5 + (13.5)*superimpose)}});
                 }
             }));

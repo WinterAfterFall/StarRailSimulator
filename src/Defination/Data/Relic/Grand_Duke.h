@@ -26,7 +26,7 @@ namespace Relic{
                 act->Attacker->Stats_type[Stats::ATK_P][AType::None] -= act->Attacker->Stack["Grand_Duke"] * 6;
                 act->Attacker->Stack["Grand_Duke"] = hitCnt;
                 act->Attacker->Stats_type[Stats::ATK_P][AType::None] += act->Attacker->Stack["Grand_Duke"] * 6;
-                act->Attacker->extendBuffTime("Grand_Duke", 3);
+                extendBuffTime(act->Attacker,"Grand_Duke", 3);
             }
         }));
 

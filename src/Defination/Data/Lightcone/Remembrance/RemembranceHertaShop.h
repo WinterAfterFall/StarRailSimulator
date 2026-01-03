@@ -30,7 +30,7 @@ namespace Remembrance_Lightcone{
             }));
 
             AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,superimpose](AllyUnit* target) {
-                if(target->isBuffGoneByDeath("Curtain Never Falls")){
+                if(isBuffGoneByDeath(target,"Curtain Never Falls")){
                     target->buffSingle({
                         {Stats::DMG,AType::None,-(6.0 + 2* superimpose)}
                     });

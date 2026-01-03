@@ -30,14 +30,14 @@ namespace Remembrance_Lightcone{
                 &&turn->num==ptr->Atv_stats->num
                 &&target->Atv_stats->num==ptr->Atv_stats->num){
                     if(isHaveToAddBuff(ptr,"Death Flower",2))
-                    ptr->buffSingleChar({{Stats::DEF_SHRED, AType::None, 25.0 + 5 * superimpose}});
+                    buffSingleChar(ptr,{{Stats::DEF_SHRED, AType::None, 25.0 + 5 * superimpose}});
                 }
             }));
 
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr, superimpose]() {
                 if(isBuffEnd(ptr,"Death Flower")){
-                    ptr->buffSingleChar({{Stats::DEF_SHRED, AType::None, -(25.0 + 5 * superimpose)}});
+                    buffSingleChar(ptr,{{Stats::DEF_SHRED, AType::None, -(25.0 + 5 * superimpose)}});
                 }
             }));
         };

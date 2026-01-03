@@ -9,7 +9,7 @@ namespace Relic{
             ptr->Stats_type[Stats::DMG][AType::SKILL] += 20;
         }));
 
-        WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr](Ally *ally){
+        WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr](CharUnit *ally){
             if (ally->isSameChar(ptr)) {
                 if (isHaveToAddBuff(ptr,"Scholar_buff")) {
                     ptr->Stats_type[Stats::DMG][AType::SKILL] += 25;

@@ -9,8 +9,8 @@ namespace Harmony_Lightcone{
                 if (turn->num != ptr->currentCharNum) return;
                 AllyUnit *tempstats = dynamic_cast<AllyUnit*>(turn->charptr);
                 if (!tempstats) return;
-                if (tempstats->isBuffEnd(hymn)) {
-                    tempstats->buffResetStack({{Stats::DMG,AType::None,(12.75 + (2.25)*superimpose)}},hymn);
+                if (isBuffEnd(tempstats,hymn)) {
+                    buffResetStack(tempstats,{{Stats::DMG,AType::None,(12.75 + (2.25)*superimpose)}},hymn);
                 }
             }));
     
@@ -22,7 +22,7 @@ namespace Harmony_Lightcone{
                 if (act->Attacker->Atv_stats->StatsOwnerName == ptr->Atv_stats->StatsOwnerName && act->traceType == TraceType::Single) {
                     Increase_energy(ptr, 5.5 + 0.5 * superimpose);
                     for (auto each : act->buffTargetList) {
-                        each->buffStackSingle({{Stats::DMG,AType::None,(12.75 + (2.25)*superimpose)}},1,3,hymn,3);
+                        buffStackSingle(each,{{Stats::DMG,AType::None,(12.75 + (2.25)*superimpose)}},1,3,hymn,3);
                     }
                     ++ptr->Stack["Hymn_cnt"];
                     if (ptr->Stack["Hymn_cnt"] == 2) {
