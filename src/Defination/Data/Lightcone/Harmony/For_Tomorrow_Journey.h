@@ -9,8 +9,8 @@ namespace Harmony_Lightcone{
                 ptr->Stats_type[Stats::ATK_P][AType::None] += 12 + 4 * superimpose;
             }));
 
-            WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](Ally *ally){
-                if (ally->isSameChar(ptr)) {
+            WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](CharUnit *ally){
+                if (ally->isSameOwner(ptr)) {
                     buffSingle(ptr,{
                         {Stats::DMG,AType::None,(15.0 + 3 * superimpose)}
                     },"For_Tomorrow_Journey_Buff",1);

@@ -78,21 +78,12 @@ public:
 
     
 
-    bool isSameUnitName(AllyUnit *ptr){
-        if(this->Atv_stats->UnitName== ptr->Atv_stats->UnitName)return true;
-        return false;
-    
-    }
-    bool isSameStatsOwnerName(AllyUnit *ptr){
-        if(this->Atv_stats->StatsOwnerName == ptr->Atv_stats->StatsOwnerName)return true;
+    bool isSameName(AllyUnit *ptr){
+        if(this->Atv_stats->Name == ptr->Atv_stats->Name)return true;
         return false;
     }
-    bool isSameUnitName(string name){
-        if(this->Atv_stats->UnitName == name)return true;
-        return false;
-    }
-    bool isSameStatsOwnerName(string name){
-        if(this->Atv_stats->StatsOwnerName == name)return true;
+    bool isSameName(string name){
+        if(this->Atv_stats->Name == name)return true;
         return false;
     }
     bool isSameNum(AllyUnit *ptr){

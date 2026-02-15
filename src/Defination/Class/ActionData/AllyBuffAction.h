@@ -11,15 +11,15 @@ class AllyBuffAction : public AllyActionData {
     #pragma region checkMethod
 
     bool isSameBufferName(AllyUnit *ptr){
-        if(this->Attacker->isSameStatsOwnerName(ptr))return true;
+        if(this->Attacker->isSameName(ptr))return true;
         return false;
     }
     bool isSameBufferName(CharUnit *ptr){
-        if(ptr->isSameChar(this->Attacker))return true;
+        if(ptr->isSameOwner(this->Attacker))return true;
         return false;
     }
     bool isSameBufferName(string name){
-        if(this->Attacker->isSameStatsOwnerName(name))return true;
+        if(this->Attacker->isSameName(name))return true;
         return false;
     }
     bool isSameBuff(AType ability){
@@ -29,7 +29,7 @@ class AllyBuffAction : public AllyActionData {
         return false;    
     }
     bool isSameBuff(AllyUnit *ptr,AType ability){
-        if(this->Attacker->isSameStatsOwnerName(ptr)){
+        if(this->Attacker->isSameName(ptr)){
             for(auto &each : actionTypeList){
                 if(each == ability)return true;
             }
@@ -37,7 +37,7 @@ class AllyBuffAction : public AllyActionData {
         return false;    
     }
     bool isSameBuff(CharUnit *ptr,AType ability){
-        if(ptr->isSameChar(this->Attacker)){
+        if(ptr->isSameOwner(this->Attacker)){
             for(auto &each : actionTypeList){
                 if(each == ability)return true;
             }
@@ -45,7 +45,7 @@ class AllyBuffAction : public AllyActionData {
         return false;    
     }
     bool isSameBuff(string name,AType ability){
-        if(this->Attacker->isSameStatsOwnerName(name)){
+        if(this->Attacker->isSameName(name)){
             for(auto &each : actionTypeList){
                 if(each == ability)return true;
             }

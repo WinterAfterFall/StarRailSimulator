@@ -187,7 +187,7 @@ namespace SW{
         }));
 
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,sw](shared_ptr<AllyAttackAction> &act) {
-            if(ptr->Eidolon>=2||act->isSameUnitName(sw)){
+            if(ptr->Eidolon>=2||act->isSameName(sw)){
                 for(auto &enemy : act->targetList){
                     if(!enemy->getDebuff("Bug 1")){
                         debuffApply(sw,enemy,"Bug 1",4);

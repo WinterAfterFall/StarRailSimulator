@@ -141,6 +141,7 @@ public:
     #pragma region constructor
     CharUnit() {  // Call Unit constructor to initialize Atv_stats and set owner
           // Using unique_ptr for stats
+          owner = this;
     }
 
     ~CharUnit() {}
@@ -231,15 +232,15 @@ public:
 
     #pragma region checkMethod
 
-    bool isSameChar(AllyUnit *ptr){
+    bool isSameOwner(AllyUnit *ptr){
 
         Memosprite* memo = dynamic_cast<Memosprite*>(ptr);
         if(memo){
-            if(memo->owner->isSameStatsOwnerName(this))return true;
+            if(memo->owner->isSameName(this))return true;
             return false;
         }
 
-        if(ptr->isSameStatsOwnerName(this))return true;
+        if(ptr->isSameName(this))return true;
         return false;
     }
     #pragma endregion

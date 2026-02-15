@@ -16,7 +16,7 @@ namespace CharCmd{
 
     CharUnit* findAllyName(string name){
         for(int i = 1; i<= Total_ally;i++){
-            if(charUnit[i]->Atv_stats->UnitName == name)return charUnit[i].get();
+            if(charUnit[i]->Atv_stats->Name == name)return charUnit[i].get();
         }
         return nullptr;
     }

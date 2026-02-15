@@ -35,7 +35,7 @@ void debuffStackSingle(AllyUnit *ptr,Enemy *enemy,vector<BuffClass> debuffSet, i
     }
     debuffSingle(enemy,debuffSet);
 }
-void debuffStackSingle(Enemy *enemy,vector<BuffElementClass> debuffSet,AllyUnit *ptr, int Stack_increase, int Stack_limit, string Stack_Name) {
+void debuffStackSingle(AllyUnit *ptr,Enemy *enemy,vector<BuffElementClass> debuffSet, int Stack_increase, int Stack_limit, string Stack_Name) {
     int stack = calDebuffStack(ptr,enemy,Stack_Name,Stack_increase,Stack_limit).first;
     for(auto &e : debuffSet){
         e.value *= stack;

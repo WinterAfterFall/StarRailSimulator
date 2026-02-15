@@ -120,7 +120,7 @@ namespace Mydei{
         }));
 
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTTACK, [ptr,Mydeiptr](AllyUnit *target, Stats StatsType) {
-            if (target->Atv_stats->StatsOwnerName != "Mydei") return;
+            if (target->Atv_stats->Name != "Mydei") return;
             if (StatsType == Stats::FLAT_HP || StatsType == Stats::HP_P) {
                 
             if (Mydeiptr->getBuffCheck("Mydei_Vendetta")) {
@@ -133,7 +133,7 @@ namespace Mydei{
         }));
 
         HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_ACTTACK, [ptr](Unit *Trigger, AllyUnit *target, double Value) {
-            if (!target->isSameStatsOwnerName("Mydei")) return;
+            if (!target->isSameName("Mydei")) return;
             if (Trigger->canCastToEnemy()) {
             ChargePoint(ptr, ((ptr->Buff_note["Mydei_A6"] * 2.5 + 100.0) / 100.0) * CalculateChargePoint(ptr, Value));
             } else {
@@ -142,7 +142,7 @@ namespace Mydei{
         }));
 
         Healing_List.push_back(TriggerHealing(PRIORITY_ACTTACK, [ptr](AllyUnit *Healer, AllyUnit *target, double Value) {
-            if (!target->isSameStatsOwnerName("Mydei")) return;
+            if (!target->isSameName("Mydei")) return;
             if (ptr->Eidolon < 2) return;
             Value = (Value + ptr->Buff_note["Mydei_E2"] <= target->totalHP) ? Value : target->totalHP - ptr->Buff_note["Mydei_E2"];
             ptr->Buff_note["Mydei_E2"] += Value;
@@ -152,7 +152,7 @@ namespace Mydei{
         Enemy_hit_List.push_back(TriggerByEnemyHit(PRIORITY_ACTTACK, [ptr](Enemy *Attacker, vector<AllyUnit *> target) {
             if (ptr->Eidolon < 4) return;
             for (AllyUnit *e : target) {
-            if (e->isSameStatsOwnerName("Mydei")) goto jump;
+            if (e->isSameName("Mydei")) goto jump;
             }
             return;
         jump:

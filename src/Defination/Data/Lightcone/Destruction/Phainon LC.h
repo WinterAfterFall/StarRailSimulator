@@ -9,8 +9,8 @@ namespace Destruction_Lightcone{
                 ptr->Stats_type[Stats::DEF_SHRED][AType::None] += 13.5 + 4.5 * superimpose;
             }));
     
-            WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](Ally *ally){
-                if (ally->isSameChar(ptr)) {
+            WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](CharUnit *ally){
+                if (ally->isSameOwner(ptr)) {
                     buffSingle(ptr,{{Stats::DMG,AType::None,42.0 + 18.0 * superimpose}},"Blazing Sun",1);
                 }
             }));

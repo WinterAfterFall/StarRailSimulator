@@ -86,7 +86,7 @@ namespace RMC{
         }));
 
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr](AllyUnit *target, Stats StatsType) {
-            if (target->Atv_stats->StatsOwnerName != "Mem") return;
+            if (target->Atv_stats->Name != "Mem") return;
             if (StatsType == Stats::CD) {
                 double buffValue = (calculateCritdamForBuff(ptr->memospriteList[0].get(), 13.2) + 26.4);
                 buffAllAlly({{Stats::CD, AType::TEMP, buffValue - ptr->memospriteList[0]->Buff_note["Mem_Talent_Buff"]}});
@@ -167,7 +167,7 @@ namespace RMC{
         }));
 
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr](shared_ptr<AllyAttackAction> &act) {
-            if (act->Attacker->Atv_stats->StatsOwnerName != "Mem" && act->Attacker->Atv_stats->side == Side::AllyUnit && ptr->memospriteList[0]->Buff_check["RMC_E2"] == 1) {
+            if (act->Attacker->Atv_stats->Name != "Mem" && act->Attacker->Atv_stats->side == Side::AllyUnit && ptr->memospriteList[0]->Buff_check["RMC_E2"] == 1) {
                 Increase_energy(ptr, 8);
                 ptr->memospriteList[0]->Buff_check["RMC_E2"] = 0;
             }

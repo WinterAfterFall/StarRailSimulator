@@ -6,7 +6,7 @@ void calDamage(shared_ptr<AllyAttackAction> &act,Enemy *target,DmgSrc abilityRat
     if(act->getChar()->canCheckDmgformula()||act->getChar()->checkDamage){
         cout<<"\033[0;38;5;85m";
         cout<<endl;
-        cout<<"From : "<<act->getAttacker()->getCharName()<<" --> "<<act->actionName<<" --> "<<target->getCharName()<<endl;
+        cout<<"From : "<<act->getAttacker()->getName()<<" --> "<<act->actionName<<" --> "<<target->getName()<<endl;
         cout << "\033[0m";
     }
 
@@ -40,7 +40,7 @@ void Cal_Break_damage(shared_ptr<AllyAttackAction> &act,Enemy *target,double &Co
         cout<<"\033[0;38;5;45m";
         cout<<"\n-------------------- Break Dmg --------------------\n";
         cout<<"\033[0;38;5;85m";
-        cout<<"From : "<<act->getAttacker()->getCharName()<<" --> "<<act->actionName<<" --> "<<target->getCharName()<<endl;
+        cout<<"From : "<<act->getAttacker()->getName()<<" --> "<<act->actionName<<" --> "<<target->getName()<<endl;
         cout << "\033[0m";
     }
 
@@ -72,7 +72,7 @@ void Cal_Freeze_damage(shared_ptr<AllyAttackAction> &act,Enemy *target){
         cout<<"\033[0;38;5;45m";
         cout<<"\n-------------------- Break Dmg --------------------\n";
         cout<<"\033[0;38;5;85m";
-        cout<<"From : "<<act->getAttacker()->getCharName()<<" --> "<<act->actionName<<" --> "<<target->getCharName()<<endl;
+        cout<<"From : "<<act->getAttacker()->getName()<<" --> "<<act->actionName<<" --> "<<target->getName()<<endl;
         cout << "\033[0m";
     }
 
@@ -102,7 +102,7 @@ void Cal_Dot_Toughness_break_damage(shared_ptr<AllyAttackAction> &act,Enemy *tar
         cout<<"\033[0;38;5;45m";
         cout<<"\n-------------------- Dot Break Dmg --------------------\n";    
         cout<<"\033[0;38;5;85m";
-        cout<<"From : "<<act->getAttacker()->getCharName()<<" --> "<<act->actionName<<" --> "<<target->getCharName()<<endl;
+        cout<<"From : "<<act->getAttacker()->getName()<<" --> "<<act->actionName<<" --> "<<target->getName()<<endl;
         cout << "\033[0m";
     }
 
@@ -132,7 +132,7 @@ void Cal_Superbreak_damage(shared_ptr<AllyAttackAction> &act,Enemy *target,doubl
         cout<<"\033[0;38;5;191m";
         cout<<"\n----------------------- Super Break -----------------------\n";
         cout<<"\033[0;38;5;85m";
-        cout<<"From : "<<act->getAttacker()->getCharName()<<" --> "<<act->actionName<<" --> "<<target->getCharName()<<endl;
+        cout<<"From : "<<act->getAttacker()->getName()<<" --> "<<act->actionName<<" --> "<<target->getName()<<endl;
         cout << "\033[0m";
     }
 

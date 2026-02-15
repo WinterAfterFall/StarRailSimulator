@@ -3,14 +3,14 @@ namespace Relic{
     void Sacerdos_Relived_Ordeal(CharUnit *ptr);
     void Sacerdos_Relived_Ordeal(CharUnit *ptr){
         ptr->Relic.Name = "Sacerdos_Relived_Ordeal";
-        string Sacerdos = ptr->getUnitName() + " Sacerdos";
+        string Sacerdos = ptr->getName() + " Sacerdos";
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Sacerdos]() {
             ptr->Atv_stats->speedPercent += 6;
         }));
 
         Buff_List.push_back(TriggerByAllyBuffAction_Func(PRIORITY_IMMEDIATELY, [ptr,Sacerdos](shared_ptr<AllyBuffAction> &act) {
-            if (act->Attacker->Atv_stats->StatsOwnerName == ptr->Atv_stats->StatsOwnerName && act->traceType == TraceType::Single) {
+            if (act->Attacker->Atv_stats->Name == ptr->Atv_stats->Name && act->traceType == TraceType::Single) {
                 for (auto each : act->buffTargetList) {
                     buffStackSingle(each,{{Stats::CD, AType::None, 18}}, 1, 2, Sacerdos,2);
                 }

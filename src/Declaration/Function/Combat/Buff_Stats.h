@@ -10,7 +10,7 @@
 
 //Extend buff time
     void extendBuffTime(AllyUnit *ptr,string Buff_name,int Turn_extend);
-    void extendBuffTime(CharUnit *ptr,string Buff_name,int Turn_extend);
+    void extendCharBuffTime(CharUnit *ptr,string Buff_name,int Turn_extend);
     void extendBuffTimeAllAlly(string Buff_name, int Turn_extend);
     void extendBuffTimeTargets(vector<AllyUnit*> target,string Buff_name,int Turn_extend);
     void extendBuffTimeExcludingBuffer(string Buffer_name,string Buff_name, int Turn_extend);

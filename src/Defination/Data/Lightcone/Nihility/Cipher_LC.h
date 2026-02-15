@@ -7,8 +7,8 @@ namespace Nihility_Lightcone{
             ptr->newApplyBaseChanceRequire(120);
 
             BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                debuffAllEnemyApply({{Stats::DEF_SHRED,AType::None,14.0 + (superimpose * 2)}},ptr,"Bamboozle",2);
-                debuffAllEnemyApply({{Stats::DEF_SHRED,AType::None,7.0 + superimpose}},ptr,"Theft",2);
+                debuffAllEnemyApply(ptr,{{Stats::DEF_SHRED,AType::None,14.0 + (superimpose * 2)}},"Bamboozle",2);
+                debuffAllEnemyApply(ptr,{{Stats::DEF_SHRED,AType::None,7.0 + superimpose}},"Theft",2);
             }));
 
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {

@@ -74,7 +74,7 @@ namespace Harmony_MC{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr](){
-            if(turn->UnitName == "Harmony_MC" && turn->turnCnt == 3){
+            if(turn->Name == "Harmony_MC" && turn->turnCnt == 3){
                 ptr->Energy_recharge -= 25;
             }
             if(turn->side == Side::Ally || turn->side == Side::AllyUnit){
@@ -96,7 +96,7 @@ namespace Harmony_MC{
         }));
 
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,HMCptr](AllyUnit *target, Stats StatsType){
-            if(target->Atv_stats->StatsOwnerName != "Harmony_MC") return;
+            if(target->Atv_stats->Name != "Harmony_MC") return;
             if(StatsType == Stats::BE){
                 double temp = calculateBreakEffectForBuff(ptr, 15);
                 buffAllAllyExcludingBuffer(HMCptr,{{Stats::BE,AType::TEMP,temp - ptr->Buff_note["Harmony_MC_E4"]}});

@@ -176,7 +176,7 @@ namespace Cerydra{
         }));
 
         AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,crd,charge](shared_ptr<AllyActionData> &act) {
-            if(act->Attacker->isSameStatsOwnerName(chooseSubUnitBuff(crd))&&
+            if(act->Attacker->isSameName(chooseSubUnitBuff(crd))&&
             (act->isSameAction(AType::SKILL)||act->isSameAction(AType::BA))){
                 Increase_energy(ptr,5);
                 if(!crd->getBuffCheck("Peerage"))charge(1);
@@ -218,7 +218,7 @@ namespace Cerydra{
             }
         }));
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,crd,charge](shared_ptr<AllyAttackAction> &act) {
-            if(act->Attacker->isSameStatsOwnerName(chooseSubUnitBuff(crd))&&crd->getStack("Cerydra Talent Limit")<20){
+            if(act->Attacker->isSameName(chooseSubUnitBuff(crd))&&crd->getStack("Cerydra Talent Limit")<20){
                 crd->addStack("Cerydra Talent Limit",1);
                 shared_ptr<AllyAttackAction> newAct = 
                     make_shared<AllyAttackAction>(AType::Addtional,ptr,TraceType::Single,"Crd AddDmg");
@@ -229,7 +229,7 @@ namespace Cerydra{
         }));
 
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,crd](AllyUnit *target, Stats StatsType) {
-            if (target->Atv_stats->StatsOwnerName != "Cerydra") return;
+            if (target->Atv_stats->Name != "Cerydra") return;
             if (StatsType == Stats::ATK_P || StatsType == Stats::FLAT_ATK) {
             double temp = 0;
             temp = calculateAtkForBuff(crd,24);

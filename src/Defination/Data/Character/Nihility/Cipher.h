@@ -107,7 +107,7 @@ namespace Cipher{
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_Last,[ptr,cph](){
-            if(turn->isSameUnitName("Cipher"))cph->setBuffCheck("Cipher Fua",0);
+            if(turn->isSameName("Cipher"))cph->setBuffCheck("Cipher Fua",0);
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_Last,[ptr,cph](){
@@ -147,7 +147,7 @@ namespace Cipher{
 
         BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK,[ptr,cph](
             shared_ptr<AllyAttackAction> &act){
-                if(ptr->Eidolon>=2&&act->isSameUnitName(cph)){
+                if(ptr->Eidolon>=2&&act->isSameName(cph)){
                     for(auto &each : act->targetList){
                         debuffSingleApply(cph,each,{{Stats::VUL,AType::None,30}},"Cipher E2",2);
                     }
@@ -155,7 +155,7 @@ namespace Cipher{
                 if(act->isSameAction("Cipher",AType::SKILL)||act->isSameAction("Cipher",AType::Ult))
                     debuffApply(cph,enemyUnit[Main_Enemy_num].get(),"Patron");
 
-                if(!act->isSameStatsOwnerName("Cipher")&&!cph->getBuffCheck("Cipher Fua")){
+                if(!act->isSameName("Cipher")&&!cph->getBuffCheck("Cipher Fua")){
                     cph->setBuffCheck("Cipher Fua",1);
                     shared_ptr<AllyAttackAction> newAct = 
                     make_shared<AllyAttackAction>(AType::Fua,ptr,TraceType::Single,"Cipher Fua",
@@ -200,19 +200,19 @@ namespace Cipher{
 
                     if(ptr->Eidolon<6)return;
                     act->Attacker->owner
-                    ->Buff_note["CipherNote" + src->getUnitName()] += damage * percent/100 * 0.2;
+                    ->Buff_note["CipherNote" + src->getName()] += damage * percent/100 * 0.2;
                     if(act->actionName!="Cipher Ult")return;
                     
                     double totaldmg = 0;
                     for(int i=1;i<=Total_ally;i++){
                         for(int j=1;j<=Total_enemy;j++){
-                            totaldmg = charUnit[i]->getBuffNote("CipherNote" + enemyUnit[j]->getUnitName());
+                            totaldmg = charUnit[i]->getBuffNote("CipherNote" + enemyUnit[j]->getName());
                             for(int k=1;k<=ptr->getAdjust("Cipher Ult Share")&&k<=Total_enemy;k++){
                                 act->Attacker = charUnit[i].get();
-                                Cal_DamageNote(act,enemyUnit[j].get(),enemyUnit[k].get(),totaldmg*0.75/ptr->getAdjust("Cipher Ult Share"),100,"Cph E6 " + act->Attacker->getUnitName());
+                                Cal_DamageNote(act,enemyUnit[j].get(),enemyUnit[k].get(),totaldmg*0.75/ptr->getAdjust("Cipher Ult Share"),100,"Cph E6 " + act->Attacker->getName());
                             }
-                            Cal_DamageNote(act,enemyUnit[j].get(),enemyUnit[Main_Enemy_num].get(),totaldmg*0.25,100,"Cph E6 " + act->Attacker->getUnitName());
-                            charUnit[i]->Buff_note["CipherNote" + enemyUnit[j]->getUnitName()] *= 0.2;
+                            Cal_DamageNote(act,enemyUnit[j].get(),enemyUnit[Main_Enemy_num].get(),totaldmg*0.25,100,"Cph E6 " + act->Attacker->getName());
+                            charUnit[i]->Buff_note["CipherNote" + enemyUnit[j]->getName()] *= 0.2;
                         }  
                     }
                 }));

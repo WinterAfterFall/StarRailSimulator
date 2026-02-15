@@ -18,8 +18,8 @@ namespace Remembrance_Lightcone{
                 }
             }));
 
-            WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](Ally *ally){
-                if (ally->isSameChar(ptr)) {
+            WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](CharUnit *ally){
+                if (ally->isSameOwner(ptr)) {
                     ptr->setBuffCheck("Castorice_LC_check",0);
                 }
             }));

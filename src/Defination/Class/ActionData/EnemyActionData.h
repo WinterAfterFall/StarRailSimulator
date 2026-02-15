@@ -40,8 +40,8 @@ class EnemyActionData : public ActionData{
                 vec.push_back(e);
             }
             for(AllyUnit* each : vec){
-                enemy->AttackCoolDown[each->Atv_stats->UnitName] += each->calHitChance(vec);
-                if(enemy->AttackCoolDown[each->Atv_stats->UnitName]>=100)enemy->AttackCoolDown[each->Atv_stats->UnitName]-=100;
+                enemy->AttackCoolDown[each->Atv_stats->Name] += each->calHitChance(vec);
+                if(enemy->AttackCoolDown[each->Atv_stats->Name]>=100)enemy->AttackCoolDown[each->Atv_stats->Name]-=100;
                 else continue;
                 Increase_energy(each,energy);
             }
@@ -64,8 +64,8 @@ class EnemyActionData : public ActionData{
                 vec.push_back(e);
             }
             for(AllyUnit* each : vec){
-                enemy->AttackCoolDown[each->Atv_stats->UnitName] += each->calHitChance(vec);
-                if(enemy->AttackCoolDown[each->Atv_stats->UnitName]>=100)enemy->AttackCoolDown[each->Atv_stats->UnitName]-=100;
+                enemy->AttackCoolDown[each->Atv_stats->Name] += each->calHitChance(vec);
+                if(enemy->AttackCoolDown[each->Atv_stats->Name]>=100)enemy->AttackCoolDown[each->Atv_stats->Name]-=100;
                 else continue;
                 Increase_energy(each,energy);
             }

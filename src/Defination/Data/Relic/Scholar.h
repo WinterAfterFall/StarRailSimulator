@@ -10,7 +10,7 @@ namespace Relic{
         }));
 
         WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr](CharUnit *ally){
-            if (ally->isSameChar(ptr)) {
+            if (ally->isSameOwner(ptr)) {
                 if (isHaveToAddBuff(ptr,"Scholar_buff")) {
                     ptr->Stats_type[Stats::DMG][AType::SKILL] += 25;
                 }

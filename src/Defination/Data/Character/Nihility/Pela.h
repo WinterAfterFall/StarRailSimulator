@@ -88,7 +88,7 @@ namespace Pela{
         }));
         
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
-            if (act->Attacker->Atv_stats->UnitName != "Pela") return;
+            if (act->Attacker->Atv_stats->Name != "Pela") return;
 
             for (auto e : act->targetList) {
                 if (e->Total_debuff == 0) continue;

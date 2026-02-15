@@ -4,8 +4,8 @@ namespace Nihility_Lightcone{
         return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(953,582,529);
             ptr->Light_cone.Name = "Jiaoqiu_LC";
-            string Cornered = ptr->getUnitName() + " Cornered";
-            string Unarmored = ptr->getUnitName() + " Unarmored";
+            string Cornered = ptr->getName() + " Cornered";
+            string Unarmored = ptr->getName() + " Unarmored";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 ptr->Stats_type[Stats::EHR][AType::None] += 40 + 10 * superimpose;
             }));
@@ -13,10 +13,10 @@ namespace Nihility_Lightcone{
             BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,isDot,Unarmored,Cornered](shared_ptr<AllyAttackAction> &act) {
                 if((act->isSameAction(AType::BA)||
                     act->isSameAction(AType::SKILL)||
-                    act->isSameAction(AType::Ult))&&act->isSameUnitName(ptr)){
+                    act->isSameAction(AType::Ult))&&act->isSameCharName(ptr)){
                         for(auto &each : act->targetList){
-                            if(isDot) debuffSingleApply(each,{{Stats::VUL,AType::None,20.0 + superimpose*4}},ptr,Cornered,2);
-                            else debuffSingleApply(each,{{Stats::VUL,AType::None,8.0 + superimpose*2}},ptr,Unarmored,2);
+                            if(isDot) debuffSingleApply(ptr,each,{{Stats::VUL,AType::None,20.0 + superimpose*4}},Cornered,2);
+                            else debuffSingleApply(ptr,each,{{Stats::VUL,AType::None,8.0 + superimpose*2}},Unarmored,2);
                             
                         }
                     }

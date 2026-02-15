@@ -96,7 +96,7 @@ void AllyUnit::RestoreHP(AllyUnit *target,HealSrc main,HealSrc other){
 
     for(auto &each : allyList){
             if(!each->isTargetable())continue;
-            double totalHeal = (target->Atv_stats->StatsOwnerName == each->Atv_stats->StatsOwnerName) ? 
+            double totalHeal = (target->Atv_stats->Name == each->Atv_stats->Name) ? 
             calculateHeal(main,this,each)
             :
             calculateHeal(other,this,each);
@@ -162,7 +162,7 @@ void DecreaseHP(Unit *Trigger,vector<AllyUnit*> target,double Value,double perce
 void DecreaseHP(Unit *Trigger,string Name,double Value,double percentFromTotalHP,double percentFromCurrentHP){
     decreaseHPCount++;
     for (auto &each : allyList) {
-        if(each->isSameUnitName(Name))continue;
+        if(each->isSameName(Name))continue;
         double Total = Value;
         if(!each->isTargetable())return;
         Total += (percentFromTotalHP/100.0*each->totalHP);
@@ -174,7 +174,7 @@ void DecreaseHP(Unit *Trigger,string Name,double Value,double percentFromTotalHP
 }
 double decreaseSheild(AllyUnit *ptr,double Value){
     ptr->currentSheild = (ptr->currentSheild - Value < 0) ? 0 : ptr->currentSheild - Value;
-    return max(0.0,ptr->currentSheild - Value);
+    return max(0.0,Value - ptr->currentSheild);
 }
 void AllyUnit::death(){
 this->currentHP = 0;

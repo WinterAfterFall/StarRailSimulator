@@ -155,7 +155,7 @@ namespace Robin{
         }));
 
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTTACK, [ptr](AllyUnit *target, Stats StatsType){
-            if(target->Atv_stats->StatsOwnerName != "Robin")return;
+            if(target->Atv_stats->Name != "Robin")return;
             if(ptr->countdownList[0]->isDeath())return;
             if(StatsType == Stats::ATK_P || StatsType == Stats::FLAT_ATK){
                 double buffValue = calculateAtkForBuff(ptr, 22.8) + 200;

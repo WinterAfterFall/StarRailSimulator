@@ -92,7 +92,7 @@ namespace Ruan_Mei{
                     {Stats::BREAK_EFF,AType::None,-50},
                 });
             }
-            if(turn->UnitName == "Ruan_Mei"){
+            if(turn->Name == "Ruan_Mei"){
                 Increase_energy(ptr, 5);
                 if(isBuffEnd(RMptr,"RuanMei_Ult")){
                     buffAllAlly({{Stats::RESPEN, AType::None, -25}});

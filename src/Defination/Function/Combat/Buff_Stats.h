@@ -19,7 +19,7 @@
 
 //เช็คบัพว่าจบหรือยัง 
     bool isBuffEnd(AllyUnit *ptr,string Buff_name){
-        if(ptr->Atv_stats->turnCnt==ptr->Buff_countdown[Buff_name]&&turn->UnitName==ptr->Atv_stats->UnitName){
+        if(ptr->Atv_stats->turnCnt==ptr->Buff_countdown[Buff_name]&&turn->Name==ptr->Atv_stats->Name){
             ptr->Buff_check[Buff_name] = 0;
             ptr->Buff_countdown[Buff_name] = 0;
             return true;
@@ -39,10 +39,10 @@
     void extendBuffTime(AllyUnit *ptr,string Buff_name,int Turn_extend){
         ptr->Buff_countdown[Buff_name] = ptr->Atv_stats->turnCnt+Turn_extend;
     }
-    void extendBuffTime(CharUnit *ptr,string Buff_name,int Turn_extend){
+    void extendCharBuffTime(CharUnit *ptr,string Buff_name,int Turn_extend){
         extendBuffTime(ptr,Buff_name,Turn_extend);
         for(auto &each : ptr->memospriteList){
-            extendBuffTime(ptr,Buff_name,Turn_extend);
+            extendBuffTime(each.get(),Buff_name,Turn_extend);
         }
     }
     void extendBuffTimeAllAlly(string Buff_name,int Turn_extend){
@@ -57,25 +57,25 @@
     }
     void extendBuffTimeExcludingBuffer(string Buffer_name,string Buff_name,int Turn_extend){
         for(auto &each : allyList){
-            if(each->isSameStatsOwnerName(Buffer_name))continue;
+            if(each->isSameName(Buffer_name))continue;
             extendBuffTime(each,Buff_name,Turn_extend);
         }
     }
     void extendBuffTimeExcludingBuffer(AllyUnit *Buffer,string Buff_name,int Turn_extend){
         for(auto &each : allyList){
-            if(each->isSameStatsOwnerName(Buffer))continue;
+            if(each->isSameName(Buffer))continue;
             extendBuffTime(each,Buff_name,Turn_extend);
         }
     }
     void extendBuffTimeExcludingBuffer(string Buffer_name,vector<AllyUnit*> target,std::string Buff_name, int Turn_extend){    
         for(auto &each : target){
-            if(each->isSameStatsOwnerName(Buffer_name))continue;
+            if(each->isSameName(Buffer_name))continue;
             extendBuffTime(each,Buff_name,Turn_extend);
         }
     }
     void extendBuffTimeExcludingBuffer(AllyUnit *Buffer,vector<AllyUnit*> target,std::string Buff_name, int Turn_extend){
             for(auto &each : target){
-            if(each->isSameStatsOwnerName(Buffer))continue;
+            if(each->isSameName(Buffer))continue;
             extendBuffTime(each,Buff_name,Turn_extend);
         }
     }
@@ -213,25 +213,25 @@
 //buff ทุกคน ยกเว้นผู้บัพ 
     void buffAllAllyExcludingBuffer(AllyUnit *ptr,vector<BuffClass> buffSet){
         for (auto &each : allyList) {
-            if (ptr->isSameUnitName(each)) continue;
+            if (ptr->isSameName(each)) continue;
             buffSingle(each,buffSet);
         }
     }
     void buffAllAllyExcludingBuffer(AllyUnit *ptr,vector<BuffElementClass> buffSet) {
         for (auto &each : allyList) {
-            if (ptr->isSameUnitName(each)) continue;
+            if (ptr->isSameName(each)) continue;
             buffSingle(each,buffSet);
         }
     }
     void buffAllAllyExcludingBuffer(AllyUnit *ptr,vector<BuffClass> buffSet, string Buff_name,int extend) {
         for (auto &each : allyList) {
-            if (ptr->isSameUnitName(each)) continue;
+            if (ptr->isSameName(each)) continue;
             buffSingle(each,buffSet,Buff_name,extend);
         }
     }
     void buffAllAllyExcludingBuffer(AllyUnit *ptr,vector<BuffElementClass> buffSet, string Buff_name,int extend) {
         for (auto &each : allyList) {
-            if (ptr->isSameUnitName(each)) continue;
+            if (ptr->isSameName(each)) continue;
             buffSingle(each,buffSet,Buff_name,extend);
         }
     }
@@ -239,25 +239,25 @@
 //buff เป้าหมายที่กำหนด ยกเว้นผู้บัพ 
     void buffTargetsExcludingBuffer(AllyUnit *ptr,vector<AllyUnit*> target, vector<BuffClass> buffSet) {
         for (auto &each : target) {
-            if (ptr->isSameUnitName(each)) continue;
+            if (ptr->isSameName(each)) continue;
             buffSingle(each,buffSet);
         }
     }
     void buffTargetsExcludingBuffer(AllyUnit *ptr,vector<AllyUnit*> target,vector<BuffElementClass> buffSet){
         for (auto &each : target) {
-            if (ptr->isSameUnitName(each)) continue;
+            if (ptr->isSameName(each)) continue;
             buffSingle(each,buffSet);
         }
     }
     void buffTargetsExcludingBuffer(AllyUnit *ptr,vector<AllyUnit*> target,vector<BuffClass> buffSet,string Buff_name,int Turn_extend){
         for (auto &each : target) {
-            if (ptr->isSameUnitName(each)) continue;
+            if (ptr->isSameName(each)) continue;
             buffSingle(each,buffSet,Buff_name,Turn_extend);
         }
     }
     void buffTargetsExcludingBuffer(AllyUnit *ptr,vector<AllyUnit*> target,vector<BuffElementClass> buffSet,string Buff_name,int Turn_extend){
         for (auto &each : target) {
-            if (ptr->isSameUnitName(each)) continue;
+            if (ptr->isSameName(each)) continue;
             buffSingle(each,buffSet,Buff_name,Turn_extend);
         }
     }

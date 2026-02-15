@@ -31,7 +31,7 @@ namespace Tingyun{
         };
 
         ptr->addUltCondition([ptr,TYptr]() -> bool {
-            if(chooseSubUnitBuff(TYptr)->isSameStatsOwnerName("Saber"))return true;
+            if(chooseSubUnitBuff(TYptr)->isSameName("Saber"))return true;
             if(charUnit[ptr->currentCharNum]->Max_energy==0)return true;
             if (charUnit[ptr->currentCharNum]->Max_energy - charUnit[ptr->currentCharNum]->Current_energy <= 30) return false;
             return true;
@@ -48,7 +48,7 @@ namespace Tingyun{
                 if (ptr->Eidolon >= 1)
                 buffSingle(chooseSubUnitBuff(ptr),{{Stats::SPD_P,AType::None,20}},"Windfall_of_Lucky_Springs",1);
                 
-                if (turn->UnitName == charUnit[ptr->currentCharNum]->Atv_stats->UnitName && phaseStatus == PhaseStatus::BeforeTurn)
+                if (turn->Name == charUnit[ptr->currentCharNum]->Atv_stats->Name && phaseStatus == PhaseStatus::BeforeTurn)
                 buffSingle(chooseSubUnitBuff(ptr),{{Stats::DMG,AType::None,56}},"Rejoicing_Clouds",1);
                 else
                 buffSingle(chooseSubUnitBuff(ptr),{{Stats::DMG,AType::None,56}},"Rejoicing_Clouds",2);
@@ -70,7 +70,7 @@ namespace Tingyun{
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,TYptr]() {
-            if (turn->UnitName != "Tingyun") return;
+            if (turn->Name != "Tingyun") return;
             Increase_energy(ptr, 5);
         }));
 
@@ -100,12 +100,12 @@ namespace Tingyun{
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr,TYptr](shared_ptr<AllyAttackAction> &act) {
             AllyUnit* tempUnit = act->Attacker;
             if (chooseSubUnitBuff(ptr)->getBuffCheck("Benediction")) {
-                if (act->Attacker->Atv_stats->StatsOwnerName == ptr->Atv_stats->StatsOwnerName) {
+                if (act->Attacker->Atv_stats->Name == ptr->Atv_stats->Name) {
                     shared_ptr<AllyAttackAction> temp = 
                     make_shared<AllyAttackAction>(AType::Addtional,chooseSubUnitBuff(ptr),TraceType::Single,"TY Talent");
                     temp->addDamageIns(DmgSrc(DmgSrcType::ATK,66));
                     Attack(temp);
-                } else if (act->Attacker->isSameStatsOwnerName(chooseSubUnitBuff(ptr))) {
+                } else if (act->Attacker->isSameName(chooseSubUnitBuff(ptr))) {
                     shared_ptr<AllyAttackAction> temp = 
                     make_shared<AllyAttackAction>(AType::Addtional,tempUnit,TraceType::Single,"TY Talent");
 

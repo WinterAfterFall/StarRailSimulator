@@ -12,7 +12,7 @@ namespace Erudition_Lightcone{
             }));
     
             BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                if (act->Attacker->Atv_stats->StatsOwnerName == ptr->Atv_stats->StatsOwnerName &&
+                if (act->Attacker->Atv_stats->Name == ptr->Atv_stats->Name &&
                     ptr->Stack["Somnus_Corpus"] == 1) {
                     for (auto e : act->actionTypeList) {
                         if (e == AType::Fua) {
@@ -24,7 +24,7 @@ namespace Erudition_Lightcone{
             }));
     
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                if (act->Attacker->Atv_stats->StatsOwnerName != ptr->Atv_stats->StatsOwnerName) return;
+                if (act->Attacker->Atv_stats->Name != ptr->Atv_stats->Name) return;
     
                 for (auto e : act->actionTypeList) {
                     if (e == AType::SKILL || e == AType::Ult) {
@@ -33,7 +33,7 @@ namespace Erudition_Lightcone{
                     }
                 }
     
-                if (act->Attacker->Atv_stats->StatsOwnerName == ptr->Atv_stats->StatsOwnerName &&
+                if (act->Attacker->Atv_stats->Name == ptr->Atv_stats->Name &&
                     ptr->Stack["Somnus_Corpus"] == 1) {
                     for (auto e : act->actionTypeList) {
                         if (e == AType::Fua) {

@@ -14,17 +14,15 @@ namespace Remembrance_Lightcone{
                 if(allyaction->Attacker->Atv_stats->side == Side::AllyUnit
                     &&allyaction->Attacker->Atv_stats->num==ptr->Atv_stats->num
                     &&allyaction->isSameAction(AType::SKILL)){
-                        debuffAllEnemyApply({{Stats::VUL,AType::None,(13.5 + 4.5 * superimpose)}},allyaction->Attacker,"Hyacnine_LC Debuff",2);
+                        debuffAllEnemyApply(allyaction->Attacker,{{Stats::VUL,AType::None,(13.5 + 4.5 * superimpose)}},"Hyacnine_LC Debuff",2);
                 }
-                if(!ptr->isSameStatsOwnerName(allyaction->Attacker->Atv_stats->StatsOwnerName))return;
+                if(!ptr->isSameName(allyaction->Attacker->Atv_stats->Name))return;
                 if(allyaction->isSameAction(AType::BA)
                 ||allyaction->isSameAction(AType::SKILL)
                 ||allyaction->isSameAction(AType::Ult)){
                     double temp = 0;
-                    for(int i=1;i<=Total_ally;i++){
-                        for(auto &each : charUnit[i]->Sub_Unit_ptr){
-                            temp+=each->currentHP*0.01;
-                        }
+                    for(auto &each : allyList){
+                        temp+=each->currentHP*0.01;
                     }
                     ptr->Buff_note["Hyacnine_LC Note"] +=temp;
                     DecreaseHP(ptr,0,0,(0.75 + 0.25 * superimpose));

@@ -12,8 +12,8 @@ namespace Harmony_Lightcone{
                 }
             }));
 
-            WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](Ally *ally){
-                if (ally->isSameChar(ptr)) {
+            WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](CharUnit *ally){
+                if (ally->isSameOwner(ptr)) {
                     ptr->Energy_recharge -= ptr->Stack["Cantillation"] * (2.5 + 0.5 * superimpose);
                     ptr->Stack["Cantillation"] = 0;
                     if (isHaveToAddBuff(ptr,"Cadenza",1)) {

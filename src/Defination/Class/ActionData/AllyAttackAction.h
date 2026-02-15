@@ -175,14 +175,14 @@ class  AllyAttackAction : public AllyActionData {
     bool isSameDamageType(AType ability);
     bool isSameDamageType(AllyUnit *ptr,AType ability);
     bool isSameDamageType(string name,AType ability);
-    bool isSameDamageType(CharUnit *ptr,AType ability);
+    bool isSameCharDamageType(CharUnit *ptr,AType ability);
 
 
 
     #pragma endregion
 
     void setJoint() {
-        AttackSetList.emplace_back(Attacking(Attacker,this->actionTypeList));
+        AttackSetList.emplace_back(Attacking(Attacker->owner->getMemosprite(),this->actionTypeList));
         AttackSetList[1].actionTypeList.push_back(AType::Summon);
         AttackSetList[1].damageTypeList.push_back(AType::Summon);
     }

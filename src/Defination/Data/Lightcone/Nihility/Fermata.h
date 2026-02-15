@@ -10,7 +10,7 @@ namespace Nihility_Lightcone{
             }));
 
             BeforeAttack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                if(act->isSameUnitName(ptr)){
+                if(act->isSameCharName(ptr)){
                     for(auto &each : act->targetList ){
                         if(each->ShockCount||each->WindSheerCount){
                             debuffSingle(each,{{Stats::DMG,AType::None,12.0 + superimpose * 4}});
@@ -20,7 +20,7 @@ namespace Nihility_Lightcone{
             }));
 
             AfterAttack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                if(act->isSameUnitName(ptr)){
+                if(act->isSameCharName(ptr)){
                     for(auto &each : act->targetList ){
                         if(each->ShockCount||each->WindSheerCount){
                             debuffSingle(each,{{Stats::DMG,AType::None,-(12.0 + superimpose * 4)}});

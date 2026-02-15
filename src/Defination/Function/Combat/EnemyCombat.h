@@ -15,7 +15,7 @@ void Enemy::addTaunt(AllyUnit* ptr){
 }
 void Enemy::removeTaunt(string name){
     for (auto it = this->tauntList.begin(); it != this->tauntList.end(); ++it) {
-        if ((*it)->isSameUnitName(name)) {
+        if ((*it)->isSameName(name)) {
             this->tauntList.erase(it); // Remove the pointer from the vector
             break; // Exit the loop after removing the taunt
         }
@@ -23,7 +23,7 @@ void Enemy::removeTaunt(string name){
 }
 void Enemy::removeTaunt(AllyUnit *ptr){
     for (auto it = this->tauntList.begin(); it != this->tauntList.end(); ++it) {
-        if ((*it)->isSameStatsOwnerName(ptr)) {
+        if ((*it)->isSameName(ptr)) {
             this->tauntList.erase(it); // Remove the pointer from the vector
             break; // Exit the loop after removing the taunt
         }

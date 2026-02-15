@@ -158,7 +158,7 @@ namespace  Anaxa{
         }));
 
         BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr](shared_ptr<AllyAttackAction> &act) {
-            if(act->Attacker->isSameStatsOwnerName("Anaxa")){
+            if(act->Attacker->isSameName("Anaxa")){
                 if(ptr->Eidolon>=6){
                     for(auto &each1 : act->damageSplit){
                         for(auto &each2 : each1){

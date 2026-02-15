@@ -123,7 +123,7 @@ namespace Kafka{
 
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             for(auto &each : charList){
-                if(ptr->getAdjust("Kafka A2 " + each->getUnitName())){
+                if(ptr->getAdjust("Kafka A2 " + each->getName())){
                     buffSingleChar(each,{{Stats::ATK_P,AType::None,100}});
                     each->newEhrRequire(75);
                 }
@@ -156,7 +156,7 @@ namespace Kafka{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,kafka]() {
-            if(turn->isSameUnitName("Kafka"))kafka->addStack("Kafka Talent",1);
+            if(turn->isSameName("Kafka"))kafka->addStack("Kafka Talent",1);
             Enemy *enemy = turn->canCastToEnemy();
             if(enemy&&isDebuffEnd(enemy,"Kafka Shock")){
                 dotRemove(enemy,{DotType::Shock});
@@ -164,7 +164,7 @@ namespace Kafka{
         }));
 
         AfterAttack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,Fua,kafka](shared_ptr<AllyAttackAction> &act) {
-            if(!act->isSameStatsOwnerName("Kafka")&&kafka->getStack("Kafka Talent")>0){
+            if(!act->isSameName("Kafka")&&kafka->getStack("Kafka Talent")>0){
                 kafka->addStack("Kafka Talent",-1);
                 Fua();
             }
@@ -184,7 +184,7 @@ namespace Kafka{
 
         if(ptr->Eidolon>=1){
         BeforeAttack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,Fua,kafka](shared_ptr<AllyAttackAction> &act) {
-            if(act->isSameStatsOwnerName("Kafka")){
+            if(act->isSameName("Kafka")){
                 for(auto &each : act->targetList){
                     debuffSingleApply(kafka,each,{{Stats::VUL,AType::Dot,30}},"kafka E1",2);
                 }
@@ -202,7 +202,7 @@ namespace Kafka{
     void useKafkaA2(int num){
         CharUnit *ptr = CharCmd::findAllyName("Kafka");
         if(!ptr)return;
-        ptr->setAdjust("Kafka A2 " + charUnit[num]->getUnitName(),1);
+        ptr->setAdjust("Kafka A2 " + charUnit[num]->getName(),1);
         charUnit[num]->newApplyBaseChanceRequire(75);
     }
 }

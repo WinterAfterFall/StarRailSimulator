@@ -154,8 +154,8 @@ namespace Hyacine{
             }
             AllyUnit *allyptr = turn->canCastToSubUnit();
             if(!allyptr)return;
-            if(isBuffEnd(Icaptr,"Day So Right, Life So Fine!")){
-                buffSingle(Icaptr,{{Stats::HP_P,AType::None,-20}});
+            if(isBuffEnd(allyptr,"Day So Right, Life So Fine!")){
+                buffSingle(allyptr,{{Stats::HP_P,AType::None,-20}});
             }
         }));
 
@@ -186,7 +186,7 @@ namespace Hyacine{
         }));
 
         AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](AllyUnit* target) {
-            if(target->isSameStatsOwnerName(Icaptr)){
+            if(target->isSameName(Icaptr)){
                 Action_forward(Hycptr->Atv_stats.get(),30);
             }
             if(isBuffGoneByDeath(target,"First Light Heals the World")){
@@ -198,7 +198,7 @@ namespace Hyacine{
         }));
         
         Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](AllyUnit *Healer, AllyUnit *target, double Value) {
-            if(Healer->isSameStatsOwnerName("Hyacine")||Healer->isSameStatsOwnerName("Little Ica")){
+            if(Healer->isSameName("Hyacine")||Healer->isSameName("Little Ica")){
                 buffStackSingle(Icaptr,{
                     {Stats::DMG,AType::None,80}
                 },1,3,"First Light Heals the World",2);
@@ -207,13 +207,13 @@ namespace Hyacine{
         }));
         
         HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](Unit *Trigger, AllyUnit *target, double Value) {
-            if(target->isSameStatsOwnerName(Icaptr))return;
+            if(target->isSameName(Icaptr))return;
             Hycptr->setBuffCheck("Ica Talent Trigger",1);
             target->setBuffCheck("Ica Talent Heal",1);
         }));
 
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr](AllyUnit* Target, Stats StatsType) {
-            if(!Target->isSameStatsOwnerName("Hyacine"))return;
+            if(!Target->isSameName("Hyacine"))return;
             if(StatsType!=Stats::SPD_P||StatsType!=Stats::FLAT_SPD)return;
             double spd = calculateSpeedForBuff(Hycptr,100);
             double healout = floor((spd-200.0));

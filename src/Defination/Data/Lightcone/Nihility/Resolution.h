@@ -4,13 +4,13 @@ namespace Nihility_Lightcone{
         return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(953,476,331);
             ptr->Light_cone.Name = "Resolution";
-            string ensnared = ptr->getUnitName() + " Ensnared";
+            string ensnared = ptr->getName() + " Ensnared";
             ptr->newApplyBaseChanceRequire(50 + superimpose*10);
 
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,ensnared](shared_ptr<AllyAttackAction> &act) {
-                if (act->Attacker->Atv_stats->StatsOwnerName != ptr->Atv_stats->StatsOwnerName) return;
+                if (act->Attacker->Atv_stats->Name != ptr->Atv_stats->Name) return;
                 for (auto e : act->targetList) {
-                    if (!e->debuffApply(ptr,ensnared)) continue;
+                    if (!debuffApply(ptr,e,ensnared)) continue;
                     e->Stats_type[Stats::DEF_SHRED][AType::None] += 11 + superimpose;
                     e->Debuff_time_count[ensnared] = 1 + e->Atv_stats->turnCnt;
                 }

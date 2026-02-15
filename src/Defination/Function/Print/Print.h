@@ -3,15 +3,11 @@ void printRoundResult();
 void Print(){
     if(!Print_Atv)return;
     cout<<"Atv = "<<Current_atv<<" ";
-    cout<<""<<turn->UnitName<<" ";
+    cout<<""<<turn->Name<<" ";
     cout<<turn->turnCnt<<" ";
     cout<<sp<<" ";
-    cout<<charUnit[1]->Buff_note["Core Flame"]<<" ";
-    cout<<charUnit[1]->Buff_note["Scourge"]<<" ";
-    cout<<charUnit[3]->getStack("Cerydra charge")<<" ";
-    cout<<charUnit[3]->getBuffCheck("Peerage")<<" ";
-    cout<<charUnit[3]->getBuffCheck("Coup de Main")<<" ";
-    
+    cout<<charUnit[1]->getBuffNote("Mydei_Charge_point")<<" ";
+    cout<<charUnit[1]->Current_energy<<" ";
     cout<<endl;
 }
 void printRoundResult(){
@@ -19,7 +15,7 @@ void printRoundResult(){
     double avg = 0;
     for(int j=1;j<=Total_ally;j++){
 
-    cout<<charUnit[j]->Atv_stats->UnitName<<endl;
+    cout<<charUnit[j]->Atv_stats->Name<<endl;
     cout<<"Total Damage : ";
     cout<<static_cast<long long>(charUnit[j]->currentTotalDmg)<<" ";
     total += charUnit[j]->currentTotalDmg;
@@ -123,17 +119,17 @@ void printSummaryResult(){
     for(int i=1;i<=Total_ally;i++){
         cout<<left;
         cout << "\033[1;4;38;5;45m" // Set text color to green
-        << charUnit[i]->Atv_stats->UnitName<<endl;
+        << charUnit[i]->Atv_stats->Name<<endl;
 
         cout<< "\033[0m"<<"| ";
-        cout<<charUnit[i]->Atv_stats->UnitName + " Turn : "<<charUnit[i]->Atv_stats->turnCnt;
+        cout<<charUnit[i]->Atv_stats->Name + " Turn : "<<charUnit[i]->Atv_stats->turnCnt;
         cout<< "\033[0m"<<" | ";
         for(auto &e : charUnit[i]->memospriteList){
-            cout<<e->Atv_stats->UnitName + " Turn : "<<e->Atv_stats->turnCnt;
+            cout<<e->Atv_stats->Name + " Turn : "<<e->Atv_stats->turnCnt;
             cout<< "\033[0m"<<" | ";
         }
         for(std::unique_ptr<Unit> &e : charUnit[i]->summonList){
-            cout<<e->Atv_stats->UnitName + " Turn : "<<e->Atv_stats->turnCnt;
+            cout<<e->Atv_stats->Name + " Turn : "<<e->Atv_stats->turnCnt;
             cout<< "\033[0m"<<" | ";
         }
         cout<<endl;
@@ -191,7 +187,7 @@ void printSummaryResult(){
     for(int i=1;i<=Total_enemy;i++){
         double totaldamage = 0;
         cout<< "\033[1;4;38;5;9m"; // Reset text color
-        cout<<enemyUnit[i]->Atv_stats->UnitName<<endl;
+        cout<<enemyUnit[i]->Atv_stats->Name<<endl;
         
         cout<<"\033[1;4;38;5;2m"<<"Total : "<<setw(10)<<static_cast<long long>(enemyUnit[i]->totalDmgRecord)
         <<" | "<<" Average per ATV : "<<setw(5)<<static_cast<long long>(enemyUnit[i]->avgDmgRecord)<<endl;

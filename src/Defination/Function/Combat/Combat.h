@@ -8,7 +8,6 @@ void Take_action(){
         allEventBeforeTurn();
     }
     allUltimateCheck();
-    
     Print();
     if(Turn_Skip==0){
         
@@ -23,7 +22,6 @@ void Take_action(){
     allUltimateCheck();
     
     if(!turn->extraTurn)allEventAfterTurn();
-
 }
 
 void Deal_damage(){
@@ -149,7 +147,7 @@ void Skill_point(AllyUnit *ptr,int p){
 }
 void Superbreak_trigger(shared_ptr<AllyAttackAction> &act, double Superbreak_ratio,string triggerName){
     shared_ptr<AllyAttackAction> data_2 = 
-    make_shared<AllyAttackAction>(AType::SPB,act->Attacker,act->traceType,act->Attacker->Atv_stats->StatsOwnerName + " " + triggerName +" SPB");
+    make_shared<AllyAttackAction>(AType::SPB,act->Attacker,act->traceType,act->Attacker->Atv_stats->Name + " " + triggerName +" SPB");
     
     for(auto &each1 : act->damageSplit){
         for(auto &each2 : each1){

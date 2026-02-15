@@ -52,7 +52,7 @@ void debuffRemove(Enemy *enemy,string debuffName){
 }
 
 bool isDebuffEnd(Enemy *enemy,string Debuff_name){
-    if(enemy->Atv_stats->turnCnt==enemy->Debuff_time_count[Debuff_name]&&turn->UnitName==enemy->Atv_stats->UnitName){
+    if(enemy->Atv_stats->turnCnt==enemy->Debuff_time_count[Debuff_name]&&turn->Name==enemy->Atv_stats->Name){
         debuffRemove(enemy,Debuff_name);
         return true;
     }

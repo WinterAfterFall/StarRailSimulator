@@ -147,7 +147,7 @@ namespace Archer{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,ac]() {
-            if(ptr->Eidolon>=6&&turn->isSameUnitName("Archer")){
+            if(ptr->Eidolon>=6&&turn->isSameName("Archer")){
                 Skill_point(ac,1);
             }
         }));
@@ -172,7 +172,7 @@ namespace Archer{
                 ac->setStack("Archer Skill Limit",0);
                 }
             }
-            if(ac->getStack("Archer Charge")&&!act->isSameStatsOwnerName("Archer")){
+            if(ac->getStack("Archer Charge")&&!act->isSameName("Archer")){
                 Charge(-1);
                 Fua();
             }

@@ -14,8 +14,8 @@ namespace Erudition_Lightcone{
             }));
 
 
-            WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](Ally *ally){
-                if (ally->isSameChar(ptr)) {
+            WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](CharUnit *ally){
+                if (ally->isSameOwner(ptr)) {
                     ptr->Buff_check["Ration"] = 1;
                     ptr->Stack["Ration"] = 0;
                 }

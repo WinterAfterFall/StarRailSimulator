@@ -12,7 +12,7 @@ namespace Relic{
         }));
 
         WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr](CharUnit *ally){
-            if (ally->isSameChar(ptr)) {
+            if (ally->isSameOwner(ptr)) {
                 Action_forward(ptr->Atv_stats.get(), 25);
             }
         }));

@@ -42,25 +42,25 @@ void buffStackSingle(AllyUnit *ptr,vector<BuffElementClass> buffSet , int Stack_
 void buffStackChar(CharUnit *ptr,vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name){
     buffStackSingle(ptr,buffSet,Stack_increase,Stack_limit,Stack_Name);
     for (auto &each : ptr->memospriteList) {
-        buffStackSingle(ptr,buffSet,Stack_increase,Stack_limit,Stack_Name);
+        buffStackSingle(each.get(),buffSet,Stack_increase,Stack_limit,Stack_Name);
     }
 }
 void buffStackChar(CharUnit *ptr,vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name,int extend){
     buffStackSingle(ptr,buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
     for (auto &each : ptr->memospriteList) {
-        buffStackSingle(ptr,buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
+        buffStackSingle(each.get(),buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
     }
 }
 void buffStackChar(CharUnit *ptr,vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name){
     buffStackSingle(ptr,buffSet,Stack_increase,Stack_limit,Stack_Name);
     for (auto &each : ptr->memospriteList) {
-        buffStackSingle(ptr,buffSet,Stack_increase,Stack_limit,Stack_Name);
+        buffStackSingle(each.get(),buffSet,Stack_increase,Stack_limit,Stack_Name);
     }
 }
 void buffStackChar(CharUnit *ptr,vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name,int extend){
     buffStackSingle(ptr,buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
     for (auto &each : ptr->memospriteList) {
-        buffStackSingle(ptr,buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
+        buffStackSingle(each.get(),buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
     }
 }
 
@@ -137,50 +137,50 @@ void buffStackTargets(vector<AllyUnit*> targets,vector<BuffElementClass> buffSet
 
 void buffStackExcludingBuffer(AllyUnit *ptr,vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name){
     for (auto &each : allyList) {
-        if(ptr->isSameUnitName(each))continue;
+        if(ptr->isSameName(each))continue;
         buffStackSingle(each,buffSet,Stack_increase,Stack_limit,Stack_Name);
     }
 }
 void buffStackExcludingBuffer(AllyUnit *ptr,vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name,int extend){
     for (auto &each : allyList) {
-        if(ptr->isSameUnitName(each))continue;
+        if(ptr->isSameName(each))continue;
         buffStackSingle(each,buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
     }
 }
 void buffStackExcludingBuffer(AllyUnit *ptr,vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name){
     for (auto &each : allyList) {
-        if(ptr->isSameUnitName(each))continue;
+        if(ptr->isSameName(each))continue;
         buffStackSingle(each,buffSet,Stack_increase,Stack_limit,Stack_Name);
     }
 }
 void buffStackExcludingBuffer(AllyUnit *ptr,vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name,int extend){
     for (auto &each : allyList) {
-        if(ptr->isSameUnitName(each))continue;
+        if(ptr->isSameName(each))continue;
         buffStackSingle(each,buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
     }
 }
 void buffStackExcludingBuffer(AllyUnit *ptr,vector<AllyUnit*> targets, vector<BuffClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name) {
     for (auto &each : targets) {
-        if(ptr->isSameUnitName(each))continue;
-        buffStackSingle(ptr,buffSet,Stack_increase,Stack_limit,Stack_Name);
+        if(ptr->isSameName(each))continue;
+        buffStackSingle(each,buffSet,Stack_increase,Stack_limit,Stack_Name);
     }
 }
 void buffStackExcludingBuffer(AllyUnit *ptr,vector<AllyUnit*> targets, vector<BuffClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name, int extend) {
     for (auto &each : targets) {
-        if(ptr->isSameUnitName(each))continue;
-        buffStackSingle(ptr,buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
+        if(ptr->isSameName(each))continue;
+        buffStackSingle(each,buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
     }
 }
 void buffStackExcludingBuffer(AllyUnit *ptr,vector<AllyUnit*> targets, vector<BuffElementClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name) {
     for (auto &each : targets) {
-        if(ptr->isSameUnitName(each))continue;
-        buffStackSingle(ptr,buffSet,Stack_increase,Stack_limit,Stack_Name);
+        if(ptr->isSameName(each))continue;
+        buffStackSingle(each,buffSet,Stack_increase,Stack_limit,Stack_Name);
     }
 }
 void buffStackExcludingBuffer(AllyUnit *ptr,vector<AllyUnit*> targets, vector<BuffElementClass> buffSet, int Stack_increase, int Stack_limit, string Stack_Name, int extend) {
     for (auto &each : targets) {
-        if(ptr->isSameUnitName(each))continue;
-        buffStackSingle(ptr,buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
+        if(ptr->isSameName(each))continue;
+        buffStackSingle(each,buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
     }
 }
 

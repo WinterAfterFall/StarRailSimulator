@@ -21,8 +21,7 @@ CharUnit* SetCharBasicStats(double BaseSpeed,double Max_Energy,double Ult_cost,i
         charUnit[num]->Element_type.push_back(Element_type);
         charUnit[num]->path.push_back(path);
         charUnit[num]->Atv_stats->num = num;
-        charUnit[num]->Atv_stats->UnitName = Name;
-        charUnit[num]->Atv_stats->StatsOwnerName = Name;
+        charUnit[num]->Atv_stats->Name = Name;
         charUnit[num]->Atv_stats->side = Side::Ally;
         charUnit[num]->Atv_stats->Type = unitType;
         charUnit[num]->baseTaunt = tauntValueEachPath[charUnit[num]->path[0]];
@@ -45,8 +44,7 @@ void SetMemoStats(CharUnit *ptr,double fixHP,double Hp_ratio,double fixSpeed,dou
         ptr->memospriteList[num]->baseDef = ptr->baseDef;
         ptr->memospriteList[num]->Element_type.push_back(Element_type);
         ptr->memospriteList[num]->Atv_stats->num = Num;
-        ptr->memospriteList[num]->Atv_stats->UnitName = Name;
-        ptr->memospriteList[num]->Atv_stats->StatsOwnerName = Name;
+        ptr->memospriteList[num]->Atv_stats->Name = Name;
         ptr->memospriteList[num]->Atv_stats->side = Side::AllyUnit;
         ptr->memospriteList[num]->Atv_stats->Type = unitType;
         ptr->memospriteList[num]->Atv_stats->charptr = ptr->memospriteList[num].get();
@@ -61,8 +59,7 @@ void SetCountdownStats(CharUnit *ptr,double BaseSpeed,string Name){
         atvList.push_back(ptr->countdownList[num]->Atv_stats.get());
         ptr->countdownList[num]->Atv_stats->baseSpeed = BaseSpeed;
         ptr->countdownList[num]->Atv_stats->num = Num;
-        ptr->countdownList[num]->Atv_stats->UnitName = Name;
-        ptr->countdownList[num]->Atv_stats->StatsOwnerName = Name;
+        ptr->countdownList[num]->Atv_stats->Name = Name;
         ptr->countdownList[num]->Atv_stats->side = Side::Countdown;
         ptr->countdownList[num]->Atv_stats->charptr = ptr->countdownList[num].get();
 }
@@ -74,8 +71,7 @@ void SetSummonStats(CharUnit *ptr,double BaseSpeed,string Name){
         atvList.push_back(ptr->summonList[num]->Atv_stats.get());
         ptr->summonList[num]->Atv_stats->baseSpeed = BaseSpeed;
         ptr->summonList[num]->Atv_stats->num = Num;
-        ptr->summonList[num]->Atv_stats->UnitName = Name;
-        ptr->summonList[num]->Atv_stats->StatsOwnerName = ptr->Atv_stats->StatsOwnerName;
+        ptr->summonList[num]->Atv_stats->Name = ptr->Atv_stats->Name;
         ptr->summonList[num]->Atv_stats->side = Side::Summon;
         ptr->summonList[num]->Atv_stats->charptr = ptr->summonList[num].get();
 }

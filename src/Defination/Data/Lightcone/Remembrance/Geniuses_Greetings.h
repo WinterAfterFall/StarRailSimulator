@@ -9,8 +9,8 @@ namespace Remembrance_Lightcone{
                 ptr->Stats_type[Stats::ATK_P][AType::None] += 12 + 4 * superimpose;
             }));
 
-            WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](Ally *ally){
-                if (ally->isSameChar(ptr)) {
+            WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](CharUnit *ally){
+                if (ally->isSameOwner(ptr)) {
                     buffSingleChar(ptr,{{Stats::DMG,AType::BA,(15.0 + superimpose * 5)}},"Geniuses_Greetings",3);
                 }
             }));

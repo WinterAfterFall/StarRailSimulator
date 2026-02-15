@@ -7,7 +7,7 @@ double calculateHeal(HealSrc healSrc, AllyUnit *Healer, AllyUnit *target) {
         ||(Healer->owner->checkHeal&&target->owner->checkHealReceive)){
         cout<<"\033[0;38;5;85m";
         cout<<endl;
-        cout<<"From "<<Healer->getCharName()<<" to "<<target->getCharName()<<endl;
+        cout<<"From "<<Healer->getName()<<" to "<<target->getName()<<endl;
         cout << "\033[0m";
     }
     if(Healer->owner->checkHealFormula&&target->owner->checkHealReceiveFormula){

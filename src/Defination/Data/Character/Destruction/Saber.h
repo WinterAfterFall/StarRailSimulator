@@ -244,7 +244,7 @@ namespace Saber{
         }));
 
         When_Energy_Increase_List.push_back(TriggerEnergy_Increase_Func(PRIORITY_IMMEDIATELY, [ptr,sb,CoreResonance](CharUnit *target, double Energy) {
-            if(!ptr->isSameChar(target))return;
+            if(!ptr->isSameOwner(target))return;
 
             if(ptr->Current_energy + Energy >= ptr->Max_energy){
                 sb->Buff_note["Saber A4"] += ptr->Current_energy + Energy - ptr->Max_energy ;
@@ -256,7 +256,7 @@ namespace Saber{
     void UltInTurnOnly(){
         CharUnit *ally = CharCmd::findAllyName("Saber");
         ally->addUltCondition([ally]() -> bool {
-            if(turn->isSameUnitName("Saber")&&phaseStatus == PhaseStatus::BeforeTurn)return true;
+            if(turn->isSameName("Saber")&&phaseStatus == PhaseStatus::BeforeTurn)return true;
             return false;
         });
     }

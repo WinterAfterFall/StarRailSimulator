@@ -75,11 +75,8 @@ public:
     int getPriority(){
         return Atv_stats->priority;
     }
-    string getCharName(){
-        return Atv_stats->UnitName;
-    }
-    string getUnitName(){
-        return Atv_stats->StatsOwnerName;
+    string getName(){
+        return Atv_stats->Name;
     }
     
 #pragma endregion
@@ -116,30 +113,19 @@ public:
     void setPriority(int priority) {
         Atv_stats->priority = priority;
     }
-    void setCharName(string Char_Name) {
-        Atv_stats->UnitName = Char_Name;
-    }
-    void setUnitName(string Unit_Name) {
-        Atv_stats->StatsOwnerName = Unit_Name;
+    void setName(string name) {
+        Atv_stats->Name = name;
     }
 #pragma endregion
 #pragma endregion
 
 #pragma region Check Method
-    bool isSameChar(Unit *ptr){
-        if(this->Atv_stats->UnitName== ptr->Atv_stats->UnitName)return true;
-        return false;
-    }
     bool isSameUnit(Unit *ptr){
-        if(this->Atv_stats->StatsOwnerName == ptr->Atv_stats->StatsOwnerName)return true;
+        if(this->Atv_stats->Name == ptr->Atv_stats->Name)return true;
         return false;
     }
-    bool isSameCharName(string name){
-        if(this->Atv_stats->UnitName == name)return true;
-        return false;
-    }
-    bool isSameUnitName(string name){
-        if(this->Atv_stats->StatsOwnerName == name)return true;
+    bool isSameName(string name){
+        if(this->Atv_stats->Name == name)return true;
         return false;
     }
     bool isSameNum(Unit *ptr){
@@ -186,11 +172,8 @@ public:
     virtual ~Unit() {}  // Virtual destructor to ensure proper cleanup of derived classes
 };
 #pragma region ATV get/set
-    bool ActionValueStats::isSameChar(Unit* ptr) {
-        return this->UnitName == ptr->Atv_stats->UnitName;
-    }
     bool ActionValueStats::isSameUnit(Unit* ptr) {
-        return this->StatsOwnerName == ptr->Atv_stats->StatsOwnerName;
+        return this->Name == ptr->Atv_stats->Name;
     }
     bool ActionValueStats::isSameNum(Unit* ptr) {
         return this->num == ptr->Atv_stats->num;

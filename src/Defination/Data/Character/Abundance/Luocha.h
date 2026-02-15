@@ -56,7 +56,7 @@ namespace Luocha{
 
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Charptr = ptr]() {
-            if (turn->UnitName == "Luocha") {
+            if (turn->Name == "Luocha") {
                 if (isBuffEnd(Charptr,"Cycle_of_Life")) {
                     if (ptr->Eidolon >= 1) {
                         buffAllAlly({{Stats::ATK_P,AType::None,-20}});

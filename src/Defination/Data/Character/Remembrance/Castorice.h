@@ -200,7 +200,7 @@ namespace Castorice{
         }));
 
         Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr,Casptr,Polluxptr](AllyUnit *Healer, AllyUnit *target, double Value) {
-            if(target->isSameStatsOwnerName("Netherwing"))return;
+            if(target->isSameName("Netherwing"))return;
             Value = (Value + target->getBuffNote("NetherwingHealLimit") > 4080) 
             ? 4080 - target->getBuffNote("NetherwingHealLimit")
             : Value;
@@ -211,7 +211,7 @@ namespace Castorice{
             else {
                 ptr->getMemosprite()->RestoreHP(ptr->getMemosprite(),HealSrc(HealSrcType::CONST,Value));
             }
-            if(target->isSameStatsOwnerName("Castorice")){
+            if(target->isSameName("Castorice")){
                 if(!ptr->getBuffCheck("Inverted Torch")&&ptr->currentHP>=ptr->totalHP*0.5){
                 buffSingle(Casptr,{{Stats::SPD_P,AType::None,40}});
                 ptr->setBuffCheck("Inverted Torch",true);
@@ -230,7 +230,7 @@ namespace Castorice{
                 ptr->Buff_note["CastoriceTalentBuff"] = decreaseHPCount;
                 buffStackChar(ptr,{{Stats::DMG,AType::None,20}},1,3,"CastoriceTalentBuff",3);
             }
-            if(target->isSameStatsOwnerName("Castorice")){
+            if(target->isSameName("Castorice")){
                 if(ptr->getBuffCheck("Inverted Torch")&&ptr->currentHP<ptr->totalHP*0.5){
                     buffSingle(Casptr,{{Stats::SPD_P,AType::None,-40}});
                     ptr->setBuffCheck("Inverted Torch",false);
@@ -243,7 +243,7 @@ namespace Castorice{
             if(isBuffEnd(Polluxptr,"NetherwingLifeSpan")){
                 Kamikaze(ptr);
             }
-            if(turn->isSameCharName("Netherwing")){
+            if(turn->isSameName("Netherwing")){
                 buffResetStack(Polluxptr,{{Stats::DMG,AType::None,30}},"Where The West Wind Dwells");
             }
             AllyUnit *tempUnit = turn->canCastToSubUnit();
@@ -271,7 +271,7 @@ namespace Castorice{
         }));
         
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](AllyUnit* Target, Stats StatsType) {
-            if(!Target->isSameStatsOwnerName("Netherwing"))return;
+            if(!Target->isSameName("Netherwing"))return;
             if(StatsType != Stats::FLAT_HP && StatsType != Stats::HP_P)return;
             double temp;
             temp = 34000 - calculateHpOnStats(ptr->getMemosprite());

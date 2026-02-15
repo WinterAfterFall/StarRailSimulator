@@ -8,7 +8,7 @@ namespace Relic{
         }));
 
         BeforeAttackPerHit_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
-            if (act->Attacker->Atv_stats->StatsOwnerName != ptr->Atv_stats->StatsOwnerName) return;
+            if (act->Attacker->Atv_stats->Name != ptr->Atv_stats->Name) return;
 
             bool check = false;
             for (auto e : act->actionTypeList) {
@@ -31,7 +31,7 @@ namespace Relic{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            if (turn->UnitName != ptr->Atv_stats->UnitName) return;
+            if (turn->Name != ptr->Atv_stats->Name) return;
 
             if (isBuffEnd(ptr,"Grand_Duke")) {
                 ptr->Stats_type[Stats::ATK_P][AType::None] -= ptr->Stack["Grand_Duke"] * 6;

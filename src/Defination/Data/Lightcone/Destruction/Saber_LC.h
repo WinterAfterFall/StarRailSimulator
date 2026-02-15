@@ -11,8 +11,8 @@ namespace Destruction_Lightcone{
                 }
             ));
 
-            WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](Ally *ally){
-                if (ally->isSameChar(ptr)) {
+            WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](CharUnit *ally){
+                if (ally->isSameOwner(ptr)) {
                     buffSingle(ptr,{{Stats::ATK_P,AType::None,30.0 + 10.0 * superimpose}},"Saber_LC",2);
                     if(ptr->Max_energy>=300){
                         Increase_energy(ptr,10,0);

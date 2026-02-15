@@ -100,7 +100,7 @@ namespace Bronya{
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
-            if(turn->UnitName == "Bronya"){
+            if(turn->Name == "Bronya"){
                 ptr->Buff_check["Bronya_E4"] = 0;
             }
             if(ptr->Atv_stats->num != Driver_num) return;
@@ -114,7 +114,7 @@ namespace Bronya{
             if(act->isSameAction("Bronya",AType::BA)){
                 Action_forward(ptr->Atv_stats.get(),30);
             }
-            if(ptr->Eidolon >= 4 && act->isSameAction(AType::BA)&&!act->isSameStatsOwnerName("Bronya")&& ptr->Buff_check["Bronya_E4"] == 0){
+            if(ptr->Eidolon >= 4 && act->isSameAction(AType::BA)&&!act->isSameName("Bronya")&& ptr->Buff_check["Bronya_E4"] == 0){
                 shared_ptr<AllyAttackAction> newAct = 
                 make_shared<AllyAttackAction>(AType::Fua,ptr,TraceType::Single,"Bronya E4",
                 [ptr](shared_ptr<AllyAttackAction> &act){

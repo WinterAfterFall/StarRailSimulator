@@ -93,7 +93,7 @@ public:
     bool addBreakSEList(BreakSideEffect input) {
         if(input.type == BreakSEType::Freeze) {
             for(auto itr = breakFrzList.begin(); itr != breakFrzList.end();) {
-                if(itr->ptr->isSameStatsOwnerName(input.ptr)) {
+                if(itr->ptr->isSameName(input.ptr)) {
                     itr->countdown = input.countdown;
                     return false;
                 } else {
@@ -103,7 +103,7 @@ public:
             breakFrzList.push_back(input);
         } else if(input.type == BreakSEType::Imprisonment) {
             for(auto itr = breakImsList.begin(); itr != breakImsList.end();) {
-                if(itr->ptr->isSameStatsOwnerName(input.ptr)) {
+                if(itr->ptr->isSameName(input.ptr)) {
                     itr->countdown = input.countdown;
                     return false;
                 } else {
@@ -113,7 +113,7 @@ public:
             breakImsList.push_back(input);
         } else if(input.type == BreakSEType::Entanglement) {
             for(auto itr = breakEngList.begin(); itr != breakEngList.end();) {
-                if(itr->ptr->isSameStatsOwnerName(input.ptr)) {
+                if(itr->ptr->isSameName(input.ptr)) {
                     itr->countdown = input.countdown;
                     return false;
                 } else {
@@ -123,7 +123,7 @@ public:
             breakEngList.push_back(input);
         }else{
             for(auto itr = breakDotList.begin(); itr != breakDotList.end();) {
-                if(itr->ptr->isSameStatsOwnerName(input.ptr)) {
+                if(itr->ptr->isSameName(input.ptr)) {
                     itr->countdown = input.countdown;
                     itr->stack += input.stack;
                     return false;

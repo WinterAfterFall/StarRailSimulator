@@ -142,7 +142,7 @@ namespace Gallagher{
             }
         }));
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_HEAL, [ptr](AllyUnit* Target, Stats StatsType) {
-            if(StatsType!=Stats::BE||!Target->isSameStatsOwnerName("Gallagher"))return;
+            if(StatsType!=Stats::BE||!Target->isSameName("Gallagher"))return;
 
             double temp = calculateBreakEffectForBuff( ptr,50);
             if(temp>75)temp = 75;

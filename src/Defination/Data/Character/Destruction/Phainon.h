@@ -13,8 +13,8 @@ namespace Phainon{
         
 
         //substats
-        ptr->pushSubstats(Stats::CD);
-        ptr->pushSubstats(Stats::CR);
+        // ptr->pushSubstats(Stats::CD);
+        // ptr->pushSubstats(Stats::CR);
         ptr->pushSubstats(Stats::ATK_P);
         ptr->setTotalSubstats(20);
         ptr->setSpeedRequire(116);
@@ -124,14 +124,14 @@ namespace Phainon{
                 pn->Atv_stats->extraTurn = 0;
                 pnCD->death();
                 for(auto &each : allyList){
-                    if(each->isSameStatsOwnerName(pn)){
+                    if(each->isSameName(pn)){
                         each->status = UnitStatus::Alive;
-                    }else if(pn->getBuffNote("PN Retire " + each->getCharName())==1){
+                    }else if(pn->getBuffNote("PN Retire " + each->getName())==1){
                         each->status = UnitStatus::Alive;
-                    }else if(pn->getBuffNote("PN Retire " + each->getCharName())==2){
+                    }else if(pn->getBuffNote("PN Retire " + each->getName())==2){
                         each->status = UnitStatus::AtvFreeze;
                     }
-                    pn->setBuffNote("PN Retire " + each->getCharName(),0);
+                    pn->setBuffNote("PN Retire " + each->getName(),0);
                 }
                 for(auto &c : charList){
                     for(auto &each :c->summonList){
@@ -206,7 +206,7 @@ namespace Phainon{
                     });
                     Scourge(4);
                     pn->Atv_stats->extraTurn = 1;
-                    if(turn->isSameUnitName("Phainon")){
+                    if(turn->isSameName("Phainon")){
                         turn->turnCnt--;
                     }
                     pnCD->summon();
@@ -217,13 +217,13 @@ namespace Phainon{
                     pn->setBuffCountdown("PN Extra Turn", 8);
 
                     for(auto &each :allyList){
-                        if(each->isSameStatsOwnerName(pn)){
+                        if(each->isSameName(pn)){
                                 each->status = UnitStatus::AtvFreeze;
                         }else if(each->status==UnitStatus::Alive){
-                            pn->setBuffNote("PN Retire " + each->getCharName(),1);
+                            pn->setBuffNote("PN Retire " + each->getName(),1);
                             each->status = UnitStatus::Retire;
                         }else if(each->status==UnitStatus::AtvFreeze){
-                            pn->setBuffNote("PN Retire " + each->getCharName(),2);
+                            pn->setBuffNote("PN Retire " + each->getName(),2);
                             each->status = UnitStatus::Retire;
                         }
                     }
@@ -350,7 +350,7 @@ namespace Phainon{
         }));
         
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD](shared_ptr<AllyAttackAction> &act) {
-            if(act->isSameUnitName(pn)&&pnCD->status==UnitStatus::Alive){
+            if(act->isSameCharName(pn)&&pnCD->status==UnitStatus::Alive){
                 pn->RestoreHP(pn,HealSrc(HealSrcType::TOTAL_HP,20));
             }
             if(ptr->Eidolon>=2&&act->actionName=="PN Foundation"){
@@ -364,7 +364,7 @@ namespace Phainon{
             
             if(pnCD->isAlive())return;
             for(auto &each : act->buffTargetList){
-                if(each->isSameStatsOwnerName(pn)){
+                if(each->isSameName(pn)){
                     CoreFlame(1);
                     buffSingle(pn,{{Stats::CD,AType::None,30}},"PN Talent",3);
                     if(act->actionName=="TY Ult"
@@ -381,7 +381,7 @@ namespace Phainon{
         Enemy_hit_List.push_back(TriggerByEnemyHit(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD,CoreFlame](Enemy *Attacker, vector<AllyUnit*> target) {
             if(pnCD->isAlive())return;
             for(auto &each : target){
-                if(each->isSameStatsOwnerName(pn)){
+                if(each->isSameName(pn)){
                     CoreFlame(1);
                     break;
                 }
@@ -389,7 +389,7 @@ namespace Phainon{
         }));
 
         Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD,CoreFlame](AllyUnit *Healer, AllyUnit *target, double Value) {
-            if(target->isSameStatsOwnerName(pn)){
+            if(target->isSameName(pn)){
                 buffSingle(pn,{{Stats::DMG,AType::None,45}},"PN A4",4);
             }
         }));

@@ -8,7 +8,7 @@ namespace Relic{
         }));
 
         Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr](AllyUnit *Healer, AllyUnit *target, double Value) {
-            if(Healer->owner->isSameStatsOwnerName(ptr)){
+            if(Healer->owner->isSameName(ptr)){
                 if(isHaveToAddBuff(ptr,"Goddess of Sun and Thunder",2)){
                     buffSingle(ptr,{{Stats::SPD_P,AType::None,6}});
                     buffAllAlly({

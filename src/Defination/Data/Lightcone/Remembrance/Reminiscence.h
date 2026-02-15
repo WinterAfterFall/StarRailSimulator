@@ -6,15 +6,15 @@ namespace Remembrance_Lightcone{
             ptr->Light_cone.Name = "Reminiscence";
             
             Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                for (auto &e : ptr->Sub_Unit_ptr) {
+                for (auto &e : ptr->memospriteList) {
                     if (e->Atv_stats->side == Side::AllyUnit && e->isDeath()) {
-                        ptr->buffResetStack({{Stats::DMG,AType::None,7.0 + superimpose}},"Reminiscence");
+                        buffResetStack(ptr,{{Stats::DMG,AType::None,7.0 + superimpose}},"Reminiscence");
                         return;
                     }
                 }
     
                 if (turn->num == ptr->Atv_stats->num && turn->side == Side::AllyUnit) {
-                    ptr->buffStackChar({{Stats::DMG,AType::None,7.0 + superimpose}}, 1, 4,"Reminiscence");
+                    buffStackChar(ptr,{{Stats::DMG,AType::None,7.0 + superimpose}}, 1, 4,"Reminiscence");
                 }
             }));
         };

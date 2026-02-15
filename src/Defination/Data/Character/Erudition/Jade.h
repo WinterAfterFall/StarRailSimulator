@@ -89,7 +89,7 @@ namespace Jade{
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            if (chooseSubUnitBuff(ptr)->Atv_stats->UnitName == turn->UnitName) {
+            if (chooseSubUnitBuff(ptr)->Atv_stats->Name == turn->Name) {
                 Jade_Talent(ptr, 3);
             }
             
@@ -104,7 +104,7 @@ namespace Jade{
                 return;
             }
             if (ptr->Buff_check["Jade_Skill"] == 0) return;
-            if (act->Attacker->Atv_stats->StatsOwnerName != "Jade" && act->Attacker->Atv_stats->StatsOwnerName != chooseSubUnitBuff(ptr)->Atv_stats->StatsOwnerName) return;
+            if (act->Attacker->Atv_stats->Name != "Jade" && act->Attacker->Atv_stats->Name != chooseSubUnitBuff(ptr)->Atv_stats->Name) return;
 
             int temp = act->targetList.size();
             if (ptr->Eidolon >= 1 && temp < 3) temp = 3;

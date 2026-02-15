@@ -61,7 +61,7 @@ namespace Huohuo{
         };
         
         ptr->addUltCondition([ptr,hh]() -> bool {
-            if(phaseStatus == PhaseStatus::BeforeTurn&&turn->isSameChar(chooseSubUnitBuff(hh)))return true;
+            if(phaseStatus == PhaseStatus::BeforeTurn&&turn->isSameUnit(chooseSubUnitBuff(hh)))return true;
             return false;
         });
 
@@ -147,7 +147,7 @@ namespace Huohuo{
 
         if(ptr->Eidolon>=6)
         Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr,hh](AllyUnit *Healer, AllyUnit *target, double Value) {
-            if(Healer->isSameStatsOwnerName(hh)){
+            if(Healer->isSameName(hh)){
                 buffSingle(target,{{Stats::DMG,AType::None,50}},"HH E6",2);
             }
         }));

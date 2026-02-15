@@ -7,7 +7,7 @@ namespace Erudition_Lightcone{
             
 
             Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                if(turn->isSameCharName(ptr->Atv_stats->UnitName))ptr->setBuffCheck("Passkey",0);
+                if(turn->isSameName(ptr->Atv_stats->Name))ptr->setBuffCheck("Passkey",0);
             }));
 
             AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){

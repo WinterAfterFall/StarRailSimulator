@@ -9,9 +9,9 @@ namespace Destruction_Lightcone{
             }));
             Enemy_hit_List.push_back(TriggerByEnemyHit(PRIORITY_ACTTACK,[ptr,superimpose](Enemy *Attacker,vector<AllyUnit*> target){
                 for(AllyUnit* e : target){
-                    if(e->isSameStatsOwnerName(ptr)){
+                    if(e->isSameName(ptr)){
                         e->RestoreHP(e,HealSrc(HealSrcType::ATK,6.0 + superimpose * 2.0));
-                        e->buffSingle({{Stats::DMG,AType::None,(20.0 + 4*superimpose)}},"Clara_LC",1);
+                        buffSingle(e,{{Stats::DMG,AType::None,(20.0 + 4*superimpose)}},"Clara_LC",1);
                         return;
                     }
                 }

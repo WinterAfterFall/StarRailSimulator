@@ -10,7 +10,7 @@ namespace Planar{
 
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             for (int i = 1; i <= Total_ally; i++) {
-                if (ptr->Atv_stats->UnitName == charUnit[i]->Atv_stats->UnitName) continue;
+                if (ptr->Atv_stats->Name == charUnit[i]->Atv_stats->Name) continue;
                 for (auto e1 : charUnit[i]->path) {
                     for (auto e2 : ptr->path) {
                         if (e2 == e1) {

@@ -5,7 +5,7 @@ namespace Destruction_Lightcone{
             ptr->SetAllyBaseStats(1058,476,265);
             ptr->Light_cone.Name = "The Moles";
             BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK,[ptr,superimpose](shared_ptr<AllyAttackAction> &act){
-                if(!act->isSameUnitName(ptr))return;
+                if(!act->isSameCharName(ptr))return;
                 if(act->isSameAction(AType::BA)&&isHaveToAddBuff(ptr,"The Moles BA"))
                 buffSingle(ptr,{{Stats::ATK_P,AType::None,9.0 + 3 * superimpose}});
                 if(act->isSameAction(AType::SKILL)&&isHaveToAddBuff(ptr,"The Moles Skill"))

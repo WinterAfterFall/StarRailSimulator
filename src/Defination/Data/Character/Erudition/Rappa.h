@@ -103,7 +103,7 @@ namespace Rappa{
                     debuffSingle(enemyUnit,{{Stats::VUL,AType::Break,-enemyUnit->DebuffNote["Withered_Leaf"]}});
                 }
             }
-            if (turn->UnitName == "Rappa") {
+            if (turn->Name == "Rappa") {
                 if (ptr->Stack["Rappa_Ult"] == 0 && ptr->Buff_check["Rappa_Ult"] == 1) {
                     ptr->Stats_type[Stats::BE][AType::None] -= 30;
                     ptr->Stats_type[Stats::BREAK_EFF][AType::None] -= 50;
@@ -122,7 +122,7 @@ namespace Rappa{
 
 
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act){
-            if(act->Attacker->Atv_stats->UnitName=="Rappa"){
+            if(act->Attacker->Atv_stats->Name=="Rappa"){
                 if(ptr->Buff_check["Rappa_Ult"]==1){
                     Superbreak_trigger(act,60,"");
 

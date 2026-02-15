@@ -73,7 +73,7 @@ namespace Serval{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
-            if (turn->StatsOwnerName == "Serval") {
+            if (turn->Name == "Serval") {
                 if (isBuffEnd(ptr,"Serval_A6")) {
                     ptr->Stats_type[Stats::ATK_P][AType::None] -= 20;
                 }
@@ -106,7 +106,7 @@ namespace Serval{
         }));
 
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act) {
-            if (act->Attacker->Atv_stats->StatsOwnerName != "Serval") return;
+            if (act->Attacker->Atv_stats->Name != "Serval") return;
             shared_ptr<AllyAttackAction> data_2 = 
             make_shared<AllyAttackAction>(AType::Addtional,ptr,TraceType::Single,"Serval AddDmg");
             for (int i = 1; i <= Total_enemy; i++) {

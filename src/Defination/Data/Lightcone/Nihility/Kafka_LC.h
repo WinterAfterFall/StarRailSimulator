@@ -4,16 +4,16 @@ namespace Nihility_Lightcone{
         return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(1058,582,463);
             ptr->Light_cone.Name = "Kafka_LC";
-            string Erode = ptr->getUnitName() + " Erode";
+            string Erode = ptr->getName() + " Erode";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 ptr->Stats_type[Stats::DMG][AType::None] += 20 + 4 * superimpose;
             }));
             
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,Erode](shared_ptr<AllyAttackAction> &act) {
-                if(act->isSameUnitName(ptr)){
+                if(act->isSameCharName(ptr)){
                     buffStackSingle(ptr,{{Stats::SPD_P,AType::None,4.0 + 0.8*superimpose}},1,3,"Kafka LC");
                     for(auto &each : act->targetList ){
-                        if(!each->getDebuff(Erode))each->dotSingleApply({DotType::Shock},ptr,Erode,1);
+                        if(!each->getDebuff(Erode))dotSingleApply(ptr,each,{DotType::Shock},Erode,1);
                     }
                 }
             }));

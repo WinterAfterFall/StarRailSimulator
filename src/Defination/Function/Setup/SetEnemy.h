@@ -4,13 +4,14 @@ Enemy* createNewEnemy(double speed,double Toughness,EnemyType type){
     Total_enemy++; 
     int num = Total_enemy;
     enemyUnit.push_back(make_unique<Enemy>());
+    enemyList.push_back(enemyUnit[num].get());
+    atvList.push_back(enemyUnit[num]->Atv_stats.get());
     enemyUnit[num]->Atv_stats->baseSpeed = speed;
     enemyUnit[num]->Max_toughness = Toughness;
     enemyUnit[num]->Target_type = type;
     enemyUnit[num]->Atv_stats->num = num;
-    enemyUnit[num]->Atv_stats->UnitName = "Enemy-";
-    enemyUnit[num]->Atv_stats->UnitName += std::to_string(num);
-    enemyUnit[num]->Atv_stats->StatsOwnerName = enemyUnit[num]->Atv_stats->UnitName;
+    enemyUnit[num]->Atv_stats->Name = "Enemy-";
+    enemyUnit[num]->Atv_stats->Name += std::to_string(num);
     enemyUnit[num]->Atv_stats->side = Side::Enemy;
     enemyUnit[num]->Atv_stats->charptr = enemyUnit[num].get();
     if(num == 2){

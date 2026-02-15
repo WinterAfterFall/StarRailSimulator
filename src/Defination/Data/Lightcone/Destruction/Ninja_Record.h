@@ -9,14 +9,14 @@ namespace Destruction_Lightcone{
             }));
     
             Healing_List.push_back(TriggerHealing(PRIORITY_ACTTACK, [ptr,superimpose](AllyUnit *Healer, AllyUnit *target, double Value) {
-                if (!target->isSameStatsOwnerName(ptr)) return; 
+                if (!target->isSameName(ptr)) return; 
                 if (isHaveToAddBuff(ptr,"Ninja_Record_Buff",2)) {
                     buffSingle(ptr,{{Stats::CD, AType::None, 13.5 + 4.5 * superimpose}});
                 }
             }));
     
             HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_ACTTACK, [ptr,superimpose](Unit *Trigger, AllyUnit *target, double Value) {
-                if (!target->isSameStatsOwnerName(ptr)) return; 
+                if (!target->isSameName(ptr)) return; 
                 if (isHaveToAddBuff(ptr,"Ninja_Record_Buff",2)) {
                     buffSingle(ptr,{{Stats::CD, AType::None, 13.5 + 4.5 * superimpose}});
                 }

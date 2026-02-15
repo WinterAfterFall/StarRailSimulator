@@ -106,7 +106,7 @@ namespace Aglaea{
         }));
 
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr,AGptr](shared_ptr<AllyAttackAction> &act) {
-            if (act->Attacker->Atv_stats->StatsOwnerName == "Garmentmaker") {
+            if (act->Attacker->Atv_stats->Name == "Garmentmaker") {
                 if (act->Attacker->Stack["Brewed_by_Tears"] < 6) {
                     buffSingle(act->Attacker,{{Stats::FLAT_SPD, AType::None, 55.0}});
                     act->Attacker->Stack["Brewed_by_Tears"]++;
@@ -115,7 +115,7 @@ namespace Aglaea{
                     }
                 }
             }
-            if (act->Attacker->isSameStatsOwnerName("Aglaea")) {
+            if (act->Attacker->isSameName("Aglaea")) {
                 if (debuffApply(ptr,enemyUnit[Main_Enemy_num].get(),"Seam_Stitch")) {
                     if (ptr->Eidolon >= 1) {
                         debuffSingle(enemyUnit[Main_Enemy_num].get(),{{Stats::VUL, AType::None, 15}});
@@ -135,7 +135,7 @@ namespace Aglaea{
 
         BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr](shared_ptr<AllyAttackAction> &act) {
             if (ptr->Eidolon >= 2) {
-                if (act->Attacker->Atv_stats->StatsOwnerName == "Aglaea" || act->Attacker->Atv_stats->StatsOwnerName == "Garmentmaker") {
+                if (act->Attacker->Atv_stats->Name == "Aglaea" || act->Attacker->Atv_stats->Name == "Garmentmaker") {
                     buffStackChar(ptr,{{Stats::DEF_SHRED,AType::None,14}},1,3,"Aglaea_E2");
                 } else {
                     buffResetStack(ptr,{{Stats::DEF_SHRED,AType::None,14}},"Aglaea_E2");
@@ -145,7 +145,7 @@ namespace Aglaea{
 
         Buff_List.push_back(TriggerByAllyBuffAction_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr](shared_ptr<AllyBuffAction> &act) {
             if (ptr->Eidolon >= 2) {
-                if (act->Attacker->Atv_stats->StatsOwnerName == "Aglaea" || act->Attacker->Atv_stats->StatsOwnerName == "Garmentmaker") {
+                if (act->Attacker->Atv_stats->Name == "Aglaea" || act->Attacker->Atv_stats->Name == "Garmentmaker") {
                     buffStackChar(ptr,{{Stats::DEF_SHRED,AType::None,14}},1,3,"Aglaea_E2");
                 } else {
                     buffResetStack(ptr,{{Stats::DEF_SHRED,AType::None,14}},"Aglaea_E2");
@@ -154,7 +154,7 @@ namespace Aglaea{
         }));
 
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,AGptr](AllyUnit *target, Stats StatsType) {
-            if (target->Atv_stats->StatsOwnerName != "Aglaea") return;
+            if (target->Atv_stats->Name != "Aglaea") return;
             if (ptr->countdownList[0]->isDeath()) return;
             if (StatsType == Stats::FLAT_SPD||StatsType == Stats::SPD_P) {
                 // adjust

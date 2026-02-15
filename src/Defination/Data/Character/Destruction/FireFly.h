@@ -64,7 +64,7 @@ namespace FireFly{
         
 
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,FFptr](AllyUnit *target, Stats StatsType) {
-            if (target->Atv_stats->StatsOwnerName != "FireFly") return;
+            if (target->Atv_stats->Name != "FireFly") return;
             if (StatsType == Stats::ATK_P || StatsType == Stats::FLAT_ATK) {
             double temp = 0;
             temp = floor(((ptr->Stats_type[Stats::ATK_P][AType::None] / 100 * ptr->baseAtk + ptr->baseAtk) + ptr->Stats_type[Stats::FLAT_ATK][AType::None] - 1800) / 100) * 0.8;
@@ -113,7 +113,7 @@ namespace FireFly{
             ptr->Stack["FireFly_E2"]--;
             Action_forward(ptr->Atv_stats.get(), 100);
             }
-            if (act->isSameStatsOwnerName("FireFly")) {
+            if (act->isSameName("FireFly")) {
             if (ptr->Stats_type[Stats::BE][AType::None] >= 360) {
                 Superbreak_trigger(act, 50,"");
             } else if (ptr->Stats_type[Stats::BE][AType::None] >= 200) {

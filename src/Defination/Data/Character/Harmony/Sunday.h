@@ -24,7 +24,7 @@ namespace Sunday{
         };
 
         ptr->addUltCondition([ptr,SDptr]() -> bool {
-            if(chooseCharacterBuff(ptr)->isSameStatsOwnerName("Saber"))return true;
+            if(chooseCharacterBuff(ptr)->isSameName("Saber"))return true;
             if(chooseCharacterBuff(ptr)->Max_energy!=0){
                 if (chooseCharacterBuff(ptr)->Max_energy <= 200 &&
                     chooseCharacterBuff(ptr)->Max_energy - 
@@ -119,7 +119,7 @@ namespace Sunday{
 
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,SDptr]() {
-            if(turn->isSameUnitName("Sunday")&&ptr->Eidolon>=4){
+            if(turn->isSameName("Sunday")&&ptr->Eidolon>=4){
                 Increase_energy(ptr,8);
             }
             if (isBuffEnd(SDptr,"Ode_to_Caress_and_Cicatrix")) {
@@ -195,7 +195,7 @@ namespace Sunday{
                 buffSingle(target,{{Stats::CD, AType::None, temp - target->getBuffNote("The_Sorrowing_Body")}});
                 target->Buff_note["The_Sorrowing_Body"] = temp;
             }
-            if (target->Atv_stats->StatsOwnerName != "Sunday") return;
+            if (target->Atv_stats->Name != "Sunday") return;
             if (!target->getBuffCheck("Ode_to_Caress_and_Cicatrix")) return;
             if (StatsType != Stats::CD) return;   
             double buffValue = calculateCritdamForBuff(ptr, 30) + 12;

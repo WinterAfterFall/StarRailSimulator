@@ -10,7 +10,7 @@ namespace Nihility_Lightcone{
             }));
     
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                if (act->Attacker->Atv_stats->StatsOwnerName != ptr->Atv_stats->StatsOwnerName) return;
+                if (act->Attacker->Atv_stats->Name != ptr->Atv_stats->Name) return;
                 for (auto e : act->targetList) {
                     if (e->Stats_type[Stats::DEF_SHRED][AType::None] > 0) {
                         Increase_energy(ptr, 3 + superimpose);

@@ -19,8 +19,8 @@ public:
     Side side;//AllyUnit Ally Summon
     UnitType Type;
     int priority = 0;
-    string UnitName;
-    string StatsOwnerName;//ชื่อเจ้าของเทิร์น
+    // string UnitName;
+    string Name;//ชื่อเจ้าของเทิร์น
     bool extraTurn = false;
     Unit* charptr = nullptr; //* // This will be set to point back to the unit (Ally or Enemy)
 
@@ -55,11 +55,8 @@ public:
     int getPriority(){
         return priority;
     }
-    string getCharName(){
-        return UnitName;
-    }
     string getUnitName(){
-        return StatsOwnerName;
+        return Name;
     }
     Unit* getPtrToChar(){
         return charptr;
@@ -97,25 +94,18 @@ public:
     void setPriority(int priority) {
         this->priority = priority;
     }
-    void setCharName(string Char_Name) {
-        this->UnitName = Char_Name;
-    }
-    void setUnitName(string Unit_Name) {
-        this->StatsOwnerName = Unit_Name;
+    void setName(string Unit_Name) {
+        this->Name = Unit_Name;
     }
 #pragma endregion
 
 #pragma region Check Method
-    bool isSameCharName(const string& name) {
-        return this->UnitName == name;
-    }
-    bool isSameUnitName(const string& name) {
-        return this->StatsOwnerName == name;
+    bool isSameName(const string& name) {
+        return this->Name == name;
     }
     bool isSameNum(int num) {
         return this->num == num;
     }
-    bool isSameChar(Unit* ptr);
     bool isSameUnit(Unit* ptr);
     bool isSameNum(Unit* ptr);
 #pragma endregion
