@@ -1,6 +1,7 @@
 #include"Sunday.h"
 #include"Robin.h"
 #include"Tingyun.h"
+#include"HanabiV1.h"
 #include"Hanabi.h"
 #include"Ruan_Mei.h"
 #include"Harmony_MC.h"

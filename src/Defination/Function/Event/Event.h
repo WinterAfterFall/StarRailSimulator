@@ -1,10 +1,10 @@
 #include "../include.h"
 void allEventBeforeTurn(){
+    phaseStatus = PhaseStatus::BeforeTurn;
     if(turn->side==Side::Enemy){
         shared_ptr<AllyAttackAction> act;
         Enemy *target = turn->canCastToEnemy();
         Dot_trigger(100, target, DotType::General);
-        phaseStatus = PhaseStatus::BeforeTurn;
         for(auto &each : target->breakEngList){
             act = make_shared<AllyAttackAction>(AType::Entanglement, each.ptr, TraceType::Single, "Entanglement");
             double Const = 0.6 * each.stack;

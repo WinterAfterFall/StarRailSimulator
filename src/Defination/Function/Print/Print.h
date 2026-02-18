@@ -6,8 +6,7 @@ void Print(){
     cout<<""<<turn->Name<<" ";
     cout<<turn->turnCnt<<" ";
     cout<<sp<<" ";
-    cout<<charUnit[1]->getBuffNote("Mydei_Charge_point")<<" ";
-    cout<<charUnit[1]->Current_energy<<" ";
+    cout<<charUnit[2]->Current_energy<<" ";
     cout<<endl;
 }
 void printRoundResult(){

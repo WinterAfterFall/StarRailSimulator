@@ -29,14 +29,14 @@ int main(){
     // std::cin.tie(nullptr);
     SetValue();
     The_Herta::Setup(0,Erudition_Lightcone::The_Herta_LC(1),Relic::Scholar,Planar::Izumo);
-    Aglaea::Setup(1,Remembrance_Lightcone::SweatNowCryLess(1),Relic::Hero_Wreath,Planar::The_Wondrous_BananAmusement_Park);
-    Jingyuan::Setup_Jingyuan(0,Erudition_Lightcone::Before_Dawn(1),Relic::Grand_Duke,Planar::The_Wondrous_BananAmusement_Park);
-    Castorice::Setup(0,Remembrance_Lightcone::Castorice_LC(1),Relic::Poet_Dill,Planar::Bone_Collection);
-    // Phainon::Setup(2,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::Arcadia);
-    Mydei::Setup(0,Destruction_Lightcone::Mydei_LC(1),Relic::Scholar,Planar::Bone_Collection);
-    Saber::Setup(0,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::FirmanentFrontline(0));
-    Archer::Setup(0,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::FirmanentFrontline(0));
-    Anaxa::Setup(0,Erudition_Lightcone::GreatCosmic(5),Relic::GeniusBrilliant,Planar::Lushaka);
+    // Aglaea::Setup(1,Remembrance_Lightcone::SweatNowCryLess(1),Relic::Hero_Wreath,Planar::The_Wondrous_BananAmusement_Park);
+    // Jingyuan::Setup_Jingyuan(0,Erudition_Lightcone::Before_Dawn(1),Relic::Grand_Duke,Planar::The_Wondrous_BananAmusement_Park);
+    // Castorice::Setup(0,Remembrance_Lightcone::Castorice_LC(1),Relic::Poet_Dill,Planar::Bone_Collection);
+    // // Phainon::Setup(2,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::Arcadia);
+    // Mydei::Setup(0,Destruction_Lightcone::Mydei_LC(1),Relic::Scholar,Planar::Bone_Collection);
+    // Saber::Setup(0,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::FirmanentFrontline(0));
+    // Archer::Setup(0,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::FirmanentFrontline(0));
+    // Anaxa::Setup(0,Erudition_Lightcone::GreatCosmic(5),Relic::GeniusBrilliant,Planar::Lushaka);
     
     //Dot
     // Hysilens::Setup(0,Nihility_Lightcone::Jiaoqiu_LC(1,1),Relic::Prisoner,Planar::Revelry);
@@ -47,21 +47,21 @@ int main(){
 
 
     //Driver
-    // Hanabi::Setup(0,Harmony_Lightcone::Sunday_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
+    Hanabi::Setup(6,Harmony_Lightcone::Sunday_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
     // Sunday::Setup(0,Harmony_Lightcone::Sunday_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
     // Bronya::Setup(0,Harmony_Lightcone::Sunday_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
     
     //Sub dps
-    Serval::Setup(6,Erudition_Lightcone::Passkey(5),Relic::Eagle_Beaked_Helmet,Planar::Lushaka);
-    Jade::Setup(0,Erudition_Lightcone::Cosmos_Fell(5),Relic::Grand_Duke,Planar::Izumo);
+    // Serval::Setup(6,Erudition_Lightcone::Passkey(5),Relic::Eagle_Beaked_Helmet,Planar::Lushaka);
+    // Jade::Setup(0,Erudition_Lightcone::Cosmos_Fell(5),Relic::Grand_Duke,Planar::Izumo);
     
-    //Support
-    Tribbie::Setup(0,Harmony_Lightcone::DDD(5),Relic::Poet_Dill,Planar::Lushaka);
-    RMC::Setup(6,Remembrance_Lightcone::Victory_In_Blink(5),Relic::PairSet(PairSetType::Spd_P,PairSetType::Spd_P),Planar::Lushaka);
-    Cerydra::Setup(0,Harmony_Lightcone::Cerydra_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
-    Robin::Setup(0,Harmony_Lightcone::For_Tomorrow_Journey(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
-    Ruan_Mei::Setup(0,Harmony_Lightcone::Memories_of_the_Past(5),Relic::PairSet(PairSetType::BE,PairSetType::BE),Planar::Lushaka);
-    Tingyun::Setup(6,Harmony_Lightcone::DDD(5),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
+    // //Support
+    // Tribbie::Setup(0,Harmony_Lightcone::DDD(5),Relic::Poet_Dill,Planar::Lushaka);
+    // RMC::Setup(6,Remembrance_Lightcone::Victory_In_Blink(5),Relic::PairSet(PairSetType::Spd_P,PairSetType::Spd_P),Planar::Lushaka);
+    // Cerydra::Setup(0,Harmony_Lightcone::Cerydra_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
+    // Robin::Setup(0,Harmony_Lightcone::For_Tomorrow_Journey(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
+    // Ruan_Mei::Setup(0,Harmony_Lightcone::Memories_of_the_Past(5),Relic::PairSet(PairSetType::BE,PairSetType::BE),Planar::Lushaka);
+    // Tingyun::Setup(6,Harmony_Lightcone::DDD(5),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
     
     //Debuffer
     // Cipher::Setup(0,Nihility_Lightcone::Resolution(5),Relic::PairSet(PairSetType::Spd_P,PairSetType::Spd_P),Planar::Lushaka);
@@ -84,7 +84,7 @@ int main(){
     //--------------------- Formula Check ------------------------
     
     // Char1->enableCheckDamage();
-    // Char1->enableCheckDamageFormula(DmgFormulaMode::All); 
+    // Char3->enableCheckDamageFormula(DmgFormulaMode::All); 
     // Char4->enableCheckHealFormula();
     // Char4->enableCheckHeal();
 
@@ -156,7 +156,6 @@ int main(){
                 EndWave(Wave[i]);
                 break;
             }
-            
             Take_action();
             
         }
