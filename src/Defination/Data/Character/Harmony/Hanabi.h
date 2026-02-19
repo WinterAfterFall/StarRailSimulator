@@ -50,16 +50,18 @@ namespace Hanabi{
                     {Stats::CD,AType::TEMP,buff - chooseSubUnitBuff(hnb)->getBuffNote("Hnb Skill")},
                     {Stats::CD,AType::None,buff - chooseSubUnitBuff(hnb)->getBuffNote("Hnb Skill")}
                 });
-                extendBuffTime(chooseSubUnitBuff(hnb),"Hnb Skill",2);
+                buffSingle(chooseSubUnitBuff(hnb),{{Stats::RESPEN,AType::None,10}},"Hnb Skill",2);
                 chooseSubUnitBuff(hnb)->setBuffNote("Hnb Skill",buff);
                 
                 if(ptr->Eidolon>=6){
                     for(auto &each : allyList){
                         if(!each->getBuffCheck("Hnb Cipher"))continue;
+                        if(each->getBuffCheck("Hnb Skill"))continue;
                         buffSingle(each,{
                             {Stats::CD,AType::TEMP,buff - each->getBuffNote("Hnb Skill")},
                             {Stats::CD,AType::None,buff - each->getBuffNote("Hnb Skill")}
                         });
+                        if(isHaveToAddBuff(each,"Hnb E6 Link"))buffSingle(each,{{Stats::RESPEN,AType::None,10}});
                         each->setBuffNote("Hnb Skill",buff);
                     }   
                 }
@@ -110,10 +112,12 @@ namespace Hanabi{
                 if(ptr->Eidolon>=6){
                     double buff = calculateCritdamForBuff(hnb,54) + 45;
                     for(auto &each : allyList){
+                        if(each->getBuffCheck("Hnb Skill"))continue;
                         buffSingle(each,{
                             {Stats::CD,AType::TEMP,buff - each->getBuffNote("Hnb Skill")},
                             {Stats::CD,AType::None,buff - each->getBuffNote("Hnb Skill")}
                         });
+                        if(isHaveToAddBuff(each,"Hnb E6 Link"))buffSingle(each,{{Stats::RESPEN,AType::None,10}});
                         each->setBuffNote("Hnb Skill",buff);
                     }   
                 }
@@ -148,7 +152,8 @@ namespace Hanabi{
             if(isBuffEnd(ally,"Hnb Skill")){
                 buffSingle(ally,{
                     {Stats::CD,AType::TEMP,-ally->getBuffNote("Hnb Skill")},
-                    {Stats::CD,AType::None,-ally->getBuffNote("Hnb Skill")}
+                    {Stats::CD,AType::None,-ally->getBuffNote("Hnb Skill")},
+                    {Stats::RESPEN,AType::None,-10}
                 });
                 ally->setBuffNote("Hnb Skill",0);
                 
@@ -158,6 +163,10 @@ namespace Hanabi{
                             {Stats::CD,AType::TEMP,-each->getBuffNote("Hnb Skill")},
                             {Stats::CD,AType::None,-each->getBuffNote("Hnb Skill")}
                         });
+                        if(each->getBuffCheck("Hnb E6 Link")){
+                            buffSingle(each,{{Stats::RESPEN,AType::None,-10}});
+                            each->setBuffCheck("Hnb E6 Link",0);
+                        }
                         each->setBuffNote("Hnb Skill",0);
                     }   
                 }
@@ -172,6 +181,10 @@ namespace Hanabi{
                         {Stats::CD,AType::TEMP,-ally->getBuffNote("Hnb Skill")},
                         {Stats::CD,AType::None,-ally->getBuffNote("Hnb Skill")}
                     });
+                    if(ally->getBuffCheck("Hnb E6 Link")){
+                        buffSingle(ally,{{Stats::RESPEN,AType::None,-10}});
+                        ally->setBuffCheck("Hnb E6 Link",0);
+                    }
                     ally->setBuffNote("Hnb Skill",0);
                 }
             }
@@ -189,7 +202,8 @@ namespace Hanabi{
             if(isBuffGoneByDeath(target,"Hnb Skill")){
                 buffSingle(target,{
                     {Stats::CD,AType::TEMP,-target->getBuffNote("Hnb Skill")},
-                    {Stats::CD,AType::None,-target->getBuffNote("Hnb Skill")}
+                    {Stats::CD,AType::None,-target->getBuffNote("Hnb Skill")},
+                    {Stats::RESPEN,AType::None,-10}
                 });
                 target->setBuffNote("Hnb Skill",0);
                 
@@ -200,6 +214,10 @@ namespace Hanabi{
                             {Stats::CD,AType::None,-each->getBuffNote("Hnb Skill")}
                         });
                         each->setBuffNote("Hnb Skill",0);
+                        if(each->getBuffCheck("Hnb E6 Link")){
+                            buffSingle(each,{{Stats::RESPEN,AType::None,-10}});
+                            each->setBuffCheck("Hnb E6 Link",0);
+                        }
                     }   
                 }
             }
@@ -213,6 +231,10 @@ namespace Hanabi{
                         {Stats::CD,AType::TEMP,-target->getBuffNote("Hnb Skill")},
                         {Stats::CD,AType::None,-target->getBuffNote("Hnb Skill")}
                     });
+                    if(target->getBuffCheck("Hnb E6 Link")){
+                        buffSingle(target,{{Stats::RESPEN,AType::None,-10}});
+                        target->setBuffCheck("Hnb E6 Link",0);
+                    }
                     target->setBuffNote("Hnb Skill",0);
                 }   
             }
