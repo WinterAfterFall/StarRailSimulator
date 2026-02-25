@@ -246,7 +246,7 @@ namespace Castorice{
             if(turn->isSameName("Netherwing")){
                 buffResetStack(Polluxptr,{{Stats::DMG,AType::None,30}},"Where The West Wind Dwells");
             }
-            AllyUnit *tempUnit = turn->canCastToSubUnit();
+            AllyUnit *tempUnit = turn->canCastToAllyUnit();
             if(tempUnit){
                 if(isBuffEnd(tempUnit,"Roar Rumbles the Realm")){
                     buffSingle(tempUnit,{{Stats::DMG,AType::None,-10}});

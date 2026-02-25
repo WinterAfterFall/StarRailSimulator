@@ -40,7 +40,6 @@ double calculateEhrOnStats(AllyUnit *ptr){
     double ans = ptr->Stats_type[Stats::EHR][AType::None];
     return (ans < 0) ? 0 : ans;
 }
-
 double calculateHPLost(AllyUnit *ptr){
     double ans = ptr->totalHP - ptr->currentHP;
     return (ans < 0) ? 0 : ans;
@@ -85,6 +84,10 @@ double calculateBreakEffectForBuff(AllyUnit *ptr,double ratio){
 }
 double calculateEhrForBuff(AllyUnit *ptr,double ratio){
     double ans = ptr->Stats_type[Stats::EHR][AType::None] - ptr->Stats_type[Stats::EHR][AType::TEMP];
+    return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
+}
+double calculateElationForBuff(AllyUnit *ptr,double ratio){
+    double ans = ptr->Stats_type[Stats::Elation][AType::None] - ptr->Stats_type[Stats::Elation][AType::TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 
@@ -325,6 +328,62 @@ double calBreakEffectMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target)
     }
 
     return (BreakEffect_mtpr / 100 < 0) ? 0 : BreakEffect_mtpr / 100;
+}
+double calElationMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
+    double elationMtpr = 100;
+  
+    elationMtpr += act->Attacker->Stats_type[Stats::Elation][AType::None] + target->Stats_type[Stats::Elation][AType::None];
+    for(int i = 0, sz = act->damageTypeList.size(); i < sz; i++){
+        elationMtpr += act->Attacker->Stats_type[Stats::Elation][act->damageTypeList[i]] + target->Stats_type[Stats::Elation][act->damageTypeList[i]];
+    }
+    
+    if(act->getChar()->canCheckDmgformulaElation()){
+        cout<<"Base  Elation  : "<<setw(6)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::Elation][AType::None]
+        <<" Enemy Elation  : "<<setw(6)<<fixed<<setprecision(2)<<target->Stats_type[Stats::Elation][AType::None]
+        <<" Total Elation  : "<<setw(6)<<fixed<<setprecision(2)<<elationMtpr - 100<<endl;
+    }
+
+    return (elationMtpr / 100 < 0) ? 0 : elationMtpr / 100;
+}
+double calMerryMakeMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
+    double MerrymakeMtpr = 100;
+  
+    MerrymakeMtpr += act->Attacker->Stats_type[Stats::Merrymake][AType::None] + target->Stats_type[Stats::Merrymake][AType::None];
+    for(int i = 0, sz = act->damageTypeList.size(); i < sz; i++){
+        MerrymakeMtpr += act->Attacker->Stats_type[Stats::Merrymake][act->damageTypeList[i]] + target->Stats_type[Stats::Merrymake][act->damageTypeList[i]];
+    }
+    
+    if(act->getChar()->canCheckDmgformulaMM()){
+        cout<<"Base  MM       : "<<setw(6)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::Merrymake][AType::None]
+        <<" Enemy MM       : "<<setw(6)<<fixed<<setprecision(2)<<target->Stats_type[Stats::Merrymake][AType::None]
+        <<" Total MM       : "<<setw(6)<<fixed<<setprecision(2)<<MerrymakeMtpr - 100<<endl;
+    }
+
+    return (MerrymakeMtpr / 100 < 0) ? 0 : MerrymakeMtpr / 100;
+}
+double calPunchLineMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
+    double PunchlineCnt = 0;
+    for(auto &each : act->damageTypeList){
+        if(each == AType::ElationSkill){
+            if(act->getChar()->canCheckDmgformulaPL()){
+                cout<<"Total PL        : "<<setw(6)<<fixed<<setprecision(2)<<punchline<<endl;
+            }
+            return (punchline < 0) ? 1 : (1+(punchline*5)/(240+punchline));
+        }
+    }
+
+    PunchlineCnt += act->Attacker->Stats_type[Stats::CertifiedBanger][AType::None] + target->Stats_type[Stats::Merrymake][AType::None];
+    for(int i = 0, sz = act->damageTypeList.size(); i < sz; i++){
+        PunchlineCnt += act->Attacker->Stats_type[Stats::CertifiedBanger][act->damageTypeList[i]] + target->Stats_type[Stats::Merrymake][act->damageTypeList[i]];
+    }
+    
+    if(act->getChar()->canCheckDmgformulaPL()){
+        cout<<"Base  PL       : "<<setw(6)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::Merrymake][AType::None]
+        <<" Enemy PL       : "<<setw(6)<<fixed<<setprecision(2)<<target->Stats_type[Stats::Merrymake][AType::None]
+        <<" Total PL       : "<<setw(6)<<fixed<<setprecision(2)<<PunchlineCnt<<endl;
+    }
+
+    return (PunchlineCnt < 0) ? 1 : (1+(PunchlineCnt*5)/(240+PunchlineCnt));
 }
 double calToughnessMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
     if(act->toughnessAvgCalculate||target->Toughness_status==0){

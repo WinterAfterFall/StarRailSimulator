@@ -12,6 +12,7 @@ enum class AType {
     Dot,
     Break,
     SPB,
+    ElationSkill,
     Addtional,
     Technique,
     Entanglement,
@@ -73,7 +74,10 @@ enum class Stats {
     TOUGH_REDUCE,
     SPB_inc,
     MtprInc,
-    Mitigration
+    Mitigration,
+    Elation,
+    CertifiedBanger,
+    Merrymake,
 };
 enum class DotType {
     Shock,
@@ -88,7 +92,8 @@ enum class DmgSrcType {
     ATK,
     HP,
     DEF,
-    CONST
+    CONST,
+    Elation,
 };
 enum class HealSrcType {
     ATK,
@@ -117,12 +122,13 @@ enum class Path{
     Nihility,
     Preservation,
     Abundance,
-    Remembrance
+    Remembrance,
+    Elation,
 };
 enum class Side{
     Ally,
     Enemy,
-    AllyUnit,
+    Memosprite,
     Summon,
     Countdown,
 };

@@ -1,0 +1,14 @@
+ทำให้ formula ของ change HP
+รวมถึง LC ที่เกี่ยวข้องกับการแปะธาตุ
+tech serval
+ทำ Using Skill()
+Check turn ต่อๆไป ว่าบัพจะหมดเมื่อไหร่หรือจะใช้อีกกี่แต้ม
+เพิ่ม Setup
+แก้ windshear ของ Hys
+set max substats ทุกตัว
+เพิ่ม Death ของ Bronya กับ Tingyun
+hanabi ult condition
+เพิ่ม immdialy use ult condition
+เพิ่มชื่อ ult condition
+เพิ่ม DotDriver
+# เพิ่มเรื่องของ เพิ่มดาเมจเฉพาะ A ตี B

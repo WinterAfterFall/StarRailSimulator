@@ -149,7 +149,7 @@ namespace HanabiV1{
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hnb]() {
-            AllyUnit *ally = turn->canCastToSubUnit();
+            AllyUnit *ally = turn->canCastToAllyUnit();
             if(!ally)return;
             if(isBuffEnd(ally,"Hnb Skill")){
                 buffSingle(ally,{
@@ -173,7 +173,7 @@ namespace HanabiV1{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hnb]() {
-            AllyUnit *ally = turn->canCastToSubUnit();
+            AllyUnit *ally = turn->canCastToAllyUnit();
             if(!ally)return;
             if(isBuffEnd(ally,"Hnb Cipher")){
                 buffSingle(ally,{{Stats::DMG,AType::None,-10.0 * ally->getStack("Hnb Talent")}});

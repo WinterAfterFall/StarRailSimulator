@@ -20,7 +20,7 @@ namespace Remembrance_Lightcone{
             }));
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                AllyUnit *allyptr = turn->canCastToSubUnit();
+                AllyUnit *allyptr = turn->canCastToAllyUnit();
                 if(!allyptr)return;
                 if(isBuffEnd(allyptr,"Curtain Never Falls")){
                     buffSingle(allyptr,{

@@ -54,9 +54,9 @@ unordered_map<Path, double> tauntValueEachPath = {
     {Path::Destruction, 125},
     {Path::Harmony, 100},
     {Path::Nihility, 100},
-    {Path::Remembrance, 100}
+    {Path::Remembrance, 100},
+    {Path::Elation, 100}
 };
-    
 ActionValueStats* turn = nullptr;
 queue<shared_ptr<ActionData>> Action_bar;
 
@@ -71,7 +71,14 @@ bool Turn_Skip=0;
 string Territory = "None";
 int healCount;
 int decreaseHPCount;
-bool bestBounce = 0;;
+
+bool bestBounce = 0;
+
+//Aha
+unique_ptr<ActionValueStats> aha = make_unique<ActionValueStats>("Aha",80);
+int punchline = 0;
+int elationCount = 0;
+deque<tuple<string,int, double>> CBcheck;
 
 
 int Sp_Safety = 1;
@@ -91,7 +98,9 @@ vector<TriggerByYourSelf_Func> Start_wave_List;
 vector<TriggerByYourSelf_Func> Before_turn_List;
 vector<TriggerByYourSelf_Func> After_turn_List;
 vector<TriggerByYourSelf_Func> Ultimate_List;
+vector<TriggerByYourSelf_Func> ElationSkill_List;
 vector<TriggerByAlly_Func> WhenUseUlt_List;
+
 
 vector<TriggerByAction_Func> BeforeAction_List;
 vector<TriggerByAction_Func> AfterAction_List;

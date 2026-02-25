@@ -25,7 +25,6 @@ namespace The_Herta{
         ptr->setRelicMainStats(Stats::CR,Stats::ATK_P,Stats::DMG,Stats::ATK_P);
 
 
-
         //func
         LC(ptr);
         Relic(ptr);

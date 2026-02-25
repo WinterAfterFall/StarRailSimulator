@@ -83,6 +83,10 @@ public:
     bool checkDmgFormulaMtprInc = 0;
     bool checkDmgFormulaBE = 0;
     bool checkDmgFormulaSpbInc = 0;
+    bool checkDmgFormulaMM = 0;
+    bool checkDmgFormulaPL = 0;
+    bool checkDmgFormulaElation = 0;
+
     bool checkHeal = 0;
     bool checkHealFormula = 0;
     bool checkHealReceive = 0;
@@ -313,6 +317,11 @@ public:
     
     bool canCheckDmgformulaBE();
     bool canCheckDmgformulaSpbInc();
+
+    bool canCheckDmgformulaPL();
+    bool canCheckDmgformulaMM();
+    bool canCheckDmgformulaElation();
+
 
 
     #pragma endregion

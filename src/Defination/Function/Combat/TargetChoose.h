@@ -1,6 +1,6 @@
 #include "../include.h"
 
-AllyUnit* ActionValueStats::canCastToSubUnit(){
+AllyUnit* ActionValueStats::canCastToAllyUnit(){
     return dynamic_cast<AllyUnit*>(this->charptr);
 }
 Enemy* ActionValueStats::canCastToEnemy(){

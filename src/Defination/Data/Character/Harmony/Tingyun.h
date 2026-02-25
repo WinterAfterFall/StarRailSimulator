@@ -75,7 +75,7 @@ namespace Tingyun{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,TYptr]() {
-            AllyUnit* tempUnit = turn->canCastToSubUnit();
+            AllyUnit* tempUnit = turn->canCastToAllyUnit();
             if (!tempUnit) return;
             
             if (isBuffEnd(tempUnit,"Nourished_Joviality")) {

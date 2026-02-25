@@ -11,7 +11,7 @@ namespace Harmony_Lightcone{
             }));
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,CerydraLCBuff]() {
-                AllyUnit *sptr = turn->canCastToSubUnit();
+                AllyUnit *sptr = turn->canCastToAllyUnit();
                 if(!sptr)return;
                 if(isBuffEnd(sptr,CerydraLCBuff)){
                     buffSingle(sptr,{{Stats::DMG,AType::None,-(40.5 + (13.5)*superimpose)}});

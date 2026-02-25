@@ -301,7 +301,7 @@ namespace Phainon{
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,pn]() {
             Enemy *enemy = turn->canCastToEnemy();
-            AllyUnit *ally = turn->canCastToSubUnit();
+            AllyUnit *ally = turn->canCastToAllyUnit();
             if(enemy&&enemy->getDebuff("Soulscorch")){
                 enemy->setDebuff("Soulscorch",0);
                 enemy->dmgPercent+=75;

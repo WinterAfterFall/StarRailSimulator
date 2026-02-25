@@ -129,7 +129,7 @@ namespace Cerydra{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,crd]() {
-            AllyUnit *ally = turn->canCastToSubUnit();
+            AllyUnit *ally = turn->canCastToAllyUnit();
             if(!ally)return;
             if(isBuffEnd(ally,"Veci")){
                 buffSingle(ally,{{Stats::FLAT_SPD,AType::None,-20}});

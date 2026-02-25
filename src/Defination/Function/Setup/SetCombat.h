@@ -11,7 +11,9 @@ void Setup(){
     sort(Before_turn_List.begin(), Before_turn_List.end(), TriggerFunc::Trigger_cmp);
     sort(After_turn_List.begin(), After_turn_List.end(), TriggerFunc::Trigger_cmp);
     sort(Ultimate_List.begin(), Ultimate_List.end(), TriggerFunc::Trigger_cmp);
+    sort(ElationSkill_List.begin(), ElationSkill_List.end(), TriggerFunc::Trigger_cmp);
     sort(WhenUseUlt_List.begin(), WhenUseUlt_List.end(), TriggerFunc::Trigger_cmp);
+    
 
     sort(BeforeAction_List.begin(), BeforeAction_List.end(), TriggerFunc::Trigger_cmp);
     sort(AfterAction_List.begin(), AfterAction_List.end(), TriggerFunc::Trigger_cmp);
@@ -56,11 +58,20 @@ void Setup(){
     for(TriggerByYourSelf_Func &e : Setup_List){
         e.Call();
     }
+    if(elationCount){
+        Path temp = Path::Elation;
+        atvList.push_back(aha.get());
+        ahaSpeedAdjust(temp);
+    }
+
+
+
 }
 
 void Reset(){
     turn = nullptr;
     sp =3;
+    punchline = elationCount;
     Current_atv = 0;
     healCount = 0;
     decreaseHPCount = 0;

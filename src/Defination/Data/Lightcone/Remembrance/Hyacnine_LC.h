@@ -11,7 +11,7 @@ namespace Remembrance_Lightcone{
             BeforeAction_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<ActionData> &act) {
                 AllyActionData *allyaction = act->castToAllyActionData();
                 if(!allyaction)return;
-                if(allyaction->Attacker->Atv_stats->side == Side::AllyUnit
+                if(allyaction->Attacker->Atv_stats->side == Side::Memosprite
                     &&allyaction->Attacker->Atv_stats->num==ptr->Atv_stats->num
                     &&allyaction->isSameAction(AType::SKILL)){
                         debuffAllEnemyApply(allyaction->Attacker,{{Stats::VUL,AType::None,(13.5 + 4.5 * superimpose)}},"Hyacnine_LC Debuff",2);
@@ -30,7 +30,7 @@ namespace Remembrance_Lightcone{
             }));
 
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                if(act->Attacker->Atv_stats->side == Side::AllyUnit
+                if(act->Attacker->Atv_stats->side == Side::Memosprite
                     &&act->Attacker->Atv_stats->num==ptr->Atv_stats->num
                     &&act->isSameAction(AType::SKILL)){
                         shared_ptr<AllyAttackAction> addtionaldmg = 

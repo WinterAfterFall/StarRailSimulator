@@ -23,6 +23,9 @@ void CharUnit::enableCheckDamageFormula(DmgFormulaMode mode) {
     else if (mode == DmgFormulaMode::MtprInc) checkDmgFormulaMtprInc = 1;
     else if (mode == DmgFormulaMode::BE) checkDmgFormulaBE = 1;
     else if (mode == DmgFormulaMode::SpbInc) checkDmgFormulaSpbInc = 1;
+    else if (mode == DmgFormulaMode::CB) checkDmgFormulaPL = 1;
+    else if (mode == DmgFormulaMode::Elation) checkDmgFormulaElation = 1;
+    else if (mode == DmgFormulaMode::Merrymake) checkDmgFormulaMM = 1;
 }
 void CharUnit::enableCheckHeal() {
     checkHeal = 1;
@@ -114,4 +117,16 @@ bool CharUnit::canCheckDmgformulaBE() {
 bool CharUnit::canCheckDmgformulaSpbInc() {
     return checkDmgFormulaAll
         || checkDmgFormulaSpbInc;
+}
+bool CharUnit::canCheckDmgformulaPL(){
+    return checkDmgFormulaAll
+        || checkDmgFormulaPL;
+}
+bool CharUnit::canCheckDmgformulaMM(){
+    return checkDmgFormulaAll
+        || checkDmgFormulaMM;
+}
+bool CharUnit::canCheckDmgformulaElation(){
+    return checkDmgFormulaAll
+        || checkDmgFormulaElation;
 }

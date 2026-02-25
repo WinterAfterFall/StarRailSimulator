@@ -1,7 +1,12 @@
 #include "../include.h"
 
 void Take_action(){
-    
+
+    if(!turn->charptr){
+        AhaInstant();
+        resetTurn(turn);
+        return; 
+    }
     phaseStatus = PhaseStatus::DotBeforeTurn;
     if(!turn->extraTurn){
         ++(turn->turnCnt);
@@ -23,7 +28,18 @@ void Take_action(){
     
     if(!turn->extraTurn)allEventAfterTurn();
 }
-
+void AhaInstant(){
+    ++(turn->turnCnt);
+    CharCmd::printText("Aha Instant");
+    for(TriggerByYourSelf_Func &e : ElationSkill_List){
+        e.Call();
+    }
+    for(auto &each : charList){
+        if(each->path[0] == Path::Elation)buffSingle(each,{{Stats::CertifiedBanger,AType::None,1.0*punchline}},"CB Buff " + to_string(aha->turnCnt),2);
+    }
+    CBcheck.push_back({"CB Buff " + to_string(aha->turnCnt),elationCount,punchline});
+    punchline = elationCount;
+}
 void Deal_damage(){
     if(actionBarUse)return;
     actionBarUse = true;
@@ -118,6 +134,7 @@ void Attack(shared_ptr<AllyAttackAction> &act){
         allEventBeforeAttackPerHit(act);
         for(auto &each2 : act->damageSplit[i]){
             calDamage(act,each2.target,each2.dmgSrc);
+            calElationDamage(act,each2.target,each2.dmgSrc);
             if(each2.dmgSrc.toughnessReduce>0)
             Cal_Toughness_reduction(act,each2.target,each2.dmgSrc.toughnessReduce);
         }

@@ -80,6 +80,23 @@ void allEventAfterTurn(){
     for(TriggerByYourSelf_Func &e : After_turn_List){
         e.Call();
     }
+
+    if (turn->side == Side::Ally) {
+        AllyUnit *ally = turn->canCastToAllyUnit();
+
+        for (auto &each : CBcheck) {
+            if (isBuffEnd(ally, std::get<0>(each))) {
+                std::get<1>(each)--;
+                buffSingle(ally, {{Stats::CertifiedBanger, AType::None, -1.0 * std::get<2>(each)}});
+            }
+        }
+
+        while (!CBcheck.empty() && std::get<1>(CBcheck.front()) <= 0) {
+            CBcheck.pop_front();
+        }
+    }
+
+    
 }
 void allEventBeforeAction(shared_ptr<ActionData> &act){
     for(TriggerByAction_Func &e : BeforeAction_List){

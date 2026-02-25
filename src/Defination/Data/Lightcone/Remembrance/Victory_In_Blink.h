@@ -11,7 +11,7 @@ namespace Remembrance_Lightcone{
             }));
     
             Buff_List.push_back(TriggerByAllyBuffAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,VictoryBlink](shared_ptr<AllyBuffAction> &act) {
-                if (act->Attacker->Atv_stats->side == Side::AllyUnit &&
+                if (act->Attacker->Atv_stats->side == Side::Memosprite &&
                     act->Attacker->owner->Atv_stats->Name == ptr->Atv_stats->Name) {
                     buffAllAlly({{Stats::DMG, AType::None, (6.0 + 2 * superimpose)}}, VictoryBlink,3);
                 }

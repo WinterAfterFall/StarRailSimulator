@@ -94,7 +94,7 @@ namespace Huohuo{
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hh]() {
-            AllyUnit *ally = turn->canCastToSubUnit();
+            AllyUnit *ally = turn->canCastToAllyUnit();
             if(!ally)return;
             if(isBuffEnd(hh,"Divine Provision")){
                 hh->setStack("Divine Provision",0);
@@ -112,7 +112,7 @@ namespace Huohuo{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            AllyUnit *ally = turn->canCastToSubUnit();
+            AllyUnit *ally = turn->canCastToAllyUnit();
             if(ally){
                 if(isBuffEnd(ally,"HH Ult")){
                     buffSingle(ally,{{Stats::ATK_P,AType::None,-40}});

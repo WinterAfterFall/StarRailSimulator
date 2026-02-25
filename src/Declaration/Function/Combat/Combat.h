@@ -1,6 +1,7 @@
 #include "../include.h"
 
 void Take_action();
+void AhaInstant();
 void Deal_damage();
 void Attack(shared_ptr<AllyAttackAction> &act);
 void Skill_point(AllyUnit *ptr,int p);

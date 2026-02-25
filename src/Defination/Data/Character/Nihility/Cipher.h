@@ -112,7 +112,7 @@ namespace Cipher{
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_Last,[ptr,cph](){
             auto enemy =  turn->canCastToEnemy();
-            auto ally =  turn->canCastToSubUnit();
+            auto ally =  turn->canCastToAllyUnit();
             if(ally){
                 if(isBuffEnd(ally,"Cipher Skill")){
                     buffSingle(ally,{{Stats::ATK_P,AType::None,-30}});

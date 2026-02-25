@@ -16,5 +16,8 @@ enum class DmgFormulaMode{
     BE,
     Mtgt,
     SpbInc,
-    MtprInc
+    MtprInc,
+    Elation,
+    Merrymake,
+    CB,
 };

@@ -152,7 +152,7 @@ namespace Hyacine{
             if(isBuffEnd(Icaptr,"First Light Heals the World")){
                 buffResetStack(Icaptr,{{Stats::DMG,AType::None,80}},"First Light Heals the World");
             }
-            AllyUnit *allyptr = turn->canCastToSubUnit();
+            AllyUnit *allyptr = turn->canCastToAllyUnit();
             if(!allyptr)return;
             if(isBuffEnd(allyptr,"Day So Right, Life So Fine!")){
                 buffSingle(allyptr,{{Stats::HP_P,AType::None,-20}});
@@ -258,7 +258,7 @@ namespace Hyacine{
             }));
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr]() {
-                AllyUnit *allyptr = turn->canCastToSubUnit();
+                AllyUnit *allyptr = turn->canCastToAllyUnit();
                 if(allyptr&&isBuffEnd(allyptr,"Hyacine E2")){
                     buffSingle(allyptr,{{Stats::SPD_P,AType::None,-30}});
                 }

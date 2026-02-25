@@ -146,7 +146,7 @@ namespace Sunday{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,SDptr]() {
-            AllyUnit *Temp_stats = turn->canCastToSubUnit();
+            AllyUnit *Temp_stats = turn->canCastToAllyUnit();
             if(!Temp_stats)return;
             if (isBuffEnd(Temp_stats,"Benison_of_Paper_and_Rites")) {
                 if (Temp_stats->owner->isAllyHaveSummon()) {
@@ -155,7 +155,7 @@ namespace Sunday{
                     buffSingle(Temp_stats,{{Stats::DMG,AType::None,-30}});
                 }
                 if (ptr->Eidolon >= 1&&isBuffEnd(Temp_stats,"Sunday_E1")) {
-                    if (turn->side == Side::AllyUnit) {
+                    if (turn->side == Side::Memosprite) {
                         buffSingle(Temp_stats,{{Stats::DEF_SHRED,AType::None,-40}});
                     } else {
                         buffSingle(Temp_stats,{{Stats::DEF_SHRED,AType::None,-16}});
@@ -226,7 +226,7 @@ namespace Sunday{
                     buffSingle(target,{{Stats::DMG,AType::None,-30}});
                 }
                 if (ptr->Eidolon >= 1&&isBuffGoneByDeath(target,"Sunday_E1")) {
-                    if (turn->side == Side::AllyUnit) {
+                    if (turn->side == Side::Memosprite) {
                         buffSingle(target,{{Stats::DEF_SHRED,AType::None,-40}});
                     } else {
                         buffSingle(target,{{Stats::DEF_SHRED,AType::None,-16}});

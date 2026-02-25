@@ -83,7 +83,10 @@
 //buff เดี่ยว
     void buffSingle(AllyUnit *ptr,vector<BuffClass> buffSet){
         for(BuffClass &buff : buffSet){
-            if(buff.statsType==Stats::FLAT_SPD||buff.statsType==Stats::SPD_P)ptr->speedBuff(buff);
+            if(buff.statsType==Stats::FLAT_SPD||buff.statsType==Stats::SPD_P){
+                ptr->speedBuff(buff);
+                ahaSpeedAdjust(ptr->owner->path[0]);
+            }
             else ptr->Stats_type[buff.statsType][buff.actionType] += buff.value;
             if(buff.actionType==AType::None)StatsAdjust(ptr,buff.statsType);
         }
@@ -91,7 +94,10 @@
     void buffSingle(AllyUnit *ptr,vector<BuffClass> buffSet,string buffName,int extend){
         if(isHaveToAddBuff(ptr,buffName,extend)){
             for(BuffClass &buff : buffSet){
-                if(buff.statsType==Stats::FLAT_SPD||buff.statsType==Stats::SPD_P)ptr->speedBuff(buff);
+                if(buff.statsType==Stats::FLAT_SPD||buff.statsType==Stats::SPD_P){
+                    ptr->speedBuff(buff);
+                    ahaSpeedAdjust(ptr->owner->path[0]);
+                }
                 else ptr->Stats_type[buff.statsType][buff.actionType] += buff.value;
                 if(buff.actionType==AType::None)StatsAdjust(ptr,buff.statsType);
             }

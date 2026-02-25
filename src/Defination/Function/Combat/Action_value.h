@@ -67,7 +67,7 @@ void Find_turn(){
     mx.second = 0;
 
     for(auto &each : atvList){
-        if(!each->charptr->isAtvChangeAble())continue;
+        if(each->charptr&&!each->charptr->isAtvChangeAble())continue;
         if(mx.first > each->atv){
             mx.first = each->atv;
             mx.second = each->priority;
@@ -85,8 +85,24 @@ void Find_turn(){
 
 void Atv_fix(double Atv_reduce){
     for(auto &each : atvList){
-        if(!each->charptr->isAtvChangeAble())continue;
+        if(each->charptr&&!each->charptr->isAtvChangeAble())continue;
         each->atv -= Atv_reduce;
     }
     Current_atv+=Atv_reduce;
+}
+void ahaSpeedAdjust(Path &path){
+    if(path != Path::Elation)return;
+    double factor = 5;
+    double newFlatSpeed = 0;
+    vector<double> ElationSpd;
+    for(auto &each : charList){
+        if(each->path[0]!=Path::Elation)continue;
+        ElationSpd.push_back(calculateSpeedOnStats(each));
+    }
+    sort(ElationSpd.begin(), ElationSpd.end(), greater<double>());
+    for(auto &each : ElationSpd){
+        newFlatSpeed += each/factor;
+        factor += 5;
+    }
+    aha->speedBuff(0,newFlatSpeed - aha->getFlatSpeed());
 }

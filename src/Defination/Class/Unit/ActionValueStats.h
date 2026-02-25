@@ -9,11 +9,11 @@
 // Action value stats for a unit (atv)
 class ActionValueStats {
 public:
-    double baseSpeed = 0.01;
+    double baseSpeed = -1;
     double flatSpeed = 0;
     double speedPercent = 0;
-    double atv;
-    double Max_atv;
+    double atv = 1e6 ;
+    double Max_atv = 1e6;
     int turnCnt = 0;
     int num = 0;
     Side side;//AllyUnit Ally Summon
@@ -23,6 +23,16 @@ public:
     string Name;//ชื่อเจ้าของเทิร์น
     bool extraTurn = false;
     Unit* charptr = nullptr; //* // This will be set to point back to the unit (Ally or Enemy)
+        ActionValueStats(){
+        }
+        ActionValueStats(const string& unitName){
+            Name = unitName;
+        }
+        ActionValueStats(const string& unitName,double speed){
+            Name = unitName;
+            baseSpeed = speed;
+        }
+        ~ActionValueStats(){}
 
 #pragma region Get Method
     double getBaseSpeed(){
@@ -109,7 +119,7 @@ public:
     bool isSameUnit(Unit* ptr);
     bool isSameNum(Unit* ptr);
 #pragma endregion
-    AllyUnit* canCastToSubUnit();
+    AllyUnit* canCastToAllyUnit();
     Enemy* canCastToEnemy();
 #pragma region SpeedCombat Function
     void speedBuff(double spd_percent ,double flat_spd);

@@ -31,6 +31,37 @@ void calDamage(shared_ptr<AllyAttackAction> &act,Enemy *target,DmgSrc abilityRat
 
 }
 
+void calElationDamage(shared_ptr<AllyAttackAction> &act,Enemy *target,DmgSrc abilityRatio){
+    if(abilityRatio.Elation <= 0 )return;
+    double Total_dmg = Level_multiplier*2*abilityRatio.Elation/100;
+    
+    if(act->getChar()->canCheckDmgformula()||act->getChar()->checkDamage){
+        cout<<"\033[0;38;5;85m";
+        cout<<endl;
+        cout<<"From : "<<act->getAttacker()->getName()<<" --> "<<act->actionName<<" --> "<<target->getName()<<endl;
+        cout << "\033[0m";
+    }
+
+    if(act->getChar()->canCheckDmgformulaMtpr()){
+        cout<<"Elation Ratio : "<<abilityRatio.Elation<<endl;
+    }
+         
+    Total_dmg = Total_dmg*calElationMultiplier(act,target);
+    Total_dmg = Total_dmg*calPunchLineMultiplier(act,target);
+    Total_dmg = Total_dmg*calMerryMakeMultiplier(act,target);
+    Total_dmg = Total_dmg*calCritMultiplier(act,target);
+    Total_dmg = Total_dmg*calDefShredMultiplier(act,target);
+    Total_dmg = Total_dmg*calRespenMultiplier(act,target);
+    Total_dmg = Total_dmg*calVulMultiplier(act,target);
+    Total_dmg = Total_dmg*calMitigationMultiplier(act,target);
+    Total_dmg = Total_dmg*calMultiplierIncrease(act,target);
+    Total_dmg = Total_dmg*calToughnessMultiplier(act,target);
+
+    Cal_DamageNote(act,target,target,Total_dmg,100,act->actionName);
+    allEventAfterDealingDamage(act,target,Total_dmg);
+
+}
+
 
 
 void Cal_Break_damage(shared_ptr<AllyAttackAction> &act,Enemy *target,double &Constant){

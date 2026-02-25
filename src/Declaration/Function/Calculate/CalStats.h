@@ -18,6 +18,7 @@ double calculateCritrateForBuff(AllyUnit *ptr, double ratio);
 double calculateCritdamForBuff(AllyUnit *ptr, double ratio);
 double calculateBreakEffectForBuff(AllyUnit *ptr, double ratio);
 double calculateEhrForBuff(AllyUnit *ptr,double ratio);
+double calculateElationForBuff(AllyUnit *ptr,double ratio);
 
 double calAtkMultiplier(std::shared_ptr<AllyAttackAction> &act, Enemy *target);
 double calHpMultiplier(std::shared_ptr<AllyAttackAction> &act, Enemy *target);
@@ -30,6 +31,9 @@ double calDefShredMultiplier(std::shared_ptr<AllyAttackAction> &act, Enemy *targ
 double calRespenMultiplier(std::shared_ptr<AllyAttackAction> &act, Enemy *target);
 double calVulMultiplier(std::shared_ptr<AllyAttackAction> &act, Enemy *target);
 double calBreakEffectMultiplier(std::shared_ptr<AllyAttackAction> &act, Enemy *target);
+double calElationMultiplier(std::shared_ptr<AllyAttackAction> &act, Enemy *target);
+double calMerryMakeMultiplier(std::shared_ptr<AllyAttackAction> &act, Enemy *target);
+double calPunchLineMultiplier(std::shared_ptr<AllyAttackAction> &act, Enemy *target);
 double calToughnessMultiplier(std::shared_ptr<AllyAttackAction> &act, Enemy *target);
 double Cal_Superbreak_DamageIncrease_multiplier(shared_ptr<AllyAttackAction> &act,Enemy *target);
 double calMitigationMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target);

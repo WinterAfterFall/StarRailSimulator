@@ -231,7 +231,7 @@ namespace Hysilens{
             for(int i=1;i<=Total_enemy;i++){
                 enemyUnit[i]->setStack("Hys Dot Limit",0);
             }
-            AllyUnit *ally = turn->canCastToSubUnit();
+            AllyUnit *ally = turn->canCastToAllyUnit();
             if(!ally)return;
 
             if(isBuffEnd(ally,"Hys Ult")){

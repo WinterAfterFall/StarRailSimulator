@@ -77,7 +77,7 @@ namespace Harmony_MC{
             if(turn->Name == "Harmony_MC" && turn->turnCnt == 3){
                 ptr->Energy_recharge -= 25;
             }
-            if(turn->side == Side::Ally || turn->side == Side::AllyUnit){
+            if(turn->side == Side::Ally || turn->side == Side::Memosprite){
                 if(turn->turnCnt == 2 && ptr->Technique == 1){
                     buffSingle(charUnit[turn->num].get(),{{Stats::BE,AType::None,-30}});
                 }

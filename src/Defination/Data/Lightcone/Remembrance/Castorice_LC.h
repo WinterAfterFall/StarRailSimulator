@@ -11,7 +11,7 @@ namespace Remembrance_Lightcone{
 
             AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr, superimpose](AllyUnit* target) {
                 if (target->Atv_stats->num==ptr->Atv_stats->num
-                &&target->Atv_stats->side==Side::AllyUnit
+                &&target->Atv_stats->side==Side::Memosprite
                 &&ptr->getBuffCheck("Castorice_LC_check")==0){
                     Action_forward(ptr->Atv_stats.get(),9+3*superimpose);
                     ptr->setBuffCheck("Castorice_LC_check",1);
@@ -26,7 +26,7 @@ namespace Remembrance_Lightcone{
             
             HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_IMMEDIATELY, [ptr, superimpose](Unit *Trigger, AllyUnit *target, double Value) {
                 if(!turn)return;
-                if((turn->side==Side::AllyUnit||turn->side==Side::Ally)
+                if((turn->side==Side::Memosprite||turn->side==Side::Ally)
                 &&turn->num==ptr->Atv_stats->num
                 &&target->Atv_stats->num==ptr->Atv_stats->num){
                     if(isHaveToAddBuff(ptr,"Death Flower",2))

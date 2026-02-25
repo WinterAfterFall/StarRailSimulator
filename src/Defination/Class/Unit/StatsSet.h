@@ -45,7 +45,7 @@ void SetMemoStats(CharUnit *ptr,double fixHP,double Hp_ratio,double fixSpeed,dou
         ptr->memospriteList[num]->Element_type.push_back(Element_type);
         ptr->memospriteList[num]->Atv_stats->num = Num;
         ptr->memospriteList[num]->Atv_stats->Name = Name;
-        ptr->memospriteList[num]->Atv_stats->side = Side::AllyUnit;
+        ptr->memospriteList[num]->Atv_stats->side = Side::Memosprite;
         ptr->memospriteList[num]->Atv_stats->Type = unitType;
         ptr->memospriteList[num]->Atv_stats->charptr = ptr->memospriteList[num].get();
         ptr->memospriteList[num]->owner = ptr;

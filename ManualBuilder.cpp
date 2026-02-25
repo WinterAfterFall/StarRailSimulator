@@ -19,7 +19,7 @@ void SetValue(){
 }
 void SetCharacterPtr(){
     Char1 = charUnit[1].get();
-    Char2 = charUnit[2].get();  
+    Char2 = charUnit[2].get();
     Char3 = charUnit[3].get();
     Char4 = charUnit[4].get(); 
 }
@@ -84,7 +84,7 @@ int main(){
     //--------------------- Formula Check ------------------------
     
     // Char1->enableCheckDamage();
-    // Char1->enableCheckDamageFormula(DmgFormulaMode::CB); 
+    Char1->enableCheckDamageFormula(DmgFormulaMode::All); 
     // Char4->enableCheckHealFormula();
     // Char4->enableCheckHeal();
 
@@ -143,7 +143,7 @@ int main(){
         for(int i=0;i<Total_wave;i++){
             
             Current_atv=0;
-            Start_wave(i);  
+            Start_wave(i);
             Deal_damage();
             
 

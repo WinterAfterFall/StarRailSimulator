@@ -8,3 +8,4 @@ void Action_forward(ActionValueStats *ptr,double fwd);
 void All_Action_forward(double fwd);
 void Find_turn();
 void Atv_fix(double Atv_reduce);
+void ahaSpeedAdjust(Path &path);

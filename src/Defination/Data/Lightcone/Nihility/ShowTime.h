@@ -16,7 +16,7 @@ namespace Nihility_Lightcone{
             }));
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                AllyUnit *ally = turn->canCastToSubUnit();
+                AllyUnit *ally = turn->canCastToAllyUnit();
                 if(!ally)return;
 
                 if(isBuffEnd(ally,"ShowTime Trick")){

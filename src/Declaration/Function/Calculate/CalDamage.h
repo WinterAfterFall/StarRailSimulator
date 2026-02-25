@@ -2,6 +2,7 @@
 
 
 void calDamage(std::shared_ptr<AllyAttackAction> &act, Enemy *target, DmgSrc abilityRatio);
+void calElationDamage(std::shared_ptr<AllyAttackAction> &act, Enemy *target, DmgSrc abilityRatio);
 void Cal_Break_damage(std::shared_ptr<AllyAttackAction> &act, Enemy *target, double &Constant);
 void Cal_Freeze_damage(std::shared_ptr<AllyAttackAction> &act, Enemy *target);
 void Cal_Dot_Toughness_break_damage(std::shared_ptr<AllyAttackAction> &act, Enemy *target, double Dot_ratio);

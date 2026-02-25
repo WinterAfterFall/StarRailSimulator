@@ -141,7 +141,7 @@ namespace  Anaxa{
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr]() {
             Enemy *enemy = turn->canCastToEnemy();
-            AllyUnit *ally = turn->canCastToSubUnit();
+            AllyUnit *ally = turn->canCastToAllyUnit();
             if(enemy){
                 for(auto &e : Enemy_weak){
                     isDebuffEnd(enemy,"AnaxaTalent" + toString(e.first) );
