@@ -110,7 +110,7 @@ namespace Pela{
 
 
     void Basic_Atk(CharUnit *ptr){
-        Skill_point(ptr,1);
+        genSkillPoint(ptr,1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Pela BA",
         [ptr](shared_ptr<AllyAttackAction> &act){

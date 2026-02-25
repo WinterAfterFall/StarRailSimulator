@@ -32,7 +32,7 @@ namespace Cipher{
 
         
         function<void()> BA = [ptr,cph]() {
-            Skill_point(cph,1);
+            genSkillPoint(cph,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Cipher BA",
             [ptr,cph](shared_ptr<AllyAttackAction> &act){
@@ -45,7 +45,7 @@ namespace Cipher{
             act->addToActionBar();
         };
         function<void()> Skill = [ptr,cph]() {
-            Skill_point(cph,-1);
+            genSkillPoint(cph,-1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"Cipher Skill",
             [ptr,cph](shared_ptr<AllyAttackAction> &act){

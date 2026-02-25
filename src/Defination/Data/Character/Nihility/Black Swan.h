@@ -23,7 +23,7 @@ namespace BS{
         #pragma region Ability
 
         function<void()> BA = [ptr,bs]() {
-            Skill_point(bs,1);
+            genSkillPoint(bs,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"BS BA",
             [ptr,bs](shared_ptr<AllyAttackAction> &act){
@@ -43,7 +43,7 @@ namespace BS{
         };
 
         function<void()> Skill = [ptr,bs]() {
-            Skill_point(bs,-1);
+            genSkillPoint(bs,-1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"BS Skill",
             [ptr,bs](shared_ptr<AllyAttackAction> &act){

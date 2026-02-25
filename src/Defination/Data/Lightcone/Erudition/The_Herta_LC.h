@@ -25,7 +25,7 @@ namespace Erudition_Lightcone{
                         {Stats::DMG,AType::Ult,(50.0 + 10 * superimpose)},
                         },"The_Herta_LC_buff",3);
                     if (ptr->Ult_cost >= 140) {
-                        Skill_point(ptr, 1);
+                        genSkillPoint(ptr, 1);
                     }
                 }
             }));

@@ -141,7 +141,7 @@ namespace FireFly{
     }
     
     void Skill_func(CharUnit *ptr){   
-        Skill_point(ptr,-1);
+        genSkillPoint(ptr,-1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Single,"FF Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
@@ -156,7 +156,7 @@ namespace FireFly{
 
     }
     void Enchance_Skill_func(CharUnit *ptr){
-        if(ptr->Eidolon<1)Skill_point(ptr,-1);
+        if(ptr->Eidolon<1)genSkillPoint(ptr,-1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"FF ESkill",
         [ptr](shared_ptr<AllyAttackAction> &act){

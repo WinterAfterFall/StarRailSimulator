@@ -26,7 +26,7 @@ namespace Cerydra{
         #pragma region Ability
 
         function<void()> BA = [ptr,crd]() {
-            Skill_point(crd,1);
+            genSkillPoint(crd,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Crd BA",
             [ptr,crd](shared_ptr<AllyAttackAction> &act){
@@ -40,7 +40,7 @@ namespace Cerydra{
         };
 
         function<void()> Skill = [ptr,crd,charge]() {
-            Skill_point(crd,-1);
+            genSkillPoint(crd,-1);
             shared_ptr<AllyBuffAction> act = 
             make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"Crd Skill",
             [ptr,crd,charge](shared_ptr<AllyBuffAction> &act){

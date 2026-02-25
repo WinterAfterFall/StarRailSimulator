@@ -137,7 +137,7 @@ namespace Ruan_Mei{
 
 
     void Basic_Atk(CharUnit *ptr){
-        Skill_point(ptr,1);
+        genSkillPoint(ptr,1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"RM BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
@@ -148,7 +148,7 @@ namespace Ruan_Mei{
         act->addToActionBar();
     }
     void Skill_func(CharUnit *ptr){
-        Skill_point(ptr,-1);
+        genSkillPoint(ptr,-1);
         shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"RM Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){

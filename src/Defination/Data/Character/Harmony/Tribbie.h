@@ -215,7 +215,7 @@ namespace Tribbie{
 
 
     void Basic_Atk(CharUnit *ptr){
-        Skill_point(ptr,1);
+        genSkillPoint(ptr,1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Blast,"TB BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
@@ -230,7 +230,7 @@ namespace Tribbie{
     }
     
     void Skill(CharUnit *ptr){
-        Skill_point(ptr,-1);
+        genSkillPoint(ptr,-1);
         shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Aoe,"TB Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){

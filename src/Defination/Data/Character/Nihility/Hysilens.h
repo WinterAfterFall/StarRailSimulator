@@ -97,7 +97,7 @@ namespace Hysilens{
         #pragma region Ability
 
         function<void()> BA = [ptr,hys]() {
-            Skill_point(hys,1);
+            genSkillPoint(hys,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Hys BA",
             [ptr,hys](shared_ptr<AllyAttackAction> &act){
@@ -111,7 +111,7 @@ namespace Hysilens{
         };
 
         function<void()> Skill = [ptr,hys]() {
-            Skill_point(hys,-1);
+            genSkillPoint(hys,-1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Aoe,"Hys Skill",
             [ptr,hys](shared_ptr<AllyAttackAction> &act){
@@ -145,7 +145,7 @@ namespace Hysilens{
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,hys]() {
             if (!ultUseCheck(ptr)) return;
-            Skill_point(hys,1);
+            genSkillPoint(hys,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Hys Ult",
             [ptr,hys](shared_ptr<AllyAttackAction> &act){
@@ -190,7 +190,7 @@ namespace Hysilens{
         }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hys,Talent,E1]() {
-                Skill_point(hys,1);
+                genSkillPoint(hys,1);
                 for(auto &each : enemyList){
                     if(debuffMark(hys,each,"Hys Ult")){
                         each->atkPercent-=15;

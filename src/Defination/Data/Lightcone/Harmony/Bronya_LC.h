@@ -20,7 +20,7 @@ namespace Harmony_Lightcone{
                 if (ally->isSameOwner(ptr)) {
                     if (ptr->Buff_check["Battle_Isnt_Over_cnt"] == 0) {
                         ptr->Buff_check["Battle_Isnt_Over_cnt"] = true;
-                        Skill_point(ptr, 1);
+                        genSkillPoint(ptr, 1);
                     } else {
                         ptr->Buff_check["Battle_Isnt_Over_cnt"] = false;
                     }

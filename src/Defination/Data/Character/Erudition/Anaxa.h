@@ -194,7 +194,7 @@ namespace  Anaxa{
 
     void Basic_Atk(CharUnit *ptr){
         
-        Skill_point(ptr,1);
+        genSkillPoint(ptr,1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Anaxa BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
@@ -228,7 +228,7 @@ namespace  Anaxa{
     }
     void Skill(CharUnit *ptr){
 
-        Skill_point(ptr,-1);
+        genSkillPoint(ptr,-1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Bounce,"Anaxa Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
@@ -237,7 +237,7 @@ namespace  Anaxa{
                 ptr->setBuffCheck("AnaxaFirstTurn",true);
                 Increase_energy(ptr,30);
                 if(ptr->Eidolon>=1){
-                    Skill_point(ptr,1);
+                    genSkillPoint(ptr,1);
                 }
             }
 

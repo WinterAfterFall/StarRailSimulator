@@ -32,7 +32,7 @@ namespace Kafka{
         #pragma region Ability
 
         function<void()> BA = [ptr,kafka]() {
-            Skill_point(kafka,1);
+            genSkillPoint(kafka,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Kafka BA",
             [ptr,kafka](shared_ptr<AllyAttackAction> &act){
@@ -46,7 +46,7 @@ namespace Kafka{
         };
 
         function<void()> Skill = [ptr,kafka]() {
-            Skill_point(kafka,-1);
+            genSkillPoint(kafka,-1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"Kafka Skill",
             [ptr,kafka](shared_ptr<AllyAttackAction> &act){

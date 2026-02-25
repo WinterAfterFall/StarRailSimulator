@@ -27,7 +27,7 @@ namespace SomeChar{
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::,ptr,TraceType::,,
             [ptr,ally](shared_ptr<AllyAttackAction> &act){
-                Skill_point(,1);
+                genSkillPoint(,1);
                 Increase_energy(,20);
                 Attack(act);
             });

@@ -36,6 +36,10 @@ double calculateBreakEffectOnStats(AllyUnit *ptr){
     double ans = ptr->Stats_type[Stats::BE][AType::None];
     return (ans < 0) ? 0 : ans;
 }
+double calculateElationOnStats(AllyUnit *ptr){
+    double ans = ptr->Stats_type[Stats::Elation][AType::None];
+    return (ans < 0) ? 0 : ans;
+}
 double calculateEhrOnStats(AllyUnit *ptr){
     double ans = ptr->Stats_type[Stats::EHR][AType::None];
     return (ans < 0) ? 0 : ans;
@@ -332,13 +336,13 @@ double calBreakEffectMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target)
 double calElationMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
     double elationMtpr = 100;
   
-    elationMtpr += act->Attacker->Stats_type[Stats::Elation][AType::None] + target->Stats_type[Stats::Elation][AType::None];
+    elationMtpr += act->source->Stats_type[Stats::Elation][AType::None] + target->Stats_type[Stats::Elation][AType::None];
     for(int i = 0, sz = act->damageTypeList.size(); i < sz; i++){
-        elationMtpr += act->Attacker->Stats_type[Stats::Elation][act->damageTypeList[i]] + target->Stats_type[Stats::Elation][act->damageTypeList[i]];
+        elationMtpr += act->source->Stats_type[Stats::Elation][act->damageTypeList[i]] + target->Stats_type[Stats::Elation][act->damageTypeList[i]];
     }
     
     if(act->getChar()->canCheckDmgformulaElation()){
-        cout<<"Base  Elation  : "<<setw(6)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::Elation][AType::None]
+        cout<<"Base  Elation  : "<<setw(6)<<fixed<<setprecision(2)<<act->source->Stats_type[Stats::Elation][AType::None]
         <<" Enemy Elation  : "<<setw(6)<<fixed<<setprecision(2)<<target->Stats_type[Stats::Elation][AType::None]
         <<" Total Elation  : "<<setw(6)<<fixed<<setprecision(2)<<elationMtpr - 100<<endl;
     }

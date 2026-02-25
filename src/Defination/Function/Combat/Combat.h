@@ -153,14 +153,19 @@ void Attack(shared_ptr<AllyAttackAction> &act){
     
     if(act->Turn_reset)resetTurn(turn);
 }
-void Skill_point(AllyUnit *ptr,int p){
+void genSkillPoint(AllyUnit *ptr,int p){
     
     allEventSkillPoint(ptr,p);
     sp+=p;
     if(sp>Max_sp){
         sp = Max_sp;
     }
-    return ;
+    return;
+}
+void genPunchLine(AllyUnit *ptr,int p){
+
+    punchline+=p;
+    return;
 }
 void Superbreak_trigger(shared_ptr<AllyAttackAction> &act, double Superbreak_ratio,string triggerName){
     shared_ptr<AllyAttackAction> data_2 = 

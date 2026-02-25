@@ -32,7 +32,7 @@ namespace Archer{
         #pragma region Ability
 
         function<void()> BA = [ptr,ac]() {
-            Skill_point(ac,1);
+            genSkillPoint(ac,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Archer BA",
             [ptr,ac](shared_ptr<AllyAttackAction> &act){
@@ -46,7 +46,7 @@ namespace Archer{
         };
 
         function<void()> Skill = [ptr,ac]() {
-            Skill_point(ac,-2);
+            genSkillPoint(ac,-2);
             calStack(ac,1,5,"Archer Skill Limit");
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Single,"Archer Skill",
@@ -59,7 +59,7 @@ namespace Archer{
                     ac->addStack("Archer E1",1);
                     if(ac->getStack("Archer E1")==3){
                         ac->setStack("Archer E1",0);
-                        Skill_point(ac,2);
+                        genSkillPoint(ac,2);
                     }
                 }
             });
@@ -73,7 +73,7 @@ namespace Archer{
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::Fua,ptr,TraceType::Single,"Archer Fua",
             [ptr,ac](shared_ptr<AllyAttackAction> &act){
-                Skill_point(ac,1);
+                genSkillPoint(ac,1);
                 Increase_energy(ptr,5);
                 Attack(act);
             });
@@ -148,7 +148,7 @@ namespace Archer{
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,ac]() {
             if(ptr->Eidolon>=6&&turn->isSameName("Archer")){
-                Skill_point(ac,1);
+                genSkillPoint(ac,1);
             }
         }));
 

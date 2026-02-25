@@ -199,7 +199,7 @@ namespace The_Herta{
     }
 
     void Basic_Atk(CharUnit *ptr){
-        Skill_point(ptr,1);
+        genSkillPoint(ptr,1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"THerta BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
@@ -211,7 +211,7 @@ namespace The_Herta{
     }
 
     void Skill(CharUnit *ptr){
-        Skill_point(ptr,-1);
+        genSkillPoint(ptr,-1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"THerta Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
@@ -233,7 +233,7 @@ namespace The_Herta{
     }
 
     void Enchance_Skill(CharUnit *ptr){
-        Skill_point(ptr,-1);
+        genSkillPoint(ptr,-1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Aoe,"THerta ESkill",
         [ptr](shared_ptr<AllyAttackAction> &act){

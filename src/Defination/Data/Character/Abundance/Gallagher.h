@@ -161,7 +161,7 @@ namespace Gallagher{
 
     void Basic_Atk(CharUnit *ptr){
         
-        Skill_point(ptr,1);
+        genSkillPoint(ptr,1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Gall BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
@@ -173,7 +173,7 @@ namespace Gallagher{
         act->addToActionBar();
     }
     void Enchance_Basic_Atk(CharUnit *ptr){
-        Skill_point(ptr,1);
+        genSkillPoint(ptr,1);
        shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Gall EBA",
         [ptr](shared_ptr<AllyAttackAction> &act){
@@ -192,7 +192,7 @@ namespace Gallagher{
 
     }
     void Skill_func(CharUnit *ptr){
-        Skill_point(ptr,-1);
+        genSkillPoint(ptr,-1);
         
         shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"Gall Skill",

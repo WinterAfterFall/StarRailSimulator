@@ -42,7 +42,7 @@ namespace Saber{
         #pragma region Ability
 
         function<void()> BA = [ptr,sb,CoreResonance]() {
-            Skill_point(sb,1);
+            genSkillPoint(sb,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Saber BA",
             [ptr,sb,CoreResonance](shared_ptr<AllyAttackAction> &act){
@@ -58,7 +58,7 @@ namespace Saber{
         };
 
         function<void()> EBA = [ptr,sb,CoreResonance]() {
-            Skill_point(sb,1);
+            genSkillPoint(sb,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Aoe,"Saber EBA",
             [ptr,sb,CoreResonance](shared_ptr<AllyAttackAction> &act){
@@ -88,7 +88,7 @@ namespace Saber{
         };
 
         function<void()> Skill = [ptr,sb,CoreResonance]() {
-            Skill_point(sb,-1);
+            genSkillPoint(sb,-1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"Saber Skill",
             [ptr,sb,CoreResonance](shared_ptr<AllyAttackAction> &act){
@@ -119,7 +119,7 @@ namespace Saber{
         };
 
         function<void()> ESkill = [ptr,sb,resetCR,CoreResonance]() {
-            Skill_point(sb,-1);
+            genSkillPoint(sb,-1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"Saber ESkill",
             [ptr,sb,resetCR,CoreResonance](shared_ptr<AllyAttackAction> &act){
@@ -222,7 +222,7 @@ namespace Saber{
                 sb->setBuffCheck("Saber ESkill",1);
                 if(sb->getBuffCheck("Mana Flow")){
                     Action_forward(sb->Atv_stats.get(),1000);
-                    Skill_point(sb,1);
+                    genSkillPoint(sb,1);
                     sb->setBuffCheck("Mana Flow",0);
                 }
             }else sb->setBuffCheck("Saber ESkill",0);

@@ -24,7 +24,7 @@ namespace HanabiV1{
         #pragma region Ability
 
         function<void()> BA = [ptr,hnb]() {
-            Skill_point(hnb,1);
+            genSkillPoint(hnb,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Hnb BA",
             [hnb](shared_ptr<AllyAttackAction> &act){
@@ -36,7 +36,7 @@ namespace HanabiV1{
         };
 
         function<void()> Skill = [ptr,hnb]() {
-            Skill_point(hnb,-1);
+            genSkillPoint(hnb,-1);
             shared_ptr<AllyBuffAction> act = 
             make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"Hnb Skill",
             [ptr,hnb](shared_ptr<AllyBuffAction> &act){
@@ -86,8 +86,8 @@ namespace HanabiV1{
             shared_ptr<AllyBuffAction> act = 
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"Hnb Ult",
             [ptr,hnb](shared_ptr<AllyBuffAction> &act){
-                if(ptr->Eidolon>=4)Skill_point(hnb,5);
-                else Skill_point(hnb,4);
+                if(ptr->Eidolon>=4)genSkillPoint(hnb,5);
+                else genSkillPoint(hnb,4);
                 
                 for(auto &each : allyList){
                     if(isHaveToAddBuff(each,"Hnb Cipher")){
@@ -145,7 +145,7 @@ namespace HanabiV1{
         }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hnb]() {
-            if(ptr->Technique)Skill_point(hnb,3);
+            if(ptr->Technique)genSkillPoint(hnb,3);
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hnb]() {

@@ -7,6 +7,7 @@ double calculateSpeedOnStats(AllyUnit *ptr);
 double calculateCritrateOnStats(AllyUnit *ptr);
 double calculateCritdamOnStats(AllyUnit *ptr);
 double calculateBreakEffectOnStats(AllyUnit *ptr);
+double calculateElationOnStats(AllyUnit *ptr);
 double calculateEhrOnStats(AllyUnit *ptr);
 double calculateHPLost(AllyUnit *ptr);
 

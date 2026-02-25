@@ -17,9 +17,9 @@ class Attacking{
 };
 class SwitchAtk{
     public : 
-    AllyUnit* source = nullptr;
-    int changeWhen = -1;
-    int changeTo = -1;
+    AllyUnit* source = nullptr; // ที่มาดาเมจ 
+    int changeWhen = -1; // เลือกเวลาเปลี่ยน
+    int changeTo = -1; // เลือก AttackSetList
     SwitchAtk(int changeTo,int changeWhen)
         : changeTo(changeTo), changeWhen(changeWhen) {}
     SwitchAtk(int changeTo, AllyUnit* source,int changeWhen)

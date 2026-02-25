@@ -125,7 +125,7 @@ namespace Tingyun{
     }
 
     void Skill(CharUnit *ptr){
-        Skill_point(ptr,-1);
+        genSkillPoint(ptr,-1);
         shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"TY Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
@@ -138,7 +138,7 @@ namespace Tingyun{
         act->addToActionBar();
     }
     void Basic_Atk(CharUnit *ptr){
-        Skill_point(ptr,1);
+        genSkillPoint(ptr,1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"TY BA",
         [ptr](shared_ptr<AllyAttackAction> &act){

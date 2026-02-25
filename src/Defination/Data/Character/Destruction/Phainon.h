@@ -39,7 +39,7 @@ namespace Phainon{
 
         #pragma region action
         function<void()> BA = [ptr,pn]() {
-            Skill_point(pn,1);
+            genSkillPoint(pn,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"PN BA",
             [ptr,pn](shared_ptr<AllyAttackAction> &act){
@@ -52,7 +52,7 @@ namespace Phainon{
         };
 
         function<void()> Skill = [ptr,pn,CoreFlame]() {
-            Skill_point(pn,-1);
+            genSkillPoint(pn,-1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"PN Skill",
             [ptr,pn,CoreFlame](shared_ptr<AllyAttackAction> &act){
@@ -269,7 +269,7 @@ namespace Phainon{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,pn,CoreFlame,Scourge]() {
             if(ptr->Technique){
-                Skill_point(pn,1);
+                genSkillPoint(pn,1);
                 Scourge(2);
                 for(int i=1;i<=Total_ally;i++){
                     Increase_energy(charUnit[i].get(),25);

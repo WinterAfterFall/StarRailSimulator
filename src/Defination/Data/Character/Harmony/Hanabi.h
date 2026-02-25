@@ -24,7 +24,7 @@ namespace Hanabi{
         #pragma region Ability
 
         function<void()> BA = [ptr,hnb]() {
-            Skill_point(hnb,1);
+            genSkillPoint(hnb,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Hnb BA",
             [hnb](shared_ptr<AllyAttackAction> &act){
@@ -36,8 +36,8 @@ namespace Hanabi{
         };
 
         function<void()> Skill = [ptr,hnb]() {
-            if(ptr->getBuffCheck("Hnb Free Skill"))Skill_point(hnb,0);
-            else Skill_point(hnb,-1);
+            if(ptr->getBuffCheck("Hnb Free Skill"))genSkillPoint(hnb,0);
+            else genSkillPoint(hnb,-1);
             ptr->setBuffCheck("Hnb Free Skill",0);
 
             shared_ptr<AllyBuffAction> act = 
@@ -95,8 +95,8 @@ namespace Hanabi{
                 // start record overflow sp
                 ptr->setBuffCheck("Hnb Ult",true);
 
-                if(ptr->Eidolon>=4)Skill_point(hnb,7);
-                else Skill_point(hnb,6);
+                if(ptr->Eidolon>=4)genSkillPoint(hnb,7);
+                else genSkillPoint(hnb,6);
 
                 // Hnb Cipher
                 if(ptr->Eidolon == 0)
@@ -141,7 +141,7 @@ namespace Hanabi{
         }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hnb]() {
-            if(ptr->Technique)Skill_point(hnb,3);
+            if(ptr->Technique)genSkillPoint(hnb,3);
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hnb]() {
@@ -191,7 +191,7 @@ namespace Hanabi{
 
             if(ptr->getBuffCheck("Hnb Ult")){
                 ptr->setBuffCheck("Hnb Ult",0);
-                Skill_point(ptr,ptr->getStack("Hnb sp record"));
+                genSkillPoint(ptr,ptr->getStack("Hnb sp record"));
                 ptr->setStack("Hnb sp record",0);
             }
 

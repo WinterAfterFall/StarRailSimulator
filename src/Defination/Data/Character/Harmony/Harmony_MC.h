@@ -110,7 +110,7 @@ namespace Harmony_MC{
 
 
 void Basic_Atk(CharUnit *ptr){
-        Skill_point(ptr,1);
+        genSkillPoint(ptr,1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"HMC BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
@@ -121,7 +121,7 @@ void Basic_Atk(CharUnit *ptr){
         act->addToActionBar();
     }
     void Skill_func(CharUnit *ptr){
-        if(ptr->Atv_stats->turnCnt!=1)Skill_point(ptr,-1);     
+        if(ptr->Atv_stats->turnCnt!=1)genSkillPoint(ptr,-1);     
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Bounce,"RMC Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){

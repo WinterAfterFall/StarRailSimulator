@@ -281,7 +281,7 @@ namespace Hyacine{
 
 
     void Basic_Atk(CharUnit *ptr){
-        Skill_point(ptr,1);
+        genSkillPoint(ptr,1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Hyc BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
@@ -293,7 +293,7 @@ namespace Hyacine{
         act->addToActionBar();
     }
     void Skill(CharUnit *ptr){
-        Skill_point(ptr,-1);
+        genSkillPoint(ptr,-1);
         shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Aoe,"Hyc Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){

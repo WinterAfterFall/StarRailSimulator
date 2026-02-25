@@ -32,7 +32,7 @@ namespace Luka{
         #pragma region Ability
 
         function<void()> BA = [ptr,lk,FW]() {
-            Skill_point(lk,1);
+            genSkillPoint(lk,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Luka BA",
             [ptr,lk,FW](shared_ptr<AllyAttackAction> &act){
@@ -47,7 +47,7 @@ namespace Luka{
         };
 
         function<void()> EBA = [ptr,lk,FW]() {
-            Skill_point(lk,1);
+            genSkillPoint(lk,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Luka EBA",
             [ptr,lk,FW](shared_ptr<AllyAttackAction> &act){
@@ -76,7 +76,7 @@ namespace Luka{
         };
 
         function<void()> Skill = [ptr,lk,FW]() {
-            Skill_point(lk,-1);
+            genSkillPoint(lk,-1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Luka Skill",
             [ptr,lk,FW](shared_ptr<AllyAttackAction> &act){

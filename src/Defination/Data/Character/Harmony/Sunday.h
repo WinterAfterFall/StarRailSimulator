@@ -49,7 +49,7 @@ namespace Sunday{
                 if (ptr->Eidolon >= 2) {
                     if (ptr->Buff_check["Ult_first_time"] == 0) {
                         ptr->Buff_check["Ult_first_time"] = 1;
-                        Skill_point(ptr, 2);
+                        genSkillPoint(ptr, 2);
                     }
                 }
 
@@ -183,7 +183,7 @@ namespace Sunday{
 
         Buff_List.push_back(TriggerByAllyBuffAction_Func(PRIORITY_IMMEDIATELY, [ptr,SDptr](shared_ptr<AllyBuffAction> &act) {
             if (chooseCharacterBuff(ptr)->getBuffCheck("Ode_to_Caress_and_Cicatrix") && act->actionName=="SD Skill") {
-                Skill_point(ptr, 1);
+                genSkillPoint(ptr, 1);
             }
         }));
 
@@ -254,7 +254,7 @@ namespace Sunday{
 
     
     void Skill(CharUnit *ptr){
-        Skill_point(ptr,-1);
+        genSkillPoint(ptr,-1);
         shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"SD Skill",
         [ptr,SDptr=ptr](shared_ptr<AllyBuffAction> &act){

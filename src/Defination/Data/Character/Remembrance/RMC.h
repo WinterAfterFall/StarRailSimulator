@@ -192,7 +192,7 @@ namespace RMC{
 
 
     void Basic_Atk(CharUnit *ptr){
-        Skill_point(ptr,1);
+        genSkillPoint(ptr,1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"RMC BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
@@ -203,7 +203,7 @@ namespace RMC{
         act->addToActionBar();
     }
     void Skill(CharUnit *ptr){
-        Skill_point(ptr,-1);
+        genSkillPoint(ptr,-1);
         shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"RMC Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){

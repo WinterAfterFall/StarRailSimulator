@@ -208,7 +208,7 @@ namespace Rappa{
     }
     void Skill_func(CharUnit *ptr){
         
-        Skill_point(ptr,-1);
+        genSkillPoint(ptr,-1);
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Aoe,"Rappa Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){

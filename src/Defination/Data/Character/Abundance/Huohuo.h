@@ -23,7 +23,7 @@ namespace Huohuo{
         #pragma region Ability
 
         function<void()> BA = [ptr,hh]() {
-            Skill_point(hh,1);
+            genSkillPoint(hh,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"HH BA",
             [hh](shared_ptr<AllyAttackAction> &act){
@@ -35,7 +35,7 @@ namespace Huohuo{
         };
 
         function<void()> Skill = [ptr,hh]() {
-            Skill_point(hh,-1);
+            genSkillPoint(hh,-1);
             shared_ptr<AllyBuffAction> act = 
             make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Blast,"HH Skill",
             [ptr,hh](shared_ptr<AllyBuffAction> &act){

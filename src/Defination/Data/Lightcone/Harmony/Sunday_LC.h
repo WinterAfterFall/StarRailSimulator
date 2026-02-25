@@ -26,7 +26,7 @@ namespace Harmony_Lightcone{
                     }
                     ++ptr->Stack["Hymn_cnt"];
                     if (ptr->Stack["Hymn_cnt"] == 2) {
-                        Skill_point(ptr, 1);
+                        genSkillPoint(ptr, 1);
                         ptr->Stack["Hymn_cnt"] = 0;
                     }
                 }
