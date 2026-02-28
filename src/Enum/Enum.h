@@ -12,6 +12,7 @@ enum class AType {
     Dot,
     Break,
     SPB,
+    ElationDMG,
     ElationSkill,
     Addtional,
     Technique,
@@ -21,7 +22,7 @@ enum class AType {
     Shock,
     Bleed,
     WindShear,
-    AllyUnit,
+    ERROR,
 };
 enum class UnitStatus{
     Alive,

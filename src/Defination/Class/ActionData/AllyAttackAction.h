@@ -114,6 +114,16 @@ class  AllyAttackAction : public AllyActionData {
                 toughnessAvgCalculate = 0;
                 critAble = 0;
                 break;
+            case AType::ElationSkill:
+                actionTypeList.push_back(AType::ElationSkill);
+                actionTypeList.push_back(AType::ElationDMG);
+                damageTypeList.push_back(AType::ElationSkill);
+                damageTypeList.push_back(AType::ElationDMG);
+                break;
+            case AType::ElationDMG:
+                actionTypeList.push_back(AType::ElationDMG);
+                damageTypeList.push_back(AType::ElationDMG);
+                break;
             case AType::Addtional:
                 actionTypeList.push_back(AType::Addtional);
                 damageTypeList.push_back(AType::Addtional);

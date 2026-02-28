@@ -83,6 +83,13 @@ class AllyBuffAction : public AllyActionData {
                 actionTypeList.push_back(AType::Break);
                 actionTypeList.push_back(AType::SPB);
                 break;
+            case AType::ElationSkill:
+                actionTypeList.push_back(AType::ElationSkill);
+                actionTypeList.push_back(AType::ElationDMG);
+                break;
+            case AType::ElationDMG:
+                actionTypeList.push_back(AType::ElationDMG);
+                break;
             case AType::Addtional:
                 actionTypeList.push_back(AType::Addtional);
                 break;

@@ -33,7 +33,7 @@ class AllyActionData : public ActionData, public std::enable_shared_from_this<Al
     
     AType getActionType(int index){
         if(index < 0 || index >= actionTypeList.size()) {
-            return AType::AllyUnit;
+            return AType::ERROR;
         }
         return actionTypeList[index];
     }
