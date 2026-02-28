@@ -9,5 +9,6 @@
 #include".\Preservation\All_Preservation_char.h"
 #include".\Remembrance\All_Remembrance_char.h"
 #include".\The Hunt\All_The_Hunt_char.h"
+#include".\Elation\All_Elation_char.h"
 
 #endif

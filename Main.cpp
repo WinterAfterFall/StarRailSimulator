@@ -47,7 +47,7 @@ int main(){
 
 
     //Driver
-    Hanabi::Setup(6,Harmony_Lightcone::Sunday_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
+    // Hanabi::Setup(6,Harmony_Lightcone::Sunday_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
     // Sunday::Setup(0,Harmony_Lightcone::Sunday_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
     // Bronya::Setup(0,Harmony_Lightcone::Sunday_LC(1),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
     
@@ -62,6 +62,8 @@ int main(){
     // Robin::Setup(0,Harmony_Lightcone::For_Tomorrow_Journey(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
     // Ruan_Mei::Setup(0,Harmony_Lightcone::Memories_of_the_Past(5),Relic::PairSet(PairSetType::BE,PairSetType::BE),Planar::Lushaka);
     // Tingyun::Setup(6,Harmony_Lightcone::DDD(5),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
+    YaoGuang::Setup(6,Harmony_Lightcone::DDD(5),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
+    
     
     //Debuffer
     // Cipher::Setup(0,Nihility_Lightcone::Resolution(5),Relic::PairSet(PairSetType::Spd_P,PairSetType::Spd_P),Planar::Lushaka);
@@ -84,7 +86,7 @@ int main(){
     //--------------------- Formula Check ------------------------
     
     // Char1->enableCheckDamage();
-    // Char1->enableCheckDamageFormula(DmgFormulaMode::CB); 
+    Char2->enableCheckDamageFormula(DmgFormulaMode::All); 
     // Char4->enableCheckHealFormula();
     // Char4->enableCheckHeal();
 
@@ -171,6 +173,7 @@ int main(){
     //     Calculate_All_Substats();
     //     Print_All_Substats();
     // }
-    
+    std::cout << "Press Enter to end program..." <<endl;
+    std::cin.get();
     return 0;
 }

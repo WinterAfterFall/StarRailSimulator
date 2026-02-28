@@ -12,7 +12,6 @@ namespace YaoGuang{
         ptr->setSpeedRequire(200);
         ptr->setRelicMainStats(Stats::CR,Stats::FLAT_SPD,Stats::HP_P,Stats::ER);
 
-
         elationCount++;
         
         //func
@@ -68,6 +67,8 @@ namespace YaoGuang{
         };
         #pragma endregion
         ptr->Turn_func = [ptr,BA,Skill]() {
+            if(ptr->getBuffCheck("YG Skill"))BA();
+            else Skill();
 
         };
         
@@ -172,7 +173,7 @@ namespace YaoGuang{
             Enemy *enemy = turn->canCastToEnemy();
             if(ally){
                 if(isBuffEnd(ally,"YG Ult")){
-                    buffSingle(ally,{{Stats::RESPEN,AType::None,20}});
+                    buffSingle(ally,{{Stats::RESPEN,AType::None,-20}});
                 }
             }
             if(!enemy)return;
@@ -205,6 +206,7 @@ namespace YaoGuang{
             });
             act->addBuffSingleTarget(ptr);
             act->addToActionBar();
+            act->Turn_reset= 0;
             Deal_damage();
         }));
 
