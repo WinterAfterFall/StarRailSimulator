@@ -1,6 +1,6 @@
 #include "../include.h"
 
-namespace Harmony_MC{
+namespace HarmonyMC{
     void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
     void Basic_Atk(CharUnit *ptr);  
     void Skill_func(CharUnit *ptr);

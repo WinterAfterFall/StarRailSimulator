@@ -3,6 +3,7 @@
 
 #include "AllyAttackAction.h"
 #include "AllyBuffAction.h"
+
 bool AllyActionData::isSameName(AllyUnit *ptr){
     AllyAttackAction * attackAct = dynamic_cast<AllyAttackAction*>(this);
     if(attackAct){

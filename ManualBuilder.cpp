@@ -28,7 +28,7 @@ int main(){
     // std::ios::sync_with_stdio(false);
     // std::cin.tie(nullptr);
     SetValue();
-    The_Herta::Setup(0,Erudition_Lightcone::The_Herta_LC(1),Relic::Scholar,Planar::Izumo);
+    TheHerta::Setup(0,Erudition_Lightcone::The_Herta_LC(1),Relic::Scholar,Planar::Izumo);
     // Aglaea::Setup(1,Remembrance_Lightcone::SweatNowCryLess(1),Relic::Hero_Wreath,Planar::The_Wondrous_BananAmusement_Park);
     // Jingyuan::Setup_Jingyuan(0,Erudition_Lightcone::Before_Dawn(1),Relic::Grand_Duke,Planar::The_Wondrous_BananAmusement_Park);
     // Castorice::Setup(0,Remembrance_Lightcone::Castorice_LC(1),Relic::Poet_Dill,Planar::Bone_Collection);

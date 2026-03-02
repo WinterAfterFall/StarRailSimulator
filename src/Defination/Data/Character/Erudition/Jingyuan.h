@@ -2,7 +2,7 @@
 #include "../include.h"
 
 namespace Jingyuan{
-    void Setup_Jingyuan(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
     void Basic_Atk(CharUnit *ptr);
     void Skill(CharUnit *ptr);
 
@@ -11,7 +11,7 @@ namespace Jingyuan{
 
 
 
-    void Setup_Jingyuan(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
         CharUnit *ptr = SetCharBasicStats(99, 130, 130, E, ElementType::Lightning, Path::Erudition, "Jingyuan",UnitType::Standard);
         AllyUnit *JYptr = ptr;
         ptr->SetAllyBaseStats(1164, 698, 485);

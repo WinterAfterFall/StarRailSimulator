@@ -1,7 +1,7 @@
 
 #include "../include.h"
 
-namespace The_Herta{
+namespace TheHerta{
     void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
 //temp
     void Basic_Atk(CharUnit *ptr);

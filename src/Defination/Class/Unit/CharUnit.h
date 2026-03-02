@@ -128,7 +128,7 @@ public:
     vector<function<bool()>> ultCondition;
     
     
-    bool Print =0;
+    bool Print =1;
     bool Wait_Other_Buff = 0;
     function<void(CharUnit *ptr)> Body;
     function<void(CharUnit *ptr)> Boot;
