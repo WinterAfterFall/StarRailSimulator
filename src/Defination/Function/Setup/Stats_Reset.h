@@ -101,6 +101,9 @@ void Basic_reset(){
             charUnit[i]->Rope(charUnit[i].get());
             charUnit[i]->Stats_type[Stats::EHR][AType::None] += charUnit[i]->ExtraEhr;
             charUnit[i]->Atv_stats->flatSpeed += charUnit[i]->ExtraSpeed;
+            charUnit[i]->Stats_type[Stats::ATK_P][AType::None] += charUnit[i]->ExtraAtk;
+            charUnit[i]->Stats_type[Stats::HP_P][AType::None] += charUnit[i]->ExtraHp;
+            charUnit[i]->Stats_type[Stats::DEF_P][AType::None] += charUnit[i]->ExtraDef;
             
     }
 

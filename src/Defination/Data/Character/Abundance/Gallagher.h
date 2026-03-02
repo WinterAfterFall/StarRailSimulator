@@ -16,7 +16,7 @@ namespace Gallagher{
 
         //substats
         ptr->pushSubstats(Stats::BE);
-        ptr->setTotalSubstats(20);
+        ptr->setTotalSubstats(25);
         ptr->setSpeedRequire(150);
         ptr->setRelicMainStats(Stats::HEALING_OUT,Stats::FLAT_SPD,Stats::ATK_P,Stats::ER);
 

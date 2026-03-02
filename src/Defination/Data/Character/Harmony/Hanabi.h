@@ -7,7 +7,7 @@ namespace Hanabi{
 
         //substats
         ptr->pushSubstats(Stats::CD);
-        ptr->setTotalSubstats(20);
+        ptr->setTotalSubstats(25);
         ptr->setSpeedRequire(160);
         ptr->setRelicMainStats(Stats::CD,Stats::FLAT_SPD,Stats::HP_P,Stats::ER);
 

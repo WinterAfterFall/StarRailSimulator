@@ -7,7 +7,7 @@ namespace Cerydra{
 
         //substats
         ptr->pushSubstats(Stats::ATK_P);
-        ptr->setTotalSubstats(20);
+        ptr->setTotalSubstats(25);
         // ptr->setSpeedRequire(150);
         ptr->setRelicMainStats(Stats::ATK_P,Stats::ATK_P,Stats::ATK_P,Stats::ER);
 

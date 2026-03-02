@@ -24,7 +24,7 @@ namespace Castorice{
         ptr->pushSubstats(Stats::CD);
         ptr->pushSubstats(Stats::CR);
         ptr->pushSubstats(Stats::HP_P);
-        ptr->setTotalSubstats(20);
+        ptr->setTotalSubstats(25);
 
 
         //func

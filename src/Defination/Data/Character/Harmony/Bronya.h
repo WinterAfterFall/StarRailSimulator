@@ -13,7 +13,7 @@ namespace Bronya{
         ptr->SetAllyBaseStats(1242,582,534);
         //substats
         ptr->pushSubstats(Stats::CD);
-        ptr->setTotalSubstats(20);
+        ptr->setTotalSubstats(25);
         ptr->setRelicMainStats(Stats::CD,Stats::FLAT_SPD,Stats::DMG,Stats::ER);
         ptr->setSpeedRequire(134);
 

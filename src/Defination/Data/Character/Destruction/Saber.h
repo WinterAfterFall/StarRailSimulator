@@ -9,7 +9,7 @@ namespace Saber{
         ptr->pushSubstats(Stats::CD);
         ptr->pushSubstats(Stats::CR);
         ptr->pushSubstats(Stats::ATK_P);
-        ptr->setTotalSubstats(20);
+        ptr->setTotalSubstats(25);
         ptr->setSpeedRequire(136);
         ptr->setRelicMainStats(Stats::CD,Stats::FLAT_SPD,Stats::DMG,Stats::ATK_P);
 

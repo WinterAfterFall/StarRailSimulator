@@ -29,6 +29,10 @@ void Take_action(){
     if(!turn->extraTurn)allEventAfterTurn();
 }
 void AhaInstant(){
+    for(TriggerByYourSelf_Func &e : BeforeAhaInstant_List){
+        e.Call();
+    }
+
     ++(turn->turnCnt);
     CharCmd::printText("Aha Instant");
     for(TriggerByYourSelf_Func &e : ElationSkill_List){
@@ -39,7 +43,12 @@ void AhaInstant(){
         if(each->isSameName("Yao Guang"))extendBuffTime(each,"CB Buff " + to_string(aha->turnCnt),3);
     }
     CBcheck.push_back({"CB Buff " + to_string(aha->turnCnt),elationCount,punchline});
-    punchline = elationCount;
+    genPunchLine(nullptr,punchline); 
+    genPunchLine(nullptr,elationCount);
+
+    for(TriggerByYourSelf_Func &e : AfterAhaInstant_List){
+        e.Call();
+    }
 }
 void Deal_damage(){
     if(actionBarUse)return;
@@ -165,7 +174,9 @@ void genSkillPoint(AllyUnit *ptr,int p){
 }
 void genPunchLine(AllyUnit *ptr,int p){
 
+    allEventPunchLine(ptr,p);
     punchline+=p;
+    punchline = max(punchline,0);
     return;
 }
 void Superbreak_trigger(shared_ptr<AllyAttackAction> &act, double Superbreak_ratio,string triggerName){

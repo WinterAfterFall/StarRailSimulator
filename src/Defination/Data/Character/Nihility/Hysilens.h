@@ -9,7 +9,7 @@ namespace Hysilens{
 
         //substats
         ptr->pushSubstats(Stats::ATK_P);
-        ptr->setTotalSubstats(20);
+        ptr->setTotalSubstats(25);
         ptr->setApplyBaseChance(100);
         ptr->setEhrRequire(120);
         // ptr->setSpeedRequire(140);

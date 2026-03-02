@@ -8,7 +8,7 @@ namespace YaoGuang{
         //substats
         ptr->pushSubstats(Stats::CR);
         ptr->pushSubstats(Stats::CD);
-        ptr->setTotalSubstats(20);
+        ptr->setTotalSubstats(25);
         ptr->setSpeedRequire(200);
         ptr->setRelicMainStats(Stats::CR,Stats::FLAT_SPD,Stats::HP_P,Stats::ER);
 

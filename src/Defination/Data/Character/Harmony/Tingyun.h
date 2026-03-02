@@ -12,7 +12,7 @@ namespace Tingyun{
         ptr->SetAllyBaseStats(847, 529, 397);
         ptr->Technique = 2;
         ptr->pushSubstats(Stats::ATK_P);
-        ptr->setTotalSubstats(20);
+        ptr->setTotalSubstats(25);
         ptr->setSpeedRequire(140);
         ptr->setRelicMainStats(Stats::ATK_P,Stats::FLAT_SPD,Stats::ATK_P,Stats::ER);
 

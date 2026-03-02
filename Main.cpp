@@ -27,8 +27,9 @@ void SetCharacterPtr(){
 int main(){ 
     // std::ios::sync_with_stdio(false);
     // std::cin.tie(nullptr);
+    
     SetValue();
-    The_Herta::Setup(0,Erudition_Lightcone::The_Herta_LC(1),Relic::Scholar,Planar::Izumo);
+    // The_Herta::Setup(0,Erudition_Lightcone::The_Herta_LC(1),Relic::Scholar,Planar::Izumo);
     // Aglaea::Setup(1,Remembrance_Lightcone::SweatNowCryLess(1),Relic::Hero_Wreath,Planar::The_Wondrous_BananAmusement_Park);
     // Jingyuan::Setup_Jingyuan(0,Erudition_Lightcone::Before_Dawn(1),Relic::Grand_Duke,Planar::The_Wondrous_BananAmusement_Park);
     // Castorice::Setup(0,Remembrance_Lightcone::Castorice_LC(1),Relic::Poet_Dill,Planar::Bone_Collection);
@@ -62,7 +63,8 @@ int main(){
     // Robin::Setup(0,Harmony_Lightcone::For_Tomorrow_Journey(5),Relic::PairSet(PairSetType::ATK,PairSetType::ATK),Planar::Lushaka);
     // Ruan_Mei::Setup(0,Harmony_Lightcone::Memories_of_the_Past(5),Relic::PairSet(PairSetType::BE,PairSetType::BE),Planar::Lushaka);
     // Tingyun::Setup(6,Harmony_Lightcone::DDD(5),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
-    YaoGuang::Setup(6,Harmony_Lightcone::DDD(5),Relic::Sacerdos_Relived_Ordeal,Planar::Lushaka);
+    Hibana::Setup(6,Harmony_Lightcone::DDD(5),Relic::Sacerdos_Relived_Ordeal,Planar::Talia);
+    YaoGuang::Setup(0,Harmony_Lightcone::DDD(5),Relic::Sacerdos_Relived_Ordeal,Planar::Talia);
     
     
     //Debuffer
@@ -86,7 +88,7 @@ int main(){
     //--------------------- Formula Check ------------------------
     
     // Char1->enableCheckDamage();
-    Char2->enableCheckDamageFormula(DmgFormulaMode::All); 
+    Char1->enableCheckDamageFormula(DmgFormulaMode::All); 
     // Char4->enableCheckHealFormula();
     // Char4->enableCheckHeal();
 

@@ -10,7 +10,7 @@ namespace Sunday{
         AllyUnit *SDptr = ptr;
         ptr->SetAllyBaseStats(1242, 640, 533);
         ptr->pushSubstats(Stats::CD);
-        ptr->setTotalSubstats(20);
+        ptr->setTotalSubstats(25);
         ptr->setSpeedRequire(134);
         ptr->setRelicMainStats(Stats::HP_P,Stats::FLAT_SPD,Stats::HP_P,Stats::ER);
 

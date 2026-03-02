@@ -192,7 +192,13 @@ void allEventSkillPoint(AllyUnit *ptr,int p){
     for(TriggerSkill_point_func &e : Skill_point_List){
         e.Call(ptr,p);
     }
-    return ;
+    return;
+}
+void allEventPunchLine(AllyUnit *ptr,int p){
+    for(TriggerSkill_point_func &e : PunchLine_List){
+        e.Call(ptr,p);
+    }
+    return;
 }
 void allEventAdjustStats(AllyUnit *ptr,Stats statsType){
     AdjustCheck = 1;

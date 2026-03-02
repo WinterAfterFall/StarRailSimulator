@@ -21,7 +21,7 @@ namespace The_Herta{
         ptr->pushSubstats(Stats::CD);
         ptr->pushSubstats(Stats::CR);
         ptr->pushSubstats(Stats::ATK_P);
-        ptr->setTotalSubstats(20);
+        ptr->setTotalSubstats(25);
         ptr->setRelicMainStats(Stats::CR,Stats::ATK_P,Stats::DMG,Stats::ATK_P);
 
 

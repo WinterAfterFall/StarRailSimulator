@@ -99,6 +99,8 @@ vector<TriggerByYourSelf_Func> Before_turn_List;
 vector<TriggerByYourSelf_Func> After_turn_List;
 vector<TriggerByYourSelf_Func> Ultimate_List;
 vector<TriggerByYourSelf_Func> ElationSkill_List;
+vector<TriggerByYourSelf_Func> BeforeAhaInstant_List;
+vector<TriggerByYourSelf_Func> AfterAhaInstant_List;
 vector<TriggerByAlly_Func> WhenUseUlt_List;
 
 
@@ -128,6 +130,7 @@ vector<TriggerByEnemyHit> Enemy_hit_List;
 vector<TriggerDot_Func> Dot_List;
 vector<TriggerEnergy_Increase_Func> When_Energy_Increase_List;
 vector<TriggerSkill_point_func> Skill_point_List;
+vector<TriggerSkill_point_func> PunchLine_List;
 vector<TriggerAfterDealDamage> AfterDealingDamage_List;
 
 

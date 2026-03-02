@@ -9,7 +9,7 @@ namespace BS{
 
         //substats
         ptr->pushSubstats(Stats::ATK_P);
-        ptr->setTotalSubstats(20);
+        ptr->setTotalSubstats(25);
         ptr->setEhrRequire(120);
         ptr->setRelicMainStats(Stats::EHR,Stats::ATK_P,Stats::DMG,Stats::ER);
 

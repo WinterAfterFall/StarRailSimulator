@@ -27,7 +27,7 @@ namespace Hyacine{
 
         // ptr->pushSubstats(Stats::CD);
         ptr->pushSubstats(Stats::HP_P);
-        ptr->setTotalSubstats(20);
+        ptr->setTotalSubstats(25);
         ptr->setSpeedRequire(210);
         ptr->setRelicMainStats(Stats::HEALING_OUT,Stats::FLAT_SPD,Stats::HP_P,Stats::ER);
 

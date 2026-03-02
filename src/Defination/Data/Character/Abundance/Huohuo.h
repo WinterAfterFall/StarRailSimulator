@@ -7,7 +7,7 @@ namespace Huohuo{
 
         //substats
         ptr->pushSubstats(Stats::HP_P);
-        ptr->setTotalSubstats(20);
+        ptr->setTotalSubstats(25);
         ptr->setSpeedRequire(140);
         ptr->setRelicMainStats(Stats::HEALING_OUT,Stats::FLAT_SPD,Stats::HP_P,Stats::ER);
 

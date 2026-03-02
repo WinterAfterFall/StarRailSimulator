@@ -9,7 +9,7 @@ namespace SomeChar{
         ptr->pushSubstats(Stats::);
         ptr->pushSubstats(Stats::);
         ptr->pushSubstats(Stats::);
-        ptr->setTotalSubstats(20);
+        ptr->setTotalSubstats(25);
         ptr->setSpeedRequire();
         ptr->setApplyBaseChance();
         ptr->setRelicMainStats(Stats::,Stats::,Stats::,Stats::);

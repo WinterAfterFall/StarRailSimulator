@@ -7,7 +7,7 @@ namespace Luka{
 
         //substats
         ptr->pushSubstats(Stats::ATK_P);
-        ptr->setTotalSubstats(20);
+        ptr->setTotalSubstats(25);
         ptr->setSpeedRequire(134);
         ptr->setApplyBaseChance(100);
         ptr->setRelicMainStats(Stats::EHR,Stats::FLAT_SPD,Stats::DMG,Stats::ER);

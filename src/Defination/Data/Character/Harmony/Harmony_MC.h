@@ -12,7 +12,7 @@ namespace Harmony_MC{
         ptr->SetAllyBaseStats(1087, 446, 679);
         //substats
         ptr->pushSubstats(Stats::BE);
-        ptr->setTotalSubstats(20);
+        ptr->setTotalSubstats(25);
         ptr->setSpeedRequire(145);
         ptr->setRelicMainStats(Stats::ATK_P,Stats::FLAT_SPD,Stats::DMG,Stats::ER);
 

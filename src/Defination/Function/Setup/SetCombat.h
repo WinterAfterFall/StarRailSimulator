@@ -12,6 +12,8 @@ void Setup(){
     sort(After_turn_List.begin(), After_turn_List.end(), TriggerFunc::Trigger_cmp);
     sort(Ultimate_List.begin(), Ultimate_List.end(), TriggerFunc::Trigger_cmp);
     sort(ElationSkill_List.begin(), ElationSkill_List.end(), TriggerFunc::Trigger_cmp);
+    sort(BeforeAhaInstant_List.begin(), BeforeAhaInstant_List.end(), TriggerFunc::Trigger_cmp);
+    sort(AfterAhaInstant_List.begin(), AfterAhaInstant_List.end(), TriggerFunc::Trigger_cmp);
     sort(WhenUseUlt_List.begin(), WhenUseUlt_List.end(), TriggerFunc::Trigger_cmp);
     
 
@@ -40,6 +42,7 @@ void Setup(){
     sort(Dot_List.begin(), Dot_List.end(), TriggerFunc::Trigger_cmp);
     sort(When_Energy_Increase_List.begin(), When_Energy_Increase_List.end(), TriggerFunc::Trigger_cmp);
     sort(Skill_point_List.begin(), Skill_point_List.end(), TriggerFunc::Trigger_cmp);
+    sort(PunchLine_List.begin(), PunchLine_List.end(), TriggerFunc::Trigger_cmp);
     sort(AfterDealingDamage_List.begin(), AfterDealingDamage_List.end(), TriggerFunc::Trigger_cmp);
     
     if(rerollSubstatsMode == SubstatsRerollMode::Standard)rerollFunction = StandardReroll;
@@ -89,6 +92,9 @@ void Reset(){
         e.Call();
     }
     for(int i=1;i<=Total_ally;i++){
+        charUnit[i]->AtkRequirment();
+        charUnit[i]->HpRequirment();
+        charUnit[i]->DefRequirment();
         charUnit[i]->SpeedRequirment();
         charUnit[i]->EhrRequirment();
     }

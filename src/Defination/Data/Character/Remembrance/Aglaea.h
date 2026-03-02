@@ -25,7 +25,7 @@ namespace Aglaea{
         ptr->pushSubstats(Stats::CD);
         ptr->pushSubstats(Stats::CR);
         ptr->pushSubstats(Stats::ATK_P);
-        ptr->setTotalSubstats(20);
+        ptr->setTotalSubstats(25);
         // ptr->setSpeedRequire(135);
         ptr->setRelicMainStats(Stats::CR,Stats::ATK_P,Stats::DMG,Stats::ER);
 

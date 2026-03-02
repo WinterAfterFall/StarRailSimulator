@@ -9,7 +9,7 @@ namespace Kafka{
 
         //substats
         ptr->pushSubstats(Stats::ATK_P);
-        ptr->setTotalSubstats(20);
+        ptr->setTotalSubstats(25);
         ptr->setSpeedRequire(160);
         ptr->setEhrRequire(75);
         ptr->setRelicMainStats(Stats::EHR,Stats::FLAT_SPD,Stats::DMG,Stats::ER);

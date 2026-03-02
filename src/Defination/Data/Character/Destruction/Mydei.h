@@ -22,7 +22,7 @@ namespace Mydei{
         ptr->pushSubstats(Stats::CD);
         ptr->pushSubstats(Stats::CR);
         ptr->pushSubstats(Stats::HP_P);
-        ptr->setTotalSubstats(20);
+        ptr->setTotalSubstats(25);
         ptr->setSpeedRequire(135);
         ptr->setRelicMainStats(Stats::HP_P,Stats::FLAT_SPD,Stats::DMG,Stats::HP_P);
 

@@ -14,7 +14,7 @@ namespace Cipher{
         ptr->pushSubstats(Stats::CD);
         ptr->pushSubstats(Stats::CR);
         ptr->pushSubstats(Stats::ATK_P);
-        ptr->setTotalSubstats(20);
+        ptr->setTotalSubstats(25);
         ptr->setSpeedRequire(170);
         if(ptr->Eidolon>=2)
             ptr->setApplyBaseChance(120);

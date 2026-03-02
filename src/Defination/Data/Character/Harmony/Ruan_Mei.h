@@ -16,7 +16,7 @@ namespace Ruan_Mei{
 
         //substats
         ptr->pushSubstats(Stats::BE);
-        ptr->setTotalSubstats(20);
+        ptr->setTotalSubstats(25);
         ptr->setSpeedRequire(140);
         ptr->setRelicMainStats(Stats::ATK_P,Stats::FLAT_SPD,Stats::ATK_P,Stats::ER);
 

@@ -136,10 +136,17 @@ public:
     function<void(CharUnit *ptr)> Rope;
 
     double SpeedRequire = 0;
+    double ExtraSpeed = 0;
+    double AtkRequire = 0;
+    double ExtraAtk = 0;
+    double HpRequire = 0;
+    double ExtraHp = 0;
+    double DefRequire = 0;
+    double ExtraDef = 0;
+
     double ApplyBaseChance = 0;
     double EhrRequire = 0;
     double ExtraEhr = 0;
-    double ExtraSpeed = 0;
     
     #pragma endregion
     #pragma region constructor
@@ -181,6 +188,15 @@ public:
     }
     void setSpeedRequire(double value){
         this->SpeedRequire = value;
+    }
+    void setAtkRequire(double value){
+        this->AtkRequire = value;
+    }
+    void setHpRequire(double value){
+        this->HpRequire = value;
+    }
+    void setDefRequire(double value){
+        this->DefRequire = value;
     }
     void setApplyBaseChance(double value){
         this->ApplyBaseChance = value;
@@ -282,7 +298,10 @@ public:
     #pragma region SetSubdstats
     void setTotalSubstats(int Value);
     void pushSubstats(Stats StatsType);
-    void changeTotalSubStats(int amount);
+    int changeTotalSubStats(int amount);
+    void AtkRequirment();
+    void HpRequirment();
+    void DefRequirment();
     void SpeedRequirment();
     void EhrRequirment();
     #pragma endregion

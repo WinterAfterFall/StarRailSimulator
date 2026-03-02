@@ -28,10 +28,11 @@ void CharUnit::setTotalSubstats(int Value) {
 void CharUnit::pushSubstats(Stats StatsType) {
     this->Substats.push_back({StatsType, 0});
 }
-void CharUnit::changeTotalSubStats(int amount) {
-    amount = (this->Total_substats + amount >= 0) ? amount : -this->Total_substats;
+int CharUnit::changeTotalSubStats(int amount) {
+    if(this->Total_substats + amount < 0)amount = -this->Total_substats;
     this->Total_substats += amount;
     this->currentTotalSubstats += amount;
     this->SeparateRatio += amount;
     this->Substats[0].second += amount;
+    return -1*amount;
 }
