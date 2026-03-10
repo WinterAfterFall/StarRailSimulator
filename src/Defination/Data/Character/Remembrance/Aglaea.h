@@ -138,7 +138,7 @@ namespace Aglaea{
                 if (act->Attacker->Atv_stats->Name == "Aglaea" || act->Attacker->Atv_stats->Name == "Garmentmaker") {
                     buffStackChar(ptr,{{Stats::DEF_SHRED,AType::None,14}},1,3,"Aglaea_E2");
                 } else {
-                    buffResetStack(ptr,{{Stats::DEF_SHRED,AType::None,14}},"Aglaea_E2");
+                    buffCharResetStack(ptr,{{Stats::DEF_SHRED,AType::None,14}},"Aglaea_E2");
                 }
             }
         }));
@@ -148,7 +148,7 @@ namespace Aglaea{
                 if (act->Attacker->Atv_stats->Name == "Aglaea" || act->Attacker->Atv_stats->Name == "Garmentmaker") {
                     buffStackChar(ptr,{{Stats::DEF_SHRED,AType::None,14}},1,3,"Aglaea_E2");
                 } else {
-                    buffResetStack(ptr,{{Stats::DEF_SHRED,AType::None,14}},"Aglaea_E2");
+                    buffCharResetStack(ptr,{{Stats::DEF_SHRED,AType::None,14}},"Aglaea_E2");
                 }
             }
         }));

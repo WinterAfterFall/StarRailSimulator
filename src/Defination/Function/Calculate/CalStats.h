@@ -382,9 +382,9 @@ double calPunchLineMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
     }
     
     if(act->getChar()->canCheckDmgformulaPL()){
-        cout<<"Base  PL       : "<<setw(6)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::Merrymake][AType::None]
-        <<" Enemy PL       : "<<setw(6)<<fixed<<setprecision(2)<<target->Stats_type[Stats::Merrymake][AType::None]
-        <<" Total PL       : "<<setw(6)<<fixed<<setprecision(2)<<PunchlineCnt<<endl;
+        cout<<"Base  CB       : "<<setw(6)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::Merrymake][AType::None]
+        <<" Enemy CB       : "<<setw(6)<<fixed<<setprecision(2)<<target->Stats_type[Stats::Merrymake][AType::None]
+        <<" Total CB       : "<<setw(6)<<fixed<<setprecision(2)<<PunchlineCnt<<endl;
     }
 
     return (PunchlineCnt < 0) ? 1 : (1+(PunchlineCnt*5)/(240+PunchlineCnt));

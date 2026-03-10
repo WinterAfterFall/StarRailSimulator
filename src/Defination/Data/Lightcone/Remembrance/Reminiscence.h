@@ -8,7 +8,7 @@ namespace Remembrance_Lightcone{
             Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 for (auto &e : ptr->memospriteList) {
                     if (e->Atv_stats->side == Side::Memosprite && e->isDeath()) {
-                        buffResetStack(ptr,{{Stats::DMG,AType::None,7.0 + superimpose}},"Reminiscence");
+                        buffCharResetStack(ptr,{{Stats::DMG,AType::None,7.0 + superimpose}},"Reminiscence");
                         return;
                     }
                 }

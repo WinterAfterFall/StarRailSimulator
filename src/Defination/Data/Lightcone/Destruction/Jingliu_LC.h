@@ -28,7 +28,7 @@ namespace Destruction_Lightcone{
             }));
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyAttackAction> &act){
                 if(!act->Attacker->isSameName(ptr))return;
-                buffResetStack(ptr,{{Stats::DMG,AType::None,11.5 +2.5*superimpose}},"Jingliu_LC");
+                buffCharResetStack(ptr,{{Stats::DMG,AType::None,11.5 +2.5*superimpose}},"Jingliu_LC");
                 if(ptr->getBuffCheck("Jingliu_LC Def Shred")){
                     buffSingle(ptr,{{Stats::DEF_SHRED,AType::None,-(10.0 +2*superimpose)}});
                     ptr->setBuffCheck("Jingliu_LC Def Shred",0);

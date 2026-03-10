@@ -76,7 +76,6 @@ void allEventAfterTurn(){
             }
         }
     }
-    
     for(TriggerByYourSelf_Func &e : After_turn_List){
         e.Call();
     }

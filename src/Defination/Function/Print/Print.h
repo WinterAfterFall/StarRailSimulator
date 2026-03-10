@@ -6,6 +6,7 @@ void Print(){
     cout<<""<<turn->Name<<" ";
     cout<<turn->turnCnt<<" ";
     cout<<sp<<" ";
+    // cout<<punchline<<" ";
     cout<<endl;
 }
 void printRoundResult(){

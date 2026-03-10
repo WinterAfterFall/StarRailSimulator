@@ -21,7 +21,7 @@ namespace Destruction_Lightcone{
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 if(isBuffEnd(ptr,"Danheng LC")){
                     ptr->Energy_recharge -= (5 + superimpose) * ptr->getStack("Danheng LC");
-                    buffResetStack(ptr,{{Stats::ATK_P,AType::None,(15.0 + (3*superimpose))}},"Danheng LC");
+                    buffCharResetStack(ptr,{{Stats::ATK_P,AType::None,(15.0 + (3*superimpose))}},"Danheng LC");
                 }
             }));
             

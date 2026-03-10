@@ -18,13 +18,14 @@ namespace Elation_Lightcone{
             }));
 
             Skill_point_List.push_back(TriggerSkill_point_func(PRIORITY_IMMEDIATELY, [ptr,superimpose](AllyUnit *SP_maker, int SP) {
-                if(ptr->isSameName(SP_maker)&&SP<0)
-                ptr->addStack("Hibana LC sp count",-1*SP);
-                buffStackSingle(ptr,{{Stats::DEF_SHRED,AType::ElationDMG,4.0 + superimpose}},-1.0*SP,4,"Hibana LC Defshred");
-                if(ptr->getStack("Hibana LC sp count")>=4){
-                    for(auto &each : allyList){
-                        if(isHaveToAddBuff(each,"Stream Promo"))
-                        buffSingle(each,{{Stats::Elation,AType::None,16.0 + 4 * superimpose}});
+                if(ptr->isSameName(SP_maker)&&SP<0){
+                    ptr->addStack("Hibana LC sp count",-1*SP);
+                    buffStackSingle(ptr,{{Stats::DEF_SHRED,AType::ElationDMG,4.0 + superimpose}},-1.0*SP,4,"Hibana LC Defshred");
+                    if(ptr->getStack("Hibana LC sp count")>=4){
+                        for(auto &each : allyList){
+                            if(isHaveToAddBuff(each,"Stream Promo"))
+                            buffSingle(each,{{Stats::Elation,AType::None,16.0 + 4 * superimpose}});
+                        }
                     }
                 }
             }));            

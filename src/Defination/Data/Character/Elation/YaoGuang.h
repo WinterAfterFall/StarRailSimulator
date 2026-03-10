@@ -9,7 +9,7 @@ namespace YaoGuang{
         ptr->pushSubstats(Stats::CR);
         ptr->pushSubstats(Stats::CD);
         ptr->setTotalSubstats(25);
-        ptr->setSpeedRequire(200);
+        ptr->setSpeedRequire(320);
         ptr->setRelicMainStats(Stats::CR,Stats::FLAT_SPD,Stats::HP_P,Stats::ER);
 
         elationCount++;
@@ -45,16 +45,16 @@ namespace YaoGuang{
                 genPunchLine(ptr,3);
                 Increase_energy(ptr,30);
                 if(isHaveToAddBuff(ptr,"YG Skill",3)){
-                    double buff = calculateElationForBuff(ptr,20);
-
-                    buffAllAlly({
-                        {Stats::Elation,AType::None,buff - ptr->getBuffNote("YG Skill")},
-                        {Stats::Elation,AType::TEMP,buff - ptr->getBuffNote("YG Skill")}
-                    });
                     if(ptr->Eidolon>=2)
                     buffAllAlly({
                         {Stats::SPD_P,AType::None,12},
                         {Stats::Elation,AType::None,16}
+                    });
+
+                    double buff = calculateElationForBuff(ptr,20);
+                    buffAllAlly({
+                        {Stats::Elation,AType::None,buff - ptr->getBuffNote("YG Skill")},
+                        {Stats::Elation,AType::TEMP,buff - ptr->getBuffNote("YG Skill")}
                     });
 
                     
@@ -89,35 +89,27 @@ namespace YaoGuang{
                     {Stats::RESPEN,AType::None,20}
                 },"YG Ult",3);
 
-                double oldPL = punchline;
-                punchline = (ptr->Eidolon>=1)? 40 : 20;
                 if(ptr->Eidolon>=4)
                 buffAllAlly({
                     {Stats::MtprInc,AType::ElationSkill,50}
                 });
-
-                ++(turn->turnCnt);
-                CharCmd::printText("Aha Instant");
-                for(TriggerByYourSelf_Func &e : ElationSkill_List){
-                    e.Call();
-                }
-                for(auto &each : charList){
-                    if(each->path[0] == Path::Elation)buffSingle(each,{{Stats::CertifiedBanger,AType::None,1.0*punchline}},"CB Buff " + to_string(aha->turnCnt),2);
-                }
-                CBcheck.push_back({"CB Buff " + to_string(aha->turnCnt),elationCount,punchline});
+                
+                if(ptr->Eidolon>=1)AhaInstant(40);
+                else AhaInstant(20);
 
                 if(ptr->Eidolon>=4)
                 buffAllAlly({
                     {Stats::MtprInc,AType::ElationSkill,-50}
                 });
-                punchline = oldPL;
+
+
             });
             act->addBuffAllAllies();
             act->addToActionBar();
             Deal_damage();
         }));
 
-        ElationSkill_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        ElationSkill_List.push_back(TriggerByYourSelf_Func(114, [ptr]() {
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::ElationSkill,ptr,TraceType::Aoe,"YG Elation",
             [ptr](shared_ptr<AllyAttackAction> &act){
@@ -134,8 +126,7 @@ namespace YaoGuang{
             act->addEnemyBounce(
                 DmgSrc(DmgSrcType::Elation,20,5),5
             );
-            act->addToActionBar();
-            Deal_damage();
+            act->addToAhaInstant();
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
@@ -151,6 +142,7 @@ namespace YaoGuang{
                 buffAllAlly({{Stats::Merrymake,AType::ElationDMG,25}});
                 buffSingle(ptr,{{Stats::MtprInc,AType::ElationSkill,100}});
             }
+            StatsAdjust(ptr,Stats::SPD_P);
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
@@ -193,8 +185,13 @@ namespace YaoGuang{
                 genPunchLine(ptr,3);
                 Increase_energy(ptr,30);
                 if(isHaveToAddBuff(ptr,"YG Skill",3)){
-                    double buff = calculateElationForBuff(ptr,20);
+                    if(ptr->Eidolon>=2)
+                    buffAllAlly({
+                        {Stats::SPD_P,AType::None,12},
+                        {Stats::Elation,AType::None,16}
+                    });
 
+                    double buff = calculateElationForBuff(ptr,20);
                     buffAllAlly({
                         {Stats::Elation,AType::None,buff - ptr->getBuffNote("YG Skill")},
                         {Stats::Elation,AType::TEMP,buff - ptr->getBuffNote("YG Skill")}
@@ -232,7 +229,7 @@ namespace YaoGuang{
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](AllyUnit* Target, Stats StatsType) {
             if(!Target->isSameName(ptr))return;
             if (StatsType == Stats::FLAT_SPD||StatsType == Stats::SPD_P) {
-                double BuffValue = min(80.0,max(0.0,calculateSpeedOnStats(ptr) - 120));
+                double BuffValue = min(200.0,max(0.0,calculateSpeedOnStats(ptr) - 120));
 
                 buffSingleChar(ptr,{{Stats::Elation, AType::None, BuffValue - ptr->Buff_note["YG A2"]}});
                 ptr->Buff_note["YG A2"] =  BuffValue;

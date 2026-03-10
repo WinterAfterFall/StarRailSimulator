@@ -374,6 +374,25 @@ class  AllyAttackAction : public AllyActionData {
         }
         Action_bar.push(self);
     }
+    void addToAhaInstant(){
+        if(!Attacker->isExsited())return;
+        std::shared_ptr<AllyActionData> self = shared_from_this();
+        vector<bool> check(Total_enemy+1, false);
+        for(auto &e : targetList){
+            check[e->Atv_stats->num] = true;
+        }
+        for (size_t i = 0; i < damageSplit.size(); ++i) {
+            for (size_t j = 0; j < damageSplit[i].size(); ++j) {
+                Damage& dmg = damageSplit[i][j];
+                if (dmg.target == nullptr)continue;
+                if(check[dmg.target->Atv_stats->num])continue; // สมมติว่า Enemy มี field index
+                check[dmg.target->Atv_stats->num] = true;
+                targetList.emplace_back(dmg.target);
+                
+            }
+        }
+        AhaInstantBar.push(self);
+    }
     void addEnemyBounce(DmgSrc ins,int amount){
         for(int i = 1;i<= Total_enemy&&i<= amount;i++){
                 if(enemyUnit[i]->Target_type == EnemyType::Main||(enemyUnit[i]->Target_type == EnemyType::Adjacent&&!bestBounce))

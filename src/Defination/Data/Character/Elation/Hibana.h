@@ -9,10 +9,11 @@ namespace Hibana{
         ptr->pushSubstats(Stats::CR);
         ptr->pushSubstats(Stats::CD);
         ptr->setTotalSubstats(25);
-        ptr->setSpeedRequire(134);
+        // ptr->setSpeedRequire(134);
         ptr->setAtkRequire(3600);
-        ptr->setRelicMainStats(Stats::CR,Stats::FLAT_SPD,Stats::ATK_P,Stats::ATK_P);
-
+        ptr->setRelicMainStats(Stats::CR,Stats::ATK_P,Stats::ATK_P,Stats::ATK_P);
+        
+        elationCount++;
         
         //func
         LC(ptr);
@@ -126,9 +127,9 @@ namespace Hibana{
             Deal_damage();
         }));
 
-        ElationSkill_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        ElationSkill_List.push_back(TriggerByYourSelf_Func(144, [ptr]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::ElationSkill,ptr,TraceType::Aoe,"Hbn Elation",
+            make_shared<AllyAttackAction>(AType::ElationSkill,ptr,TraceType::Aoe,"Hbn Elation Skill",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 ptr->addStack("Hbn Thrill",2);
                 Increase_energy(ptr,5);    
@@ -144,8 +145,7 @@ namespace Hibana{
             );
 
             if(ptr->Eidolon>=6)act->addEnemyBounce(DmgSrc(DmgSrcType::Elation,25),min(punchline,40));
-            act->addToActionBar();
-            Deal_damage();
+            act->addToAhaInstant();
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
@@ -161,7 +161,7 @@ namespace Hibana{
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,BA,EBA]() {
             if(isBuffEnd(ptr,"Hbn E2")){
-            buffResetStack(ptr,{{Stats::CD,AType::None,10}},"Hbn E2");
+            buffCharResetStack(ptr,{{Stats::CD,AType::None,10}},"Hbn E2");
             }
             if(isBuffEnd(ptr,"Hbn E4")){
             buffSingle(ptr,{{Stats::Elation,AType::None,-36}});

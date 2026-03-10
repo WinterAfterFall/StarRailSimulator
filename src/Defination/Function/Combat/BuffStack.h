@@ -198,13 +198,13 @@ void buffResetStack(AllyUnit *ptr,vector<BuffElementClass> buffSet,string Stack_
     ptr->setStack(Stack_Name,0);
     buffSingle(ptr,buffSet);
 }
-void buffResetStack(CharUnit *ptr,vector<BuffClass> buffSet,string Stack_Name){
+void buffCharResetStack(CharUnit *ptr,vector<BuffClass> buffSet,string Stack_Name){
     buffResetStack(ptr,buffSet,Stack_Name);
     for(auto &e : ptr->memospriteList){
         buffResetStack(e.get(),buffSet,Stack_Name);
     }
 }
-void buffResetStack(CharUnit *ptr,vector<BuffElementClass> buffSet,string Stack_Name){
+void buffCharResetStack(CharUnit *ptr,vector<BuffElementClass> buffSet,string Stack_Name){
     buffResetStack(ptr,buffSet,Stack_Name);
     for(auto &e : ptr->memospriteList){
         buffResetStack(e.get(),buffSet,Stack_Name);

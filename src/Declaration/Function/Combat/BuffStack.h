@@ -41,8 +41,8 @@ void buffResetStackAllAlly(vector<BuffElementClass> buffSet, string Stack_Name);
 
 
     //StackBuff.h charunit
-    void buffResetStack(CharUnit *ptr,vector<BuffClass> buffSet,string Stack_Name);
-    void buffResetStack(CharUnit *ptr,vector<BuffElementClass> buffSet,string Stack_Name);
+    void buffCharResetStack(CharUnit *ptr,vector<BuffClass> buffSet,string Stack_Name);
+    void buffCharResetStack(CharUnit *ptr,vector<BuffElementClass> buffSet,string Stack_Name);
     
     void buffStackChar(CharUnit *ptr,vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name);
     void buffStackChar(CharUnit *ptr,vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name,int extend);

@@ -20,7 +20,7 @@ namespace Planar{
             if(SP<0)
             ptr->addStack("Tengoku sp count",-1*SP);
             if(ptr->getStack("Tengoku sp count")>=3)
-            buffSingle(ptr,{{Stats::CD,AType::None,32}},"Tengoku Buff",3);
+            buffSingle(ptr,{{Stats::CD,AType::None,32}},"Tengoku Buff",3);  
         })); 
     }
 }

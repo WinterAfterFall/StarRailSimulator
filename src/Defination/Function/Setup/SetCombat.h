@@ -62,13 +62,8 @@ void Setup(){
         e.Call();
     }
     if(elationCount){
-        Path temp = Path::Elation;
         atvList.push_back(aha.get());
-        ahaSpeedAdjust(temp);
     }
-
-
-
 }
 
 void Reset(){
@@ -114,7 +109,15 @@ void Reset(){
         }
         each->currentHP = each->totalHP;
     }
-    
+
+
+    if(elationCount){
+        Path temp = Path::Elation;
+        ahaSpeedAdjust(temp);
+        for(auto &each : charList){
+            if(each->path[0] == Path::Elation)buffSingle(each,{{Stats::CertifiedBanger,AType::None,20}},"CB Buff",2);
+        }
+    }
 }
 
 void Start_game(){

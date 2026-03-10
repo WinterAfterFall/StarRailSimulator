@@ -18,40 +18,39 @@ namespace Hanabi{
         Relic(ptr);
         Planar(ptr);
         
-        AllyUnit *hnb = ptr;
-        // Driver_num = hnb->Atv_stats->num;
+        Driver_num = ptr->Atv_stats->num;
 
         #pragma region Ability
 
-        function<void()> BA = [ptr,hnb]() {
-            genSkillPoint(hnb,1);
+        function<void()> BA = [ptr]() {
+            genSkillPoint(ptr,1);
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Hnb BA",
-            [hnb](shared_ptr<AllyAttackAction> &act){
-                Increase_energy(hnb,30);
+            [ptr](shared_ptr<AllyAttackAction> &act){
+                Increase_energy(ptr,30);
                 Attack(act);
             });
             act->addDamageIns(DmgSrc(DmgSrcType::ATK,100,10));
             act->addToActionBar();
         };
 
-        function<void()> Skill = [ptr,hnb]() {
-            if(ptr->getBuffCheck("Hnb Free Skill"))genSkillPoint(hnb,0);
-            else genSkillPoint(hnb,-1);
+        function<void()> Skill = [ptr]() {
+            if(ptr->getBuffCheck("Hnb Free Skill"))genSkillPoint(ptr,0);
+            else genSkillPoint(ptr,-1);
             ptr->setBuffCheck("Hnb Free Skill",0);
 
             shared_ptr<AllyBuffAction> act = 
             make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"Hnb Skill",
-            [ptr,hnb](shared_ptr<AllyBuffAction> &act){
-                Increase_energy(hnb,30);
-                double buff = (ptr->Eidolon>=6)? calculateCritdamForBuff(hnb,54) + 45 :calculateCritdamForBuff(hnb,24) + 45;
+            [ptr](shared_ptr<AllyBuffAction> &act){
+                Increase_energy(ptr,30);
+                double buff = (ptr->Eidolon>=6)? calculateCritdamForBuff(ptr,54) + 45 :calculateCritdamForBuff(ptr,24) + 45;
 
-                buffSingle(chooseSubUnitBuff(hnb),{
-                    {Stats::CD,AType::TEMP,buff - chooseSubUnitBuff(hnb)->getBuffNote("Hnb Skill")},
-                    {Stats::CD,AType::None,buff - chooseSubUnitBuff(hnb)->getBuffNote("Hnb Skill")}
+                buffSingle(chooseSubUnitBuff(ptr),{
+                    {Stats::CD,AType::TEMP,buff - chooseSubUnitBuff(ptr)->getBuffNote("Hnb Skill")},
+                    {Stats::CD,AType::None,buff - chooseSubUnitBuff(ptr)->getBuffNote("Hnb Skill")}
                 });
-                buffSingle(chooseSubUnitBuff(hnb),{{Stats::RESPEN,AType::None,10}},"Hnb Skill",2);
-                chooseSubUnitBuff(hnb)->setBuffNote("Hnb Skill",buff);
+                buffSingle(chooseSubUnitBuff(ptr),{{Stats::RESPEN,AType::None,10}},"Hnb Skill",2);
+                chooseSubUnitBuff(ptr)->setBuffNote("Hnb Skill",buff);
                 
                 if(ptr->Eidolon>=6){
                     for(auto &each : allyList){
@@ -65,9 +64,9 @@ namespace Hanabi{
                         each->setBuffNote("Hnb Skill",buff);
                     }   
                 }
-                Action_forward(chooseSubUnitBuff(hnb)->Atv_stats.get(),50);
+                Action_forward(chooseSubUnitBuff(ptr)->Atv_stats.get(),50);
             });
-            act->addBuffSingleTarget(chooseSubUnitBuff(hnb));
+            act->addBuffSingleTarget(chooseSubUnitBuff(ptr));
             act->addToActionBar();
         };
 
@@ -81,22 +80,22 @@ namespace Hanabi{
         //     return true;
         // });
 
-        ptr->addUltCondition([ptr,hnb]() -> bool {
-            if(ptr->Light_cone.Name!="DDD"&&phaseStatus == PhaseStatus::BeforeTurn&&turn->isSameUnit(chooseSubUnitBuff(hnb)))return true;
+        ptr->addUltCondition([ptr]() -> bool {
+            if(ptr->Light_cone.Name!="DDD"&&phaseStatus == PhaseStatus::BeforeTurn&&turn->isSameUnit(chooseSubUnitBuff(ptr)))return true;
             return false;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,hnb]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
             if (!ultUseCheck(ptr)) return;
             shared_ptr<AllyBuffAction> act = 
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"Hnb Ult",
-            [ptr,hnb](shared_ptr<AllyBuffAction> &act){
+            [ptr](shared_ptr<AllyBuffAction> &act){
                 CharCmd::printUltStart("Hanabi");
                 // start record overflow sp
                 ptr->setBuffCheck("Hnb Ult",true);
 
-                if(ptr->Eidolon>=4)genSkillPoint(hnb,7);
-                else genSkillPoint(hnb,6);
+                if(ptr->Eidolon>=4)genSkillPoint(ptr,7);
+                else genSkillPoint(ptr,6);
 
                 // Hnb Cipher
                 if(ptr->Eidolon == 0)
@@ -110,7 +109,7 @@ namespace Hanabi{
                     },"Hnb Cipher",3);
 
                 if(ptr->Eidolon>=6){
-                    double buff = calculateCritdamForBuff(hnb,54) + 45;
+                    double buff = calculateCritdamForBuff(ptr,54) + 45;
                     for(auto &each : allyList){
                         if(each->getBuffCheck("Hnb Skill"))continue;
                         buffSingle(each,{
@@ -140,11 +139,11 @@ namespace Hanabi{
             if(ptr->Eidolon>=1)buffSingle(ptr,{{Stats::SPD_P,AType::None,15}});
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hnb]() {
-            if(ptr->Technique)genSkillPoint(hnb,3);
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+            if(ptr->Technique)genSkillPoint(ptr,3);
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hnb]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             AllyUnit *ally = turn->canCastToAllyUnit();
             if(!ally)return;
             
@@ -196,7 +195,7 @@ namespace Hanabi{
             }
 
         }));
-        AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,hnb](AllyUnit* target) {
+        AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr](AllyUnit* target) {
             
             //Skill buff
             if(isBuffGoneByDeath(target,"Hnb Skill")){
@@ -240,7 +239,7 @@ namespace Hanabi{
             }
         }));
 
-        Skill_point_List.push_back(TriggerSkill_point_func(PRIORITY_IMMEDIATELY, [ptr,hnb](AllyUnit *SP_maker, int SP) {
+        Skill_point_List.push_back(TriggerSkill_point_func(PRIORITY_IMMEDIATELY, [ptr](AllyUnit *SP_maker, int SP) {
             if(ptr->getBuffCheck("Hnb Ult")){
                 ptr->addStack("Hnb sp record",max(0,sp + SP - Max_sp));
             }

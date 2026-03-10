@@ -13,6 +13,8 @@
 #include"Goddess of Sun and Thunder.h"
 #include"Wavestrider Captain.h"
 #include"Prisoner in Deep Confinement.h"
+#include"Diviner of Distant Reach.h"
+#include"Ever-Glorious Magical Girl.h"
 
 
 #endif
