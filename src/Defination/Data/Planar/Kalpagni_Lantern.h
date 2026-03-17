@@ -1,6 +1,5 @@
 #include "../include.h"
 namespace Planar{
-    void Kalpagni_Lantern(CharUnit *ptr);
     void Kalpagni_Lantern(CharUnit *ptr){
         
         ptr->Planar.Name="Kalpagni_Lantern";

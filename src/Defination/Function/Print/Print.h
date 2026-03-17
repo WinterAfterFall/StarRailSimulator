@@ -6,6 +6,8 @@ void Print(){
     cout<<""<<turn->Name<<" ";
     cout<<turn->turnCnt<<" ";
     cout<<sp<<" ";
+    cout<<charUnit[1]->Stats_type[Stats::CD][AType::None]<<" ";
+    cout<<charUnit[1]->Stats_type[Stats::CD][AType::TEMP]<<" ";
     // cout<<punchline<<" ";
     cout<<endl;
 }

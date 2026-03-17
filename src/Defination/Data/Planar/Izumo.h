@@ -1,6 +1,5 @@
 #include "../include.h"
 namespace Planar{
-    void Izumo(CharUnit *ptr);
     void Izumo(CharUnit *ptr){
         
         ptr->Planar.Name = "Izumo";

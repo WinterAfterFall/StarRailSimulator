@@ -1,6 +1,7 @@
 #ifndef StdInclude_H
 #define StdInclude_H
 #include<bits/stdc++.h>
+#include <conio.h>
 #define endl '\n'
 
 #pragma region priority

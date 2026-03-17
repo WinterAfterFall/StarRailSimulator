@@ -1,6 +1,5 @@
 #include "../include.h"
 namespace Planar{
-    void Rutilant(CharUnit *ptr);
     void Rutilant(CharUnit *ptr){
         
         ptr->Planar.Name = "    ";

@@ -8,5 +8,6 @@ enum class PairSetType {
     CritDam,
     Fua,
     BE,
-    HealOut
+    HealOut,
+    ERROR
 };
