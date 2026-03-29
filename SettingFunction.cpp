@@ -84,7 +84,7 @@ void CharSelector(function<void(int E, function<void(CharUnit *ptr)> LC, functio
 
         // --- Nihility ---
         else if (name == "BS") 
-            Char = BS::Setup;
+            Char = BSV1::Setup;
         else if (name == "Cipher") 
             Char = Cipher::Setup;
         else if (name == "Guinaifen") 
