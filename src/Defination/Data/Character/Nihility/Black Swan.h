@@ -123,7 +123,7 @@ namespace BS{
         }));
 
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
-            if(act->isSameCharName(ptr)){
+            if(act->isSameName(ptr)){
                 debuffEnemyTargetsApply(ptr,act->targetList,{{Stats::DEF_SHRED,AType::None,20.8}},"BS DefShred",3);
                 for(auto &each : act->targetList){
                     dotSingleStack(ptr,each,{DotType::WindShear,DotType::Bleed,DotType::Burn,DotType::Shock},5,1e9,"Arcana");
