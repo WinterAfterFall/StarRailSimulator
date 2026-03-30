@@ -3,7 +3,7 @@ namespace Remembrance_Lightcone{
     function<void(CharUnit *ptr)> RemembranceHertaShop(int superimpose){
         return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(1058,529,397);
-            ptr->Light_cone.Name = "RemembranceHertaShop";
+            ptr->Light_cone.Name = "Memory's Curtain Never Falls";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 ptr->Atv_stats->speedPercent += 4.5 + 1.5 * superimpose;

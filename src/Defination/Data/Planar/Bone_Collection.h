@@ -1,6 +1,5 @@
 #include "../include.h"
 namespace Planar{
-    void Bone_Collection(CharUnit *ptr);
     void Bone_Collection(CharUnit *ptr){
         ptr->Planar.Name="Bone_Collection";
         

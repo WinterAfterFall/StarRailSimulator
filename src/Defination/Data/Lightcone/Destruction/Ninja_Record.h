@@ -3,7 +3,7 @@ namespace Destruction_Lightcone{
     function<void(CharUnit *ptr)> Ninja_Record(int superimpose){
         return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(1058,476,265);
-            ptr->Light_cone.Name = "Ninja_Record";
+            ptr->Light_cone.Name = "Ninja Record";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 ptr->Stats_type[Stats::HP_P][AType::None] += 9 + 3 * superimpose;
             }));

@@ -1,6 +1,5 @@
 #include "../include.h"
 namespace Planar{
-    void Talia(CharUnit *ptr);
     void Talia(CharUnit *ptr){
         
         ptr->Planar.Name = "Talia";

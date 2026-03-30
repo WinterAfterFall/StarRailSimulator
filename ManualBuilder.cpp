@@ -37,7 +37,7 @@ int main(){
     // Saber::Setup(0,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::FirmanentFrontline(0));
     // Archer::Setup(0,Destruction_Lightcone::Hertashop(5),Relic::Captain,Planar::FirmanentFrontline(0));
     // Anaxa::Setup(0,Erudition_Lightcone::GreatCosmic(5),Relic::GeniusBrilliant,Planar::Lushaka);
-    Hibana::Setup(2,Elation_Lightcone::Hibana_LC(1),Relic::MagicalGirl,Planar::TengokuLivestream);
+    Hibana::Setup(0,Elation_Lightcone::Hibana_LC(1),Relic::MagicalGirl,Planar::TengokuLivestream);
     
     //Dot
     // Hysilens::Setup(0,Nihility_Lightcone::Jiaoqiu_LC(1,1),Relic::Prisoner,Planar::Revelry);
@@ -68,7 +68,7 @@ int main(){
     // Cipher::Setup(0,Nihility_Lightcone::Resolution(5),Relic::PairSet(PairSetType::Spd_P,PairSetType::Spd_P),Planar::Lushaka);
     // SW::Setup(0,Nihility_Lightcone::Resolution(5),Relic::PairSet(PairSetType::Spd_P,PairSetType::Spd_P),Planar::Lushaka);
     // Pela::Setup(6,Nihility_Lightcone::Before_the_Tutorial(5),Relic::Eagle_Beaked_Helmet,Planar::Lushaka);
-    YaoGuang::Setup(2,Elation_Lightcone::YaoGuang_LC(1),Relic::DivinerOfDistant(1),Planar::Lushaka);
+    YaoGuang::Setup(0,Elation_Lightcone::YaoGuang_LC(1),Relic::DivinerOfDistant(1),Planar::Lushaka);
     
     //Sustain
     Gallagher::Setup(6,Abundance_Lightcone::Multiplication(5),Relic::Goddess_of_Sun_and_Thunder,Planar::GiantTree(0));
@@ -85,7 +85,7 @@ int main(){
     //--------------------- Formula Check ------------------------
     
     // Char1->enableCheckDamage();
-    // Char1->enableCheckDamageFormula(DmgFormulaMode::MtprInc);   
+    // Char1->enableCheckDamageFormula(DmgFormulaMode::All);   
     // Char4->enableCheckHealFormula();
     // Char4->enableCheckHeal();
 

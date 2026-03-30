@@ -1,6 +1,5 @@
 #include "../include.h"
 namespace Planar{
-    void The_Wondrous_BananAmusement_Park(CharUnit *ptr);
     void The_Wondrous_BananAmusement_Park(CharUnit *ptr){
         
         ptr->Planar.Name="The_Wondrous_BananAmusement_Park"; 

@@ -1,5 +1,18 @@
 #include "../include.h"
-
+PairSetType transString(string s){
+    transform(s.begin(), s.end(), s.begin(), ::tolower);
+    if(s == "speed" || s == "spd")return PairSetType::Spd_P;
+    else if(s == "fua")return PairSetType::Fua;
+    else if(s == "dmg")return PairSetType::DMG;
+    else if(s == "be")return PairSetType::BE;
+    else if(s == "atk")return PairSetType::ATK;
+    else if(s == "hp")return PairSetType::HP;
+    else if(s == "def")return PairSetType::DEF;
+    else if(s == "crit rate" || s == "cr")return PairSetType::CritRate;
+    else if(s == "crit dam" || s == "cd")return PairSetType::CritDam;
+    else if(s == "heal")return PairSetType::HealOut;
+    return PairSetType::ERROR;
+}
 function<void(CharUnit *ptr)> CharUnit::RelicPairSet(PairSetType Type){
     if(Type == PairSetType::Spd_P)
     return [=](CharUnit *ptr) {

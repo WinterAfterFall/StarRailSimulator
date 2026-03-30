@@ -24,8 +24,4 @@ namespace Remembrance_Lightcone{
             }));
         };
     }
-    void Geniuses_Greetings(CharUnit *ptr){
-
-    }
-    
 }

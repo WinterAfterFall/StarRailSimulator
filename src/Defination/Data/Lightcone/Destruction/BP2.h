@@ -3,7 +3,7 @@ namespace Destruction_Lightcone{
     function<void(CharUnit *ptr)> BP2(int superimpose){
         return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(1058,529,331);
-            ptr->Light_cone.Name = "Destruction BP2";
+            ptr->Light_cone.Name = "A Trail of Bygone Blood";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](){
                         
                 ptr->Stats_type[Stats::CR][AType::None]+=10 + (2*superimpose);
