@@ -41,7 +41,7 @@ int main(){
     
     //Dot
     // Hysilens::Setup(0,Nihility_Lightcone::Jiaoqiu_LC(1,1),Relic::Prisoner,Planar::Revelry);
-    BSV1::Setup(0,Nihility_Lightcone::EyesOfThePrey(5),Relic::Prisoner,Planar::Lushaka);
+    // BS::Setup(0,Nihility_Lightcone::EyesOfThePrey(5),Relic::Prisoner,Planar::Lushaka);
     // Guinaifen::Setup(0,Nihility_Lightcone::Resolution(5),Relic::Prisoner,Planar::Lushaka);
     // Luka::Setup(6,Nihility_Lightcone::Resolution(5),Relic::Prisoner,Planar::Lushaka);
     // Kafka::Setup(0,Nihility_Lightcone::Before_the_Tutorial(5),Relic::Eagle_Beaked_Helmet,Planar::Lushaka);

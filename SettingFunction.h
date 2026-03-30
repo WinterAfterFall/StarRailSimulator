@@ -64,7 +64,7 @@ class CharSelect{
     function<void(CharUnit *ptr)> Planar;
 };
 
-void CharSelector(function<void(int E, function<void(CharUnit *ptr)> LC, function<void(CharUnit *ptr)> Relic, function<void(CharUnit *ptr)> Planar)> &Char,int eidolon) {
+void CharSelector(function<void(int E, function<void(CharUnit *ptr)> LC, function<void(CharUnit *ptr)> Relic, function<void(CharUnit *ptr)> Planar)> &Char,int &eidolon) {
     string name;
     bool found = false;
 

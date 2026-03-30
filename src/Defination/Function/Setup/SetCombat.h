@@ -94,7 +94,6 @@ void Reset(){
         charUnit[i]->EhrRequirment();
     }
     cout<<calculateCritdamOnStats(charUnit[1].get());
-    std::cin.get();
     for(TriggerByYourSelf_Func &e : Tune_stats_List){
         e.Call();
     }

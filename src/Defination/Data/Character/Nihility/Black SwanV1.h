@@ -1,7 +1,6 @@
 #include "../include.h"
 
 namespace BSV1{
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
 
     void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
         CharUnit *ptr = SetCharBasicStats(102,120,120,E,ElementType::Wind,Path::Nihility,"Black Swan",UnitType::Standard);
