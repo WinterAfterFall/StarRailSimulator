@@ -20,6 +20,9 @@ namespace BS{
         AllyUnit *bs = ptr;
         #pragma region Ability
 
+        int maxArcana = 50;
+        if(ptr->Eidolon>=6)maxArcana = 80;
+
         function<void()> BA = [ptr,bs]() {
             genSkillPoint(bs,1);
             shared_ptr<AllyAttackAction> act = 
@@ -95,9 +98,6 @@ namespace BS{
             ptr->Stats_type[Stats::ATK_P][AType::None] += 28;
             ptr->Stats_each_element[Stats::DMG][ElementType::Wind][AType::None] += 14.4;
             ptr->Stats_type[Stats::EHR][AType::None] += 10;
-
-            if(ptr->Eidolon>=6)ptr->setStack("Arcana Maximum",80);
-            else ptr->setStack("Arcana Maximum",50);
         }));
 
         BeforeAttack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,bs](shared_ptr<AllyAttackAction> &act) {
@@ -130,7 +130,7 @@ namespace BS{
                 }
             }else if(ptr->Eidolon>=6){
                 for(auto &each : act->targetList){
-                    dotSingleStack(ptr,each,{DotType::WindShear,DotType::Bleed,DotType::Burn,DotType::Shock},1,1e9,"Arcana");
+                    dotSingleStack(ptr,each,{DotType::WindShear,DotType::Bleed,DotType::Burn,DotType::Shock},1 + each->getStack("Arcana"),1e9,"Arcana");
                 }
             }
         }));
@@ -152,7 +152,7 @@ namespace BS{
             if(ptr->Eidolon>=2)dotAllEnemyStack(ptr,{DotType::WindShear,DotType::Bleed,DotType::Burn,DotType::Shock},30,1e9,"Arcana");
         }));
 
-        Dot_List.push_back(TriggerDot_Func(PRIORITY_Last, [ptr,bs](Enemy* target, double Dot_ratio,DotType Dot_type) {
+        Dot_List.push_back(TriggerDot_Func(PRIORITY_Last, [ptr,maxArcana](Enemy* target, double Dot_ratio,DotType Dot_type) {
             if (target->getStack("Arcana")){
 
             shared_ptr<AllyAttackAction> act = 
@@ -174,8 +174,10 @@ namespace BS{
             Attack(act);
             buffSingle(ptr,{{Stats::DEF_SHRED,AType::None,-20}});
 
+            target->setStack("Arcana",min(maxArcana,target->getStack("Arcana")));
+            
             if(phaseStatus == PhaseStatus::DotBeforeTurn){
-                if(!target->getDebuff("Arcana Ignore"))target->setStack("Arcana",min(25,target->getStack("Arcana")/2));
+                if(!target->getDebuff("Arcana Ignore"))target->setStack("Arcana",target->getStack("Arcana")/2);
                 else target->setDebuff("Arcana Ignore",0);
             }
         }
