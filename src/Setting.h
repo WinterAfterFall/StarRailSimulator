@@ -18,7 +18,8 @@ bool Print_Atv = 0;
 
 int Total_ally = 0;
 int Total_enemy = 0;
-int Force_break = 0;
+int Force_break = 1;
+bool DahliaCheck = 0;
 
 DriverType driverType  = DriverType::None;
 vector<unique_ptr<CharUnit>> charUnit(1);

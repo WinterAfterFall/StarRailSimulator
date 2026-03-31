@@ -60,8 +60,8 @@ namespace RuanMei{
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
             buffAllAlly({
                 {Stats::BE, AType::None, 20},
-                {Stats::SPD_P,AType::None,10}
             });
+            buffAllAllyExcludingBuffer(ptr,{{Stats::SPD_P,AType::None,10}});
         }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTION, [ptr](){
@@ -104,7 +104,7 @@ namespace RuanMei{
                 if(enemyUnit[turn->num]->Debuff["RuanMei_Ult_bloom"] == 1){
                     Turn_Skip = 1;
                     debuffRemove(enemyUnit[turn->num].get(),"RuanMei_Ult_bloom");
-                    Action_forward(enemyUnit[turn->num]->Atv_stats.get(), -10 - (0.2 * (ptr->Stats_type[Stats::BE][AType::None])));
+                    Action_forward(enemyUnit[turn->num]->Atv_stats.get(), -10 -calculateBreakEffectForBuff(ptr,20));
                     shared_ptr<AllyAttackAction> act = 
                     make_shared<AllyAttackAction>(AType::Break,ptr,TraceType::Single,"RM Ult Break");
                     double temp = 0.5;

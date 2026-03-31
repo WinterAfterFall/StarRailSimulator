@@ -24,7 +24,6 @@ void Take_action(){
     
     
     allUltimateCheck();
-    cout<<"Hello"<<endl;
     
     if(!turn->extraTurn)allEventAfterTurn();
 
@@ -248,12 +247,12 @@ void Superbreak_trigger(shared_ptr<AllyAttackAction> &act, double Superbreak_rat
         }
     }
     for(int i=1;i<=Total_enemy;i++){
-        if(enemyUnit[i]->Toughness_status==1)continue;
+        if(enemyUnit[i]->Toughness_status==1&&!DahliaCheck)continue;
         double toughness_reduce = enemyUnit[i]->toughnessReduceNote;
         enemyUnit[i]->toughnessReduceNote = 0;
         if(toughness_reduce==0)continue;
         toughness_reduce = Cal_Total_Toughness_Reduce(act,enemyUnit[i].get(),toughness_reduce);
-        if(enemyUnit[i]->Current_toughness+toughness_reduce<=0){
+        if(enemyUnit[i]->Current_toughness+toughness_reduce<=0||DahliaCheck){
         Cal_Superbreak_damage(data_2,enemyUnit[i].get(),Superbreak_ratio*toughness_reduce/10);
         }else{
         Cal_Superbreak_damage(data_2,enemyUnit[i].get(),Superbreak_ratio*(-1)*enemyUnit[i]->Current_toughness/10);

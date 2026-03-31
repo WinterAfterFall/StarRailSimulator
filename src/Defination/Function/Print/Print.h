@@ -6,8 +6,9 @@ void Print(){
     cout<<""<<turn->Name<<" ";
     cout<<turn->turnCnt<<" ";
     cout<<sp<<" ";
-    cout<<charUnit[1]->Stats_type[Stats::CD][AType::None]<<" ";
-    cout<<charUnit[1]->Stats_type[Stats::CD][AType::TEMP]<<" ";
+    cout<<enemyUnit[1]->Current_toughness<<" ";
+    cout<<enemyUnit[2]->Current_toughness<<" ";
+    cout<<charUnit[1]->Stack["FireFly_E2"]<<" ";
     // cout<<punchline<<" ";
     cout<<endl;
 }

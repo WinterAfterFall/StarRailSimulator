@@ -1,6 +1,6 @@
 #include "../include.h"
 
-namespace SomeChar{
+namespace Fugue{
     void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
         CharUnit *ptr = SetCharBasicStats(102,130,130,E,ElementType::Fire,Path::Nihility,"Fugue",UnitType::Standard);
         ptr->SetAllyBaseStats(1125,582,557);
@@ -95,6 +95,7 @@ namespace SomeChar{
             );
             act->Dont_care_weakness = 100;
             act->addToActionBar();
+            Deal_damage();
 
         }));
 
@@ -128,7 +129,6 @@ namespace SomeChar{
             AllyUnit *ally = turn->canCastToAllyUnit();
 
             if(enemy){
-                enemy->Debuff["Cloudflame_Luster"]=0;
                 if(isDebuffEnd(enemy,"Fugue Debuff")){
                     debuffSingle(enemy,{{Stats::DEF_SHRED,AType::None,-18}});
                 }  
@@ -161,10 +161,9 @@ namespace SomeChar{
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act){
             Superbreak_trigger(act,100,"Fugue");
             for(auto &each : act->targetList){
-                if(each->Debuff["Cloudflame Luster"]==0 &&each->Current_toughness*(-1)>=each->Max_toughness*0.4){
-
+                if(each->Debuff["Cloudflame Luster"]==0&&each->Current_toughness*(-1)>=each->Max_toughness*0.4){
                     Toughness_break(act,each);
-                    each->Debuff["Cloudflame_Luster"]=1;
+                    each->Debuff["Cloudflame Luster"]=1;
                 }
             }
 
@@ -172,6 +171,7 @@ namespace SomeChar{
 
         Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_ACTTACK, [ptr](Enemy *target, AllyUnit *Trigger){
             Action_forward(target->getAtvStats(),-15);
+            target->Debuff["Cloudflame Luster"]=0;
             buffStackAllAlly({{Stats::BE,AType::None,12}},1,2,"Fugue A6",2);
             if(ptr->Eidolon>=2)Increase_energy(ptr,3);
         }));
