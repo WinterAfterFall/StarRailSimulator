@@ -2,6 +2,7 @@
 #include"Silver Wolf.h"
 #include"Cipher.h"
 #include"Fugue.h"
+#include"Dahlia.h"
 
 //Dot
 #include"Kafka.h"
