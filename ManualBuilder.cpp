@@ -23,7 +23,7 @@ void SetCharacterPtr(){
     Char3 = charUnit[3].get();
     Char4 = charUnit[4].get(); 
 }
-
+    
 int main(){ 
     // std::ios::sync_with_stdio(false);
     // std::cin.tie(nullptr);

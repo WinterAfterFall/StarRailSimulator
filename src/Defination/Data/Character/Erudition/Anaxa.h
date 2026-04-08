@@ -54,13 +54,7 @@ namespace  Anaxa{
                 if(ptr->Print)CharCmd::printUltStart("Anaxa");
                 for(auto &each : act->targetList){
                     debuffApply(Anaxaptr,each,"Sublimation",1);
-                    weaknessApply(each,ElementType::Fire,1);
-                    weaknessApply(each,ElementType::Ice,1);
-                    weaknessApply(each,ElementType::Lightning,1);
-                    weaknessApply(each,ElementType::Wind,1);
-                    weaknessApply(each,ElementType::Quantum,1);
-                    weaknessApply(each,ElementType::Imaginary,1);
-                    weaknessApply(each,ElementType::Physical,1);
+                    weaknessApply(ptr,each,{ElementType::Fire,ElementType::Ice,ElementType::Lightning,ElementType::Wind,ElementType::Quantum,ElementType::Imaginary,ElementType::Physical},"Sublimation",1);
                 }
                 for(auto &each : act->targetList){
                     each->DebuffNote["AnaxaA6"] = each->currentWeaknessElementAmount*4;
@@ -144,7 +138,7 @@ namespace  Anaxa{
             AllyUnit *ally = turn->canCastToAllyUnit();
             if(enemy){
                 for(auto &e : Enemy_weak){
-                    isDebuffEnd(enemy,"AnaxaTalent" + toString(e.first) );
+                    isDebuffEnd(enemy,"AnaxaTalent " + toString(e.first) );
                 }
                 if(isDebuffEnd(enemy,"AnaxaE1")){
                     debuffSingle(enemy,{{Stats::DEF_SHRED,AType::None,-16}});
@@ -278,8 +272,7 @@ namespace  Anaxa{
     }
     void AnaxaDebuff(CharUnit *ptr, Enemy *enemy) {
         string element;
-        element = toString(weaknessApplyChoose(enemy,3));
-        debuffApply(ptr,enemy,"AnaxaTalent" + element,3);
+        weaknessApplyChoose(ptr,enemy,1,"AnaxaTalent",3);
     }
     
 

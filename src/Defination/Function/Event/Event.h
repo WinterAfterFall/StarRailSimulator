@@ -216,6 +216,11 @@ void allEventAfterApplyDebuff(AllyUnit *ptr,Enemy* target){
         e.Call(target,ptr);
     }
 }
+void allEventApplyWeakness(AllyUnit *Trigger,Enemy *target,vector<ElementType> weaknessList){
+    for(TriggerByWeaknessApply_Func &e : WeaknessApply_List){
+        e.Call(Trigger,target,weaknessList);
+    }
+}
 void allEventWhenEnemyDeath(AllyUnit *Killer,Enemy *target){
     for(TriggerBySomeAlly_Func &e : Enemy_Death_List){
         e.Call(target,Killer);

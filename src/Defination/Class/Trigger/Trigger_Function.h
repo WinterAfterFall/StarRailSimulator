@@ -76,6 +76,13 @@ class TriggerBySomeAlly_Func : public TriggerFunc{
     : TriggerFunc(priority), Call(Call) {}
 };
 
+class TriggerByWeaknessApply_Func : public TriggerFunc{
+    public:
+    function<void(AllyUnit *Trigger,Enemy *target, vector<ElementType> elementList)> Call;
+    TriggerByWeaknessApply_Func(int priority, function<void(AllyUnit *Trigger,Enemy *target, vector<ElementType> elementList)> Call) 
+    : TriggerFunc(priority), Call(Call) {}
+};
+
 class TriggerHealing : public TriggerFunc{
     public:
     function<void(AllyUnit *Healer, AllyUnit *target, double Value)> Call;

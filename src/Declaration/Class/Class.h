@@ -36,6 +36,7 @@ class TriggerByAllyBuffAction_Func;
 class TriggerByStats;
 class TriggerAllyDeath;
 class TriggerBySomeAlly_Func;
+class TriggerByWeaknessApply_Func;
 class TriggerHealing;
 class TriggerDecreaseHP;
 class TriggerByEnemyHit;

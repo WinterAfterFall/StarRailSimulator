@@ -74,9 +74,9 @@ void extendDebuffTargets(vector<Enemy*> targets,string Debuff_name,int Turn_exte
     }
 }
 
-ElementType weaknessApplyChoose(Enemy *enemy,int extend){
+vector<ElementType> weaknessApplyChoose(AllyUnit *ptr,Enemy *enemy,int amount,string debuffName,int extend){
     vector<pair<int,ElementType>> weaknessPriority;
-    ElementType ans;
+    vector<ElementType> choose;
     for(auto &each : charList){
         int i=1;
         if(enemy->Weakness_type[each->Element_type[0]])continue;
@@ -87,34 +87,54 @@ ElementType weaknessApplyChoose(Enemy *enemy,int extend){
         else weaknessPriority.push_back({i,each->Element_type[0]});
         i++;
     }
-    sort(weaknessPriority.begin(),weaknessPriority.end());
     if(weaknessPriority.size()==0){
-        pair<ElementType,int> mn = {ElementType::Fire,1e9};
         for(auto &e : enemy->Weakness_typeCountdown){
-            if(mn.second>e.second){
-                mn.first = e.first;
-                mn.second = e.second;
-            }
+            weaknessPriority.push_back({e.second,e.first});
         }
-        ans = mn.first;
-    }else {
-        ans = weaknessPriority[0].second;
     }
-    weaknessApply(enemy,ans,extend);
-    return ans;
-}
-void weaknessApply(Enemy *enemy,ElementType element ,int extend){
-    if(enemy->Weakness_type[element] == 0){
-        enemy->currentWeaknessElementAmount++;
-        enemy->Weakness_type[element] = 1;
+    sort(weaknessPriority.begin(),weaknessPriority.end());
+    for(int i = 0;i<amount;i++){
+        choose.push_back(weaknessPriority[i].second);
     }
-
-    enemy->Weakness_typeCountdown[element] = 
-    (enemy->Weakness_typeCountdown[element] > extend + enemy    ->Atv_stats->turnCnt) ?
-    enemy->Weakness_typeCountdown[element] :
-    extend + enemy->Atv_stats->turnCnt;
+    if(amount==1)debuffName = debuffName + " " + toString(choose[0]);
+    weaknessApply(ptr,enemy,choose,debuffName,extend);
+    return choose;
 }
+void weaknessApply(AllyUnit *ptr,Enemy *enemy,vector<ElementType> elementList ,string debuffName,int extend){
+    allEventBeforeApplyDebuff(ptr,enemy);
+    for(auto &each : elementList){
+        if(enemy->Weakness_type[each] == 0){
+            enemy->currentWeaknessElementAmount++;
+            enemy->Weakness_type[each] = 1;
+        }
 
+        enemy->Weakness_typeCountdown[each] = 
+        (enemy->Weakness_typeCountdown[each] > extend + enemy->Atv_stats->turnCnt) ?
+        enemy->Weakness_typeCountdown[each] :
+        extend + enemy->Atv_stats->turnCnt;
+    }
+    allEventApplyWeakness(ptr,enemy,elementList);
+    if(!enemy->getDebuff(debuffName)){
+        enemy->setDebuff(debuffName,1);
+        enemy->addTotalDebuff(1);
+    }
+    allEventAfterApplyDebuff(ptr,enemy);
+    extendDebuff(enemy,debuffName,extend);
+}
+void weaknessApply(AllyUnit *ptr,Enemy *enemy,vector<ElementType> elementList,int extend){
+    for(auto &each : elementList){
+        if(enemy->Weakness_type[each] == 0){
+            enemy->currentWeaknessElementAmount++;
+            enemy->Weakness_type[each] = 1;
+        }
+
+        enemy->Weakness_typeCountdown[each] = 
+        (enemy->Weakness_typeCountdown[each] > extend + enemy->Atv_stats->turnCnt) ?
+        enemy->Weakness_typeCountdown[each] :
+        extend + enemy->Atv_stats->turnCnt;
+    }
+    allEventApplyWeakness(ptr,enemy,elementList);
+}
 
 //เป้าเดี่ยว
 void debuffSingle(Enemy *enemy,vector<BuffClass> debuffSet) {

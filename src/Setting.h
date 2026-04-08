@@ -128,6 +128,7 @@ vector<TriggerBySomeAlly_Func> BeforeApplyDebuff;
 vector<TriggerBySomeAlly_Func> AfterApplyDebuff;
 vector<TriggerBySomeAlly_Func> Enemy_Death_List;
 
+vector<TriggerByWeaknessApply_Func> WeaknessApply_List;
 vector<TriggerByEnemyHit> Enemy_hit_List;
 vector<TriggerDot_Func> Dot_List;
 vector<TriggerEnergy_Increase_Func> When_Energy_Increase_List;

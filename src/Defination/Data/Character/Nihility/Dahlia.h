@@ -94,17 +94,15 @@ namespace Dahlia{
             make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"Dahlia Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 for(auto &each : act->targetList){
-                    weaknessApply(each,chooseCharacterBuff(ptr)->Element_type[0],4);
+                    weaknessApply(ptr,each,{chooseCharacterBuff(ptr)->Element_type[0]},4);
                     debuffSingleApply(ptr,each,{{Stats::DEF_SHRED,AType::None,18}},"Wilt",4);
                 }
-                buffSingle(ptr,{{Stats::SPD_P,AType::None,30}},"Dahlia A6",2);
-                Increase_energy(ptr,Total_enemy*10,0);
                 Attack(act);
             });
             act->addDamageIns(
-                DmgSrc(DmgSrcType::ATK,300,40),
-                DmgSrc(DmgSrcType::ATK,300,40),
-                DmgSrc(DmgSrcType::ATK,300,40)
+                DmgSrc(DmgSrcType::ATK,300,20),
+                DmgSrc(DmgSrcType::ATK,300,20),
+                DmgSrc(DmgSrcType::ATK,300,20)
             );
             act->addToActionBar();
             Deal_damage();
@@ -156,13 +154,18 @@ namespace Dahlia{
             }
         }));
 
-        BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr,Fua](shared_ptr<AllyAttackAction> &act){
-            if(act->isSameName("FireFly")&&!act->Attacker->owner->countdownList[0]->isDeath()){
-                for(auto &each : act->damageSplit.back()){
-                    each.dmgSrc.toughnessReduce += 20;
+        BeforeAttack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr,Fua](shared_ptr<AllyAttackAction> &act){
+            if(act->Attacker->getBuffCheck("Dahlia A6")){
+                for(auto &each1 : act->damageSplit){
+                    for(auto &each : each1){
+                        if(each.target->getDebuff("Dahlia A6"))continue;
+                        each.dmgSrc.toughnessReduce += 20;
+                        each.target->setDebuff("Dahlia A6",1);
+                    }
                 }
-                Increase_energy(act->Attacker,act->targetList.size()*10,0);
-                buffSingle(act->Attacker,{{Stats::SPD_P,AType::None,30}},"Dahlia A6",2);
+                for(auto &each : act->targetList){
+                    each->setDebuff("Dahlia A6",0);
+                }
             }
             if(ptr->Eidolon>=1 && (act->isSameName(chooseCharacterBuff(ptr)) || act->isSameName(ptr))){
                 for(auto &each1 : act->damageSplit){
@@ -172,6 +175,12 @@ namespace Dahlia{
                         each.target->setDebuff("Dahlia E1",1);
                     }
                 }
+            }
+        }));
+
+        AfterAction_List.push_back(TriggerByAction_Func(PRIORITY_ACTTACK, [ptr,Fua](shared_ptr<ActionData> &act){
+            for(auto &each : allyList){
+                ptr->setBuffCheck("Dahlia A6",0);
             }
         }));
 
@@ -204,9 +213,17 @@ namespace Dahlia{
             }
             if(ptr->Eidolon>=2){
                 for(auto &each : enemyList){
-                    weaknessApply(each,chooseCharacterBuff(ptr)->Element_type[0],3);
+                    weaknessApply(ptr,each,{chooseCharacterBuff(ptr)->Element_type[0]},3);
                     debuffSingleApply(ptr,each,{{Stats::DEF_SHRED,AType::None,18}},"Wilt",3);
                 }
+            }
+        }));
+
+        WeaknessApply_List.push_back(TriggerByWeaknessApply_Func(PRIORITY_IMMEDIATELY, [ptr](AllyUnit *Trigger,Enemy *target, vector<ElementType> elementList) {
+            buffSingle(ptr,{{Stats::SPD_P,AType::None,30}},"Dahlia A6",2);
+            if(Trigger->Element_type[0] == ElementType::Fire){
+                Increase_energy(ptr,10,0);
+                if(phaseStatus == PhaseStatus::WhileAction)ptr->setBuffCheck("Dahlia A6",1);
             }
         }));
 

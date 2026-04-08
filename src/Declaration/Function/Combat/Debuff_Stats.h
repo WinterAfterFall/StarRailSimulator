@@ -34,8 +34,9 @@ void debuffEnemyTargetsyMark(vector<Enemy*> targets,vector<BuffElementClass> deb
     bool debuffMark(AllyUnit *ptr,Enemy *enemy, string debuffName,int extend);
     void debuffRemove(Enemy *enemy,string debuffName);
 
-    ElementType weaknessApplyChoose(Enemy *enemy,int extend);
-    void weaknessApply(Enemy *enemy,ElementType Debuff_name ,int extend);
+    vector<ElementType> weaknessApplyChoose(AllyUnit *ptr,Enemy *enemy,int amount,string debuffName,int extend);
+    void weaknessApply(AllyUnit *ptr,Enemy *enemy,vector<ElementType> elementList,int extend);
+    void weaknessApply(AllyUnit *ptr,Enemy *enemy,vector<ElementType> elementList ,string debuffName,int extend);
     
     bool isDebuffEnd(Enemy *enemy,string Debuff_name);
     void extendDebuff(Enemy *enemy,string Debuff_name,int Turn_extend);

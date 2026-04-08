@@ -50,7 +50,7 @@ namespace SW{
                 for(auto &enemy : act->targetList){
                     for(int i=1;i<=Total_ally;i++){
                         if(enemy->Default_Weakness_type[charUnit[i]->Element_type[0]])continue;
-                        weaknessApply(enemy,charUnit[i]->Element_type[0],3);
+                        weaknessApply(sw,enemy,{charUnit[i]->Element_type[0]},3);
                         debuffSingleApply(sw,enemy,{{Stats::RESPEN,charUnit[i]->Element_type[0],AType::None,20}},"SW Weakness",3);
                         sw->setBuffNote("SW Weakness num",i);
                         break;
