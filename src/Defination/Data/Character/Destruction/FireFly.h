@@ -91,6 +91,9 @@ namespace FireFly{
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::Technique,ptr,TraceType::Aoe,"FF Tech",
             [ptr](shared_ptr<AllyAttackAction> &act){
+                for(auto &each : act->targetList){
+                    weaknessApply(ptr,each,{ElementType::Fire},"FireFly Weakness",2);
+                }
                 Attack(act);
             });
             act->addDamageIns(
@@ -120,6 +123,12 @@ namespace FireFly{
                 Superbreak_trigger(act, 35,"");
             }
             }
+        }));
+
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+            Enemy *enemy = turn->canCastToEnemy();
+            if(!enemy)return;
+            isDebuffEnd(enemy,"FireFly Weakness");
         }));
         
         
@@ -172,6 +181,10 @@ namespace FireFly{
             act->addDamageIns(DmgSrc(DmgSrcType::ATK,0.15*skill_dmg,4.5),DmgSrc(DmgSrcType::ATK,0.15*0.5*skill_dmg,2.25));
             act->addDamageIns(DmgSrc(DmgSrcType::ATK,0.15*skill_dmg,4.5),DmgSrc(DmgSrcType::ATK,0.15*0.5*skill_dmg,2.25));
             act->addDamageIns(DmgSrc(DmgSrcType::ATK,4*skill_dmg,12),DmgSrc(DmgSrcType::ATK,2*skill_dmg,6));
+
+            for(auto &each : act->targetList){
+                weaknessApply(ptr,each,{ElementType::Fire},"FireFly Weakness",2);
+            }
             Attack(act);
         });
         act->addToActionBar();
