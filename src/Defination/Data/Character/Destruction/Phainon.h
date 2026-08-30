@@ -193,10 +193,9 @@ namespace Phainon{
             return false;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,pn,pnCD,Scourge,CoreFlame]() {
-            if (!ultUseCheck(ptr)) return;
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,pn,pnCD,Scourge,CoreFlame]() {
             CoreFlame(-12);
-            shared_ptr<AllyBuffAction> act = 
+            shared_ptr<AllyBuffAction> act =
                 make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Single,"PN Ult",
                 [ptr,pn,pnCD,Scourge,CoreFlame](shared_ptr<AllyBuffAction> &act){
                     CharCmd::printUltStart("Phainon");

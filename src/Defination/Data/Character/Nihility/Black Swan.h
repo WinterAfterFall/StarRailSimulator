@@ -70,9 +70,8 @@ namespace BS{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,bs]() {
-            if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyAttackAction> act = 
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,bs]() {
+            shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"BS Ult",
             [ptr,bs](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Black Swan");
@@ -84,7 +83,7 @@ namespace BS{
                 }
 
                 Attack(act);
-            }); 
+            });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,120,20),
                 DmgSrc(DmgSrcType::ATK,120,20),

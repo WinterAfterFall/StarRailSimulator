@@ -34,10 +34,9 @@ namespace Rappa{
             if(ptr->Buff_check["Rappa_Ult"] == 1)return false;
             return true;
         });
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
-            if (!ultUseCheck(ptr)) return;
-            
-            shared_ptr<AllyBuffAction> act = 
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [ptr]() {
+
+            shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Single,"Rappa Ult",
             [ptr](shared_ptr<AllyBuffAction> &act){
                 if (ptr->Print)CharCmd::printUltStart("Rappa");

@@ -42,9 +42,8 @@ namespace Mydei{
             }
         };
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
-            if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyAttackAction> act = 
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr]() {
+            shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Blast,"Mydei Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 for (Enemy* e : act->targetList) {

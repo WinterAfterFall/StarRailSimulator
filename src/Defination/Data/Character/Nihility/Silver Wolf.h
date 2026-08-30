@@ -75,10 +75,9 @@ namespace SW{
             BA();
         };
         
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,sw]() {
-            if (!ultUseCheck(ptr)) return;
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,sw]() {
 
-            shared_ptr<AllyAttackAction> act = 
+            shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"SW Ult",
             [ptr,sw](shared_ptr<AllyAttackAction> &act){
                 debuffAllEnemyApply(sw,{

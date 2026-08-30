@@ -94,9 +94,8 @@ namespace Archer{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr,ac,Charge]() {
-            if (!ultUseCheck(ptr))return;
-            shared_ptr<AllyAttackAction> act = 
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [ptr,ac,Charge]() {
+            shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Single,"Archer Ult",
             [ptr,ac,Charge](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Archer");

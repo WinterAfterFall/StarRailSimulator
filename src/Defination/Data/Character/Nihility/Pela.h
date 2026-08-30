@@ -33,9 +33,8 @@ namespace Pela{
             return false;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
-            if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyAttackAction> act = 
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr]() {
+            shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Pela Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 debuffAllEnemyApply(ptr,{{Stats::DEF_SHRED, AType::None, 42}}, "Zone_Suppression",2);

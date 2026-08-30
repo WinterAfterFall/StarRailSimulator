@@ -30,10 +30,9 @@ namespace RuanMei{
             }
         };
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,RMptr](){
-            if(!ultUseCheck(ptr)) return;
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,RMptr](){
 
-            shared_ptr<AllyBuffAction> act = 
+            shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"RM Ult",
             [ptr,RMptr](shared_ptr<AllyBuffAction> &act){
                 if(ptr->Print)CharCmd::printUltStart("Ruan Mei");

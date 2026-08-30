@@ -37,11 +37,12 @@ namespace Gallagher{
                 }
             }
         };
-        Ultimate_List.push_back({PRIORITY_DEBUFF, [ptr,Charptr = ptr]() {
-            if (phaseStatus == PhaseStatus::BeforeTurn || ptr->Atv_stats->atv == 0 || !ultUseCheck(ptr)) return;
-            
+        ptr->addUltCondition([ptr]() -> bool {
+            return phaseStatus != PhaseStatus::BeforeTurn && ptr->Atv_stats->atv != 0;
+        });
 
-            shared_ptr<AllyAttackAction> act = 
+        Ultimate_List.push_back({PRIORITY_DEBUFF, ptr, [ptr,Charptr = ptr]() {
+            shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,Charptr,TraceType::Aoe,"Gall Ult",
                 [ptr,Charptr](shared_ptr<AllyAttackAction> &act){
                     Action_forward(ptr->Atv_stats.get(), 100);

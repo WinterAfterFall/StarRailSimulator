@@ -26,10 +26,12 @@ namespace Luocha{
             Basic_Atk(ptr);
         };
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_DEBUFF, [ptr]() {
-            if (ptr->Stack["Abyss_Flower"] >= 2) return;
-            if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyAttackAction> act = 
+        ptr->addUltCondition([ptr]() -> bool {
+            return ptr->Stack["Abyss_Flower"] < 2;
+        });
+
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_DEBUFF, ptr, [ptr]() {
+            shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Luocha Ult",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Attack(act);

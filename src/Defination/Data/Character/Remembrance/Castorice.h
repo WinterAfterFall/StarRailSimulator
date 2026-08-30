@@ -138,11 +138,10 @@ namespace Castorice{
             return false;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Casptr,Polluxptr]() {
-            if(!ultUseCheck(ptr))return;
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,Casptr,Polluxptr]() {
             ptr->Buff_note["Newbud"] = 0;
 
-            shared_ptr<AllyBuffAction> act = 
+            shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Single,"Cas Ult",
             [ptr,Casptr,Polluxptr](shared_ptr<AllyBuffAction> &act){
                 if(ptr->Print)CharCmd::printUltStart("Castorice");

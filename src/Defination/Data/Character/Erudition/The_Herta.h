@@ -46,9 +46,8 @@ namespace TheHerta{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr,Hertaptr]() {
-            if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyAttackAction> act = 
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [ptr,Hertaptr]() {
+            shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"THerta Ult",
             [ptr,Hertaptr](shared_ptr<AllyAttackAction> &act){
                 double Increase_mtpr = ptr->Stack["The_Herta_A6"];

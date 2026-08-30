@@ -37,17 +37,16 @@ namespace Tingyun{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,TYptr]() {
-            if (!ultUseCheck(ptr)) return;
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,TYptr]() {
 
-            shared_ptr<AllyBuffAction> act = 
+            shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Single,"TY Ult",
             [ptr,TYptr](shared_ptr<AllyBuffAction> &act){
                 CharCmd::printUltStart("Tingyun");
                 Increase_energy(charUnit[ptr->currentCharNum].get(), 0, (ptr->Eidolon >= 6) ? 60 : 50);
                 if (ptr->Eidolon >= 1)
                 buffSingle(chooseSubUnitBuff(ptr),{{Stats::SPD_P,AType::None,20}},"Windfall_of_Lucky_Springs",1);
-                
+
                 if (turn->Name == charUnit[ptr->currentCharNum]->Atv_stats->Name && phaseStatus == PhaseStatus::BeforeTurn)
                 buffSingle(chooseSubUnitBuff(ptr),{{Stats::DMG,AType::None,56}},"Rejoicing_Clouds",1);
                 else

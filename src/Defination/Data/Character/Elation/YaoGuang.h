@@ -76,9 +76,8 @@ namespace YaoGuang{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
-            if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyBuffAction> act = 
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr]() {
+            shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"YG Ult",
             [ptr](shared_ptr<AllyBuffAction> &act){
                 CharCmd::printUltStart(ptr->getName());
@@ -93,7 +92,7 @@ namespace YaoGuang{
                 buffAllAlly({
                     {Stats::MtprInc,AType::ElationSkill,50}
                 });
-                
+
                 if(ptr->Eidolon>=1)AhaInstant(40);
                 else AhaInstant(20);
 

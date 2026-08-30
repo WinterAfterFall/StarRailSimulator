@@ -81,9 +81,8 @@ namespace HanabiV1{
             return false;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,hnb]() {
-            if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyBuffAction> act = 
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,hnb]() {
+            shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"Hnb Ult",
             [ptr,hnb](shared_ptr<AllyBuffAction> &act){
                 if(ptr->Eidolon>=4)genSkillPoint(hnb,5);

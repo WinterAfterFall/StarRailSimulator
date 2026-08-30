@@ -88,9 +88,8 @@ namespace Dahlia{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
-            if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyAttackAction> act = 
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr]() {
+            shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"Dahlia Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 for(auto &each : act->targetList){

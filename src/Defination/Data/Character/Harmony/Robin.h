@@ -70,33 +70,28 @@ namespace Robin{
             return true;
         });
         
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Robinptr](){
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,Robinptr](){
+            shared_ptr<AllyBuffAction> act =
+            make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"RB Ult",
+            [ptr,Robinptr](shared_ptr<AllyBuffAction> &act){
+                ptr->countdownList[0]->summon();
+                ptr->Atv_stats->baseSpeed = -1;
+                Update_Max_atv(ptr->Atv_stats.get());
+                resetTurn(ptr->Atv_stats.get());
 
-            if(ultUseCheck(ptr)){
-                shared_ptr<AllyBuffAction> act = 
-                make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"RB Ult",
-                [ptr,Robinptr](shared_ptr<AllyBuffAction> &act){
-                    ptr->countdownList[0]->summon();
-                    ptr->Atv_stats->baseSpeed = -1;
-                    Update_Max_atv(ptr->Atv_stats.get());
-                    resetTurn(ptr->Atv_stats.get());
+                ptr->Buff_note["Concerto_state"] = calculateAtkForBuff(ptr, 22.8) + 200;
+                buffAllAlly({{Stats::FLAT_ATK, AType::TEMP, ptr->Buff_note["Concerto_state"]}});
+                buffAllAlly({{Stats::FLAT_ATK, AType::None, ptr->Buff_note["Concerto_state"]}});
 
-                    ptr->Buff_note["Concerto_state"] = calculateAtkForBuff(ptr, 22.8) + 200;
-                    buffAllAlly({{Stats::FLAT_ATK, AType::TEMP, ptr->Buff_note["Concerto_state"]}});
-                    buffAllAlly({{Stats::FLAT_ATK, AType::None, ptr->Buff_note["Concerto_state"]}});
+                buffAllAlly({{Stats::CD, AType::Fua, 25}});
+                if(ptr->Eidolon >= 1)buffAllAlly({{Stats::RESPEN, AType::None, 24}});
+                if(ptr->Eidolon >= 2)buffAllAllyExcludingBuffer(Robinptr,{{Stats::SPD_P,AType::None,16}});
 
-                    buffAllAlly({{Stats::CD, AType::Fua, 25}});
-                    if(ptr->Eidolon >= 1)buffAllAlly({{Stats::RESPEN, AType::None, 24}});
-                    if(ptr->Eidolon >= 2)buffAllAllyExcludingBuffer(Robinptr,{{Stats::SPD_P,AType::None,16}});
-                    
-                    All_Action_forward(100);
-                });
-                act->addBuffAllAllies();
-                act->addToActionBar();
-                if(ptr->Print)CharCmd::printUltStart("Robin");
-                Deal_damage();
-            }
-            return;
+                All_Action_forward(100);
+            });
+            act->addBuffAllAllies();
+            act->addToActionBar();
+            if(ptr->Print)CharCmd::printUltStart("Robin");
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){

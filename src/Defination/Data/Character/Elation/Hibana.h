@@ -88,10 +88,9 @@ namespace Hibana{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
-            if (!ultUseCheck(ptr)) return;
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr]() {
             CharCmd::printUltStart("Hibana");
-            shared_ptr<AllyAttackAction> act = 
+            shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Hibana Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
 

@@ -85,9 +85,8 @@ namespace Hanabi{
             return false;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
-            if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyBuffAction> act = 
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr]() {
+            shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"Hnb Ult",
             [ptr](shared_ptr<AllyBuffAction> &act){
                 CharCmd::printUltStart("Hanabi");
@@ -118,10 +117,10 @@ namespace Hanabi{
                         });
                         if(isHaveToAddBuff(each,"Hnb E6 Link"))buffSingle(each,{{Stats::RESPEN,AType::None,10}});
                         each->setBuffNote("Hnb Skill",buff);
-                    }   
+                    }
                 }
 
-                
+
             });
             act->addBuffAllAllies();
             act->addToActionBar();

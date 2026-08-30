@@ -68,9 +68,8 @@ namespace Guinaifen{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,gui]() {
-            if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyAttackAction> act = 
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,gui]() {
+            shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Gui Skill",
             [ptr,gui](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Guinaifen");

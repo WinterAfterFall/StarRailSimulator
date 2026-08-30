@@ -20,9 +20,12 @@ class TriggerFunc{
 };
 class TriggerByYourSelf_Func : public TriggerFunc{
     public:
+    CharUnit *owner = nullptr;
     function<void()> Call;
-    TriggerByYourSelf_Func(int priority, function<void()> Call) 
+    TriggerByYourSelf_Func(int priority, function<void()> Call)
     : TriggerFunc(priority), Call(Call) {}
+    TriggerByYourSelf_Func(int priority, CharUnit *owner, function<void()> Call)
+    : TriggerFunc(priority), owner(owner), Call(Call) {}
 };
 class TriggerByAlly_Func : public TriggerFunc{
     public:

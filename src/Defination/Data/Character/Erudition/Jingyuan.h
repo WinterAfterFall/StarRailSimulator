@@ -38,9 +38,8 @@ namespace Jingyuan{
             }
         };
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr,JYptr]() {
-            if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyAttackAction> act = 
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [ptr,JYptr]() {
+            shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,JYptr,TraceType::Aoe,"JY Ult",
             [ptr,JYptr](shared_ptr<AllyAttackAction> &act){
                 Attack(act);

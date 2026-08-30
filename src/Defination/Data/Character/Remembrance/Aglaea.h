@@ -54,20 +54,19 @@ namespace Aglaea{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,AGptr]() {
-            if (!ultUseCheck(ptr)) return;
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,AGptr]() {
 
-            shared_ptr<AllyBuffAction> act = 
+            shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Single,"AG Ult",
             [ptr,AGptr](shared_ptr<AllyBuffAction> &act){
                 if (ptr->memospriteList[0]->isDeath()) Summon(ptr);
 
-                if (ptr->countdownList[0]->isDeath()) 
+                if (ptr->countdownList[0]->isDeath())
                 buffSingle(AGptr,{{Stats::SPD_P, AType::None, 15.0 * ptr->memospriteList[0]->Stack["Brewed_by_Tears"]}});
-                
+
                 Action_forward(ptr->Atv_stats.get(), 100);
                 ptr->countdownList[0]->summon();
-                double BuffValue = calculateSpeedForBuff(ptr, 360) + 
+                double BuffValue = calculateSpeedForBuff(ptr, 360) +
                 calculateSpeedForBuff(ptr->memospriteList[0].get(), 720);
 
                 buffSingleChar(ptr,{{Stats::FLAT_ATK, AType::TEMP, BuffValue - ptr->Buff_note["Aglaea_A2"]}});

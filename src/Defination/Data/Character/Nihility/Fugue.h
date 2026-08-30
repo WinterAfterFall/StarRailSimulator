@@ -79,10 +79,9 @@ namespace Fugue{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
-            if (!ultUseCheck(ptr)) return;
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr]() {
 
-            shared_ptr<AllyAttackAction> act = 
+            shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Fugue Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 if(ptr->Eidolon>=2)All_Action_forward(24);

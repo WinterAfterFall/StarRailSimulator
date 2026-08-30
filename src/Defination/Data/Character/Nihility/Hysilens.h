@@ -143,10 +143,9 @@ namespace Hysilens{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,hys]() {
-            if (!ultUseCheck(ptr)) return;
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,hys]() {
             genSkillPoint(hys,1);
-            shared_ptr<AllyAttackAction> act = 
+            shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Hys Ult",
             [ptr,hys](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Hysilens");
@@ -155,7 +154,7 @@ namespace Hysilens{
                         each->atkPercent-=15;
                         debuffSingle(each,{{Stats::DEF_SHRED,AType::None,25}});
                         if(ptr->Eidolon>=4)debuffSingle(each,{{Stats::RESPEN,AType::None,20}});
-                        
+
                     }
                     Dot_trigger(150,each,DotType::General);
                 }

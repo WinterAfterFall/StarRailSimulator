@@ -46,9 +46,8 @@ namespace  Anaxa{
         //     return true;
         // });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr,Anaxaptr]() {
-            if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyAttackAction> act = 
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [ptr,Anaxaptr]() {
+            shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,Anaxaptr,TraceType::Aoe,"Anaxa Ult",
             [ptr,Anaxaptr](shared_ptr<AllyAttackAction> &act){
                 if(ptr->Print)CharCmd::printUltStart("Anaxa");

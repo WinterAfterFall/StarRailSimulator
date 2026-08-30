@@ -27,9 +27,8 @@ namespace Bronya{
             Skill(ptr);
         };
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Bronyaptr](){
-            if(!ultUseCheck(ptr)) return;
-            shared_ptr<AllyBuffAction> act = 
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,Bronyaptr](){
+            shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"Bronya Ult",
             [ptr](shared_ptr<AllyBuffAction> &act){
                 //Ult ATKBUFF

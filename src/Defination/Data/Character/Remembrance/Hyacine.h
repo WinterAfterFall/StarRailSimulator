@@ -53,9 +53,8 @@ namespace Hyacine{
             }
             return true;
         });
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Hycptr,Icaptr]() {
-            if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyBuffAction> act = 
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,Hycptr,Icaptr]() {
+            shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"Hyc Ult",
             [ptr,Hycptr](shared_ptr<AllyBuffAction> &act){
                 if(ptr->Print)CharCmd::printUltStart("Hyacine");
@@ -75,7 +74,7 @@ namespace Hyacine{
                     buffAllAlly({
                         {Stats::HP_P,AType::None,50},
                     });
-                    
+
 
                 }
                 IcaAttack(ptr);

@@ -65,9 +65,8 @@ namespace Huohuo{
             return false;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,hh]() {
-            if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyBuffAction> act = 
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,hh]() {
+            shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"HH Ult",
             [hh](shared_ptr<AllyBuffAction> &act){
                 CharCmd::printUltStart("Huohuo");

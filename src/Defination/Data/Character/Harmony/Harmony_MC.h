@@ -29,10 +29,9 @@ namespace HarmonyMC{
             }
         };
         
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,HMCptr](){
-            if(!ultUseCheck(ptr)) return;
-            
-            shared_ptr<AllyBuffAction> act = 
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,HMCptr](){
+
+            shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"HMC Ult",
             [ptr,HMCptr](shared_ptr<AllyBuffAction> &act){
                 if(isHaveToAddBuff(HMCptr,"Harmony_MC_ult",3))

@@ -92,9 +92,8 @@ namespace Kafka{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,kafka]() {
-            if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyAttackAction> act = 
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,kafka]() {
+            shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Kafka Ult",
             [ptr,kafka](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Kafka");
@@ -112,7 +111,7 @@ namespace Kafka{
                 DmgSrc(DmgSrcType::ATK,80,20)
             );
             act->addToActionBar();
-        
+
         }));
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {

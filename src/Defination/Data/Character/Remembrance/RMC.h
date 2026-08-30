@@ -52,16 +52,15 @@ namespace RMC{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,RMCptr,Memptr]() {
-            if (!ultUseCheck(ptr)) return;
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,RMCptr,Memptr]() {
 
-            shared_ptr<AllyAttackAction> act = 
+            shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"RMC Ult",
             [ptr,RMCptr,Memptr](shared_ptr<AllyAttackAction> &act){
                 Increase_Charge(ptr, 40);
                 buffSingle(Memptr,{{Stats::CR,AType::None,100.0}});
                 if (ptr->Print) CharCmd::printUltStart("RMC");
-                
+
                 Attack(act);
 
                 buffSingle(Memptr,{{Stats::CR,AType::None,-100.0}});

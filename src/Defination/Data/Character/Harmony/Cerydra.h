@@ -75,9 +75,8 @@ namespace Cerydra{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,crd,charge]() {
-            if (!ultUseCheck(ptr)) return;
-            shared_ptr<AllyAttackAction> act = 
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,crd,charge]() {
+            shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Crd Ult",
             [ptr,crd,charge](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Cerydra");

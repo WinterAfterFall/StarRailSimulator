@@ -45,10 +45,9 @@ namespace Tribbie{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,TBptr]() {
-            if (!ultUseCheck(ptr)) return;
-            
-            shared_ptr<AllyAttackAction> act = 
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,TBptr]() {
+
+            shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"TB Ult",
             [ptr,TBptr](shared_ptr<AllyAttackAction> &act){
                 if (isHaveToAddBuff(TBptr,"Tribbie_Zone",2)) {

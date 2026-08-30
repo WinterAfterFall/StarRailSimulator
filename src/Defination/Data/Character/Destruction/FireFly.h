@@ -48,8 +48,7 @@ namespace FireFly{
             }
         }));
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_DEBUFF, [ptr,FFptr]() {
-            if (!ultUseCheck(ptr)) return;
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_DEBUFF, ptr, [ptr,FFptr]() {
             buffSingle(FFptr,
                 {
                     {Stats::FLAT_SPD,AType::None,60},
