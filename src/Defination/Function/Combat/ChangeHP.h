@@ -173,8 +173,9 @@ void DecreaseHP(Unit *Trigger,string Name,double Value,double percentFromTotalHP
 
 }
 double decreaseSheild(AllyUnit *ptr,double Value){
-    ptr->currentSheild = (ptr->currentSheild - Value < 0) ? 0 : ptr->currentSheild - Value;
-    return max(0.0,Value - ptr->currentSheild);
+    double absorbed = min(ptr->currentSheild,Value);   // โล่กันได้เท่าที่มี
+    ptr->currentSheild -= absorbed;
+    return Value - absorbed;                            // ดาเมจส่วนที่ทะลุโล่ → เข้า HP
 }
 void AllyUnit::death(){
 this->currentHP = 0;
