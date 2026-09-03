@@ -138,7 +138,7 @@ void DecreaseHP(Unit *Trigger,double Value,double percentFromTotalHP,double perc
 
     for (auto &each : allyList) {
         double Total = Value;
-        if(!each->isTargetable())return;
+        if(!each->isTargetable())continue;
         Total += (percentFromTotalHP/100.0*each->totalHP);
         Total += (percentFromCurrentHP/100.0*each->currentHP);
         DecreaseCurrentHP(each,Total);
@@ -150,7 +150,7 @@ void DecreaseHP(Unit *Trigger,vector<AllyUnit*> target,double Value,double perce
     decreaseHPCount++;
     for (AllyUnit* &AllyUnit : target) {
         double Total = Value;
-        if(!AllyUnit->isTargetable())return;
+        if(!AllyUnit->isTargetable())continue;
         Total += (percentFromTotalHP/100.0*AllyUnit->totalHP);
         Total += (percentFromCurrentHP/100.0*AllyUnit->currentHP);
         DecreaseCurrentHP(AllyUnit,Total);
@@ -164,7 +164,7 @@ void DecreaseHP(Unit *Trigger,string Name,double Value,double percentFromTotalHP
     for (auto &each : allyList) {
         if(each->isSameName(Name))continue;
         double Total = Value;
-        if(!each->isTargetable())return;
+        if(!each->isTargetable())continue;
         Total += (percentFromTotalHP/100.0*each->totalHP);
         Total += (percentFromCurrentHP/100.0*each->currentHP);
         DecreaseCurrentHP(each,Total);

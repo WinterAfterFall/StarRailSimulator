@@ -26,7 +26,7 @@ public:
     double currentSheild;
     int hitCount = 0;
     double taunt = 0;
-    double tauntMtpr = 1;
+    double tauntMtpr = 100;  // taunt = baseTaunt * tauntMtpr/100 -> 100 = ไม่มี taunt increase, tauntMtprChange(+X) = +X%
     CharUnit* owner = nullptr;
 
 

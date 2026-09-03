@@ -44,6 +44,7 @@ class EnemyActionData : public ActionData{
                 if(enemy->AttackCoolDown[each->Atv_stats->Name]>=100)enemy->AttackCoolDown[each->Atv_stats->Name]-=100;
                 else continue;
                 Increase_energy(each,energy);
+                UnitGotHit.push_back(each);   // ผู้ที่โอกาสโดนตีครบ 100 -> โดนโจมตีจริง (damage loop ข้างล่างวน UnitGotHit)
             }
             allEventWhenEnemyHit(enemy,UnitGotHit);
             decreaseHPCount++;
@@ -68,6 +69,7 @@ class EnemyActionData : public ActionData{
                 if(enemy->AttackCoolDown[each->Atv_stats->Name]>=100)enemy->AttackCoolDown[each->Atv_stats->Name]-=100;
                 else continue;
                 Increase_energy(each,energy);
+                UnitGotHit.push_back(each);   // ผู้ที่โอกาสโดนตีครบ 100 -> โดนโจมตีจริง (damage loop ข้างล่างวน UnitGotHit)
             }
             allEventWhenEnemyHit(enemy,UnitGotHit);
             decreaseHPCount++;

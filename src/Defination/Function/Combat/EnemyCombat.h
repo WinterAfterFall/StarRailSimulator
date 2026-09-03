@@ -11,6 +11,9 @@ void Enemy::BaAttack(double SkillRatio,double energy){
     Action_bar.push(act);
 }
 void Enemy::addTaunt(AllyUnit* ptr){
+    for (AllyUnit* e : this->tauntList) {
+        if (e->isSameName(ptr)) return; // อยู่ใน list แล้ว - กัน duplicate
+    }
     this->tauntList.push_back(ptr);
 }
 void Enemy::removeTaunt(string name){

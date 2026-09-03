@@ -32,8 +32,8 @@ void Basic_reset(){
             charUnit[i]->Energy_recharge = 100;
             charUnit[i]->Current_energy = charUnit[i]->Max_energy/2;
             charUnit[i]->currentCharNum = charUnit[i]->defaultCharNum;
-            charUnit[i]->currentMemoNum = charUnit[i]->currentMemoNum;
-            charUnit[i]->tauntMtpr = 1;
+            charUnit[i]->currentMemoNum = charUnit[i]->defaultMemoNum;
+            charUnit[i]->tauntMtpr = 100;
             charUnit[i]->taunt = charUnit[i]->baseTaunt;
             charUnit[i]->currentSheild = 0;
             charUnit[i]->status = UnitStatus::Alive;
@@ -257,11 +257,11 @@ void Memosprite_reset(){
         memo->Atv_stats->speedPercent = 0;
         memo->Atv_stats->flatSpeed = 0;
         memo->currentCharNum = memo->defaultCharNum;
-        memo->currentMemoNum = memo->currentMemoNum;
+        memo->currentMemoNum = memo->defaultMemoNum;
         memo->currentSheild = 0;
         memo->currentHP = 0;
         memo->status = UnitStatus::Death;
-        memo->tauntMtpr = 1;
+        memo->tauntMtpr = 100;
         memo->taunt = memo->baseTaunt;
 
         }

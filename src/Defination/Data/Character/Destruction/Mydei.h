@@ -47,8 +47,10 @@ namespace Mydei{
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Blast,"Mydei Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 for (Enemy* e : act->targetList) {
+                    // Taunt เป้าหมาย+ข้างเคียง 2 เทิร์น (kit)
+                    // debuffApply 4-arg: refresh countdown เสมอ · addTaunt มี dedup อยู่แล้ว
+                    debuffApply(ptr,e,"Mydei_Taunt",2);
                     e->addTaunt(ptr);
-                    debuffApply(ptr,e,"Mydei_Taunt");
                 }
                 ptr->RestoreHP(
                     ptr,
@@ -107,6 +109,10 @@ namespace Mydei{
             [ptr](shared_ptr<AllyAttackAction> &act){
                 ChargePoint(ptr, 50);
                 Attack(act);
+                for (Enemy* e : act->targetList) {   // AoE -> Taunt ทุกตัว 1 เทิร์น (kit)
+                    debuffApply(ptr, e, "Mydei_Taunt", 1);
+                    e->addTaunt(ptr);
+                }
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::HP,80,20),
@@ -177,7 +183,14 @@ namespace Mydei{
             ptr->Buff_check["Mydei_cannot_charge"] = 0;
             }
         }));
-        
+
+        // Mydei_Taunt หมดอายุบนศัตรูตัวไหน -> เอา Mydei ออกจาก tauntList ของตัวนั้น (แยกอิสระต่อ enemy)
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
+            Enemy *e = turn->canCastToEnemy();
+            if (!e) return;
+            if (isDebuffEnd(e, "Mydei_Taunt")) e->removeTaunt(ptr);
+        }));
+
         // SetMemoStats(ptr,66,35,ElementType::Lightning,"MemName",Side::AllyUnit);
         // SetCountdownStats(ptr,"Name");
         // ptr->memospriteList[0]->Turn_func = Mem_turn;
