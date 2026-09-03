@@ -43,7 +43,7 @@ void Action_forward(ActionValueStats *ptr,double fwd) {
     if(!ptr->charptr->isAlive())return;
     if (ptr->atv <= ptr->Max_atv*fwd/100 ) {
         ptr->atv = 0;
-        ptr->priority = ++Turn_priority;
+        ptr->priority = ++nextForwardPriority;
         return ;
     } else {
         ptr->atv = ptr->atv - ptr->Max_atv*fwd/100;

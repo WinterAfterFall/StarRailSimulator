@@ -211,7 +211,6 @@ public:
     void BaAttack(double SkillRatio,double energy);
     void AoeAttack(double SkillRatio,double energy);
     void addTaunt(AllyUnit* ptr);
-    void removeTaunt(string name);
     void removeTaunt(AllyUnit* ptr);
 
     //weaknessapply

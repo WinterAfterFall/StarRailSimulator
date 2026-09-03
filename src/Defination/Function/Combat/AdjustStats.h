@@ -10,14 +10,11 @@ void AtkAdjust(AllyUnit *ptr){
     ptr->totalATK = calculateAtkOnStats(ptr);
 }
 void HpAdjust(AllyUnit *ptr){
-    double temp = calculateHpOnStats(ptr);
-    if(temp<ptr->currentHP){
-        ptr->currentHP = (ptr->currentHP > temp) ? temp : ptr->currentHP;
-    }else{
-        ptr->currentHP += (temp-ptr->totalHP);
-    }
-    ptr->totalHP = temp;
-    
+    double newMaxHP = calculateHpOnStats(ptr);
+    double delta = newMaxHP - ptr->totalHP;
+    if(delta > 0) ptr->currentHP += delta;                    // maxHP เพิ่ม x -> currentHP เพิ่ม x
+    if(ptr->currentHP > newMaxHP) ptr->currentHP = newMaxHP;  // maxHP ลดจนต่ำกว่า currentHP -> clamp ลงมาเท่า maxHP
+    ptr->totalHP = newMaxHP;                                  // maxHP ลดแต่ยังสูงกว่า currentHP -> currentHP คงเดิม
 }
 void DefAdjust(AllyUnit *ptr){
     ptr->totalDEF= calculateDefOnStats(ptr);

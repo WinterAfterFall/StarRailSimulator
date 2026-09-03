@@ -27,8 +27,8 @@ enum class AType {
 enum class UnitStatus{
     Alive,
     Death,
-    AtvFreeze, // สถานะตอนอัลติโรบิ้น คือหยุดนิ่ง atv ไม่ขยับแต่ action ได้
-    Retire //สถานะของอัลติไพน่อน ถูกลบจากสนามแต่พวก atv ยังเคลื่อนปกติ
+    AtvFreeze, // ใช้ตอนอัลติ Phainon : atv หยุดนิ่ง + ไม่ได้เทิร์นจาก Find_turn (act ได้ทาง extraTurn) · ยังอยู่ในสนาม เป็นเป้าได้
+    Retire     // ใช้ตอนอัลติ Phainon : ถูกลบจากสนาม (ไม่ targetable / ไม่ exist) + atv หยุดนิ่งเช่นกัน
 };
 
 #pragma region ElementType

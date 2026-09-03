@@ -59,14 +59,9 @@ public:
 
 #pragma endregion 
 
-    void tauntMtprChange(int value){
+    void tauntMtprChange(double value){   // เรียกใน Reset_List ของ trace "taunt +X%" -> taunt = baseTaunt * (100+X)/100
         tauntMtpr += value;
-        totalTaunt -= taunt;
         taunt = baseTaunt * tauntMtpr/100.0;
-        totalTaunt += taunt;
-    }
-    double calHitChance(){
-        return (taunt/totalTaunt*100.0);
     }
     double calHitChance(vector<AllyUnit*> target){
         double total = 0;

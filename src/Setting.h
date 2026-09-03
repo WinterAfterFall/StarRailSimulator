@@ -64,7 +64,6 @@ queue<shared_ptr<ActionData>> AhaInstantBar;
 
 double Level_multiplier = 3767.5533;
 double Current_atv =0;
-double totalTaunt = 0;
 
 PhaseStatus phaseStatus = PhaseStatus::None;
 bool actionBarUse = 0;
@@ -84,7 +83,7 @@ deque<tuple<string,int, double>> CBcheck;
 
 
 int Sp_Safety = 1;
-int Turn_priority = 0;
+int nextForwardPriority = 0;  // ตัวนับที่แจกค่า priority ให้ unit ตัวถัดไปที่โดน Action_forward จน atv แตะ 0 (reset ต่อ run ใน Reset())
 double Enemy_effect_res =40;
 
 SubstatsRerollMode rerollSubstatsMode = SubstatsRerollMode::Standard; 

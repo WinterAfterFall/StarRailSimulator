@@ -71,9 +71,9 @@ void Reset(){
     sp =3;
     punchline = elationCount;
     Current_atv = 0;
+    nextForwardPriority = 0;
     healCount = 0;
     decreaseHPCount = 0;
-    totalTaunt = 0;
     Basic_reset();
     Summon_reset();
     Countdown_reset();
@@ -101,12 +101,10 @@ void Reset(){
         each->totalATK = calculateAtkOnStats(each);
         each->totalHP = calculateHpOnStats(each);
         each->totalDEF = calculateDefOnStats(each);
-        totalTaunt += each->taunt;
         for(auto &memo : each->memospriteList){
             memo->totalATK = calculateAtkOnStats(memo.get());
             memo->totalHP = calculateHpOnStats(memo.get());
             memo->totalDEF = calculateDefOnStats(memo.get());
-            totalTaunt += memo->taunt;
         }
         each->currentHP = each->totalHP;
     }

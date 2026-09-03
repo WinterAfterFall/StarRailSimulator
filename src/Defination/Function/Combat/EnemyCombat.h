@@ -16,14 +16,6 @@ void Enemy::addTaunt(AllyUnit* ptr){
     }
     this->tauntList.push_back(ptr);
 }
-void Enemy::removeTaunt(string name){
-    for (auto it = this->tauntList.begin(); it != this->tauntList.end(); ++it) {
-        if ((*it)->isSameName(name)) {
-            this->tauntList.erase(it); // Remove the pointer from the vector
-            break; // Exit the loop after removing the taunt
-        }
-    }
-}
 void Enemy::removeTaunt(AllyUnit *ptr){
     for (auto it = this->tauntList.begin(); it != this->tauntList.end(); ++it) {
         if ((*it)->isSameName(ptr)) {
