@@ -99,6 +99,13 @@
 - บัฟ `SPD_P`/`FLAT_SPD` ใน `buffSingle` → route ผ่าน `speedBuff()` + `ahaSpeedAdjust()` (ต้อง recompute action value + ระบบ Aha)
 - บัฟ `AType::None` → เรียก `StatsAdjust(u, stat)` ต่อ → จุดชนวน `Stats_Adjust_List` (ให้บัฟ snapshot re-evaluate) · AType อื่นไม่ trigger
 
+### memosprite สืบ stat จากเจ้าของ
+
+`Memosprite_reset` (ต้น wave) ก๊อป `Stats_type` + `Stats_each_element` ของเจ้าของ **ทั้งก้อน** ใส่ memo → memo ได้ crit / DMG% / ทุกอย่างจากเจ้าของฟรี (`FLAT_HP` scale ด้วย `Unit_Hp_Ratio` + `fixHP`)
+- บัฟ memo หลังจุดนั้น: `buffSingleChar` (เจ้าของ + memo) หรือ `buffAllMemosprite`
+- speed memo = snapshot ณ ต้น wave (`fixSpeed + calculateSpeedOnStats(owner)*Unit_Speed_Ratio/100`) — ไม่ตามบัฟ speed เจ้าของกลางรบ
+- รายละเอียด: [`engine-reference/unit.md`](engine-reference/unit.md) หัวข้อ 4.7
+
 ## 5. Energy
 
 - `Increase_energy(ptr, E)` → `+ E * Energy_recharge/100` (**ทั้งก้อนคูณ ERR**) — ใช้ skill/basic energy gain
@@ -109,7 +116,7 @@
 
 | helper | หมายเหตุ |
 |---|---|
-| `chooseSubUnitBuff(ptr)` | `charUnit[currentCharNum]` หรือ memosprite (`currentMemoNum`) · **preset** reset ต่อรอบ · ไม่ใช่ dynamic best-DPS |
+| `chooseSubUnitBuff(ptr)` | `charUnit[currentCharNum]` หรือ memosprite (`memospriteList[currentMemoNum]`) · **preset** ไม่ใช่ dynamic best-DPS · `currentCharNum`/`currentMemoNum` reset เป็น `default*` ต่อ **run** (`Stats_Reset.h:34-35`) |
 | `chooseCharacterBuff` / `chooseEnemyTarget` | เวอร์ชัน CharUnit / Enemy |
 | `genSkillPoint(ptr, n)` | `-1` ตอน skill, `+1` ตอน basic |
 | `Attack(act)` | resolve `AllyAttackAction` → ลงดาเมจ · จุดเข้าดาเมจหลัก |
@@ -122,6 +129,8 @@
 - **patch เฉพาะกรณี > general solution** — heuristic + รายชื่อ exception (`isSameName("Saber")`, `Max_energy == 0`)
 - **ตัดกลไกที่ implement ยาก โดยมีเหตุผล** — เช่น Tingyun Benediction "cap 25% ของ ATK Tingyun" ตัดทิ้ง เพราะ ATK Tingyun ที่ build แล้วสูงพอเสมอ (cap ไม่เคย bind)
 - `Technique` field: `int` default 1 · ทุกตัว = bool `if (Technique == 1)` · **Tingyun ตัวเดียว** set `= 2` + `50 * Technique` (เธอเป็นตัวเดียวที่ technique ให้ energy) — one-off ตั้งใจ · `if (Technique == 1)` บน Tingyun = false เงียบ ๆ
+- **forced taunt (ดึง aggro บังคับ)** — `enemy->tauntList` เป็น field per-enemy · `enemy->addTaunt(ally)` (มี dedup) → enemy single-target attack เล็งแค่ตัวใน list ของ enemy ตัวนั้น (AoE ไม่สน) · lifecycle pattern Mydei = ผูกกับ debuff (`debuffApply(...,"Name",turns)` + `addTaunt`) แล้ว `After_turn_List` เช็ค `isDebuffEnd(e,...)` → `e->removeTaunt(ally)` (แยกอิสระต่อ enemy ไม่ต้องนับ) · ดู [`engine-reference/unit.md`](engine-reference/unit.md) หัวข้อ 4.3
+- **taunt +X%** — `ptr->tauntIncreaseChange(X)` → `taunt = baseTaunt · (1 + X/100)` · `calHitChance(pool)` ใช้ `taunt` ตัวนี้อยู่แล้ว ไม่ต้องแตะอะไรเพิ่ม · ยังไม่มีตัวละครไหนใช้ · ⚠️ ถ้าเป็น memosprite ต้องเรียกใน `WhenOnField_List` (หลัง `Memosprite_reset`) ไม่ใช่ `Reset_List`
 
 ## 8. Debug — buff drift
 
