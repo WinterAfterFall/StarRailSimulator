@@ -26,7 +26,7 @@ public:
     double currentSheild;
     int hitCount = 0;
     double taunt = 0;
-    double tauntMtpr = 100;  // taunt = baseTaunt * tauntMtpr/100 -> 100 = ไม่มี taunt increase, tauntMtprChange(+X) = +X%
+    double tauntIncrease = 0;  // % · taunt = baseTaunt * (1 + tauntIncrease/100) · 0 = ไม่มี increase
     CharUnit* owner = nullptr;
 
 
@@ -59,9 +59,9 @@ public:
 
 #pragma endregion 
 
-    void tauntMtprChange(double value){   // เรียกใน Reset_List ของ trace "taunt +X%" -> taunt = baseTaunt * (100+X)/100
-        tauntMtpr += value;
-        taunt = baseTaunt * tauntMtpr/100.0;
+    void tauntIncreaseChange(double value){   // trace "taunt +X%" -> value = X · เรียกที่ไหนก็ได้ (recompute taunt สด)
+        tauntIncrease += value;
+        taunt = baseTaunt * (1 + tauntIncrease/100.0);
     }
     double calHitChance(vector<AllyUnit*> target){
         double total = 0;
