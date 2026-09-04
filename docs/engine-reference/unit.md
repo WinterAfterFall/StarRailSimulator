@@ -5,10 +5,27 @@
 
 สถานะ: 🚧 กำลังทำ
 - เสร็จ (ตรวจกับ impl แล้ว): `ActionValueStats.h` · `Unit.h` · `AllyUnit.h`
-- บางส่วน (จากการอ่าน `Memosprite_reset` — ยังไม่ไล่ทั้งไฟล์): `Memosprite.h` → ดูหัวข้อ 4.7
-- ยังไม่แตะ: `CharUnit.h` · `Enemy.h` · `StatsSet.h`
+- บางส่วน (จาก `Memosprite_reset` — ยังไม่ไล่ทั้งไฟล์): `Memosprite.h` → ดูหัวข้อ 4.7
+- **ยังไม่แตะเลย: `CharUnit.h` · `Enemy.h` · `StatsSet.h`** ← เริ่มที่นี่ session หน้า
 
-อัปเดตล่าสุด 2026-09-02 (session ทัวร์โค้ด): แก้ description `extraTurn` / `Type` / `priority` ให้ตรง · เพิ่มหัวข้อ 2.5 (aha) · เติมกลไก freeze ใน 3.5 · เติมหัวข้อ 4.7 (Memosprite) · แก้ `HpAdjust` + rename `Turn_priority` → `nextForwardPriority` ในโค้ด
+### session log
+
+**2026-09-02** — ทัวร์โค้ดรอบแรก: แก้ description `extraTurn` / `Type` / `priority` · เพิ่มหัวข้อ 2.5 (aha) · กลไก freeze ใน 3.5 · หัวข้อ 4.7 (Memosprite) · แก้โค้ด `HpAdjust` + rename `Turn_priority` → `nextForwardPriority`
+
+**2026-09-04** — โฟกัสระบบ **taunt + การรับดาเมจ** · push 4 commit:
+| commit | ทำอะไร |
+|---|---|
+| `8690113` | `UnitGotHit` populate (enemy single-target ลงดาเมจ 0 → แก้) · `DecreaseHP` ทั้งทีม `return`→`continue` · `addTaunt` dedup · Mydei_Taunt lifecycle (ult 2t / tech 1t / per-enemy removal) · `currentMemoNum` self-assign fix |
+| `ce329ef` | ลบ dead code taunt: `totalTaunt` · no-arg `calHitChance()` · `removeTaunt(string)` · + `nextForwardPriority` reset, Enum comment |
+| `4d2aa35` | `tauntMtpr` (100=×1) → `tauntIncrease` (0=ไม่มี) · `taunt = baseTaunt·(1+tauntIncrease/100)` · `tauntIncreaseChange(double)` |
+| `babcc2f` | เอกสารชุดนี้เข้า git |
+
+**ค้าง / session หน้า:**
+- ทัวร์ต่อ: `CharUnit.h` (348 บรรทัด — ใหญ่สุด, มีระบบ reroll substats) → `Enemy.h` → `StatsSet.h`
+- 🐞 ที่ยังไม่แก้: #1 (include ซ้ำ) · #2 (Jingyuan summon ชื่อ) · #4 (`isExsited` typo) · #8 (summon/countdown → `ActionValueStats` refactor)
+- dead code เหลือ (โซนอื่น): `DecreaseHP(Unit*, vector, ...)` overload · `Enemy::hitCount`
+- `future-improvements.md`: ระบบสร้างโล่ · per-unit `priority` reset · buff auto-removal helper · AllyUnit cosmetic
+- `docs/character-kit-reference/*.md` (~40 ไฟล์) ยัง untracked
 
 ---
 
