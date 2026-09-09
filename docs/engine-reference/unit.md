@@ -6,7 +6,8 @@
 สถานะ: 🚧 กำลังทำ
 - เสร็จ (ตรวจกับ impl แล้ว): `ActionValueStats.h` · `Unit.h` · `AllyUnit.h`
 - บางส่วน (จาก `Memosprite_reset` — ยังไม่ไล่ทั้งไฟล์): `Memosprite.h` → ดูหัวข้อ 4.7
-- **ยังไม่แตะเลย: `CharUnit.h` · `Enemy.h` · `StatsSet.h`** ← เริ่มที่นี่ session หน้า
+- บางส่วน (เฉพาะคลาสผู้ช่วย + โมเดล True DMG): `CharUnit.h` → ดูหัวข้อ 5.1
+- **ยังไม่แตะเลย: `Enemy.h` · `StatsSet.h`**
 
 ### session log
 
@@ -20,8 +21,11 @@
 | `4d2aa35` | `tauntMtpr` (100=×1) → `tauntIncrease` (0=ไม่มี) · `taunt = baseTaunt·(1+tauntIncrease/100)` · `tauntIncreaseChange(double)` |
 | `babcc2f` | เอกสารชุดนี้เข้า git |
 
+**2026-09-09** — เริ่มทัวร์ `CharUnit.h` · จบ **หัวข้อ 5.1**: คลาสผู้ช่วย 4 ตัว (`Func_class` `DamageSrc` `DamageRecord` `DamageAvgRecord`) + **โมเดล True DMG** (ทำไม `DamageSrc` ต้องมี `src` **และ** `recv`, engine implement เป็น note ล้วนผ่าน `Cal_DamageNote` ไม่ใช่ AType) · ค้นยืนยันกับ wiki/Game8 · เจอ 🐞 #16 (non-real-time True DMG คูณ toughnessAvgMultiplier ของ `recv` แทน `src`)
+
 **ค้าง / session หน้า:**
-- ทัวร์ต่อ: `CharUnit.h` (348 บรรทัด — ใหญ่สุด, มีระบบ reroll substats) → `Enemy.h` → `StatsSet.h`
+- ทัวร์ต่อ `CharUnit.h` หัวข้อที่เหลือ: status/energy · Build (`Func_class` 4 ช่อง) · CalCheck flags (~35 bool) · **substats reroll optimizer** (`StandardReroll` / `AllCombinationReroll` / `AllPossibleReroll` — ก้อนใหญ่สุด) · summon/memo/countdown lists · `ultCondition` · relic main-stat slots · requirement stats
+- แล้วค่อย: `Enemy.h` → `StatsSet.h`
 - 🐞 ที่ยังไม่แก้: #1 (include ซ้ำ) · #2 (Jingyuan summon ชื่อ) · #4 (`isExsited` typo) · #8 (summon/countdown → `ActionValueStats` refactor)
 - dead code เหลือ (โซนอื่น): `DecreaseHP(Unit*, vector, ...)` overload · `Enemy::hitCount`
 - `future-improvements.md`: ระบบสร้างโล่ · per-unit `priority` reset · buff auto-removal helper · AllyUnit cosmetic
@@ -403,6 +407,62 @@ memosprite 2 แบบ: **สปีดคงที่** (RMC "Mem" — `fixSpeed
 
 ---
 
+## 5. `CharUnit.h`
+
+`class CharUnit : public AllyUnit` — ตัวละครผู้เล่นจริง · ctor ตั้ง `owner = this` (`CharUnit.h:155`)
+
+สถานะ: 🚧 ทัวร์ยังไม่จบ — ตอนนี้จบเฉพาะ **5.1 (คลาสผู้ช่วย + โมเดล True DMG)** · ค้าง: status/energy · Build (`Func_class`) · CalCheck flags · **substats reroll optimizer** · summon/memo/countdown lists · `ultCondition` · relic main-stat slots · requirement stats
+
+### 5.1 คลาสผู้ช่วย 4 ตัว + โมเดล True DMG
+
+นิยามไว้หัวไฟล์ก่อน `class CharUnit` (`CharUnit.h:6-30`)
+
+| คลาส | หน้าที่ |
+|---|---|
+| `Func_class` (`:6`) | คู่ `Name` + `function<void(CharUnit*)>` — "โมดูล" ที่ผูกกับตัวละคร (`Char` / `Light_cone` / `Relic` / `Planar`) |
+| `DamageSrc` (`:11`) | key ของสมุดดาเมจ = คู่ `Enemy* src` + `Enemy* recv` · `operator<` เทียบด้วย `recv->getNum()` เท่านั้น |
+| `DamageRecord` (`:19`) | `total` + `type[ชื่อท่า] → ดาเมจ` |
+| `DamageAvgRecord` (`:24`) | `avgDmgInstance` = snapshot `ดาเมจสะสม/Current_atv` ทุก ๆ 20 atv (`CalDamageNote.h:49-54`) · เฉลี่ยเป็น `currentDmgRecord` · `maxDmgRecord` เก็บของ run ที่ดีที่สุด |
+
+#### ทำไม `DamageSrc` ต้องมี **สอง** `Enemy*`
+
+**True DMG ในเกม** — ตัวคูณตัวหนึ่งในสูตร แต่แทนที่จะบวกกลับเข้าดาเมจหลัก มัน **แยกยอดที่เพิ่มออกมานำเสนอเป็นดาเมจก้อนใหม่**
+
+ผลตามมา 2 ข้อ:
+1. **True DMG ต่อยอดจาก True DMG ไม่ได้** — เลขมันสำเร็จรูปมาแล้วจากก้อนแม่ ไม่มีตัวคูณอื่นมาซ้อนได้อีก (wiki: "not modified by other multipliers during damage calculation") · เทียบ Cipher A2/A4 ที่ระบุว่า tally นับเฉพาะ **non-True DMG** (`docs/character-kit-reference/Cipher.md:39,50`)
+2. **ก้อนที่แยกออกมา "ย้ายเป้า" ได้** — เช่น **Tribbie E1**: เอา 24% ของดาเมจที่ศัตรู **ทุกตัว** กินในการโจมตีนั้น ไปกองใส่ศัตรู **ตัวเดียว** (`docs/character-kit-reference/Tribbie.md:55`)
+
+ข้อ 2 คือเหตุผลที่ key ต้องเป็นคู่ เพราะ sim มีระบบ **avg weakness multiplier**:
+- **`src`** = ศัตรูที่ดาเมจ **ต้นทาง** ลง → บอกว่าต้องใช้ weaken / toughness-avg **ของใคร**
+- **`recv`** = ศัตรูที่ยอดสุดท้ายไป **โผล่จริง** → บอกว่าไปกองที่ตัวไหน
+
+> ทั้งคู่เป็น `Enemy*` เพราะ src/recv เป็นศัตรูเสมอ — ฝั่งผู้ทำดาเมจเก็บแยกที่ `act->getChar()`
+
+#### วิธี implement True DMG ในเอนจิน
+
+**ไม่มี `AType` / `DmgSrcType` สำหรับ True DMG** (`Vocab/04-AttackType.md:43` — "ยังไม่มี") · จำลองเป็น **รายการบันทึกดาเมจล้วน ๆ** ผ่าน `Cal_DamageNote()` (`CalDamageNote.h:68-80`):
+
+```cpp
+void Cal_DamageNote(act, Enemy* src, Enemy* recv, double damage, double ratio, string name){
+    // ไม่มีสูตร — เอา damage ที่คำนวณเสร็จแล้ว × ratio/100 ยัดเข้าสมุดตรง ๆ
+    // เข้า pool ไหนตาม act->toughnessAvgCalculate
+}
+```
+
+ตัวอย่าง Tribbie E1 (`Tribbie.h:206-210`) — hook `AfterDealingDamage_List` รับ `damage` ของฮิตที่เพิ่งเกิด → `Cal_DamageNote(act, src, enemyUnit[Main_Enemy_num], damage, 24, "TB True " + act->actionName)`
+
+ผลพลอยได้ที่ **ตรงกับเกมพอดี** เพราะ path นี้ไม่แตะ `CalDamage`/`Attack()` เลย:
+- ไม่ผ่าน DEF / RES / CRIT / Vuln / Broken mult ✔
+- ไม่ลด toughness · ไม่สร้าง energy · ไม่ยิง `AfterDealingDamage_List` ซ้ำ (ไม่ recursion) ✔
+- ทั้งหมดนี้สรุปได้ด้วยประโยคเดียวของ wiki: True DMG **"ไม่ถือเป็นการโจมตี" (not considered an attack)**
+
+> ⚠️ True DMG งอกได้จากดาเมจ **ทุกชนิด** — non-crit, crit, **DoT, Break, Super Break** (Game8) → note ที่งอกจาก Break/SPB/DoT จะมี `toughnessAvgCalculate == true` = ตกลง `currentNonRealTimeDmg` → ดู 🐞 #16
+
+**แหล่งอ้างอิงนอก:** [Fandom — True DMG](https://honkai-star-rail.fandom.com/wiki/True_DMG) · [Game8 — Remembrance Trailblazer](https://game8.co/games/Honkai-Star-Rail/archives/486082)
+_(หมายเหตุ: Game8 เขียน RMC Mem's Support = 30%, เรโปเขียน 28% — คนละเลเวล talent ไม่ขัดกัน ดู `character-implementation-notes.md` คอนเวนชันเลเวล)_
+
+---
+
 ## 🐞 รายการค้าง (ไว้คุยเรื่องแก้)
 
 1. `Unit/Library.h` — `#include "AllyUnit.h"` ซ้ำ 2 บรรทัด
@@ -419,7 +479,18 @@ memosprite 2 แบบ: **สปีดคงที่** (RMC "Mem" — `fixSpeed
 12. **dead code โซน taunt** — ✅ ลบแล้ว (2026-09-04): no-arg `calHitChance()` · `totalTaunt` (global + `SetCombat.h` 3 จุด) · `Enemy::removeTaunt(string)` · `totalTaunt` bookkeeping ใน `tauntMtprChange` · **ปรับ:** `tauntMtpr` (100 = ×1.0) → `tauntIncrease` (0 = ไม่มี, `taunt = baseTaunt · (1 + tauntIncrease/100)`), method → `tauntIncreaseChange(double)` (2026-09-04) · **ยังไม่ลบ** (โซนอื่น): `DecreaseHP(Unit*, vector<AllyUnit*>, ...)` (`ChangeHP.h:149`) · `Enemy::hitCount` (`Enemy.h:54` — reset+`++` ใน `Attack()` ไม่มีใครอ่าน; ฝั่ง `AllyUnit::hitCount` อ่านโดย `Grand_Duke`)
 13. ~~`Enemy::addTaunt` ไม่มี dedup + Mydei ไม่ออกจาก taunt list~~ ✅ แก้แล้ว (2026-09-02) — `addTaunt` เช็คชื่อก่อน push (`EnemyCombat.h:13`) · Mydei ult `debuffApply(...,"Mydei_Taunt",2)` + `addTaunt` · `After_turn_List` `isDebuffEnd(e,...)` → `e->removeTaunt(Mydei)` (แยกอิสระต่อ enemy) — ดูหัวข้อ 4.3
 14. ~~`DecreaseHP` ทั้งทีม `return` แทน `continue`~~ ✅ แก้แล้ว (2026-09-02, `ChangeHP.h:141,153,167`) — เดิม: ใน loop วน `allyList` เจอ ally ที่ `!isTargetable()` (เช่น memo ยังไม่ summon) → `return` ออกทั้งฟังก์ชัน → ตัวที่เหลือไม่โดนลดเลือด · กระทบ `Hyacnine_LC.h:28` (ลดเลือดทั้งทีม) · single-target overload (`:128`) `return` ถูกแล้ว (ไม่มี loop)
-15. ℹ️ **ตัวละครตายจากดาเมจไม่ได้ = by design** (ยืนยัน 2026-09-04) — sim นี้วัด damage output ไม่แคร์ survivability · `DecreaseCurrentHP` (`ChangeHP.h:122`) clamp `currentHP` ขั้นต่ำ `1` โดยตั้งใจ · `AllyUnit::death()` ถูกเรียกแค่กับ summon/countdown/memo (FireFly/Phainon/Aglaea/Castorice/Robin) — char-death `AllyDeath_List` (Huohuo revive, Tingyun buff strip) จึงยิงเฉพาะตอน memo ตาย ไม่เคยยิงตอน char ตาย (ยอมรับได้)
+16. **True DMG ที่เป็น non-real-time ใช้ `toughnessAvgMultiplier` ของ `recv` แทน `src`** — `Cal_AverageDamage` (`CalDamageNote.h:44-46`) วน `currentNonRealTimeDmg` แล้วคูณด้วย `enemy->toughnessAvgMultiplier` โดย `enemy` = ตัวที่ตรงกับ **`each.first.recv`** :
+    ```cpp
+    for(auto &each : ptr->currentNonRealTimeDmg){
+        if(each.first.recv->getNum() != enemy->getNum())continue;
+        rec += each.second.total * enemy->toughnessAvgMultiplier;   // <- ของ recv
+    }
+    ```
+    แต่เจตนาของ field `src` (ดูหัวข้อ 5.1) คือ "weaken/toughness-avg อิงจากศัตรูที่ดาเมจ **ต้นทาง** ลง" → บรรทัดนี้ควรใช้ `toughnessAvgMultiplier` ของ `each.first.src`
+    - **เห็นผลเมื่อ** note เป็น non-real-time (True DMG ที่งอกจาก DoT / Break / Super Break) **และ** `src != recv` — เคสชัดสุดคือ **Tribbie E1** (ต้นทางกระจายหลายตัว → ปลายทางกองตัวเดียว)
+    - ถ้า `src == recv` (True DMG ที่ไม่ย้ายเป้า) หรือ note เป็น real-time (ไม่คูณ multiplier เลย) → ไม่ต่าง
+    - _พบ 2026-09-09 ระหว่างทัวร์ `CharUnit.h` · ยังไม่แก้_
+17. ℹ️ **ตัวละครตายจากดาเมจไม่ได้ = by design** (ยืนยัน 2026-09-04) — sim นี้วัด damage output ไม่แคร์ survivability · `DecreaseCurrentHP` (`ChangeHP.h:122`) clamp `currentHP` ขั้นต่ำ `1` โดยตั้งใจ · `AllyUnit::death()` ถูกเรียกแค่กับ summon/countdown/memo (FireFly/Phainon/Aglaea/Castorice/Robin) — char-death `AllyDeath_List` (Huohuo revive, Tingyun buff strip) จึงยิงเฉพาะตอน memo ตาย ไม่เคยยิงตอน char ตาย (ยอมรับได้)
 
 ---
 

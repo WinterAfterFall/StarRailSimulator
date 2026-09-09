@@ -40,9 +40,11 @@
 | **Memosprite DMG** | `Summon` | ดาเมจจาก memosprite | ✅ | ✅ |
 | **Elation DMG** | `ElationDMG` | ดาเมจชนิด Elation (v4.0) | ✅ | ❌ |
 | **Elation Skill** | `ElationSkill` | ท่าของสาย Elation ที่ยิงจาก Punchline | ✅ | ❌ |
-| **True DMG** | ยังไม่มี | ดาเมจตรงข้าม ไม่ผ่าน DEF/RES (หายาก) | ❌ | ❌ |
+| **True DMG** | ไม่มี `AType` — ใช้ `Cal_DamageNote()` | ดาเมจแยก = % ของดาเมจก้อนแม่ ไม่ผ่านสูตรเลย | ❌ | ❌ |
 
 > ⚠️ **`Addtional` สะกดผิดในโค้ด** (ควรเป็น *Additional*) — เขียนตามนี้เวลาเรียก enum
+
+> **True DMG ไม่ใช่ `AType`** — มันคือ "ตัวคูณที่แยกยอดออกมาเป็นดาเมจก้อนใหม่" ไม่ใช่ชนิดการโจมตี wiki เรียกว่า *not considered an attack* → เอนจินจึงบันทึกตรงเข้าสมุดด้วย `Cal_DamageNote(act, src, recv, damage, ratio, name)` (`CalDamageNote.h:68`) ไม่ผ่าน `Attack()`/`CalDamage` เลย · งอกได้จากดาเมจทุกชนิด (crit / non-crit / DoT / Break / SPB) · ย้ายเป้าได้ (`src` ≠ `recv`) เช่น Tribbie E1 — รายละเอียดเต็มที่ `docs/engine-reference/unit.md` หัวข้อ 5.1
 
 ### กฎเคสพิเศษ (สรุปจาก review ของโปรเจกต์นี้)
 

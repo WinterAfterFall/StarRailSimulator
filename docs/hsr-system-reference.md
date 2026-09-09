@@ -539,6 +539,40 @@ DEF ของศัตรูคำนวณจาก DEF = 200 + 10 x Level
 - ตัวอย่างการแบ่ง: Skill ของ Acheron แบ่ง 10/10/10/70% ขณะที่ Skill ของ Topaz แบ่งเท่ากัน 1/7 เจ็ดฮิต
 - การโจมตีแบบ Bounce กระจายฮิตนอกเป้าหลักไปยังเป้าสุ่ม และถ้าท่านั้นสร้าง Energy การเพิ่ม Hits Per Action ก็เพิ่ม Energy ตามด้วย
 
+### 10.5 True DMG
+
+**นิยาม (wiki [W17]):** ดาเมจที่ **ไม่ถือเป็นการโจมตี (not considered an attack)** และ **ไม่ถูกแก้ไขโดยตัวคูณอื่นในการคำนวณดาเมจ**
+
+**วิธีคิดที่ถูกต้อง:** True DMG คือ *ตัวคูณตัวหนึ่งในสูตร* — แต่แทนที่จะบวกกลับเข้าดาเมจหลัก มันถูก **แยกยอดที่เพิ่มออกมานำเสนอเป็นดาเมจก้อนใหม่** ตัวเลขจึงคำนวณจากดาเมจก้อนแม่ที่ผ่านสูตรครบแล้ว
+
+ผลที่ตามมา:
+
+| ประเด็น | ผล |
+|---|---|
+| DEF / RES ของเป้า | ข้าม (เพราะก้อนแม่หักไปแล้ว ไม่หักซ้ำ) |
+| CRIT / DMG Boost / Vulnerability / Weaken / Broken Mult | **ไม่ซ้อนเพิ่ม** — "buff ไม่ได้" [W18] |
+| True DMG ซ้อน True DMG | **ไม่ได้** — เทียบ Cipher A2/A4 ที่นับเฉพาะ *non-True DMG* |
+| ลด Toughness | ❌ |
+| สร้าง Energy | ❌ |
+| trigger เอฟเฟกต์ on-hit / on-attack | ❌ (ไม่ใช่ "attack") |
+| **เปลี่ยนเป้าได้** | ✅ — เพราะแยกเป็นก้อนใหม่ จึงส่งไปศัตรูตัวอื่นได้ |
+
+**งอกได้จากดาเมจทุกชนิด** — non-CRIT, CRIT, **DoT, Break DMG, Super Break DMG** [W18]
+
+**แหล่ง True DMG ที่มีในเกม**
+
+| ตัว | สูตร |
+|---|---|
+| RMC "Mem's Support" | ต่อ 1 instance ของดาเมจที่เป้าหมายทำ → True DMG = 28% ของดาเมจนั้น (A6 +2% ต่อ 10 Energy ส่วนเกิน 100, cap +20%; E4 +6%) |
+| Cipher Ult | 25% (single) + 75% (blast, กระจายเท่ากัน) ของ DMG tally → ล้าง tally |
+| Tribbie E1 | ขณะ Zone → 24% ของดาเมจ**รวม**ของการโจมตีนั้น (ทุกเป้ารวมกัน) ใส่**เป้าเดียว** |
+| Phainon E6 | หลัง "Foundation" attack → 36% ของดาเมจรวมในการโจมตีนั้น ใส่ศัตรู HP สูงสุด |
+| Light Cone หลายใบ | ดู `Vocab/06-LightCone.md` |
+
+> **หมายเหตุการอ่านค่า %:** ตัวเลขข้างบนเป็นค่าตาม[คอนเวนชันเลเวลของโปรเจกต์](character-implementation-notes.md) (5★ = talent Lv.10) — แหล่งนอกที่อ้างเลเวลสูงกว่าจะเห็นเลขต่างเล็กน้อย เช่น Game8 เขียน RMC = 30%
+
+> **ในเอนจินนี้:** True DMG ไม่มี `AType` ของตัวเอง — บันทึกตรงเข้าสมุดดาเมจผ่าน `Cal_DamageNote()` โดยไม่ผ่าน `Attack()`/`CalDamage` ซึ่งทำให้คุณสมบัติทุกข้อข้างบนเป็นจริงโดยอัตโนมัติ · รายละเอียด + เหตุผลที่ key ต้องเก็บทั้ง `src` และ `recv` อยู่ที่ `docs/engine-reference/unit.md` หัวข้อ 5.1
+
 ---
 
 ## 11. Aha Instant และ Path of Elation
@@ -770,6 +804,8 @@ Memosprite และ Elation ต่างขยาย "จำนวนหน่�
 | W14 | Mem (memosprite ของ Trailblazer) | https://honkai-star-rail.fandom.com/wiki/Mem |
 | W15 | Skill Point | https://honkai-star-rail.fandom.com/wiki/Skill_Point |
 | W16 | Elation DMG (สูตร + Level Multiplier table) | https://honkai-star-rail.fandom.com/wiki/Elation_DMG |
+| W17 | True DMG (นิยาม — "not considered an attack", ไม่ถูกแก้โดยตัวคูณอื่น) | https://honkai-star-rail.fandom.com/wiki/True_DMG |
+| W18 | True DMG (ข้าม DEF/RES, buff ไม่ได้, งอกจาก non-CRIT/CRIT/DoT/Break/Super Break) | https://game8.co/games/Honkai-Star-Rail/archives/486082 |
 
 ### B. แหล่งอ้างอิงที่ถูกอ้างในเนื้อหา (รหัส S)
 
