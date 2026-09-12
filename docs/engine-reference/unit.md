@@ -6,7 +6,7 @@
 สถานะ: 🚧 กำลังทำ
 - เสร็จ (ตรวจกับ impl แล้ว): `ActionValueStats.h` · `Unit.h` · `AllyUnit.h`
 - บางส่วน (จาก `Memosprite_reset` — ยังไม่ไล่ทั้งไฟล์): `Memosprite.h` → ดูหัวข้อ 4.7
-- บางส่วน (เฉพาะคลาสผู้ช่วย + โมเดล True DMG): `CharUnit.h` → ดูหัวข้อ 5.1
+- บางส่วน (คลาสผู้ช่วย + True DMG · สมุดดาเมจ 2 เล่ม · energy): `CharUnit.h` → ดูหัวข้อ 5.1–5.3
 - **ยังไม่แตะเลย: `Enemy.h` · `StatsSet.h`**
 
 ### session log
@@ -23,8 +23,10 @@
 
 **2026-09-09** — เริ่มทัวร์ `CharUnit.h` · จบ **หัวข้อ 5.1**: คลาสผู้ช่วย 4 ตัว (`Func_class` `DamageSrc` `DamageRecord` `DamageAvgRecord`) + **โมเดล True DMG** (ทำไม `DamageSrc` ต้องมี `src` **และ** `recv`, engine implement เป็น note ล้วนผ่าน `Cal_DamageNote` ไม่ใช่ AType) · ค้นยืนยันกับ wiki/Game8 · เจอ 🐞 #16 (non-real-time True DMG คูณ toughnessAvgMultiplier ของ `recv` แทน `src`)
 
+**2026-09-13** — ทัวร์ `CharUnit.h` ต่อ · เพิ่ม **หัวข้อ 5.2** (สมุดดาเมจ 2 เล่ม real-time vs non-real-time + `toughnessAvgCalculate` + ข้อยกเว้น Dahlia) และ **5.3** (energy: convention 2-arg/3-arg ของ `Increase_energy`, `Ult_cost` vs `Max_energy`, `Max_energy == 0`) · **แก้คำอธิบายที่กลับข้างใน 5.1 + 🐞 #16** — เดิมเขียนว่า Break/SPB/DoT ตกสมุดเฉลี่ย ที่ถูกคือ Break/SPB ตกสมุด**คิดสด** ส่วน DoT + การโจมตีปกติตกสมุด**เฉลี่ย** → ทำให้ 🐞 #16 เป็นเคสหลักไม่ใช่เคสหายาก
+
 **ค้าง / session หน้า:**
-- ทัวร์ต่อ `CharUnit.h` หัวข้อที่เหลือ: status/energy · Build (`Func_class` 4 ช่อง) · CalCheck flags (~35 bool) · **substats reroll optimizer** (`StandardReroll` / `AllCombinationReroll` / `AllPossibleReroll` — ก้อนใหญ่สุด) · summon/memo/countdown lists · `ultCondition` · relic main-stat slots · requirement stats
+- ทัวร์ต่อ `CharUnit.h` หัวข้อที่เหลือ: Build (`Func_class` 4 ช่อง) · CalCheck flags (~35 bool) · **substats reroll optimizer** (`StandardReroll` / `AllCombinationReroll` / `AllPossibleReroll` — ก้อนใหญ่สุด, `spiltPoint`/`SeparateRatio` ยังไม่มีใครอธิบาย) · summon/memo/countdown lists · `ultCondition` · relic main-stat slots · requirement stats
 - แล้วค่อย: `Enemy.h` → `StatsSet.h`
 - 🐞 ที่ยังไม่แก้: #1 (include ซ้ำ) · #2 (Jingyuan summon ชื่อ) · #4 (`isExsited` typo) · #8 (summon/countdown → `ActionValueStats` refactor)
 - dead code เหลือ (โซนอื่น): `DecreaseHP(Unit*, vector, ...)` overload · `Enemy::hitCount`
@@ -411,7 +413,8 @@ memosprite 2 แบบ: **สปีดคงที่** (RMC "Mem" — `fixSpeed
 
 `class CharUnit : public AllyUnit` — ตัวละครผู้เล่นจริง · ctor ตั้ง `owner = this` (`CharUnit.h:155`)
 
-สถานะ: 🚧 ทัวร์ยังไม่จบ — ตอนนี้จบเฉพาะ **5.1 (คลาสผู้ช่วย + โมเดล True DMG)** · ค้าง: status/energy · Build (`Func_class`) · CalCheck flags · **substats reroll optimizer** · summon/memo/countdown lists · `ultCondition` · relic main-stat slots · requirement stats
+สถานะ: 🚧 ทัวร์ยังไม่จบ — จบแล้ว **5.1** (คลาสผู้ช่วย + โมเดล True DMG) · **5.2** (สมุดดาเมจ 2 เล่ม) · **5.3** (energy)
+ค้าง: Build (`Func_class` 4 ช่อง) · CalCheck flags (~35 bool) · **substats reroll optimizer** · summon/memo/countdown lists · relic main-stat slots · requirement stats
 
 ### 5.1 คลาสผู้ช่วย 4 ตัว + โมเดล True DMG
 
@@ -456,10 +459,97 @@ void Cal_DamageNote(act, Enemy* src, Enemy* recv, double damage, double ratio, s
 - ไม่ลด toughness · ไม่สร้าง energy · ไม่ยิง `AfterDealingDamage_List` ซ้ำ (ไม่ recursion) ✔
 - ทั้งหมดนี้สรุปได้ด้วยประโยคเดียวของ wiki: True DMG **"ไม่ถือเป็นการโจมตี" (not considered an attack)**
 
-> ⚠️ True DMG งอกได้จากดาเมจ **ทุกชนิด** — non-crit, crit, **DoT, Break, Super Break** (Game8) → note ที่งอกจาก Break/SPB/DoT จะมี `toughnessAvgCalculate == true` = ตกลง `currentNonRealTimeDmg` → ดู 🐞 #16
+> ⚠️ True DMG งอกได้จากดาเมจ **ทุกชนิด** — non-crit, crit, **DoT, Break, Super Break** (Game8) · note ก้อนนั้นตกลงสมุดเล่มไหนก็ตาม `act->toughnessAvgCalculate` ของการโจมตีแม่ → ดูหัวข้อ 5.2 และ 🐞 #16
 
 **แหล่งอ้างอิงนอก:** [Fandom — True DMG](https://honkai-star-rail.fandom.com/wiki/True_DMG) · [Game8 — Remembrance Trailblazer](https://game8.co/games/Honkai-Star-Rail/archives/486082)
 _(หมายเหตุ: Game8 เขียน RMC Mem's Support = 30%, เรโปเขียน 28% — คนละเลเวล talent ไม่ขัดกัน ดู `character-implementation-notes.md` คอนเวนชันเลเวล)_
+
+### 5.2 สมุดดาเมจ 2 เล่ม — real-time vs non-real-time
+
+#### กฎเกมที่เป็นต้นเหตุ
+
+ศัตรูที่ยัง**ไม่** broken กินดาเมจแค่ **90%** พอ broken แล้วกิน **100%** — คือ **Broken Multiplier** ใน[สูตรดาเมจ](../hsr-system-reference.md) §10.1 · ในโค้ดคือ `calToughnessMultiplier` คืน `0.9` หรือ `1` (`CalStats.h:392-398`)
+
+#### ปัญหาสำหรับ sim
+
+sim วัด "ดาเมจเฉลี่ยต่อ ATV" ถ้าใส่ 0.9/1.0 ตามสถานะจริง ณ วินาทีที่ตี ผลจะ**แกว่งตามจังหวะ** — อัลติก้อนใหญ่ที่บังเอิญตกหลัง break พอดีได้ ×1.0 แต่เลื่อนนิดเดียวไปตกก่อน break ได้ ×0.9 ทั้งก้อน ดาเมจรวมทั้งรันเด้งทั้งที่บิลด์เหมือนเดิมเป๊ะ = ไม่ใช่ตัวเลขที่เป็นตัวแทนของบิลด์
+
+#### วิธีแก้ — แยกสมุด 2 เล่ม
+
+| สมุด | ทำอะไรตอนตี | ทำอะไรตอนจบ |
+|---|---|---|
+| **`currentNonRealTimeDmg`** ("เดี๋ยวค่อยเฉลี่ย") | **ไม่ใส่** 0.9/1.0 เลย — `calToughnessMultiplier` คืน `1` เก็บดาเมจดิบ | คูณทั้งเล่มด้วยตัวคูณเฉลี่ยตัวเดียว = สัดส่วนเวลาที่ศัตรู broken ตลอดรัน (`Cal_AvgToughnessMultiplier`, `CalDamageNote.h:59-67`) · เช่น broken 30% ของเวลา → `0.3×1.0 + 0.7×0.9 = 0.93` |
+| **`currentRealTimeDmg`** ("จบตรงนั้น") | ใส่ 0.9/1.0 **จริง** ตามสถานะ ณ วินาทีนั้น | ไม่แตะอีก — บวกดิบ ๆ (`CalDamageNote.h:40-43`) |
+
+#### `toughnessAvgCalculate` — สวิตช์ที่ตัดสิน
+
+ชื่อบอกตรงตัว: **"ดาเมจก้อนนี้จะคิดตัวคูณ toughness แบบเฉลี่ยไหม"**
+
+- `= 1` → **เฉลี่ย** → ลง `currentNonRealTimeDmg`
+- `= 0` → **คิดสด** → ลง `currentRealTimeDmg`
+
+ค่าเริ่มต้น `= 1` (`AllyAttackAction.h:31`) · ถูกกดเป็น `0` เฉพาะ **5 ชนิด**: `Break` · `SPB` · `Technique` · `Freeze` · `Entanglement` (`AllyAttackAction.h:106,114,134,139,145`)
+
+**เหตุผลที่ 5 ชนิดนี้คิดสด (ยืนยัน 2026-09-13):** เวลาของมัน**แน่นอนอยู่แล้ว** ไม่มีความไม่แน่นอนให้เฉลี่ย — Break DMG เกิดตอน break พอดี · Super Break ปกติเกิดบนเป้าที่ broken ไปแล้ว (Broken mult ล็อค 1.0) · Technique/Freeze/Entanglement เกิดในจังหวะที่ระบุชัด
+
+| ชนิดดาเมจ | `toughnessAvgCalculate` | สมุด |
+|---|---|---|
+| BA · Skill · Ult · FuA · **DoT** · Additional · Elation · Memosprite | `1` (default) | non-real-time (เฉลี่ย) |
+| **Break · Super Break** · Technique · Freeze · Entanglement | `0` | real-time (คิดสด) |
+
+> ⚠️ **อย่าสับสน** — DoT อยู่เล่ม**เฉลี่ย** (ไม่ได้ถูกกดเป็น 0) ส่วน Break/SPB อยู่เล่ม**คิดสด**
+
+#### ข้อยกเว้น: Dahlia pre-break SPB
+
+`Superbreak_trigger` (`Combat.h:254-256`) เขียนทับค่าเป็นราย ๆ ไป:
+```cpp
+data_2->toughnessAvgCalculate = (enemyUnit[i]->Toughness_status==1) ? 1 : 0;
+```
+(`Toughness_status == 1` = **ยัง**ไม่ broken · `== 0` = broken แล้ว)
+
+SPB ปกติยิงบนเป้าที่ broken แล้ว → `0` → คิดสด · แต่ SPB ผ่าน Dahlia ยิงบนเป้าที่**ยังไม่** broken → Broken mult ไม่แน่นอน → `1` → เข้าเล่มเฉลี่ย
+
+### 5.3 Energy (`Max_energy` `Current_energy` `Ult_cost` `Energy_recharge`)
+
+field อยู่ที่ `CharUnit.h:36-39` · เซ็ตครั้งแรกโดย `SetCharBasicStats(BaseSpeed, Max_Energy, Ult_cost, Eidolon, ...)` (`StatsSet.h:10,18-19`)
+
+#### กฎสำคัญ: ERR ไม่ได้คูณ energy ทุกชนิด
+
+ในเกม Energy Recharge เพิ่มเฉพาะ energy ที่ได้จาก **การกระทำ** (ตี / โดนตี / จบเทิร์น) แต่ **ไม่** เพิ่ม energy ที่สกิลเพื่อน "มอบให้" ตรง ๆ (fix energy)
+
+เอนจินแยกด้วย **overload ของ `Increase_energy`** (`Energy.h`) — **นี่คือ convention ที่ต้องยึดเวลาเขียนตัวละครใหม่ (ยืนยัน 2026-09-13):**
+
+| overload | สูตร | ERR คูณ? | ใช้กับ |
+|---|---|---|---|
+| `Increase_energy(ptr, Energy)` | `Energy × Energy_recharge/100` | ✅ | energy จากการกระทำ — ตี, โดนตี, จบเทิร์น |
+| `Increase_energy(ptr, Energy_percent, Flat_energy)` | `Flat + percent/100 × Max_energy` | ❌ | **fix energy** — ที่สกิล/LC มอบให้ตรง ๆ |
+
+> มี overload ที่รับ `AllyUnit*` คู่กันทั้ง 2 แบบ — เด้งไปใช้ `ptr->owner` ให้ (memosprite เติม energy ให้เจ้าของ)
+
+ตัวอย่างที่ใช้ถูกฝั่ง:
+- Tingyun ตีเอง → 2-arg (`Tingyun.h:60,75`) · **Benediction ยัด energy ให้เพื่อน → 3-arg** `Increase_energy(target, 0, E6?60:50)` (`Tingyun.h:120`) · technique → `(ptr, 0, 50*Technique)` (`:169`)
+- Huohuo ult → `(each, 20, 0)` = 20% ของ `Max_energy` ไม่โดน ERR (`Huohuo.h:75`)
+
+#### `Ult_cost` vs `Max_energy`
+
+- `Max_energy` = **เพดานสะสม** — `Increase_energy` clamp ทุก overload
+- `Ult_cost` = **ราคาที่ต้องจ่าย** — `ultUseCheck` เช็ค `if(ptr->Ult_cost > ptr->Current_energy) return false;` แล้วหักออก (`Energy.h`)
+- ปกติสองค่าเท่ากัน แยกไว้เพื่อรองรับตัวที่กติกาต่าง เช่น Saber (`Saber.h:220,248` · `Saber_LC.h:17` เช็ค `Max_energy>=300`)
+
+#### `Max_energy == 0` = ตัวที่ไม่มีหลอดพลังงาน
+
+บางตัว**เก็บอัลติด้วยเงื่อนไขอื่น** ไม่ใช่ energy → ตั้ง `Max_energy = 0` (ยืนยัน 2026-09-13)
+
+โค้ดที่ buff energy ต้อง **เช็คก่อนเสมอ** ไม่งั้นจะไปเติมหลอดที่ไม่มีอยู่ / หารศูนย์:
+- Tingyun: `if (charUnit[...]->Max_energy == 0) return true;` = escape hatch ไม่เลือกเป้านี้ (`Tingyun.h:106`)
+- Sunday: `if(chooseCharacterBuff(ptr)->Max_energy != 0)` ก่อนคิดเงื่อนไข (`Sunday.h:28`)
+- RMC: `if(chooseCharacterBuff(...)->Max_energy == 0)` แยก branch ของ Mem's Support (`RMC.h:251`)
+
+#### ใช้ ult แล้วคืน 5 energy
+
+`ultUseCheck` หัก `Ult_cost` เสร็จแล้วเรียก `Increase_energy(ptr, 5)` ทันที = กฎเกม "ใช้ ult แล้วได้คืน 5 energy" · ใช้ **2-arg** ถูกแล้ว เพราะในเกม 5 ก้อนนี้**โดน ERR คูณ** (ยืนยัน 2026-09-13)
+
+จากนั้นวน `ultCondition` ทุกข้อ (ต้องผ่านหมด) แล้วยิง `WhenUseUlt_List` — `ultCondition` เพิ่มผ่าน `CharUnit::addUltCondition(function<bool()>)` (`Energy.h`)
 
 ---
 
@@ -487,9 +577,10 @@ _(หมายเหตุ: Game8 เขียน RMC Mem's Support = 30%, เ�
     }
     ```
     แต่เจตนาของ field `src` (ดูหัวข้อ 5.1) คือ "weaken/toughness-avg อิงจากศัตรูที่ดาเมจ **ต้นทาง** ลง" → บรรทัดนี้ควรใช้ `toughnessAvgMultiplier` ของ `each.first.src`
-    - **เห็นผลเมื่อ** note เป็น non-real-time (True DMG ที่งอกจาก DoT / Break / Super Break) **และ** `src != recv` — เคสชัดสุดคือ **Tribbie E1** (ต้นทางกระจายหลายตัว → ปลายทางกองตัวเดียว)
-    - ถ้า `src == recv` (True DMG ที่ไม่ย้ายเป้า) หรือ note เป็น real-time (ไม่คูณ multiplier เลย) → ไม่ต่าง
-    - _พบ 2026-09-09 ระหว่างทัวร์ `CharUnit.h` · ยังไม่แก้_
+    - **เห็นผลเมื่อ** note ตกสมุด non-real-time **และ** `src != recv`
+    - ⚠️ **นี่คือเคสหลัก ไม่ใช่เคสหายาก** — สมุด non-real-time คือสมุดของการโจมตี **ปกติทั้งหมด** (BA/Skill/Ult/FuA/DoT/Additional/Elation ดูหัวข้อ 5.2) ดังนั้น **Tribbie E1** ที่งอก True DMG จากการโจมตีปกติ แล้วย้ายยอดไปกองเป้าเดียว → เข้าเงื่อนไขเต็ม ๆ ทุกครั้ง
+    - ที่ **ไม่** ต่างคือตอน `src == recv` (True DMG ที่ไม่ย้ายเป้า) หรือ note ตกสมุด real-time (Break/SPB/Technique/Freeze/Entanglement — ไม่คูณ multiplier ตอนจบเลย)
+    - _พบ 2026-09-09 ระหว่างทัวร์ `CharUnit.h` · แก้คำอธิบายที่กลับข้าง 2026-09-13 (เดิมเขียนว่า Break/SPB/DoT ตกสมุดเฉลี่ย — ผิด) · ยังไม่แก้โค้ด_
 17. ℹ️ **ตัวละครตายจากดาเมจไม่ได้ = by design** (ยืนยัน 2026-09-04) — sim นี้วัด damage output ไม่แคร์ survivability · `DecreaseCurrentHP` (`ChangeHP.h:122`) clamp `currentHP` ขั้นต่ำ `1` โดยตั้งใจ · `AllyUnit::death()` ถูกเรียกแค่กับ summon/countdown/memo (FireFly/Phainon/Aglaea/Castorice/Robin) — char-death `AllyDeath_List` (Huohuo revive, Tingyun buff strip) จึงยิงเฉพาะตอน memo ตาย ไม่เคยยิงตอน char ตาย (ยอมรับได้)
 
 ---
