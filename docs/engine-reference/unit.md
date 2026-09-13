@@ -6,7 +6,7 @@
 สถานะ: 🚧 กำลังทำ
 - เสร็จ (ตรวจกับ impl แล้ว): `ActionValueStats.h` · `Unit.h` · `AllyUnit.h`
 - บางส่วน (จาก `Memosprite_reset` — ยังไม่ไล่ทั้งไฟล์): `Memosprite.h` → ดูหัวข้อ 4.7
-- บางส่วน (คลาสผู้ช่วย + True DMG · สมุดดาเมจ 2 เล่ม · energy · CalCheck · substats reroll): `CharUnit.h` → ดูหัวข้อ 5.1–5.5
+- บางส่วน (คลาสผู้ช่วย + True DMG · สมุดดาเมจ 2 เล่ม · energy · CalCheck · substats reroll · Build): `CharUnit.h` → ดูหัวข้อ 5.1–5.6
 - **ยังไม่แตะเลย: `Enemy.h` · `StatsSet.h`**
 
 ### session log
@@ -33,10 +33,12 @@
 
 **2026-09-13 (ต่อ 4)** — แก้ตามที่ user สั่ง: `Total_substats` ค่าเริ่มต้น 20 → 25 · 🐞 #1 ลบ include ซ้ำ · 🐞 #2 summon ใช้ชื่อที่ส่งมา (`LL`) · 🐞 #4 rename `isExsited` → `isExisted` (9 จุด) · 🐞 #16 `Cal_AverageDamage` อัปเดตตัวคูณเฉลี่ยให้ศัตรูทุกตัว แล้วใช้ของ `src` · คอมไพล์ผ่าน
 
+**2026-09-13 (ต่อ 5)** — เพิ่ม **หัวข้อ 5.6** (Build: `Func_class` 4 ช่อง) · ลบเงื่อนไขอัลติของ Tribbie ทั้งก้อน (DDD 2 บรรทัด + เช็ค Eagle ผิดช่องที่ไม่มีวันจริง) · ลบเช็ค DDD ของ Hanabi / HanabiV1 (ใส่ DDD แล้วไม่มีวันกดอัลติ) · แก้ชื่อ planar `Rutilant` / `Inert` · user: เก็บช่อง `Name` / `Print_Func` ไว้ก่อน
+
 **ค้าง / session หน้า:**
-- **รัน sim จริง** (sandbox link ไม่ได้ ต้องรันบนเครื่อง user) — เช็ค reroll refactor + 🐞 #2 / #16 ที่เปลี่ยนผลได้ แล้วค่อย commit
+- ~~รัน sim จริง~~ ✅ user รันผ่านแล้ว (2026-09-13) · push แล้ว `31c9a49..e8de52b` · **Dahlia (`Combat.h`) ยังไม่ commit — user จะอ่านวันหลัง**
 - ~~E2~~ ✅ ตอบแล้ว (2026-09-13): จำนวน roll รวม user กำหนดเอง ปกติ **25** — ตัวละครทุกตัวเรียก `setTotalSubstats(25)` (ค่าเริ่มต้นใน `CharUnit.h` แก้จาก 20 เป็น 25 แล้ว) · `currentTotalSubstats` ไม่มีใครอ่าน → **ลบแล้ว**
-- ทัวร์ต่อ `CharUnit.h` หัวข้อที่เหลือ: Build (`Func_class` 4 ช่อง) · summon/memo/countdown lists · `ultCondition` · relic main-stat slots · requirement stats
+- ทัวร์ต่อ `CharUnit.h` หัวข้อที่เหลือ (ทีละหัวข้อ): summon/memo/countdown lists · relic main-stat slots · requirement stats
 - แล้วค่อย: `Enemy.h` → `StatsSet.h`
 - 🐞 ~~#1 · #2 · #4 · #16~~ ✅ แก้แล้ว 2026-09-13 (ยังไม่ commit) · ~~#8~~ ปิด — user: summon/countdown ไม่ได้ใช้ `owner`
 - dead code (โซนอื่น): `DecreaseHP(Unit*, vector, ...)` overload · `Enemy::hitCount` — **ปล่อยไว้** (user 2026-09-13)
@@ -423,8 +425,8 @@ memosprite 2 แบบ: **สปีดคงที่** (RMC "Mem" — `fixSpeed
 
 `class CharUnit : public AllyUnit` — ตัวละครผู้เล่นจริง · ctor ตั้ง `owner = this` (`CharUnit.h:155`)
 
-สถานะ: 🚧 ทัวร์ยังไม่จบ — จบแล้ว **5.1** (คลาสผู้ช่วย + โมเดล True DMG) · **5.2** (สมุดดาเมจ 2 เล่ม) · **5.3** (energy) · **5.4** (CalCheck flags) · **5.5** (substats reroll)
-ค้าง: Build (`Func_class` 4 ช่อง) · summon/memo/countdown lists · relic main-stat slots · requirement stats
+สถานะ: 🚧 ทัวร์ยังไม่จบ — จบแล้ว **5.1** (คลาสผู้ช่วย + โมเดล True DMG) · **5.2** (สมุดดาเมจ 2 เล่ม) · **5.3** (energy) · **5.4** (CalCheck flags) · **5.5** (substats reroll) · **5.6** (Build)
+ค้าง: summon/memo/countdown lists · relic main-stat slots · requirement stats
 
 ### 5.1 คลาสผู้ช่วย 4 ตัว + โมเดล True DMG
 
@@ -669,7 +671,54 @@ sandbox ที่ใช้ทำงาน link C++ ไม่ได้ (`ld retur
   - รอบที่เกินเป็น **run สุดท้ายเสมอ** (2495/2495) และส่วนใหญ่ (2322) คือการรันชุดที่เคยวัดไปแล้วซ้ำ
   - สาเหตุคือบั๊กเก่าใน `Reroll_substats`: คอลแรกคืน `true` พร้อมชุดที่ roll ติดลบ → ตั้ง `ans = false` ไปแล้ว → `goto again` คอลซ้ำพบว่าค้นหาจบ คืน `false` แต่ `ans` ไม่ถูกแก้กลับ → `Main.h` รันเพิ่มอีก 1 รอบเปล่า ๆ
   - ไม่กระทบผลสรุป เพราะตัวที่ค้นหาจบแล้วไม่เรียก `changeMaxDamage` อีก · โค้ดใหม่ไม่มีปัญหานี้เพราะเช็คค่าติดลบก่อนคืน `true`
-- คอมไพล์ผ่านทั้ง `ManualBuilder.cpp` และ `Application.cpp` (`g++ -std=c++17 -fsyntax-only`) — **ยังไม่ได้รัน sim จริง**
+- คอมไพล์ผ่านทั้ง `ManualBuilder.cpp` และ `Application.cpp` (`g++ -std=c++17 -fsyntax-only`) · user รัน sim จริงบนเครื่องตัวเองแล้วผ่าน (2026-09-13)
+
+### 5.6 Build — `Func_class` 4 ช่อง (`Char` / `Light_cone` / `Relic` / `Planar`)
+
+field อยู่ที่ `CharUnit.h:43-46` · `class Func_class { string Name; function<void(CharUnit*)> Print_Func; }` (`CharUnit.h:6`)
+
+#### LC / Relic / Planar ต่อเข้าตัวละครยังไง
+
+`Setup` ของตัวละครรับ 3 อย่างนี้เป็น **ฟังก์ชัน** แล้วเรียกทันที (`Tingyun.h:20,32-34`):
+```cpp
+void Setup(int E, function<void(CharUnit *ptr)> LC, function<void(CharUnit *ptr)> Relic, function<void(CharUnit *ptr)> Planar){
+    CharUnit *ptr = SetCharBasicStats(...);
+    ...
+    LC(ptr);
+    Relic(ptr);
+    Planar(ptr);
+```
+ฟังก์ชันพวกนั้นทำ 2 อย่าง: **เขียนชื่อลงช่องของตัวเอง** (เช่น `ptr->Light_cone.Name = "DDD"`) และ **ลงทะเบียน trigger / บัฟ** (`Reset_List`, `WhenUseUlt_List`, `addUltCondition` ...) — ตัวฟังก์ชันไม่ได้ถูกเก็บในช่อง ช่องเก็บแค่ชื่อ
+- LC เป็น factory รับ superimpose แล้วคืน lambda (`Harmony_Lightcone::DDD(int superimpose)` → `[=](CharUnit *ptr){...}`)
+- Relic / Planar ส่วนใหญ่เป็นฟังก์ชันตรง ๆ (`Relic::Eagle_Beaked_Helmet`) ยกเว้นตัวที่ต้องรับค่า เช่น `Planar::GiantTree(0)`
+
+#### ใครใช้ช่องไหน (ณ 2026-09-13)
+
+| ช่อง | ใครเขียน | ใครอ่าน |
+|---|---|---|
+| `Light_cone.Name` | ไฟล์ LC ครบทั้ง 62 ไฟล์ | **ไม่มีแล้ว** — เดิม Tribbie / Hanabi เช็ค `"DDD"` (ลบออกแล้ว ดูด้านล่าง) |
+| `Relic.Name` | ไฟล์ relic | ไม่มีใครอ่าน |
+| `Planar.Name` | ไฟล์ planar | ไม่มีใครอ่าน |
+| `Char.Name` | ไม่มีใครเขียน | ไม่มีใครอ่าน |
+| `Print_Func` | Tribbie ตั้งค่า (`Tribbie.h:40`) | ไม่มีใครเรียก |
+
+**user: เก็บทุกช่องไว้ก่อน** ถึงตอนนี้จะไม่มีใครอ่าน
+
+#### เงื่อนไขกดอัลติที่ผูกกับของที่ใส่
+
+relic / LC บางตัวให้ผลตอนใช้อัลติ (advance) → ถ้ากดตอนที่ตัวนั้นใกล้ได้เล่นอยู่แล้ว advance จะเสียเปล่า
+- **Eagle of Twilight Line** (`Eagle_Beaked_Helmet.h` — ชื่อไฟล์เป็นชื่อชิ้นหัว): ใช้อัลติแล้ว advance ตัวเอง 25% → ไฟล์ relic **ใส่ `addUltCondition` ไว้เอง**: `atv <= Max_atv*0.25` → ยังไม่กด
+- **Dance! Dance! Dance!** (`DDD.h`): ใช้อัลติแล้ว advance ทั้งทีม `14 + 2*S`% → **ไม่มีเงื่อนไขในตัว**
+
+#### แก้เมื่อ 2026-09-13 (user สั่ง)
+
+- **Tribbie** — ลบ `addUltCondition` ทั้งก้อน เหลือแต่ `return true` แล้ว:
+  - 2 บรรทัดเช็ค DDD (เป้าที่บัฟ หรือ driver มี atv ≤ 0 → ไม่กด)
+  - บรรทัด `Light_cone.Name == "Eagle_Beaked_Helmet"` ที่ **ไม่มีวันจริง** เพราะ Eagle เป็น relic ชื่ออยู่ใน `Relic.Name` — และซ้ำกับเงื่อนไขที่ relic ใส่เองอยู่แล้ว
+- **Hanabi / HanabiV1** — เดิม `LC != "DDD" && ต้นเทิร์นของเป้าที่บัฟ` → **ใส่ DDD แล้วเงื่อนไขเป็นเท็จเสมอ = ไม่มีวันกดอัลติ** · ลบส่วน `LC != "DDD"` ออก → กดอัลติตอนต้นเทิร์นของเป้าที่บัฟเสมอ ไม่ว่าใส่ LC อะไร
+- **ชื่อ planar** — `Rutilant.h` เดิม `"    "` → `"Rutilant"` · `Inert.h` เดิม `"SpaceSealing"` (copy มา) → `"Inert"`
+
+> ความต่างที่ทำให้ย้ายเงื่อนไข DDD เข้า `DDD.h` แบบ Eagle ไม่ได้ตรง ๆ: เงื่อนไขของ Tribbie คือ **กันไม่ให้ advance เสียเปล่า** แต่ของ Hanabi คือ **จับจังหวะให้บัฟอัลติเริ่มพอดีตอนเป้าได้เล่น** — คนละจุดประสงค์ · user ตัดสินใจเอา DDD ออกจากทั้ง 2 ตัวแทน
 
 ---
 
