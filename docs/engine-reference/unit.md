@@ -6,7 +6,7 @@
 สถานะ: 🚧 กำลังทำ
 - เสร็จ (ตรวจกับ impl แล้ว): `ActionValueStats.h` · `Unit.h` · `AllyUnit.h`
 - บางส่วน (จาก `Memosprite_reset` — ยังไม่ไล่ทั้งไฟล์): `Memosprite.h` → ดูหัวข้อ 4.7
-- บางส่วน (คลาสผู้ช่วย + True DMG · สมุดดาเมจ 2 เล่ม · energy): `CharUnit.h` → ดูหัวข้อ 5.1–5.3
+- บางส่วน (คลาสผู้ช่วย + True DMG · สมุดดาเมจ 2 เล่ม · energy · CalCheck · substats reroll): `CharUnit.h` → ดูหัวข้อ 5.1–5.5
 - **ยังไม่แตะเลย: `Enemy.h` · `StatsSet.h`**
 
 ### session log
@@ -25,11 +25,21 @@
 
 **2026-09-13** — ทัวร์ `CharUnit.h` ต่อ · เพิ่ม **หัวข้อ 5.2** (สมุดดาเมจ 2 เล่ม real-time vs non-real-time + `toughnessAvgCalculate` + ข้อยกเว้น Dahlia) และ **5.3** (energy: convention 2-arg/3-arg ของ `Increase_energy`, `Ult_cost` vs `Max_energy`, `Max_energy == 0`) · **แก้คำอธิบายที่กลับข้างใน 5.1 + 🐞 #16** — เดิมเขียนว่า Break/SPB/DoT ตกสมุดเฉลี่ย ที่ถูกคือ Break/SPB ตกสมุด**คิดสด** ส่วน DoT + การโจมตีปกติตกสมุด**เฉลี่ย** → ทำให้ 🐞 #16 เป็นเคสหลักไม่ใช่เคสหายาก
 
+**2026-09-13 (ต่อ)** — เพิ่ม **หัวข้อ 5.4** (CalCheck: โครง 3 ชั้น `All`/กลุ่ม `Src`+`Crit`/เดี่ยว + ถอดตัวย่อ `Mtgt` `MtprInc` `SpbInc` `MM` `PL`/`CB`) · **แก้ 🐞 #18** — `calPunchLineMultiplier` อ่าน `Merrymake` แทน `CertifiedBanger` ฝั่งเป้าหมาย 4 จุด (copy-paste จาก `calMerryMakeMultiplier`) คอมไพล์ผ่าน
+
+**2026-09-13 (ต่อ 2)** — เพิ่ม **หัวข้อ 5.5** (substats reroll) · **refactor ระบบ reroll ให้โครงเดียวกับ WuwaSimulator**: ตั้งชื่อตัวแปรใหม่ (`spiltPoint` → `rerollTargetIndex` ฯลฯ) · เขียน `StandardReroll` ใหม่ + แยก `trySwapSubstat` / `restoreBestSubstats` · ลบ `SeparateRatio` · ลบ `Damage_data` / `*_Compare` + `Print_All_Substats` (user สั่งทิ้ง E3/E4) · comment `AllCombination` / `AllPossible` ทั้งหมด · เทียบผลเก่า/ใหม่ด้วย Python 6000 เคส ผลตรงกันทุกเคส · เพิ่มหมายเหตุใน 🐞 #16 (`Cal_DamageSummary` ใช้ `src` ถูกแล้ว ที่ผิดคือ `Cal_AverageDamage`)
+
+**2026-09-13 (ต่อ 3)** — user ตอบ E2: จำนวน roll รวมกำหนดเอง ปกติ **25** · ลบ `currentTotalSubstats` (ไม่มีใครอ่าน) · ปิด 🐞 #8 (summon/countdown ไม่ได้ใช้ `owner`) · dead code ปล่อยไว้ · 🐞 #16 ระบุบรรทัดแล้ว (ต้องแก้ 2 จุด) · **ต่อจากนี้ทำทีละหัวข้อ**
+
+**2026-09-13 (ต่อ 4)** — แก้ตามที่ user สั่ง: `Total_substats` ค่าเริ่มต้น 20 → 25 · 🐞 #1 ลบ include ซ้ำ · 🐞 #2 summon ใช้ชื่อที่ส่งมา (`LL`) · 🐞 #4 rename `isExsited` → `isExisted` (9 จุด) · 🐞 #16 `Cal_AverageDamage` อัปเดตตัวคูณเฉลี่ยให้ศัตรูทุกตัว แล้วใช้ของ `src` · คอมไพล์ผ่าน
+
 **ค้าง / session หน้า:**
-- ทัวร์ต่อ `CharUnit.h` หัวข้อที่เหลือ: Build (`Func_class` 4 ช่อง) · CalCheck flags (~35 bool) · **substats reroll optimizer** (`StandardReroll` / `AllCombinationReroll` / `AllPossibleReroll` — ก้อนใหญ่สุด, `spiltPoint`/`SeparateRatio` ยังไม่มีใครอธิบาย) · summon/memo/countdown lists · `ultCondition` · relic main-stat slots · requirement stats
+- **รัน sim จริง** (sandbox link ไม่ได้ ต้องรันบนเครื่อง user) — เช็ค reroll refactor + 🐞 #2 / #16 ที่เปลี่ยนผลได้ แล้วค่อย commit
+- ~~E2~~ ✅ ตอบแล้ว (2026-09-13): จำนวน roll รวม user กำหนดเอง ปกติ **25** — ตัวละครทุกตัวเรียก `setTotalSubstats(25)` (ค่าเริ่มต้นใน `CharUnit.h` แก้จาก 20 เป็น 25 แล้ว) · `currentTotalSubstats` ไม่มีใครอ่าน → **ลบแล้ว**
+- ทัวร์ต่อ `CharUnit.h` หัวข้อที่เหลือ: Build (`Func_class` 4 ช่อง) · summon/memo/countdown lists · `ultCondition` · relic main-stat slots · requirement stats
 - แล้วค่อย: `Enemy.h` → `StatsSet.h`
-- 🐞 ที่ยังไม่แก้: #1 (include ซ้ำ) · #2 (Jingyuan summon ชื่อ) · #4 (`isExsited` typo) · #8 (summon/countdown → `ActionValueStats` refactor)
-- dead code เหลือ (โซนอื่น): `DecreaseHP(Unit*, vector, ...)` overload · `Enemy::hitCount`
+- 🐞 ~~#1 · #2 · #4 · #16~~ ✅ แก้แล้ว 2026-09-13 (ยังไม่ commit) · ~~#8~~ ปิด — user: summon/countdown ไม่ได้ใช้ `owner`
+- dead code (โซนอื่น): `DecreaseHP(Unit*, vector, ...)` overload · `Enemy::hitCount` — **ปล่อยไว้** (user 2026-09-13)
 - `future-improvements.md`: ระบบสร้างโล่ · per-unit `priority` reset · buff auto-removal helper · AllyUnit cosmetic
 - `docs/character-kit-reference/*.md` (~40 ไฟล์) ยัง untracked
 
@@ -50,7 +60,7 @@ Class/Library.h
      ├─ Enemy.h              ← includes CharUnit.h  (+ นิยาม DamageSrc::operator<)
      └─ StatsSet.h           ← includes Enemy.h  (+ นิยาม method ที่ประกาศไว้ในคลาส + factory functions)
 ```
-> `Unit/Library.h` `#include "AllyUnit.h"` ซ้ำ 2 บรรทัด (ไม่มีผลเพราะ include guard) — จดไว้ลบทีหลัง
+> ~~`Unit/Library.h` `#include "AllyUnit.h"` ซ้ำ 2 บรรทัด~~ ✅ ลบบรรทัดซ้ำแล้ว (2026-09-13)
 
 ### ลำดับชั้น
 ```
@@ -231,7 +241,7 @@ typedef unordered_map<Stats, unordered_map<ElementType, unordered_map<AType,doub
 
 ### 3.2 `UnitStatus` (`Enum.h:27`)
 
-| ค่า | `isAtvChangeAble` | `isExsited` | `isTargetable` | ใช้โดย |
+| ค่า | `isAtvChangeAble` | `isExisted` | `isTargetable` | ใช้โดย |
 |---|:-:|:-:|:-:|---|
 | `Alive` | ✅ | ✅ | ✅ | ปกติ |
 | `Death` | ❌ | ❌ | ❌ | ตาย |
@@ -239,13 +249,13 @@ typedef unordered_map<Stats, unordered_map<ElementType, unordered_map<AType,doub
 | `Retire` | ❌ | ❌ | ❌ | **Phainon เท่านั้น** — ally อื่นระหว่าง ult (atv แช่แข็งจริง — comment ที่ว่า "atv เคลื่อนปกติ" ผิด) |
 
 - `isAtvChangeAble()` = false เมื่อ `Death | AtvFreeze | Retire` → `Atv_fix()` และ `Find_turn()` **ข้าม**
-- `isExsited()` = false เมื่อ `Death | Retire` (typo: ควรเป็น `isExisted`)
+- `isExisted()` = false เมื่อ `Death | Retire` (เดิมสะกด `isExsited` — แก้ชื่อแล้ว 2026-09-13)
 - `isTargetable()` = false เมื่อ `Death | Retire | Type==OutofBounds`
 
 ### 3.3 methods
 
 - **wrappers** ทะลุไป `Atv_stats`: `get/setBaseSpeed` `getATV` `getMaxATV` `getTurnCnt` `getNum` `getSide` `getType` `getName` …
-- **check**: `isSameUnit(Unit*)` `isSameName(str)` `isSameNum(int/Unit*)` `isAlive` `isDeath` `isAtvChangeAble` `isExsited` `isTargetable`
+- **check**: `isSameUnit(Unit*)` `isSameName(str)` `isSameNum(int/Unit*)` `isAlive` `isDeath` `isAtvChangeAble` `isExisted` `isTargetable`
 - `speedBuff(BuffClass)` — `FLAT_SPD` → `speedBuff(0, value)` · อื่น ๆ **ทั้งหมดถือเป็น %** → `speedBuff(value, 0)`
 - `resetATV()` / `resetATV(baseSpeed)` → `Atv_stats`
 - `summon()` — `status = Alive` + `resetATV()` · `death()` — `status = Death` (Unit base)
@@ -413,8 +423,8 @@ memosprite 2 แบบ: **สปีดคงที่** (RMC "Mem" — `fixSpeed
 
 `class CharUnit : public AllyUnit` — ตัวละครผู้เล่นจริง · ctor ตั้ง `owner = this` (`CharUnit.h:155`)
 
-สถานะ: 🚧 ทัวร์ยังไม่จบ — จบแล้ว **5.1** (คลาสผู้ช่วย + โมเดล True DMG) · **5.2** (สมุดดาเมจ 2 เล่ม) · **5.3** (energy)
-ค้าง: Build (`Func_class` 4 ช่อง) · CalCheck flags (~35 bool) · **substats reroll optimizer** · summon/memo/countdown lists · relic main-stat slots · requirement stats
+สถานะ: 🚧 ทัวร์ยังไม่จบ — จบแล้ว **5.1** (คลาสผู้ช่วย + โมเดล True DMG) · **5.2** (สมุดดาเมจ 2 เล่ม) · **5.3** (energy) · **5.4** (CalCheck flags) · **5.5** (substats reroll)
+ค้าง: Build (`Func_class` 4 ช่อง) · summon/memo/countdown lists · relic main-stat slots · requirement stats
 
 ### 5.1 คลาสผู้ช่วย 4 ตัว + โมเดล True DMG
 
@@ -551,25 +561,135 @@ field อยู่ที่ `CharUnit.h:36-39` · เซ็ตครั้งแ
 
 จากนั้นวน `ultCondition` ทุกข้อ (ต้องผ่านหมด) แล้วยิง `WhenUseUlt_List` — `ultCondition` เพิ่มผ่าน `CharUnit::addUltCondition(function<bool()>)` (`Energy.h`)
 
+### 5.4 CalCheck — สวิตช์ debug สูตรดาเมจ (~35 bool)
+
+field `check*` ทั้งกองอยู่ที่ `CharUnit.h:65-98` · นิยาม method ทั้งหมดอยู่ที่ `FormulaCheck.h` · enum `DmgFormulaMode` อยู่ที่ `Enum/CheckMode.h`
+
+#### โครงสร้าง 3 ชั้น
+
+เปิดด้วย `enableCheckDamageFormula(DmgFormulaMode mode)` ซึ่งทำ 2 อย่าง — เปิด `checkDmgFormula` (**สวิตช์แม่**, ใช้เป็นเกตรวมใน `CalDamage.h`) แล้วเปิด flag ย่อยตาม `mode` อีก 1 ตัว
+
+ฝั่งโค้ดคำนวณไม่ได้อ่าน field ตรง ๆ แต่เรียก `canCheckDmgformulaXxx()` ซึ่งรวม flag ให้:
+
+| ระดับ | flag | คลุมอะไร |
+|---|---|---|
+| ทั้งหมด | `checkDmgFormulaAll` | ทุกอย่าง |
+| กลุ่ม | `checkDmgFormulaSrc` | ที่มาของ Base DMG → HP + ATK + DEF + Const · (`canCheckDmgformulaMtpr()` = union ของกลุ่มนี้) |
+| กลุ่ม | `checkDmgFormulaCrit` | CritRate + CritDam |
+| เดี่ยว | `Dmg` `DefShred` `Respen` `Vul` `Mtgt` `MtprInc` `BE` `SpbInc` `PL` `MM` `Elation` | ตัวใครตัวมัน |
+
+#### ถอดตัวย่อ
+
+| ย่อ | เต็ม | stat bucket |
+|---|---|---|
+| `Mtgt` | **Mitigation** (DMG Mitigation Mult, สูตร §10.1) | `Stats::Mitigration` ⚠️ สะกดผิดในโค้ด |
+| `MtprInc` | **Multiplier Increase** | `Stats::MtprInc` |
+| `SpbInc` | Super Break DMG increase | `Stats::SPB_inc` |
+| `MM` | Merrymake | `Stats::Merrymake` |
+| `PL` / `CB` | Punchline / Certified Banger | `punchline` (global) / `Stats::CertifiedBanger` |
+
+> ⚠️ `DmgFormulaMode::CB` ไปเปิด flag ชื่อ `checkDmgFormulaPL` — **ไม่ใช่บั๊ก** เพราะ `calPunchLineMultiplier` (`CalStats.h:368`) คุมทั้งสองเรื่องในฟังก์ชันเดียว: ถ้าเป็น `ElationSkill` ใช้ตัวนับ `punchline` **สด** · ถ้าไม่ใช่ ใช้ `Stats::CertifiedBanger` ที่ **snapshot** ไว้ — ตรงกับ[คู่มือเกม](../hsr-system-reference.md) §11.1 (Punchline = ทรัพยากรสดของทีม) และ §11.3 (Certified Banger = สถานะที่ snapshot Punchline ที่ใช้ไป อยู่ 2 เทิร์น)
+
+> `CertifiedBanger` ถูกเขียนให้ ally เท่านั้น — `Combat.h:57,104` (ท้าย Aha Instant) และ `SetCombat.h:117` (ต้นรบ 20) · ลดคืนที่ `Event.h:89`
+
+### 5.5 Substats reroll — หา substats ที่ดาเมจสูงสุด
+
+field อยู่ที่ `CharUnit.h` (region `Substats Reroll`) · อัลกอริทึมอยู่ที่ `Substats_Reset.h` (`StandardReroll` / `trySwapSubstat` / `restoreBestSubstats`) · ถูกเรียกท้ายทุก run จาก `Main.h`: `if(Reroll_substats())break;`
+
+_refactor 2026-09-13 ให้อ่านง่าย และโครงเดียวกับ `rerollSubstats()` ของ WuwaSimulator (ซึ่งเดิมพอร์ตไปจากโค้ดนี้) — ตารางชื่อเก่า → ใหม่อยู่ท้ายหัวข้อ_
+
+#### ภาพรวม: 1 run = ลอง substats 1 ชุด
+
+- `Substats` = `vector<pair<Stats,int>>` : ชนิด substat + **จำนวน roll** ที่ลงช่องนั้น
+- `Set_Stats` (`Substats_Reset.h`) แปลง roll → ค่าจริงด้วยค่า **Med roll** (CR 2.9 · CD 5.8 · ATK%/HP% 3.888 · DEF% 4.86 · BE 5.8 · SPD 2.3) — ตรงกับ[คู่มือเกม](../hsr-system-reference.md) §4.5 คอลัมน์ Med · memosprite ของตัวนั้นได้ค่าเดียวกันด้วย (SPD คูณ `Unit_Speed_Ratio`)
+- ลูปใน `Main.h`: รัน sim ด้วยชุดปัจจุบัน → `Cal_DamageSummary` → `Reroll_substats()` ตั้งชุดถัดไปให้ทุกตัวละครที่ยังค้นหาอยู่ → วนจนไม่มีใครขยับแล้ว (`Reroll_substats` คืน `true`)
+
+#### จุดเริ่ม: ช่อง 0 คือคลัง
+
+`pushSubstats(Stats)` เพิ่มช่องทีละตัว (roll = 0) → `setTotalSubstats(25)` ยัด roll **ทั้งหมด** ลง `Substats[0]` → requirement (speed/atk/hp/def/ehr ใน `CalRequireStats.h`) หัก roll ที่ต้องจ่ายออกจากช่อง 0 ผ่าน `changeTotalSubStats(-x)`
+
+ผลที่ตามมา: **ลำดับการ `pushSubstats` มีผลกับผลลัพธ์** — ช่องแรกเป็นผู้ให้อย่างเดียว ช่องสุดท้ายเป็นผู้รับอย่างเดียว
+
+#### อัลกอริทึม `StandardReroll` (อธิบายโดย user 2026-09-13)
+
+1. เลือก **target** = ช่องที่จะเติม (`rerollTargetIndex` เริ่มที่ 1)
+2. ลอง **source** ทีละช่องตั้งแต่ 0 ถึง target-1 — แต่ละครั้ง **ดึง 1 roll จาก source ไปใส่ target** แล้วรัน sim
+   - ทุกชุดทดลองแตกจากจุดตั้งต้นเดียวกัน (`rerollSweepBase`) ไม่สะสมต่อกัน
+   - source ที่ไม่มี roll เหลือ → ข้ามไปเลย ไม่เสียรอบ sim
+3. ลองครบทุก source (= 1 **sweep**) แล้ว:
+   - มีชุดที่ดาเมจดีขึ้น → เอาชุดที่ **ดาเมจเยอะสุด** เป็นฐานใหม่ แล้ว sweep target เดิมซ้ำ
+   - ไม่มีชุดไหนดีขึ้นเลย → **target +1** แล้ว source กลับไปเริ่มที่ 0
+4. target เลยช่องสุดท้าย → คืน `Substats` เป็นชุดที่ดีที่สุดแล้วจบ
+
+"เอาชุดที่ดาเมจเยอะสุด" ไม่ต้องเขียนเอง — `changeMaxDamage` (`CalDamageNote.h`) บันทึกชุดที่ทำลายสถิติลง `bestSubstats` ทุกครั้งอยู่แล้ว ครบ sweep เมื่อไหร่ `bestSubstats` ก็คือผู้ชนะของ sweep นั้น
+
+#### จังหวะของ 1 คอล
+
+`StandardReroll` ถูกเรียก **1 ครั้งต่อ 1 run** และทำ 2 อย่างตามลำดับ:
+1. **วัดผล** run ที่เพิ่งจบ — `changeMaxDamage` · ถ้าทำลายสถิติ **และ** เป็นชุดทดลอง (`rerollSourceIndex >= 0`) → `rerollImproved = true` · run แรกสุดคือ baseline ไม่นับ
+2. **ตั้งชุดถัดไป** แล้วคืน `true` ให้ `Main.h` ไปรัน — หรือคืน `false` ถ้าจบแล้ว
+
+> ดาเมจที่ใช้เทียบคือ **`AvgDmgRecord[0].currentDmgRecord`** (ดาเมจเฉลี่ยต่อ ATV) ไม่ใช่ total → 🐞 #16 จึงกระทบว่า optimizer เลือก substats ชุดไหนด้วย
+
+#### field
+
+| field | หน้าที่ |
+|---|---|
+| `Substats` | ชนิด + จำนวน roll ต่อช่อง — ตัวที่ถูกแก้ไปเรื่อย ๆ ระหว่างค้นหา |
+| `bestSubstats` | จำนวน roll ของชุดที่ดาเมจสูงสุด — เขียนโดย `changeMaxDamage` · `printSummaryResult` ปรินต์ตัวนี้ |
+| `Total_substats` | จำนวน roll รวม — user กำหนดเอง **25** · ค่าเริ่มต้นใน `CharUnit.h` = 25 (แก้จาก 20 เมื่อ 2026-09-13) และตัวละครทุกตัวเรียก `setTotalSubstats(25)` |
+| `rerollActive` | `1` = ยังค้นหา · `0` = จบ หรือถูกปิดด้วย `CharCmd::Set_Reroll_check(ptr, 0)` |
+| `rerollTargetIndex` | ช่องที่กำลังเติม — เริ่ม 1 |
+| `rerollSourceIndex` | ช่องที่กำลังดึงออก ไล่ 0..target-1 · `-1` = ยังไม่เริ่ม sweep |
+| `rerollImproved` | sweep นี้มีชุดทดลองที่ทำลายสถิติไหม |
+| `rerollSweepBase` | จุดตั้งต้นของ sweep (สำเนาของ `bestSubstats` ตอนเริ่ม sweep) |
+
+#### ชื่อเก่า → ชื่อใหม่ (refactor 2026-09-13)
+
+| เก่า | ใหม่ | หมายเหตุ |
+|---|---|---|
+| `Max_damage_Substats` | `bestSubstats` | |
+| `Reroll_check` | `rerollActive` | ความหมายเดิม · ชื่อคำสั่ง `CharCmd::Set_Reroll_check` คงไว้ |
+| `Stop_reroll` | `rerollImproved` | **กลับขั้ว** — เดิม `0` = ดีขึ้น |
+| `spiltPoint` | `rerollTargetIndex` | |
+| `Current_sub_choose` | `rerollSourceIndex` | เดิมเริ่ม 0 แล้ว "เลื่อน" roll ที่ถูกดึงจากช่องหนึ่งไปช่องถัดไป · ใหม่เริ่ม -1 และตั้งชุดทดลองจาก base ทุกครั้ง |
+| `SeparateRatio` | **ลบ** | โควตาจำนวน sweep ซ้ำต่อ target — ไม่จำเป็น เพราะทุกครั้งที่ sweep ซ้ำ ดาเมจสูงสุดต้อง **เพิ่มขึ้นจริง** และ sim deterministic → วนไม่รู้จบไม่ได้ |
+| _(ไม่มี)_ | `rerollSweepBase` | ใหม่ |
+| `currentTotalSubstats` | **ลบ** | ไม่มีใครอ่าน (เดิมใช้แค่โหมด `AllPossible` ที่ปิดไปแล้ว) · user อนุมัติ 2026-09-13 |
+| `Damage_data` · `StatsType_Compare` · `TotalSubstats_Compare` (+ `_MAX_MIN`) | **ลบ** | ของโหมด `AllCombination` / `AllPossible` + `Print_All_Substats` / `Calculate_All_Substats` ที่ไม่มีใครเรียก (user สั่งทิ้ง E3/E4) |
+
+- `goto again` ใน `Reroll_substats` (ข้ามชุดที่ roll ติดลบ) → ย้ายไปเป็นการเช็คใน `trySwapSubstat`
+- `AllCombinationReroll` / `AllPossibleReroll` → **comment ไว้** ทั้งนิยาม (ท้าย `Substats_Reset.h`) · declaration · enum `SubstatsRerollMode` · สาขาใน `SetCombat.h` — ตัวโค้ดคงชื่อเก่าไว้ ถ้าจะเปิดกลับต้องแก้ตามหมายเหตุหัว block
+
+#### ยืนยันว่า refactor ไม่เปลี่ยนผล
+
+sandbox ที่ใช้ทำงาน link C++ ไม่ได้ (`ld returned 116` แม้แต่ hello world) → พอร์ต `StandardReroll` ทั้งเก่า (รวม `goto again` + `SeparateRatio`) และใหม่เป็น Python แล้วเทียบกัน **6000 เคส** (1–3 ตัวละครที่ดาเมจผูกกัน · 1–5 ช่อง · roll 0–20 · มี requirement หัก · มีตัวที่ปิด reroll · landscape แบบสุ่ม / concave / มีค่าเสมอ / ต้องเทใส่ช่องเดียว)
+- **ชุด substats สุดท้าย + ดาเมจสูงสุด ตรงกันทุกเคส (6000/6000)** — รวมเคสที่โควตา `SeparateRatio` เก่าเคยทำงาน
+- ต่างแค่จำนวน run: โค้ดเก่า **รันเกิน 1 รอบ** ใน 2495 เคส · โค้ดใหม่ไม่เคยรันมากกว่า
+  - รอบที่เกินเป็น **run สุดท้ายเสมอ** (2495/2495) และส่วนใหญ่ (2322) คือการรันชุดที่เคยวัดไปแล้วซ้ำ
+  - สาเหตุคือบั๊กเก่าใน `Reroll_substats`: คอลแรกคืน `true` พร้อมชุดที่ roll ติดลบ → ตั้ง `ans = false` ไปแล้ว → `goto again` คอลซ้ำพบว่าค้นหาจบ คืน `false` แต่ `ans` ไม่ถูกแก้กลับ → `Main.h` รันเพิ่มอีก 1 รอบเปล่า ๆ
+  - ไม่กระทบผลสรุป เพราะตัวที่ค้นหาจบแล้วไม่เรียก `changeMaxDamage` อีก · โค้ดใหม่ไม่มีปัญหานี้เพราะเช็คค่าติดลบก่อนคืน `true`
+- คอมไพล์ผ่านทั้ง `ManualBuilder.cpp` และ `Application.cpp` (`g++ -std=c++17 -fsyntax-only`) — **ยังไม่ได้รัน sim จริง**
+
 ---
 
 ## 🐞 รายการค้าง (ไว้คุยเรื่องแก้)
 
-1. `Unit/Library.h` — `#include "AllyUnit.h"` ซ้ำ 2 บรรทัด
-2. **Jingyuan summon ไม่มีชื่อของตัวเอง** — `Jingyuan.h:108` `SetSummonStats(ptr, 60, "LL")` ส่งชื่อ `"LL"` แต่ `StatsSet.h:74` เขียน `Atv_stats->Name = ptr->Atv_stats->Name` → argument `Name` ถูกทิ้ง summon เลยชื่อ `"Jingyuan"`. ตรวจว่าปัจจุบันมีจุดไหน lookup ชื่อ summon แยกจากเจ้าของหรือไม่ ก่อนตัดสินใจแก้
+1. ~~`Unit/Library.h` — `#include "AllyUnit.h"` ซ้ำ 2 บรรทัด~~ ✅ แก้แล้ว (2026-09-13) — ลบบรรทัดที่ 8 ออก
+2. ~~**Jingyuan summon ไม่มีชื่อของตัวเอง**~~ ✅ แก้แล้ว (2026-09-13) — `StatsSet.h:74` เปลี่ยนเป็น `Atv_stats->Name = Name;` (แบบเดียวกับ `SetCountdownStats`) · ⚠️ **เปลี่ยนผล sim ได้**: `Buff_Stats.h:22` ตัดสินว่าบัฟหมดอายุด้วย `turn->Name == ชื่อคนถือบัฟ` — เดิมเทิร์นของ LL ชื่อ "Jingyuan" จึงถูกนับเป็นเทิร์นของ Jingyuan ด้วย · หลังแก้ไม่นับแล้ว · โค้ด Jingyuan เองเช็คเทิร์นด้วย `num` + `side` (`Jingyuan.h:66`) ไม่กระทบ · log เทิร์นจะขึ้นว่า `LL` · บันทึกเดิม: — `Jingyuan.h:108` `SetSummonStats(ptr, 60, "LL")` ส่งชื่อ `"LL"` แต่ `StatsSet.h:74` เขียน `Atv_stats->Name = ptr->Atv_stats->Name` → argument `Name` ถูกทิ้ง summon เลยชื่อ `"Jingyuan"`. ตรวจว่าปัจจุบันมีจุดไหน lookup ชื่อ summon แยกจากเจ้าของหรือไม่ ก่อนตัดสินใจแก้
 3. ~~`Enum.h:30-31` comment stale~~ ✅ แก้แล้ว (2026-09-02) — `AtvFreeze`/`Retire` = ใช้ตอนอัลติ Phainon, atv แช่แข็งทั้งคู่
-4. `Unit::isExsited()` — typo ควรเป็น `isExisted`
+4. ~~`Unit::isExsited()` — typo~~ ✅ แก้แล้ว (2026-09-13) — rename เป็น `isExisted` ทั้ง 9 จุด (`Unit.h` · `AllyAttackAction.h` ×3 · `AllyBuffAction.h` · `Arcadia.h` · `ChangeHP.h` ×2 · `Energy.h`)
 5. ~~`decreaseSheild()` บั๊ก~~ ✅ แก้แล้ว (2026-09-02, `ChangeHP.h:175`) — ดูภาคผนวก 🛡️ · ระบบ **สร้าง** โล่ยัง stub (ยังไม่แก้)
 6. ~~"taunt increase%" stub เสีย~~ ✅ แก้แล้ว — 2026-09-04 rework: field `tauntIncrease` (% เพิ่ม, 0 = ไม่มี), `taunt = baseTaunt · (1 + tauntIncrease/100)`, method `tauntIncreaseChange(double)` (`AllyUnit.h:29,62` · reset `= 0` ที่ `Stats_Reset.h:36,264`) · ยังไม่มี caller → ดู #12
 7. **`currentMemoNum` ไม่เคย reset** — `Stats_Reset.h:35` + `:260` `currentMemoNum = currentMemoNum` (self-assign · ควร `= defaultMemoNum`) → ถ้าค้าง ≥ 1: `chooseSubUnitBuff` (`TargetChoose.h:17`) อ่าน `memospriteList[currentMemoNum]` out-of-bounds. ยังไม่ crash = ยังไม่มีตัวละครไหน set `currentMemoNum` ≥ 1 (ณ 2026-09-02) · _รอ user ยืนยันก่อนแก้_
-8. **summon/countdown `owner == nullptr`** — capture `[ptr]` ใน lambda ทำให้โค้ด summon/countdown เองไม่พึ่ง `this->owner` · **แต่** `buffSingle` path บัฟ speed (`Buff_Stats.h:88,99`) deref `ptr->owner->path[0]` → latent crash ถ้ามีใคร cast summon → `AllyUnit*` แล้ว speed-buff (ยังไม่มีใครทำ) · **แผน:** refactor summon/countdown → `ActionValueStats` ล้วน (ดู `future-improvements.md` #3) — ไม่ใช่ปะ null-guard
+8. ~~**summon/countdown `owner == nullptr`**~~ ℹ️ **ปิด ไม่แก้** (user 2026-09-13: summon/countdown ไม่ได้ใช้ `owner`) · บันทึกเดิม: capture `[ptr]` ใน lambda ทำให้โค้ด summon/countdown เองไม่พึ่ง `this->owner` · **แต่** `buffSingle` path บัฟ speed (`Buff_Stats.h:88,99`) deref `ptr->owner->path[0]` → latent crash ถ้ามีใคร cast summon → `AllyUnit*` แล้ว speed-buff (ยังไม่มีใครทำ) · **แผน:** refactor summon/countdown → `ActionValueStats` ล้วน (ดู `future-improvements.md` #3) — ไม่ใช่ปะ null-guard
 9. ~~`HpAdjust` หัก currentHP เกินตอนถอนบัฟ maxHP~~ ✅ แก้แล้ว (2026-09-02, `AdjustStats.h:12`) — ดูหัวข้อ 4.1 · เดิม: `maxHP` ลดแม้ currentHP ยังไม่ชนเพดานใหม่ → currentHP โดนหักตาม delta
 10. ~~`Turn_priority` global ไม่ reset~~ ✅ แก้แล้ว (2026-09-02) — rename → `nextForwardPriority` (`Setting.h:87`) + reset **ต่อ run** ที่ `Reset()` (`SetCombat.h`)
 11. ~~`UnitGotHit` ไม่เคยถูก populate → enemy single-target attack ลงดาเมจ 0~~ ✅ แก้แล้ว (2026-09-02, `EnemyActionData.h:47,72`) — เพิ่ม `UnitGotHit.push_back(each);` ข้าง `Increase_energy` ทั้ง 2 branch · เดิม: `setBaAttack` เดิน round-robin + ให้ energy แต่ `UnitGotHit` ว่างตลอด → damage loop ไม่วน → single-target ลงดาเมจ 0 (AoE ปกติ) · push ในลูป = โดนพร้อมกันหลายตัวได้ = ปกติตามดีไซน์ (หัวข้อ 4.3)
 12. **dead code โซน taunt** — ✅ ลบแล้ว (2026-09-04): no-arg `calHitChance()` · `totalTaunt` (global + `SetCombat.h` 3 จุด) · `Enemy::removeTaunt(string)` · `totalTaunt` bookkeeping ใน `tauntMtprChange` · **ปรับ:** `tauntMtpr` (100 = ×1.0) → `tauntIncrease` (0 = ไม่มี, `taunt = baseTaunt · (1 + tauntIncrease/100)`), method → `tauntIncreaseChange(double)` (2026-09-04) · **ยังไม่ลบ** (โซนอื่น): `DecreaseHP(Unit*, vector<AllyUnit*>, ...)` (`ChangeHP.h:149`) · `Enemy::hitCount` (`Enemy.h:54` — reset+`++` ใน `Attack()` ไม่มีใครอ่าน; ฝั่ง `AllyUnit::hitCount` อ่านโดย `Grand_Duke`)
 13. ~~`Enemy::addTaunt` ไม่มี dedup + Mydei ไม่ออกจาก taunt list~~ ✅ แก้แล้ว (2026-09-02) — `addTaunt` เช็คชื่อก่อน push (`EnemyCombat.h:13`) · Mydei ult `debuffApply(...,"Mydei_Taunt",2)` + `addTaunt` · `After_turn_List` `isDebuffEnd(e,...)` → `e->removeTaunt(Mydei)` (แยกอิสระต่อ enemy) — ดูหัวข้อ 4.3
 14. ~~`DecreaseHP` ทั้งทีม `return` แทน `continue`~~ ✅ แก้แล้ว (2026-09-02, `ChangeHP.h:141,153,167`) — เดิม: ใน loop วน `allyList` เจอ ally ที่ `!isTargetable()` (เช่น memo ยังไม่ summon) → `return` ออกทั้งฟังก์ชัน → ตัวที่เหลือไม่โดนลดเลือด · กระทบ `Hyacnine_LC.h:28` (ลดเลือดทั้งทีม) · single-target overload (`:128`) `return` ถูกแล้ว (ไม่มี loop)
-16. **True DMG ที่เป็น non-real-time ใช้ `toughnessAvgMultiplier` ของ `recv` แทน `src`** — `Cal_AverageDamage` (`CalDamageNote.h:44-46`) วน `currentNonRealTimeDmg` แล้วคูณด้วย `enemy->toughnessAvgMultiplier` โดย `enemy` = ตัวที่ตรงกับ **`each.first.recv`** :
+16. ~~**True DMG ที่เป็น non-real-time ใช้ `toughnessAvgMultiplier` ของ `recv` แทน `src`**~~ ✅ แก้แล้ว (2026-09-13, `CalDamageNote.h` `Cal_AverageDamage`) — อัปเดตตัวคูณเฉลี่ยให้ศัตรู **ทุกตัว** ก่อนวน แล้วใช้ `each.first.src->toughnessAvgMultiplier` · **กระทบเฉพาะ True DMG ที่ย้ายเป้า** (Tribbie E1 · Phainon E6 · Cipher) เพราะดาเมจปกติส่ง `src == recv` (`CalDamage.h` ทั้ง 6 จุด) และ RMC Mem's Support ส่ง `src, src` · เลขบรรทัดในหมายเหตุด้านล่างเป็นของก่อนแก้ · บันทึกเดิม: — `Cal_AverageDamage` (`CalDamageNote.h:44-46`) วน `currentNonRealTimeDmg` แล้วคูณด้วย `enemy->toughnessAvgMultiplier` โดย `enemy` = ตัวที่ตรงกับ **`each.first.recv`** :
     ```cpp
     for(auto &each : ptr->currentNonRealTimeDmg){
         if(each.first.recv->getNum() != enemy->getNum())continue;
@@ -580,8 +700,12 @@ field อยู่ที่ `CharUnit.h:36-39` · เซ็ตครั้งแ
     - **เห็นผลเมื่อ** note ตกสมุด non-real-time **และ** `src != recv`
     - ⚠️ **นี่คือเคสหลัก ไม่ใช่เคสหายาก** — สมุด non-real-time คือสมุดของการโจมตี **ปกติทั้งหมด** (BA/Skill/Ult/FuA/DoT/Additional/Elation ดูหัวข้อ 5.2) ดังนั้น **Tribbie E1** ที่งอก True DMG จากการโจมตีปกติ แล้วย้ายยอดไปกองเป้าเดียว → เข้าเงื่อนไขเต็ม ๆ ทุกครั้ง
     - ที่ **ไม่** ต่างคือตอน `src == recv` (True DMG ที่ไม่ย้ายเป้า) หรือ note ตกสมุด real-time (Break/SPB/Technique/Freeze/Entanglement — ไม่คูณ multiplier ตอนจบเลย)
+    - **ผิดแค่ครึ่งเดียว** (พบ 2026-09-13): `Cal_DamageSummary` (`CalDamageNote.h`) ที่รวม **total** คูณด้วย `each.first.src->toughnessAvgMultiplier` = **ถูกแล้ว** · ตัวที่ใช้ `recv` คือ `Cal_AverageDamage` ซึ่งทำ **ดาเมจเฉลี่ยต่อ ATV** (`AvgDmgRecord`) — และ optimizer substats (`changeMaxDamage`) เทียบด้วยค่าเฉลี่ยตัวนี้ → บั๊กนี้กระทบ **การเลือก substats** ด้วย ไม่ใช่แค่ตัวเลขที่ปรินต์ (ดูหัวข้อ 5.5)
+    - **บรรทัดที่ผิด:** `CalDamageNote.h:46` — `rec += each.second.total*enemy->toughnessAvgMultiplier;` โดย `enemy` คือตัวที่ตรงกับ `recv` (กรองไว้ที่บรรทัด 45)
+    - **ต้องแก้ 2 จุด ไม่ใช่จุดเดียว:** (1) บรรทัด 46 เปลี่ยนเป็น `each.first.src->toughnessAvgMultiplier` · (2) บรรทัด 38 อัปเดตตัวคูณเฉลี่ยให้เฉพาะศัตรูใน `enemyList` (= `attackAction->targetList` ที่ส่งมาจาก `Combat.h:153`) ถ้า `src` ไม่ได้โดนตีในการโจมตีครั้งนี้ ค่าของมันจะค้างเก่า (หรือเป็น 0 ต้น run จาก `Stats_Reset.h:135`) → ต้องอัปเดตตัวคูณให้ศัตรู **ทุกตัว** ก่อนวนลูป เหมือนที่ `Cal_DamageSummary` ทำอยู่แล้ว (`CalDamageNote.h:84`)
     - _พบ 2026-09-09 ระหว่างทัวร์ `CharUnit.h` · แก้คำอธิบายที่กลับข้าง 2026-09-13 (เดิมเขียนว่า Break/SPB/DoT ตกสมุดเฉลี่ย — ผิด) · ยังไม่แก้โค้ด_
 17. ℹ️ **ตัวละครตายจากดาเมจไม่ได้ = by design** (ยืนยัน 2026-09-04) — sim นี้วัด damage output ไม่แคร์ survivability · `DecreaseCurrentHP` (`ChangeHP.h:122`) clamp `currentHP` ขั้นต่ำ `1` โดยตั้งใจ · `AllyUnit::death()` ถูกเรียกแค่กับ summon/countdown/memo (FireFly/Phainon/Aglaea/Castorice/Robin) — char-death `AllyDeath_List` (Huohuo revive, Tingyun buff strip) จึงยิงเฉพาะตอน memo ตาย ไม่เคยยิงตอน char ตาย (ยอมรับได้)
+18. ~~**`calPunchLineMultiplier` อ่าน `Merrymake` แทน `CertifiedBanger` ฝั่งเป้าหมาย**~~ ✅ แก้แล้ว (2026-09-13, `CalStats.h:379-386`) — copy-paste หลุดมาจาก `calMerryMakeMultiplier` ที่อยู่เหนือขึ้นไป 20 บรรทัด · ผิด 4 จุด: ฝั่ง `target` ในสูตร 2 จุด (`[AType::None]` + ในลูป `damageTypeList`) และบรรทัด `cout` ที่ป้ายเขียน "CB" แต่ดึงค่า `Merrymake` มาโชว์ทั้ง 2 ฝั่ง · **ตอนแก้ยังไม่เคยระเบิด** เพราะไม่มีโค้ดไหนแปะ `Merrymake`/`CertifiedBanger` ใส่ศัตรูเลย (ทั้งคู่เป็นบัฟฝั่ง ally) → ฝั่ง target บวก 0 เสมอ · แต่ถ้าอนาคตมีตัวที่ debuff ศัตรูด้วย CB มันจะถูกมองข้าม และ Merrymake ฝั่งศัตรูจะรั่วเข้าสูตร CB ผิด ๆ · ยืนยันกับ user 2026-09-13 ว่าฝั่งเป้าหมายต้องเป็น `CertifiedBanger` · คอมไพล์ผ่าน (`g++ -std=c++17 -fsyntax-only Application.cpp`)
 
 ---
 

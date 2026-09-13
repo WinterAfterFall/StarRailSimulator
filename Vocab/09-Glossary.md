@@ -157,7 +157,7 @@
 | `DriverType::DotTrigger` | โหมดจำลอง: บังคับจุด DoT |
 | `SPMode::Positive / Negative` | จำลองว่าทีมเป็น SP-positive หรือ SP-negative |
 | `PhaseStatus::BeforeTurn / AfterTurn / WhileAction / DotBeforeTurn` | เฟสของการจำลองในหนึ่งเทิร์น |
-| `SubstatsRerollMode::Standard / AllCombination / AllPossible` | โหมดสุ่ม substat ตอนหา build ที่ดีที่สุด |
+| `SubstatsRerollMode::Standard` | โหมดหา substat ที่ดีที่สุด — ตอนนี้เหลือแค่ `Standard` (`AllCombination` / `AllPossible` ถูก comment ไว้ 2026-09-13) · อัลกอริทึมดู `docs/engine-reference/unit.md` หัวข้อ 5.5 |
 | **Buff drift** | บั๊กที่บัฟถูกใส่กับถอนไม่เท่ากัน ทำให้สแตตค่อยๆ เพี้ยนไปเรื่อยๆ |
 | **Taunt increase %** | ระบบ aggro ของโปรเจกต์นี้ — เก็บเป็น "เปอร์เซ็นต์ที่เพิ่ม" ไม่ใช่ตัวคูณ |
 | `Buff_note` | ที่เก็บว่าบัฟนี้ให้ไปเท่าไร เพื่อถอนคืนตรงจำนวน |

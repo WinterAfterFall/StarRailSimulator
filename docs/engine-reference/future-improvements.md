@@ -54,7 +54,7 @@ expire(BUFF_BENEDICTION, Stats::ATK_P, BENEDICTION_ATK);
 - `AllyUnit.h:98` `#pragma region Getters` ข้างในเป็น setter · `:140` `#pragma region Setters` ข้างในเป็น getter — สลับ label
 - `setDefaultTargetNum(int ally, int AllyUnit)` / `setCurrentTargetNum(...)` — พารามิเตอร์ชื่อ `AllyUnit` ชนชื่อคลาส
 - `CharUnit` redeclare accessor ชุด `setStack`/`getStack`/... ที่ `AllyUnit` มีอยู่แล้ว — ซ้ำซ้อน
-- `Unit::isExsited()` — typo (`isExisted`)
+- ~~`Unit::isExsited()` — typo (`isExisted`)~~ ✅ แก้แล้ว 2026-09-13
 - `Unit/Library.h` — `#include "AllyUnit.h"` ซ้ำ 2 บรรทัด
 - ~~`tauntMtprChange` / no-arg `calHitChance()` / `totalTaunt` dead code~~ ✅ ลบ/ปรับแล้ว (2026-09-04) — `tauntMtpr` → `tauntIncrease` (0 = ไม่มี), เหลือ `tauntIncreaseChange(double)` ต่อสายไว้รอ trace "taunt +X%" (ดู `unit.md` 🐞 #12)
 
