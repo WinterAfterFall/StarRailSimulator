@@ -33,9 +33,12 @@ bool changeMaxDamage(CharUnit *ptr){
 }
 void Cal_AverageDamage(CharUnit *ptr,vector<Enemy*> enemyList){
     if(Current_atv<300)return;
+    // refresh every enemy, not only this attack's targets: a note's src may not be hit now (True DMG can retarget)
+    for(int i = 1; i<=Total_enemy ; i++ ){
+        enemyUnit[i]->toughnessAvgMultiplier = Cal_AvgToughnessMultiplier(enemyUnit[i].get(),Current_atv);
+    }
     for(auto &enemy : enemyList){
         double rec = 0;
-        enemy->toughnessAvgMultiplier = Cal_AvgToughnessMultiplier(enemy,Current_atv);
 
         for(auto &each : ptr->currentRealTimeDmg){
             if(each.first.recv->getNum() != enemy->getNum())continue;
@@ -43,7 +46,7 @@ void Cal_AverageDamage(CharUnit *ptr,vector<Enemy*> enemyList){
         }
         for(auto &each : ptr->currentNonRealTimeDmg){
             if(each.first.recv->getNum() != enemy->getNum())continue;
-            rec += each.second.total*enemy->toughnessAvgMultiplier;
+            rec += each.second.total*each.first.src->toughnessAvgMultiplier;
         }
         
         if(Current_atv < ptr->AvgDmgRecord[enemy->getNum()].lastNote +20){
