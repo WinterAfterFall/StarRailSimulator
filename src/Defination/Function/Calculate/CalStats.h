@@ -376,14 +376,14 @@ double calPunchLineMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
         }
     }
 
-    PunchlineCnt += act->Attacker->Stats_type[Stats::CertifiedBanger][AType::None] + target->Stats_type[Stats::Merrymake][AType::None];
+    PunchlineCnt += act->Attacker->Stats_type[Stats::CertifiedBanger][AType::None] + target->Stats_type[Stats::CertifiedBanger][AType::None];
     for(int i = 0, sz = act->damageTypeList.size(); i < sz; i++){
-        PunchlineCnt += act->Attacker->Stats_type[Stats::CertifiedBanger][act->damageTypeList[i]] + target->Stats_type[Stats::Merrymake][act->damageTypeList[i]];
+        PunchlineCnt += act->Attacker->Stats_type[Stats::CertifiedBanger][act->damageTypeList[i]] + target->Stats_type[Stats::CertifiedBanger][act->damageTypeList[i]];
     }
     
     if(act->getChar()->canCheckDmgformulaPL()){
-        cout<<"Base  CB       : "<<setw(6)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::Merrymake][AType::None]
-        <<" Enemy CB       : "<<setw(6)<<fixed<<setprecision(2)<<target->Stats_type[Stats::Merrymake][AType::None]
+        cout<<"Base  CB       : "<<setw(6)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::CertifiedBanger][AType::None]
+        <<" Enemy CB       : "<<setw(6)<<fixed<<setprecision(2)<<target->Stats_type[Stats::CertifiedBanger][AType::None]
         <<" Total CB       : "<<setw(6)<<fixed<<setprecision(2)<<PunchlineCnt<<endl;
     }
 
