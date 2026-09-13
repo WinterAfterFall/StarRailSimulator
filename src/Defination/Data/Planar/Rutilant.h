@@ -2,7 +2,7 @@
 namespace Planar{
     void Rutilant(CharUnit *ptr){
         
-        ptr->Planar.Name = "    ";
+        ptr->Planar.Name = "Rutilant";
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Stats_type[Stats::CR][AType::None] += 8;
         }));

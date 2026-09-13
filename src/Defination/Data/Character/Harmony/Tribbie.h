@@ -38,12 +38,6 @@ namespace Tribbie{
         };
 
         ptr->Char.Print_Func = Print_Stats;
-        ptr->addUltCondition([ptr,TBptr]() -> bool {
-            if (ptr->Light_cone.Name == "DDD" && chooseSubUnitBuff(ptr)->Atv_stats->atv <= 0) return false;
-            if (ptr->Light_cone.Name == "DDD" && Driver_num != 0 && charUnit[Driver_num]->Atv_stats->atv <= 0) return false;
-            if (ptr->Light_cone.Name == "Eagle_Beaked_Helmet" && ptr->Atv_stats->atv <= 0) return false;
-            return true;
-        });
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,TBptr]() {
 

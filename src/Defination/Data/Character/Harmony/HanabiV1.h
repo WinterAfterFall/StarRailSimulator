@@ -77,7 +77,7 @@ namespace HanabiV1{
         });
 
         ptr->addUltCondition([ptr,hnb]() -> bool {
-            if(ptr->Light_cone.Name!="DDD"&&phaseStatus == PhaseStatus::BeforeTurn&&turn->isSameUnit(chooseSubUnitBuff(hnb)))return true;
+            if(phaseStatus == PhaseStatus::BeforeTurn&&turn->isSameUnit(chooseSubUnitBuff(hnb)))return true;
             return false;
         });
 

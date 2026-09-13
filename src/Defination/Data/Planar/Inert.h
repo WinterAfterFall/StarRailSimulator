@@ -2,7 +2,7 @@
 namespace Planar{
     void Inert(CharUnit *ptr){
         
-        ptr->Planar.Name = "SpaceSealing";
+        ptr->Planar.Name = "Inert";
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Stats_type[Stats::CR][AType::None] += 8;
             ptr->Stats_type[Stats::DMG][AType::Ult] += 15;
