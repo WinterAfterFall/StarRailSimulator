@@ -1,7 +1,7 @@
 # สิ่งที่น่าปรับปรุงภายหลัง
 
 รายการงานปรับปรุง engine ที่รู้แล้วว่าควรทำ แต่ยังไม่ทำตอนนี้ (ไม่เร่ง / กระทบหลายจุด / รอตัดสินใจ)
-คู่กับหัวข้อ 🐞 ใน [`unit.md`](unit.md) (บั๊กเฉพาะโซน Unit)
+คู่กับ [`instructor/BUGS.md`](instructor/BUGS.md) (บั๊กที่เจอระหว่างไล่โค้ด)
 
 ---
 
@@ -32,7 +32,7 @@ expire(BUFF_BENEDICTION, Stats::ATK_P, BENEDICTION_ATK);
 
 ## 2. ระบบ "สร้าง" โล่ (shield) ยังเป็น stub
 
-ดู [`unit.md` ภาคผนวก 🛡️](unit.md) — `decreaseSheild()` แก้แล้ว แต่ยังไม่มีโค้ดไหน **เพิ่ม** `currentSheild`
+ดู [`instructor/Function/Combat/ChangeHP.md`](instructor/Function/Combat/ChangeHP.md) (ระบบโล่) — `decreaseSheild()` แก้แล้ว แต่ยังไม่มีโค้ดไหน **เพิ่ม** `currentSheild`
 ค้าง: อ่าน `Stats_type[SHEILD]` เป็นตัวคูณ outgoing shield, เพิ่ม `currentSheild`, countdown/ถอนเหมือนบัฟ, ปลด comment Aventurine
 
 ---
@@ -43,7 +43,7 @@ expire(BUFF_BENEDICTION, Stats::ATK_P, BENEDICTION_ATK);
 
 ผลข้างเคียงที่ตามมา (ทั้งหมด "latent" — ยังเกิดไม่ได้เพราะกำแพง type):
 - `buffSingle` path บัฟ speed (`Buff_Stats.h:88,99`) → `ahaSpeedAdjust(ptr->owner->path[0])` → null deref ถ้า `ptr` เป็น summon/countdown
-- `speedBuff` บน unit ที่ `baseSpeed <= 0` → ตัวเลขสะสมเงียบ ๆ แล้วเด้งมามีผลทีหลัง (หัวข้อ 2.2 ใน `unit.md`)
+- `speedBuff` บน unit ที่ `baseSpeed <= 0` → ตัวเลขสะสมเงียบ ๆ แล้วเด้งมามีผลทีหลัง ([`instructor/Function/Combat/Action_value.md`](instructor/Function/Combat/Action_value.md))
 
 **ทางแก้ที่ user เลือก:** refactor ให้ summon/countdown เป็น **`ActionValueStats` ตรง ๆ** (เหมือน `aha`) ไม่ใช่ `AllyUnit` → ไม่มี `owner` / `Stats_type` / buff maps ที่ไม่ได้ใช้ → ปัญหา `owner==nullptr` + speed-buff-สะสม หายไปทั้งชุด · งานที่ต้องทำ: เปลี่ยน `summonList`/`countdownList` เป็น `vector<unique_ptr<ActionValueStats>>`, ปรับ `Turn_func` / `summon()` / reset ให้เข้ากับ interface ใหม่, ไล่ทุกจุดที่ cast `summonList[i].get()` เป็น `Unit*`/`AllyUnit*`
 
@@ -56,7 +56,7 @@ expire(BUFF_BENEDICTION, Stats::ATK_P, BENEDICTION_ATK);
 - `CharUnit` redeclare accessor ชุด `setStack`/`getStack`/... ที่ `AllyUnit` มีอยู่แล้ว — ซ้ำซ้อน
 - ~~`Unit::isExsited()` — typo (`isExisted`)~~ ✅ แก้แล้ว 2026-09-13
 - `Unit/Library.h` — `#include "AllyUnit.h"` ซ้ำ 2 บรรทัด
-- ~~`tauntMtprChange` / no-arg `calHitChance()` / `totalTaunt` dead code~~ ✅ ลบ/ปรับแล้ว (2026-09-04) — `tauntMtpr` → `tauntIncrease` (0 = ไม่มี), เหลือ `tauntIncreaseChange(double)` ต่อสายไว้รอ trace "taunt +X%" (ดู `unit.md` 🐞 #12)
+- ~~`tauntMtprChange` / no-arg `calHitChance()` / `totalTaunt` dead code~~ ✅ ลบ/ปรับแล้ว (2026-09-04) — `tauntMtpr` → `tauntIncrease` (0 = ไม่มี), เหลือ `tauntIncreaseChange(double)` ต่อสายไว้รอ trace "taunt +X%" (ดู [`instructor/BUGS.md`](instructor/BUGS.md) #12)
 
 ---
 
@@ -66,4 +66,4 @@ expire(BUFF_BENEDICTION, Stats::ATK_P, BENEDICTION_ATK);
 - ผลเฉพาะเคส `atv` เท่ากันเป๊ะ (speed เท่ากันเป๊ะ ไม่มีบัฟต่างกัน) ใน `Find_turn` → ตัวที่ค้าง `priority` สูงชนะ tie ซ้ำ ๆ
 - เกิดยากมาก — _รอ user ตัดสินว่าจะ reset `priority` หลังเล่นเทิร์นจบไหม_
 
-> **หมายเหตุ #14B (memosprite baseSpeed snapshot):** ไม่ได้อยู่ในลิสต์นี้แล้ว — user ยืนยันว่า **ตั้งใจ** (memo เอาแค่ relic + stat เจ้าของ ณ ต้น run, บัฟสปีดกลางรบของเจ้าของไม่ส่งผล เว้นบัฟที่ยิงใส่ memo ตรง ๆ) → ย้ายไปเป็น "พฤติกรรมที่ documented" ใน `unit.md` หัวข้อ 4.7
+> **หมายเหตุ #14B (memosprite baseSpeed snapshot):** ไม่ได้อยู่ในลิสต์นี้แล้ว — user ยืนยันว่า **ตั้งใจ** (memo เอาแค่ relic + stat เจ้าของ ณ ต้น run, บัฟสปีดกลางรบของเจ้าของไม่ส่งผล เว้นบัฟที่ยิงใส่ memo ตรง ๆ) → ย้ายไปเป็น "พฤติกรรมที่ documented" ใน [`instructor/Function/Setup/Stats_Reset.md`](instructor/Function/Setup/Stats_Reset.md)

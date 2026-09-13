@@ -104,7 +104,7 @@
 `Memosprite_reset` (ต้น wave) ก๊อป `Stats_type` + `Stats_each_element` ของเจ้าของ **ทั้งก้อน** ใส่ memo → memo ได้ crit / DMG% / ทุกอย่างจากเจ้าของฟรี (`FLAT_HP` scale ด้วย `Unit_Hp_Ratio` + `fixHP`)
 - บัฟ memo หลังจุดนั้น: `buffSingleChar` (เจ้าของ + memo) หรือ `buffAllMemosprite`
 - speed memo = snapshot ณ ต้น wave (`fixSpeed + calculateSpeedOnStats(owner)*Unit_Speed_Ratio/100`) — ไม่ตามบัฟ speed เจ้าของกลางรบ
-- รายละเอียด: [`engine-reference/unit.md`](engine-reference/unit.md) หัวข้อ 4.7
+- รายละเอียด: [`engine-reference/instructor/Function/Setup/Stats_Reset.md`](engine-reference/instructor/Function/Setup/Stats_Reset.md)
 
 ## 5. Energy
 
@@ -129,7 +129,7 @@
 - **patch เฉพาะกรณี > general solution** — heuristic + รายชื่อ exception (`isSameName("Saber")`, `Max_energy == 0`)
 - **ตัดกลไกที่ implement ยาก โดยมีเหตุผล** — เช่น Tingyun Benediction "cap 25% ของ ATK Tingyun" ตัดทิ้ง เพราะ ATK Tingyun ที่ build แล้วสูงพอเสมอ (cap ไม่เคย bind)
 - `Technique` field: `int` default 1 · ทุกตัว = bool `if (Technique == 1)` · **Tingyun ตัวเดียว** set `= 2` + `50 * Technique` (เธอเป็นตัวเดียวที่ technique ให้ energy) — one-off ตั้งใจ · `if (Technique == 1)` บน Tingyun = false เงียบ ๆ
-- **forced taunt (ดึง aggro บังคับ)** — `enemy->tauntList` เป็น field per-enemy · `enemy->addTaunt(ally)` (มี dedup) → enemy single-target attack เล็งแค่ตัวใน list ของ enemy ตัวนั้น (AoE ไม่สน) · lifecycle pattern Mydei = ผูกกับ debuff (`debuffApply(...,"Name",turns)` + `addTaunt`) แล้ว `After_turn_List` เช็ค `isDebuffEnd(e,...)` → `e->removeTaunt(ally)` (แยกอิสระต่อ enemy ไม่ต้องนับ) · ดู [`engine-reference/unit.md`](engine-reference/unit.md) หัวข้อ 4.3
+- **forced taunt (ดึง aggro บังคับ)** — `enemy->tauntList` เป็น field per-enemy · `enemy->addTaunt(ally)` (มี dedup) → enemy single-target attack เล็งแค่ตัวใน list ของ enemy ตัวนั้น (AoE ไม่สน) · lifecycle pattern Mydei = ผูกกับ debuff (`debuffApply(...,"Name",turns)` + `addTaunt`) แล้ว `After_turn_List` เช็ค `isDebuffEnd(e,...)` → `e->removeTaunt(ally)` (แยกอิสระต่อ enemy ไม่ต้องนับ) · ดู [`engine-reference/instructor/Class/ActionData/EnemyActionData.md`](engine-reference/instructor/Class/ActionData/EnemyActionData.md)
 - **taunt +X%** — `ptr->tauntIncreaseChange(X)` → `taunt = baseTaunt · (1 + X/100)` · `calHitChance(pool)` ใช้ `taunt` ตัวนี้อยู่แล้ว ไม่ต้องแตะอะไรเพิ่ม · ยังไม่มีตัวละครไหนใช้ · ⚠️ ถ้าเป็น memosprite ต้องเรียกใน `WhenOnField_List` (หลัง `Memosprite_reset`) ไม่ใช่ `Reset_List`
 
 ## 8. Debug — buff drift

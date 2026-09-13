@@ -571,7 +571,7 @@ DEF ของศัตรูคำนวณจาก DEF = 200 + 10 x Level
 
 > **หมายเหตุการอ่านค่า %:** ตัวเลขข้างบนเป็นค่าตาม[คอนเวนชันเลเวลของโปรเจกต์](character-implementation-notes.md) (5★ = talent Lv.10) — แหล่งนอกที่อ้างเลเวลสูงกว่าจะเห็นเลขต่างเล็กน้อย เช่น Game8 เขียน RMC = 30%
 
-> **ในเอนจินนี้:** True DMG ไม่มี `AType` ของตัวเอง — บันทึกตรงเข้าสมุดดาเมจผ่าน `Cal_DamageNote()` โดยไม่ผ่าน `Attack()`/`CalDamage` ซึ่งทำให้คุณสมบัติทุกข้อข้างบนเป็นจริงโดยอัตโนมัติ · รายละเอียด + เหตุผลที่ key ต้องเก็บทั้ง `src` และ `recv` อยู่ที่ `docs/engine-reference/unit.md` หัวข้อ 5.1
+> **ในเอนจินนี้:** True DMG ไม่มี `AType` ของตัวเอง — บันทึกตรงเข้าสมุดดาเมจผ่าน `Cal_DamageNote()` โดยไม่ผ่าน `Attack()`/`CalDamage` ซึ่งทำให้คุณสมบัติทุกข้อข้างบนเป็นจริงโดยอัตโนมัติ · รายละเอียด + เหตุผลที่ key ต้องเก็บทั้ง `src` และ `recv` อยู่ที่ `docs/engine-reference/instructor/Class/Unit/CharUnit.md` (เหตุผลที่ key มีทั้ง src และ recv) และ `docs/engine-reference/instructor/Function/Calculate/CalDamageNote.md` (วิธีบันทึก)
 
 ---
 

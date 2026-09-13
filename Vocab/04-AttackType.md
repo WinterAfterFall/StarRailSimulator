@@ -44,7 +44,7 @@
 
 > ⚠️ **`Addtional` สะกดผิดในโค้ด** (ควรเป็น *Additional*) — เขียนตามนี้เวลาเรียก enum
 
-> **True DMG ไม่ใช่ `AType`** — มันคือ "ตัวคูณที่แยกยอดออกมาเป็นดาเมจก้อนใหม่" ไม่ใช่ชนิดการโจมตี wiki เรียกว่า *not considered an attack* → เอนจินจึงบันทึกตรงเข้าสมุดด้วย `Cal_DamageNote(act, src, recv, damage, ratio, name)` (`CalDamageNote.h:68`) ไม่ผ่าน `Attack()`/`CalDamage` เลย · งอกได้จากดาเมจทุกชนิด (crit / non-crit / DoT / Break / SPB) · ย้ายเป้าได้ (`src` ≠ `recv`) เช่น Tribbie E1 — รายละเอียดเต็มที่ `docs/engine-reference/unit.md` หัวข้อ 5.1
+> **True DMG ไม่ใช่ `AType`** — มันคือ "ตัวคูณที่แยกยอดออกมาเป็นดาเมจก้อนใหม่" ไม่ใช่ชนิดการโจมตี wiki เรียกว่า *not considered an attack* → เอนจินจึงบันทึกตรงเข้าสมุดด้วย `Cal_DamageNote(act, src, recv, damage, ratio, name)` (`CalDamageNote.h:68`) ไม่ผ่าน `Attack()`/`CalDamage` เลย · งอกได้จากดาเมจทุกชนิด (crit / non-crit / DoT / Break / SPB) · ย้ายเป้าได้ (`src` ≠ `recv`) เช่น Tribbie E1 — รายละเอียดเต็มที่ `docs/engine-reference/instructor/Function/Calculate/CalDamageNote.md`
 
 ### กฎเคสพิเศษ (สรุปจาก review ของโปรเจกต์นี้)
 
