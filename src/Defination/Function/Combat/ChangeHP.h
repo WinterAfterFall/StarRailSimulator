@@ -113,7 +113,7 @@ void IncreaseCurrentHP(AllyUnit *ptr,double Value){
     ptr->currentHP = (ptr->currentHP + Value > ptr->totalHP) ? ptr->totalHP : ptr->currentHP + Value;
 }
 void IncreaseHP(AllyUnit *Healer,AllyUnit *target,double Value){
-    if(Value==0||!target->isExsited())return;
+    if(Value==0||!target->isExisted())return;
     IncreaseCurrentHP(target,Value);
     allEventHeal(Healer,target,Value);
 }
@@ -125,7 +125,7 @@ void DecreaseHP(AllyUnit *target,Unit *Trigger,double Value,double percentFromTo
     decreaseHPCount++;
 
     double Total = Value;
-    if(!target->isExsited())return;
+    if(!target->isExisted())return;
     Total += (percentFromTotalHP/100.0*target->totalHP);
     Total += (percentFromCurrentHP/100.0*target->currentHP);
     DecreaseCurrentHP(target,Total);

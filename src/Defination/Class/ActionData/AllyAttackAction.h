@@ -338,7 +338,7 @@ class  AllyAttackAction : public AllyActionData {
 
     #pragma region addEnemyTarget
     void addEnemyToTargetList(){
-        if(!Attacker->isExsited())return;
+        if(!Attacker->isExisted())return;
         std::shared_ptr<AllyActionData> self = shared_from_this();
         vector<bool> check(Total_enemy+1, false);
         for(auto &e : targetList){
@@ -356,7 +356,7 @@ class  AllyAttackAction : public AllyActionData {
         }
     }
     void addToActionBar(){
-        if(!Attacker->isExsited())return;
+        if(!Attacker->isExisted())return;
         std::shared_ptr<AllyActionData> self = shared_from_this();
         vector<bool> check(Total_enemy+1, false);
         for(auto &e : targetList){
@@ -375,7 +375,7 @@ class  AllyAttackAction : public AllyActionData {
         Action_bar.push(self);
     }
     void addToAhaInstant(){
-        if(!Attacker->isExsited())return;
+        if(!Attacker->isExisted())return;
         std::shared_ptr<AllyActionData> self = shared_from_this();
         vector<bool> check(Total_enemy+1, false);
         for(auto &e : targetList){

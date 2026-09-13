@@ -148,7 +148,7 @@ public:
         if(this->status == UnitStatus::Death||this->status == UnitStatus::AtvFreeze||this->status == UnitStatus::Retire)return false;
         return true;
     }
-    bool isExsited(){
+    bool isExisted(){
         if(this->status == UnitStatus::Death||this->status == UnitStatus::Retire)return false;
         return true;
     }

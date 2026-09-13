@@ -71,7 +71,7 @@ void SetSummonStats(CharUnit *ptr,double BaseSpeed,string Name){
         atvList.push_back(ptr->summonList[num]->Atv_stats.get());
         ptr->summonList[num]->Atv_stats->baseSpeed = BaseSpeed;
         ptr->summonList[num]->Atv_stats->num = Num;
-        ptr->summonList[num]->Atv_stats->Name = ptr->Atv_stats->Name;
+        ptr->summonList[num]->Atv_stats->Name = Name;
         ptr->summonList[num]->Atv_stats->side = Side::Summon;
         ptr->summonList[num]->Atv_stats->charptr = ptr->summonList[num].get();
 }

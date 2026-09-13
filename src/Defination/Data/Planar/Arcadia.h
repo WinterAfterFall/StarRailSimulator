@@ -6,7 +6,7 @@ namespace Planar{
         BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
             int cnt = 0;
             for(auto &each : allyList){
-                if(each->isExsited())cnt++;
+                if(each->isExisted())cnt++;
             }
             double buff = 0;
             if(cnt<4){
