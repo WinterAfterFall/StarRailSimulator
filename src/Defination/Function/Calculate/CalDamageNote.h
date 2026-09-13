@@ -23,8 +23,8 @@ bool changeMaxDamage(CharUnit *ptr){
             }
         }
 
-        for(int i=0,sz = ptr->Max_damage_Substats.size();i<sz;i++){
-            ptr->Max_damage_Substats[i] = ptr->Substats[i].second;    
+        for(int i=0,sz = ptr->bestSubstats.size();i<sz;i++){
+            ptr->bestSubstats[i] = ptr->Substats[i].second;    
         }
         
         return true;

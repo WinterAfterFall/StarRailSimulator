@@ -36,75 +36,6 @@ void printRoundResult(){
     }
     cout<<"Total Damage : "<<static_cast<long long>(total)<<" "<<static_cast<long long>(avg)<<endl;
 }
-void Print_All_Substats(){
-    for(auto e:charUnit[1]->StatsType_Compare){
-        cout<<e.first<<" ";
-        cout<<e.second.first<<endl;
-    }
-    cout<<charUnit[1]->StatsType_Compare_MAX_MIN.first<<" "<<charUnit[1]->StatsType_Compare_MAX_MIN.second<<endl;
-    for(auto e:charUnit[1]->TotalSubstats_Compare){
-        cout<<e.first<<" ";
-        cout<<e.second.first<<endl;
-    }
-    cout<<charUnit[1]->TotalSubstats_Compare_MAX_MIN.first<<" "<<charUnit[1]->TotalSubstats_Compare_MAX_MIN.second<<endl;
-    return;
-    // for(auto e:Ally_unit[1]->Damage_data){
-    //     int index = e.first;
-    //     cout<<"{ ";
-    //     for(int i=Ally_unit[1]->Substats.size()-1;i>=0;i--){
-    //         int temp = pow(Ally_unit[1]->Total_substats+1,i);
-    //         cout<<index/temp<<" ";
-    //         index = index % temp;
-    //     }
-    //     cout<<"} "<<e.second<<endl;
-    // }
-}
-/*
-void Calculate_All_Substats(){
-    for(auto e:Ally_unit[1]->Damage_data){
-        int index = e.first;
-        for(int i=Ally_unit[1]->Substats.size()-1;i>=0;i--){
-            int temp = pow(Ally_unit[1]->Total_substats+1,i);
-            Ally_unit[1]->Substats[i].second=index/temp;
-            index = index % temp;
-        }
-        for(int i=1;i<Ally_unit[1]->Substats.size();i++){
-            if(Ally_unit[1]->Substats[i].second==0)continue;
-            index = Ally_unit[1]->Substats[0].second+1;
-            for(int j=1;j<Ally_unit[1]->Substats.size();j++){
-                int temp = pow(Ally_unit[1]->Total_substats+1,j);
-                if(i==j){
-                    index+=(Ally_unit[1]->Substats[j].second-1)*temp;
-                }else{
-                    index+=(Ally_unit[1]->Substats[j].second)*temp;
-                }   
-            }
-            Ally_unit[1]->StatsType_Compare[Ally_unit[1]->Substats[i].first].first=
-            ((Ally_unit[1]->StatsType_Compare[Ally_unit[1]->Substats[i].first].first*Ally_unit[1]->StatsType_Compare[Ally_unit[1]->Substats[i].first].second)+(100*e.second/Ally_unit[1]->Damage_data[index]))
-            /((double)Ally_unit[1]->StatsType_Compare[Ally_unit[1]->Substats[i].first].second+1);
-            if(Ally_unit[1]->StatsType_Compare_MAX_MIN.first<100*e.second/Ally_unit[1]->Damage_data[index])Ally_unit[1]->StatsType_Compare_MAX_MIN.first = 100*e.second/Ally_unit[1]->Damage_data[index];
-            if(Ally_unit[1]->StatsType_Compare_MAX_MIN.second>100*e.second/Ally_unit[1]->Damage_data[index])Ally_unit[1]->StatsType_Compare_MAX_MIN.second = 100*e.second/Ally_unit[1]->Damage_data[index];
-            Ally_unit[1]->StatsType_Compare[Ally_unit[1]->Substats[i].first].second++;
-        }
-        
-        if(Calculate_All_possible_mode){
-        for(int i=0;i<Ally_unit[1]->Substats.size();i++){
-            if(Ally_unit[1]->Substats[i].second==0)continue;
-            index = e.first - pow(Ally_unit[1]->Total_substats+1,i);
-            cout<<e.second<<" "<<Ally_unit[1]->Damage_data[index]<<endl;
-            cout<<e.first<<" "<<index<<" "<<Ally_unit[1]->Substats[i].second<<endl;
-            
-            Ally_unit[1]->TotalSubstats_Compare[Ally_unit[1]->Substats[i].first].first=
-            ((Ally_unit[1]->TotalSubstats_Compare[Ally_unit[1]->Substats[i].first].first*Ally_unit[1]->TotalSubstats_Compare[Ally_unit[1]->Substats[i].first].second)+(100*e.second/Ally_unit[1]->Damage_data[index]))
-            /((double)Ally_unit[1]->TotalSubstats_Compare[Ally_unit[1]->Substats[i].first].second+1);
-            if(Ally_unit[1]->TotalSubstats_Compare_MAX_MIN.first<100*e.second/Ally_unit[1]->Damage_data[index])Ally_unit[1]->TotalSubstats_Compare_MAX_MIN.first = 100*e.second/Ally_unit[1]->Damage_data[index];
-            if(Ally_unit[1]->TotalSubstats_Compare_MAX_MIN.second>100*e.second/Ally_unit[1]->Damage_data[index])Ally_unit[1]->TotalSubstats_Compare_MAX_MIN.second = 100*e.second/Ally_unit[1]->Damage_data[index];
-            Ally_unit[1]->TotalSubstats_Compare[Ally_unit[1]->Substats[i].first].second++;
-        }
-        }
-    }
-}
-*/
 void printSummaryResult(){
     cout<< "\033[0;38;5;117m";
     cout<<"------------------------------------Summary------------------------------------"<<endl;
@@ -136,8 +67,8 @@ void printSummaryResult(){
         }
         cout<<endl;
         cout<<"Substats : | ";
-        for(int j = 0;j<charUnit[i]->Max_damage_Substats.size();j++){
-            cout<<toString(charUnit[i]->Substats[j].first)<<" : "<<charUnit[i]->Max_damage_Substats[j]<<" | ";
+        for(int j = 0;j<charUnit[i]->bestSubstats.size();j++){
+            cout<<toString(charUnit[i]->Substats[j].first)<<" : "<<charUnit[i]->bestSubstats[j]<<" | ";
         }
         
         cout<<endl;

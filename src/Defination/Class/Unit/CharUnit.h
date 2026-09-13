@@ -99,23 +99,18 @@ public:
     //Temp
     unordered_map<string,double> Adjust;
 
-    vector<pair<Stats,int>> Substats;//*
-    vector<int> Max_damage_Substats;//*
-    bool Reroll_check=1;
-    bool Stop_reroll=1;
-    int Total_substats = 20;
-    int currentTotalSubstats;
+    #pragma region Substats Reroll
+    vector<pair<Stats,int>> Substats;//* จำนวน roll ที่ลงแต่ละ substat — Set_Stats แปลงเป็นค่าจริง
+    vector<int> bestSubstats;          // ชุด roll ที่ดาเมจสูงสุดที่วัดได้ — changeMaxDamage เป็นคนเขียน
+    int Total_substats = 25;
 
-    int SeparateRatio = 20;
-    int spiltPoint = 1;
-    int Current_sub_choose =0;
-    unordered_map<int,double> Damage_data;
-    unordered_map<string,pair<double,int>> StatsType_Compare;
-    pair<double,double> StatsType_Compare_MAX_MIN;
-
-    unordered_map<string,pair<double,int>> TotalSubstats_Compare;
-    pair<double,double> TotalSubstats_Compare_MAX_MIN;
-
+    // สถานะของ StandardReroll (Substats_Reset.h)
+    bool rerollActive = 1;             // 1 = ยังค้นหาอยู่ · 0 = จบแล้ว หรือถูกปิดด้วย CharCmd::Set_Reroll_check
+    int rerollTargetIndex = 1;         // ช่องที่กำลังเติม roll · เริ่ม 1 เพราะช่อง 0 คือคลังที่ถือ roll ทั้งหมดตอนเริ่ม
+    int rerollSourceIndex = -1;        // ช่องที่กำลังดึง roll ออก ไล่ 0..target-1 · -1 = ยังไม่เริ่ม sweep
+    bool rerollImproved = 0;           // sweep นี้มีชุดทดลองที่ทำลายสถิติดาเมจไหม
+    vector<int> rerollSweepBase;       // จุดตั้งต้นของ sweep — ทุกชุดทดลองแตกออกจากตรงนี้
+    #pragma endregion
 
     vector<Path> path ;//*
     //*

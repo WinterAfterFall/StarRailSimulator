@@ -31,7 +31,7 @@ namespace CharCmd{
         ptr->SpeedRequire = value;
     }
     void Set_Reroll_check(CharUnit *ptr,bool Bool){
-        ptr->Reroll_check = Bool;
+        ptr->rerollActive = Bool;
     }
     void Timing_print(CharUnit *ptr){
         ptr->Print = 1;

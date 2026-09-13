@@ -20,10 +20,8 @@ void CharUnit::newEhrRequire(double amount){
 // Set Substats
 void CharUnit::setTotalSubstats(int Value) {
     this->Total_substats = Value;
-    this->currentTotalSubstats = Value;
-    this->SeparateRatio = Value;
     this->Substats[0].second = Value;
-    this->Max_damage_Substats.resize(this->Substats.size());
+    this->bestSubstats.resize(this->Substats.size());
 }
 void CharUnit::pushSubstats(Stats StatsType) {
     this->Substats.push_back({StatsType, 0});
@@ -31,8 +29,6 @@ void CharUnit::pushSubstats(Stats StatsType) {
 int CharUnit::changeTotalSubStats(int amount) {
     if(this->Total_substats + amount < 0)amount = -this->Total_substats;
     this->Total_substats += amount;
-    this->currentTotalSubstats += amount;
-    this->SeparateRatio += amount;
     this->Substats[0].second += amount;
     return -1*amount;
 }

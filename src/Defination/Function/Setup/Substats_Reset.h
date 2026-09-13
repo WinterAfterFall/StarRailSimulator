@@ -46,74 +46,81 @@ void Set_Stats(CharUnit *ptr){
     }
 }
 bool Reroll_substats(){
-    bool ans = true;
+    bool allDone = true;
     for(int i=1; i<= Total_ally; i++){
-        again:
-        if(rerollFunction(charUnit[i].get()))
-        ans = false;
-        else continue;
-        for(auto &e:charUnit[i]->Substats){
-            if(e.second<0){
-                goto again;
-            }
-        }
-        
+        if(rerollFunction(charUnit[i].get())) allDone = false;
     }
-    return ans;
-    
+    return allDone;
 }
+
+// ------------------------------ Standard Reroll ------------------------------
+// หา substats ที่ดาเมจสูงสุด ด้วยการย้าย roll ทีละ 1 เม็ด (โครงเดียวกับ rerollSubstats() ของ WuwaSimulator)
+//
+// จุดเริ่ม : setTotalSubstats() ยัด roll ทั้งหมดไว้ที่ Substats[0] — ช่อง 0 เป็นคลัง ช่องอื่นเริ่มที่ 0
+// target  : Substats[rerollTargetIndex] ช่องที่กำลังเติม — เริ่ม 1 ไล่ไปจนช่องสุดท้าย
+// source  : Substats[rerollSourceIndex] ช่องที่ดึงออก — ไล่ 0 → target-1
+//
+// 1 sweep = ลองทุก source ของ target ตัวเดียว
+//   ชุดทดลอง = rerollSweepBase แล้ว source -1 / target +1 (ทุกชุดแตกจาก base เดียวกัน ไม่สะสม)
+//   1 คอล = 1 ชุดทดลอง → คืน true ให้ caller รัน sim → คอลถัดไป changeMaxDamage วัดผลชุดนั้น
+//   changeMaxDamage เก็บชุดที่ดาเมจสูงสุดไว้ใน bestSubstats → ครบ sweep แล้ว best = ชุดที่ชนะ
+//
+// ครบทุก source แล้ว
+//   มีชุดที่ดาเมจดีขึ้น → sweep target เดิมซ้ำ เริ่มจาก best ใหม่
+//   ไม่มีเลย          → target +1 แล้ว source กลับไปเริ่มที่ 0
+// target เลยช่องสุดท้าย → คืน Substats เป็น bestSubstats แล้วจบ
 bool StandardReroll(CharUnit *ptr){
+    if(!ptr->rerollActive) return false;
 
-    if(0 == ptr->Reroll_check) return false;
-    
+    // วัดผลรอบ sim ที่เพิ่งจบ — นับ improvement เฉพาะชุดทดลอง (รอบแรกสุดคือ baseline ไม่นับ)
+    if(changeMaxDamage(ptr) && ptr->rerollSourceIndex >= 0) ptr->rerollImproved = true;
 
-    if(changeMaxDamage(ptr))ptr->Stop_reroll = 0;
-    if(ptr->Substats.size()==1){
-        ptr->Reroll_check = 0;
-        return false;
-    }
-
-    if(ptr->Current_sub_choose+1==ptr->spiltPoint){
-        
-        if(1 == ptr->Stop_reroll||ptr->SeparateRatio==0){
-            ptr->spiltPoint++;
-            if(ptr->spiltPoint==ptr->Substats.size()){
-                ptr->Reroll_check=0;
-                for(int i=0,sz = ptr->Max_damage_Substats.size();i<sz;i++){
-                    ptr->Substats[i].second = ptr->Max_damage_Substats[i];
-                }
-                return 0;
-            }
-            ptr->SeparateRatio = ptr->Total_substats-1;
-            ptr->Current_sub_choose = 0;
-            ptr->Stop_reroll = 1;
-
-            ptr->Substats[0].second = ptr->Max_damage_Substats[0]-1;
-            for(int i=1;i<ptr->spiltPoint;i++){
-                ptr->Substats[i].second = ptr->Max_damage_Substats[i];
-            }
-            ptr->Substats[ptr->spiltPoint].second = ptr->Max_damage_Substats[ptr->spiltPoint]+1;
-        
-            
-        }else{
-        --ptr->SeparateRatio;
-        ptr->Current_sub_choose = 0;
-        ptr->Stop_reroll = 1;
-        ptr->Substats[0].second = ptr->Max_damage_Substats[0]-1;
-        for(int i=1;i<ptr->spiltPoint;i++){
-            ptr->Substats[i].second = ptr->Max_damage_Substats[i];
+    while(true){
+        // bestSubstats ถูก resize ใน setTotalSubstats — ตัวที่ไม่ได้ตั้ง substats จะจบตรงนี้ทันที
+        if(ptr->rerollTargetIndex >= (int)ptr->bestSubstats.size()){
+            restoreBestSubstats(ptr);
+            ptr->rerollActive = false;
+            return false;
         }
-        ptr->Substats[ptr->spiltPoint].second = ptr->Max_damage_Substats[ptr->spiltPoint]+1;
+
+        if(ptr->rerollSourceIndex == -1) ptr->rerollSweepBase = ptr->bestSubstats;
+
+        int nextSource = ptr->rerollSourceIndex + 1;
+        if(nextSource >= ptr->rerollTargetIndex){
+            if(!ptr->rerollImproved) ptr->rerollTargetIndex++;
+            ptr->rerollImproved = false;
+            ptr->rerollSourceIndex = -1;
+            continue;
         }
-    }else{
-        ptr->Substats[ptr->Current_sub_choose].second++;
-        ++ptr->Current_sub_choose;
-        ptr->Substats[ptr->Current_sub_choose].second--;
 
+        ptr->rerollSourceIndex = nextSource;
+        if(trySwapSubstat(ptr, nextSource)) return true;
     }
-    return 1;
-
 }
+// Substats = rerollSweepBase แล้วย้าย 1 roll จาก source ไป target
+// source ไม่มี roll ให้ดึง → คืน false ข้ามไปเลย ไม่เสียรอบ sim
+bool trySwapSubstat(CharUnit *ptr, int sourceIndex){
+    if(ptr->rerollSweepBase[sourceIndex] <= 0) return false;
+
+    for(int i=0, sz = ptr->rerollSweepBase.size(); i<sz; i++){
+        ptr->Substats[i].second = ptr->rerollSweepBase[i];
+    }
+    ptr->Substats[sourceIndex].second--;
+    ptr->Substats[ptr->rerollTargetIndex].second++;
+    return true;
+}
+void restoreBestSubstats(CharUnit *ptr){
+    for(int i=0, sz = ptr->bestSubstats.size(); i<sz; i++){
+        ptr->Substats[i].second = ptr->bestSubstats[i];
+    }
+}
+
+/* ------------------------ ปิดไว้ก่อน (2026-09-13) — ใช้แค่ StandardReroll ------------------------
+ * โค้ดข้างล่างคงไว้ตามเดิมก่อน refactor ยังอ้างชื่อเก่า: Reroll_check -> rerollActive,
+ * Max_damage_Substats -> bestSubstats และ Damage_data / currentTotalSubstats (ลบ field ไปแล้ว)
+ * เดิมพึ่ง goto again ใน Reroll_substats() ข้ามชุดที่ติดลบ ซึ่งเอาออกไปแล้ว
+ * จะเปิดกลับ: แก้ชื่อ + ใส่ Damage_data คืน + กันค่าติดลบเอง + เปิด enum (StatusEnum.h) และ SetCombat.h
+
 bool AllCombinationReroll(CharUnit *ptr){
     if(0 == ptr->Reroll_check&&ptr->AvgDmgRecord[0].maxDmgRecord>=0)return false;
     changeMaxDamage(ptr);
@@ -188,3 +195,4 @@ bool AllPossibleReroll(CharUnit *ptr){
     }
     return false;
 }
+*/

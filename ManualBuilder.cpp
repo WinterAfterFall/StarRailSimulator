@@ -172,11 +172,6 @@ int main(){
     printSummaryResult();
 
     std::cin.get();
-
-    // if(Calculate_All_Substats_mode){
-    //     Calculate_All_Substats();
-    //     Print_All_Substats();
-    // }
     
     return 0;
 }

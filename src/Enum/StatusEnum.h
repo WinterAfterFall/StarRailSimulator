@@ -18,6 +18,6 @@ enum class PhaseStatus{
 };
 enum class SubstatsRerollMode{
     Standard,
-    AllCombination, // fix maxsubstats
-    AllPossible
+    // AllCombination, // fix maxsubstats   ปิดไว้ก่อน — ดู Substats_Reset.h
+    // AllPossible
 };

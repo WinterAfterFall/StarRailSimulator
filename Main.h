@@ -61,11 +61,6 @@ void Main(){
     if(Reroll_substats())break;
     }
     printSummaryResult();
-
-    // if(Calculate_All_Substats_mode){
-    //     Calculate_All_Substats();
-    //     Print_All_Substats();
-    // }
     std::cout << "Press Enter to end program..." <<endl;
     std::cin.get();
     return ;

@@ -46,16 +46,13 @@ void Setup(){
     sort(AfterDealingDamage_List.begin(), AfterDealingDamage_List.end(), TriggerFunc::Trigger_cmp);
     
     if(rerollSubstatsMode == SubstatsRerollMode::Standard)rerollFunction = StandardReroll;
-    else
-    if(rerollSubstatsMode == SubstatsRerollMode::AllCombination)rerollFunction = AllCombinationReroll;
-    else
-    if(rerollSubstatsMode == SubstatsRerollMode::AllPossible)rerollFunction = AllPossibleReroll;
+    // ปิดไว้ก่อน — ใช้แค่ Standard (ดู Substats_Reset.h)
+    // else
+    // if(rerollSubstatsMode == SubstatsRerollMode::AllCombination)rerollFunction = AllCombinationReroll;
+    // else
+    // if(rerollSubstatsMode == SubstatsRerollMode::AllPossible)rerollFunction = AllPossibleReroll;
     
     for(int i=1;i<=Total_ally;i++){
-        charUnit[i]->StatsType_Compare_MAX_MIN.first = -1;
-        charUnit[i]->StatsType_Compare_MAX_MIN.second = 1e9;
-        charUnit[i]->TotalSubstats_Compare_MAX_MIN.first = -1;
-        charUnit[i]->TotalSubstats_Compare_MAX_MIN.second = 1e9;
         charUnit[i]->AvgDmgRecord.resize(Total_enemy+1);
     }
     for(TriggerByYourSelf_Func &e : Setup_List){
