@@ -62,11 +62,11 @@ Effect RES +28% · Break Effect +13.3% · HP +18%
 ---
 
 ## กลไกสำคัญ (จุดที่ต้องเทียบกับโค้ด)
-- **A2 Healing**: outgoing healing = min(50% × BreakEffect, 75%) — ผูกกับ Break Effect ปัจจุบัน ต้อง re-eval (โค้ดใช้ `calculateBreakEffectForBuff` + cap 75 + `Buff_note["Novel Concoction"]`)
+- **A2 Healing**: outgoing healing = min(50% × BreakEffect, 75%) — ผูกกับ Break Effect ปัจจุบัน ต้อง re-eval (โค้ดใช้ `calculateBreakEffectForBuff` + cap 75 + `buffNote["Novel Concoction"]`)
 - **Skill / Talent heal เป็นค่า flat** (1600 / 640) ไม่สเกลกับ HP → แต่รับผลจาก outgoing healing % ของ Gallagher
 - **Besotted** เป็น debuff ที่ให้ทั้ง Break-DMG-taken +12% (Talent) และเป็นทริกเกอร์ heal-on-hit
 - **Enhanced BA**: Ult set flag ให้ BA ถัดไปเป็น Nectar Blitz (250%, +Besotted-ATK-down 15%/2t, Toughness 30)
-- **A6**: heal-on-hit ของ Talent ครั้งที่ Nectar Blitz ตี Besotted → กระจายเป็น AoE heal (โค้ดเช็ค `Buff_check["Gallagher_enchance_basic_atk"]`)
+- **A6**: heal-on-hit ของ Talent ครั้งที่ Nectar Blitz ตี Besotted → กระจายเป็น AoE heal (โค้ดเช็ค `buffCheck["Gallagher_enchance_basic_atk"]`)
 - **A4**: action advance 100% หลัง Ult
 - E1 (+20 energy, +50% RES) trigger ตอนเข้าสนาม — ในโค้ดอยู่ที่ `Start_game_List` (เฉพาะ E1) และ `WhenOnField_List` (Besotted tech + A2 buff)
 

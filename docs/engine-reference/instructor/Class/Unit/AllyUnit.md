@@ -18,10 +18,10 @@ macro ในไฟล์: `#define endl '\n'` · `F`=`first` · `S`=`second` · 
 
 ## buff bookkeeping maps (ดูรายละเอียด lifecycle ที่ `character-implementation-notes.md` §4)
 
-`Stack` `Buff_note` `Buff_countdown` `Buff_check` (`map<string,…>`) · `buffSubUnitTarget` (`map<string,AllyUnit*>`) · `buffAllyTarget` (`map<string,CharUnit*>`)
-= สมุดบันทึก per-unit key ด้วย **ชื่อบัฟ (prefix ชื่อตัวละคร)** — framework track แค่ `Buff_check`(bool) + `Buff_countdown`(turnCnt เป้าหมาย) ไม่เก็บขนาด delta
+`stack` `buffNote` `buffEnd` `buffCheck` (`map<string,…>`) · `buffSubUnitTarget` (`map<string,AllyUnit*>`) · `buffAllyTarget` (`map<string,CharUnit*>`)
+= สมุดบันทึก per-unit key ด้วย **ชื่อบัฟ (prefix ชื่อตัวละคร)** — framework track แค่ `buffCheck`(bool) + `buffEnd`(turnCnt เป้าหมาย) ไม่เก็บขนาด delta
 
-- `Buff_countdown[name] = ptr->turnCnt + extend` (`Buff_Stats.h:40`) — ใช้ `turnCnt` ของ **unit ที่ entry นี้อยู่** (ปกติ = เป้าหมาย). บัฟแบบ relay (เช่น Robin skill E บัฟตัวเอง แล้วผลของมันไปเพิ่มดาเมจทั้งทีม) → entry อยู่บน Robin → นับเทิร์น Robin
+- `buffEnd[name] = ptr->turnCnt + extend` (`Buff_Stats.h:40`) — ใช้ `turnCnt` ของ **unit ที่ entry นี้อยู่** (ปกติ = เป้าหมาย). บัฟแบบ relay (เช่น Robin skill E บัฟตัวเอง แล้วผลของมันไปเพิ่มดาเมจทั้งทีม) → entry อยู่บน Robin → นับเทิร์น Robin
 - framework **ไม่ถอนค่า stat ให้เอง** ตอนบัฟหมด — ตัวละครต้องเขียน `After_turn_List` เช็ค `isBuffEnd` แล้ว `buffSingle(-v)` เอง (pattern Tingyun) → ดู [`future-improvements.md`](../../../future-improvements.md) ข้อ 1 + [`character-implementation-notes.md`](../../../../character-implementation-notes.md) หัวข้อ 4
 
 ## taunt / การเลือกเป้าของ enemy

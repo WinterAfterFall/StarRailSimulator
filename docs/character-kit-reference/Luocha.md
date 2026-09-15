@@ -57,11 +57,11 @@ ATK +28% · DEF +12.5% · HP +18%
 ---
 
 ## กลไกสำคัญ (จุดที่ต้องเทียบกับโค้ด)
-- **Abyss Flower**: ได้ +1 จาก Skill และ Ult; ครบ 2 → auto กาง Field + reset stack เป็น 0 (โค้ด `Stack["Abyss_Flower"]`, ฟังก์ชัน `Abyss_Flower(ptr)`)
+- **Abyss Flower**: ได้ +1 จาก Skill และ Ult; ครบ 2 → auto กาง Field + reset stack เป็น 0 (โค้ด `stack["Abyss_Flower"]`, ฟังก์ชัน `Abyss_Flower(ptr)`)
 - **Auto-Skill on HP ≤ 50%**: passive heal โดยไม่กิน SP, cooldown 2 เทิร์น (ต่อ ally? ต่อ global? — เกมคือ per-trigger, cooldown ก่อน trigger ได้อีก)
 - **Field heal-on-hit**: 18% ATK + 240 ให้ผู้โจมตี + A4 7% ATK + 93 ให้เพื่อนที่เหลือ
 - ทุกค่าฮีล/shield สเกลกับ **ATK ของ Luocha**
-- Technique (`ptr->Technique == 1`) → set `Stack = 2` + กาง Field ทันทีใน `Start_game_List`
+- Technique (`ptr->Technique == 1`) → set `stack = 2` + กาง Field ทันทีใน `Start_game_List`
 - E1 (+20% ATK ทีม) / E4 (enemy -12% DMG) ผูกกับ Field active
 - E6 RES shred 20% เป็น debuff จาก Ult
 

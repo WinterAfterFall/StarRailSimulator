@@ -9,7 +9,7 @@
 | `speedPercent` | double | `0` | speed % (เก็บเป็นจำนวนเต็ม เช่น `12` = 12%) |
 | `atv` | double | `1e6` | เวลาที่เหลือจนได้เทิร์น |
 | `Max_atv` | double | `1e6` | เวลา/รอบ ณ ความเร็วปัจจุบัน (คำนวณโดย `Update_Max_atv`) |
-| `turnCnt` | int | `0` | **จำนวนเทิร์นที่ unit นี้เล่นไปแล้ว**. `++turn->turnCnt` เกิดใน `take_action` **ก่อน** เช็ค before-turn events. ใช้เป็นฐานเวลาของ buff (`Buff_countdown[name] = turnCnt + duration`) |
+| `turnCnt` | int | `0` | **จำนวนเทิร์นที่ unit นี้เล่นไปแล้ว**. `++turn->turnCnt` เกิดใน `take_action` **ก่อน** เช็ค before-turn events. ใช้เป็นฐานเวลาของ buff (`buffEnd[name] = turnCnt + duration`) |
 | `num` | int | `0` | หมายเลขช่อง **unique เฉพาะในฝั่งตัวเอง** (ally 1..4, enemy 1..5). memosprite/summon/countdown ก๊อป `num` ของเจ้าของ |
 | `side` | `Side` | — (⚠️ ไม่ init) | `Ally` `Enemy` `Memosprite` `Summon` `Countdown` — Setup/factory เป็นคนตั้ง |
 | `Type` | `UnitType` | — (⚠️ ไม่ init) | `Standard` = ปกติ · `Backup` = อยู่ในสนาม เล่นเทิร์น/บัฟได้ แต่ **enemy ไม่เล็งโจมตี** (`EnemyActionData.h:16,38,62`) เช่น Netherwing (`Castorice.h:15`) · `OutofBounds` = เหมือนนอกสนาม ตี/บัฟไม่ได้ (`isTargetable` + `AllyBuffAction.h:119-130`). เซ็ตครั้งเดียวผ่าน arg สุดท้ายของ `SetCharBasicStats`/`SetMemoStats` — **ยังไม่มีโค้ดเปลี่ยนตอน runtime** (อาจมีในอนาคต) |

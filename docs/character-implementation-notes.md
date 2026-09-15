@@ -53,21 +53,21 @@
 
 - **ไม่มีชื่อ** `buffSingle(u, {{stat, AType, v}})` → `Stats_type[stat][AType] += v` **ทันที ถาวร ไม่ track** · ใช้ตอน "ถอนบัฟ" (ใส่ค่าลบ)
 - **มีชื่อ** `buffSingle(u, {...}, "Name", extend)` → ผ่าน `isHaveToAddBuff(u, name, extend)`:
-  1. `extendBuffTime` → `Buff_countdown[name] = turnCnt + extend` (**ทำทุกครั้ง** = refresh timer)
-  2. `Buff_check[name] == 1` → return false → **ไม่บวก stat ซ้ำ**
+  1. `extendBuffTime` → `buffEnd[name] = turnCnt + extend` (**ทำทุกครั้ง** = refresh timer)
+  2. `buffCheck[name] == 1` → return false → **ไม่บวก stat ซ้ำ**
   3. ไม่งั้น set check = 1 → บวก stat
   - re-cast = ต่อเวลา **ไม่ stack**
 
 ### framework track แค่ 2 อย่างต่อชื่อ
 
-`Buff_check[name]` (bool) + `Buff_countdown[name]` (turnCnt ที่หมด) — **ไม่เก็บว่าบวก stat เท่าไหร่**
+`buffCheck[name]` (bool) + `buffEnd[name]` (turnCnt ที่หมด) — **ไม่เก็บว่าบวก stat เท่าไหร่**
 → apply-site `+v` กับ remove-site `-v` ต้อง **match มือ** ข้ามฟังก์ชัน · เลื่อน = stat drift เงียบ ๆ
 
 ### จุดถอนบัฟ
 
 | path | เครื่องมือ | เงื่อนไข |
 |---|---|---|
-| หมดเวลาปกติ | `isBuffEnd(u, name)` (ปกติใน `After_turn_List`) | `u.turnCnt == Buff_countdown[name]` **และเป็นเทิร์นของ u** · **ไม่เช็ค Buff_check** · เคลียร์ check+countdown แล้วคืน true |
+| หมดเวลาปกติ | `isBuffEnd(u, name)` (ปกติใน `After_turn_List`) | `u.turnCnt == buffEnd[name]` **และเป็นเทิร์นของ u** · **ไม่เช็ค buffCheck** · เคลียร์ check+countdown แล้วคืน true |
 | unit ตาย | `isBuffGoneByDeath(u, name)` (ใน `AllyDeath_List`) | ถ้า `getBuffCheck(name)` → force-clear check+countdown → true |
 | re-target / dispel | `isBuffGoneByDeath` (ชื่อสื่อ "death" แต่เป็น primitive เดียวที่ force-remove ได้) | — |
 
@@ -77,7 +77,7 @@
 ### ชื่อบัฟ
 
 - string key · ใช้ชื่อ trace/eidolon จริงในเกม
-- **prefix ด้วยชื่อตัวละคร** — `Buff_check`/`Buff_countdown` เป็น map เดียวทั้งเกม ชนกันได้ (ข้ามตัวละคร + ปนกับ state flag)
+- **prefix ด้วยชื่อตัวละคร** — `buffCheck`/`buffEnd` เป็น map เดียวทั้งเกม ชนกันได้ (ข้ามตัวละคร + ปนกับ state flag)
 - แนะนำ: buff name + magnitude เป็น `const string` / `constexpr` constant ที่ namespace scope → apply/remove อ้าง symbol เดียว
 - (ไฟล์เก่าบางตัวจงใจไม่ใส่ชื่อ เมื่อรู้ว่าบัฟไม่มีทางซ้อน — convention ใหม่ = ใส่ชื่อ+prefix เสมอ)
 

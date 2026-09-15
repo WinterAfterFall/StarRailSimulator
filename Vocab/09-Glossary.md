@@ -160,7 +160,7 @@
 | `SubstatsRerollMode::Standard` | โหมดหา substat ที่ดีที่สุด — ตอนนี้เหลือแค่ `Standard` (`AllCombination` / `AllPossible` ถูก comment ไว้ 2026-09-13) · อัลกอริทึมดู `docs/engine-reference/instructor/Function/Setup/Substats_Reset.md` |
 | **Buff drift** | บั๊กที่บัฟถูกใส่กับถอนไม่เท่ากัน ทำให้สแตตค่อยๆ เพี้ยนไปเรื่อยๆ |
 | **Taunt increase %** | ระบบ aggro ของโปรเจกต์นี้ — เก็บเป็น "เปอร์เซ็นต์ที่เพิ่ม" ไม่ใช่ตัวคูณ |
-| `Buff_note` | ที่เก็บว่าบัฟนี้ให้ไปเท่าไร เพื่อถอนคืนตรงจำนวน |
+| `buffNote` | ที่เก็บว่าบัฟนี้ให้ไปเท่าไร เพื่อถอนคืนตรงจำนวน |
 | `AType::TEMP` | ช่องพักค่าชั่วคราวสำหรับ pattern ข้างบน |
 
 ---

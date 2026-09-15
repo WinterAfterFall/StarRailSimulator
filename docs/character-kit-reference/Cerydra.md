@@ -70,7 +70,7 @@ ATK +18% · Wind DMG +22.4% · HP +10%
 - **Charge**: cap 8, ได้จาก Skill(+1) / Ult(+2) / Talent เมื่อ target ทำ BA·Skill(+1) / A4(+1) เงื่อนไข. Coup de Main ระงับการได้ Charge จาก Talent
 - **Threshold 6** = อัป Peerage อัตโนมัติ; Coup de Main จบ = กิน 6 Charge คืนเป็น Military Merit
 - **เปลี่ยนตัวถือ Military Merit ⇒ Charge = 0** (สำคัญมากสำหรับ single-target buff logic)
-- Talent ATK buff เป็น % ของ ATK **ของ Cerydra** (snapshot ต้องอัปเดตเมื่อ ATK Cerydra เปลี่ยน — โค้ดใช้ `calculateAtkForBuff` + `Buff_note`)
+- Talent ATK buff เป็น % ของ ATK **ของ Cerydra** (snapshot ต้องอัปเดตเมื่อ ATK Cerydra เปลี่ยน — โค้ดใช้ `calculateAtkForBuff` + `buffNote`)
 - Additional DMG counter รีเซ็ตที่ Ultimate ไม่ใช่ต่อเทิร์น
 - A2 CRIT DMG scaling ผูกกับ ATK จริง → ต้อง re-evaluate ผ่าน `Stats_Adjust_List`
 

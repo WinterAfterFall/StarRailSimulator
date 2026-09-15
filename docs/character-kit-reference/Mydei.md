@@ -77,7 +77,7 @@ CRIT DMG +37.3% · SPD +5 · HP +18%
 - **Charge** สองแหล่ง: HP loss (1:1% cap 200) + A6 ratio จากดาเมจที่รับ + E2 จาก heal
 - **Vendetta enter (Charge 100)**: ฮีล 25%, advance 100%, Max HP ×1.5, DEF→0, auto Kingslayer ทุกเทิร์น
 - **Vendetta Charge 150** → extra turn + auto Godslayer (E6 ลด threshold เป็น 100)
-- **โค้ด `Start_game_List`**: คำนวณ A6 (`Buff_note["Mydei_A6"]`), ปรับ CR/Healing; E6 → set `Buff_check["Mydei_Vendetta"]`, `Action_forward 100`, ฮีล, `FLAT_DEF -= 10000`
+- **โค้ด `Start_game_List`**: คำนวณ A6 (`buffNote["Mydei_A6"]`), ปรับ CR/Healing; E6 → set `buffCheck["Mydei_Vendetta"]`, `Action_forward 100`, ฮีล, `FLAT_DEF -= 10000`
 - Godslayer ใช้อัตโนมัติเมื่อเงื่อนไข Charge — sim ต้อง handle auto-action ใน turn loop
 - Ult redirect "Godslayer" ใส่ target ล่าสุด
 

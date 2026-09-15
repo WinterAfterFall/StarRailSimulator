@@ -52,8 +52,8 @@ _(ผู้ใช้เล่า)_
 
 ### 2.4 Buff / Debuff — กฎ duration ที่ sim ใช้
 
-- กลไก (Buff_Stats.h): `extendBuffTime` ตั้ง `Buff_countdown[buff] = holder.turnCnt + duration`;
-  `isBuffEnd` ยิงเมื่อ `holder.turnCnt == Buff_countdown` **และ** เป็นเทิร์นของ holder
+- กลไก (Buff_Stats.h): `extendBuffTime` ตั้ง `buffEnd[buff] = holder.turnCnt + duration`;
+  `isBuffEnd` ยิงเมื่อ `holder.turnCnt == buffEnd` **และ** เป็นเทิร์นของ holder
   (เช็คใน After_turn)
 - ผล: บัฟ **ลด duration ทุกครั้งที่จบเทิร์นของ holder** และบัฟที่ลงในเทิร์นของ holder เอง
   จะได้ครบ duration พอดี (เทิร์นที่กำลังดำเนินอยู่ไม่ถูกนับ) — นี่คือกติกามาตรฐาน

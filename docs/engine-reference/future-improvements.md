@@ -7,11 +7,11 @@
 
 ## 1. การถอนค่า buff เมื่อหมดอายุ — framework ไม่ทำให้
 
-**สภาพตอนนี้:** framework track บัฟแค่ 2 อย่าง — `Buff_check` (bool ว่ามีบัฟอยู่ไหม) กับ `Buff_countdown` (turnCnt เป้าหมายที่บัฟจะหมด) — **ไม่เก็บขนาด delta** ของ stat ที่บวกไป
+**สภาพตอนนี้:** framework track บัฟแค่ 2 อย่าง — `buffCheck` (bool ว่ามีบัฟอยู่ไหม) กับ `buffEnd` (turnCnt เป้าหมายที่บัฟจะหมด) — **ไม่เก็บขนาด delta** ของ stat ที่บวกไป
 
 เวลาบัฟหมดอายุ ตัวละครต้อง **ถอนค่า stat เอง** ด้วยมือ โดยเช็คผ่าน `isBuffEnd()` / `isBuffGoneByDeath()`
 
-- `isBuffEnd(ptr, name)` (`Buff_Stats.h:21`) — คืน `true` เฉพาะตอนเป็นเทิร์นของ `ptr` เอง **และ** `turnCnt` แตะค่า countdown → เคลียร์ `Buff_check`/`Buff_countdown` ให้ แต่ **ไม่แตะ stat**
+- `isBuffEnd(ptr, name)` (`Buff_Stats.h:21`) — คืน `true` เฉพาะตอนเป็นเทิร์นของ `ptr` เอง **และ** `turnCnt` แตะค่า countdown → เคลียร์ `buffCheck`/`buffEnd` ให้ แต่ **ไม่แตะ stat**
 - `isBuffGoneByDeath(ptr, name)` (`Buff_Stats.h:29`) — ใช้ตอน ally ตาย หรือตอน retarget บัฟ (unit ไม่มีเทิร์นให้ `isBuffEnd` ยิง) — เคลียร์ flag เหมือนกัน **ไม่แตะ stat**
 
 pattern มาตรฐาน (ดู `Tingyun.h:156-165` `After_turn_List`):
@@ -26,7 +26,7 @@ expire(BUFF_BENEDICTION, Stats::ATK_P, BENEDICTION_ATK);
 
 ทุกตัวละครที่มีบัฟติดเวลาต้องเขียน `After_turn_List` + `AllyDeath_List` แบบนี้เอง — ซ้ำ ๆ และพลาดง่าย (ลืมถอน = buff drift)
 
-**ที่น่าทำ:** helper กลางที่ผูก "ขนาด delta + stat + target" เข้ากับชื่อบัฟตอน apply แล้ว auto ถอนตอน `Buff_countdown` แตะ / ตาย — ตัวละครไม่ต้องเขียน expiry เอง
+**ที่น่าทำ:** helper กลางที่ผูก "ขนาด delta + stat + target" เข้ากับชื่อบัฟตอน apply แล้ว auto ถอนตอน `buffEnd` แตะ / ตาย — ตัวละครไม่ต้องเขียน expiry เอง
 
 ---
 
