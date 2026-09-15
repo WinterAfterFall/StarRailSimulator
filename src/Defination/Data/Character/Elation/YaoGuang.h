@@ -230,8 +230,8 @@ namespace YaoGuang{
             if (StatsType == Stats::FLAT_SPD||StatsType == Stats::SPD_P) {
                 double BuffValue = min(200.0,max(0.0,calculateSpeedOnStats(ptr) - 120));
 
-                buffSingleChar(ptr,{{Stats::Elation, AType::None, BuffValue - ptr->Buff_note["YG A2"]}});
-                ptr->Buff_note["YG A2"] =  BuffValue;
+                buffSingleChar(ptr,{{Stats::Elation, AType::None, BuffValue - ptr->buffNote["YG A2"]}});
+                ptr->buffNote["YG A2"] =  BuffValue;
             }
         }));
 

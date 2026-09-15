@@ -44,7 +44,7 @@ namespace FireFly{
             ptr->Stats_type[Stats::DEF_SHRED][AType::None] += 15;
             }
             if (ptr->Eidolon >= 2) {
-            ptr->Stack["FireFly_E2"] = 2;
+            ptr->stack["FireFly_E2"] = 2;
             }
         }));
 
@@ -67,20 +67,20 @@ namespace FireFly{
             if (StatsType == Stats::ATK_P || StatsType == Stats::FLAT_ATK) {
             double temp = 0;
             temp = floor(((ptr->Stats_type[Stats::ATK_P][AType::None] / 100 * ptr->baseAtk + ptr->baseAtk) + ptr->Stats_type[Stats::FLAT_ATK][AType::None] - 1800) / 100) * 0.8;
-            if (ptr->Buff_note["FireFly_ModuleY"] <= 0)temp = 0;
+            if (ptr->buffNote["FireFly_ModuleY"] <= 0)temp = 0;
             buffSingle(FFptr,
                 {
-                    {Stats::BE,AType::TEMP,temp - FFptr->Buff_note["FireFly_ModuleY"]},
-                    {Stats::BE,AType::None,temp - FFptr->Buff_note["FireFly_ModuleY"]}
+                    {Stats::BE,AType::TEMP,temp - FFptr->buffNote["FireFly_ModuleY"]},
+                    {Stats::BE,AType::None,temp - FFptr->buffNote["FireFly_ModuleY"]}
                 });
-            ptr->Buff_note["FireFly_ModuleY"] = temp;
+            ptr->buffNote["FireFly_ModuleY"] = temp;
                 
             }
         }));
 
         Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr] (Enemy *target, AllyUnit *Breaker) {
             if (ptr->Eidolon >= 2 && ptr->Atv_stats->num == Breaker->Atv_stats->num && !ptr->countdownList[0]->isDeath()) {
-                ptr->Stack["FireFly_E2"]++;
+                ptr->stack["FireFly_E2"]++;
             }
             }
         ));
@@ -111,8 +111,8 @@ namespace FireFly{
         
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr]( shared_ptr<AllyAttackAction> &act ) {
 
-            if (ptr->Eidolon >= 2 && ptr->Stack["FireFly_E2"] > 0 && !ptr->countdownList[0]->isDeath()) {
-            ptr->Stack["FireFly_E2"]--;
+            if (ptr->Eidolon >= 2 && ptr->stack["FireFly_E2"] > 0 && !ptr->countdownList[0]->isDeath()) {
+            ptr->stack["FireFly_E2"]--;
             Action_forward(ptr->Atv_stats.get(), 100);
             }
             if (act->isSameName("FireFly")) {

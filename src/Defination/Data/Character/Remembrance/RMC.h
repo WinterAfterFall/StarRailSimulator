@@ -40,7 +40,7 @@ namespace RMC{
         };
         ptr->memospriteList[0]->Turn_func = [ptr,RMCptr,Memptr](){
         
-            if(ptr->memospriteList[0]->Buff_check["Mem_Charge"]==1){
+            if(ptr->memospriteList[0]->buffCheck["Mem_Charge"]==1){
                 Memo_Echance_Skill(ptr);
             }else{
                 Memo_Skill(ptr);
@@ -48,7 +48,7 @@ namespace RMC{
         };
 
         ptr->addUltCondition([ptr,RMCptr,Memptr]() -> bool {
-            if (ptr->memospriteList[0]->Buff_note["Mem_Charge"] >= 60 && chooseSubUnitBuff(ptr->memospriteList[0].get())->Atv_stats->atv <= 20) return false;
+            if (ptr->memospriteList[0]->buffNote["Mem_Charge"] >= 60 && chooseSubUnitBuff(ptr->memospriteList[0].get())->Atv_stats->atv <= 20) return false;
             return true;
         });
 
@@ -88,9 +88,9 @@ namespace RMC{
             if (target->Atv_stats->Name != "Mem") return;
             if (StatsType == Stats::CD) {
                 double buffValue = (calculateCritdamForBuff(ptr->memospriteList[0].get(), 13.2) + 26.4);
-                buffAllAlly({{Stats::CD, AType::TEMP, buffValue - ptr->memospriteList[0]->Buff_note["Mem_Talent_Buff"]}});
-                buffAllAlly({{Stats::CD, AType::None, buffValue - ptr->memospriteList[0]->Buff_note["Mem_Talent_Buff"]}});
-                ptr->memospriteList[0]->Buff_note["Mem_Talent_Buff"] = buffValue;
+                buffAllAlly({{Stats::CD, AType::TEMP, buffValue - ptr->memospriteList[0]->buffNote["Mem_Talent_Buff"]}});
+                buffAllAlly({{Stats::CD, AType::None, buffValue - ptr->memospriteList[0]->buffNote["Mem_Talent_Buff"]}});
+                ptr->memospriteList[0]->buffNote["Mem_Talent_Buff"] = buffValue;
                 return;
             }
         }));
@@ -118,9 +118,9 @@ namespace RMC{
 
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
             double buffValue = (calculateCritdamForBuff(ptr->memospriteList[0].get(), 13.2) + 26.4);
-            buffAllAlly({{Stats::CD, AType::TEMP, buffValue - ptr->memospriteList[0]->Buff_note["Mem_Talent_Buff"]}});
-            buffAllAlly({{Stats::CD, AType::None, buffValue - ptr->memospriteList[0]->Buff_note["Mem_Talent_Buff"]}});
-            ptr->memospriteList[0]->Buff_note["Mem_Talent_Buff"] = buffValue;
+            buffAllAlly({{Stats::CD, AType::TEMP, buffValue - ptr->memospriteList[0]->buffNote["Mem_Talent_Buff"]}});
+            buffAllAlly({{Stats::CD, AType::None, buffValue - ptr->memospriteList[0]->buffNote["Mem_Talent_Buff"]}});
+            ptr->memospriteList[0]->buffNote["Mem_Talent_Buff"] = buffValue;
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
@@ -131,7 +131,7 @@ namespace RMC{
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
-            ptr->memospriteList[0]->Buff_check["RMC_E2"] = 1;
+            ptr->memospriteList[0]->buffCheck["RMC_E2"] = 1;
         }));
         AfterDealingDamage_List.push_back(TriggerAfterDealDamage(PRIORITY_IMMEDIATELY, [RMCptr,Memptr]
             (shared_ptr<AllyAttackAction> &act, Enemy *src, double damage) {
@@ -160,15 +160,15 @@ namespace RMC{
             if (Energy + target->Current_energy > target->Max_energy) {
                 Energy = target->Max_energy - target->Current_energy;
             }
-            ptr->memospriteList[0]->Buff_note["Mem_Energy_cnt"] += Energy;
-            Increase_Charge(ptr, floor(ptr->memospriteList[0]->Buff_note["Mem_Energy_cnt"] / 10));
-            ptr->memospriteList[0]->Buff_note["Mem_Energy_cnt"] -= floor(ptr->memospriteList[0]->Buff_note["Mem_Energy_cnt"] / 10) * 10;
+            ptr->memospriteList[0]->buffNote["Mem_Energy_cnt"] += Energy;
+            Increase_Charge(ptr, floor(ptr->memospriteList[0]->buffNote["Mem_Energy_cnt"] / 10));
+            ptr->memospriteList[0]->buffNote["Mem_Energy_cnt"] -= floor(ptr->memospriteList[0]->buffNote["Mem_Energy_cnt"] / 10) * 10;
         }));
 
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr](shared_ptr<AllyAttackAction> &act) {
-            if (act->Attacker->Atv_stats->Name != "Mem" && act->Attacker->Atv_stats->side == Side::Memosprite && ptr->memospriteList[0]->Buff_check["RMC_E2"] == 1) {
+            if (act->Attacker->Atv_stats->Name != "Mem" && act->Attacker->Atv_stats->side == Side::Memosprite && ptr->memospriteList[0]->buffCheck["RMC_E2"] == 1) {
                 Increase_energy(ptr, 8);
-                ptr->memospriteList[0]->Buff_check["RMC_E2"] = 0;
+                ptr->memospriteList[0]->buffCheck["RMC_E2"] = 0;
             }
         }));
 
@@ -181,10 +181,10 @@ namespace RMC{
 
     void Increase_Charge(CharUnit *ptr,double charge){
         if(ptr->memospriteList[0]->isDeath())return;
-        ptr->memospriteList[0]->Buff_note["Mem_Charge"]+=charge;
-        if(ptr->memospriteList[0]->Buff_note["Mem_Charge"]>=100){
-            ptr->memospriteList[0]->Buff_note["Mem_Charge"]= 0;
-            ptr->memospriteList[0]->Buff_check["Mem_Charge"]=1;
+        ptr->memospriteList[0]->buffNote["Mem_Charge"]+=charge;
+        if(ptr->memospriteList[0]->buffNote["Mem_Charge"]>=100){
+            ptr->memospriteList[0]->buffNote["Mem_Charge"]= 0;
+            ptr->memospriteList[0]->buffCheck["Mem_Charge"]=1;
             Action_forward(ptr->memospriteList[0]->Atv_stats.get(),100);
         }
     }
@@ -240,7 +240,7 @@ namespace RMC{
     }
     void Memo_Echance_Skill(CharUnit *ptr){
 
-        ptr->memospriteList[0]->Buff_check["Mem_Charge"]=0;
+        ptr->memospriteList[0]->buffCheck["Mem_Charge"]=0;
 
         shared_ptr<AllyBuffAction> act = 
         make_shared<AllyBuffAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Single,"Mem Buff",

@@ -35,7 +35,7 @@ namespace Mydei{
         Planar(ptr);
         
         ptr->Turn_func = [ptr](){
-            if (ptr->Buff_check["Mydei_Vendetta"] == false) {
+            if (ptr->buffCheck["Mydei_Vendetta"] == false) {
             Skill(ptr);
             } else {
             Enchance_Skill(ptr);
@@ -81,15 +81,15 @@ namespace Mydei{
         
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Mydeiptr]() {
-            ptr->Buff_note["Mydei_A6"] = (floor((ptr->totalHP - 4000) / 100) <= 40) ? floor((ptr->totalHP - 4000) / 100) : 40;
-            if (ptr->Buff_note["Mydei_A6"] < 0) ptr->Buff_note["Mydei_A6"] = 0;
+            ptr->buffNote["Mydei_A6"] = (floor((ptr->totalHP - 4000) / 100) <= 40) ? floor((ptr->totalHP - 4000) / 100) : 40;
+            if (ptr->buffNote["Mydei_A6"] < 0) ptr->buffNote["Mydei_A6"] = 0;
 
-            ptr->Stats_type[Stats::CR][AType::None] += ptr->Buff_note["Mydei_A6"] * 1.2;
-            ptr->Stats_type[Stats::CR][AType::TEMP] += ptr->Buff_note["Mydei_A6"] * 1.2;
-            ptr->Stats_type[Stats::HEALING_OUT][AType::None] += ptr->Buff_note["Mydei_A6"] * 0.75;
-            ptr->Stats_type[Stats::HEALING_OUT][AType::TEMP] += ptr->Buff_note["Mydei_A6"] * 0.75;
+            ptr->Stats_type[Stats::CR][AType::None] += ptr->buffNote["Mydei_A6"] * 1.2;
+            ptr->Stats_type[Stats::CR][AType::TEMP] += ptr->buffNote["Mydei_A6"] * 1.2;
+            ptr->Stats_type[Stats::HEALING_OUT][AType::None] += ptr->buffNote["Mydei_A6"] * 0.75;
+            ptr->Stats_type[Stats::HEALING_OUT][AType::TEMP] += ptr->buffNote["Mydei_A6"] * 0.75;
             if (ptr->Eidolon >= 6) {
-            ptr->Buff_check["Mydei_Vendetta"] = true;
+            ptr->buffCheck["Mydei_Vendetta"] = true;
             Action_forward(ptr->Atv_stats.get(), 100);
             ptr->RestoreHP(
                 ptr,
@@ -130,9 +130,9 @@ namespace Mydei{
                 
             if (Mydeiptr->getBuffCheck("Mydei_Vendetta")) {
                 double temp = calculateHpForBuff(ptr, 50);
-                buffSingle(Mydeiptr,{{Stats::FLAT_HP,AType::TEMP,temp - ptr->Buff_note["Mydei_Talent"]}});
-                buffSingle(Mydeiptr,{{Stats::FLAT_HP,AType::None,temp - ptr->Buff_note["Mydei_Talent"]}});
-                ptr->Buff_note["Mydei_Talent"] = temp;
+                buffSingle(Mydeiptr,{{Stats::FLAT_HP,AType::TEMP,temp - ptr->buffNote["Mydei_Talent"]}});
+                buffSingle(Mydeiptr,{{Stats::FLAT_HP,AType::None,temp - ptr->buffNote["Mydei_Talent"]}});
+                ptr->buffNote["Mydei_Talent"] = temp;
             }
             }
         }));
@@ -140,7 +140,7 @@ namespace Mydei{
         HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_ACTTACK, [ptr](Unit *Trigger, AllyUnit *target, double Value) {
             if (!target->isSameName("Mydei")) return;
             if (Trigger->canCastToEnemy()) {
-            ChargePoint(ptr, ((ptr->Buff_note["Mydei_A6"] * 2.5 + 100.0) / 100.0) * CalculateChargePoint(ptr, Value));
+            ChargePoint(ptr, ((ptr->buffNote["Mydei_A6"] * 2.5 + 100.0) / 100.0) * CalculateChargePoint(ptr, Value));
             } else {
             ChargePoint(ptr, CalculateChargePoint(ptr, Value));
             }
@@ -149,8 +149,8 @@ namespace Mydei{
         Healing_List.push_back(TriggerHealing(PRIORITY_ACTTACK, [ptr](AllyUnit *Healer, AllyUnit *target, double Value) {
             if (!target->isSameName("Mydei")) return;
             if (ptr->Eidolon < 2) return;
-            Value = (Value + ptr->Buff_note["Mydei_E2"] <= target->totalHP) ? Value : target->totalHP - ptr->Buff_note["Mydei_E2"];
-            ptr->Buff_note["Mydei_E2"] += Value;
+            Value = (Value + ptr->buffNote["Mydei_E2"] <= target->totalHP) ? Value : target->totalHP - ptr->buffNote["Mydei_E2"];
+            ptr->buffNote["Mydei_E2"] += Value;
             ChargePoint(ptr, CalculateChargePoint(ptr, Value * 0.4));
         }));
 
@@ -165,22 +165,22 @@ namespace Mydei{
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
-            ptr->Buff_note["Mydei_E2"] = 0;
+            ptr->buffNote["Mydei_E2"] = 0;
         }));
 
         BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act) {
             if (act->actionName == "GodSlayer") {
-            ptr->Buff_check["Mydei_cannot_charge"] = 1;
+            ptr->buffCheck["Mydei_cannot_charge"] = 1;
             }
         }));
 
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act) {
-            if (ptr->Buff_check["Mydei_action"]) {
-            ptr->Buff_check["Mydei_action"] = 0;
+            if (ptr->buffCheck["Mydei_action"]) {
+            ptr->buffCheck["Mydei_action"] = 0;
             Action_forward(ptr->Atv_stats.get(), 100);
             }
-            if (ptr->Buff_check["Mydei_cannot_charge"] == 1) {
-            ptr->Buff_check["Mydei_cannot_charge"] = 0;
+            if (ptr->buffCheck["Mydei_cannot_charge"] == 1) {
+            ptr->buffCheck["Mydei_cannot_charge"] = 0;
             }
         }));
 
@@ -279,9 +279,9 @@ namespace Mydei{
     
     
     void Print(CharUnit *ptr){
-        cout<<"Talent :"<<ptr->Buff_check["Mydei_Vendetta"]<<" ";
-        cout<<"A6 :"<<ptr->Buff_note["Mydei_A6"]<<" ";
-        cout<<"Talent hp :"<<ptr->Buff_note["Mydei_Talent"]<<" ";
+        cout<<"Talent :"<<ptr->buffCheck["Mydei_Vendetta"]<<" ";
+        cout<<"A6 :"<<ptr->buffNote["Mydei_A6"]<<" ";
+        cout<<"Talent hp :"<<ptr->buffNote["Mydei_Talent"]<<" ";
         
         cout<<endl;
     }
@@ -292,12 +292,12 @@ namespace Mydei{
         return (Value/ptr->totalHP*100.0);
     }
     void ChargePoint(CharUnit *ptr,double point){
-        if(ptr->Buff_check["Mydei_cannot_charge"])return;
-        ptr->Buff_note["Mydei_Charge_point"]+=point;
-        if(ptr->Buff_note["Mydei_Charge_point"]>=100&&ptr->Buff_check["Mydei_Vendetta"]==false){
-            ptr->Buff_check["Mydei_Vendetta"]=true;
-            ptr->Buff_note["Mydei_Charge_point"]-=100;
-            ptr->Buff_check["Mydei_action"]=1;
+        if(ptr->buffCheck["Mydei_cannot_charge"])return;
+        ptr->buffNote["Mydei_Charge_point"]+=point;
+        if(ptr->buffNote["Mydei_Charge_point"]>=100&&ptr->buffCheck["Mydei_Vendetta"]==false){
+            ptr->buffCheck["Mydei_Vendetta"]=true;
+            ptr->buffNote["Mydei_Charge_point"]-=100;
+            ptr->buffCheck["Mydei_action"]=1;
             ptr->RestoreHP(
                     ptr,
                     HealSrc(HealSrcType::TOTAL_HP,25)
@@ -309,14 +309,14 @@ namespace Mydei{
             allEventAdjustStats(ptr,Stats::HP_P);
         }
         if(ptr->Eidolon>=6){
-            if(ptr->Buff_note["Mydei_Charge_point"]>=100){
-                ptr->Buff_note["Mydei_Charge_point"]-=100;
+            if(ptr->buffNote["Mydei_Charge_point"]>=100){
+                ptr->buffNote["Mydei_Charge_point"]-=100;
                 GodSlayer(ptr);
             }
         }else{
-            if(ptr->Buff_note["Mydei_Charge_point"]>=150){
-                ptr->Buff_note["Mydei_Charge_point"]-=150;
-                ptr->Buff_note["count"]++;
+            if(ptr->buffNote["Mydei_Charge_point"]>=150){
+                ptr->buffNote["Mydei_Charge_point"]-=150;
+                ptr->buffNote["count"]++;
                 GodSlayer(ptr);
             }
         }

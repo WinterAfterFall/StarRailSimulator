@@ -27,7 +27,7 @@ namespace Luocha{
         };
 
         ptr->addUltCondition([ptr]() -> bool {
-            return ptr->Stack["Abyss_Flower"] < 2;
+            return ptr->stack["Abyss_Flower"] < 2;
         });
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_DEBUFF, ptr, [ptr]() {
@@ -35,7 +35,7 @@ namespace Luocha{
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Luocha Ult",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Attack(act);
-            ++ptr->Stack["Abyss_Flower"];
+            ++ptr->stack["Abyss_Flower"];
             Abyss_Flower(ptr);
         });
             act->addDamageIns(
@@ -70,13 +70,13 @@ namespace Luocha{
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (ptr->Technique == 1) {
-                ptr->Stack["Abyss_Flower"] = 2;
+                ptr->stack["Abyss_Flower"] = 2;
                 Abyss_Flower(ptr);
             }
         }));
 
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
-            if (ptr->Stack["Abyss_Flower"] >= 2) {
+            if (ptr->stack["Abyss_Flower"] >= 2) {
                 ptr->RestoreHP(
                     act->Attacker,
                     HealSrc(HealSrcType::ATK,18,HealSrcType::CONST,240),
@@ -92,13 +92,13 @@ namespace Luocha{
 
     void Talent(CharUnit *ptr){
         Increase_energy(ptr,30);
-        ++ptr->Stack["Abyss_Flower"];
+        ++ptr->stack["Abyss_Flower"];
         ptr->RestoreHP(HealSrc(HealSrcType::ATK,60,HealSrcType::CONST,800),HealSrc(),HealSrc());
         Abyss_Flower(ptr);
         
     }
     void Abyss_Flower(CharUnit *ptr){
-        if(ptr->Stack["Abyss_Flower"]==2){
+        if(ptr->stack["Abyss_Flower"]==2){
             extendBuffTime(ptr,"Cycle _of_Life",2);
         if(ptr->Eidolon>=1){
             buffAllAlly({{Stats::ATK_P,AType::None,20}});

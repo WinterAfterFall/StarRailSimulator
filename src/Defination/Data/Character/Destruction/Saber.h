@@ -23,13 +23,13 @@ namespace Saber{
 
         #pragma region extra
         function<void(int value)> CoreResonance = [ptr,sb](int value){
-            sb->Buff_note["Core Resonance"] += value;
+            sb->buffNote["Core Resonance"] += value;
             buffStackSingle(sb,{{Stats::CD,AType::None,4}},value,8,"Saber A6");
             if(ptr->Eidolon>=2)buffStackSingle(sb,{{Stats::DEF_SHRED,AType::None,1}},value,15,"Saber E2");
         };
 
         function<double()> resetCR = [ptr,sb](){
-            double ans = sb->Buff_note["Core Resonance"];
+            double ans = sb->buffNote["Core Resonance"];
             sb->setBuffNote("Core Resonance",0);
             sb->setBuffCheck("Saber ESkill",0);
             Increase_energy(sb,0,8.0*ans);
@@ -169,14 +169,14 @@ namespace Saber{
                 CharCmd::printUltStart("Saber");
                 sb->setBuffCheck("Saber EBA",1);
                 Increase_energy(sb,0,sb->getBuffNote("Saber A4"));
-                sb->Buff_note["Saber A4"] = 0;
+                sb->buffNote["Saber A4"] = 0;
                 if(ptr->Eidolon>=4)buffStackSingle(sb,{{Stats::RESPEN,ElementType::Wind,AType::None,4}},1,3,"Saber E4");
                 if(ptr->Eidolon>=6){
                     if(sb->getBuffCountdown("Saber E6")==0){
                         sb->setBuffCountdown("Saber E6",2);
                         Increase_energy(sb,0,300);
                     }else{
-                        sb->Buff_countdown["Saber E6"]--;
+                        sb->buffEnd["Saber E6"]--;
                     }
                 }
                 Attack(act);
@@ -217,7 +217,7 @@ namespace Saber{
             if(isBuffEnd(sb,"Saber A6")){
                 buffSingle(sb,{{Stats::CD,AType::None,-50}});
             }
-            if(ptr->Ult_cost<=ptr->Current_energy + 8 * sb->Buff_note["Core Resonance"]){
+            if(ptr->Ult_cost<=ptr->Current_energy + 8 * sb->buffNote["Core Resonance"]){
                 sb->setBuffCheck("Saber ESkill",1);
                 if(sb->getBuffCheck("Mana Flow")){
                     Action_forward(sb->Atv_stats.get(),1000);
@@ -246,7 +246,7 @@ namespace Saber{
             if(!ptr->isSameOwner(target))return;
 
             if(ptr->Current_energy + Energy >= ptr->Max_energy){
-                sb->Buff_note["Saber A4"] += ptr->Current_energy + Energy - ptr->Max_energy ;
+                sb->buffNote["Saber A4"] += ptr->Current_energy + Energy - ptr->Max_energy ;
             }
 
         }));

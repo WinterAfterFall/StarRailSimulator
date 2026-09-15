@@ -39,16 +39,16 @@ void Basic_reset(){
             charUnit[i]->status = UnitStatus::Alive;
 
             
-            for(auto &e:charUnit[i]->Stack){
+            for(auto &e:charUnit[i]->stack){
                 e.second = 0;
             }
-            for(auto &e:charUnit[i]->Buff_countdown){
+            for(auto &e:charUnit[i]->buffEnd){
                 e.second = 0;
             }
-            for(auto &e:charUnit[i]->Buff_note){
+            for(auto &e:charUnit[i]->buffNote){
                 e.second = 0;
             }
-            for(auto &e:charUnit[i]->Buff_check){
+            for(auto &e:charUnit[i]->buffCheck){
                 e.second = 0;
             }
             for(std::pair<const std::string, AllyUnit *> &e : charUnit[i]->buffSubUnitTarget){
@@ -151,16 +151,16 @@ void Basic_reset(){
                 e.second = enemyUnit[i]->Default_Weakness_type[e.first];
             }
 
-            for(auto &e: enemyUnit[i]->Debuff){
+            for(auto &e: enemyUnit[i]->debuffCheck){
                 e.second = 0;
             }
-            for(auto &e: enemyUnit[i]->DebuffNote){
+            for(auto &e: enemyUnit[i]->debuffNote){
                 e.second = 0;
             }
-            for(auto &e: enemyUnit[i]->Stack){
+            for(auto &e: enemyUnit[i]->stack){
                 e.second = 0;
             }
-            for(auto &e: enemyUnit[i]->Debuff_time_count){
+            for(auto &e: enemyUnit[i]->debuffEnd){
                 e.second = 0;
             }
             
@@ -233,16 +233,16 @@ void Memosprite_reset(){
             memo->Stats_type[Stats::FLAT_HP][AType::None] += memo->fixHP;
         //speed
         
-            for(auto &e:memo->Stack){
+            for(auto &e:memo->stack){
                 e.second = 0;
             }
-            for(auto &e:memo->Buff_countdown){
+            for(auto &e:memo->buffEnd){
                 e.second = 0;
             }
-            for(auto &e:memo->Buff_note){
+            for(auto &e:memo->buffNote){
                 e.second = 0;
             }
-            for(auto &e:memo->Buff_check){
+            for(auto &e:memo->buffCheck){
                 e.second = 0;
             }
             for(std::pair<const std::string, AllyUnit *> &e : memo->buffSubUnitTarget){

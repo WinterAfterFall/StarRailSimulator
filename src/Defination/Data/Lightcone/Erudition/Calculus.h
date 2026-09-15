@@ -17,11 +17,11 @@ namespace Erudition_Lightcone{
             }));
     
             BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                ptr->Stats_type[Stats::ATK_P][AType::None] -= ptr->Buff_note["Calculus_Atk_buff"];
-                ptr->Buff_note["Calculus_Atk_buff"] = act->targetList.size() * 3 + superimpose;
+                ptr->Stats_type[Stats::ATK_P][AType::None] -= ptr->buffNote["Calculus_Atk_buff"];
+                ptr->buffNote["Calculus_Atk_buff"] = act->targetList.size() * 3 + superimpose;
     
-                ptr->Stats_type[Stats::ATK_P][AType::None] += ptr->Buff_note["Calculus_Atk_buff"];
-                if (ptr->Buff_note["Calculus_Atk_buff"] >= 24) {
+                ptr->Stats_type[Stats::ATK_P][AType::None] += ptr->buffNote["Calculus_Atk_buff"];
+                if (ptr->buffNote["Calculus_Atk_buff"] >= 24) {
                     buffSingle(ptr,{{Stats::SPD_P,AType::None,(6.0 + 2 * superimpose)}},"Calculus_Speed_buff",1);
                 }
             }));

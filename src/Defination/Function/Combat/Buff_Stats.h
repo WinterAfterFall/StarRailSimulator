@@ -2,34 +2,34 @@
 
 //Is have to buff
     bool isHaveToAddBuff(AllyUnit *ptr,string Buff_name){
-        if(ptr->Buff_check[Buff_name]==1){
+        if(ptr->buffCheck[Buff_name]==1){
             return false;
         }
-        ptr->Buff_check[Buff_name] = 1;
+        ptr->buffCheck[Buff_name] = 1;
         return true;
     }
     bool isHaveToAddBuff(AllyUnit *ptr,string Buff_name,int extend){
         extendBuffTime(ptr,Buff_name,extend);
-        if(ptr->Buff_check[Buff_name]==1){
+        if(ptr->buffCheck[Buff_name]==1){
             return false;
         }
-        ptr->Buff_check[Buff_name] = 1;
+        ptr->buffCheck[Buff_name] = 1;
         return true;
     }
 
 //เช็คบัพว่าจบหรือยัง 
     bool isBuffEnd(AllyUnit *ptr,string Buff_name){
-        if(ptr->Atv_stats->turnCnt==ptr->Buff_countdown[Buff_name]&&turn->Name==ptr->Atv_stats->Name){
-            ptr->Buff_check[Buff_name] = 0;
-            ptr->Buff_countdown[Buff_name] = 0;
+        if(ptr->Atv_stats->turnCnt==ptr->buffEnd[Buff_name]&&turn->Name==ptr->Atv_stats->Name){
+            ptr->buffCheck[Buff_name] = 0;
+            ptr->buffEnd[Buff_name] = 0;
             return true;
         }
         return false;
     }
     bool isBuffGoneByDeath(AllyUnit *ptr,string Buff_name){
         if(ptr->getBuffCheck(Buff_name)){
-            ptr->Buff_check[Buff_name] = 0;
-            ptr->Buff_countdown[Buff_name] = 0;
+            ptr->buffCheck[Buff_name] = 0;
+            ptr->buffEnd[Buff_name] = 0;
             return true;
         }
         return false;
@@ -37,7 +37,7 @@
 
 //Extend
     void extendBuffTime(AllyUnit *ptr,string Buff_name,int Turn_extend){
-        ptr->Buff_countdown[Buff_name] = ptr->Atv_stats->turnCnt+Turn_extend;
+        ptr->buffEnd[Buff_name] = ptr->Atv_stats->turnCnt+Turn_extend;
     }
     void extendCharBuffTime(CharUnit *ptr,string Buff_name,int Turn_extend){
         extendBuffTime(ptr,Buff_name,Turn_extend);

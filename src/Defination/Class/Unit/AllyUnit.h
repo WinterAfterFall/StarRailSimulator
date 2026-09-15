@@ -34,10 +34,10 @@ public:
 #pragma endregion
 
 #pragma region Record Buff Value
-    unordered_map<string,int> Stack;
-    unordered_map<string,double> Buff_note;
-    unordered_map<string,int> Buff_countdown;
-    unordered_map<string,bool> Buff_check;
+    unordered_map<string,int> stack;
+    unordered_map<string,double> buffNote;
+    unordered_map<string,int> buffEnd;
+    unordered_map<string,bool> buffCheck;
     unordered_map<string,AllyUnit*> buffSubUnitTarget;
     unordered_map<string,CharUnit*> buffAllyTarget;
 #pragma endregion
@@ -92,16 +92,16 @@ public:
 
     #pragma region Getters
         void setStack(string buffName, int value) {
-            this->Stack[buffName] = value;
+            this->stack[buffName] = value;
         }
         void setBuffNote(string buffName, double value) {
-            this->Buff_note[buffName] = value;
+            this->buffNote[buffName] = value;
         }
         void setBuffCountdown(string buffName, int value) {
-            this->Buff_countdown[buffName] = value;
+            this->buffEnd[buffName] = value;
         }
         void setBuffCheck(string buffName, bool value) {
-            this->Buff_check[buffName] = value;
+            this->buffCheck[buffName] = value;
         }
         void setBuffSubUnitTarget(string buffName, AllyUnit* target) {
             this->buffSubUnitTarget[buffName] = target;
@@ -134,16 +134,16 @@ public:
 
     #pragma region Setters
         int getStack(string buffName) {
-            return this->Stack[buffName];
+            return this->stack[buffName];
         }
         double getBuffNote(string buffName) {
-            return this->Buff_note[buffName];
+            return this->buffNote[buffName];
         }
         int getBuffCountdown(string buffName) {
-            return this->Buff_countdown[buffName];
+            return this->buffEnd[buffName];
         }
         bool getBuffCheck(string buffName) {
-            return this->Buff_check[buffName];
+            return this->buffCheck[buffName];
         }
         AllyUnit* getBuffSubUnitTarget(string buffName) {
             return this->buffSubUnitTarget[buffName];
@@ -155,7 +155,7 @@ public:
 
     //add
     void addStack(string buffName,int value) {
-        this->Stack[buffName] += value;
+        this->stack[buffName] += value;
     }
 
     

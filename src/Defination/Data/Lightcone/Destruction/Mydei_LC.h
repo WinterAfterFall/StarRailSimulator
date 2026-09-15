@@ -12,11 +12,11 @@ namespace Destruction_Lightcone{
             BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
                 if (!act->Attacker->isSameName(ptr)) return;
                 if (act->isSameAction(AType::SKILL)||act->isSameAction(AType::Ult)) {
-                    ptr->Buff_note["Mydei_LC_Mark"]++;
+                    ptr->buffNote["Mydei_LC_Mark"]++;
                     buffSingle(ptr,{{Stats::DMG, AType::None, (25.0 + 5 * superimpose)}});
                     if (ptr->currentHP >= 50000.0 / (5.5 + 0.5 * superimpose)) {
                         buffSingle(ptr,{{Stats::DMG, AType::None, (25.0 + 5 * superimpose)}});
-                        ptr->Buff_note["Mydei_LC_Mark"]++;
+                        ptr->buffNote["Mydei_LC_Mark"]++;
                         DecreaseHP(ptr, ptr, 0, (5.5 + 0.5 * superimpose), 0);
                     }
                 }
@@ -24,8 +24,8 @@ namespace Destruction_Lightcone{
     
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
                 if (!act->Attacker->isSameName(ptr)) return;
-                buffSingle(ptr,{{Stats::DMG, AType::None, -(25 + 5 * superimpose) * ptr->Buff_note["Mydei_LC_Mark"]}});
-                ptr->Buff_note["Mydei_LC_Mark"] = 0;
+                buffSingle(ptr,{{Stats::DMG, AType::None, -(25 + 5 * superimpose) * ptr->buffNote["Mydei_LC_Mark"]}});
+                ptr->buffNote["Mydei_LC_Mark"] = 0;
             }));
         };
     }

@@ -46,8 +46,8 @@ namespace Sunday{
             [ptr,SDptr](shared_ptr<AllyBuffAction> &act){
                 if (ptr->Print)CharCmd::printUltStart("Sunday");
                 if (ptr->Eidolon >= 2) {
-                    if (ptr->Buff_check["Ult_first_time"] == 0) {
-                        ptr->Buff_check["Ult_first_time"] = 1;
+                    if (ptr->buffCheck["Ult_first_time"] == 0) {
+                        ptr->buffCheck["Ult_first_time"] = 1;
                         genSkillPoint(ptr, 2);
                     }
                 }
@@ -81,7 +81,7 @@ namespace Sunday{
                         }
                     }
                 }
-                ptr->Buff_check["Ode_to_Caress_and_Cicatrix"] = 1;
+                ptr->buffCheck["Ode_to_Caress_and_Cicatrix"] = 1;
                 ptr->setBuffAllyTarget("Ode_to_Caress_and_Cicatrix",chooseCharacterBuff(ptr));
                 ptr->setBuffNote("Ode_to_Caress_and_Cicatrix",calculateCritdamForBuff(ptr, 30) + 12);
                 if(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->isTargetable()){
@@ -192,7 +192,7 @@ namespace Sunday{
                 if(temp<0)temp=0;
                 buffSingle(target,{{Stats::CD, AType::TEMP, temp - target->getBuffNote("The_Sorrowing_Body")}});
                 buffSingle(target,{{Stats::CD, AType::None, temp - target->getBuffNote("The_Sorrowing_Body")}});
-                target->Buff_note["The_Sorrowing_Body"] = temp;
+                target->buffNote["The_Sorrowing_Body"] = temp;
             }
             if (target->Atv_stats->Name != "Sunday") return;
             if (!target->getBuffCheck("Ode_to_Caress_and_Cicatrix")) return;
@@ -207,7 +207,7 @@ namespace Sunday{
                 buffSingle(each.get(),{{Stats::CD, AType::TEMP, buffValue - ptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
                 buffSingle(each.get(),{{Stats::CD, AType::None, buffValue - ptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
             }
-            ptr->Buff_note["Ode_to_Caress_and_Cicatrix"] =  buffValue;
+            ptr->buffNote["Ode_to_Caress_and_Cicatrix"] =  buffValue;
             
         }));
 

@@ -28,7 +28,7 @@ namespace Pela{
         
         ptr->addUltCondition([ptr]() -> bool {
             for (int i = 1; i <= Total_enemy; i++) {
-                if (enemyUnit[i]->Debuff["Zone_Suppression"] == 0) return true;
+                if (enemyUnit[i]->debuffCheck["Zone_Suppression"] == 0) return true;
             }
             return false;
         });
@@ -73,14 +73,14 @@ namespace Pela{
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             if (turn->side == Side::Enemy) {
-                if (enemyUnit[turn->num]->Debuff_time_count["Zone_Suppression"] == enemyUnit[turn->num]->Atv_stats->turnCnt) {
-                    enemyUnit[turn->num]->Debuff["Zone_Suppression"] = 0;
+                if (enemyUnit[turn->num]->debuffEnd["Zone_Suppression"] == enemyUnit[turn->num]->Atv_stats->turnCnt) {
+                    enemyUnit[turn->num]->debuffCheck["Zone_Suppression"] = 0;
                     enemyUnit[turn->num]->Stats_type[Stats::DEF_SHRED][AType::None] -= 42;
                     --enemyUnit[turn->num]->Total_debuff;
                 }
-                if (enemyUnit[turn->num]->Debuff_time_count["Pela_Technique"] == turn->turnCnt) {
+                if (enemyUnit[turn->num]->debuffEnd["Pela_Technique"] == turn->turnCnt) {
                     enemyUnit[turn->num]->Stats_type[Stats::DEF_SHRED][AType::None] -= 20;
-                    enemyUnit[turn->num]->Debuff["Pela_Technique"] = 0;
+                    enemyUnit[turn->num]->debuffCheck["Pela_Technique"] = 0;
                     --enemyUnit[turn->num]->Total_debuff;
                 }
             }

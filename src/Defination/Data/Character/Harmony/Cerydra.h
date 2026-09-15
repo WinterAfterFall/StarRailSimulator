@@ -140,18 +140,18 @@ namespace Cerydra{
             temp = calculateAtkForBuff(crd,24);
             buffSingle(chooseSubUnitBuff(crd),
                 {
-                    {Stats::FLAT_ATK,AType::TEMP,temp - crd->Buff_note["Cerydra Atk Buff"]},
-                    {Stats::FLAT_ATK,AType::None,temp - crd->Buff_note["Cerydra Atk Buff"]}
+                    {Stats::FLAT_ATK,AType::TEMP,temp - crd->buffNote["Cerydra Atk Buff"]},
+                    {Stats::FLAT_ATK,AType::None,temp - crd->buffNote["Cerydra Atk Buff"]}
                 });
-            crd->Buff_note["Cerydra Atk Buff"] = temp;
+            crd->buffNote["Cerydra Atk Buff"] = temp;
 
             double temp2 = min(max(0.0,floor((calculateAtkForBuff(crd,100) - 2000)/100)),20.0)*18;
             buffSingle(crd,
                 {
-                    {Stats::CD,AType::TEMP,temp2 - crd->Buff_note["Cerydra Crit dam Buff"]},
-                    {Stats::CD,AType::None,temp2 - crd->Buff_note["Cerydra Crit dam Buff"]}
+                    {Stats::CD,AType::TEMP,temp2 - crd->buffNote["Cerydra Crit dam Buff"]},
+                    {Stats::CD,AType::None,temp2 - crd->buffNote["Cerydra Crit dam Buff"]}
                 });
-            crd->Buff_note["Cerydra Crit dam Buff"] = temp2;
+            crd->buffNote["Cerydra Crit dam Buff"] = temp2;
 
             if(ptr->Technique){
             shared_ptr<AllyBuffAction> act = 
@@ -234,17 +234,17 @@ namespace Cerydra{
             temp = calculateAtkForBuff(crd,24);
             buffSingle(chooseSubUnitBuff(crd),
                 {
-                    {Stats::FLAT_ATK,AType::TEMP,temp - crd->Buff_note["Cerydra Atk Buff"]},
-                    {Stats::FLAT_ATK,AType::None,temp - crd->Buff_note["Cerydra Atk Buff"]}
+                    {Stats::FLAT_ATK,AType::TEMP,temp - crd->buffNote["Cerydra Atk Buff"]},
+                    {Stats::FLAT_ATK,AType::None,temp - crd->buffNote["Cerydra Atk Buff"]}
                 });
-            crd->Buff_note["Cerydra Atk Buff"] = temp;
+            crd->buffNote["Cerydra Atk Buff"] = temp;
             double temp2 = min(max(0.0,floor((temp - 2000)/100)),20.0)*18;
             buffSingle(crd,
                 {
-                    {Stats::CD,AType::TEMP,temp2 - crd->Buff_note["Cerydra Crit dam Buff"]},
-                    {Stats::CD,AType::None,temp2 - crd->Buff_note["Cerydra Crit dam Buff"]}
+                    {Stats::CD,AType::TEMP,temp2 - crd->buffNote["Cerydra Crit dam Buff"]},
+                    {Stats::CD,AType::None,temp2 - crd->buffNote["Cerydra Crit dam Buff"]}
                 });
-            crd->Buff_note["Cerydra Crit dam Buff"] = temp2;
+            crd->buffNote["Cerydra Crit dam Buff"] = temp2;
             }
         }));
     }

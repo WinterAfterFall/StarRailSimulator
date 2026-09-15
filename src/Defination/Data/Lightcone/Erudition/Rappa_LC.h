@@ -16,17 +16,17 @@ namespace Erudition_Lightcone{
 
             WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](CharUnit *ally){
                 if (ally->isSameOwner(ptr)) {
-                    ptr->Buff_check["Ration"] = 1;
-                    ptr->Stack["Ration"] = 0;
+                    ptr->buffCheck["Ration"] = 1;
+                    ptr->stack["Ration"] = 0;
                 }
             }));
 
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                if (act->isSameAction(ptr,AType::BA)&& ptr->Buff_check["Ration"] == 1) {
-                    ptr->Stack["Ration"]++;
-                    if (ptr->Stack["Ration"] == 2) {
+                if (act->isSameAction(ptr,AType::BA)&& ptr->buffCheck["Ration"] == 1) {
+                    ptr->stack["Ration"]++;
+                    if (ptr->stack["Ration"] == 2) {
                         Action_forward(ptr->Atv_stats.get(), (40 + superimpose * 5));
-                        ptr->Buff_check["Ration"] = 0;
+                        ptr->buffCheck["Ration"] = 0;
                     }
                 }
             }));

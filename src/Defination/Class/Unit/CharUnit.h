@@ -161,16 +161,16 @@ public:
     #pragma region set_methods
 
     void setStack(string buffName, int value) {
-        this->Stack[buffName] = value;
+        this->stack[buffName] = value;
     }
     void setBuffNote(string buffName, double value) {
-        this->Buff_note[buffName] = value;
+        this->buffNote[buffName] = value;
     }
     void setBuffCountdown(string buffName, int value) {
-        this->Buff_countdown[buffName] = value;
+        this->buffEnd[buffName] = value;
     }
     void setBuffCheck(string buffName, bool value) {
-        this->Buff_check[buffName] = value;
+        this->buffCheck[buffName] = value;
     }
     void setBuffSubUnitTarget(string buffName, AllyUnit* target) {
         this->buffSubUnitTarget[buffName] = target;
@@ -213,16 +213,16 @@ public:
 
     #pragma region get_methods
     int getStack(string buffName) {
-        return this->Stack[buffName];
+        return this->stack[buffName];
     }
     double getBuffNote(string buffName) {
-        return this->Buff_note[buffName];
+        return this->buffNote[buffName];
     }
     int getBuffCountdown(string buffName) {
-        return this->Buff_countdown[buffName];
+        return this->buffEnd[buffName];
     }
     bool getBuffCheck(string buffName) {
-        return this->Buff_check[buffName];
+        return this->buffCheck[buffName];
     }
     AllyUnit* getBuffSubUnitTarget(string buffName) {
         return this->buffSubUnitTarget[buffName];

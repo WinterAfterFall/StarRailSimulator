@@ -13,7 +13,7 @@ namespace Erudition_Lightcone{
     
             BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
                 if (act->Attacker->Atv_stats->Name == ptr->Atv_stats->Name &&
-                    ptr->Stack["Somnus_Corpus"] == 1) {
+                    ptr->stack["Somnus_Corpus"] == 1) {
                     for (auto e : act->actionTypeList) {
                         if (e == AType::Fua) {
                             ptr->Stats_type[Stats::DMG][AType::Fua] += 40 + 8 * superimpose;
@@ -28,17 +28,17 @@ namespace Erudition_Lightcone{
     
                 for (auto e : act->actionTypeList) {
                     if (e == AType::SKILL || e == AType::Ult) {
-                        ptr->Stack["Somnus_Corpus"] = 1;
+                        ptr->stack["Somnus_Corpus"] = 1;
                         break;
                     }
                 }
     
                 if (act->Attacker->Atv_stats->Name == ptr->Atv_stats->Name &&
-                    ptr->Stack["Somnus_Corpus"] == 1) {
+                    ptr->stack["Somnus_Corpus"] == 1) {
                     for (auto e : act->actionTypeList) {
                         if (e == AType::Fua) {
                             ptr->Stats_type[Stats::DMG][AType::Fua] -= 40 + 8 * superimpose;
-                            ptr->Stack["Somnus_Corpus"] = 0;
+                            ptr->stack["Somnus_Corpus"] = 0;
                             break;
                         }
                     }

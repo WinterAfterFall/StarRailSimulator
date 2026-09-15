@@ -23,8 +23,8 @@ namespace Archer{
 
         #pragma region extra
         function<void(int value)> Charge = [ptr,ac](int value){
-            ac->Stack["Archer Charge"] += value;
-            if(ac->Stack["Archer Charge"]>=4)ac->Stack["Archer Charge"] = 4;
+            ac->stack["Archer Charge"] += value;
+            if(ac->stack["Archer Charge"]>=4)ac->stack["Archer Charge"] = 4;
         };
 
         #pragma endregion

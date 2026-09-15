@@ -11,7 +11,7 @@ namespace Relic{
         PunchLine_List.push_back(TriggerSkill_point_func(PRIORITY_IMMEDIATELY, [ptr](AllyUnit *SP_maker, int SP) {
             int buff = max(0,min(50,punchline)/5);
             buffAllAlly({
-                {Stats::DEF_SHRED,AType::ElationDMG,buff - ptr->Buff_note["MagicalGirl Buff"]}
+                {Stats::DEF_SHRED,AType::ElationDMG,buff - ptr->buffNote["MagicalGirl Buff"]}
             });
             ptr->setBuffNote("MagicalGirl Buff",buff);
         }));

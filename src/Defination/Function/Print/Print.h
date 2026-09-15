@@ -8,7 +8,7 @@ void Print(){
     cout<<sp<<" ";
     cout<<enemyUnit[1]->Current_toughness<<" ";
     cout<<enemyUnit[2]->Current_toughness<<" ";
-    cout<<charUnit[1]->Stack["FireFly_E2"]<<" ";
+    cout<<charUnit[1]->stack["FireFly_E2"]<<" ";
     // cout<<punchline<<" ";
     cout<<endl;
 }

@@ -54,9 +54,9 @@ namespace HarmonyMC{
         }));
 
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,HMCptr](){
-            ptr->Buff_note["Harmony_MC_E4"] = calculateBreakEffectForBuff(ptr, 15);                  
-            buffAllAllyExcludingBuffer(HMCptr,{{Stats::BE,AType::TEMP,ptr->Buff_note["Harmony_MC_E4"]}});
-            buffAllAllyExcludingBuffer(HMCptr,{{Stats::BE,AType::None,ptr->Buff_note["Harmony_MC_E4"]}});
+            ptr->buffNote["Harmony_MC_E4"] = calculateBreakEffectForBuff(ptr, 15);                  
+            buffAllAllyExcludingBuffer(HMCptr,{{Stats::BE,AType::TEMP,ptr->buffNote["Harmony_MC_E4"]}});
+            buffAllAllyExcludingBuffer(HMCptr,{{Stats::BE,AType::None,ptr->buffNote["Harmony_MC_E4"]}});
         }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
@@ -84,7 +84,7 @@ namespace HarmonyMC{
         }));
 
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act){
-            if(ptr->Buff_check["Harmony_MC_ult"] == 1){
+            if(ptr->buffCheck["Harmony_MC_ult"] == 1){
                 Superbreak_trigger(act, 100 * (1.7 - (0.1 * Total_enemy)),"HMC");
             }
         }));
@@ -98,9 +98,9 @@ namespace HarmonyMC{
             if(target->Atv_stats->Name != "Harmony_MC") return;
             if(StatsType == Stats::BE){
                 double temp = calculateBreakEffectForBuff(ptr, 15);
-                buffAllAllyExcludingBuffer(HMCptr,{{Stats::BE,AType::TEMP,temp - ptr->Buff_note["Harmony_MC_E4"]}});
-                buffAllAllyExcludingBuffer(HMCptr,{{Stats::BE,AType::None,temp - ptr->Buff_note["Harmony_MC_E4"]}});
-                ptr->Buff_note["Harmony_MC_E4"] =  temp ;
+                buffAllAllyExcludingBuffer(HMCptr,{{Stats::BE,AType::TEMP,temp - ptr->buffNote["Harmony_MC_E4"]}});
+                buffAllAllyExcludingBuffer(HMCptr,{{Stats::BE,AType::None,temp - ptr->buffNote["Harmony_MC_E4"]}});
+                ptr->buffNote["Harmony_MC_E4"] =  temp ;
             }
         }));
  

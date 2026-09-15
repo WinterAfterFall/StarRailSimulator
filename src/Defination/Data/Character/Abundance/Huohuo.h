@@ -100,7 +100,7 @@ namespace Huohuo{
                 if(ptr->Eidolon>=1)buffAllAlly({{Stats::SPD_P,AType::None,-12}});
             }
             if(hh->getBuffCheck("Divine Provision")&&hh->getStack("Divine Provision")){
-                hh->Stack["Divine Provision"]--;
+                hh->stack["Divine Provision"]--;
                 Increase_energy(hh,1);
                 for(auto &each : allyList){
                     if(each->currentHP<=each->totalHP/2)
@@ -133,7 +133,7 @@ namespace Huohuo{
 
         WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY, [ptr,hh](CharUnit *ally) {
             if(hh->getBuffCheck("Divine Provision")&&hh->getStack("Divine Provision")){
-                hh->Stack["Divine Provision"]--;
+                hh->stack["Divine Provision"]--;
                 Increase_energy(hh,1);
                 for(auto &each : allyList){
                     if(each->currentHP<=each->totalHP/2)

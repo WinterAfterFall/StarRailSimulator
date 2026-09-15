@@ -79,9 +79,9 @@ namespace Robin{
                 Update_Max_atv(ptr->Atv_stats.get());
                 resetTurn(ptr->Atv_stats.get());
 
-                ptr->Buff_note["Concerto_state"] = calculateAtkForBuff(ptr, 22.8) + 200;
-                buffAllAlly({{Stats::FLAT_ATK, AType::TEMP, ptr->Buff_note["Concerto_state"]}});
-                buffAllAlly({{Stats::FLAT_ATK, AType::None, ptr->Buff_note["Concerto_state"]}});
+                ptr->buffNote["Concerto_state"] = calculateAtkForBuff(ptr, 22.8) + 200;
+                buffAllAlly({{Stats::FLAT_ATK, AType::TEMP, ptr->buffNote["Concerto_state"]}});
+                buffAllAlly({{Stats::FLAT_ATK, AType::None, ptr->buffNote["Concerto_state"]}});
 
                 buffAllAlly({{Stats::CD, AType::Fua, 25}});
                 if(ptr->Eidolon >= 1)buffAllAlly({{Stats::RESPEN, AType::None, 24}});
@@ -154,9 +154,9 @@ namespace Robin{
             if(ptr->countdownList[0]->isDeath())return;
             if(StatsType == Stats::ATK_P || StatsType == Stats::FLAT_ATK){
                 double buffValue = calculateAtkForBuff(ptr, 22.8) + 200;
-                buffAllAlly({{Stats::FLAT_ATK, AType::TEMP, buffValue - ptr->Buff_note["Concerto_state"]}});
-                buffAllAlly({{Stats::FLAT_ATK, AType::None, buffValue - ptr->Buff_note["Concerto_state"]}});
-                ptr->Buff_note["Concerto_state"] = buffValue;
+                buffAllAlly({{Stats::FLAT_ATK, AType::TEMP, buffValue - ptr->buffNote["Concerto_state"]}});
+                buffAllAlly({{Stats::FLAT_ATK, AType::None, buffValue - ptr->buffNote["Concerto_state"]}});
+                ptr->buffNote["Concerto_state"] = buffValue;
             }
         }));
 
@@ -169,8 +169,8 @@ namespace Robin{
                 ptr->Atv_stats->baseSpeed = 102;
                 Update_Max_atv(ptr->Atv_stats.get());
                 resetTurn(ptr->Atv_stats.get());
-                buffAllAlly({{Stats::FLAT_ATK, AType::TEMP, -ptr->Buff_note["Concerto_state"]}});
-                buffAllAlly({{Stats::FLAT_ATK, AType::None, -ptr->Buff_note["Concerto_state"]}});
+                buffAllAlly({{Stats::FLAT_ATK, AType::TEMP, -ptr->buffNote["Concerto_state"]}});
+                buffAllAlly({{Stats::FLAT_ATK, AType::None, -ptr->buffNote["Concerto_state"]}});
                 buffAllAlly({{Stats::CD, AType::Fua, -25}});
                 if(ptr->Eidolon >= 1)buffAllAlly({{Stats::RESPEN, AType::None, -24}});
                 if(ptr->Eidolon >= 2)buffAllAllyExcludingBuffer(Robinptr,{{Stats::SPD_P,AType::None,-16}});

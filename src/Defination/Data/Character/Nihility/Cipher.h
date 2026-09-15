@@ -199,7 +199,7 @@ namespace Cipher{
 
                     if(ptr->Eidolon<6)return;
                     act->Attacker->owner
-                    ->Buff_note["CipherNote" + src->getName()] += damage * percent/100 * 0.2;
+                    ->buffNote["CipherNote" + src->getName()] += damage * percent/100 * 0.2;
                     if(act->actionName!="Cipher Ult")return;
                     
                     double totaldmg = 0;
@@ -211,7 +211,7 @@ namespace Cipher{
                                 Cal_DamageNote(act,enemyUnit[j].get(),enemyUnit[k].get(),totaldmg*0.75/ptr->getAdjust("Cipher Ult Share"),100,"Cph E6 " + act->Attacker->getName());
                             }
                             Cal_DamageNote(act,enemyUnit[j].get(),enemyUnit[Main_Enemy_num].get(),totaldmg*0.25,100,"Cph E6 " + act->Attacker->getName());
-                            charUnit[i]->Buff_note["CipherNote" + enemyUnit[j]->getName()] *= 0.2;
+                            charUnit[i]->buffNote["CipherNote" + enemyUnit[j]->getName()] *= 0.2;
                         }  
                     }
                 }));

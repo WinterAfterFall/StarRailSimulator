@@ -52,7 +52,7 @@ void debuffRemove(Enemy *enemy,string debuffName){
 }
 
 bool isDebuffEnd(Enemy *enemy,string Debuff_name){
-    if(enemy->Atv_stats->turnCnt==enemy->Debuff_time_count[Debuff_name]&&turn->Name==enemy->Atv_stats->Name){
+    if(enemy->Atv_stats->turnCnt==enemy->debuffEnd[Debuff_name]&&turn->Name==enemy->Atv_stats->Name){
         debuffRemove(enemy,Debuff_name);
         return true;
     }
@@ -60,7 +60,7 @@ bool isDebuffEnd(Enemy *enemy,string Debuff_name){
 }
 
 void extendDebuff(Enemy *enemy,string Debuff_name,int Turn_extend){
-    enemy->Debuff_time_count[Debuff_name] = enemy->Atv_stats->turnCnt+Turn_extend;
+    enemy->debuffEnd[Debuff_name] = enemy->Atv_stats->turnCnt+Turn_extend;
 }
 
 void extendDebuffAll(string Debuff_name,int Turn_extend){

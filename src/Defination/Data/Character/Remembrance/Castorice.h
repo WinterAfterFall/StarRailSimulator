@@ -50,13 +50,13 @@ namespace Castorice{
             [ptr,Casptr,Polluxptr](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,0);
                 while(ptr->getMemosprite()->currentHP>8500){
-                    if(ptr->getMemosprite()->Stack["Breath Scorches the Shadow"]==0){
+                    if(ptr->getMemosprite()->stack["Breath Scorches the Shadow"]==0){
                         for(auto &each : act->damageSplit[0]){
                             each.dmgSrc.HP = 24;
                         }
                     }
                     else
-                    if(ptr->getMemosprite()->Stack["Breath Scorches the Shadow"]==1){
+                    if(ptr->getMemosprite()->stack["Breath Scorches the Shadow"]==1){
                         for(auto &each : act->damageSplit[0]){
                             each.dmgSrc.HP = 28;
                         }
@@ -72,22 +72,22 @@ namespace Castorice{
                             each.dmgSrc.HP *= 1.239;
                         }
                     }
-                    ptr->getMemosprite()->Stack["Breath Scorches the Shadow"]++;
+                    ptr->getMemosprite()->stack["Breath Scorches the Shadow"]++;
                     buffStackSingle(Polluxptr,{{Stats::DMG,AType::None,30}},1,6,"Where The West Wind Dwells");
                     Attack(act);
                     if(ptr->getMemosprite()->getStack("Ardent Will")>0)
-                    ptr->getMemosprite()->Stack["Ardent Will"]--;
+                    ptr->getMemosprite()->stack["Ardent Will"]--;
                     else 
                     ptr->getMemosprite()->currentHP-=8500;
                 }
                 if(isBuffEnd(Polluxptr,"NetherwingLifeSpan")){
-                    if(ptr->getMemosprite()->Stack["Breath Scorches the Shadow"]==0){
+                    if(ptr->getMemosprite()->stack["Breath Scorches the Shadow"]==0){
                         for(auto &each : act->damageSplit[0]){
                             each.dmgSrc.HP = 24;
                         }
                     }
                     else
-                    if(ptr->getMemosprite()->Stack["Breath Scorches the Shadow"]==1){
+                    if(ptr->getMemosprite()->stack["Breath Scorches the Shadow"]==1){
                         for(auto &each : act->damageSplit[0]){
                             each.dmgSrc.HP = 28;
                         }
@@ -130,7 +130,7 @@ namespace Castorice{
         }));
         
         ptr->addUltCondition([ptr,Casptr,Polluxptr]() -> bool {
-            if(ptr->Buff_note["Newbud"] >= 34000)return true;
+            if(ptr->buffNote["Newbud"] >= 34000)return true;
             return false;
         });
         ptr->addUltCondition([ptr,Casptr,Polluxptr]() -> bool {
@@ -139,7 +139,7 @@ namespace Castorice{
         });
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,Casptr,Polluxptr]() {
-            ptr->Buff_note["Newbud"] = 0;
+            ptr->buffNote["Newbud"] = 0;
 
             shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Single,"Cas Ult",
@@ -153,7 +153,7 @@ namespace Castorice{
                 if(ptr->Eidolon>=2){
                     ptr->getMemosprite()->setStack("Ardent Will",2);
                     Action_forward(ptr->Atv_stats.get(),100);
-                    ptr->Buff_note["Newbud"] = 10200;
+                    ptr->buffNote["Newbud"] = 10200;
                 }
             });
             act->addBuffSingleTarget(ptr);
@@ -185,12 +185,12 @@ namespace Castorice{
                 if(ptr->Eidolon>=2){
                     ptr->getMemosprite()->setStack("Ardent Will",2);
                     Action_forward(ptr->Atv_stats.get(),100);
-                    ptr->Buff_note["Newbud"] = 10200;
+                    ptr->buffNote["Newbud"] = 10200;
                 }
             }
             else
             {
-                ptr->Buff_note["Newbud"]=10200;
+                ptr->buffNote["Newbud"]=10200;
             }
             if(!ptr->getBuffCheck("Inverted Torch")&&ptr->currentHP>=ptr->totalHP*0.5){
                 buffSingle(Casptr,{{Stats::SPD_P,AType::None,40}});
@@ -203,9 +203,9 @@ namespace Castorice{
             Value = (Value + target->getBuffNote("NetherwingHealLimit") > 4080) 
             ? 4080 - target->getBuffNote("NetherwingHealLimit")
             : Value;
-            target->Buff_note["NetherwingHealLimit"]+=Value;
+            target->buffNote["NetherwingHealLimit"]+=Value;
             if(ptr->getMemosprite()->isDeath()){
-                ptr->Buff_note["Newbud"]+=Value;
+                ptr->buffNote["Newbud"]+=Value;
             }
             else {
                 ptr->getMemosprite()->RestoreHP(ptr->getMemosprite(),HealSrc(HealSrcType::CONST,Value));
@@ -221,12 +221,12 @@ namespace Castorice{
 
         HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_IMMEDIATELY, [ptr,Casptr,Polluxptr](Unit *Trigger, AllyUnit *target, double Value) {
             if(ptr->getMemosprite()->isDeath()){
-                ptr->Buff_note["Newbud"]+=Value;
+                ptr->buffNote["Newbud"]+=Value;
             }else {
                 ptr->getMemosprite()->RestoreHP(ptr->getMemosprite(),HealSrc(HealSrcType::CONST,Value));
             }
-            if(ptr->Buff_note["CastoriceTalentBuff"]!=decreaseHPCount){
-                ptr->Buff_note["CastoriceTalentBuff"] = decreaseHPCount;
+            if(ptr->buffNote["CastoriceTalentBuff"]!=decreaseHPCount){
+                ptr->buffNote["CastoriceTalentBuff"] = decreaseHPCount;
                 buffStackChar(ptr,{{Stats::DMG,AType::None,20}},1,3,"CastoriceTalentBuff",3);
             }
             if(target->isSameName("Castorice")){
@@ -259,13 +259,13 @@ namespace Castorice{
 
         Buff_List.push_back(TriggerByAllyBuffAction_Func(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](shared_ptr<AllyBuffAction> &act) {
             for(auto &e : allyList){
-                e->Buff_note["NetherwingHealLimit"] = 0;
+                e->buffNote["NetherwingHealLimit"] = 0;
             }
         }));
 
         BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTION, [ptr,Casptr,Polluxptr](shared_ptr<AllyAttackAction> &act) {
             for(auto &e : allyList){
-                e->Buff_note["NetherwingHealLimit"] = 0;
+                e->buffNote["NetherwingHealLimit"] = 0;
             }
         }));
         
@@ -381,7 +381,7 @@ namespace Castorice{
     }
     void HealerCondition(CharUnit *ptr, CharUnit *target) {
         target->ultCondition.push_back([ptr, target]() -> bool {
-            if(ptr->Buff_note["Newbud"] >= 34000||ptr->getMemosprite()->currentHP==34000)return false;
+            if(ptr->buffNote["Newbud"] >= 34000||ptr->getMemosprite()->currentHP==34000)return false;
             return true;
         });
     }

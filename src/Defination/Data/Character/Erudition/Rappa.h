@@ -23,7 +23,7 @@ namespace Rappa{
         Relic(ptr);
         Planar(ptr);
         ptr->Turn_func = [ptr, allyPtr = ptr]() {
-            if (allyPtr->Buff_check["Rappa_Ult"] == 0) {
+            if (allyPtr->buffCheck["Rappa_Ult"] == 0) {
             Skill_func(ptr);
             } else {
             Enchance_Basic_Atk(ptr);
@@ -31,7 +31,7 @@ namespace Rappa{
         };
 
         ptr->addUltCondition([ptr]() -> bool {
-            if(ptr->Buff_check["Rappa_Ult"] == 1)return false;
+            if(ptr->buffCheck["Rappa_Ult"] == 1)return false;
             return true;
         });
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [ptr]() {
@@ -40,8 +40,8 @@ namespace Rappa{
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Single,"Rappa Ult",
             [ptr](shared_ptr<AllyBuffAction> &act){
                 if (ptr->Print)CharCmd::printUltStart("Rappa");
-                ptr->Buff_check["Rappa_Ult"] = 1;
-                ptr->Stack["Rappa_Ult"] = 2;
+                ptr->buffCheck["Rappa_Ult"] = 1;
+                ptr->stack["Rappa_Ult"] = 2;
                 ptr->Stats_type[Stats::BE][AType::None] += 30;
                 ptr->Stats_type[Stats::BREAK_EFF][AType::None] += 50;
                 if (ptr->Eidolon >= 1)ptr->Stats_type[Stats::DEF_SHRED][AType::None] += 15;
@@ -53,9 +53,9 @@ namespace Rappa{
                     Increase_energy(ptr, 20);
                     Attack(data_2);
                 });
-                double temp = ptr->Stack["Rappa_Talent"] + 2;
-                ptr->Buff_note["Rappa_Talent"] = ptr->Stack["Rappa_Talent"] * 0.5 + 0.6;
-                ptr->Stack["Rappa_Talent"] = 0;
+                double temp = ptr->stack["Rappa_Talent"] + 2;
+                ptr->buffNote["Rappa_Talent"] = ptr->stack["Rappa_Talent"] * 0.5 + 0.6;
+                ptr->stack["Rappa_Talent"] = 0;
 
                 data_2->Dont_care_weakness = 50;
                 data_2->addDamageIns(
@@ -99,15 +99,15 @@ namespace Rappa{
             if (enemyUnit) {
                 
                 if (isDebuffEnd(enemyUnit,"Withered_Leaf")) {
-                    debuffSingle(enemyUnit,{{Stats::VUL,AType::Break,-enemyUnit->DebuffNote["Withered_Leaf"]}});
+                    debuffSingle(enemyUnit,{{Stats::VUL,AType::Break,-enemyUnit->debuffNote["Withered_Leaf"]}});
                 }
             }
             if (turn->Name == "Rappa") {
-                if (ptr->Stack["Rappa_Ult"] == 0 && ptr->Buff_check["Rappa_Ult"] == 1) {
+                if (ptr->stack["Rappa_Ult"] == 0 && ptr->buffCheck["Rappa_Ult"] == 1) {
                     ptr->Stats_type[Stats::BE][AType::None] -= 30;
                     ptr->Stats_type[Stats::BREAK_EFF][AType::None] -= 50;
 
-                    ptr->Buff_check["Rappa_Ult"] = 0;
+                    ptr->buffCheck["Rappa_Ult"] = 0;
                     if (ptr->Eidolon >= 1) {
                         ptr->Stats_type[Stats::DEF_SHRED][AType::None] -= 15;
                         Increase_energy(ptr, 20);
@@ -122,16 +122,16 @@ namespace Rappa{
 
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act){
             if(act->Attacker->Atv_stats->Name=="Rappa"){
-                if(ptr->Buff_check["Rappa_Ult"]==1){
+                if(ptr->buffCheck["Rappa_Ult"]==1){
                     Superbreak_trigger(act,60,"");
 
                     shared_ptr<AllyAttackAction> data_2 = 
                     make_shared<AllyAttackAction>(AType::Break,ptr,TraceType::Aoe,"Rappa Talent");
-                    double temp = ptr->Buff_note["Rappa_Talent"];
+                    double temp = ptr->buffNote["Rappa_Talent"];
                     for(int i=1;i<=Total_enemy;i++){
                         Cal_Break_damage(act,enemyUnit[i].get(),temp);
                     }
-                    ptr->Buff_note["Rappa_Talent"] = 0;
+                    ptr->buffNote["Rappa_Talent"] = 0;
                 }
             }
         }));
@@ -160,9 +160,9 @@ namespace Rappa{
         }));
 
         Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,Rappaptr](Enemy *target, AllyUnit *Breaker) {
-            ptr->Stack["Rappa_Talent"]++;
+            ptr->stack["Rappa_Talent"]++;
             if (target->Max_toughness > 90) {
-                ptr->Stack["Rappa_Talent"]++;
+                ptr->stack["Rappa_Talent"]++;
                 Increase_energy(ptr, 10);
             }
             double temp = floor((calculateAtkForBuff(ptr,100) - 2400) / 100) + 2;
@@ -170,8 +170,8 @@ namespace Rappa{
             temp = 10;
             if (temp < 0)
             temp = 0;
-            target->DebuffNote["Withered_Leaf"] = target->DebuffNote["Withered_Leaf"];
-            debuffSingleApply(Rappaptr,target,{{Stats::VUL, AType::Break, temp - target->DebuffNote["Withered_Leaf"]}},"Withered_Leaf",2);
+            target->debuffNote["Withered_Leaf"] = target->debuffNote["Withered_Leaf"];
+            debuffSingleApply(Rappaptr,target,{{Stats::VUL, AType::Break, temp - target->debuffNote["Withered_Leaf"]}},"Withered_Leaf",2);
         }));
     }
 
@@ -184,9 +184,9 @@ namespace Rappa{
             Increase_energy(ptr, 20);
             Attack(act);
         });
-        double temp = ptr->Stack["Rappa_Talent"]+2;
-        ptr->Buff_note["Rappa_Talent"] = ptr->Stack["Rappa_Talent"]*0.5+0.6;
-        ptr->Stack["Rappa_Talent"] = 0;
+        double temp = ptr->stack["Rappa_Talent"]+2;
+        ptr->buffNote["Rappa_Talent"] = ptr->stack["Rappa_Talent"]*0.5+0.6;
+        ptr->stack["Rappa_Talent"] = 0;
 
         act->Dont_care_weakness = 50;
         act->addDamageIns(
@@ -203,7 +203,7 @@ namespace Rappa{
             DmgSrc(DmgSrcType::ATK, 100, 5.0 + temp) 
         );
         act->addToActionBar();
-        ptr->Stack["Rappa_Ult"]--;
+        ptr->stack["Rappa_Ult"]--;
     }
     void Skill_func(CharUnit *ptr){
         

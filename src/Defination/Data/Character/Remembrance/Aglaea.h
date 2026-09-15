@@ -62,16 +62,16 @@ namespace Aglaea{
                 if (ptr->memospriteList[0]->isDeath()) Summon(ptr);
 
                 if (ptr->countdownList[0]->isDeath())
-                buffSingle(AGptr,{{Stats::SPD_P, AType::None, 15.0 * ptr->memospriteList[0]->Stack["Brewed_by_Tears"]}});
+                buffSingle(AGptr,{{Stats::SPD_P, AType::None, 15.0 * ptr->memospriteList[0]->stack["Brewed_by_Tears"]}});
 
                 Action_forward(ptr->Atv_stats.get(), 100);
                 ptr->countdownList[0]->summon();
                 double BuffValue = calculateSpeedForBuff(ptr, 360) +
                 calculateSpeedForBuff(ptr->memospriteList[0].get(), 720);
 
-                buffSingleChar(ptr,{{Stats::FLAT_ATK, AType::TEMP, BuffValue - ptr->Buff_note["Aglaea_A2"]}});
-                buffSingleChar(ptr,{{Stats::FLAT_ATK, AType::None, BuffValue - ptr->Buff_note["Aglaea_A2"]}});
-                ptr->Buff_note["Aglaea_A2"] =  BuffValue;
+                buffSingleChar(ptr,{{Stats::FLAT_ATK, AType::TEMP, BuffValue - ptr->buffNote["Aglaea_A2"]}});
+                buffSingleChar(ptr,{{Stats::FLAT_ATK, AType::None, BuffValue - ptr->buffNote["Aglaea_A2"]}});
+                ptr->buffNote["Aglaea_A2"] =  BuffValue;
                 if (ptr->Print) CharCmd::printUltStart("Aglaea");
             });
             act->addBuffSingleTarget(ptr);
@@ -106,9 +106,9 @@ namespace Aglaea{
 
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr,AGptr](shared_ptr<AllyAttackAction> &act) {
             if (act->Attacker->Atv_stats->Name == "Garmentmaker") {
-                if (act->Attacker->Stack["Brewed_by_Tears"] < 6) {
+                if (act->Attacker->stack["Brewed_by_Tears"] < 6) {
                     buffSingle(act->Attacker,{{Stats::FLAT_SPD, AType::None, 55.0}});
-                    act->Attacker->Stack["Brewed_by_Tears"]++;
+                    act->Attacker->stack["Brewed_by_Tears"]++;
                     if (!ptr->countdownList[0]->isDeath()) {
                         buffSingle(AGptr,{{Stats::SPD_P, AType::None, 15.0}});
                     }
@@ -160,9 +160,9 @@ namespace Aglaea{
                 double BuffValue = calculateSpeedForBuff(ptr, 360) + 
                 calculateSpeedForBuff(ptr->memospriteList[0].get(), 720);
 
-                buffSingleChar(ptr,{{Stats::FLAT_ATK, AType::TEMP, BuffValue - ptr->Buff_note["Aglaea_A2"]}});
-                buffSingleChar(ptr,{{Stats::FLAT_ATK, AType::None, BuffValue - ptr->Buff_note["Aglaea_A2"]}});
-                ptr->Buff_note["Aglaea_A2"] =  BuffValue;
+                buffSingleChar(ptr,{{Stats::FLAT_ATK, AType::TEMP, BuffValue - ptr->buffNote["Aglaea_A2"]}});
+                buffSingleChar(ptr,{{Stats::FLAT_ATK, AType::None, BuffValue - ptr->buffNote["Aglaea_A2"]}});
+                ptr->buffNote["Aglaea_A2"] =  BuffValue;
                 return;
             }
         }));
@@ -175,21 +175,21 @@ namespace Aglaea{
         };
 
         ptr->countdownList[0]->Turn_func = [ptr,AGptr](){
-            buffSingle(AGptr,{{Stats::SPD_P, AType::None, -15.0 * ptr->memospriteList[0]->Stack["Brewed_by_Tears"]}});
+            buffSingle(AGptr,{{Stats::SPD_P, AType::None, -15.0 * ptr->memospriteList[0]->stack["Brewed_by_Tears"]}});
             
             ptr->countdownList[0]->death();
             
-            buffSingleChar(ptr,{{Stats::FLAT_ATK, AType::TEMP,-ptr->Buff_note["Aglaea_A2"]}});
-            buffSingleChar(ptr,{{Stats::FLAT_ATK, AType::None,-ptr->Buff_note["Aglaea_A2"]}});
+            buffSingleChar(ptr,{{Stats::FLAT_ATK, AType::TEMP,-ptr->buffNote["Aglaea_A2"]}});
+            buffSingleChar(ptr,{{Stats::FLAT_ATK, AType::None,-ptr->buffNote["Aglaea_A2"]}});
     
-            ptr->Buff_note["Aglaea_A2"] = 0;
+            ptr->buffNote["Aglaea_A2"] = 0;
             ptr->memospriteList[0]->death(); 
             double temp =0;
-            if(ptr->memospriteList[0]->Stack["Brewed_by_Tears"]>1){
-                temp = ptr->memospriteList[0]->Stack["Brewed_by_Tears"]-1;
+            if(ptr->memospriteList[0]->stack["Brewed_by_Tears"]>1){
+                temp = ptr->memospriteList[0]->stack["Brewed_by_Tears"]-1;
             }
             buffSingle(ptr->memospriteList[0].get(),{{Stats::FLAT_SPD, AType::None, -55.0 * temp}});
-            ptr->memospriteList[0]->Stack["Brewed_by_Tears"] = 1;
+            ptr->memospriteList[0]->stack["Brewed_by_Tears"] = 1;
             Increase_energy(ptr,20);
     
             if(ptr->Print)CharCmd::printUltEnd("Aglaea");

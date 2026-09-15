@@ -34,10 +34,10 @@ public:
     #pragma endregion
    
     int Total_debuff = 0;
-    unordered_map<string,int> Debuff;
-    unordered_map<string,double> DebuffNote;
-    unordered_map<string,int> Stack;
-    unordered_map<string,int> Debuff_time_count;
+    unordered_map<string,int> debuffCheck;
+    unordered_map<string,double> debuffNote;
+    unordered_map<string,int> stack;
+    unordered_map<string,int> debuffEnd;
 
     double ATK = 718;
     double atkPercent = 0;
@@ -167,16 +167,16 @@ public:
         this->Total_debuff = value;
     }
     void setDebuff(string debuffName, int value) {
-        this->Debuff[debuffName] = value;
+        this->debuffCheck[debuffName] = value;
     }
     void setDebuffNote(string debuffName, int value) {
-        this->DebuffNote[debuffName] = value;
+        this->debuffNote[debuffName] = value;
     }
     void setStack(string debuffName, int value) {
-        this->Stack[debuffName] = value;
+        this->stack[debuffName] = value;
     }
     void setDebuffTimeCount(string debuffName, int value) {
-        this->Debuff_time_count[debuffName] = value;
+        this->debuffEnd[debuffName] = value;
     }
 
     //getter
@@ -184,16 +184,16 @@ public:
         return this->Total_debuff;
     }
     int getDebuff(string debuffName) {
-        return this->Debuff[debuffName];
+        return this->debuffCheck[debuffName];
     }
     int getDebuffNote(string debuffName) {
-        return this->DebuffNote[debuffName];
+        return this->debuffNote[debuffName];
     }
     int getStack(string debuffName) {
-        return this->Stack[debuffName];
+        return this->stack[debuffName];
     }
     int getDebuffTimeCount(string debuffName) {
-        return this->Debuff_time_count[debuffName];
+        return this->debuffEnd[debuffName];
     }
     
     //add
@@ -201,7 +201,7 @@ public:
         this->Total_debuff += value;
     }
     void addStack(string debuffName,int value) {
-        this->Stack[debuffName] += value;
+        this->stack[debuffName] += value;
     }
 
 

@@ -12,15 +12,15 @@ namespace Nihility_Lightcone{
                 for (auto e : act->targetList) {
                     if (!debuffApply(ptr,e,ensnared)) continue;
                     e->Stats_type[Stats::DEF_SHRED][AType::None] += 11 + superimpose;
-                    e->Debuff_time_count[ensnared] = 1 + e->Atv_stats->turnCnt;
+                    e->debuffEnd[ensnared] = 1 + e->Atv_stats->turnCnt;
                 }
             }));
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,ensnared]() {
                 if (turn->side == Side::Enemy) {
-                    if (enemyUnit[turn->num]->Debuff_time_count[ensnared] == enemyUnit[turn->num]->Atv_stats->turnCnt) {
+                    if (enemyUnit[turn->num]->debuffEnd[ensnared] == enemyUnit[turn->num]->Atv_stats->turnCnt) {
                         enemyUnit[turn->num]->Stats_type[Stats::DEF_SHRED][AType::None] -= 11 + superimpose;
-                        enemyUnit[turn->num]->Debuff[ensnared] = 0;
+                        enemyUnit[turn->num]->debuffCheck[ensnared] = 0;
                         --enemyUnit[turn->num]->Total_debuff;
                     }
                 }

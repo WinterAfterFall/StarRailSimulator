@@ -24,7 +24,7 @@ namespace Remembrance_Lightcone{
                     for(auto &each : allyList){
                         temp+=each->currentHP*0.01;
                     }
-                    ptr->Buff_note["Hyacnine_LC Note"] +=temp;
+                    ptr->buffNote["Hyacnine_LC Note"] +=temp;
                     DecreaseHP(ptr,0,0,(0.75 + 0.25 * superimpose));
                 }
             }));
@@ -35,7 +35,7 @@ namespace Remembrance_Lightcone{
                     &&act->isSameAction(AType::SKILL)){
                         shared_ptr<AllyAttackAction> addtionaldmg = 
                         make_shared<AllyAttackAction>(AType::Addtional,act->Attacker,TraceType::Single,"Hyc LC AddDmg");
-                        act->addDamageIns(DmgSrc(DmgSrcType::CONST,ptr->Buff_note["Hyacnine_LC Note"] * (1.875 + 0.625 * superimpose),0));
+                        act->addDamageIns(DmgSrc(DmgSrcType::CONST,ptr->buffNote["Hyacnine_LC Note"] * (1.875 + 0.625 * superimpose),0));
                         Attack(addtionaldmg);
                         
                         ptr->setBuffNote("Hyacnine_LC Note",0);

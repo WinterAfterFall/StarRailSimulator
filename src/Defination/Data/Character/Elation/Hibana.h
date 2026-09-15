@@ -52,7 +52,7 @@ namespace Hibana{
                     else genSkillPoint(ptr,-1);
                     skillCharge++;
                     ptr->addStack("Hibana Skill Count",1);
-                    if(ptr->Stack["Hibana Skill Count"]%6==3){
+                    if(ptr->stack["Hibana Skill Count"]%6==3){
                         genSkillPoint(ptr,2);   
                         genPunchLine(ptr,2);
                     }
@@ -172,14 +172,14 @@ namespace Hibana{
         PunchLine_List.push_back(TriggerSkill_point_func(PRIORITY_IMMEDIATELY, [ptr](AllyUnit *SP_maker, int SP) {
             int buff = max(0,min(10,punchline));
             buffAllAlly({
-                {Stats::CD,AType::TEMP,buff*8 - ptr->Buff_note["Hbn Buff"]},
-                {Stats::CD,AType::None,buff*8 - ptr->Buff_note["Hbn Buff"]}
+                {Stats::CD,AType::TEMP,buff*8 - ptr->buffNote["Hbn Buff"]},
+                {Stats::CD,AType::None,buff*8 - ptr->buffNote["Hbn Buff"]}
             });
             ptr->setBuffNote("Hbn Buff",buff*8);
             if(ptr->Eidolon<1)return;
             buffAllAlly({
-                {Stats::RESPEN,AType::TEMP,buff*1.5 - ptr->Buff_note["Hbn E1"]},
-                {Stats::RESPEN,AType::None,buff*1.5 - ptr->Buff_note["Hbn E1"]}
+                {Stats::RESPEN,AType::TEMP,buff*1.5 - ptr->buffNote["Hbn E1"]},
+                {Stats::RESPEN,AType::None,buff*1.5 - ptr->buffNote["Hbn E1"]}
             });
             ptr->setBuffNote("Hbn E1",buff*1.5);
         }));

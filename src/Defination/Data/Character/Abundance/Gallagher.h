@@ -30,7 +30,7 @@ namespace Gallagher{
             if (ptr->Atv_stats->turnCnt % 8 == 1) {
                 Skill_func(ptr);
             } else {
-                if (ptr->Buff_check["Gallagher_enchance_basic_atk"] == 1) {
+                if (ptr->buffCheck["Gallagher_enchance_basic_atk"] == 1) {
                     Enchance_Basic_Atk(ptr);
                 } else {
                     Basic_Atk(ptr);
@@ -46,7 +46,7 @@ namespace Gallagher{
             make_shared<AllyAttackAction>(AType::Ult,Charptr,TraceType::Aoe,"Gall Ult",
                 [ptr,Charptr](shared_ptr<AllyAttackAction> &act){
                     Action_forward(ptr->Atv_stats.get(), 100);
-                    ptr->Buff_check["Gallagher_enchance_basic_atk"] = 1;
+                    ptr->buffCheck["Gallagher_enchance_basic_atk"] = 1;
                     debuffAllEnemyApply(Charptr,{{Stats::VUL,AType::Break,13.2}},"Besotted");  
                     if (ptr->Eidolon >= 4) {
                         extendDebuffAll("Besotted", 3);
@@ -102,7 +102,7 @@ namespace Gallagher{
             double temp = calculateBreakEffectForBuff(ptr,50);
             if(temp>75)temp = 75;
             buffSingle(Charptr,{{Stats::HEALING_OUT,AType::None,temp - Charptr->getBuffNote("Novel Concoction")}});
-            ptr->Buff_note["Novel Concoction"] = temp;
+            ptr->buffNote["Novel Concoction"] = temp;
             if (ptr->Technique) {
                 shared_ptr<AllyAttackAction> act = 
                 make_shared<AllyAttackAction>(AType::Technique,Charptr,TraceType::Aoe,"Gall Tech",
@@ -122,8 +122,8 @@ namespace Gallagher{
 
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_HEAL, [ptr](shared_ptr<AllyAttackAction> &act) {
             
-            if(act->isSameAction("Gallagher",AType::BA)&&act->Attacker->Buff_check["Gallagher_enchance_basic_atk"] == 1){
-                ptr->Buff_check["Gallagher_enchance_basic_atk"] = 0;
+            if(act->isSameAction("Gallagher",AType::BA)&&act->Attacker->buffCheck["Gallagher_enchance_basic_atk"] == 1){
+                ptr->buffCheck["Gallagher_enchance_basic_atk"] = 0;
                 int cnt = 0;
                 for (Enemy *e : act->targetList) {
                     if (e->getDebuff("Besotted")) {
@@ -147,8 +147,8 @@ namespace Gallagher{
 
             double temp = calculateBreakEffectForBuff( ptr,50);
             if(temp>75)temp = 75;
-            buffSingle(ptr,{{Stats::HEALING_OUT,AType::None,temp - ptr->Buff_note["Novel Concoction"]}});
-            ptr->Buff_note["Novel Concoction"] = temp;
+            buffSingle(ptr,{{Stats::HEALING_OUT,AType::None,temp - ptr->buffNote["Novel Concoction"]}});
+            ptr->buffNote["Novel Concoction"] = temp;
         }));
 
         

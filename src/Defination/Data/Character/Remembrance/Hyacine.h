@@ -201,7 +201,7 @@ namespace Hyacine{
                 buffStackSingle(Icaptr,{
                     {Stats::DMG,AType::None,80}
                 },1,3,"First Light Heals the World",2);
-                Icaptr->Buff_note["Tally RestoreHP"] += Value;
+                Icaptr->buffNote["Tally RestoreHP"] += Value;
             }
         }));
         
@@ -328,17 +328,17 @@ namespace Hyacine{
             DmgSrc(DmgSrcType::CONST,ptr->getMemosprite()->getBuffNote("Tally RestoreHP")*0.2,10)
         );
         if(ptr->Eidolon>=6)
-        ptr->getMemosprite()->Buff_note["Tally RestoreHP"] *= 0.88;
+        ptr->getMemosprite()->buffNote["Tally RestoreHP"] *= 0.88;
         else
-        ptr->getMemosprite()->Buff_note["Tally RestoreHP"] *= 0.5;
+        ptr->getMemosprite()->buffNote["Tally RestoreHP"] *= 0.5;
         act->addToActionBar();
     }
 
     void SummonIca(CharUnit *ptr){
         if(!ptr->memospriteList[0]->isDeath())return;
         ptr->memospriteList[0]->summon(100);
-        if(ptr->memospriteList[0]->Buff_check["Ica First Summon"]==0){
-            ptr->memospriteList[0]->Buff_check["Ica First Summon"]=1;
+        if(ptr->memospriteList[0]->buffCheck["Ica First Summon"]==0){
+            ptr->memospriteList[0]->buffCheck["Ica First Summon"]=1;
             Increase_energy(ptr,30);
         }
         Increase_energy(ptr,15);

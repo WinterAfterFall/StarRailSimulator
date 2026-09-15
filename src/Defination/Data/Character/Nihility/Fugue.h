@@ -160,9 +160,9 @@ namespace Fugue{
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act){
             Superbreak_trigger(act,100,"Fugue");
             for(auto &each : act->targetList){
-                if(each->Debuff["Cloudflame Luster"]==0&&each->Current_toughness*(-1)>=each->Max_toughness*0.4){
+                if(each->debuffCheck["Cloudflame Luster"]==0&&each->Current_toughness*(-1)>=each->Max_toughness*0.4){
                     Toughness_break(act,each);
-                    each->Debuff["Cloudflame Luster"]=1;
+                    each->debuffCheck["Cloudflame Luster"]=1;
                 }
             }
 
@@ -170,7 +170,7 @@ namespace Fugue{
 
         Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_ACTTACK, [ptr](Enemy *target, AllyUnit *Trigger){
             Action_forward(target->getAtvStats(),-15);
-            target->Debuff["Cloudflame Luster"]=0;
+            target->debuffCheck["Cloudflame Luster"]=0;
             buffStackAllAlly({{Stats::BE,AType::None,12}},1,2,"Fugue A6",2);
             if(ptr->Eidolon>=2)Increase_energy(ptr,3);
         }));

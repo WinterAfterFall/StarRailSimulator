@@ -46,7 +46,7 @@ namespace Jade{
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Jade Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
-                ptr->Stack["Jade_Ultimate_stack"] = 2;
+                ptr->stack["Jade_Ultimate_stack"] = 2;
                 Attack(act);
             });
             act->addDamageIns(
@@ -102,12 +102,12 @@ namespace Jade{
                 Jade_Talent(ptr, 5);
                 return;
             }
-            if (ptr->Buff_check["Jade_Skill"] == 0) return;
+            if (ptr->buffCheck["Jade_Skill"] == 0) return;
             if (act->Attacker->Atv_stats->Name != "Jade" && act->Attacker->Atv_stats->Name != chooseSubUnitBuff(ptr)->Atv_stats->Name) return;
 
             int temp = act->targetList.size();
             if (ptr->Eidolon >= 1 && temp < 3) temp = 3;
-            ptr->Stack["Jade_Talent"] += temp;
+            ptr->stack["Jade_Talent"] += temp;
             Jade_Fua(ptr);
         }));
 
@@ -160,11 +160,11 @@ namespace Jade{
 
     void Jade_Fua(CharUnit *ptr){
 
-        while(ptr->Stack["Jade_Talent"]>8){
-            ptr->Stack["Jade_Talent"]-=8;
-            if(ptr->Stack["Jade_Ultimate_stack"]>0){
+        while(ptr->stack["Jade_Talent"]>8){
+            ptr->stack["Jade_Talent"]-=8;
+            if(ptr->stack["Jade_Ultimate_stack"]>0){
                 Fua_Enchance(ptr);
-                ptr->Stack["Jade_Ultimate_stack"]--;             
+                ptr->stack["Jade_Ultimate_stack"]--;             
             }else{
                 Fua(ptr);
             }
@@ -248,7 +248,7 @@ namespace Jade{
             {{Stats::ATK_P,AType::None,0.5},
             {Stats::CD,AType::None,2.4}},
             amount,50,"Pawned_Asset");
-        if(ptr->Eidolon>=2&&ptr->Stack["Pawned_Asset"]>=15&&isHaveToAddBuff(ptr,"Jade_E2")){
+        if(ptr->Eidolon>=2&&ptr->stack["Pawned_Asset"]>=15&&isHaveToAddBuff(ptr,"Jade_E2")){
             buffSingle(ptr,{{Stats::CR,AType::None,18}});
         }
 

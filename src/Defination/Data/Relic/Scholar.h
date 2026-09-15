@@ -20,7 +20,7 @@ namespace Relic{
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
             if (act->isSameAction(ptr,AType::SKILL)) {
                 if (ptr->getBuffCheck("Scholar_buff")) {
-                    ptr->Buff_check["Scholar_buff"] = 0;
+                    ptr->buffCheck["Scholar_buff"] = 0;
                     ptr->Stats_type[Stats::DMG][AType::SKILL] -= 25;
                 }
             }

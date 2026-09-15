@@ -23,9 +23,9 @@ namespace Relic{
                 if (hitCnt > 8) {
                     hitCnt = 8;
                 }
-                act->Attacker->Stats_type[Stats::ATK_P][AType::None] -= act->Attacker->Stack["Grand_Duke"] * 6;
-                act->Attacker->Stack["Grand_Duke"] = hitCnt;
-                act->Attacker->Stats_type[Stats::ATK_P][AType::None] += act->Attacker->Stack["Grand_Duke"] * 6;
+                act->Attacker->Stats_type[Stats::ATK_P][AType::None] -= act->Attacker->stack["Grand_Duke"] * 6;
+                act->Attacker->stack["Grand_Duke"] = hitCnt;
+                act->Attacker->Stats_type[Stats::ATK_P][AType::None] += act->Attacker->stack["Grand_Duke"] * 6;
                 extendBuffTime(act->Attacker,"Grand_Duke", 3);
             }
         }));
@@ -34,8 +34,8 @@ namespace Relic{
             if (turn->Name != ptr->Atv_stats->Name) return;
 
             if (isBuffEnd(ptr,"Grand_Duke")) {
-                ptr->Stats_type[Stats::ATK_P][AType::None] -= ptr->Stack["Grand_Duke"] * 6;
-                ptr->Stack["Grand_Duke"] = 0;
+                ptr->Stats_type[Stats::ATK_P][AType::None] -= ptr->stack["Grand_Duke"] * 6;
+                ptr->stack["Grand_Duke"] = 0;
             }
         }));
         

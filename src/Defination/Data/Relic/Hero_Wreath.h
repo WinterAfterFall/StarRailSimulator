@@ -9,10 +9,10 @@ namespace Relic{
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            if (ptr->memospriteList.size() > 0 && ptr->Buff_check["Hero_Wreath"] == 0) {
+            if (ptr->memospriteList.size() > 0 && ptr->buffCheck["Hero_Wreath"] == 0) {
                 for (auto &each : ptr->memospriteList) {
                     if (!each->isDeath()) {
-                        ptr->Buff_check["Hero_Wreath"] = 1;
+                        ptr->buffCheck["Hero_Wreath"] = 1;
                         buffSingle(ptr,{{Stats::SPD_P,AType::None,6}});
                         break;
                     }

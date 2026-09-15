@@ -32,7 +32,7 @@ namespace Destruction_Lightcone{
                 if(!act->Attacker->isSameName(ptr))return;
                 if(ptr->getBuffCheck("Blade_LC_Mark")){
                     buffSingle(ptr,{{Stats::DMG,AType::None,-(20.0 + 4*superimpose)}});
-                    ptr->Buff_check["Blade_LC_Mark"] = 0;
+                    ptr->buffCheck["Blade_LC_Mark"] = 0;
                 }
             }));
         };

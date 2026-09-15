@@ -24,10 +24,10 @@ namespace Harmony_Lightcone{
                     for (auto each : act->buffTargetList) {
                         buffStackSingle(each,{{Stats::DMG,AType::None,(12.75 + (2.25)*superimpose)}},1,3,hymn,3);
                     }
-                    ++ptr->Stack["Hymn_cnt"];
-                    if (ptr->Stack["Hymn_cnt"] == 2) {
+                    ++ptr->stack["Hymn_cnt"];
+                    if (ptr->stack["Hymn_cnt"] == 2) {
                         genSkillPoint(ptr, 1);
-                        ptr->Stack["Hymn_cnt"] = 0;
+                        ptr->stack["Hymn_cnt"] = 0;
                     }
                 }
             }));

@@ -12,17 +12,17 @@ namespace Harmony_Lightcone{
             AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
                 if (act->Attacker->Atv_stats->Name == ptr->Atv_stats->Name) {
                     if (act->isSameAction(AType::SKILL)) {
-                        ptr->Buff_check["Battle_Isnt_Over_buff"] = 1;
+                        ptr->buffCheck["Battle_Isnt_Over_buff"] = 1;
                     }
                 }
             }));
             WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](CharUnit *ally){
                 if (ally->isSameOwner(ptr)) {
-                    if (ptr->Buff_check["Battle_Isnt_Over_cnt"] == 0) {
-                        ptr->Buff_check["Battle_Isnt_Over_cnt"] = true;
+                    if (ptr->buffCheck["Battle_Isnt_Over_cnt"] == 0) {
+                        ptr->buffCheck["Battle_Isnt_Over_cnt"] = true;
                         genSkillPoint(ptr, 1);
                     } else {
-                        ptr->Buff_check["Battle_Isnt_Over_cnt"] = false;
+                        ptr->buffCheck["Battle_Isnt_Over_cnt"] = false;
                     }
                 }
             }));
@@ -30,10 +30,10 @@ namespace Harmony_Lightcone{
             Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 AllyUnit *tempstats = dynamic_cast<AllyUnit *>(turn->charptr);
                 if (!tempstats) return;
-                if (ptr->Buff_check["Battle_Isnt_Over_buff"] == 1) {
+                if (ptr->buffCheck["Battle_Isnt_Over_buff"] == 1) {
                     buffSingle(tempstats,{{Stats::DMG,AType::None,25.0+5*superimpose}},"Battle_Isnt_Over_buff_check",0);
-                    ptr->Buff_check["Battle_Isnt_Over_buff"] = 0;
-                    ptr->Buff_check["Battle_Isnt_Over_buff_check"] = 1;
+                    ptr->buffCheck["Battle_Isnt_Over_buff"] = 0;
+                    ptr->buffCheck["Battle_Isnt_Over_buff_check"] = 1;
                 }
             }));
     

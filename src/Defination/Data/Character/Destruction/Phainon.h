@@ -27,11 +27,11 @@ namespace Phainon{
         //function
         #pragma region extra
         function<void(int value)> CoreFlame = [ptr,pn](int value){
-            pn->Buff_note["Core Flame"] += value;
+            pn->buffNote["Core Flame"] += value;
         };
 
         function<void(int value)> Scourge = [ptr,pn](int value){
-            pn->Buff_note["Scourge"] += value;
+            pn->buffNote["Scourge"] += value;
         };
 
         #pragma endregion
@@ -178,7 +178,7 @@ namespace Phainon{
             else if(pn->getBuffNote("Scourge")>=4)
                 Foundation();
             else Creation();
-            pn->Buff_countdown["PN Extra Turn"] -= 1;
+            pn->buffEnd["PN Extra Turn"] -= 1;
             resetTurn(turn);
         };
 
@@ -304,7 +304,7 @@ namespace Phainon{
             if(enemy&&enemy->getDebuff("Soulscorch")){
                 enemy->setDebuff("Soulscorch",0);
                 enemy->dmgPercent+=75;
-                pn->Buff_countdown["PN Counter"]--;
+                pn->buffEnd["PN Counter"]--;
             }
             
             if(!pn->getBuffCountdown("PN Counter")&&pn->getBuffCheck("Soulscorch")){
@@ -319,7 +319,7 @@ namespace Phainon{
                 DmgSrc(DmgSrcType::ATK,40,5)
             );
             act->addEnemyBounce(DmgSrc(DmgSrcType::ATK,30,10),4);
-            if(ptr->Eidolon>=4)pn->Buff_note["Soulscorch"] +=4;
+            if(ptr->Eidolon>=4)pn->buffNote["Soulscorch"] +=4;
             act->multiplyDmg(100 + pn->getBuffNote("Soulscorch") * 20);
             pn->setBuffNote("Soulscorch",0);
             pn->setBuffCheck("Soulscorch",0);
@@ -344,7 +344,7 @@ namespace Phainon{
         AfterAction_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,pn](shared_ptr<ActionData> &act) {
             EnemyActionData *enemyact =  act->castToEnemyActionData();
             if(enemyact&&pn->getBuffCheck("Soulscorch")){
-                pn->Buff_note["Soulscorch"] +=1;
+                pn->buffNote["Soulscorch"] +=1;
             }
         }));
         
@@ -354,7 +354,7 @@ namespace Phainon{
             }
             if(ptr->Eidolon>=2&&act->actionName=="PN Foundation"){
                 Action_forward(pnCD->Atv_stats.get(),1000);
-                pn->Buff_countdown["PN Extra Turn"]++;
+                pn->buffEnd["PN Extra Turn"]++;
 
             }
         }));

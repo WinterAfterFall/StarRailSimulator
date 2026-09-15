@@ -23,7 +23,7 @@ namespace RuanMei{
         
         
         ptr->Turn_func = [ptr,allyptr = ptr ]() {
-            if (allyptr->Buff_check["Mei_Skill"] == 0) {
+            if (allyptr->buffCheck["Mei_Skill"] == 0) {
                 Skill_func(ptr);
             } else {
                 Basic_Atk(ptr);
@@ -100,7 +100,7 @@ namespace RuanMei{
                 }
             }
             if(turn->side == Side::Enemy && Turn_Skip == 0){
-                if(enemyUnit[turn->num]->Debuff["RuanMei_Ult_bloom"] == 1){
+                if(enemyUnit[turn->num]->debuffCheck["RuanMei_Ult_bloom"] == 1){
                     Turn_Skip = 1;
                     debuffRemove(enemyUnit[turn->num].get(),"RuanMei_Ult_bloom");
                     Action_forward(enemyUnit[turn->num]->Atv_stats.get(), -10 -calculateBreakEffectForBuff(ptr,20));
