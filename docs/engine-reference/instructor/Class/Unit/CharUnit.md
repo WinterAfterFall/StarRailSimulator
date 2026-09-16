@@ -141,6 +141,7 @@ user อธิบาย (2026-09-15): เดิมใช้ `vector<Path>` เ�
 ## Field ที่ลบแล้ว
 
 - `Wait_Other_Buff` — user ลบแล้ว (2026-09-15); ตรวจ `CharUnit.h` แล้วไม่พบ field นี้ จึงนำออกจากรายการที่รอไล่
+- 2026-09-16: ลบ `Set_Other_buff` ทั้ง declaration, definition และคอมเมนต์เก่าที่อ้างถึง field นี้ครบแล้ว; ตรวจ syntax ของ `Application.cpp` ผ่าน
 
 ## `Eidolon`
 

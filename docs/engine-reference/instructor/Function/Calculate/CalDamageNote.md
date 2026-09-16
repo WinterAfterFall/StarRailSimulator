@@ -60,6 +60,10 @@ sim วัด "ดาเมจเฉลี่ยต่อ ATV" ถ้าใส�
 
 ### ข้อยกเว้น: Dahlia pre-break SPB
 
+สถานะ 2026-09-16: user เคยขอ revert การแก้ส่วนนี้ แล้วขอคืนโค้ดให้เหมือนก่อน revert; คืนกลับแล้วใน `Combat.h` และยังไม่ commit ตรวจ syntax ของ `Application.cpp` ผ่าน แต่ยังไม่ได้ตรวจผล simulation เต็ม
+
+ประเด็นที่ต้องการปรับคือ Super Break ตั้งต้นใช้สมุดคิดสดทั้งหมด การแก้ส่วนนี้เลือกให้กรณี Dahlia บนเป้าหมายที่ยังไม่ Break ใช้ตัวคูณ toughness เฉลี่ยตามเวลา เป็นทางเลือกการคำนวณของ simulator ไม่ใช่ข้อสรุปว่าการคิดสดผิดเสมอ
+
 `Superbreak_trigger` (`Combat.h:254-256`) เขียนทับค่าเป็นราย ๆ ไป:
 ```cpp
 data_2->toughnessAvgCalculate = (enemyUnit[i]->Toughness_status==1) ? 1 : 0;
