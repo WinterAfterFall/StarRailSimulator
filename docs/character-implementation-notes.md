@@ -119,7 +119,7 @@
 | `chooseSubUnitBuff(ptr)` | `charUnit[currentCharNum]` หรือ memosprite (`memospriteList[currentMemoNum]`) · **preset** ไม่ใช่ dynamic best-DPS · `currentCharNum`/`currentMemoNum` reset เป็น `default*` ต่อ **run** (`Stats_Reset.h:34-35`) |
 | `chooseCharacterBuff` / `chooseEnemyTarget` | เวอร์ชัน CharUnit / Enemy |
 | `genSkillPoint(ptr, n)` | `-1` ตอน skill, `+1` ตอน basic |
-| `Attack(act)` | resolve `AllyAttackAction` → ลงดาเมจ · จุดเข้าดาเมจหลัก |
+| `Attack(act)` | resolve `AllyAttackAction` → สร้างความเสียหาย · จุดเข้าดาเมจหลัก |
 | `StatsAdjust(ptr, stat)` | fire `Stats_Adjust_List` |
 | `CharCmd::printUltStart/printUltEnd` | log |
 | `allyList` | `vector<AllyUnit*>` รวม**ทั้ง character และ memosprite** |

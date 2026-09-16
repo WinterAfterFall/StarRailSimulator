@@ -46,4 +46,4 @@ void tauntIncreaseChange(double value){ tauntIncrease += value; taunt = baseTaun
 trace "taunt +X%" → เรียก `ptr->tauntIncreaseChange(X)` (`value` = X ตรง ๆ) → `taunt = baseTaunt · (1 + X/100)` · **ยังไม่มี caller** — พร้อมใช้
 > ⚠️ ถ้าเพิ่ม taunt ให้ **memosprite** ต้องเรียกใน `WhenOnField_List` (หลัง `Memosprite_reset`) ไม่ใช่ `Reset_List` — ไม่งั้น `Memosprite_reset` reset `tauntIncrease=0` / `taunt=baseTaunt` ทับ (ดู [Stats_Reset.md](../../Function/Setup/Stats_Reset.md))
 
-- ✅ `UnitGotHit` populate แล้ว (2026-09-02, `EnemyActionData.h:47,72`) — enemy single-target ลงดาเมจจริง → ดู [🐞 #11](../../BUGS.md)
+- ✅ `UnitGotHit` populate แล้ว (2026-09-02, `EnemyActionData.h:47,72`) — enemy single-target สร้างความเสียหายจริง → ดู [🐞 #11](../../BUGS.md)

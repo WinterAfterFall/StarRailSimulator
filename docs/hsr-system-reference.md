@@ -218,7 +218,7 @@ main stat และ substat เท่านั้น [S5][S9] ค่าโดย
 | Genius of Brilliant Stars | Quantum DMG +10% | ignore DEF 10% และเพิ่มอีก 10% ถ้าเป้าอ่อนแอ Quantum |
 | Scholar Lost in Erudition | CRIT Rate +8% | Skill/Ultimate DMG +20%; หลัง Ultimate เพิ่ม Skill ถัดไปอีก 25% |
 | Pioneer Diver of Dead Waters | DMG ต่อศัตรูที่ติด debuff +12% | CRIT Rate +4%; CRIT DMG +8%/12% ต่อศัตรูที่ติด 2/3 debuff (คูณสองหลังผู้ใส่ลง debuff) |
-| The Ashblazing Grand Duke | Follow-up ATK DMG +20% | ATK +6% ต่อครั้งที่ follow-up ลงดาเมจ สูงสุด 8 ชั้น |
+| The Ashblazing Grand Duke | Follow-up ATK DMG +20% | ATK +6% ต่อครั้งที่ follow-up สร้างความเสียหาย สูงสุด 8 ชั้น |
 | Hero of Triumphant Song | ATK +12% | ขณะ memosprite อยู่สนาม: SPD +6%; เมื่อ memosprite โจมตี CRIT DMG ทั้งคู่ +30% 2 เทิร์น |
 | Poet of Mourning Collapse | Quantum DMG +10% | SPD -8%; ถ้า SPD < 110/95 -> CRIT Rate +20%/32% (ผลถึง memosprite ด้วย) |
 | Watchmaker, Master of Dream Machinations | Break Effect +16% | ใช้ Ultimate กับพวก: Break Effect ทั้งทีม +30% 2 เทิร์น (ไม่ stack) |
@@ -444,7 +444,7 @@ Lv. 81–95 (สูงสุด 7494.3713) เป็นค่าเฉพาะ�
 2. เอฟเฟกต์ที่ทำงาน "เมื่อเข้าสู้" รวมถึงเอฟเฟกต์แก้ SPD/AV ทริกเกอร์จากตัวละครซ้ายไปขวา
 3. ยูนิตที่มี AV ต่ำสุดถูกเลือกเป็นผู้กระทำถัดไป
 4. ทุกยูนิตลบค่า AV ต่ำสุดนั้นออกจาก AV ของตน (แทนเวลาที่เดินไป)
-5. ยูนิตเริ่มเทิร์น DoT ทั้งหมดบนตัวมันลงดาเมจ
+5. ยูนิตเริ่มเทิร์น DoT ทั้งหมดบนตัวมันสร้างความเสียหาย
 6. ผู้เล่นกด Ultimate ก่อนกระทำได้ แต่ Ultimate ก่อนกระทำไม่สามารถ advance ตัวที่กำลังจะเล่นได้ เพราะ AV เป็น 0 อยู่แล้ว
 7. ยูนิตกระทำ แล้วรีเซ็ต AV กลับเป็น Base AV; Ultimate ที่คิวหลังกระทำสามารถ advance เทิร์นถัดไปของตัวเองได้ เพราะ AV ถูกรีเซ็ตแล้ว
 8. จบเทิร์น สถานะต่าง ๆ นับถอยหลัง แล้ววนกลับข้อ 3

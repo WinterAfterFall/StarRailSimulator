@@ -28,11 +28,11 @@ HP 882 · ATK 582 · DEF 441 · SPD 106
 
 ## Ultimate — Watch This Showstopper (AoE, 120 energy, Lv.10)
 - Fire DMG = **120% ATK** AoE
-- ถ้าเป้าหมายติด Burn → Burn ลงดาเมจทันที = **92% ของดาเมจ Burn เดิม**
+- ถ้าเป้าหมายติด Burn → Burn สร้างความเสียหายทันที = **92% ของดาเมจ Burn เดิม**
 - Energy +5 · Toughness 20
 
 ## Talent — PatrAeon Benefits (Lv.10)
-- ขณะ Guinaifen อยู่ในสนาม → 100% base chance ติด **Firekiss** ให้ศัตรูหลังจาก Burn ลงดาเมจ
+- ขณะ Guinaifen อยู่ในสนาม → 100% base chance ติด **Firekiss** ให้ศัตรูหลังจาก Burn สร้างความเสียหาย
 - Firekiss: ศัตรูรับดาเมจเพิ่ม **+7%** นาน 3 เทิร์น stack 3 ครั้ง
 - Energy +5
 
@@ -54,7 +54,7 @@ Fire DMG +22.4% · Effect HIT Rate +10% · Break Effect +24%
 - **E1**: ใช้ Skill → 100% base chance ลด Effect RES ศัตรูที่โดน **10%** นาน 2 เทิร์น
 - **E2**: ศัตรูติด Burn → Basic ATK/Skill ของ Guinaifen เพิ่ม multiplier ของ Burn **+40%**
 - **E3**: Skill Lv. +2 · Basic ATK Lv. +1
-- **E4**: ทุกครั้ง Burn ของ Guinaifen ลงดาเมจ → คืน Energy **2**
+- **E4**: ทุกครั้ง Burn ของ Guinaifen สร้างความเสียหาย → คืน Energy **2**
 - **E5**: Ultimate Lv. +2 · Talent Lv. +2
 - **E6**: Firekiss stack cap **+1** (รวม 4)
 
@@ -62,8 +62,8 @@ Fire DMG +22.4% · Effect HIT Rate +10% · Break Effect +24%
 
 ## กลไกสำคัญ (จุดที่ต้องเทียบกับโค้ด)
 - **Burn** DoT: 218.2% ATK/2t (E2 +40% multiplier ถ้าตีด้วย BA/Skill ตอน burned)
-- **Firekiss** = vulnerability debuff: +7%/stack, cap 3 (E6 4) — trigger หลัง Burn ลงดาเมจ (Talent) + Technique
-- **Ult**: บังคับ Burn ลงดาเมจทันที 92%
+- **Firekiss** = vulnerability debuff: +7%/stack, cap 3 (E6 4) — trigger หลัง Burn สร้างความเสียหาย (Talent) + Technique
+- **Ult**: บังคับ Burn สร้างความเสียหายทันที 92%
 - **A6**: DMG amp vs Burned +20% (self)
 - **E4 energy**: +2 ต่อ Burn tick
 - โค้ด: `Start_game_List` (`Guinaifen.h:100`, `gui`) — A4 advance + technique

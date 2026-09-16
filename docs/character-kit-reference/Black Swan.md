@@ -27,15 +27,15 @@ HP 1086 · ATK 659 · DEF 485 · SPD 102
 
 ## Ultimate — Bliss of Otherworld's Embrace (AoE, 120 energy, Lv.10)
 - ติด **"Epiphany"** ศัตรูทุกตัว นาน 2 เทิร์น → Wind DMG = **120% ATK** AoE
-- ขณะ Epiphany: ศัตรูรับดาเมจเพิ่ม **+25%**; ต่อ 1 stack ของ Arcana ที่ยัด → 50% fixed chance เพิ่มจำนวน stack อีก 1; Arcana ไม่ถูกหาร 2 หลังลงดาเมจต้นเทิร์น
+- ขณะ Epiphany: ศัตรูรับดาเมจเพิ่ม **+25%**; ต่อ 1 stack ของ Arcana ที่ยัด → 50% fixed chance เพิ่มจำนวน stack อีก 1; Arcana ไม่ถูกหาร 2 หลังสร้างความเสียหายต้นเทิร์น
 - Energy +5 · Toughness 20
 
 ## Talent — Loom of Fate's Caprice (Lv.10)
 - ทุกครั้งศัตรูรับ 1 instance ของ DoT → 65% base chance ติด **"Arcana" 1 stack**
 - ขณะติด Arcana: ถือว่าติด Wind Shear + Bleed + Burn + Shock พร้อมกัน
 - ต้นทุกเทิร์น: Wind DoT = **240% ATK** จากนั้น stack ถูกหาร 2; ต่อ 1 stack ของ Arcana → multiplier **+12%**
-- Arcana stack ได้ **50** (เกินได้ ส่วนเกินหายหลังลงดาเมจ)
-- ดาเมจ Arcana เพิกเฉย DEF **20%**; เมื่อ Arcana ลงดาเมจต้นเทิร์นของศัตรู → ข้างเคียงรับ Wind DoT เพิ่ม **180% ATK** 1 instance
+- Arcana stack ได้ **50** (เกินได้ ส่วนเกินหายหลังสร้างความเสียหาย)
+- ดาเมจ Arcana เพิกเฉย DEF **20%**; เมื่อ Arcana สร้างความเสียหายต้นเทิร์นของศัตรู → ข้างเคียงรับ Wind DoT เพิ่ม **180% ATK** 1 instance
 - Energy +5
 
 ## Technique — From Façade to Vérité

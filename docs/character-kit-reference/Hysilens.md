@@ -46,7 +46,7 @@ HP 1205 · ATK 601 · DEF 485 · SPD 102
 
 ## Major Traces
 - **A2 — The Gladius of Conquest**: ต้นการต่อสู้ → Hysilens กาง Zone (แบบ Ult) นาน 3 เทิร์น. ทุกครั้งที่กาง Zone → คืน Skill Point **1**
-- **A4 — The Bubble of Banquets**: ใช้ Ult ถ้าเป้าหมายติด DoT → DoT ทั้งหมดบนเป้าหมายลงดาเมจทันที = **150% ของดาเมจเดิม**
+- **A4 — The Bubble of Banquets**: ใช้ Ult ถ้าเป้าหมายติด DoT → DoT ทั้งหมดบนเป้าหมายสร้างความเสียหายทันที = **150% ของดาเมจเดิม**
 - **A6 — The Fiddle of Pearls**: ทุก 10% ของ Effect Hit Rate ที่เกิน **60%** → Hysilens +DMG **+15%** สูงสุด **+90%**
 
 ## Minor Traces (รวมทั้งหมด)

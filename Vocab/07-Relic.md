@@ -18,7 +18,7 @@
 | **Hunter of Glacial Forest** | Ice DMG +10% | หลังใช้ Ult → **CD +25% 2 เทิร์น** | |
 | **Band of Sizzling Thunder** | Lightning DMG +10% | ใช้ Skill → ATK +20% 1 เทิร์น | |
 | **Eagle of Twilight Line** | Wind DMG +10% | หลังใช้ Ult → **advance 25%** | `Eagle_Beaked_Helmet.h` ✅ |
-| **Genius of Brilliant Stars** | Quantum DMG +10% | ลงดาเมจ → ignore DEF 10%; ถ้าเป้าอ่อนแอ Quantum ignore เพิ่มอีก 10% | `GeniusBrilliant.h` ✅ |
+| **Genius of Brilliant Stars** | Quantum DMG +10% | สร้างความเสียหาย → ignore DEF 10%; ถ้าเป้าอ่อนแอ Quantum ignore เพิ่มอีก 10% | `GeniusBrilliant.h` ✅ |
 | **Wastelander of Banditry Desert** | Imaginary DMG +10% | ตีศัตรูติด debuff → CR +10%; ต่อศัตรูที่ **Imprisoned** → CD +20% | |
 | **Poet of Mourning Collapse** | Quantum DMG +10% | **SPD −8%**; ก่อนเข้าสู้ ถ้า SPD <110 / <95 → CR +20% / +32% (ผลถึง memosprite ด้วย) | `Poet_Dill.h` ✅ |
 
@@ -53,7 +53,7 @@
 | เซ็ต | 2-Piece | 4-Piece | โค้ด |
 |---|---|---|---|
 | **Scholar Lost in Erudition** | CRIT Rate +8% | **Skill/Ult DMG +20%**; หลังใช้ Ult เพิ่ม Skill ครั้งถัดไปอีก 25% | `Scholar.h` ✅ |
-| **The Ashblazing Grand Duke** | **FuA DMG +20%** | ทุกครั้งที่ FuA ลงดาเมจ → ATK +6% ซ้อนสูงสุด 8 ชั้น | `Grand_Duke.h` ✅ |
+| **The Ashblazing Grand Duke** | **FuA DMG +20%** | ทุกครั้งที่ FuA สร้างความเสียหาย → ATK +6% ซ้อนสูงสุด 8 ชั้น | `Grand_Duke.h` ✅ |
 | **The Wind-Soaring Valorous** | ATK +12% | CR +6%; หลังใช้ FuA → **Ult DMG +30%** 1 เทิร์น | |
 | **Wavestrider Captain** | CRIT DMG +16% | เป็นเป้าของ ability พวก → "Help" 1 ชั้น max 2; ใช้ Ult ตอนมี 2 ชั้น → กินทิ้งแล้ว **ATK +48%** 1 เทิร์น | `Wavestrider Captain.h` ✅ |
 | **As Navigator Isee Sees It** | ATK +12% | เข้าสู้หรือใช้ Skill → **Skill และ Ult DMG +18%** ซ้อน 3 ชั้น | |

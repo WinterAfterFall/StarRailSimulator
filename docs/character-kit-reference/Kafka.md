@@ -22,12 +22,12 @@ HP 1086 · ATK 679 · DEF 485 · SPD 100
 
 ## Skill — Caressing Moonlight (Blast, Lv.10)
 - Lightning DMG หลัก = **160% ATK**, ข้างเคียง = **60% ATK**
-- ถ้าเป้าหมาย/ข้างเคียงติด DoT → DoT ทั้งหมดลงดาเมจทันที = **75% (หลัก) / 50% (ข้างเคียง)** ของดาเมจเดิม
+- ถ้าเป้าหมาย/ข้างเคียงติด DoT → DoT ทั้งหมดสร้างความเสียหายทันที = **75% (หลัก) / 50% (ข้างเคียง)** ของดาเมจเดิม
 - Energy +30 · Toughness 20 (+10)
 
 ## Ultimate — Twilight Trill (AoE, 120 energy, Lv.10)
 - Lightning DMG = **80% ATK** AoE
-- 100% base chance ศัตรูติด **Shocked** + DoT ปัจจุบันลงดาเมจทันที = **120%** ของดาเมจเดิม
+- 100% base chance ศัตรูติด **Shocked** + DoT ปัจจุบันสร้างความเสียหายทันที = **120%** ของดาเมจเดิม
 - Shock: Lightning DoT = **290% ATK** ต้นทุกเทิร์น นาน 2 เทิร์น
 - Energy +5 · Toughness 20
 
@@ -45,7 +45,7 @@ HP 1086 · ATK 679 · DEF 485 · SPD 100
 ## Major Traces
 - **A2 — Torture**: ถ้าเพื่อนมี Effect Hit Rate ≥ 75% → Kafka เพิ่ม ATK ให้เพื่อนคนนั้น **+100%**
 - **A4 — Plunder**: ถ้าศัตรูตายขณะ Shocked → Kafka คืน Energy **5**
-- **A6 — Thorns**: หลังใช้ Ult → Talent Follow-up ATK trigger ได้ 1 ครั้ง + Follow-up ATK นั้นทำให้ DoT ทั้งหมดบนเป้าลงดาเมจทันที = **80%** ของดาเมจเดิม
+- **A6 — Thorns**: หลังใช้ Ult → Talent Follow-up ATK trigger ได้ 1 ครั้ง + Follow-up ATK นั้นทำให้ DoT ทั้งหมดบนเป้าสร้างความเสียหายทันที = **80%** ของดาเมจเดิม
 
 ## Minor Traces (รวมทั้งหมด)
 ATK +28% · Effect HIT Rate +18% · HP +10%

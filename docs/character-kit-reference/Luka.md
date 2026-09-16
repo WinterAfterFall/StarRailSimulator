@@ -40,7 +40,7 @@ HP 917 · ATK 582 · DEF 485 · SPD 103
 ## Talent — Flying Sparks (Lv.10)
 - หลังใช้ Direct Punch หรือ Lacerating Fist → Fighting Will **+1** (สูงสุด 4)
 - มี Fighting Will ≥ 2 → Direct Punch enhanced เป็น "Sky-Shatter Fist"
-- หลัง Rising Uppercut ของ Enhanced BA โดนศัตรู Bleeding → Bleed ลงดาเมจทันที 1 ครั้ง = **85% ของดาเมจเดิม**
+- หลัง Rising Uppercut ของ Enhanced BA โดนศัตรู Bleeding → Bleed สร้างความเสียหายทันที 1 ครั้ง = **85% ของดาเมจเดิม**
 - ต้นการต่อสู้ → มี Fighting Will 1 stack
 
 ## Technique — Anticipator
@@ -63,7 +63,7 @@ ATK +28% · Effect HIT Rate +18% · DEF +12.5%
 - **E3**: Skill Lv. +2 · Talent Lv. +2
 - **E4**: ทุก Fighting Will ที่ได้ → ATK **+5%** stack 4 ครั้ง
 - **E5**: Ultimate Lv. +2 · Basic ATK Lv. +1
-- **E6**: หลัง Rising Uppercut โดนศัตรู Bleeding → Bleed ลงดาเมจทันที = **8% ของดาเมจเดิม ต่อ hit ของ Direct Punch ที่ปล่อยไปแล้วใน Enhanced BA ครั้งนั้น**
+- **E6**: หลัง Rising Uppercut โดนศัตรู Bleeding → Bleed สร้างความเสียหายทันที = **8% ของดาเมจเดิม ต่อ hit ของ Direct Punch ที่ปล่อยไปแล้วใน Enhanced BA ครั้งนั้น**
 
 ---
 
