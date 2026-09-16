@@ -46,22 +46,24 @@
 - `88768ad` — commit เปลี่ยนชื่อ field ในโค้ด 51 ไฟล์; ตรวจ snapshot ที่ commit ด้วย `g++ -std=c++17 -fsyntax-only Application.cpp` ผ่าน
 - user ลบ `Wait_Other_Buff` จาก CharUnit และ declaration ของ `Set_Other_buff`; จากนั้นลบตัวฟังก์ชันและคอมเมนต์เก่าที่เหลือใน `CharCmd.h` ตามคำขอแล้ว
 - หลังลบ ตรวจไม่พบ `Wait_Other_Buff` / `Set_Other_buff` ใน `src` และตรวจ syntax ของ `Application.cpp` ผ่าน (ไม่ได้รัน simulation ใน session นี้)
-- การลบดังกล่าวในไฟล์โค้ดทั้ง 3 ไฟล์ยังไม่ได้ commit ณ ตอนบันทึกนี้
-- การแก้ Dahlia ใน `Function/Combat/Combat.h` **คืนกลับแล้วหลังจากเคย revert ตามคำขอ user**: สถานะล่าสุดมีคอมเมนต์ 2 บรรทัดและการกำหนด `toughnessAvgCalculate` กลับเหมือนก่อน revert; ยังไม่ commit และมีเอกสารอื่นค้างใน working tree ด้วย
+- การลบดังกล่าวในไฟล์โค้ดทั้ง 3 ไฟล์ commit แล้วที่ `000a3ef`
+- 2026-09-16: **commit และ push ของค้างทั้งหมดแล้ว** (`e45232a..678923f`) working tree สะอาด แยกเป็น 4 commit: `000a3ef` ลบ `Set_Other_buff` · `e65743d` Dahlia SPB → สมุดเฉลี่ย · `ca7fde7` เปลี่ยนคำว่า "ลงดาเมจ" เป็น "สร้างความเสียหาย" ทั่วเอกสาร · `678923f` บันทึกทัวร์ `Enemy.h` · `test/break_status_regression.cpp` ไม่เข้า git เพราะ `test/` อยู่ใน `.gitignore`
 
 ### Dahlia — ปัญหา วิธีแก้ และสถานะล่าสุด
 
-- ประเด็นที่ต้องการปรับ: Super Break ตั้งต้นใช้สมุดคิดสด แต่ Dahlia ทำ Super Break บนศัตรูที่ยังไม่ Break ได้ จึงเคยปรับกรณีนี้ให้ใช้ตัวคูณ toughness เฉลี่ยตามเวลา นี่เป็นการเลือกวิธีคำนวณของ simulator ไม่ใช่ข้อสรุปว่าการคิดสดผิดเสมอ
-- วิธีแก้: ใน `Superbreak_trigger()` เลือกวิธีคำนวณแยกตามเป้าหมาย ก่อนเรียกคำนวณ Super Break: ยังไม่ Break ใช้สมุดเฉลี่ย ส่วน Break แล้วใช้สมุดคิดสด
-- ไฟล์โค้ดที่แก้: `src/Defination/Function/Combat/Combat.h` ไม่ใช่ `Dahlia.h`
-- สิ่งที่เพิ่ม: คอมเมนต์ 2 บรรทัดและ `data_2->toughnessAvgCalculate = (enemyUnit[i]->Toughness_status==1) ? 1 : 0;`
-- user ขอ revert แล้วเปลี่ยนคำขอให้คืนโค้ดกลับก่อน revert; ทำตามคำขอล่าสุดแล้ว และตรวจ diff ยืนยันว่าเป็น 3 บรรทัดเดิม
-- ตรวจ `g++ -std=c++17 -fsyntax-only Application.cpp` หลังคืนโค้ดผ่าน; ยังไม่ได้รัน simulation เต็มหรือยืนยันผลเชิงตัวเลขของการเลือกสมุดเฉลี่ยสำหรับ Dahlia
+- ประเด็นที่ต้องการปรับ: Super Break ตั้งต้นใช้สมุดคิดสด แต่ Dahlia ทำ Super Break บนศัตรูที่ยังไม่ Break ได้ จึงปรับให้ใช้ตัวคูณ toughness เฉลี่ยตามเวลา นี่เป็นการเลือกวิธีคำนวณของ simulator ไม่ใช่ข้อสรุปว่าการคิดสดผิดเสมอ
+- วิธีแก้ที่ลงจริง: ใน `Superbreak_trigger()` ตั้ง `toughnessAvgCalculate` ก่อนเรียกคำนวณ Super Break โดยดูจาก `DahliaCheck` — มี Dahlia ในทีมใช้สมุดเฉลี่ย ไม่มีใช้สมุดคิดสด (ไม่ได้แยกตามสถานะ Break ของเป้าแต่ละตัว ดูข้อเตือนด้านล่าง)
+- ไฟล์โค้ดที่แก้มี **2 ไฟล์** ไม่ใช่ไฟล์เดียว:
+    - `src/Defination/Function/Combat/Combat.h:254-256` เพิ่มคอมเมนต์ 2 บรรทัดและ `data_2->toughnessAvgCalculate = DahliaCheck ? 1 : 0;`
+    - `src/Defination/Data/Character/Nihility/Dahlia.h:193` ลบการตั้ง `DahliaCheck = 0` / `DahliaCheck = 1` ที่คร่อม `Superbreak_trigger(act,200,"Dahlia")` ของ FuA ออก
+- ⚠️ **เงื่อนไขคือ `DahliaCheck` ไม่ใช่ `Toughness_status` ของเป้า** — `DahliaCheck` เป็น global (`Setting.h:22`) ที่ตั้ง `1` ครั้งเดียวตอน build ตัว Dahlia (`Dahlia.h:20`) และไม่เคยเคลียร์ จึงแปลว่า "ทีมนี้มี Dahlia" ผลคือทีมที่มี Dahlia จะส่ง SPB **ทั้งหมด** เข้าสมุดเฉลี่ย รวมเป้าที่ broken ไปแล้ว ถ้าอยากแยกรายเป้าจริง ๆ ต้องอ่าน `enemyUnit[i]->Toughness_status` เพิ่ม
+- user ขอ revert แล้วเปลี่ยนคำขอให้คืนโค้ดกลับก่อน revert; ทำตามคำขอล่าสุดแล้ว
+- ตรวจ `g++ -std=c++17 -fsyntax-only Application.cpp` ผ่าน; **ยังไม่ได้รัน simulation เต็ม** หรือยืนยันผลเชิงตัวเลขของการเลือกสมุดเฉลี่ยสำหรับ Dahlia
 - รายละเอียดกลไกดู [CalDamageNote.md](Function/Calculate/CalDamageNote.md)
 
 ### เริ่มครั้งหน้าตรงนี้
 
-1. จุดพักล่าสุด: อธิบายงาน Dahlia และคืนโค้ดก่อน revert แล้ว ยังไม่ commit; หากกลับมาทัวร์ `Enemy.h` ต่อ ให้เริ่มที่ค่าที่ส่งกลับของ `addBreakSEList` ซึ่งอธิบายและทดสอบแล้ว (`true` = เพิ่มใหม่, `false` = อัปเดตเดิม) แต่ user ยังไม่ได้ยืนยันเจตนาของค่าที่ส่งกลับโดยตรง
+1. จุดพักล่าสุด: งาน Dahlia commit แล้วที่ `e65743d` เหลือแค่ยังไม่ได้รัน simulation ยืนยันผลเชิงตัวเลข; หากกลับมาทัวร์ `Enemy.h` ต่อ ให้เริ่มที่ค่าที่ส่งกลับของ `addBreakSEList` ซึ่งอธิบายและทดสอบแล้ว (`true` = เพิ่มใหม่, `false` = อัปเดตเดิม) แต่ user ยังไม่ได้ยืนยันเจตนาของค่าที่ส่งกลับโดยตรง
 2. จากนั้นไล่ fields หลัง `addBreakSEList` (weakness/resistance และเวลา Break) และ methods ที่ยังไม่ได้สำรวจ; รายละเอียดการอ่านค่า `Enemy::hitCount` ยังไม่ได้ไล่ครบ
 3. จบ `Enemy.h` แล้วค่อยไป `StatsSet.h`
 4. เก็บงานค้าง: เปลี่ยน `path` เป็น Path เดียว (ยังไม่ทำ), รายละเอียดสูตร/การทำงานใน CharUnit ที่เอกสารระบุว่ายังไม่ได้ไล่ และงานปรับปรุงเดิม
@@ -118,7 +120,7 @@
 - **2026-09-15 (ต่อ 2)** — user อธิบาย `SpeedRequire` เป็นเป้าหมาย SPD รวม และ `ExtraSpeed` เก็บ SPD ที่ยังขาดหลังคำนึงถึง base SPD, SPD ที่มี และบัฟ เพื่อใช้ในรอบ reroll ถัดไป · บันทึกใน [CharUnit.md](Class/Unit/CharUnit.md) · ยังไม่ได้ยืนยันคู่ requirement stats อื่น
 - **2026-09-15 (ต่อ)** — user ยืนยันว่า `Body` / `Boot` / `Orb` / `Rope` กำหนด main stat แต่ละช่องและคงไว้ระหว่าง reroll substats · บันทึกใน [CharUnit.md](Class/Unit/CharUnit.md) · ถัดไป requirement stats
 - **2026-09-15** — ทัวร์ `CharUnit.h` ต่อ: user อธิบาย `summonList` (โดนตีไม่ได้ ใช้ stats เจ้าของคำนวณดาเมจ), `countdownList` (กำหนดเวลาเริ่ม/จบบัฟ) และ `memospriteList` (เอกสิทธิ์ของ Remembrance ที่อัญเชิญ memosprite ได้ เป็นยูนิตแยก โดนตีได้ มี stats ของตัวเอง) · บันทึกใน [CharUnit.md](Class/Unit/CharUnit.md) · ยังไม่ได้ไล่รายละเอียดการทำงานของแต่ละ list ครบ
-- ~~รัน sim จริง~~ ✅ user รันผ่านแล้ว (2026-09-13) · push แล้ว `31c9a49..e8de52b` · **Dahlia (`Combat.h`) ยังไม่ commit — user จะอ่านวันหลัง**
+- ~~รัน sim จริง~~ ✅ user รันผ่านแล้ว (2026-09-13) · push แล้ว `31c9a49..e8de52b` · ~~**Dahlia (`Combat.h`) ยังไม่ commit**~~ ✅ commit แล้ว 2026-09-16 (`e65743d`) แต่ยังไม่ได้รัน sim ยืนยันผล
 - ~~E2~~ ✅ ตอบแล้ว (2026-09-13): จำนวน roll รวม user กำหนดเอง ปกติ **25** — ตัวละครทุกตัวเรียก `setTotalSubstats(25)` (ค่าเริ่มต้นใน `CharUnit.h` แก้จาก 20 เป็น 25 แล้ว) · `currentTotalSubstats` ไม่มีใครอ่าน → **ลบแล้ว**
 - หัวข้อ field ที่ค้างของ `CharUnit.h` อธิบายแล้ววันที่ 2026-09-15; รายละเอียดบางส่วนยังค้างตามที่ระบุในไฟล์
 - กำลังสำรวจ `Enemy.h` → จากนั้น `StatsSet.h`

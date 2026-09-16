@@ -60,14 +60,20 @@ sim วัด "ดาเมจเฉลี่ยต่อ ATV" ถ้าใส�
 
 ### ข้อยกเว้น: Dahlia pre-break SPB
 
-สถานะ 2026-09-16: user เคยขอ revert การแก้ส่วนนี้ แล้วขอคืนโค้ดให้เหมือนก่อน revert; คืนกลับแล้วใน `Combat.h` และยังไม่ commit ตรวจ syntax ของ `Application.cpp` ผ่าน แต่ยังไม่ได้ตรวจผล simulation เต็ม
+สถานะ 2026-09-16: commit แล้วที่ `e65743d` ตรวจ syntax ของ `Application.cpp` ผ่าน แต่ยังไม่ได้ตรวจผล simulation เต็ม
 
-ประเด็นที่ต้องการปรับคือ Super Break ตั้งต้นใช้สมุดคิดสดทั้งหมด การแก้ส่วนนี้เลือกให้กรณี Dahlia บนเป้าหมายที่ยังไม่ Break ใช้ตัวคูณ toughness เฉลี่ยตามเวลา เป็นทางเลือกการคำนวณของ simulator ไม่ใช่ข้อสรุปว่าการคิดสดผิดเสมอ
+ประเด็นที่ต้องการปรับคือ Super Break ตั้งต้นใช้สมุดคิดสดทั้งหมด การแก้ส่วนนี้เลือกให้ Super Break ในทีมที่มี Dahlia ใช้ตัวคูณ toughness เฉลี่ยตามเวลา เป็นทางเลือกการคำนวณของ simulator ไม่ใช่ข้อสรุปว่าการคิดสดผิดเสมอ
 
-`Superbreak_trigger` (`Combat.h:254-256`) เขียนทับค่าเป็นราย ๆ ไป:
+`Superbreak_trigger` (`Combat.h:254-256`) เขียนทับค่าก่อนคำนวณแต่ละเป้า:
 ```cpp
-data_2->toughnessAvgCalculate = (enemyUnit[i]->Toughness_status==1) ? 1 : 0;
+// SPB ปกติเกิดบนเป้าที่ broken แล้ว (Broken mult ล็อค 1.0) → เก็บ real-time ไม่เฉลี่ย
+// SPB ผ่าน Dahlia บนเป้าที่ยังไม่ broken → Broken mult ไม่แน่นอน → เก็บใน pool ที่เฉลี่ย toughness/weaken
+data_2->toughnessAvgCalculate = DahliaCheck ? 1 : 0;
 ```
-(`Toughness_status == 1` = **ยัง**ไม่ broken · `== 0` = broken แล้ว)
 
-SPB ปกติยิงบนเป้าที่ broken แล้ว → `0` → คิดสด · แต่ SPB ผ่าน Dahlia ยิงบนเป้าที่**ยังไม่** broken → Broken mult ไม่แน่นอน → `1` → เข้าเล่มเฉลี่ย
+⚠️ **เงื่อนไขคือ `DahliaCheck` ไม่ใช่ `Toughness_status` ของเป้า** — `DahliaCheck` เป็น global (`Setting.h:22`) ที่ตั้ง `1` ครั้งเดียวตอน build ตัว Dahlia (`Dahlia.h:20`) และไม่เคยถูกเคลียร์ จึงมีความหมายว่า "ทีมนี้มี Dahlia" ไม่ใช่ "เป้านี้ยังไม่ broken"
+
+ผลที่ตามมา:
+- ทีม**ไม่มี** Dahlia → `0` ทุกกรณี → SPB ทั้งหมดลงสมุดคิดสดเหมือนเดิม
+- ทีม**มี** Dahlia → `1` ทุกกรณี → SPB ทั้งหมดลงสมุดเฉลี่ย **รวมถึง SPB บนเป้าที่ broken ไปแล้ว** ซึ่งตัวคูณล็อค 1.0 อยู่แล้ว จุดนี้เป็นการประมาณแบบหยาบ ถ้าต้องการแยกรายเป้าจริง ๆ ต้องอ่าน `enemyUnit[i]->Toughness_status` เพิ่ม
+- `DahliaCheck` ยังคุมอีก 2 จุดในฟังก์ชันเดียวกัน: `Combat.h:250` (ไม่ข้ามเป้าที่ยังไม่ broken) และ `Combat.h:258` (ใช้ toughness ที่ลดจริงแทนการ clamp ที่ toughness ที่เหลือ)

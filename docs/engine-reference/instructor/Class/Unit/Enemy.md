@@ -7,7 +7,7 @@ user เปลี่ยนชื่อ field จาก `Debuff` เป็น `de
 - `debuffCheck` (`unordered_map<string,int>`) — ใช้เช็กว่า debuff ตามชื่อนั้นยังอยู่หรือไม่ (user ยืนยัน)
 - `stack` (`unordered_map<string,int>`) — เก็บจำนวนสแต็กแยกตามชื่อ (user ยืนยัน 2026-09-15)
 - `debuffEnd` — เก็บเลขเทิร์นหมดอายุตามชื่อ debuff: `extendDebuff` ตั้งเป็น `turnCnt + Turn_extend`; `isDebuffEnd` ตรวจเลขเทิร์นตรงกันและเป็นเทิร์นของศัตรูตัวนั้น (ตรวจ `Debuff_Stats.h` 2026-09-15)
-- ยังไม่ได้ยืนยันความหมายของค่า `int` แต่ละค่าของ `debuffCheck`
+- ค่า `int` ของ `debuffCheck` ใช้เป็น flag `0`/`1` เท่านั้น (ตรวจทุกจุดที่เรียก `setDebuff` ใน `src/` 2026-09-16 — ไม่มีที่ไหนเขียนค่าอื่น) จำนวนสแต็กอยู่ใน `stack` แยกต่างหาก
 
 ### `Total_debuff` — จำนวนสถานะ debuff
 
@@ -118,9 +118,70 @@ user ยืนยัน (2026-09-16): คนเดิมทำ Break ซ้ำ�
 - เมื่อพบรายการเดิม อัปเดต `countdown` เป็นค่าใหม่
 - สำหรับกลุ่ม DoT บวก `input.stack` เพิ่มให้รายการเดิมด้วย
 
-ยังไม่ได้ยืนยันความหมายของค่าที่ส่งกลับ และยังไม่ได้ตรวจความถูกต้องของทุกเส้นทางใน method
+**ค่าที่ส่งกลับ** (ตรวจโค้ด 2026-09-16): `true` = เพิ่งเพิ่มรายการใหม่ · `false` = มีรายการของคนทำ Break คนนี้อยู่แล้ว จึงแค่ต่ออายุให้
+
+มีผู้เรียกที่ใช้ค่านี้จริงอยู่จุดเดียวคือแขนง Imaginary ใน `Break_trigger` (`Function/Combat/Combat.h:372`):
+
+```cpp
+if(target->addBreakSEList(BreakSideEffect(BreakSEType::Imprisonment,data_2->Attacker,target->Atv_stats->turnCnt + 1)))
+target->speedBuff({Stats::SPD_P,AType::None,-10});
+```
+
+คือลด SPD 10% **เฉพาะตอน Imprisonment เป็นของใหม่** ถ้าเป็นการ Break ซ้ำโดยคนเดิมที่แค่ต่ออายุจะไม่ลดซ้ำ ซึ่งจำเป็นเพราะบัฟในเอนจินนี้เป็นค่าบวก/ลบดิบ ถ้าลดซ้ำทุกครั้งแต่คืนค่าครั้งเดียวตอนหมดอายุ (`Function/Event/Event.h:69` `debuffSingle(target,{{Stats::SPD_P,AType::None,10}})`) SPD ของศัตรูจะไหลลงเรื่อย ๆ
+
+อีก 6 จุดที่เรียก (`Combat.h:342,347,352,357,362,367` — Bleed/Burn/Freeze/Shock/Wind Shear/Entanglement) ทิ้งค่าที่ส่งกลับไป เพราะไม่มีผลข้างเคียงที่ต้องแปะครั้งแรกครั้งเดียว
+
+ยังไม่ได้ตรวจความถูกต้องของทุกเส้นทางใน method
 
 แก้บั๊กตามคำขอ user (2026-09-16): ย้าย `breakDotList.push_back` และการเพิ่มตัวนับ DoT เข้าแขนง DoT เพื่อไม่ให้ Freeze / Imprisonment / Entanglement ที่เพิ่มใหม่ถูกใส่ในรายการ DoT และเพิ่ม `DotCount` ด้วย โดยยังคงคืน `true` เมื่อเพิ่มใหม่ และ `false` เมื่ออัปเดตรายการเดิม
+
+## กลุ่ม Weakness — ธาตุที่ศัตรูอ่อนแอ
+
+ตรวจโค้ด 2026-09-16 (ยังไม่ได้ให้ user ยืนยันเจตนา)
+
+| field | ชนิด | หน้าที่ |
+|---|---|---|
+| `Default_Weakness_type` | `map<ElementType,bool>` | ธาตุอ่อนแอ **ติดตัว** ของศัตรู ตั้งครั้งเดียวตอนสร้าง ไม่เปลี่ยนระหว่าง run |
+| `Weakness_type` | `map<ElementType,bool>` | ธาตุอ่อนแอ **ปัจจุบัน** = ของติดตัว + ที่ตัวละครยัดเพิ่มเข้าไป |
+| `Weakness_typeCountdown` | `map<ElementType,int>` | เลขเทิร์นของศัตรูที่ธาตุอ่อนแอ *ที่ถูกยัดเพิ่ม* จะหมดอายุ (convention เดียวกับ `debuffEnd`) |
+| `DefaultElementRes` | `map<ElementType,double>` | ค่า RES ตั้งต้นแยกตามธาตุ |
+| `defaultWeaknessElementAmount` | `int` | จำนวนธาตุอ่อนแอติดตัว นับตอนสร้าง |
+| `currentWeaknessElementAmount` | `int` | จำนวนธาตุอ่อนแอปัจจุบัน |
+
+### เส้นทางการทำงาน
+
+**ตอนสร้างศัตรู** — `SetupEnemy` (`Function/Setup/SetEnemy.h:58-71`) คัดลอก `Enemy_weak` ลงทั้ง `Weakness_type` และ `Default_Weakness_type` พร้อมนับจำนวนที่เป็น `1` เก็บใน `defaultWeaknessElementAmount` แล้วคัดลอก `Enemy_res` ลง `DefaultElementRes`
+
+**ตอนยัดธาตุอ่อนแอเพิ่ม** — `weaknessApply` (`Function/Combat/Debuff_Stats.h:103,122`): ถ้าธาตุนั้นยังไม่อ่อนแอ จะตั้ง `Weakness_type = 1` และ `currentWeaknessElementAmount++` จากนั้นตั้ง `Weakness_typeCountdown[ธาตุ]` เป็น `turnCnt + extend` โดย**เลือกค่าที่มากกว่า**ของเดิมกับของใหม่ (ต่ออายุได้ แต่ไม่ตัดอายุให้สั้นลง)
+
+`chooseWeakness` (`Debuff_Stats.h:78-101`) เป็นตัวเลือกว่าจะยัดธาตุไหน โดยข้ามธาตุที่อ่อนแออยู่แล้ว แล้วเรียงลำดับความสำคัญตาม Path ของตัวละครในทีม (Harmony > Abundance > Preservation > Nihility > ที่เหลือ) ถ้าไม่มีธาตุไหนให้เลือกเลยจะย้อนไปเลือกจากธาตุที่กำลังจะหมดอายุก่อน
+
+**ตอนหมดอายุ** — `allEventAfterTurn` (`Function/Event/Event.h:72-77`) วน `Weakness_typeCountdown` ทุกธาตุ ถ้าเลขตรงกับ `turnCnt` ของเทิร์นนี้ **และ** `Default_Weakness_type` ของธาตุนั้นเป็น `0` จะคืน `Weakness_type = 0` และ `currentWeaknessElementAmount--`
+
+> เงื่อนไข `Default_Weakness_type == 0` คือสิ่งที่กันไม่ให้ธาตุอ่อนแอติดตัวหลุดหายไปตอนธาตุที่ยัดเพิ่มหมดอายุ
+
+**ตอนรีเซ็ตต่อ run** — `Stats_Reset.h:150-152,181-191` คืน `Weakness_type` กลับเป็น `Default_Weakness_type`, ตั้ง `Weakness_typeCountdown` ทุกช่องเป็น `0`, ตั้ง `currentWeaknessElementAmount = defaultWeaknessElementAmount` และเขียน `DefaultElementRes` กลับเข้า `Stats_each_element[RESPEN]` เป็นค่าติดลบทั้ง 7 ธาตุ
+
+ตรวจแล้วว่า `Weakness_typeCountdown` ที่ถูกรีเซ็ตเป็น `0` ไม่ทำให้เกิดการหมดอายุผิดพลาด เพราะ `turnCnt` ถูก `++` ตั้งแต่ต้นเทิร์น (`Function/Combat/Combat.h:11`) ก่อนที่ `allEventAfterTurn` จะรัน ค่าที่ตรวจจึงเริ่มที่ `1` เสมอ ไม่มีวันตรงกับ `0`
+
+### ใครอ่านค่าเหล่านี้
+
+- `Cal_Toughness_reduction` (`Function/Calculate/CalDamage.h:185-186`) — ถ้าธาตุที่ตีไม่ตรงกับ `Weakness_type` และ toughness ยังไม่หมด จะไม่ลด toughness เลย ยกเว้นแอ็กชันที่ตั้ง `Dont_care_weakness` ไว้ ซึ่งจะลดได้ตามสัดส่วนเปอร์เซ็นต์ที่ระบุ
+- `currentWeaknessElementAmount` — Anaxa A6 (`Data/Character/Erudition/Anaxa.h:59,61,174,200,202,251,253`) ใช้คูณ 4 เป็นปริมาณ debuff และเช็กเงื่อนไข `>= 5`
+- `Default_Weakness_type` — Silver Wolf (`Data/Character/Nihility/Silver Wolf.h:52`) ใช้ข้ามธาตุที่ศัตรูอ่อนแอติดตัวอยู่แล้ว
+
+## เวลาที่ศัตรูอยู่ในสถานะ Break
+
+ตรวจโค้ด 2026-09-16 (ยังไม่ได้ให้ user ยืนยันเจตนา)
+
+- `when_toughness_broken` — `Current_atv` ณ ตอนที่ศัตรู Break ล่าสุด ตั้งค่าใน `Cal_Toughness_reduction` (`Function/Calculate/CalDamage.h:199`)
+- `Total_toughness_broken_time` — เวลา ATV **สะสม** ที่ศัตรูตัวนี้อยู่ในสถานะ Break ตลอด run
+
+ตอนเทิร์นของศัตรูเริ่มและพบว่า `Toughness_status == 0` (`Function/Setup/SetEnemy.h:42-46`) จะฟื้นจาก Break คือคืน `Toughness_status = 1`, เติม `Current_toughness` เต็ม แล้วบวก `Current_atv - when_toughness_broken` เข้า `Total_toughness_broken_time`
+
+สองตัวนี้คือวัตถุดิบของ `toughnessAvgMultiplier` — `CalDamageNote.h:65,67` เฉลี่ยตัวคูณ `1.0` (ช่วง Break) กับ `0.9` (ช่วงยังไม่ Break) ถ่วงตามสัดส่วนเวลาใน `Total_atv` โดยบรรทัด 65 ใช้ตอนศัตรูยัง Break ค้างอยู่ จึงบวกช่วงที่ยังไม่ปิด (`Total_atv - when_toughness_broken`) เข้าไปด้วย ส่วนบรรทัด 67 ใช้ตอนไม่ได้ Break อยู่
+
+รีเซ็ตทั้งคู่เป็น `0` ที่ `Function/Setup/SetCombat.h:132-133` และ `Function/Setup/Stats_Reset.h:168-169`
 
 ## ตัวนับ DoT
 
