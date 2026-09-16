@@ -124,7 +124,6 @@ public:
     
     
     bool Print =1;
-    bool Wait_Other_Buff = 0;
     function<void(CharUnit *ptr)> Body;
     function<void(CharUnit *ptr)> Boot;
     function<void(CharUnit *ptr)> Orb;

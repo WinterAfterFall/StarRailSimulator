@@ -39,13 +39,6 @@ namespace CharCmd{
     bool Using_Skill(CharUnit *ptr){
         if(spMode==SPMode::Positive)return true;
         if(sp>Sp_Safety)return true;
-        // if(Robin_num!=0){
-        //     if(Ally_unit[Robin_num ]->Atv_stats->Base_speed==-1)return true;
-        //     if(!Ally_unit[Robin_num]->Wait_Other_Buff)return false;   
-        // }
         return false;
-    }
-    void Set_Other_buff(CharUnit *ptr,bool Bool){
-        ptr->Wait_Other_Buff=Bool;
     }
 }
