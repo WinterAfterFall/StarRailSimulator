@@ -12,13 +12,13 @@ namespace Castorice{
     void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
 
         CharUnit *ptr = SetCharBasicStats(95,0,0,E,ElementType::Quantum,Path::Remembrance,"Castorice",UnitType::Standard);
-        SetMemoStats(ptr,34000,0,165,0,ElementType::Quantum,"Netherwing",UnitType::Backup);
-        AllyUnit *Casptr = ptr;
-        AllyUnit *Polluxptr = ptr->getMemosprite();
+        ptr->SetAllyBaseStats(1630,524,485);
         LC(ptr);
         Relic(ptr);
         Planar(ptr);
-        ptr->SetAllyBaseStats(1630,524,485);
+        SetMemoStats(ptr,34000,0,165,0,ElementType::Quantum,"Netherwing",UnitType::Backup);
+        AllyUnit *Casptr = ptr;
+        AllyUnit *Polluxptr = ptr->getMemosprite();
 
         //substats
         ptr->pushSubstats(Stats::CD);
