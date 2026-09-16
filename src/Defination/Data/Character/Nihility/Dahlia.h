@@ -191,9 +191,7 @@ namespace Dahlia{
             else if(act->isSameName(chooseCharacterBuff(ptr))||act->isSameName(ptr)) Superbreak_trigger(act,60,"Dahlia");
 
             if(act->isSameAction(ptr,AType::Fua)){
-                DahliaCheck = 0;
                 Superbreak_trigger(act,200,"Dahlia");
-                DahliaCheck = 1;
             }
             if(act->isSameName(chooseCharacterBuff(ptr))){
                 Fua();

@@ -251,6 +251,9 @@ void Superbreak_trigger(shared_ptr<AllyAttackAction> &act, double Superbreak_rat
         double toughness_reduce = enemyUnit[i]->toughnessReduceNote;
         enemyUnit[i]->toughnessReduceNote = 0;
         if(toughness_reduce==0)continue;
+        // SPB ปกติเกิดบนเป้าที่ broken แล้ว (Broken mult ล็อค 1.0) → เก็บ real-time ไม่เฉลี่ย
+        // SPB ผ่าน Dahlia บนเป้าที่ยังไม่ broken → Broken mult ไม่แน่นอน → เก็บใน pool ที่เฉลี่ย toughness/weaken
+        data_2->toughnessAvgCalculate = DahliaCheck ? 1 : 0;
         toughness_reduce = Cal_Total_Toughness_Reduce(act,enemyUnit[i].get(),toughness_reduce);
         if(enemyUnit[i]->Current_toughness+toughness_reduce<=0||DahliaCheck){
         Cal_Superbreak_damage(data_2,enemyUnit[i].get(),Superbreak_ratio*toughness_reduce/10);
