@@ -10,7 +10,7 @@ namespace Nihility_Lightcone{
             }));
             
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,Erode](shared_ptr<AllyAttackAction> &act) {
-                if(act->isSameCharName(ptr)){
+                if(act->isSameOwnerName(ptr)){
                     buffStackSingle(ptr,{{Stats::SPD_P,AType::None,4.0 + 0.8*superimpose}},1,3,"Kafka LC");
                     for(auto &each : act->targetList ){
                         if(!each->getDebuff(Erode))dotSingleApply(ptr,each,{DotType::Shock},Erode,1);

@@ -36,6 +36,11 @@
 
 - `addBreakSEList`: user ยืนยันว่าคนเดิมทำ Break ซ้ำให้อัปเดตสถานะเดิม ส่วนคนละคนเก็บแยกกัน; ตรวจชื่อผ่าน `isSameName`, อัปเดต `countdown` และกลุ่ม DoT บวกสแต็กเพิ่ม
 
+- **`Enemy.h` จบแล้ว (2026-09-16)** — ปิดของค้างจากโค้ดโดยไม่ต้องถาม: ค่าที่ `addBreakSEList` ส่งกลับ (ผู้ใช้จริงคือ Imprisonment ลด SPD เฉพาะตอนเพิ่มใหม่ `Combat.h:372`), `debuffCheck` เป็น flag `0`/`1` เท่านั้น, กลุ่ม Weakness (`Default_Weakness_type` / `Weakness_type` / `Weakness_typeCountdown` / `DefaultElementRes` / จำนวนธาตุอ่อนแอ) และคู่เวลา Break (`when_toughness_broken` / `Total_toughness_broken_time`) ดู [Enemy.md](Class/Unit/Enemy.md) · ที่เหลือใน `Enemy.h` เป็น constructor, getter/setter และ method ที่ประกาศไว้ (ตัวจริงอยู่ `EnemyCombat.h` ไล่แล้วตอนทัวร์ taunt)
+- **`StatsSet.h` จบแล้ว (2026-09-16)** — `SetAllyBaseStats` ใช้ `+=` เพราะตัวละครกับ LC เรียกคนละครั้ง · กฎ `SetMemoStats` ต้องเรียกหลัง base + LC + Relic + Planar เพราะถ่ายค่าฐานของเจ้าของครั้งเดียว · ตาราง factory 4 ตัว (ลิสต์ที่ใส่, `side`, `num` ร่วมกับเจ้าของ, `owner`) ดู [StatsSet.md](Class/Unit/StatsSet.md)
+- **`MemoSprite.h` จบแล้ว (2026-09-16)** — 4 field = HP/SPD ส่วนคงที่ (`fixHP` / `fixSpeed`) + ส่วนอิงเจ้าของ (`Unit_Hp_Ratio` / `Unit_Speed_Ratio`) ดู [MemoSprite.md](Class/Unit/MemoSprite.md) · **โฟลเดอร์ `Class/Unit` ครบทุกไฟล์แล้ว** (รายละเอียดสูตร/method บางส่วนของ CharUnit ยังค้างตามที่ระบุใน CharUnit.md)
+- **เริ่ม `Class/ActionData` (2026-09-16)** — อ่าน `ActionData.h` / `AllyActionData.h` แล้ว; user ยืนยัน `Attacker` / `source`, `Turn_reset`, `traceType` และการตรวจชื่อผู้โจมตีแล้ว (ดูหัวข้อเริ่มครั้งหน้า)
+
 ### งานที่ทำและสถานะ Git
 
 - 2026-09-16: แก้ `Enemy::addBreakSEList` ตามคำขอ user ให้เพิ่มรายการและตัวนับ DoT เฉพาะแขนง DoT; Freeze / Imprisonment / Entanglement ไม่ไหลไปเพิ่ม DoT อีก **commit แล้ว: `26a7da1` — `fix: exclude non-DoT break effects from DoT counters`** (commit นี้มีเฉพาะ `Enemy.h`)
@@ -47,6 +52,8 @@
 - user ลบ `Wait_Other_Buff` จาก CharUnit และ declaration ของ `Set_Other_buff`; จากนั้นลบตัวฟังก์ชันและคอมเมนต์เก่าที่เหลือใน `CharCmd.h` ตามคำขอแล้ว
 - หลังลบ ตรวจไม่พบ `Wait_Other_Buff` / `Set_Other_buff` ใน `src` และตรวจ syntax ของ `Application.cpp` ผ่าน (ไม่ได้รัน simulation ใน session นี้)
 - การลบดังกล่าวในไฟล์โค้ดทั้ง 3 ไฟล์ commit แล้วที่ `000a3ef`
+- 2026-09-16 (รอบสอง): push แล้ว `678923f..a417361` — `55713b9` แก้ลำดับ setup ของ Castorice ([🐞 #19](BUGS.md)) · `a417361` เอกสาร Enemy.h ช่วงท้าย + แก้บันทึก Dahlia ให้ตรงโค้ด · `g++ -std=c++17 -fsyntax-only Application.cpp` ผ่าน ยังไม่ได้รัน sim
+- **ยังไม่ commit (รอ user อ่าน):** `StatsSet.md`, `MemoSprite.md`, `BUGS.md` (#19)
 - 2026-09-16: **commit และ push ของค้างทั้งหมดแล้ว** (`e45232a..678923f`) working tree สะอาด แยกเป็น 4 commit: `000a3ef` ลบ `Set_Other_buff` · `e65743d` Dahlia SPB → สมุดเฉลี่ย · `ca7fde7` เปลี่ยนคำว่า "ลงดาเมจ" เป็น "สร้างความเสียหาย" ทั่วเอกสาร · `678923f` บันทึกทัวร์ `Enemy.h` · `test/break_status_regression.cpp` ไม่เข้า git เพราะ `test/` อยู่ใน `.gitignore`
 
 ### Dahlia — ปัญหา วิธีแก้ และสถานะล่าสุด
@@ -63,10 +70,10 @@
 
 ### เริ่มครั้งหน้าตรงนี้
 
-1. จุดพักล่าสุด: งาน Dahlia commit แล้วที่ `e65743d` เหลือแค่ยังไม่ได้รัน simulation ยืนยันผลเชิงตัวเลข; หากกลับมาทัวร์ `Enemy.h` ต่อ ให้เริ่มที่ค่าที่ส่งกลับของ `addBreakSEList` ซึ่งอธิบายและทดสอบแล้ว (`true` = เพิ่มใหม่, `false` = อัปเดตเดิม) แต่ user ยังไม่ได้ยืนยันเจตนาของค่าที่ส่งกลับโดยตรง
-2. จากนั้นไล่ fields หลัง `addBreakSEList` (weakness/resistance และเวลา Break) และ methods ที่ยังไม่ได้สำรวจ; รายละเอียดการอ่านค่า `Enemy::hitCount` ยังไม่ได้ไล่ครบ
-3. จบ `Enemy.h` แล้วค่อยไป `StatsSet.h`
-4. เก็บงานค้าง: เปลี่ยน `path` เป็น Path เดียว (ยังไม่ทำ), รายละเอียดสูตร/การทำงานใน CharUnit ที่เอกสารระบุว่ายังไม่ได้ไล่ และงานปรับปรุงเดิม
+1. **`Attacker` กับ `source` ยืนยันแล้ว (2026-09-16)** — `Attacker` คือผู้ทำแอ็กชัน ส่วน `source` เป็นเจ้าของค่าพลังฐานสเกล ATK/HP/DEF; CR/CD, DMG%, การลด DEF และ RES PEN ยังอิง `Attacker` ตัวอย่าง Netherwing ใช้ HP ของ Castorice แต่ใช้ค่าคริติคอลและ stats อื่นของตัวเอง ดู [AllyActionData.md](Class/ActionData/AllyActionData.md) · `Turn_reset` ยืนยันแล้ว: บ่งบอกว่าหลังจบแอ็กชันจะรีเซ็ตเทิร์นหรือไม่ · `traceType` ยืนยันแล้ว: รูปแบบเป้าหมาย Single / Blast / Aoe / Bounce · `isSameName` / `isSameOwnerName` ยืนยันแล้ว: ตรวจยูนิตโดยตรง / รวมยูนิตของตัวละครนั้น · ถัดไป `isSameAction` / `isSameCharAction`
+2. ไล่ `Class/ActionData` ต่อ: `AllyActionData.h` ที่เหลือ → `AllyAttackAction.h` (443 บรรทัด — มี `toughnessAvgCalculate`, `damageSplit`, `Dont_care_weakness`, `setupActionType`) → `AllyBuffAction.h` → `ActionDataDefine.h` · กฎ `actionTypeList` / `damageTypeList` ยืนยันไว้แล้ว 6 ข้อ อย่าถามซ้ำ
+3. จากนั้น `Class/CombatData` (`DamageData.h`, `HealData.h`) และ `Class/Trigger`
+4. เก็บงานค้าง: เปลี่ยน `path` / `Element_type` เป็นค่าเดี่ยว (ยังไม่ทำ), รายละเอียดสูตร CharUnit ที่ยังไม่ได้ไล่, Dahlia SPB บนเป้าที่ broken แล้วยังลงสมุดเฉลี่ย (user: ช่างมัน), ยังไม่ได้รัน sim ยืนยันผล Dahlia / Castorice
 
 ## ประวัติการสำรวจ
 
@@ -97,6 +104,8 @@
 **2026-09-13 (ต่อ 5)** — เพิ่ม **[CharUnit.md](Class/Unit/CharUnit.md)** (Build: `Func_class` 4 ช่อง) · ลบเงื่อนไขอัลติของ Tribbie ทั้งก้อน (DDD 2 บรรทัด + เช็ค Eagle ผิดช่องที่ไม่มีวันจริง) · ลบเช็ค DDD ของ Hanabi / HanabiV1 (ใส่ DDD แล้วไม่มีวันกดอัลติ) · แก้ชื่อ planar `Rutilant` / `Inert` · user: เก็บช่อง `Name` / `Print_Func` ไว้ก่อน
 
 **2026-09-13 (ต่อ 6)** — ย้าย `docs/engine-reference/unit.md` ทั้งไฟล์มาเป็น `instructor/` ที่ mirror โครง `src/Defination/` (README ทุกโฟลเดอร์ + `.md` ทุกไฟล์โค้ด · ไฟล์ที่ยังไม่มีข้อมูลปล่อยว่าง) · บั๊กย้ายไป [BUGS.md](BUGS.md) · บันทึกนี้ย้ายมาเป็น LOG.md · ปรับสถานะ [🐞 #7](BUGS.md) เป็น ✅ (โค้ดแก้ไปตั้งแต่ `8690113` แต่รายการเดิมลืมอัปเดต)
+
+**2026-09-16** — ปิด `Enemy.h` · `StatsSet.h` · `MemoSprite.h` (โฟลเดอร์ `Class/Unit` ครบ) · แก้ `addBreakSEList` นับ DoT ผิด (`26a7da1`) · ลบ `Set_Other_buff` (`000a3ef`) · commit งาน Dahlia (`e65743d`) และแก้เอกสารให้ตรงโค้ดจริง (`DahliaCheck` ไม่ใช่ `Toughness_status`) · sweep คำว่า "สร้างความเสียหาย" (`ca7fde7`) · [🐞 #19](BUGS.md) Castorice สร้าง Netherwing ก่อนค่าฐาน (`55713b9`) · เริ่ม `Class/ActionData` · **user ย้ำ: อ่าน md ที่มีก่อนถาม อย่าถามซ้ำสิ่งที่บันทึกไว้แล้ว**
 
 **บันทึกย่อยวันที่ 2026-09-15 (จุดต่อปัจจุบันให้ดูสรุป session ด้านบน):**
 - **2026-09-15 (ต่อ 20)** — ตรวจชื่อ field ใหม่ใน `Enemy.h` / `AllyUnit.h` และปรับเอกสารอ้างอิง: `DebuffNote` → `debuffNote`, `Debuff_time_count` → `debuffEnd`, `Stack` → `stack`, `Buff_note` → `buffNote`, `Buff_countdown` → `buffEnd`, `Buff_check` → `buffCheck` · `debuffCheck`, `buffSubUnitTarget`, `buffAllyTarget` ตรงกับโค้ดแล้ว · ชื่อ accessor เดิมยังคงอยู่ · เก็บชื่อเก่าในบันทึกย้อนหลังไว้ตามเหตุการณ์ · ตรวจกลไก `debuffEnd` จาก `Debuff_Stats.h` แล้ว

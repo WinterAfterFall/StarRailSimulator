@@ -13,7 +13,7 @@ namespace Nihility_Lightcone{
             BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,isDot,Unarmored,Cornered](shared_ptr<AllyAttackAction> &act) {
                 if((act->isSameAction(AType::BA)||
                     act->isSameAction(AType::SKILL)||
-                    act->isSameAction(AType::Ult))&&act->isSameCharName(ptr)){
+                    act->isSameAction(AType::Ult))&&act->isSameOwnerName(ptr)){
                         for(auto &each : act->targetList){
                             if(isDot) debuffSingleApply(ptr,each,{{Stats::VUL,AType::None,20.0 + superimpose*4}},Cornered,2);
                             else debuffSingleApply(ptr,each,{{Stats::VUL,AType::None,8.0 + superimpose*2}},Unarmored,2);

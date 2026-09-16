@@ -16,7 +16,7 @@ bool AllyActionData::isSameName(AllyUnit *ptr){
     return false;
 }
 
-bool AllyActionData::isSameCharName(CharUnit *ptr){
+bool AllyActionData::isSameOwnerName(CharUnit *ptr){
     AllyAttackAction * attackAct = dynamic_cast<AllyAttackAction*>(this);
     if(attackAct){
         for(auto &each : attackAct->AttackSetList){

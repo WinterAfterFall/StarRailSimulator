@@ -9,7 +9,7 @@ namespace Destruction_Lightcone{
             }));
 
             BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK,[ptr,superimpose](shared_ptr<AllyAttackAction> &act){
-                if(!act->isSameCharName(ptr))return;
+                if(!act->isSameOwnerName(ptr))return;
                 if(act->isSameAction(AType::BA)){
                     double value = calStack(ptr,1,2,"Danheng LC").first;
                     buffSingle(ptr,{{Stats::ATK_P,AType::None,value*(15 + (3*superimpose))}});

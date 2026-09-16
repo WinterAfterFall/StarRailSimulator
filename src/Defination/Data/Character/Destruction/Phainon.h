@@ -349,7 +349,7 @@ namespace Phainon{
         }));
         
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD](shared_ptr<AllyAttackAction> &act) {
-            if(act->isSameCharName(pn)&&pnCD->status==UnitStatus::Alive){
+            if(act->isSameOwnerName(pn)&&pnCD->status==UnitStatus::Alive){
                 pn->RestoreHP(pn,HealSrc(HealSrcType::TOTAL_HP,20));
             }
             if(ptr->Eidolon>=2&&act->actionName=="PN Foundation"){

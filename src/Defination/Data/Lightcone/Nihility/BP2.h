@@ -10,7 +10,7 @@ namespace Nihility_Lightcone{
             }));
             
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                if(act->isSameCharName(ptr)){
+                if(act->isSameOwnerName(ptr)){
                     debuffEnemyTargetsApply(ptr,act->targetList,{{Stats::VUL,AType::None,8.5+1.5*superimpose}},"Holiday Vul",2);
                 }
             }));
