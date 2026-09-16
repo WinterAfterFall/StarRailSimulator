@@ -131,17 +131,17 @@ public:
                     ++itr;
                 }
             }
-        }
-        breakDotList.push_back(input);
-        DotCount++;
-        if(input.type == BreakSEType::Burn){
-            BurnCount++;
-        } else if(input.type == BreakSEType::Shock){
-            ShockCount++;
-        } else if(input.type == BreakSEType::WindShear){
-            WindSheerCount++;
-        } else if(input.type == BreakSEType::Bleed){
-            BleedCount++;
+            breakDotList.push_back(input);
+            DotCount++;
+            if(input.type == BreakSEType::Burn){
+                BurnCount++;
+            } else if(input.type == BreakSEType::Shock){
+                ShockCount++;
+            } else if(input.type == BreakSEType::WindShear){
+                WindSheerCount++;
+            } else if(input.type == BreakSEType::Bleed){
+                BleedCount++;
+            }
         }
         return true;
     }
