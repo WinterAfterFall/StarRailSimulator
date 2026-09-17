@@ -8,54 +8,6 @@ class AllyBuffAction : public AllyActionData {
     function<void(shared_ptr<AllyBuffAction> &act)> actionFunction;
 
 
-    #pragma region checkMethod
-
-    bool isSameBufferName(AllyUnit *ptr){
-        if(this->Attacker->isSameName(ptr))return true;
-        return false;
-    }
-    bool isSameBufferOwnerName(CharUnit *ptr){
-        if(ptr->isSameOwner(this->Attacker))return true;
-        return false;
-    }
-    bool isSameBufferName(string name){
-        if(this->Attacker->isSameName(name))return true;
-        return false;
-    }
-    bool isSameBuff(AType ability){
-        for(auto &each : actionTypeList){
-            if(each == ability)return true;
-        }  
-        return false;    
-    }
-    bool isSameBuff(AllyUnit *ptr,AType ability){
-        if(this->Attacker->isSameName(ptr)){
-            for(auto &each : actionTypeList){
-                if(each == ability)return true;
-            }
-        }
-        return false;    
-    }
-    bool isSameOwnerBuff(CharUnit *ptr,AType ability){
-        if(ptr->isSameOwner(this->Attacker)){
-            for(auto &each : actionTypeList){
-                if(each == ability)return true;
-            }
-        }        
-        return false;    
-    }
-    bool isSameBuff(string name,AType ability){
-        if(this->Attacker->isSameName(name)){
-            for(auto &each : actionTypeList){
-                if(each == ability)return true;
-            }
-        }        
-        return false;    
-    }
-
-
-    #pragma endregion
-
     private :
     void setupActionType(AType actionType){
         switch(actionType) {

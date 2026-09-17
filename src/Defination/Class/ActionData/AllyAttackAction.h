@@ -185,7 +185,7 @@ class  AllyAttackAction : public AllyActionData {
     bool isSameDamageType(AType ability);
     bool isSameDamageType(AllyUnit *ptr,AType ability);
     bool isSameDamageType(string name,AType ability);
-    bool isSameCharDamageType(CharUnit *ptr,AType ability);
+    bool isSameOwnerDamageType(CharUnit *ptr,AType ability);
 
 
 
