@@ -46,4 +46,4 @@ User ยืนยัน 2026-09-16: ใช้อ้างอิงกลับ�
 ## จุดต่อการสำรวจ
 
 - `isSameAction` / `isSameOwnerAction`: ถามไปแล้ว; user เตือนไม่ให้ถามซ้ำ
-- หัวข้อถัดไป: `AttackSetList` / `switchAttacker` ใน `AllyAttackAction.h`
+- `AttackSetList` / `switchAttacker` สำรวจแล้ว ดู [AllyAttackAction.md](AllyAttackAction.md); จุดต่อปัจจุบันดู [LOG.md](../../LOG.md)

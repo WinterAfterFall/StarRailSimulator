@@ -1,6 +1,16 @@
 # LOG — บันทึกการไล่โค้ด
 
-## สรุป session ล่าสุด — 2026-09-16
+## สรุป session ล่าสุด — 2026-09-17
+
+### สรุปรอบล่าสุดและจุดพัก
+
+- สำรวจ `AllyActionData`, `AllyAttackAction`, `AllyBuffAction` และโครงสร้าง `Damage` / `DmgSrc` แล้วตามรายละเอียดในไฟล์คู่มือแต่ละคลาส ยังไม่เหมารวมว่าครบทุก method
+- ข้อชี้แจงสำคัญ: `addDamageIns` เพิ่มรอบโจมตี ส่วน `addDamageHit` เพิ่ม hit ในรอบล่าสุด โค้ดเดิมถูกต้องแล้ว
+- รวมเมธอดตรวจ attack/buff ไว้ใน `AllyActionData`; attack ตรวจทุกคนใน `AttackSetList`, buff ตรวจ `Attacker` โดยตรง ใช้ชื่อ `isSameOwnerName`, `isSameOwnerAction` และ `isSameOwnerDamageType`
+- การตรวจ owner ด้วยชื่อ `string` เป็นเพียงแนวคิดที่อาจ implement ภายหลัง ดู [future-improvements.md](../future-improvements.md) ไม่ใช่งานที่อนุมัติให้ทำตอนนี้
+- Commit และ push ขึ้น `main` แล้ว: `7bb5dea` ตั้งชื่อ owner ฝั่ง buff (ก่อนรวม), `2ca1abd` รวมเมธอดตรวจ, `5165273` เอกสารการสำรวจและงานค้าง ตรวจ `g++ -std=c++17 -fsyntax-only Application.cpp` และ `git diff --check` ผ่าน ยังไม่ได้รัน simulation เต็ม
+- หลัง push working tree สะอาด; การอัปเดตบันทึกครั้งนี้เกิดหลัง `5165273`
+- อ่านเอกสารก่อนถาม และถามเฉพาะเรื่องที่ยังไม่อธิบาย ห้ามถามซ้ำเพียงเพราะเปลี่ยนชื่อเมธอด
 
 ### จุดที่สำรวจถึง
 
@@ -53,7 +63,7 @@
 - หลังลบ ตรวจไม่พบ `Wait_Other_Buff` / `Set_Other_buff` ใน `src` และตรวจ syntax ของ `Application.cpp` ผ่าน (ไม่ได้รัน simulation ใน session นี้)
 - การลบดังกล่าวในไฟล์โค้ดทั้ง 3 ไฟล์ commit แล้วที่ `000a3ef`
 - 2026-09-16 (รอบสอง): push แล้ว `678923f..a417361` — `55713b9` แก้ลำดับ setup ของ Castorice ([🐞 #19](BUGS.md)) · `a417361` เอกสาร Enemy.h ช่วงท้าย + แก้บันทึก Dahlia ให้ตรงโค้ด · `g++ -std=c++17 -fsyntax-only Application.cpp` ผ่าน ยังไม่ได้รัน sim
-- **ยังไม่ commit (รอ user อ่าน):** `StatsSet.md`, `MemoSprite.md`, `BUGS.md` (#19)
+- เอกสารค้าง `StatsSet.md`, `MemoSprite.md`, `BUGS.md` (#19) รวม commit และ push แล้วใน `5165273` (2026-09-17)
 - 2026-09-16: **commit และ push ของค้างทั้งหมดแล้ว** (`e45232a..678923f`) working tree สะอาด แยกเป็น 4 commit: `000a3ef` ลบ `Set_Other_buff` · `e65743d` Dahlia SPB → สมุดเฉลี่ย · `ca7fde7` เปลี่ยนคำว่า "ลงดาเมจ" เป็น "สร้างความเสียหาย" ทั่วเอกสาร · `678923f` บันทึกทัวร์ `Enemy.h` · `test/break_status_regression.cpp` ไม่เข้า git เพราะ `test/` อยู่ใน `.gitignore`
 
 ### Dahlia — ปัญหา วิธีแก้ และสถานะล่าสุด
@@ -71,8 +81,8 @@
 ### เริ่มครั้งหน้าตรงนี้
 
 1. **`Attacker` กับ `source` ยืนยันแล้ว (2026-09-16)** — `Attacker` คือผู้ทำแอ็กชัน ส่วน `source` เป็นเจ้าของค่าพลังฐานสเกล ATK/HP/DEF; CR/CD, DMG%, การลด DEF และ RES PEN ยังอิง `Attacker` ตัวอย่าง Netherwing ใช้ HP ของ Castorice แต่ใช้ค่าคริติคอลและ stats อื่นของตัวเอง ดู [AllyActionData.md](Class/ActionData/AllyActionData.md) · `Turn_reset` ยืนยันแล้ว: บ่งบอกว่าหลังจบแอ็กชันจะรีเซ็ตเทิร์นหรือไม่ · `traceType` ยืนยันแล้ว: รูปแบบเป้าหมาย Single / Blast / Aoe / Bounce · `isSameName` / `isSameOwnerName` ยืนยันแล้ว: ตรวจยูนิตโดยตรง / รวมยูนิตของตัวละครนั้น · `isSameAction` / `isSameOwnerAction` ถามแล้ว ห้ามถามซ้ำ · `getChar()` ยืนยันแล้ว: คืนตัวละครเจ้าของเมื่อผู้โจมตีเป็น memosprite หรือคืนตัวละครผู้โจมตีเอง · `AttackSetList` / `switchAttacker` ยืนยันแล้ว 2026-09-17: ผู้ร่วมโจมตีและจังหวะสลับภายในแอ็กชันเดียว ดู [AllyAttackAction.md](Class/ActionData/AllyAttackAction.md) · `damageSplit` ยืนยันแล้ว 2026-09-17: ชั้นนอกแบ่งจังหวะโจมตี ชั้นในเก็บดาเมจต่อเป้าหมายในจังหวะนั้น · `Damage` ยืนยันแล้ว 2026-09-17: จับคู่เป้าหมายกับสเกลดาเมจ ค่าคงที่ และค่าลด toughness · หน่วย `DmgSrc` ยืนยันแล้ว 2026-09-17: สเกลเป็นเปอร์เซ็นต์, constDmg เป็นค่าคงที่, toughnessReduce เป็นหน่วย toughness · `critAble` / `critGarantee` ยืนยันแล้ว 2026-09-17: เปิด/ปิดการติดคริ และตัวบังคับคริที่ยังไม่ได้ใช้งาน · `targetList` ยืนยันแล้ว 2026-09-17: รายชื่อเป้าหมายไม่ซ้ำของแอ็กชัน · `Damage_element` ยืนยันแล้ว 2026-09-17: ธาตุดาเมจเริ่มจากผู้โจมตีและเปลี่ยนได้ · `actionFunction` อธิบายแล้ว 2026-09-17: รายละเอียดแอ็กชันมีมาก จึงใช้ callback เพื่อ custom ได้ง่าย · `addDamage` ยืนยันแล้ว 2026-09-17: เพิ่มค่าที่ระบุให้ทุกรายการใน damageSplit · `addDamageIns` / `addDamageHit` ยืนยันแล้ว 2026-09-17: เพิ่มรอบโจมตี / เพิ่ม hit ในรอบนั้น โค้ดถูกต้องแล้ว ไม่ต้องแก้ · `multiplyDmg` ยืนยันแล้ว: คูณ ATK/HP/DEF/constDmg ด้วย value/100 ไม่เปลี่ยน toughnessReduce/Elation · ท่า Bounce ยืนยันแล้ว: วนเป้าหมายแทนการสุ่ม, bestBounce เลือกเป้าหลัก, FairBounce กระจายทั่วกลุ่ม · `setJoint()` ยืนยันแล้ว: เตรียมโจมตีร่วมกับ memosprite และติดประเภท Summon · `addDamageInsByDebuff` ยืนยันแล้ว: เลือกศัตรูที่ยังไม่มีดีบัฟเพื่อกระจายให้ครบก่อน แล้วกลับไปเป้าหลัก · `AllyBuffAction` ยืนยันแล้ว: buffTargetList เก็บเป้าหมายฝ่ายเรา, actionFunction กำหนดผลต่อเป้าหมาย · `addBuffChar` / `addBuffAllAllies` ยืนยันแล้ว: รวม memosprite และเว้น OutofBounds · `addBuffSingleTarget(ptr)` ยืนยันแล้ว: ผู้เรียกตรวจความเหมาะสมเอง ไม่กรอง OutofBounds · รวมเมธอดตรวจ buff ให้ใช้ AllyActionData แล้ว; เมธอด owner ใช้ isSameOwnerAction / isSameOwnerDamageType
-2. ไล่ `Class/ActionData` ต่อ: `AllyActionData.h` ที่เหลือ → `AllyAttackAction.h` (443 บรรทัด — มี `toughnessAvgCalculate`, `damageSplit`, `Dont_care_weakness`, `setupActionType`) → `AllyBuffAction.h` → `ActionDataDefine.h` · กฎ `actionTypeList` / `damageTypeList` ยืนยันไว้แล้ว 6 ข้อ อย่าถามซ้ำ
-3. จากนั้น `Class/CombatData` (`DamageData.h`, `HealData.h`) และ `Class/Trigger`
+2. ครั้งหน้า: ตรวจส่วนที่ยังไม่ได้บันทึกของ `Class/ActionData` เทียบคู่มือเดิมก่อน โดยเฉพาะ constructors, helpers และการเข้าคิว; เรื่อง toughnessAvgCalculate, damageNote, Dont_care_weakness และ Aha มีข้อมูลในคู่มือ Function/Unit อยู่แล้ว ให้อ้างอิงก่อนถาม · กฎ actionTypeList / damageTypeList ยืนยันแล้ว 6 ข้อ ห้ามถามซ้ำ
+3. จากนั้นไล่ส่วนที่เหลือของ `Class/CombatData`: `Damage` / `DmgSrc` และหน่วยอธิบายแล้ว ไม่ต้องเริ่มใหม่; ต่อ `HealData.h` แล้ว `Class/Trigger`
 4. เก็บงานค้าง: เปลี่ยน `path` / `Element_type` เป็นค่าเดี่ยว (ยังไม่ทำ), รายละเอียดสูตร CharUnit ที่ยังไม่ได้ไล่, Dahlia SPB บนเป้าที่ broken แล้วยังลงสมุดเฉลี่ย (user: ช่างมัน), ยังไม่ได้รัน sim ยืนยันผล Dahlia / Castorice
 
 ## ประวัติการสำรวจ
