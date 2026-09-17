@@ -75,7 +75,7 @@ class Damage{
     {}
 
     Damage(double ATK, double HP, double DEF, double constDmg,double Elation, double toughnessReduce,Enemy* target)
-        : dmgSrc(ATK, HP, DEF, constDmg,Elation, toughnessReduce), target(nullptr) 
+        : dmgSrc(ATK, HP, DEF, constDmg,Elation, toughnessReduce), target(target)
     {}
 };
 
