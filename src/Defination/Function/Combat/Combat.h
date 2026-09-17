@@ -11,7 +11,7 @@ void Take_action(){
         ++(turn->turnCnt);
         allEventBeforeTurn();
     }
-    allUltimateCheck();
+    if(turn->canCastToAllyUnit())allUltimateCheck();
     Print();
     if(Turn_Skip==0){
         
@@ -21,10 +21,6 @@ void Take_action(){
     }
     
     phaseStatus = PhaseStatus::AfterTurn;
-    
-    
-    allUltimateCheck();
-    
     if(!turn->extraTurn)allEventAfterTurn();
 
 }
