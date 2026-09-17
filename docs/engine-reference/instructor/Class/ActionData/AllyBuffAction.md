@@ -21,11 +21,11 @@ User ยืนยัน 2026-09-17: แบบระบุเป้าหมา�
 
 ## เมธอดตรวจผู้ให้บัฟ
 
-2026-09-17: user ขอให้เมธอดที่ตรวจ owner มีคำว่า `Owner` ในชื่อ จึงแยกชื่อให้ชัดเจนแทนการใช้ overload ตามชนิด pointer:
+2026-09-17: user อนุมัติให้ใช้เมธอดร่วมจาก `AllyActionData` และลบเมธอดตรวจที่ซ้ำใน `AllyBuffAction`:
 
-- `isSameBufferOwnerName(CharUnit*)` ตรวจผู้ให้บัฟรวมยูนิตของเจ้าของ ผ่าน `isSameOwner`
-- `isSameOwnerBuff(CharUnit*, AType)` ตรวจ owner พร้อมประเภทแอ็กชัน
-- `isSameBufferName(AllyUnit*)` / `isSameBufferName(string)` ตรวจยูนิตผู้ให้บัฟตรงตัว
-- `isSameBuff(AllyUnit*, AType)` / `isSameBuff(string, AType)` ตรวจยูนิตตรงตัวพร้อมประเภทแอ็กชัน ส่วน `isSameBuff(AType)` ตรวจเฉพาะประเภท
+- `isSameOwnerName(CharUnit*)` ตรวจผู้ให้บัฟรวมยูนิตของเจ้าของ ผ่าน `isSameOwner`
+- `isSameOwnerAction(CharUnit*, AType)` ตรวจ owner พร้อมประเภทแอ็กชัน
+- `isSameName(AllyUnit*)` / `isSameName(string)` ตรวจยูนิตผู้ให้บัฟตรงตัว
+- `isSameAction(AllyUnit*, AType)` / `isSameAction(string, AType)` ตรวจยูนิตตรงตัวพร้อมประเภทแอ็กชัน ส่วน `isSameAction(AType)` ตรวจเฉพาะประเภท
 
-ตรวจ `src` ณ ตอนเปลี่ยนชื่อ ไม่พบจุดเรียกใช้เมธอดกลุ่มนี้
+คลาสแม่ตรวจ `Attacker` และ `actionTypeList` โดยตรงเมื่อเป็น buff; เมื่อเป็น attack จะวน `AttackSetList` พฤติกรรมตรวจเดิมจึงคงอยู่ ตรวจ `src` ก่อนลบไม่พบจุดเรียกใช้เมธอดเฉพาะฝั่ง buff

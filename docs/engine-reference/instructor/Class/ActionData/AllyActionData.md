@@ -27,10 +27,6 @@ User ยืนยัน 2026-09-16: ระบุรูปแบบเป้า�
 - `Aoe`: หมู่
 - `Bounce`: เด้ง
 
-## หัวข้อถัดไป
-
-- method ที่เหลือ: ยังไม่ได้ไล่ครบ
-
 ## `isSameName` กับ `isSameOwnerName`
 
 User ยืนยัน 2026-09-16:
@@ -39,3 +35,15 @@ User ยืนยัน 2026-09-16:
 - `isSameOwnerName` ตรวจรวมถึงยูนิตของตัวละครนั้นด้วย เช่น Netherwing โจมตี ก็ตรงกับ Castorice เมื่อใช้ `isSameOwnerName`
 
 รายละเอียดจาก `ActionDataDefine.h`: แอ็กชันโจมตีวนตรวจผู้โจมตีใน `AttackSetList` และคืน `true` เมื่อพบรายการที่ตรง ส่วนแอ็กชันอื่นตรวจ `Attacker` โดยตรง; `isSameOwnerName` ใช้ `isSameOwner` ตรวจความสัมพันธ์กับตัวละคร
+
+## `getChar()`
+
+User ยืนยัน 2026-09-16: ใช้อ้างอิงกลับไปยังตัวละครเจ้าของ เช่น สำหรับรวมผลเข้าตัวละคร
+
+- ถ้า `Attacker` เป็น memosprite จะคืนเจ้าของ เช่น Netherwing → Castorice
+- ถ้า `Attacker` เป็นตัวละคร จะคืนตัวละครนั้นเอง
+
+## จุดต่อการสำรวจ
+
+- `isSameAction` / `isSameOwnerAction`: ถามไปแล้ว; user เตือนไม่ให้ถามซ้ำ
+- หัวข้อถัดไป: `AttackSetList` / `switchAttacker` ใน `AllyAttackAction.h`

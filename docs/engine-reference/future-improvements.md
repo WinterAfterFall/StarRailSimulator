@@ -14,7 +14,7 @@
 - `isBuffEnd(ptr, name)` (`Buff_Stats.h:21`) — คืน `true` เฉพาะตอนเป็นเทิร์นของ `ptr` เอง **และ** `turnCnt` แตะค่า countdown → เคลียร์ `buffCheck`/`buffEnd` ให้ แต่ **ไม่แตะ stat**
 - `isBuffGoneByDeath(ptr, name)` (`Buff_Stats.h:29`) — ใช้ตอน ally ตาย หรือตอน retarget บัฟ (unit ไม่มีเทิร์นให้ `isBuffEnd` ยิง) — เคลียร์ flag เหมือนกัน **ไม่แตะ stat**
 
-pattern มาตรฐาน (ดู `Tingyun.h:156-165` `After_turn_List`):
+pattern มาตรฐาน (ดู `Tingyun.h:155` `After_turn_List`):
 
 ```cpp
 auto expire = [ptr](const string &name, Stats stat, double value) {
@@ -60,6 +60,14 @@ expire(BUFF_BENEDICTION, Stats::ATK_P, BENEDICTION_ATK);
 
 ---
 
+## 6. ตรวจ owner ด้วยชื่อแบบ `string` — อาจ implement ภายหลัง
+
+User ขอให้จดไว้ 2026-09-17; ยังไม่ implement และยังไม่ได้กำหนดว่าจะทำเมื่อใด
+
+อาจเพิ่ม overload รับชื่อ owner แบบ `string` ให้ `isSameOwnerName`, `isSameOwnerAction` และ `isSameOwnerDamageType` ซึ่งปัจจุบันรับ `CharUnit*` เพื่อให้ตรวจได้ทั้งตัวละครเจ้าของและยูนิตของเจ้าของด้วยกติกาเดียวกับแบบ pointer เช่น ชื่อ `Castorice` ตรงกับทั้ง Castorice และ Netherwing
+
+---
+
 ## 5. per-unit `priority` ไม่ reset หลังเล่นเทิร์นจบ
 
 `priority` (ต่อ unit) reset เป็น 0 แค่ตอน `Basic_reset` (**ต่อ run**) — ภายใน run ตัวที่เคยโดน `Action_forward` จน atv แตะ 0 จะค้าง `priority` สูง แม้เล่นเทิร์นไปแล้ว (ข้าม wave ด้วย)
@@ -67,3 +75,7 @@ expire(BUFF_BENEDICTION, Stats::ATK_P, BENEDICTION_ATK);
 - เกิดยากมาก — _รอ user ตัดสินว่าจะ reset `priority` หลังเล่นเทิร์นจบไหม_
 
 > **หมายเหตุ #14B (memosprite baseSpeed snapshot):** ไม่ได้อยู่ในลิสต์นี้แล้ว — user ยืนยันว่า **ตั้งใจ** (memo เอาแค่ relic + stat เจ้าของ ณ ต้น run, บัฟสปีดกลางรบของเจ้าของไม่ส่งผล เว้นบัฟที่ยิงใส่ memo ตรง ๆ) → ย้ายไปเป็น "พฤติกรรมที่ documented" ใน [`instructor/Function/Setup/Stats_Reset.md`](instructor/Function/Setup/Stats_Reset.md)
+
+---
+
+6-16
