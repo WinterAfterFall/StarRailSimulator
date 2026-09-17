@@ -26,7 +26,7 @@ class ActionData{
     string getActionName(){
         return actionName;
     }
-    void getActionName(string name){
+    void setActionName(string name){
         actionName = name;
     }
     AllyActionData* castToAllyActionData();
