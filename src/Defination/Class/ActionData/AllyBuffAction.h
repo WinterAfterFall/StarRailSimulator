@@ -14,7 +14,7 @@ class AllyBuffAction : public AllyActionData {
         if(this->Attacker->isSameName(ptr))return true;
         return false;
     }
-    bool isSameBufferName(CharUnit *ptr){
+    bool isSameBufferOwnerName(CharUnit *ptr){
         if(ptr->isSameOwner(this->Attacker))return true;
         return false;
     }
@@ -36,7 +36,7 @@ class AllyBuffAction : public AllyActionData {
         }
         return false;    
     }
-    bool isSameBuff(CharUnit *ptr,AType ability){
+    bool isSameOwnerBuff(CharUnit *ptr,AType ability){
         if(ptr->isSameOwner(this->Attacker)){
             for(auto &each : actionTypeList){
                 if(each == ability)return true;
