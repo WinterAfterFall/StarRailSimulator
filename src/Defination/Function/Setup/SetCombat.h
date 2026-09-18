@@ -90,7 +90,6 @@ void Reset(){
         charUnit[i]->SpeedRequirment();
         charUnit[i]->EhrRequirment();
     }
-    cout<<calculateCritdamOnStats(charUnit[1].get());
     for(TriggerByYourSelf_Func &e : Tune_stats_List){
         e.Call();
     }
