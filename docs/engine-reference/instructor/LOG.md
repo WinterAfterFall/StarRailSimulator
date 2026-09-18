@@ -2,6 +2,10 @@
 
 ## อัปเดต 2026-09-18
 
+- แก้ `Summon_reset()` และ `Countdown_reset()` ให้ล้าง `extraTurn` ป้องกัน state รั่วข้าม run โดยเฉพาะ countdown ของ Phainon ที่ Ultimate ตั้งค่านี้เป็น 1
+- User ยืนยัน convention ของ `RESPEN`: RES ธาตุศัตรูเก็บเป็นค่าลบ ส่วน RES PEN/ลด RES เป็นค่าบวก เพื่อรวมกับฐาน 100 ใน `calRespenMultiplier()` บันทึกใน `Function/Setup/Stats_Reset.md`
+- แก้ `EhrRequirment()` จากการเพิ่ม `ExtraEhr` สะสมทั้งก้อนเป็นเพิ่มเฉพาะ `x` ที่จัดสรรใหม่ ป้องกัน EHR เดิมถูกบวกซ้ำเมื่อ requirement ต้องเติมหลายรอบ
+- User ยืนยันว่า `Basic_reset()` ตั้งใจแจก 2 average substat rolls ให้ทุก stat ในรายการพร้อมกัน ก่อนใช้ main stats ของ Body/Boot/Orb/Rope บันทึกใน `Function/Setup/Stats_Reset.md`
 - แก้ `Stats_Reset.h`: ลบ EHR `3.888 * 2` ที่ซ้ำ ทำให้ base EHR กลับเป็น 2 rolls (`7.776`) และลบ `HEALING_OUT += 0`; เพิ่ม regression test `test/basic_reset_stats_regression.cpp`
 - User ยืนยันค่าคงที่ใน Requirement stats เป็นค่าเฉลี่ยต่อหนึ่ง substat roll: SPD 2.3, ATK%/HP%/EHR 3.888 และ DEF% 4.86 บันทึกใน `Class/Unit/CharUnit.md`
 - ตรวจ Requirement stats ใน `CharUnit`: แก้เอกสารเดิมที่ระบุ ATK/HP/DEF เป็น dead code — `SetCombat()` เรียกครบทั้งสามแล้ว, Hibana ใช้ ATK requirement จริง, ส่วน HP/DEF ยังไม่มีตัวละครตั้งค่า ยืนยันกับ user และบันทึกใน `Class/Unit/CharUnit.md`

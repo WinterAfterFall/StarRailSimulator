@@ -275,6 +275,7 @@ void Summon_reset(){
         charUnit[i]->summonList[j]->Atv_stats->flatSpeed=0;
         charUnit[i]->summonList[j]->Atv_stats->turnCnt = 0;
         charUnit[i]->summonList[j]->Atv_stats->priority = 0;
+        charUnit[i]->summonList[j]->Atv_stats->extraTurn = 0;
         charUnit[i]->summonList[j]->status = UnitStatus::Alive;
 
         }
@@ -289,6 +290,7 @@ void Countdown_reset(){
         charUnit[i]->countdownList[j]->Atv_stats->flatSpeed=0;
         charUnit[i]->countdownList[j]->Atv_stats->turnCnt = 0;
         charUnit[i]->countdownList[j]->Atv_stats->priority = 0;
+        charUnit[i]->countdownList[j]->Atv_stats->extraTurn = 0;
         charUnit[i]->countdownList[j]->status = UnitStatus::Death;
         }
     }

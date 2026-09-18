@@ -13,7 +13,7 @@ void CharUnit::EhrRequirment(){
     x = this->changeTotalSubStats(-x);
     x = x * 3.888;
     this->ExtraEhr += x;
-    this->Stats_type[Stats::EHR][AType::None] += this->ExtraEhr;
+    this->Stats_type[Stats::EHR][AType::None] += x;
     for(auto &each : this->memospriteList){
        each->Stats_type[Stats::EHR][AType::None]+=x;
     }

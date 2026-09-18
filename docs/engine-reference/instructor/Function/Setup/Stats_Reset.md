@@ -18,4 +18,14 @@ memosprite 2 แบบ: **สปีดคงที่** (RMC "Mem" — `fixSpeed
 
 2026-09-18: พบ EHR `3.888 * 2` ถูกเพิ่มซ้ำสองบรรทัด ทำให้ตัวละครเริ่มด้วย EHR 4 rolls (`15.552`) แทน 2 rolls (`7.776`) ตามกติกาค่าเฉลี่ย substat แก้โดยลบบรรทัดซ้ำแล้ว และลบ `HEALING_OUT += 0` ซึ่งไม่มีผลต่อค่า
 
+User ยืนยัน 2026-09-18: ตั้งใจให้ตัวละครทุกตัวได้รับ 2 average substat rolls ของทุก stat ที่ระบุพร้อมกัน ได้แก่ ATK%, Flat ATK, HP%, Flat HP, DEF%, Flat DEF, CR, CD, BE, EHR, RES และ SPD ก่อนใส่ main stats จาก Body/Boot/Orb/Rope โดย CR/CD รวมค่าฐาน 5%/50% และ Flat ATK/HP รวม main stat จากถุงมือ/หมวก
+
 มี regression test ที่ `test/basic_reset_stats_regression.cpp` ตรวจว่า `Basic_reset()` ให้ EHR เริ่มต้นเท่ากับ `3.888 * 2`
+
+## Enemy elemental resistance
+
+User ยืนยัน 2026-09-18: ระบบตั้งใจเก็บ RES ธาตุพื้นฐานของศัตรูเป็นค่าลบใน `Stats_each_element[RESPEN]` ส่วน RES PEN และการลด RES เป็นค่าบวก สูตร `calRespenMultiplier()` เริ่มจาก 100 แล้วบวกค่าทั้งหมด เช่น RES ศัตรู 20% ถูกเก็บเป็น `-20` และให้ multiplier 0.8
+
+## Summon และ countdown
+
+2026-09-18: แก้ `Summon_reset()` และ `Countdown_reset()` ให้ล้าง `Atv_stats->extraTurn` เหมือน unit ประเภทอื่น ป้องกัน state รั่วข้าม simulation run โดยมีกรณีใช้งานจริงคือ countdown ของ Phainon ถูกตั้ง `extraTurn = 1` เมื่อใช้ Ultimate
