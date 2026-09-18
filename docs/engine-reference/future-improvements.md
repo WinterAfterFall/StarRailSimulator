@@ -58,6 +58,12 @@ expire(BUFF_BENEDICTION, Stats::ATK_P, BENEDICTION_ATK);
 - `Unit/Library.h` — `#include "AllyUnit.h"` ซ้ำ 2 บรรทัด
 - ~~`tauntMtprChange` / no-arg `calHitChance()` / `totalTaunt` dead code~~ ✅ ลบ/ปรับแล้ว (2026-09-04) — `tauntMtpr` → `tauntIncrease` (0 = ไม่มี), เหลือ `tauntIncreaseChange(double)` ต่อสายไว้รอ trace "taunt +X%" (ดู [`instructor/BUGS.md`](instructor/BUGS.md) #12)
 
+### Refactor ระบบเลือกเป้าหมายบัฟ
+
+ปัจจุบันเป้าหมายเก็บแยกเป็น `defaultCharNum`/`defaultMemoNum` และ `currentCharNum`/`currentMemoNum` โดยใช้ magic value: sub-unit `0` หมายถึงตัวละคร ส่วน `1..N` หมายถึง memosprite ลำดับที่ 1..N แล้ว `chooseAllyBuff()` ต้องลบ 1 ก่อนเข้าถึง vector (แก้บั๊ก off-by-one แล้ว 2026-09-18)
+
+ภายหลังควรรวมสองเลขเป็น target descriptor ที่ระบุชนิดเป้าหมายกับ index อย่างชัดเจน เปลี่ยนชื่อ `MemoNum` ให้ครอบคลุมความหมายของ sub-unit และเพิ่ม bounds validation เพื่อไม่ให้ configuration ที่ผิดกลายเป็น out-of-bounds access
+
 ---
 
 ## 6. ตรวจ owner ด้วยชื่อแบบ `string` — อาจ implement ภายหลัง

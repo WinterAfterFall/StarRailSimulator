@@ -64,7 +64,7 @@ namespace Fugue{
                 }
             });
             if(ptr->Eidolon>=6)act->addBuffAllAllies();
-            else act->addBuffSingleTarget(chooseSubUnitBuff(ptr));
+            else act->addBuffSingleTarget(chooseAllyBuff(ptr));
             act->addToActionBar();
         };
 
@@ -115,9 +115,9 @@ namespace Fugue{
                         {Stats::VUL,AType::None,-20},
                     });
                 }else{
-                    buffSingle(chooseSubUnitBuff(ptr),{{Stats::BE,AType::None,-30}});
-                    if(ptr->Eidolon>=1)buffSingle(chooseSubUnitBuff(ptr),{{Stats::BREAK_EFF,AType::None,-50}});
-                    if(ptr->Eidolon>=4)buffSingle(chooseSubUnitBuff(ptr),{{Stats::VUL,AType::None,-20}});
+                    buffSingle(chooseAllyBuff(ptr),{{Stats::BE,AType::None,-30}});
+                    if(ptr->Eidolon>=1)buffSingle(chooseAllyBuff(ptr),{{Stats::BREAK_EFF,AType::None,-50}});
+                    if(ptr->Eidolon>=4)buffSingle(chooseAllyBuff(ptr),{{Stats::VUL,AType::None,-20}});
                 }
                 
             }
@@ -147,7 +147,7 @@ namespace Fugue{
         }));
 
         BeforeAttack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
-            if(act->isSameName(chooseSubUnitBuff(ptr))) {
+            if(act->isSameName(chooseAllyBuff(ptr))) {
                 act->Dont_care_weakness  = max(act->Dont_care_weakness,50.0);
                 for(auto &each : act->targetList){
                     debuffSingleApply(ptr,each,{{Stats::DEF_SHRED,AType::None,18}},"Fugue Debuff",2);

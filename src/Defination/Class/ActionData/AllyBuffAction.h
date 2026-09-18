@@ -61,7 +61,7 @@ class AllyBuffAction : public AllyActionData {
     public :
 
     void addBuffSingleTarget(){
-        buffTargetList.push_back(chooseSubUnitBuff(Attacker));
+        buffTargetList.push_back(chooseAllyBuff(Attacker));
     }
 
     void addBuffSingleTarget(AllyUnit* ptr){

@@ -90,7 +90,7 @@
 
 ใช้ `ptr->setBuffSubUnitTarget(name, holder)` / `getBuffSubUnitTarget(name)`
 - framework map `unordered_map<string, AllyUnit*>` บน CharUnit · reset → `nullptr` ทุกรอบ ([Stats_Reset.h:54](../src/Defination/Function/Setup/Stats_Reset.h))
-- เก็บ "**ใครถือบัฟนี้จริง**" แยกจาก `chooseSubUnitBuff(ptr)` (ซึ่งอ่าน `currentCharNum` สด อาจเปลี่ยนไปแล้ว)
+- เก็บ "**ใครถือบัฟนี้จริง**" แยกจาก `chooseAllyBuff(ptr)` (ซึ่งอ่าน `currentCharNum` สด อาจเปลี่ยนไปแล้ว)
 - ตอน re-apply: ถ้า tracked holder ≠ target ใหม่ และยังติดบัฟ → strip จากตัวเก่า → set tracker = target ใหม่
 - `buffAllyTarget` = พี่น้องระดับ CharUnit granularity (Sunday ใช้)
 
@@ -116,7 +116,7 @@
 
 | helper | หมายเหตุ |
 |---|---|
-| `chooseSubUnitBuff(ptr)` | `charUnit[currentCharNum]` หรือ memosprite (`memospriteList[currentMemoNum]`) · **preset** ไม่ใช่ dynamic best-DPS · `currentCharNum`/`currentMemoNum` reset เป็น `default*` ต่อ **run** (`Stats_Reset.h:34-35`) |
+| `chooseAllyBuff(ptr)` | `currentMemoNum == 0` เลือก `charUnit[currentCharNum]`; ค่า `1..N` เลือก `memospriteList[currentMemoNum - 1]` · **preset** ไม่ใช่ dynamic best-DPS · `currentCharNum`/`currentMemoNum` reset เป็น `default*` ต่อ **run** (`Stats_Reset.h:34-35`) |
 | `chooseCharacterBuff` / `chooseEnemyTarget` | เวอร์ชัน CharUnit / Enemy |
 | `genSkillPoint(ptr, n)` | `-1` ตอน skill, `+1` ตอน basic |
 | `Attack(act)` | resolve `AllyAttackAction` → สร้างความเสียหาย · จุดเข้าดาเมจหลัก |
@@ -166,7 +166,7 @@
 | 1 | E4 ไม่ apply talent-hit additional (hardcode 66) | เพิ่ม branch `Eidolon >= 4 ? 86 : 66` ให้ตรงกับ skill-hit |
 | 2 | ไม่มี death cleanup → บัฟค้างถ้า DPS ตาย+ฟื้น | `AllyDeath_List` + `isBuffGoneByDeath` ครบ 4 บัฟ |
 | 3 | Benediction ไม่ enforce "target ล่าสุด" | `buffSubUnitTarget` tracker + `clearStaleAllyBuffs()` เรียกก่อนลงบัฟทุกครั้ง |
-| 4 | Ult `addBuffSingleTarget(ptr)` ผิด | → `addBuffSingleTarget(chooseSubUnitBuff(ptr))` ให้ตรงกับ Skill |
+| 4 | Ult `addBuffSingleTarget(ptr)` ผิด | → `addBuffSingleTarget(chooseAllyBuff(ptr))` ให้ตรงกับ Skill |
 | 6 | ชื่อบัฟไม่มี prefix | `BUFF_BENEDICTION = "Tingyun Benediction"` ฯลฯ + magnitude เป็น `constexpr` |
 | 7 | hardcode `"Tingyun"` L72 | → `ptr->Atv_stats->Name` |
 

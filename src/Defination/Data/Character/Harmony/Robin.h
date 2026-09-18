@@ -35,7 +35,7 @@ namespace Robin{
 
         ptr->addUltCondition([ptr]() -> bool {
             if(driverType!=DriverType::DoubleTurn)return true;
-            AllyUnit *target = chooseSubUnitBuff(ptr);  
+            AllyUnit *target = chooseAllyBuff(ptr);
             if((charUnit[Driver_num]->Atv_stats->atv<charUnit[Driver_num]->Atv_stats->Max_atv*0.2 || target->Atv_stats->atv == 0))return false;
             if((charUnit[Driver_num]->Atv_stats->atv < target->Atv_stats->atv))return false;
             return true;
@@ -50,7 +50,7 @@ namespace Robin{
                 }
                 return true;
             }
-            AllyUnit *dps = chooseSubUnitBuff(ptr);
+            AllyUnit *dps = chooseAllyBuff(ptr);
             AllyUnit *driver = charUnit[Driver_num].get();
             if(driver->getATV()>dps->getATV())return false;
             return true;
@@ -58,7 +58,7 @@ namespace Robin{
 
         ptr->addUltCondition([ptr]() -> bool {
             if(driverType!=DriverType::AlwaysPull)return true;
-            AllyUnit *dps = chooseSubUnitBuff(ptr);
+            AllyUnit *dps = chooseAllyBuff(ptr);
             AllyUnit *driver = charUnit[Driver_num].get();
             if(driver->getATV()<dps->getATV())return false;
             return true;

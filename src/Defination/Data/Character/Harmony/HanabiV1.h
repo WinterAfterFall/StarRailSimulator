@@ -43,12 +43,12 @@ namespace HanabiV1{
                 Increase_energy(hnb,30);
                 double buff = (ptr->Eidolon>=6)? calculateCritdamForBuff(hnb,54) + 45 :calculateCritdamForBuff(hnb,24) + 45;
 
-                buffSingle(chooseSubUnitBuff(hnb),{
-                    {Stats::CD,AType::TEMP,buff - chooseSubUnitBuff(hnb)->getBuffNote("Hnb Skill")},
-                    {Stats::CD,AType::None,buff - chooseSubUnitBuff(hnb)->getBuffNote("Hnb Skill")}
+                buffSingle(chooseAllyBuff(hnb),{
+                    {Stats::CD,AType::TEMP,buff - chooseAllyBuff(hnb)->getBuffNote("Hnb Skill")},
+                    {Stats::CD,AType::None,buff - chooseAllyBuff(hnb)->getBuffNote("Hnb Skill")}
                 });
-                extendBuffTime(chooseSubUnitBuff(hnb),"Hnb Skill",2);
-                chooseSubUnitBuff(hnb)->setBuffNote("Hnb Skill",buff);
+                extendBuffTime(chooseAllyBuff(hnb),"Hnb Skill",2);
+                chooseAllyBuff(hnb)->setBuffNote("Hnb Skill",buff);
                 
                 if(ptr->Eidolon>=6){
                     for(auto &each : allyList){
@@ -60,9 +60,9 @@ namespace HanabiV1{
                         each->setBuffNote("Hnb Skill",buff);
                     }   
                 }
-                Action_forward(chooseSubUnitBuff(hnb)->Atv_stats.get(),50);
+                Action_forward(chooseAllyBuff(hnb)->Atv_stats.get(),50);
             });
-            act->addBuffSingleTarget(chooseSubUnitBuff(hnb));
+            act->addBuffSingleTarget(chooseAllyBuff(hnb));
             act->addToActionBar();
         };
 
@@ -77,7 +77,7 @@ namespace HanabiV1{
         });
 
         ptr->addUltCondition([ptr,hnb]() -> bool {
-            if(phaseStatus == PhaseStatus::BeforeTurn&&turn->isSameUnit(chooseSubUnitBuff(hnb)))return true;
+            if(phaseStatus == PhaseStatus::BeforeTurn&&turn->isSameUnit(chooseAllyBuff(hnb)))return true;
             return false;
         });
 

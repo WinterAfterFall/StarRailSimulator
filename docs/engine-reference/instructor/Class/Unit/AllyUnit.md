@@ -44,7 +44,7 @@ macro ในไฟล์: `#define endl '\n'` · `F`=`first` · `S`=`second` · 
 `defaultCharNum = Main_dps_num` · `defaultMemoNum = 0` · `currentCharNum` / `currentMemoNum` · `Enemy_target_num = Main_Enemy_num`
 - `current*` = "ตอนนี้ unit นี้เล็งบัฟไปที่ ally/memosprite ตัวไหน" · `currentCharNum` reset กลับเป็น `defaultCharNum` ที่ `Stats_Reset.h:34`
 - ✅ ~~**`currentMemoNum` ไม่เคย reset**~~ แก้แล้ว (commit `8690113` · โค้ดตอนนี้ `Stats_Reset.h:35,260` เขียน `= defaultMemoNum`) · บันทึกเดิม: `Stats_Reset.h:35` + `:260` เขียน `currentMemoNum = currentMemoNum` (assign ตัวเอง = no-op) บรรทัดข้างบนคือ `currentCharNum = defaultCharNum` → บรรทัดนี้ตั้งใจจะเป็น `= defaultMemoNum`
-  - **ผลถ้ามันค้าง ≥ 1:** `chooseSubUnitBuff` (`TargetChoose.h:17`) `if(currentMemoNum) return …->memospriteList[currentMemoNum].get()` — ตัวละครส่วนใหญ่มี memo ตัวเดียวที่ `[0]` → อ่าน `memospriteList[1]` = **out-of-bounds** บน `vector<unique_ptr>`
+  - แก้ 2026-09-18: `chooseAllyBuff` ใช้ `0` เลือกตัวละคร และแปลงค่า `1..N` เป็น `memospriteList[currentMemoNum - 1]` จึงเลือก memo ตัวแรกด้วยค่า 1 ได้ถูกต้อง
   - ปัจจุบันยังไม่ crash = น่าจะยังไม่มีตัวละครไหน set `currentMemoNum` เป็นค่าอื่นนอกจาก 0
 
 ## methods

@@ -201,7 +201,7 @@ namespace Gallagher{
             ptr->RestoreHP(HealSrc(HealSrcType::CONST,1768),HealSrc(),HealSrc());
             Increase_energy(ptr,30);
         });
-        act->addBuffSingleTarget(chooseSubUnitBuff(ptr));
+        act->addBuffSingleTarget(chooseAllyBuff(ptr));
         act->addToActionBar();
     }
 }

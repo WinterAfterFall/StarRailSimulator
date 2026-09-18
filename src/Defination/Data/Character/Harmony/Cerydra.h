@@ -49,11 +49,11 @@ namespace Cerydra{
                 buffSingle(crd,{
                     {Stats::FLAT_SPD,AType::None,20}
                 },"Veci",3);
-                buffSingle(chooseSubUnitBuff(crd),{
+                buffSingle(chooseAllyBuff(crd),{
                     {Stats::FLAT_SPD,AType::None,20}
                 },"Veci",3);
                 if(ptr->Eidolon>=1){
-                    Increase_energy(chooseSubUnitBuff(crd),2);
+                    Increase_energy(chooseAllyBuff(crd),2);
                 }
             });
             act->addBuffSingleTarget();
@@ -105,12 +105,12 @@ namespace Cerydra{
 
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,crd,charge]() {
             if(ptr->Eidolon>=1){
-                buffSingle(chooseSubUnitBuff(crd),{
+                buffSingle(chooseAllyBuff(crd),{
                     {Stats::DEF_SHRED,AType::None,16}
                 });
             }
             if(ptr->Eidolon>=2){
-                buffSingle(chooseSubUnitBuff(crd),{
+                buffSingle(chooseAllyBuff(crd),{
                     {Stats::DMG,AType::None,40}
                 });
                 buffSingle(crd,{
@@ -118,7 +118,7 @@ namespace Cerydra{
                 });
             }
             if(ptr->Eidolon>=6){
-                buffSingle(chooseSubUnitBuff(crd),{
+                buffSingle(chooseAllyBuff(crd),{
                     {Stats::RESPEN,AType::None,20}
                 });
                 buffSingle(crd,{
@@ -138,7 +138,7 @@ namespace Cerydra{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,crd,charge]() {
             double temp = 0;
             temp = calculateAtkForBuff(crd,24);
-            buffSingle(chooseSubUnitBuff(crd),
+            buffSingle(chooseAllyBuff(crd),
                 {
                     {Stats::FLAT_ATK,AType::TEMP,temp - crd->buffNote["Cerydra Atk Buff"]},
                     {Stats::FLAT_ATK,AType::None,temp - crd->buffNote["Cerydra Atk Buff"]}
@@ -162,11 +162,11 @@ namespace Cerydra{
                 buffSingle(crd,{
                     {Stats::FLAT_SPD,AType::None,20}
                 },"Veci",3);
-                buffSingle(chooseSubUnitBuff(crd),{
+                buffSingle(chooseAllyBuff(crd),{
                     {Stats::FLAT_SPD,AType::None,20}
                 },"Veci",3);
                 if(ptr->Eidolon>=1){
-                    Increase_energy(chooseSubUnitBuff(crd),2);
+                    Increase_energy(chooseAllyBuff(crd),2);
                 }
             });
             act->Turn_reset = 0;
@@ -175,7 +175,7 @@ namespace Cerydra{
         }));
 
         AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,crd,charge](shared_ptr<AllyActionData> &act) {
-            if(act->Attacker->isSameName(chooseSubUnitBuff(crd))&&
+            if(act->Attacker->isSameName(chooseAllyBuff(crd))&&
             (act->isSameAction(AType::SKILL)||act->isSameAction(AType::BA))){
                 Increase_energy(ptr,5);
                 if(!crd->getBuffCheck("Peerage"))charge(1);
@@ -183,19 +183,19 @@ namespace Cerydra{
         }));
 
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,crd,charge](shared_ptr<AllyAttackAction> &act) {
-            if(act->isSameAction(chooseSubUnitBuff(crd),AType::SKILL)&&crd->getBuffCheck("Peerage")){
+            if(act->isSameAction(chooseAllyBuff(crd),AType::SKILL)&&crd->getBuffCheck("Peerage")){
                 if(crd->getBuffCheck("Coup de Main")){
                     shared_ptr<AllyAttackAction> newAct = make_shared<AllyAttackAction>(*act);
                     newAct->addToActionBar();
                     crd->setBuffCheck("Coup de Main",0);
                 }else{
                     crd->setBuffCheck("Peerage",0);
-                    buffSingle(chooseSubUnitBuff(crd),{
+                    buffSingle(chooseAllyBuff(crd),{
                         {Stats::DMG,AType::SKILL,-72},
                         {Stats::RESPEN,AType::SKILL,-10},
                     });
                     if(ptr->Eidolon>=1){
-                        buffSingle(chooseSubUnitBuff(crd),{
+                        buffSingle(chooseAllyBuff(crd),{
                             {Stats::DEF_SHRED,AType::SKILL,-20}
                         });
                     }                    
@@ -205,19 +205,19 @@ namespace Cerydra{
                 crd->addStack("Cerydra charge",-6);
                 crd->setBuffCheck("Peerage",1);
                 crd->setBuffCheck("Coup de Main",1);
-                buffSingle(chooseSubUnitBuff(crd),{
+                buffSingle(chooseAllyBuff(crd),{
                     {Stats::DMG,AType::SKILL,72},
                     {Stats::RESPEN,AType::SKILL,10},
                 });
                 if(ptr->Eidolon>=1){
-                    buffSingle(chooseSubUnitBuff(crd),{
+                    buffSingle(chooseAllyBuff(crd),{
                         {Stats::DEF_SHRED,AType::SKILL,20}
                     });
                 }
             }
         }));
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,crd,charge](shared_ptr<AllyAttackAction> &act) {
-            if(act->Attacker->isSameName(chooseSubUnitBuff(crd))&&crd->getStack("Cerydra Talent Limit")<20){
+            if(act->Attacker->isSameName(chooseAllyBuff(crd))&&crd->getStack("Cerydra Talent Limit")<20){
                 crd->addStack("Cerydra Talent Limit",1);
                 shared_ptr<AllyAttackAction> newAct = 
                     make_shared<AllyAttackAction>(AType::Addtional,ptr,TraceType::Single,"Crd AddDmg");
@@ -232,7 +232,7 @@ namespace Cerydra{
             if (StatsType == Stats::ATK_P || StatsType == Stats::FLAT_ATK) {
             double temp = 0;
             temp = calculateAtkForBuff(crd,24);
-            buffSingle(chooseSubUnitBuff(crd),
+            buffSingle(chooseAllyBuff(crd),
                 {
                     {Stats::FLAT_ATK,AType::TEMP,temp - crd->buffNote["Cerydra Atk Buff"]},
                     {Stats::FLAT_ATK,AType::None,temp - crd->buffNote["Cerydra Atk Buff"]}

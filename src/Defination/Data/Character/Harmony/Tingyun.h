@@ -82,7 +82,7 @@ namespace Tingyun{
                 buffSingle(ptr, {{Stats::SPD_P, AType::None, NOURISHED_SPD}}, BUFF_NOURISHED, 1);
                 ptr->setBuffSubUnitTarget(BUFF_NOURISHED, ptr);
             });
-            act->addBuffSingleTarget(chooseSubUnitBuff(ptr));
+            act->addBuffSingleTarget(chooseAllyBuff(ptr));
             act->addToActionBar();
         };
 
@@ -92,7 +92,7 @@ namespace Tingyun{
         // เช็ค chooseSubUnitBuff สด (เป้าหมายที่ "ตั้งใจ" ซัพตอนนี้) ไม่ใช่ tracker —
         // ถ้าเป้าหมายเปลี่ยน อยากให้ Skill ทับใส่ตัวใหม่ (clearStaleAllyBuffs จะถอนของตัวเก่าเอง)
         ptr->Turn_func = [ptr, TYptr, BA, Skill]() {
-            if (!chooseSubUnitBuff(ptr)->getBuffCheck(BUFF_BENEDICTION))
+            if (!chooseAllyBuff(ptr)->getBuffCheck(BUFF_BENEDICTION))
                 Skill();
             else
                 BA();
@@ -102,7 +102,7 @@ namespace Tingyun{
         // อย่ายิง ult ถ้าเป้าหมายใกล้จะ ult เอง (เหลือ energy <= 30) — รอให้เขา ult ก่อน
         // escape hatch: Saber (energy 360, กติกาต่าง) / เป้าหมายที่ไม่มี energy (Max_energy == 0)
         ptr->addUltCondition([ptr, TYptr]() -> bool {
-            if (chooseSubUnitBuff(TYptr)->isSameName("Saber")) return true;
+            if (chooseAllyBuff(TYptr)->isSameName("Saber")) return true;
             if (charUnit[ptr->currentCharNum]->Max_energy == 0) return true;
             if (charUnit[ptr->currentCharNum]->Max_energy - charUnit[ptr->currentCharNum]->Current_energy <= 30) return false;
             return true;
@@ -114,7 +114,7 @@ namespace Tingyun{
             make_shared<AllyBuffAction>(AType::Ult, ptr, TraceType::Single, "TY Ult",
             [ptr, TYptr, clearStaleAllyBuffs](shared_ptr<AllyBuffAction> &act){
                 CharCmd::printUltStart("Tingyun");
-                AllyUnit *target = chooseSubUnitBuff(ptr);
+                AllyUnit *target = chooseAllyBuff(ptr);
 
                 // energy → ตัว "character" (ไม่ใช่ memosprite) ของเป้าหมาย
                 Increase_energy(charUnit[ptr->currentCharNum].get(), 0, (ptr->Eidolon >= 6) ? 60 : 50);
@@ -131,7 +131,7 @@ namespace Tingyun{
                                      && phaseStatus == PhaseStatus::BeforeTurn);
                 buffSingle(target, {{Stats::DMG, AType::None, REJOICING_DMG}}, BUFF_REJOICING, onTargetTurn ? 1 : 2);
             });
-            act->addBuffSingleTarget(chooseSubUnitBuff(ptr));
+            act->addBuffSingleTarget(chooseAllyBuff(ptr));
             act->addToActionBar();
             Deal_damage();
         }));

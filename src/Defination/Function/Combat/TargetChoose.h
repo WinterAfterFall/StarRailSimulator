@@ -13,8 +13,8 @@ Enemy* Unit::canCastToEnemy(){
     return dynamic_cast<Enemy*>(this);
 }
 
-AllyUnit* chooseSubUnitBuff(AllyUnit *ptr){
-    if(ptr->currentMemoNum)return charUnit[ptr->currentCharNum]->memospriteList[ptr->currentMemoNum].get();
+AllyUnit* chooseAllyBuff(AllyUnit *ptr){
+    if(ptr->currentMemoNum)return charUnit[ptr->currentCharNum]->memospriteList[ptr->currentMemoNum - 1].get();
     return charUnit[ptr->currentCharNum].get();
 }
 CharUnit* chooseCharacterBuff(AllyUnit *ptr){

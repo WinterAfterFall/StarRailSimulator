@@ -68,7 +68,7 @@ namespace Dahlia{
                 Attack(act);
                 if(ptr->Eidolon>=6){
                     Action_forward(ptr->getAtvStats(),20);
-                    Action_forward(chooseSubUnitBuff(ptr)->getAtvStats(),20);
+                    Action_forward(chooseAllyBuff(ptr)->getAtvStats(),20);
                 }
             });
             if(ptr->Eidolon>=4)act->addEnemyBounce(DmgSrc(DmgSrcType::ATK,30,3),10);
@@ -117,7 +117,7 @@ namespace Dahlia{
             if(ptr->Eidolon>=2)debuffAllEnemyApply(ptr,{{Stats::RESPEN,AType::None,20}},"Dahlia E2");
             if(ptr->Eidolon>=6){
                 buffSingle(ptr,{{Stats::BE,AType::None,150}});
-                buffSingle(chooseSubUnitBuff(ptr),{{Stats::BE,AType::None,150}});
+                buffSingle(chooseAllyBuff(ptr),{{Stats::BE,AType::None,150}});
             }
         }));
 

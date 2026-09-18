@@ -88,12 +88,12 @@ namespace Jade{
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            if (chooseSubUnitBuff(ptr)->Atv_stats->Name == turn->Name) {
+            if (chooseAllyBuff(ptr)->Atv_stats->Name == turn->Name) {
                 Jade_Talent(ptr, 3);
             }
             
             if (isBuffEnd(ptr,"Jade_Skill")) {
-                buffSingle(chooseSubUnitBuff(ptr),{{Stats::SPD_P,AType::None,-30}});
+                buffSingle(chooseAllyBuff(ptr),{{Stats::SPD_P,AType::None,-30}});
             }
         }));
 
@@ -103,7 +103,7 @@ namespace Jade{
                 return;
             }
             if (ptr->buffCheck["Jade_Skill"] == 0) return;
-            if (act->Attacker->Atv_stats->Name != "Jade" && act->Attacker->Atv_stats->Name != chooseSubUnitBuff(ptr)->Atv_stats->Name) return;
+            if (act->Attacker->Atv_stats->Name != "Jade" && act->Attacker->Atv_stats->Name != chooseAllyBuff(ptr)->Atv_stats->Name) return;
 
             int temp = act->targetList.size();
             if (ptr->Eidolon >= 1 && temp < 3) temp = 3;
@@ -146,10 +146,10 @@ namespace Jade{
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(charUnit[ptr->Atv_stats->num].get(),30);
             if(isHaveToAddBuff(ptr,"Jade_Skill",3)){
-                buffSingle(chooseSubUnitBuff(ptr),{{Stats::SPD_P,AType::None,30}});
+                buffSingle(chooseAllyBuff(ptr),{{Stats::SPD_P,AType::None,30}});
             }
         });
-        act->addBuffSingleTarget(chooseSubUnitBuff(ptr));
+        act->addBuffSingleTarget(chooseAllyBuff(ptr));
         act->addToActionBar();
 
     }

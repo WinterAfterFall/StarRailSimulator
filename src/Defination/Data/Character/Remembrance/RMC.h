@@ -48,7 +48,7 @@ namespace RMC{
         };
 
         ptr->addUltCondition([ptr,RMCptr,Memptr]() -> bool {
-            if (ptr->memospriteList[0]->buffNote["Mem_Charge"] >= 60 && chooseSubUnitBuff(ptr->memospriteList[0].get())->Atv_stats->atv <= 20) return false;
+            if (ptr->memospriteList[0]->buffNote["Mem_Charge"] >= 60 && chooseAllyBuff(ptr->memospriteList[0].get())->Atv_stats->atv <= 20) return false;
             return true;
         });
 
@@ -124,7 +124,7 @@ namespace RMC{
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
-            if (isBuffEnd(chooseSubUnitBuff(RMCptr),"Mem_Support")) {
+            if (isBuffEnd(chooseAllyBuff(RMCptr),"Mem_Support")) {
                 chooseCharacterBuff(RMCptr)->setBuffNote("Mem_Support",0);
                 buffSingleChar(chooseCharacterBuff(RMCptr),{{Stats::CR,AType::None,-10}});
             }
@@ -257,9 +257,9 @@ namespace RMC{
 
                 buffSingleChar(chooseCharacterBuff(RMCptr),{{Stats::CR,AType::None,10}});
             }
-            Action_forward(chooseSubUnitBuff(ptr->memospriteList[0].get())->Atv_stats.get(),100);            
+            Action_forward(chooseAllyBuff(ptr->memospriteList[0].get())->Atv_stats.get(),100);
         });
-        act->addBuffSingleTarget(chooseSubUnitBuff(ptr->memospriteList[0].get()));
+        act->addBuffSingleTarget(chooseAllyBuff(ptr->memospriteList[0].get()));
         act->addActionType(AType::Summon);
         act->addToActionBar();
     }  
