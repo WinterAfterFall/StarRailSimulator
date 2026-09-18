@@ -134,7 +134,7 @@ namespace RMC{
             ptr->memospriteList[0]->buffCheck["RMC_E2"] = 1;
         }));
         AfterDealingDamage_List.push_back(TriggerAfterDealDamage(PRIORITY_IMMEDIATELY, [RMCptr,Memptr]
-            (shared_ptr<AllyAttackAction> &act, Enemy *src, double damage) {
+            (shared_ptr<AllyAttackAction> &act, Enemy *target, double damage) {
             CharUnit *ptr = act->Attacker->owner;
             AllyUnit *ally;
             if (ptr->getBuffCheck("Mem_Support")){
@@ -149,7 +149,7 @@ namespace RMC{
             }
             return;
             jump:
-            Cal_DamageNote(act,src,src,damage,ally->getBuffNote("Mem_Support"),"Mem True " + act->actionName);
+            Cal_DamageNote(act,target,target,damage,ally->getBuffNote("Mem_Support"),"Mem True " + act->actionName);
         }));
 
         When_Energy_Increase_List.push_back(TriggerEnergy_Increase_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr](CharUnit *target, double Energy) {

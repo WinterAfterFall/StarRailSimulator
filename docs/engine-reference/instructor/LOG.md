@@ -1,9 +1,36 @@
 # LOG — บันทึกการไล่โค้ด
 
+## อัปเดต 2026-09-18
+
+- User ยืนยันข้อมูลของ `TriggerAfterDealDamage` และอนุมัติเปลี่ยนชื่อพารามิเตอร์ศัตรูจาก `src` เป็น `target`; แก้ใน trigger, event dispatcher และ callback ทั้ง 4 จุดแล้ว จุดนี้เป็น trigger สุดท้ายใน `Trigger_Function.h`
+- User ยืนยัน `TriggerSkill_point_func` ใช้ร่วมกับ Skill Point/Punchline รับผู้ก่อเหตุและค่าการเปลี่ยนแปลง โดย event ทำงานก่อนเปลี่ยนค่ารวมและผู้ก่อเหตุอาจเป็น null บันทึกใน `Class/Trigger/Trigger_Function.md`; จุดต่อคือ `TriggerAfterDealDamage`
+- User ยืนยัน `TriggerEnergy_Increase_Func` ทำงานก่อนเพิ่ม `Current_energy` เพื่อให้ตรวจค่าก่อนหน้าและคำนวณพลังงานล้นได้ บันทึกใน `Class/Trigger/Trigger_Function.md`; จุดต่อคือ `TriggerSkill_point_func`
+- User ยืนยันข้อมูล `TriggerDot_Func`: เป้าหมาย, ตัวคูณการ trigger DoT และชนิด DoT โดย `General` ครอบคลุมทุกชนิด บันทึกใน `Class/Trigger/Trigger_Function.md`; จุดต่อคือ `TriggerEnergy_Increase_Func`
+- User ยืนยัน `TriggerByEnemyHit` สำหรับเหตุการณ์โดนโจมตีซึ่งไม่ต้องรู้ HP ที่เสียจริง แยกจาก `TriggerDecreaseHP` บันทึกใน `Class/Trigger/Trigger_Function.md`; จุดต่อคือ `TriggerDot_Func`
+- User ยืนยัน `TriggerHealing::Value` คือค่าฮีลก่อนหัก overheal บันทึกใน `Class/Trigger/Trigger_Function.md`; จุดต่อคือ `TriggerDecreaseHP`
+- User ยืนยันข้อมูลสามส่วนของ `TriggerByWeaknessApply_Func`: ผู้เพิ่ม Weakness, ศัตรูเป้าหมาย และรายการธาตุที่เพิ่ม บันทึกใน `Class/Trigger/Trigger_Function.md`; จุดต่อคือ `TriggerHealing`
+- User ยืนยัน `TriggerBySomeAlly_Func` เป็น callback กลางของเหตุการณ์ระหว่างศัตรูหนึ่งตัวกับยูนิตฝ่ายเราหนึ่งตัว ความหมายของฝั่ง ally ขึ้นกับ event บันทึกใน `Class/Trigger/Trigger_Function.md`; จุดต่อคือ `TriggerByWeaknessApply_Func`
+- User ยืนยัน `TriggerAllyDeath` ใช้ทั้งตอบสนองต่อการตายและทำความสะอาดสถานะของยูนิตที่ตาย บันทึกใน `Class/Trigger/Trigger_Function.md`; จุดต่อคือ `TriggerBySomeAlly_Func`
+- User ยืนยัน `TriggerByStats` รับยูนิตและชนิด stats ที่เปลี่ยน เพื่อคำนวณเอฟเฟกต์ต่อเนื่องใหม่เฉพาะเมื่อชนิดที่เกี่ยวข้องเปลี่ยน บันทึกใน `Class/Trigger/Trigger_Function.md`; จุดต่อคือ `TriggerAllyDeath`
+- User ยืนยันการแยก `TriggerByAllyAction_Func`, `TriggerByAllyAttackAction_Func` และ `TriggerByAllyBuffAction_Func` เพื่อให้ event รับชนิดแอ็กชันและข้อมูลที่เกี่ยวข้องโดยตรง บันทึกใน `Class/Trigger/Trigger_Function.md`; จุดต่อคือ `TriggerByStats`
+- User ยืนยัน `TriggerByAction_Func` รับข้อมูลแอ็กชันที่เกิดขึ้น เพื่อให้เอฟเฟกต์ตรวจและตอบสนองตามแอ็กชันนั้น บันทึกใน `Class/Trigger/Trigger_Function.md`; จุดต่อคือ trigger ของแอ็กชันฝ่ายเราและชนิดย่อย attack/buff
+- User ยืนยัน `TriggerByAlly_Func` รับตัวละครที่เกี่ยวข้องกับเหตุการณ์ครั้งนั้น บันทึกใน `Class/Trigger/Trigger_Function.md`; จุดต่อคือ `TriggerByAction_Func`
+- User ยืนยัน `TriggerByYourSelf_Func::Call` ไม่รับพารามิเตอร์ตอนเรียก ใช้ lambda capture จำข้อมูลไว้ตอนสร้าง บันทึกใน `Class/Trigger/Trigger_Function.md`; จุดต่อคือ `TriggerByAlly_Func`
+- User ยืนยัน `TriggerFunc::priority` ใช้เรียงเอฟเฟกต์ในจังหวะเดียวกัน ค่ามากทำก่อน บันทึกใน `Class/Trigger/Trigger_Function.md`; จุดต่อคือรูปแบบ callback ของ trigger
+- User ยืนยันความหมายทั้ง 6 ค่าใน `HealSrc`, constructor แบบคู่ชนิด–ค่า และ `setValue()` ที่กำหนดค่าทับ (ชนิดซ้ำใช้คู่สุดท้าย) แล้ว บันทึกใน `Class/CombatData/HealData.md`; ไล่ `HealData.h` ครบแล้ว จุดต่อคือ `Class/Trigger/Trigger_Function.h`
+- User ยืนยัน constructor แบบรับค่าครบของ `Damage` ต้องใช้ `target(target)` แก้ให้เก็บเป้าหมายที่ส่งมาแทน `nullptr` แล้ว บันทึกใน `Class/CombatData/DamageData.md`; ยังไม่ได้ commit การแก้รอบนี้
+
 ## สรุป session ล่าสุด — 2026-09-17
 
 ### สรุปรอบล่าสุดและจุดพัก
 
+- 2026-09-17 (ต่อ): user ยืนยัน variadic `addDamageIns` สำหรับกำหนดคู่ดาเมจ–เป้าหมายเองอย่างอิสระ โดยทุกคู่ที่ส่งในครั้งเดียวอยู่ในรอบโจมตีเดียวกัน บันทึกใน `Class/ActionData/AllyAttackAction.md` แล้ว
+- 2026-09-17 (ต่อ): user ยืนยัน helpers `castTo*Action*` เป็นทางลัดแทนการเขียน `dynamic_cast` ซ้ำ บันทึกใน `Class/ActionData/ActionData.md` แล้ว
+- 2026-09-17 (ต่อ): user ยืนยัน constructor เปล่าของ `AllyAttackAction` เผื่อสร้างแอ็กชันแล้วค่อยกำหนดข้อมูลเองภายหลัง บันทึกใน `Class/ActionData/AllyAttackAction.md` แล้ว
+- User เติม `canCastToAllyUnit()` แล้ว ตรวจ syntax ผ่าน 2026-09-17 และยืนยันว่าการเว้นคิว Aha ถูกต้อง; `Energy.h` เปลี่ยนให้ทุกรายการผ่าน `ultUseCheck(e.owner)` ตรวจจุดเพิ่ม `Ultimate_List` ใน src พบว่าระบุ owner ทุกจุด
+- `Class` ยังไม่ครบ: ตามจาก `addToActionBar()` ไป `Combat.h` เพื่ออธิบายคิวเท่านั้น จุดต่อให้กลับ `Class/ActionData` ส่วนที่เหลือ แล้ว `Class/CombatData/HealData.h` และ `Class/Trigger`
+- 2026-09-17 (ต่อ): user อธิบายจังหวะตรวจ Ultimate ว่าหลังจบแอ็กชันใด ๆ และหลัง before-turn event ของตัวละครในเทิร์น AllyUnit; user แก้ `Take_action()` ให้กรอง `canCastToAllyUnit` และลบจุดเรียกก่อน after-turn event แล้ว ตรวจไฟล์บนดิสก์พบสองตำแหน่งใน `Combat.h` ตรงตามการแก้ บันทึกใน `Function/Combat/Combat.md` แล้ว
+- 2026-09-17 (ต่อ): user ยืนยัน `addToActionBar()` ทั้ง attack/buff ว่าเตรียมแอ็กชันแล้วส่งเข้าคิวกลาง ยังไม่ออกท่าทันที บันทึกในคู่มือทั้งสองคลาสแล้ว; user ยืนยัน `actionBarUse` กันการประมวลผลคิวซ้อน เพื่อให้แอ็กชันปัจจุบันจบก่อนทำรายการถัดไป บันทึกใน `Function/Combat/Combat.md` แล้ว; จุดต่อคือลำดับ event และการตรวจ Ultimate ระหว่างประมวลผลคิว
 - สำรวจ `AllyActionData`, `AllyAttackAction`, `AllyBuffAction` และโครงสร้าง `Damage` / `DmgSrc` แล้วตามรายละเอียดในไฟล์คู่มือแต่ละคลาส ยังไม่เหมารวมว่าครบทุก method
 - ข้อชี้แจงสำคัญ: `addDamageIns` เพิ่มรอบโจมตี ส่วน `addDamageHit` เพิ่ม hit ในรอบล่าสุด โค้ดเดิมถูกต้องแล้ว
 - รวมเมธอดตรวจ attack/buff ไว้ใน `AllyActionData`; attack ตรวจทุกคนใน `AttackSetList`, buff ตรวจ `Attacker` โดยตรง ใช้ชื่อ `isSameOwnerName`, `isSameOwnerAction` และ `isSameOwnerDamageType`

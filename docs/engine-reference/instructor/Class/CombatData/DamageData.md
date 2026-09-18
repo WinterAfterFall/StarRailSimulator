@@ -6,6 +6,10 @@ User ยืนยัน 2026-09-17: แต่ละ `Damage` จับคู่ 
 
 โครงสร้าง `DamageSplit` และการแบ่งจังหวะโจมตี ดู [AllyAttackAction.md](../ActionData/AllyAttackAction.md#damagesplit)
 
+## Constructor แบบรับค่าครบของ `Damage`
+
+User ยืนยัน 2026-09-18: ต้องเก็บเป้าหมายที่ส่งมาเป็น `target(target)` เช่นเดียวกับ overload อื่น แก้จาก `target(nullptr)` แล้ว
+
 ## หน่วยของค่าใน `DmgSrc`
 
 User ยืนยัน 2026-09-17:

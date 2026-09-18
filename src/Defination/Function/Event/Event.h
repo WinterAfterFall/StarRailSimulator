@@ -231,8 +231,8 @@ void allEventWhenAllyDeath(AllyUnit *Target){
         e.Call(Target);
     }
 }
-void allEventAfterDealingDamage(shared_ptr<AllyAttackAction> &act, Enemy *src, double damage) {
+void allEventAfterDealingDamage(shared_ptr<AllyAttackAction> &act, Enemy *target, double damage) {
     for (TriggerAfterDealDamage &e : AfterDealingDamage_List) {
-        e.Call(act, src, damage);
+        e.Call(act, target, damage);
     }
 }

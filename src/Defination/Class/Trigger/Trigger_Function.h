@@ -128,8 +128,8 @@ class TriggerSkill_point_func : public TriggerFunc{
 
 class TriggerAfterDealDamage : public TriggerFunc{
     public:
-    function<void(shared_ptr<AllyAttackAction> &act,Enemy *src,double damage)> Call;
-    TriggerAfterDealDamage(int priority, function<void(shared_ptr<AllyAttackAction> &act,Enemy *src,double damage)> Call) 
+    function<void(shared_ptr<AllyAttackAction> &act,Enemy *target,double damage)> Call;
+    TriggerAfterDealDamage(int priority, function<void(shared_ptr<AllyAttackAction> &act,Enemy *target,double damage)> Call)
     : TriggerFunc(priority), Call(Call) {}
 };
 #endif

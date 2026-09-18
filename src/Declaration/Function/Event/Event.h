@@ -26,5 +26,5 @@ void allEventAfterApplyDebuff(AllyUnit *ptr, Enemy *target);
 void allEventApplyWeakness(AllyUnit *Trigger,Enemy *target,vector<ElementType> weaknessList);
 void allEventWhenEnemyDeath(AllyUnit *Killer, Enemy *target);
 void allEventWhenAllyDeath(AllyUnit *Target);
-void allEventAfterDealingDamage(shared_ptr<AllyAttackAction> &act, Enemy *src, double damage);
+void allEventAfterDealingDamage(shared_ptr<AllyAttackAction> &act, Enemy *target, double damage);
 

@@ -1,5 +1,17 @@
 # `src/Defination/Class/ActionData/AllyAttackAction.h`
 
+## Constructors
+
+User ยืนยัน 2026-09-17: constructor เปล่า `AllyAttackAction(){}` เผื่อสร้างแอ็กชันแล้วค่อยกำหนดข้อมูลเองภายหลัง ไม่เตรียมข้อมูลเหมือน overload ที่รับพารามิเตอร์
+
+จากโค้ด: overload ที่รับพารามิเตอร์ตั้ง `Attacker` และ `source` เป็นยูนิตที่ส่งมา ตั้งชื่อแอ็กชัน รูปแบบเป้าหมาย และธาตุจากผู้โจมตี เรียก `setupActionType()` แล้วเพิ่มผู้โจมตีคนแรกใน `AttackSetList`; overload อีกแบบรับ `actionFunction` เพิ่มด้วย
+
+## `addToActionBar()`
+
+User ยืนยัน 2026-09-17: เตรียมแอ็กชันให้ครบแล้วส่งเข้าคิวกลาง `Action_bar` เพื่อรอประมวลผล ยังไม่ออกท่าทันที
+
+จากโค้ด: ตรวจ `Attacker->isExisted()` ก่อน หากไม่ผ่านจะไม่เข้าคิว จากนั้นรวบรวมเป้าหมายที่ไม่เป็น null จาก `damageSplit` เพิ่มใน `targetList` โดยไม่เพิ่มยูนิตที่มีอยู่แล้ว (ตรวจด้วย `Atv_stats->num`) แล้วใช้ `shared_from_this()` ส่งแอ็กชันเดิมเข้า `Action_bar`
+
 ## `AttackSetList` กับ `switchAttacker`
 
 User ยืนยัน 2026-09-17:
@@ -75,6 +87,12 @@ User ชี้แจงและยืนยัน 2026-09-17 ว่าโค้
 ตัวอย่าง: มี 4 รอบแล้วเรียก `addDamageHit` จะยังมี 4 รอบ แต่รอบสุดท้ายมี hit เพิ่ม ส่วนการเพิ่มรอบที่ 5 ใช้ `addDamageIns`
 
 ใน `Attack()` event `BeforeAttackPerHit` / `AfterAttackPerHit` ทำงานต่อชุดชั้นนอก จึงไม่ได้เพิ่มรอบ event เมื่อเพิ่ม hit ในชุดเดิม จุดเรียกใช้ `addDamageHit` ใน Serval และ Black Swan ใช้เพิ่มดาเมจให้เป้าข้างเคียง ไม่ต้องแก้โค้ด
+
+## `addDamageIns` แบบส่งคู่ดาเมจ–เป้าหมาย
+
+User ยืนยัน 2026-09-17: overload แบบ variadic ใช้กับท่าที่ต้องกำหนดเป้าหมายและสเกลของแต่ละเป้าเองอย่างอิสระ เช่น `addDamageIns(dmgA, enemyA, dmgB, enemyB)` เพิ่มหนึ่งรอบโจมตีแล้วใส่ทุกคู่ในรอบนั้น ไม่เลือกจาก `Main` / `Adjacent` / `Other`
+
+จากโค้ด: ตรวจจำนวน argument ว่าเป็นคู่ด้วย `static_assert` แล้ว `addPairs()` รับทีละคู่และตรวจชนิดเป็น `DmgSrc` กับ `Enemy*` ก่อนเพิ่มในชุดเดียวกัน
 
 ## จุดต่อการสำรวจ
 

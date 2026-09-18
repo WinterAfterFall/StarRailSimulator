@@ -1,5 +1,22 @@
 # `src/Defination/Function/Combat/Combat.h`
 
+## `Deal_damage()` กับ `actionBarUse`
+
+User ยืนยัน 2026-09-17: `actionBarUse` ใช้กันการประมวลผลคิวซ้อน เพื่อให้แอ็กชันปัจจุบันจบก่อนทำรายการถัดไป
+
+จากโค้ด: หาก `actionBarUse` เป็น `true` จะกลับทันที มิฉะนั้นตั้งเป็น `true` แล้ววนประมวลผล `Action_bar` จากหัวคิวจนว่าง แอ็กชันที่เพิ่มเข้าคิวระหว่างนี้รอให้ลูปเดิมทำต่อ เมื่อจบจึงคืน `actionBarUse` เป็น `false` และคืน `phaseStatus` เป็นค่าก่อนเข้าฟังก์ชัน
+
+## จังหวะตรวจ Ultimate
+
+User อธิบาย 2026-09-17 ว่าเจตนาคือตรวจ 2 จังหวะ: หลังจบแอ็กชันใด ๆ และหลังจบ before-turn event ของตัวละครในเทิร์น AllyUnit
+
+จุดเรียกที่ตรวจพบในโค้ดปัจจุบัน:
+
+- `Deal_damage()`: หลัง `allEventAfterAction(temp)` เรียก `allUltimateCheck()` เมื่อ `turn` ไม่เป็น null ก่อนนำแอ็กชันออกจากคิว
+- `Take_action()`: เรียกหลังบล็อก `allEventBeforeTurn()` ก่อน `Turn_func()` เฉพาะเมื่อ `turn->canCastToAllyUnit()` คืน pointer ที่ไม่เป็น null; ยังเรียกเมื่อ `extraTurn` ทำให้ข้าม before-turn event
+- User ยืนยันว่าการไม่ตรวจหลังแต่ละแอ็กชันใน `AhaInstantBar` ถูกต้องแล้ว กฎหลังจบแอ็กชันข้างต้นใช้กับคิว `Action_bar`
+- User แก้โค้ด 2026-09-17: เพิ่มเงื่อนไข `canCastToAllyUnit` และลบจุดเรียกก่อน `allEventAfterTurn()` แล้ว จึงเหลือสองตำแหน่งข้างต้นใน `Combat.h`
+
 ## `aha` — pseudo-unit ของทีม Elation
 
 `aha` (`Setting.h:80`) = `unique_ptr<ActionValueStats>` ชื่อ `"Aha"` speed 80 — สร้างจาก `ActionValueStats` ตรง ๆ **ไม่มี object `Unit`** อยู่เบื้องหลัง → `charptr` เป็น `nullptr` ตลอด
@@ -16,7 +33,7 @@
 บังคับข้ามเทิร์น (CC เช่น Freeze) — `Take_action()`: `if(Turn_Skip==0){ Turn_func(); Deal_damage(); }`
 - ตั้ง = 1: `Event.h:19` (enemy โดน Freeze กินเทิร์น) · `Ruan_Mei.h:104`
 - reset = 0: ทุกรอบ loop (`Main.h:46` / `ManualBuilder.cpp:155`)
-- before/after-turn events **ยังยิงปกติ** — ข้ามแค่ action (รวมทั้ง `allUltimateCheck` 2 จุดใน `Take_action` ก็ยังยิง)
+- before/after-turn events **ยังยิงปกติ** — ข้ามแค่ action; จุดตรวจ Ultimate ก่อน action ยังเรียกเมื่อ `turn->canCastToAllyUnit` เป็นจริง
 
 **enemy ที่โดน freeze ทำไมไม่โดน `Find_turn` เลือกซ้ำทันที** (atv มันยัง ~0 อยู่) — คำตอบอยู่ที่ `Event.h:13-22` ใน `allEventBeforeTurn` (`side == Enemy`): ถ้าเจอ entry ใน `breakFrzList`
 1. `Cal_Freeze_damage` — คิดดาเมจ freeze

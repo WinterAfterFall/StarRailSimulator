@@ -1,5 +1,11 @@
 # `src/Defination/Class/ActionData/AllyBuffAction.h`
 
+## `addToActionBar()`
+
+User ยืนยัน 2026-09-17: ส่งแอ็กชันที่เตรียมไว้เข้าคิวกลาง ยังไม่ออกท่าทันที เช่นเดียวกับฝั่งโจมตี
+
+จากโค้ด: ตรวจ `Attacker->isExisted()` ก่อน แล้วใช้ `shared_from_this()` ส่งแอ็กชันเดิมเข้า `Action_bar`; ไม่รวบรวมเป้าหมายเพิ่ม เพราะกำหนด `buffTargetList` ไว้ก่อนแล้ว
+
 ## `buffTargetList` กับ `actionFunction`
 
 User ยืนยัน 2026-09-17:

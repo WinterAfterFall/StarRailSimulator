@@ -180,8 +180,8 @@ namespace Cipher{
 
             
             AfterDealingDamage_List.push_back(TriggerAfterDealDamage(PRIORITY_ACTTACK,[ptr,cph](
-                shared_ptr<AllyAttackAction> &act, Enemy *src, double damage){
-                    double percent = (src->Target_type == EnemyType::Main)
+                shared_ptr<AllyAttackAction> &act, Enemy *target, double damage){
+                    double percent = (target->Target_type == EnemyType::Main)
                     ? (12 * (1 + 0.5 * ptr->Adjust["Cipher A2"]))
                     : (8 * (1 + 0.5 * ptr->Adjust["Cipher A2"]));
                     
@@ -192,14 +192,14 @@ namespace Cipher{
                     if(act->actionName=="Cipher Tech")percent *= 2;
 
                     for(int i=1;i<=ptr->getAdjust("Cipher Ult Share")&&i<=Total_enemy;i++){
-                        Cal_DamageNote(act,src,enemyUnit[i].get(),damage*percent/100,75.0/ptr->getAdjust("Cipher Ult Share"),"Cph True " + act->actionName);
+                        Cal_DamageNote(act,target,enemyUnit[i].get(),damage*percent/100,75.0/ptr->getAdjust("Cipher Ult Share"),"Cph True " + act->actionName);
                     }
-                    Cal_DamageNote(act,src,enemyUnit[Main_Enemy_num].get(),damage*percent/100,25,"Cph True " + act->actionName);
+                    Cal_DamageNote(act,target,enemyUnit[Main_Enemy_num].get(),damage*percent/100,25,"Cph True " + act->actionName);
                             
 
                     if(ptr->Eidolon<6)return;
                     act->Attacker->owner
-                    ->buffNote["CipherNote" + src->getName()] += damage * percent/100 * 0.2;
+                    ->buffNote["CipherNote" + target->getName()] += damage * percent/100 * 0.2;
                     if(act->actionName!="Cipher Ult")return;
                     
                     double totaldmg = 0;

@@ -198,9 +198,9 @@ namespace Tribbie{
                 TBptr->setBuffCheck("TB_TrueDmg",0);
             }));
             AfterDealingDamage_List.push_back(TriggerAfterDealDamage(PRIORITY_IMMEDIATELY, [ptr,TBptr]
-                (shared_ptr<AllyAttackAction> &act, Enemy *src, double damage) {
+                (shared_ptr<AllyAttackAction> &act, Enemy *target, double damage) {
                 if(!TBptr->getBuffCheck("TB_TrueDmg"))return;
-                Cal_DamageNote(act,src,enemyUnit[Main_Enemy_num].get(),damage,24,"TB True " + act->actionName);
+                Cal_DamageNote(act,target,enemyUnit[Main_Enemy_num].get(),damage,24,"TB True " + act->actionName);
             }));
         }
 
