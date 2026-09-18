@@ -2,6 +2,14 @@
 
 ## อัปเดต 2026-09-18
 
+- ปิดหมายเหตุค้างใน `CharUnit.md`: ไล่ sub-unit lists และสูตร Speed/EHR requirement ครบแล้ว; ส่วนบนของคลาสมีคู่มือ damage records, formula checks, reroll และ build metadata อยู่แล้ว
+- แก้ `HpRequirment()` ให้ memosprite รับ HP% ที่จัดสรรใหม่เต็มค่า ป้องกันการคูณ `Unit_Hp_Ratio` ซ้ำหลัง base HP ถูกสเกลแล้ว
+- User ยืนยัน priority การกัน substat rolls ของ requirement เป็น ATK → HP → DEF → SPD → EHR ตามลำดับ บันทึกใน `Class/Unit/CharUnit.md`
+- User ยืนยัน `CharUnit::isSameOwner()` ใช้ชื่อตัวละครเป็น identity ได้ เพราะ simulator ไม่อนุญาตตัวละครซ้ำในทีม บันทึกใน `Class/Unit/CharUnit.md`
+- User ยืนยันให้เก็บ `getMemosprite(int num)` ซึ่งยังไม่มี caller ไว้รองรับหลาย memosprite ในอนาคต บันทึกใน `Class/Unit/CharUnit.md`
+- User ยืนยันระบบ index ของ `chooseAllyBuff()`: `0` คืน `CharUnit`, `1..N` เลือก memosprite ลำดับที่ 1..N; แก้ให้แปลงเป็น vector index ด้วย `-1`, เพิ่ม regression test และจดแผน refactor ใน `future-improvements.md`
+- User ยืนยัน `CharUnit::isAllyHaveSummon()` หมายถึงมี summon ปกติหรือ memosprite และจงใจไม่รวม countdown บันทึกใน `Class/Unit/CharUnit.md`
+- ลบ debug `cout` ที่พิมพ์ Crit DMG ของตัวละครช่อง 1 ทุกครั้งใน `Reset()` โดยไม่มีผลต่อการคำนวณ
 - แก้ `Summon_reset()` และ `Countdown_reset()` ให้ล้าง `extraTurn` ป้องกัน state รั่วข้าม run โดยเฉพาะ countdown ของ Phainon ที่ Ultimate ตั้งค่านี้เป็น 1
 - User ยืนยัน convention ของ `RESPEN`: RES ธาตุศัตรูเก็บเป็นค่าลบ ส่วน RES PEN/ลด RES เป็นค่าบวก เพื่อรวมกับฐาน 100 ใน `calRespenMultiplier()` บันทึกใน `Function/Setup/Stats_Reset.md`
 - แก้ `EhrRequirment()` จากการเพิ่ม `ExtraEhr` สะสมทั้งก้อนเป็นเพิ่มเฉพาะ `x` ที่จัดสรรใหม่ ป้องกัน EHR เดิมถูกบวกซ้ำเมื่อ requirement ต้องเติมหลายรอบ
@@ -14,6 +22,7 @@
 - User ยืนยัน `TriggerEnergy_Increase_Func` ทำงานก่อนเพิ่ม `Current_energy` เพื่อให้ตรวจค่าก่อนหน้าและคำนวณพลังงานล้นได้ บันทึกใน `Class/Trigger/Trigger_Function.md`; จุดต่อคือ `TriggerSkill_point_func`
 - User ยืนยันข้อมูล `TriggerDot_Func`: เป้าหมาย, ตัวคูณการ trigger DoT และชนิด DoT โดย `General` ครอบคลุมทุกชนิด บันทึกใน `Class/Trigger/Trigger_Function.md`; จุดต่อคือ `TriggerEnergy_Increase_Func`
 - User ยืนยัน `TriggerByEnemyHit` สำหรับเหตุการณ์โดนโจมตีซึ่งไม่ต้องรู้ HP ที่เสียจริง แยกจาก `TriggerDecreaseHP` บันทึกใน `Class/Trigger/Trigger_Function.md`; จุดต่อคือ `TriggerDot_Func`
+- ตรวจ `TriggerDecreaseHP::Value`: user ยืนยันว่าต้องเป็น HP ที่ลดจริง เช่น HP 100 ลดได้ถึงขั้นต่ำ 1 จึงส่ง 99; แก้ `DecreaseCurrentHP()` ให้คืนค่าที่ลดจริงและใช้ค่านั้นเรียก event ในตระกูล `DecreaseHP` กับ 3 จุดใน `EnemyActionData` แล้ว มี regression test ที่ `test/hp_decrease_event_regression.cpp`
 - User ยืนยัน `TriggerHealing::Value` คือค่าฮีลก่อนหัก overheal บันทึกใน `Class/Trigger/Trigger_Function.md`; จุดต่อคือ `TriggerDecreaseHP`
 - User ยืนยันข้อมูลสามส่วนของ `TriggerByWeaknessApply_Func`: ผู้เพิ่ม Weakness, ศัตรูเป้าหมาย และรายการธาตุที่เพิ่ม บันทึกใน `Class/Trigger/Trigger_Function.md`; จุดต่อคือ `TriggerHealing`
 - User ยืนยัน `TriggerBySomeAlly_Func` เป็น callback กลางของเหตุการณ์ระหว่างศัตรูหนึ่งตัวกับยูนิตฝ่ายเราหนึ่งตัว ความหมายของฝั่ง ally ขึ้นกับ event บันทึกใน `Class/Trigger/Trigger_Function.md`; จุดต่อคือ `TriggerByWeaknessApply_Func`
