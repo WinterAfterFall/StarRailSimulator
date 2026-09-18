@@ -67,7 +67,7 @@ void CharUnit::HpRequirment(){
     this->ExtraHp += x;
     this->Stats_type[Stats::HP_P][AType::None] += x;
     for(auto &each : this->memospriteList){
-        each->Stats_type[Stats::HP_P][AType::None] +=x*(each->Unit_Hp_Ratio /100);
+        each->Stats_type[Stats::HP_P][AType::None] += x;
     }
     return;
 }
