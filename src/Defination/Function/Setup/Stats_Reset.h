@@ -89,9 +89,7 @@ void Basic_reset(){
             charUnit[i]->Stats_type[Stats::CD][AType::None] += 50+5.8*2;
             charUnit[i]->Stats_type[Stats::BE][AType::None] += 5.8*2;
             charUnit[i]->Stats_type[Stats::EHR][AType::None] += 3.888*2;
-            charUnit[i]->Stats_type[Stats::HEALING_OUT][AType::None] += 0;
             charUnit[i]->Stats_type[Stats::RES][AType::None] += 4.32*2;
-            charUnit[i]->Stats_type[Stats::EHR][AType::None] += 3.888*2;
             charUnit[i]->Atv_stats->flatSpeed += 2.3*2;
 
 

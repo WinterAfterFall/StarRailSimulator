@@ -100,13 +100,28 @@ user ยืนยัน (2026-09-15): ทั้ง 4 ช่องใช้กำ
 
 ### ATK / HP / DEF requirements
 
-user ยืนยัน (2026-09-15): คู่ต่อไปนี้ใช้หลักการเดียวกับ SPD คือ `*Require` เก็บค่า stat รวมที่ต้องการ และ `Extra*` เก็บส่วนที่ยังขาดเพื่อใช้ในรอบ reroll ถัดไป แต่ปัจจุบันทั้งสามคู่ยังเป็น **dead code**:
+คู่ต่อไปนี้ใช้หลักการเดียวกับ SPD คือ `*Require` เก็บค่า stat รวมที่ต้องการ และ `Extra*` เก็บเปอร์เซ็นต์ stat ที่ได้จากการแลก substat rolls เพื่อให้ถึงเป้าหมาย:
 
 - `AtkRequire` / `ExtraAtk`
 - `HpRequire` / `ExtraHp`
 - `DefRequire` / `ExtraDef`
 
-สถานะนี้เป็นคำยืนยันจาก user ยังไม่ได้ไล่ตรวจจุดใช้งานในโค้ด
+ตรวจโค้ดและยืนยันกับ user ใหม่ 2026-09-18:
+
+- `SetCombat()` เรียก `AtkRequirment()`, `HpRequirment()` และ `DefRequirment()` ให้ตัวละครทุกตัว จึงไม่ใช่ dead code
+- ATK มี caller จริง: Hibana ตั้ง `setAtkRequire(3600)`
+- ยังไม่พบตัวละครตั้ง `HpRequire` หรือ `DefRequire` ในโค้ดปัจจุบัน จึงต่อระบบไว้แล้วแต่ยังไม่มีข้อมูลเข้า
+- ทั้งสามสูตรปัดจำนวน roll ขึ้น หัก roll ผ่าน `changeTotalSubStats()` แล้วเพิ่มค่า `Extra*` และ stat% ให้ตัวละครกับ memosprite
+
+### ค่าเฉลี่ยต่อหนึ่ง substat roll
+
+User ยืนยัน 2026-09-18 ว่าค่าคงที่ใน `CalRequireStats.h` ใช้เป็นค่าเฉลี่ยของ substat หนึ่ง roll:
+
+- SPD = `2.3`
+- ATK% / HP% / EHR = `3.888`
+- DEF% = `4.86`
+
+ระบบนำส่วนที่ยังขาดหารด้วยค่านี้และปัดขึ้น เพื่อหาจำนวน roll ที่ต้องกันไว้ก่อน reroll stats ส่วนที่เหลือ
 
 ### EHR — `ApplyBaseChance` / `EhrRequire` / `ExtraEhr`
 

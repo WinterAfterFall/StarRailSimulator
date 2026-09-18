@@ -2,6 +2,9 @@
 
 ## อัปเดต 2026-09-18
 
+- แก้ `Stats_Reset.h`: ลบ EHR `3.888 * 2` ที่ซ้ำ ทำให้ base EHR กลับเป็น 2 rolls (`7.776`) และลบ `HEALING_OUT += 0`; เพิ่ม regression test `test/basic_reset_stats_regression.cpp`
+- User ยืนยันค่าคงที่ใน Requirement stats เป็นค่าเฉลี่ยต่อหนึ่ง substat roll: SPD 2.3, ATK%/HP%/EHR 3.888 และ DEF% 4.86 บันทึกใน `Class/Unit/CharUnit.md`
+- ตรวจ Requirement stats ใน `CharUnit`: แก้เอกสารเดิมที่ระบุ ATK/HP/DEF เป็น dead code — `SetCombat()` เรียกครบทั้งสามแล้ว, Hibana ใช้ ATK requirement จริง, ส่วน HP/DEF ยังไม่มีตัวละครตั้งค่า ยืนยันกับ user และบันทึกใน `Class/Unit/CharUnit.md`
 - User ยืนยันข้อมูลของ `TriggerAfterDealDamage` และอนุมัติเปลี่ยนชื่อพารามิเตอร์ศัตรูจาก `src` เป็น `target`; แก้ใน trigger, event dispatcher และ callback ทั้ง 4 จุดแล้ว จุดนี้เป็น trigger สุดท้ายใน `Trigger_Function.h`
 - User ยืนยัน `TriggerSkill_point_func` ใช้ร่วมกับ Skill Point/Punchline รับผู้ก่อเหตุและค่าการเปลี่ยนแปลง โดย event ทำงานก่อนเปลี่ยนค่ารวมและผู้ก่อเหตุอาจเป็น null บันทึกใน `Class/Trigger/Trigger_Function.md`; จุดต่อคือ `TriggerAfterDealDamage`
 - User ยืนยัน `TriggerEnergy_Increase_Func` ทำงานก่อนเพิ่ม `Current_energy` เพื่อให้ตรวจค่าก่อนหน้าและคำนวณพลังงานล้นได้ บันทึกใน `Class/Trigger/Trigger_Function.md`; จุดต่อคือ `TriggerSkill_point_func`

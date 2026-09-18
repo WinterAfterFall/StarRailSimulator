@@ -13,3 +13,9 @@
 4. `status = Death` · `currentHP = 0` (`:262-263`) — **memo เริ่มต้น run ในสภาพตาย** (ถูกต้องตามดีไซน์) ต้องถูก summon ด้วยสกิลกลางรบ (ต่างจาก summon ที่ `Summon_reset` ตั้ง `Alive`). ภายใน run ที่มีหลาย wave: memo ที่ summon ใน wave 0 **อยู่ต่อ** wave 1+ (`Memosprite_reset` ไม่รันซ้ำระหว่าง wave)
 
 memosprite 2 แบบ: **สปีดคงที่** (RMC "Mem" — `fixSpeed=130, Speed_ratio=0` → 130 ตายตัว) · **อิงสปีดเจ้าของ** (Aglaea "Garmentmaker" — `fixSpeed=0, Speed_ratio=35` → 35% ของสปีด Aglaea ณ ต้น run)
+
+## Base stats จาก relic เริ่มต้น
+
+2026-09-18: พบ EHR `3.888 * 2` ถูกเพิ่มซ้ำสองบรรทัด ทำให้ตัวละครเริ่มด้วย EHR 4 rolls (`15.552`) แทน 2 rolls (`7.776`) ตามกติกาค่าเฉลี่ย substat แก้โดยลบบรรทัดซ้ำแล้ว และลบ `HEALING_OUT += 0` ซึ่งไม่มีผลต่อค่า
+
+มี regression test ที่ `test/basic_reset_stats_regression.cpp` ตรวจว่า `Basic_reset()` ให้ EHR เริ่มต้นเท่ากับ `3.888 * 2`
