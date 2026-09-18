@@ -118,8 +118,10 @@ void IncreaseHP(AllyUnit *Healer,AllyUnit *target,double Value){
     allEventHeal(Healer,target,Value);
 }
 
-void DecreaseCurrentHP(AllyUnit *ptr,double Value){
+double DecreaseCurrentHP(AllyUnit *ptr,double Value){
+    double previousHP = ptr->currentHP;
     ptr->currentHP = (ptr->currentHP - Value < 1) ? 1 : ptr->currentHP - Value;
+    return previousHP - ptr->currentHP;
 }
 void DecreaseHP(AllyUnit *target,Unit *Trigger,double Value,double percentFromTotalHP,double percentFromCurrentHP){
     decreaseHPCount++;
@@ -128,8 +130,8 @@ void DecreaseHP(AllyUnit *target,Unit *Trigger,double Value,double percentFromTo
     if(!target->isExisted())return;
     Total += (percentFromTotalHP/100.0*target->totalHP);
     Total += (percentFromCurrentHP/100.0*target->currentHP);
-    DecreaseCurrentHP(target,Total);
-    allEventChangeHP(Trigger,target,Total);
+    double actualDecrease = DecreaseCurrentHP(target,Total);
+    allEventChangeHP(Trigger,target,actualDecrease);
     
 }
 //ลดเลือดทั้งทีม
@@ -141,8 +143,8 @@ void DecreaseHP(Unit *Trigger,double Value,double percentFromTotalHP,double perc
         if(!each->isTargetable())continue;
         Total += (percentFromTotalHP/100.0*each->totalHP);
         Total += (percentFromCurrentHP/100.0*each->currentHP);
-        DecreaseCurrentHP(each,Total);
-        allEventChangeHP(Trigger,each,Total);
+        double actualDecrease = DecreaseCurrentHP(each,Total);
+        allEventChangeHP(Trigger,each,actualDecrease);
     }
 
 }
@@ -153,8 +155,8 @@ void DecreaseHP(Unit *Trigger,vector<AllyUnit*> target,double Value,double perce
         if(!AllyUnit->isTargetable())continue;
         Total += (percentFromTotalHP/100.0*AllyUnit->totalHP);
         Total += (percentFromCurrentHP/100.0*AllyUnit->currentHP);
-        DecreaseCurrentHP(AllyUnit,Total);
-        allEventChangeHP(Trigger,AllyUnit,Total);
+        double actualDecrease = DecreaseCurrentHP(AllyUnit,Total);
+        allEventChangeHP(Trigger,AllyUnit,actualDecrease);
     }
     
 }
@@ -167,8 +169,8 @@ void DecreaseHP(Unit *Trigger,string Name,double Value,double percentFromTotalHP
         if(!each->isTargetable())continue;
         Total += (percentFromTotalHP/100.0*each->totalHP);
         Total += (percentFromCurrentHP/100.0*each->currentHP);
-        DecreaseCurrentHP(each,Total);
-        allEventChangeHP(Trigger,each,Total);
+        double actualDecrease = DecreaseCurrentHP(each,Total);
+        allEventChangeHP(Trigger,each,actualDecrease);
     }
 
 }
