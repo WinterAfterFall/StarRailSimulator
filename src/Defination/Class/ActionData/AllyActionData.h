@@ -68,9 +68,6 @@ class AllyActionData : public ActionData, public std::enable_shared_from_this<Al
     void turnResetTrue(){
         this->Turn_reset = true;
     }
-    AType getAbitlityType(){
-        return this->actionTypeList[0];
-    }
     virtual void addActionType(AType actionType){
             actionTypeList.push_back(actionType);
     }
