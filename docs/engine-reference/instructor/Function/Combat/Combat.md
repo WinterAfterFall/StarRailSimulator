@@ -28,6 +28,12 @@ User อธิบาย 2026-09-17 ว่าเจตนาคือตรวจ
 
 > ⚠️ ตาราง field ใน [ActionValueStats.md](../../Class/Unit/ActionValueStats.md) บอก `charptr` "เซ็ตใน `Unit()` ctor เสมอ" — จริงสำหรับทุกตัว **ยกเว้น `aha`** ที่ตั้งใจให้เป็น null
 
+### `AhaInstant(PL)` — manual Aha Instant
+
+User ยืนยัน 2026-09-19: เป็น Aha Instant แบบสั่งเอง เผื่อสกิลพิเศษที่ต้องเรียก Aha Instant นอกเทิร์น (ตอนนี้ผู้เรียกคือ Yao Guang `YaoGuang.h:96-97`, PL 20 / 40 ตาม E1)
+
+จากโค้ด ต่างจาก `AhaTurn()`: ใช้ `punchline = PL` ชั่วคราวแล้วคืนค่าเดิม (ไม่หัก/ไม่ gen punchline), ไม่เรียก `BeforeAhaInstant` / `AfterAhaInstant`, ไม่ `resetTurn(aha)` แต่ยัง `++aha->turnCnt`, วน `ElationSkill_List`, drain `AhaInstantBar` และแจก `CB Buff`
+
 ## `Turn_Skip` (global bool, `Setting.h:72`)
 
 บังคับข้ามเทิร์น (CC เช่น Freeze) — `Take_action()`: `if(Turn_Skip==0){ Turn_func(); Deal_damage(); }`
@@ -42,3 +48,38 @@ User อธิบาย 2026-09-17 ว่าเจตนาคือตรวจ
 4. `breakFrzList.erase(itr)` + `break`
 
 ขั้นที่ 2 คือกลไกที่ทำให้ enemy เลื่อนออกจากตำแหน่ง "ตัวถัดไป" — ไม่งั้น loop วนเลือกมันซ้ำไม่จบ. รอบหน้า freeze ถูกลบไปแล้ว → เล่นเทิร์นปกติ
+
+## `Attack()` (`Combat.h:162`) — ผู้โจมตีหลัง `switchAttacker`
+
+จากโค้ด: ระหว่างวน `damageSplit` สลับ `Attacker` / `source` / type ตาม `switchAttacker` และไม่คืนค่ากลับก่อน `allEventAfterAttack(act)` จึงเห็นผู้โจมตีตัวสุดท้ายที่สลับไป; การคืนเป็น `AttackSetList[0]` เกิดทีหลังใน `AllyAction()` ก่อน `allEventAfterAttackAction`
+
+User ยืนยัน 2026-09-20: พฤติกรรมนี้ใช้ได้ ไม่มีปัญหา
+
+## `Superbreak_trigger()` — เงื่อนไขปริมาณ toughness ที่นับ
+
+User ยืนยัน 2026-09-20:
+
+- `Current_toughness + toughness_reduce <= 0` (หรือมี Dahlia) → เป้า Break อยู่ก่อนแล้ว นับ `toughness_reduce` เต็มจำนวน
+- `else` → การโจมตีครั้งนี้เพิ่งทำให้ Break พอดี จึงนับเฉพาะส่วนที่เกินเกราะ = `-Current_toughness` ซึ่งตอนนั้นติดลบ เพราะ `Cal_Toughness_reduction` หักจนต่ำกว่า 0 ได้ (`CalDamage.h:188-196`)
+- เรื่องสมุดเฉลี่ย/คิดสดของ Dahlia ดู [CalDamageNote.md](../Calculate/CalDamageNote.md)
+
+## `Dot_trigger(Dot_ratio, target, Dot_type)` — detonate DoT
+
+User ยืนยัน 2026-09-20:
+
+- `Dot_ratio` = เปอร์เซ็นต์ของดาเมจ DoT ปกติที่ทำให้เกิดทันที (detonate) เช่น Kafka 75 = DoT ทั้งหมดบนเป้าทำดาเมจทันที 75%
+- `DotType::General` = ทุกประเภท; ระบุ `Burn` / `Bleed` / `Shock` / `WindShear` = เฉพาะประเภทนั้น (Guinaifen = Burn, Luka = Bleed)
+
+จากโค้ด: (1) วน `breakDotList` คำนวณ break DoT แต่ละประเภท (Wind Shear คูณ `stack`) ผ่าน `Cal_Dot_Toughness_break_damage` (2) เรียก `Dot_List` ให้ DoT จากสกิลตัวละครทำงานตาม `Dot_ratio` / `Dot_type`
+
+## `Toughness_break()` — `Force_break` (`Setting.h:21`, ค่าเริ่มต้น `1`)
+
+จากโค้ด: ถ้า `Force_break != 0` ผู้ทำ Break ถูกบังคับเป็น `charUnit[Force_break]` → ธาตุ Break, สถานะ Break ที่ติด และ Break DMG เป็นของตัวละครช่องนั้นเสมอ ไม่ว่าใครตีแตก; `0` = ใช้ `act->Attacker` จริง
+
+User ยืนยัน 2026-09-20 (เหตุผล): บางทีมมี Break DMG เป็นดาเมจสำคัญ ถ้าคนทำ Break ไม่ใช่คนเดิมเสมอ เวลาเทียบผลระหว่าง 2 ทีมอาจได้ผลที่ไม่ถูกต้อง จึงล็อคผู้ทำ Break ให้คงที่ (สอดคล้องหลัก determinism)
+
+## `SuperBreak__Mode` (`Setting.h:8`, ค่าเริ่มต้น `0`)
+
+จากโค้ด: ถ้าเป็น `1` ทุกครั้งที่ Break จะตั้ง ATV ศัตรูเป็น `Max_atv * 0.5` ก่อนใส่ action delay ตามธาตุ
+
+User ยืนยัน 2026-09-20 (เหตุผล): SPB ทำดาเมจได้เฉพาะช่วงที่ศัตรูล้ม ซึ่งกินเวลาถึงเทิร์นถัดไปของศัตรู ถ้าเบรคเร็วเกินไปจนแตกในจังหวะที่ศัตรูใกล้ได้เทิร์นพอดี ช่วงทำดาเมจจะสั้นผิดปกติ โหมดนี้จึงสมมติว่าแตกกลางเทิร์นเสมอ เพื่อให้ผลของทีม Super Break คงที่
