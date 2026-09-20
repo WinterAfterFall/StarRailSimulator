@@ -1,6 +1,6 @@
 #include "../include.h"
 
-double calAtkMultiplier(AllyUnit* Healer, AllyUnit* target);
-double calHpMultiplier(AllyUnit* Healer, AllyUnit* target);
-double calDefMultiplier(AllyUnit* Healer, AllyUnit* target);
+double calAtkMultiplier(AllyUnit* Healer);
+double calHpMultiplier(AllyUnit* Healer);
+double calDefMultiplier(AllyUnit* Healer);
 double calHealBonusMultiplier(AllyUnit* Healer, AllyUnit* target);

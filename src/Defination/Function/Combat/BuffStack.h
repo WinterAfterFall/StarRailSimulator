@@ -88,28 +88,28 @@ void buffStackAllAlly(vector<BuffElementClass> buffSet , int Stack_increase, int
 void buffStackAllMemosprite(vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name){
     for (auto &each : charList) {
         for (auto &each2 : each->memospriteList) {
-            buffStackSingle(each,buffSet,Stack_increase,Stack_limit,Stack_Name);
+            buffStackSingle(each2.get(),buffSet,Stack_increase,Stack_limit,Stack_Name);
         }
     }
 }
 void buffStackAllMemosprite(vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name,int extend){
     for (auto &each : charList) {
         for (auto &each2 : each->memospriteList) {
-            buffStackSingle(each,buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
+            buffStackSingle(each2.get(),buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
         }
     }
 }
 void buffStackAllMemosprite(vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name){
     for (auto &each : charList) {
         for (auto &each2 : each->memospriteList) {
-            buffStackSingle(each,buffSet,Stack_increase,Stack_limit,Stack_Name);
+            buffStackSingle(each2.get(),buffSet,Stack_increase,Stack_limit,Stack_Name);
         }
     }
 }
 void buffStackAllMemosprite(vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name,int extend){
     for (auto &each : charList) {
         for (auto &each2 : each->memospriteList) {
-            buffStackSingle(each,buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
+            buffStackSingle(each2.get(),buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
         }
     }
 }

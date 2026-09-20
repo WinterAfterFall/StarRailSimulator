@@ -1,6 +1,6 @@
 #include "../include.h"
 
-double calAtkMultiplier(AllyUnit* Healer, AllyUnit* target) {
+double calAtkMultiplier(AllyUnit* Healer) {
     double ans = Healer->baseAtk;
     ans *= (100 + Healer->Stats_type[Stats::ATK_P][AType::None]) / 100.0;
     ans += Healer->Stats_type[Stats::FLAT_ATK][AType::None];
@@ -8,7 +8,7 @@ double calAtkMultiplier(AllyUnit* Healer, AllyUnit* target) {
     return (ans < 0) ? 0 : ans;
 }
 
-double calHpMultiplier(AllyUnit* Healer, AllyUnit* target) {
+double calHpMultiplier(AllyUnit* Healer) {
     double ans = Healer->baseHp;
     ans *= (100 + Healer->Stats_type[Stats::HP_P][AType::None]) / 100.0;
     ans += Healer->Stats_type[Stats::FLAT_HP][AType::None];
@@ -16,7 +16,7 @@ double calHpMultiplier(AllyUnit* Healer, AllyUnit* target) {
     return (ans < 0) ? 0 : ans;
 }
 
-double calDefMultiplier(AllyUnit* Healer, AllyUnit* target) {
+double calDefMultiplier(AllyUnit* Healer) {
     double ans = Healer->baseDef;
     ans *= (100 + Healer->Stats_type[Stats::DEF_P][AType::None]) / 100.0;
     ans += Healer->Stats_type[Stats::FLAT_DEF][AType::None];

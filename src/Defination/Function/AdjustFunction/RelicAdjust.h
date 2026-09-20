@@ -10,7 +10,7 @@ void CharUnit::newSpeedRequire(double amount){
 }
 
 void CharUnit::newApplyBaseChanceRequire(double amount){
-    if(this->ApplyBaseChance>amount)this->ApplyBaseChance = amount;
+    if(this->ApplyBaseChance == 0 || this->ApplyBaseChance > amount)this->ApplyBaseChance = amount;
 }
 void CharUnit::newEhrRequire(double amount){
     if(this->EhrRequire<amount)this->EhrRequire = amount;

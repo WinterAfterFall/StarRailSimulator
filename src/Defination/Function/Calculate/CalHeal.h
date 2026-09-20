@@ -17,22 +17,22 @@ double calculateHeal(HealSrc healSrc, AllyUnit *Healer, AllyUnit *target) {
         cout<<"Base Atk  : "<<setw(7)<<fixed<<setprecision(2)<<Healer->baseAtk
         <<" Atk% : "<<setw(6)<<fixed<<setprecision(2)<<Healer->Stats_type[Stats::ATK_P][AType::None]
         <<" Flat Atk  : "<<setw(7)<<fixed<<setprecision(2)<<Healer->Stats_type[Stats::FLAT_ATK][AType::None]
-        <<" Total Atk  : "<<setw(7)<<fixed<<setprecision(2)<<calAtkMultiplier(Healer,target)<<endl;
+        <<" Total Atk  : "<<setw(7)<<fixed<<setprecision(2)<<calAtkMultiplier(Healer)<<endl;
 
         cout<<"Base Hp   : "<<setw(7)<<fixed<<setprecision(2)<<Healer->baseHp
         <<" Hp%  : "<<setw(6)<<fixed<<setprecision(2)<<Healer->Stats_type[Stats::HP_P][AType::None]
         <<" Flat Hp   : "<<setw(7)<<fixed<<setprecision(2)<<Healer->Stats_type[Stats::FLAT_HP][AType::None]
-        <<" Total Hp   : "<<setw(7)<<fixed<<setprecision(2)<<calHpMultiplier(Healer,target)<<endl;
+        <<" Total Hp   : "<<setw(7)<<fixed<<setprecision(2)<<calHpMultiplier(Healer)<<endl;
     
         cout<<"Base Def  : "<<setw(7)<<fixed<<setprecision(2)<<Healer->baseDef
         <<" Def% : "<<setw(6)<<fixed<<setprecision(2)<<Healer->Stats_type[Stats::DEF_P][AType::None]
         <<" Flat Def  : "<<setw(7)<<fixed<<setprecision(2)<<Healer->Stats_type[Stats::FLAT_DEF][AType::None]
-        <<" Total Def  : "<<setw(7)<<fixed<<setprecision(2)<<calDefMultiplier(Healer,target)<<endl;
+        <<" Total Def  : "<<setw(7)<<fixed<<setprecision(2)<<calDefMultiplier(Healer)<<endl;
 
         cout<<"Lost Hp   : "<<setw(7)<<fixed<<setprecision(2)<<healSrc.healFromLostHP
         <<" Final Heal : "<<setw(7)<<fixed<<setprecision(2)<<(healSrc.healFromLostHP / 100.0) * (target->totalHP - target->currentHP)<<endl;;
         
-        cout<<"Total Hp  : "<<setw(7)<<fixed<<setprecision(2)<<healSrc.healFromLostHP
+        cout<<"Total Hp  : "<<setw(7)<<fixed<<setprecision(2)<<healSrc.healFromTotalHP
         <<" Final Heal : "<<setw(7)<<fixed<<setprecision(2)<<(healSrc.healFromTotalHP / 100.0) * (target->totalHP)<<endl;
 
         cout<<"Fix Heal  : "<<setw(7)<<fixed<<setprecision(2)<<healSrc.constHeal<<endl;
@@ -42,9 +42,9 @@ double calculateHeal(HealSrc healSrc, AllyUnit *Healer, AllyUnit *target) {
         <<" Total Heal  : "<<Healer->Stats_type[Stats::HEALING_OUT][AType::None] + target->Stats_type[Stats::HEALING_IN][AType::None]<<endl;
     }
     
-    TotalHeal += calAtkMultiplier(Healer,target) * healSrc.ATK / 100; 
-    TotalHeal += calHpMultiplier(Healer,target) * healSrc.HP / 100; 
-    TotalHeal += calDefMultiplier(Healer,target) * healSrc.DEF / 100; 
+    TotalHeal += calAtkMultiplier(Healer) * healSrc.ATK / 100;
+    TotalHeal += calHpMultiplier(Healer) * healSrc.HP / 100;
+    TotalHeal += calDefMultiplier(Healer) * healSrc.DEF / 100;
     TotalHeal += calculateHealFromLostHP(target, healSrc.healFromLostHP);
     TotalHeal += calculateHealFromTotalHP(target, healSrc.healFromTotalHP);
     TotalHeal += healSrc.constHeal;
