@@ -1,5 +1,9 @@
 # `src/Defination/Function/Combat/Combat.h`
 
+## Punchline
+
+`punchline` เป็นทรัพยากร global ที่มี clamp ขั้นต่ำเป็น 0 แต่ไม่มีเพดานสูงสุด ตั้งใจให้สะสมเกินค่าเริ่มต้นได้ไม่จำกัดตามกลไกของทีม Elation
+
 ## `Deal_damage()` กับ `actionBarUse`
 
 User ยืนยัน 2026-09-17: `actionBarUse` ใช้กันการประมวลผลคิวซ้อน เพื่อให้แอ็กชันปัจจุบันจบก่อนทำรายการถัดไป
