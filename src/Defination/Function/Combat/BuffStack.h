@@ -2,9 +2,11 @@
 
 //check if it is ally uni
 pair<int,int> calStack(AllyUnit *ptr,int Stack_increase,int StackLimit,string buffName){
-    Stack_increase = (ptr->getStack(buffName) + Stack_increase <= StackLimit) ? Stack_increase : StackLimit - ptr->getStack(buffName);
-    ptr->addStack(buffName, Stack_increase);
-    return {Stack_increase, ptr->getStack(buffName)};
+    int current = ptr->getStack(buffName);
+    int next = min(StackLimit, max(0, current + Stack_increase));
+    int applied = next - current;
+    ptr->addStack(buffName, applied);
+    return {applied, next};
 }
 
 //stack buff/debuff

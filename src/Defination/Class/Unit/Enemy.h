@@ -202,6 +202,7 @@ public:
     }
     void addStack(string debuffName,int value) {
         this->stack[debuffName] += value;
+        if (this->stack[debuffName] < 0) this->stack[debuffName] = 0;
     }
 
 

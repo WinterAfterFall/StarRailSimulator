@@ -156,6 +156,7 @@ public:
     //add
     void addStack(string buffName,int value) {
         this->stack[buffName] += value;
+        if (this->stack[buffName] < 0) this->stack[buffName] = 0;
     }
 
     
