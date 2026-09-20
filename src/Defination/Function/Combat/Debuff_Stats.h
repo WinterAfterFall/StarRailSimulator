@@ -93,6 +93,7 @@ vector<ElementType> weaknessApplyChoose(AllyUnit *ptr,Enemy *enemy,int amount,st
         }
     }
     sort(weaknessPriority.begin(),weaknessPriority.end());
+    amount = max(0, min(amount, min(7, static_cast<int>(weaknessPriority.size()))));
     for(int i = 0;i<amount;i++){
         choose.push_back(weaknessPriority[i].second);
     }
