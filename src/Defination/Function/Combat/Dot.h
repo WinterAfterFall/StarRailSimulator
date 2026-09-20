@@ -106,7 +106,7 @@ void dotEnemyTargetsStack(AllyUnit *ptr,vector<Enemy*> targets,vector<DotType> d
 }
 void dotEnemyTargetsStack(AllyUnit *ptr,vector<Enemy*> targets,vector<DotType> dotType,int Stack_increase, int Stack_limit, string dotName,int extend){
     for (auto &enemy : targets) {
-        dotSingleStack(ptr,enemy,dotType,Stack_increase,Stack_limit,dotName);
+        dotSingleStack(ptr,enemy,dotType,Stack_increase,Stack_limit,dotName,extend);
     }
 }
 
