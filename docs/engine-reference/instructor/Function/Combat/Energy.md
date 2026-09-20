@@ -21,6 +21,10 @@ field อยู่ที่ `CharUnit.h:36-39` · เซ็ตครั้งแ
 - Tingyun ตีเอง → 2-arg (`Tingyun.h:60,75`) · **Benediction ยัด energy ให้เพื่อน → 3-arg** `Increase_energy(target, 0, E6?60:50)` (`Tingyun.h:120`) · technique → `(ptr, 0, 50*Technique)` (`:169`)
 - Huohuo ult → `(each, 20, 0)` = 20% ของ `Max_energy` ไม่โดน ERR (`Huohuo.h:75`)
 
+### ขอบเขต Energy
+
+`Increase_energy()` ทุก overload จะ clamp `Current_energy` ให้อยู่ระหว่าง `0` และ `Max_energy` ดังนั้นเอฟเฟกต์ที่ส่งค่า Energy ติดลบจะลดได้ แต่ไม่ทำให้หลอดติดลบ
+
 ### `Ult_cost` vs `Max_energy`
 
 - `Max_energy` = **เพดานสะสม** — `Increase_energy` clamp ทุก overload

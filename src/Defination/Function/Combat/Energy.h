@@ -2,41 +2,29 @@
 
 void Increase_energy(CharUnit *ptr,double Energy ){
     allEventWhenEnergyIncrease(ptr,Energy*ptr->Energy_recharge/100);
-    if(ptr->Current_energy+Energy*ptr->Energy_recharge/100 > ptr->Max_energy){
-        ptr->Current_energy = ptr->Max_energy;
-    }else{
-        ptr->Current_energy +=  Energy*ptr->Energy_recharge/100;
-    }
+    ptr->Current_energy = max(0.0, min(ptr->Max_energy,
+        ptr->Current_energy + Energy*ptr->Energy_recharge/100));
     
     return ;
 }
 void Increase_energy(AllyUnit *ptr,double Energy ){
     allEventWhenEnergyIncrease(ptr->owner,Energy*ptr->owner->Energy_recharge/100);
-    if(ptr->owner->Current_energy+Energy*ptr->owner->Energy_recharge/100 > ptr->owner->Max_energy){
-        ptr->owner->Current_energy = ptr->owner->Max_energy;
-    }else{
-        ptr->owner->Current_energy +=  Energy*ptr->owner->Energy_recharge/100;
-    }
+    ptr->owner->Current_energy = max(0.0, min(ptr->owner->Max_energy,
+        ptr->owner->Current_energy + Energy*ptr->owner->Energy_recharge/100));
     
     return ;
 }
 void Increase_energy(CharUnit *ptr,double Energy_percent,double Flat_energy){
     allEventWhenEnergyIncrease(ptr,Energy_percent/100*ptr->Max_energy+Flat_energy);
-    if(ptr->Current_energy+Flat_energy+Energy_percent/100*ptr->Max_energy > ptr->Max_energy){
-        ptr->Current_energy = ptr->Max_energy;
-    }else{
-        ptr->Current_energy += Flat_energy+Energy_percent/100*ptr->Max_energy;
-    }
+    ptr->Current_energy = max(0.0, min(ptr->Max_energy,
+        ptr->Current_energy + Flat_energy + Energy_percent/100*ptr->Max_energy));
     
     return;
 }
 void Increase_energy(AllyUnit *ptr,double Energy_percent,double Flat_energy){
     allEventWhenEnergyIncrease(ptr->owner,Energy_percent/100*ptr->owner->Max_energy+Flat_energy);
-    if(ptr->owner->Current_energy+Flat_energy+Energy_percent/100*ptr->owner->Max_energy > ptr->owner->Max_energy){
-        ptr->owner->Current_energy = ptr->owner->Max_energy;
-    }else{
-        ptr->owner->Current_energy += Flat_energy+Energy_percent/100*ptr->owner->Max_energy;
-    }
+    ptr->owner->Current_energy = max(0.0, min(ptr->owner->Max_energy,
+        ptr->owner->Current_energy + Flat_energy + Energy_percent/100*ptr->owner->Max_energy));
     
     return;
 }
