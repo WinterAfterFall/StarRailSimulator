@@ -181,7 +181,7 @@ void debuffSingleApply(AllyUnit *ptr,Enemy *enemy,vector<BuffElementClass> debuf
 void debuffSingleMark(AllyUnit *ptr,Enemy *enemy,vector<BuffClass> debuffSet,string debuffName){
     if(!debuffMark(ptr,enemy,debuffName))return;
     for(BuffClass &debuff : debuffSet){
-        if(debuff.statsType==Stats::FLAT_SPD||debuff.statsType==Stats::SPD_P)ptr->speedBuff(debuff);
+        if(debuff.statsType==Stats::FLAT_SPD||debuff.statsType==Stats::SPD_P)enemy->speedBuff(debuff);
         else enemy->Stats_type[debuff.statsType][debuff.actionType] += debuff.value;
     }
 }
