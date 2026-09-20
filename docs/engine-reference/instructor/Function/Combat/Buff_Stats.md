@@ -28,3 +28,5 @@ buffSingle(target, {{Stats::ATK_P, AType::None, -BENEDICTION_ATK}});            
 |---|---|
 | `buffSingle(u, {…})` ไม่มีชื่อ | บวก stat **ทันที ถาวร ไม่ track** — ใช้ตอน "ถอนบัฟ" (ใส่ค่าลบ) |
 | `buffSingle(u, {…}, "Name", extend)` | ผ่าน `isHaveToAddBuff`: `extendBuffTime` (refresh timer ทุกครั้ง) → ถ้า `buffCheck["Name"]` เป็น 1 อยู่แล้ว **ไม่บวกซ้ำ** (re-cast = ต่อเวลา ไม่ stack) |
+
+**ชื่อบัฟเป็น key ร่วมของเป้าหมาย:** บัฟจากผู้แจกหลายคนที่ใช้ชื่อเดียวกันจะถูกนับเป็นบัฟเดียวกันและใช้ timer ร่วมกัน ไม่แยกตามผู้แจก พฤติกรรมนี้ตั้งใจใช้เป็นกลไก balance ของ Light Cone บางชิ้น เพื่อไม่ให้บัฟจากผู้ถือหลายคนซ้อนทับจนแรงเกินไป
