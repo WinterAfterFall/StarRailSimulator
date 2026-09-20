@@ -35,9 +35,13 @@ expire(BUFF_BENEDICTION, Stats::ATK_P, BENEDICTION_ATK);
 ดู [`instructor/Function/Combat/ChangeHP.md`](instructor/Function/Combat/ChangeHP.md) (ระบบโล่) — `decreaseSheild()` แก้แล้ว แต่ยังไม่มีโค้ดไหน **เพิ่ม** `currentSheild`
 ค้าง: อ่าน `Stats_type[SHEILD]` เป็นตัวคูณ outgoing shield, เพิ่ม `currentSheild`, countdown/ถอนเหมือนบัฟ, ปลด comment Aventurine
 
+## 3. ป้องกันตัวนับดีบัฟรวมติดลบ
+
+ปัจจุบัน `debuffRemove()` ลด `Total_debuff` โดยตรง ควรตรวจว่า debuff นั้น active อยู่ก่อนลด และ clamp ค่า `Total_debuff` ขั้นต่ำเป็น 0 เพื่อรองรับการเรียกล้างซ้ำในอนาคต ปัจจุบันยังไม่พบอาการผิดพลาด จึงเก็บไว้เป็นงานปรับปรุงภายหลัง
+
 ---
 
-## 3. refactor: summon / countdown ให้เป็นแค่ `ActionValueStats` (atv ล้วน ๆ)
+## 4. refactor: summon / countdown ให้เป็นแค่ `ActionValueStats` (atv ล้วน ๆ)
 
 **สภาพตอนนี้:** `SetSummonStats` / `SetCountdownStats` (`StatsSet.h:55-77`) สร้าง object เป็น `AllyUnit` (เก็บใน `vector<unique_ptr<Unit>>`) แต่ใช้แค่ส่วน atv จริง ๆ — ไม่มี HP / ไม่โดนตี / ไม่รับบัฟ stat. และ **ไม่เซ็ต `owner`** (ต่างจาก `SetMemoStats` ที่เซ็ต `owner = ptr`)
 
@@ -49,7 +53,7 @@ expire(BUFF_BENEDICTION, Stats::ATK_P, BENEDICTION_ATK);
 
 ---
 
-## 4. AllyUnit — cosmetic cleanup (ไม่กระทบพฤติกรรม)
+## 5. AllyUnit — cosmetic cleanup (ไม่กระทบพฤติกรรม)
 
 - `AllyUnit.h:98` `#pragma region Getters` ข้างในเป็น setter · `:140` `#pragma region Setters` ข้างในเป็น getter — สลับ label
 - `setDefaultTargetNum(int ally, int AllyUnit)` / `setCurrentTargetNum(...)` — พารามิเตอร์ชื่อ `AllyUnit` ชนชื่อคลาส
@@ -66,7 +70,7 @@ expire(BUFF_BENEDICTION, Stats::ATK_P, BENEDICTION_ATK);
 
 ---
 
-## 6. ตรวจ owner ด้วยชื่อแบบ `string` — อาจ implement ภายหลัง
+## 7. ตรวจ owner ด้วยชื่อแบบ `string` — อาจ implement ภายหลัง
 
 User ขอให้จดไว้ 2026-09-17; ยังไม่ implement และยังไม่ได้กำหนดว่าจะทำเมื่อใด
 
@@ -74,7 +78,7 @@ User ขอให้จดไว้ 2026-09-17; ยังไม่ implement แ
 
 ---
 
-## 5. per-unit `priority` ไม่ reset หลังเล่นเทิร์นจบ
+## 6. per-unit `priority` ไม่ reset หลังเล่นเทิร์นจบ
 
 `priority` (ต่อ unit) reset เป็น 0 แค่ตอน `Basic_reset` (**ต่อ run**) — ภายใน run ตัวที่เคยโดน `Action_forward` จน atv แตะ 0 จะค้าง `priority` สูง แม้เล่นเทิร์นไปแล้ว (ข้าม wave ด้วย)
 - ผลเฉพาะเคส `atv` เท่ากันเป๊ะ (speed เท่ากันเป๊ะ ไม่มีบัฟต่างกัน) ใน `Find_turn` → ตัวที่ค้าง `priority` สูงชนะ tie ซ้ำ ๆ
@@ -84,7 +88,7 @@ User ขอให้จดไว้ 2026-09-17; ยังไม่ implement แ
 
 ---
 
-## 7. `Cal_Toughness_reduction` — ตัดเงื่อนไขตรวจ Weakness หลังศัตรู Broken
+## 8. `Cal_Toughness_reduction` — ตัดเงื่อนไขตรวจ Weakness หลังศัตรู Broken
 
 ปัจจุบันเงื่อนไขไม่ลด Toughness เมื่อโจมตีไม่ตรง Weakness จะตรวจเฉพาะตอน `Current_toughness > 0` ทำให้หลังศัตรู Broken แล้วโค้ดยังเดินเข้าส่วนลด Toughness ต่อได้ แม้เงื่อนไขนั้นจะไม่จำเป็นต่อช่วง Broken
 
