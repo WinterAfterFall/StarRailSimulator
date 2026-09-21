@@ -5,6 +5,12 @@
 
 ---
 
+## ตัวเลือกศัตรูแบบ interactive ยังไม่ implement ครบ
+
+User ยืนยัน 2026-09-21 ว่าตอนนี้ตั้งใจ fix ศัตรูไว้ 2 ตัวชั่วคราวใน `SettingFunction.h::EnemySelector()` คำถามจำนวนศัตรู (`Tenemy`) ยังไม่ถูกนำไปใช้ และทางเลือกกำหนดสถานะศัตรูเองยังไม่มีขั้นตอนสร้างศัตรู งานภายหลังคือเชื่อมจำนวนที่เลือกกับการสร้างศัตรู และ implement การรับค่าศัตรูแบบกำหนดเอง โดยคงทางลัดค่าตั้งต้น 2 ตัวไว้ตามต้องการ
+
+---
+
 ## 1. การถอนค่า buff เมื่อหมดอายุ — framework ไม่ทำให้
 
 **สภาพตอนนี้:** framework track บัฟแค่ 2 อย่าง — `buffCheck` (bool ว่ามีบัฟอยู่ไหม) กับ `buffEnd` (turnCnt เป้าหมายที่บัฟจะหมด) — **ไม่เก็บขนาด delta** ของ stat ที่บวกไป
@@ -60,6 +66,8 @@ expire(BUFF_BENEDICTION, Stats::ATK_P, BENEDICTION_ATK);
 - `CharUnit` redeclare accessor ชุด `setStack`/`getStack`/... ที่ `AllyUnit` มีอยู่แล้ว — ซ้ำซ้อน
 - ~~`Unit::isExsited()` — typo (`isExisted`)~~ ✅ แก้แล้ว 2026-09-13
 - `Unit/Library.h` — `#include "AllyUnit.h"` ซ้ำ 2 บรรทัด
+- `src/Declaration/Class/Class.h` ประกาศ `class CharUnit;` ซ้ำ และ `src/Declaration/Function/Print/Print.h` ประกาศ `void printRoundResult();` ซ้ำ — เก็บกวาดได้โดยไม่เปลี่ยนพฤติกรรม
+- `debuffEnemyTargetsyMark()` ใน declaration/definition สะกด `Targetsy` ไม่สอดคล้องกับ `debuffEnemyTargetsApply()`; ยังไม่พบ caller ใน `src/Defination` หากจะเปลี่ยนชื่อควรค้นทั้งโปรเจกต์ก่อน
 - ~~`tauntMtprChange` / no-arg `calHitChance()` / `totalTaunt` dead code~~ ✅ ลบ/ปรับแล้ว (2026-09-04) — `tauntMtpr` → `tauntIncrease` (0 = ไม่มี), เหลือ `tauntIncreaseChange(double)` ต่อสายไว้รอ trace "taunt +X%" (ดู [`instructor/BUGS.md`](instructor/BUGS.md) #12)
 
 ### Refactor ระบบเลือกเป้าหมายบัฟ

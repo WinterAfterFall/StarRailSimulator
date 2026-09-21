@@ -1,6 +1,10 @@
 #include "../include.h"
 
 namespace BS{
+    int arcanaStacksAfterTick(int current) {
+        return max(1, current / 2);
+    }
+
     void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
         CharUnit *ptr = SetCharBasicStats(102,120,120,E,ElementType::Wind,Path::Nihility,"Black Swan",UnitType::Standard);
         ptr->SetAllyBaseStats(1087,660,485);
@@ -176,7 +180,7 @@ namespace BS{
             target->setStack("Arcana",min(maxArcana,target->getStack("Arcana")));
             
             if(phaseStatus == PhaseStatus::DotBeforeTurn){
-                if(!target->getDebuff("Arcana Ignore"))target->setStack("Arcana",target->getStack("Arcana")/2);
+                if(!target->getDebuff("Arcana Ignore"))target->setStack("Arcana",arcanaStacksAfterTick(target->getStack("Arcana")));
                 else target->setDebuff("Arcana Ignore",0);
             }
         }

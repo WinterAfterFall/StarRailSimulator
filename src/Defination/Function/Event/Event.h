@@ -36,16 +36,17 @@ void allEventAfterTurn(){
                 itr++;
                 continue;
             }
+            BreakSEType expiredType = itr->type;
             itr = target->breakDotList.erase(itr);
             --target->Total_debuff;
             --target->DotCount;
-            if(itr->type == BreakSEType::Burn){
+            if(expiredType == BreakSEType::Burn){
                 --target->BurnCount;
-            } else if(itr->type == BreakSEType::Shock){
+            } else if(expiredType == BreakSEType::Shock){
                 --target->ShockCount;
-            } else if(itr->type == BreakSEType::WindShear){
+            } else if(expiredType == BreakSEType::WindShear){
                 --target->WindSheerCount;
-            } else if(itr->type == BreakSEType::Bleed){
+            } else if(expiredType == BreakSEType::Bleed){
                 --target->BleedCount;
             }
             

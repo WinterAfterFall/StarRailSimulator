@@ -77,8 +77,8 @@ void extendDebuffTargets(vector<Enemy*> targets,string Debuff_name,int Turn_exte
 vector<ElementType> weaknessApplyChoose(AllyUnit *ptr,Enemy *enemy,int amount,string debuffName,int extend){
     vector<pair<int,ElementType>> weaknessPriority;
     vector<ElementType> choose;
+    int i=1;
     for(auto &each : charList){
-        int i=1;
         if(enemy->Weakness_type[each->Element_type[0]])continue;
         if(each->path[0]==Path::Harmony)weaknessPriority.push_back({Total_ally+4,each->Element_type[0]});
         else if(each->path[0]==Path::Nihility)weaknessPriority.push_back({Total_ally+1,each->Element_type[0]});

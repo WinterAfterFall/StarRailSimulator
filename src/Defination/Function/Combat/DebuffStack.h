@@ -2,10 +2,11 @@
 
 pair<int,int> calDebuffStack(AllyUnit *ptr,Enemy *enemy,string debuffName,int Stack_increase,int StackLimit){
     allEventBeforeApplyDebuff(ptr, enemy);
-    if (!enemy->getStack(debuffName)) enemy->addTotalDebuff(1);
     int current = enemy->getStack(debuffName);
     int next = min(StackLimit, max(0, current + Stack_increase));
     int applied = next - current;
+    if (current == 0 && next > 0) enemy->addTotalDebuff(1);
+    else if (current > 0 && next == 0) enemy->addTotalDebuff(-1);
     enemy->addStack(debuffName, applied);
     allEventAfterApplyDebuff(ptr, enemy);
     return {applied, next};

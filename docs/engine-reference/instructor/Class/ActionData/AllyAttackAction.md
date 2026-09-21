@@ -12,6 +12,8 @@ User ยืนยัน 2026-09-17: เตรียมแอ็กชันใ�
 
 จากโค้ด: ตรวจ `Attacker->isExisted()` ก่อน หากไม่ผ่านจะไม่เข้าคิว จากนั้นรวบรวมเป้าหมายที่ไม่เป็น null จาก `damageSplit` เพิ่มใน `targetList` โดยไม่เพิ่มยูนิตที่มีอยู่แล้ว (ตรวจด้วย `Atv_stats->num`) แล้วใช้ `shared_from_this()` ส่งแอ็กชันเดิมเข้า `Action_bar`
 
+`addEnemyToTargetList()` ทำขั้นรวบรวมเป้าหมายเดียวกันโดยไม่เข้าคิว และถูก `Attack()` เรียกเมื่อ `targetList` ยังว่าง ส่วน `addToAhaInstant()` รวบรวมเป้าหมายแบบเดียวกันแล้วส่งเข้า `AhaInstantBar` แทน `Action_bar`; ลำดับประมวลผล Aha บันทึกไว้ใน [Combat.md](../../Function/Combat/Combat.md)
+
 ## `AttackSetList` กับ `switchAttacker`
 
 User ยืนยัน 2026-09-17:
@@ -44,6 +46,16 @@ User ยืนยัน 2026-09-17: เก็บรายชื่อศัต�
 ## `Damage_element`
 
 User ยืนยัน 2026-09-17: เป็นธาตุของดาเมจในแอ็กชัน เริ่มจากธาตุของผู้โจมตี และเปลี่ยนผ่าน `setDamageElement()` ได้ เพื่อรองรับการสร้างความเสียหายต่างธาตุจากตัวผู้โจมตี
+
+## การเพิ่ม action type กับ damage type
+
+จากโค้ด:
+
+- `addActionType(type)` เพิ่มเฉพาะ `actionTypeList` ของแอ็กชันปัจจุบันและของผู้โจมตีหลัก `AttackSetList[0]`
+- `addDamageType(type)` เพิ่มเฉพาะ `damageTypeList` สองตำแหน่งดังกล่าว
+- `addAttackType(type)` เพิ่มทั้ง action type และ damage type สองตำแหน่ง
+
+สามเมธอดนี้แยกกันเพื่อให้ trigger ที่ตรวจชนิดแอ็กชันกับสูตรที่ตรวจชนิดดาเมจเห็นข้อมูลตามที่ต้องการ โดยไม่จำเป็นต้องเพิ่มทั้งคู่เสมอ ความหมายของ list หลายชนิดดู [AllyActionData.md](AllyActionData.md#actiontypelist-หลาย-type)
 
 ## `actionFunction`
 
@@ -93,10 +105,6 @@ User ชี้แจงและยืนยัน 2026-09-17 ว่าโค้
 User ยืนยัน 2026-09-17: overload แบบ variadic ใช้กับท่าที่ต้องกำหนดเป้าหมายและสเกลของแต่ละเป้าเองอย่างอิสระ เช่น `addDamageIns(dmgA, enemyA, dmgB, enemyB)` เพิ่มหนึ่งรอบโจมตีแล้วใส่ทุกคู่ในรอบนั้น ไม่เลือกจาก `Main` / `Adjacent` / `Other`
 
 จากโค้ด: ตรวจจำนวน argument ว่าเป็นคู่ด้วย `static_assert` แล้ว `addPairs()` รับทีละคู่และตรวจชนิดเป็น `DmgSrc` กับ `Enemy*` ก่อนเพิ่มในชุดเดียวกัน
-
-## จุดต่อการสำรวจ
-
-- ข้อมูลใน `Damage`: ยืนยันแล้ว ดู [DamageData.md](../CombatData/DamageData.md) · หน่วย `DmgSrc` ยืนยันแล้ว 2026-09-17: สเกลเป็นเปอร์เซ็นต์, constDmg เป็นค่าคงที่, toughnessReduce เป็นหน่วย toughness · `critAble` / `critGarantee` ยืนยันแล้ว 2026-09-17: เปิด/ปิดการติดคริ และตัวบังคับคริที่ยังไม่ได้ใช้งาน · `targetList` ยืนยันแล้ว 2026-09-17: รายชื่อเป้าหมายไม่ซ้ำของแอ็กชัน · `Damage_element` ยืนยันแล้ว 2026-09-17: ธาตุดาเมจเริ่มจากผู้โจมตีและเปลี่ยนได้ · `actionFunction` อธิบายแล้ว 2026-09-17: รายละเอียดแอ็กชันมีมาก จึงใช้ callback เพื่อ custom ได้ง่าย · `addDamage` ยืนยันแล้ว 2026-09-17: เพิ่มค่าที่ระบุให้ทุกรายการใน damageSplit · `addDamageIns` / `addDamageHit` ยืนยันแล้ว: เพิ่มรอบ / เพิ่ม hit ในรอบ โค้ดถูกต้องแล้ว
 
 ## `critAble` กับ `critGarantee`
 

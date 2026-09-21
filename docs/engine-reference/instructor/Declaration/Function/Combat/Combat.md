@@ -1,0 +1,3 @@
+# `src/Declaration/Function/Combat/Combat.h`
+
+ไฟล์นี้เป็นชุดคำประกาศของ `Combat` สำหรับให้ส่วนอื่นเรียกฟังก์ชันก่อนถึงนิยามจริง ไม่มี logic สำหรับรันในไฟล์นี้ นิยามและพฤติกรรมอยู่ที่ [Combat.md](../../../Function/Combat/Combat.md)

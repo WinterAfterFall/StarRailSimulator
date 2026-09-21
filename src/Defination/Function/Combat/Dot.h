@@ -29,21 +29,19 @@ void dotSingleMark(AllyUnit *ptr, Enemy *enemy ,vector<DotType> dotType,string d
 }
 
 void dotSingleStack(AllyUnit *ptr, Enemy *enemy ,vector<DotType> dotType,int Stack_increase, int Stack_limit, string dotName) {
-    if(!enemy->getStack(dotName))
+    int current = enemy->getStack(dotName);
+    int next = min(Stack_limit, max(0, current + Stack_increase));
+    int countChange = current == 0 && next > 0 ? 1 : current > 0 && next == 0 ? -1 : 0;
+    if(countChange != 0)
         for(auto &each : dotType) {
-            enemy->changeDotType(each,1);
+            enemy->changeDotType(each,countChange);
         }
 
-    int stack = calDebuffStack(ptr,enemy,dotName,Stack_increase,Stack_limit).first;
+    calDebuffStack(ptr,enemy,dotName,Stack_increase,Stack_limit);
 }
 
 void dotSingleStack(AllyUnit *ptr, Enemy *enemy,vector<DotType> dotType,int Stack_increase, int Stack_limit, string dotName, int extend) {
-    if(!enemy->getStack(dotName))
-        for(auto &each : dotType) {
-            enemy->changeDotType(each,1);
-        }
-        
-    int stack = calDebuffStack(ptr,enemy,dotName,Stack_increase,Stack_limit).first;
+    dotSingleStack(ptr,enemy,dotType,Stack_increase,Stack_limit,dotName);
     extendDebuff(enemy,dotName,extend);
 }
 

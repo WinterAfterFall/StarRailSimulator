@@ -30,3 +30,9 @@ buffSingle(target, {{Stats::ATK_P, AType::None, -BENEDICTION_ATK}});            
 | `buffSingle(u, {…}, "Name", extend)` | ผ่าน `isHaveToAddBuff`: `extendBuffTime` (refresh timer ทุกครั้ง) → ถ้า `buffCheck["Name"]` เป็น 1 อยู่แล้ว **ไม่บวกซ้ำ** (re-cast = ต่อเวลา ไม่ stack) |
 
 **ชื่อบัฟเป็น key ร่วมของเป้าหมาย:** บัฟจากผู้แจกหลายคนที่ใช้ชื่อเดียวกันจะถูกนับเป็นบัฟเดียวกันและใช้ timer ร่วมกัน ไม่แยกตามผู้แจก พฤติกรรมนี้ตั้งใจใช้เป็นกลไก balance ของ Light Cone บางชิ้น เพื่อไม่ให้บัฟจากผู้ถือหลายคนซ้อนทับจนแรงเกินไป
+
+## อายุบัฟและการกระจายเป้าหมาย
+
+`extendBuffTime()` ตั้ง `buffEnd` เป็นจำนวนเทิร์นของ `Atv_stats` ของเป้าหมายบวก `Turn_extend`; `isBuffEnd()` ล้าง flag และวันหมดอายุเมื่อถึงเทิร์นดังกล่าวและยูนิตนั้นกำลังเดิน ส่วน `isBuffGoneByDeath()` ล้างสองค่านี้ทันทีหากยังมี flag ฟังก์ชันตระกูล `extend*` ที่เหลือเพียงวนส่งอายุให้ตัวละครพร้อม memosprite, ทุกคนใน `allyList`, เป้าหมายที่กำหนด หรือทุกคนยกเว้นผู้บัฟ
+
+`buffSingleChar()` ใช้บัฟกับ `CharUnit` และ memosprite ของตัวนั้น; `buffAllMemosprite()` วน memosprite จาก `charUnit[1..Total_ally]`; `buffAllAlly()` วน `allyList`; `buffTargets()` วนรายการที่ส่งมา ชุด `*ExcludingBuffer()` ข้ามยูนิตที่ `isSameName()` กับผู้บัฟ ทั้งหมดส่งต่อไป `buffSingle()` จึงใช้กติกาค่าบัฟและการต่ออายุเดียวกัน
