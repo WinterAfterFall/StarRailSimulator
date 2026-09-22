@@ -28,9 +28,6 @@ namespace Serval{
         Relic(ptr);
         Planar(ptr);
         ptr->Turn_func = [ptr, allyPtr = ptr]() {
-                Basic_Atk(ptr);
-                return;
-
             if (allyPtr->Atv_stats->turnCnt % 3 != 1) {
                 Basic_Atk(ptr);
             } else {
@@ -106,16 +103,26 @@ namespace Serval{
 
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act) {
             if (act->Attacker->Atv_stats->Name != "Serval") return;
-            shared_ptr<AllyAttackAction> data_2 = 
-            make_shared<AllyAttackAction>(AType::Addtional,ptr,TraceType::Single,"Serval AddDmg");
+            // มีศัตรูติด Shock อยู่สักตัว -> additional DMG ใส่ศัตรูทุกตัว ยิงครั้งเดียว
+            bool anyShocked = false;
             for (int i = 1; i <= Total_enemy; i++) {
                 if (enemyUnit[i]->getDebuff("Serval_Shock")) {
-                    data_2->addDamageIns(DmgSrc(DmgSrcType::ATK,79));
-                    Attack(data_2);
-                    if (ptr->Eidolon >= 2) {
-                        Increase_energy(ptr, 4);
-                    }
+                    anyShocked = true;
+                    break;
                 }
+            }
+            if (!anyShocked) return;
+
+            shared_ptr<AllyAttackAction> data_2 = 
+            make_shared<AllyAttackAction>(AType::Addtional,ptr,TraceType::Aoe,"Serval AddDmg");
+            data_2->addDamageIns(
+                DmgSrc(DmgSrcType::ATK,79),
+                DmgSrc(DmgSrcType::ATK,79),
+                DmgSrc(DmgSrcType::ATK,79)
+            );
+            Attack(data_2);
+            if (ptr->Eidolon >= 2) {
+                Increase_energy(ptr, 4);   // E2: 1 ครั้งต่อการ trigger talent
             }
         }));
 

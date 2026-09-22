@@ -44,7 +44,7 @@ namespace BS{
         function<void()> Skill = [ptr,bs]() {
             genSkillPoint(bs,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"BS Skill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"BS Skill",
             [ptr,bs](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(ptr,30);
                 for(auto &each : act->targetList){
@@ -76,7 +76,7 @@ namespace BS{
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,bs]() {
             shared_ptr<AllyAttackAction> act =
-            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"BS Ult",
+            make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"BS Ult",
             [ptr,bs](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Black Swan");
                 if(ptr->Eidolon>=4)debuffAllEnemyApply(ptr,{{Stats::VUL,AType::None,45}},"Epiphany",2);
