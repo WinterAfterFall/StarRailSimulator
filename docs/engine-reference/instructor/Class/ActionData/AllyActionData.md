@@ -65,3 +65,9 @@ User ยืนยัน 2026-09-19:
 
 - `isSameAction` / `isSameOwnerAction`: ถามไปแล้ว; user เตือนไม่ให้ถามซ้ำ
 - `AttackSetList` / `switchAttacker` สำรวจแล้ว ดู [AllyAttackAction.md](AllyAttackAction.md); จุดต่อปัจจุบันดู [LOG.md](../../LOG.md)
+
+## accessor และการ cast
+
+`getAttacker()` (บรรทัด 26) คืน `Attacker` (`AllyUnit*`) ตรง ๆ — ต่างจาก `getChar()` ที่เด้งไปหา `CharUnit` เจ้าของ ถ้าผู้โจมตีเป็นเมมอสไปรต์ สองตัวนี้จะคืนคนละยูนิต ดูกติกาผู้โจมตี vs เจ้าของใน [AllyAttackAction.md](AllyAttackAction.md)
+
+`castToAllyActionData()` (บรรทัด 79) — `dynamic_cast` จาก `ActionData*` ขึ้นมาเป็น `AllyActionData*` คืน `nullptr` ถ้า action นั้นเป็นของศัตรู · คู่กับ `castToAllyAttackAction()` และ `castToEnemyActionData()` ตามลำดับชั้นใน [ActionData.md](ActionData.md)

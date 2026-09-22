@@ -44,6 +44,28 @@ User ยืนยัน 2026-09-20 ว่าค่าเฉลี่ยคริ
 
 แก้ข้อความ debug ใน `Cal_Crit_dam_multiplier()` วันที่ 2026-09-20: ช่อง `Base Crit dam` เดิมแสดง `Stats::CR`; เปลี่ยนเป็น `Stats::CD` ให้ตรงกับป้ายและสูตร
 
+### `Cal_Crit_rate_multiplier()` / `Cal_Crit_dam_multiplier()`
+
+**ยุบรวมแล้ว 2026-09-22** ([🐞 #25](../../BUGS.md)) — เดิมสูตรรวม CR/CD ถูกเขียนซ้ำสองที่: ในสองฟังก์ชันนี้ (ซึ่งไม่มีใครเรียกเลย) และซ้ำอีกชุดในตัว `calCritMultiplier()` เอง ทำให้การแก้ครั้งหนึ่งไปโดนแค่ชุดเดียว (เช่นการแก้ป้าย debug 2026-09-20 ข้างบน แก้เฉพาะชุดที่ไม่ทำงาน) ตอนนี้ `calCritMultiplier()` เรียกสองฟังก์ชันนี้แทน เหลือสูตรชุดเดียวในเรโป
+
+โครงของทั้งคู่เหมือนกัน ต่างกันแค่ stat ที่อ่าน (`Stats::CR` กับ `Stats::CD`):
+
+```cpp
+mtpr = Attacker->Stats_type[stat][AType::None] + target->Stats_type[stat][AType::None];
+for (type : act->damageTypeList)
+    mtpr += Attacker->Stats_type[stat][type] + target->Stats_type[stat][type];
+return (mtpr < 0) ? 0 : mtpr;      // clamp พื้นที่ 0 — เพดานอยู่ที่ผู้เรียก
+```
+
+จุดที่ต้องจำ:
+
+- **รวมค่าจากศัตรูด้วย** ไม่ใช่แค่ผู้โจมตี — ช่อง `Stats_type[CR]` / `[CD]` ของ `target` คือทางที่ดีบัฟประเภท "เป้านี้โดนคริตง่ายขึ้น" ใช้
+- **วนตาม `damageTypeList` ไม่ใช่ `actionTypeList`** ตรงตามกติกาใน [AllyAttackAction.md](../../Class/ActionData/AllyAttackAction.md): `damageTypeList` คือแกนที่ใช้ค้นบัฟ
+- **คืนค่าเป็นเปอร์เซ็นต์ดิบ ไม่ใช่ตัวคูณ** เช่น CR 85 คืน `85` ไม่ใช่ `0.85` — ตัวหาร 100 และเพดาน CR ที่ `100%` อยู่ใน `calCritMultiplier()` ผู้เรียก
+- แต่ละตัวพิมพ์ debug ของตัวเองคุมด้วย `canCheckDmgformulaCritRate()` / `canCheckDmgformulaCritDam()` ([FormulaCheck.md](../AdjustFunction/FormulaCheck.md)) — ตอนยุบได้ปรับความกว้างคอลัมน์ของทั้งสองตัวให้ตรงกับที่ `calCritMultiplier()` เคยพิมพ์ (`setw(7)`) ผลลัพธ์บนจอจึงไม่เปลี่ยน
+
+⚠️ **มีหนึ่งกรณีที่ผลต่างจากเดิม**: ถ้า CR และ CD **ติดลบพร้อมกัน** โค้ดเดิมจะได้ลบ×ลบ = บวก แล้วคืนตัวคูณ **มากกว่า 1** (เช่น CR −50, CD −100 → `1.5`) ส่วนโค้ดใหม่ clamp ทั้งคู่เป็น 0 ก่อน จึงคืน `1.0` ตามเจตนาของ clamp ขั้นต่ำ กรณีอื่น (ติดลบตัวเดียว หรือบวกทั้งคู่) ผลเท่าเดิมทุกประการ
+
 ## `calDefShredMultiplier()`
 
 รวม DEF shred จาก `Attacker` และ `target` ทั้ง `AType::None` กับทุก type ใน `damageTypeList` โดย cap ค่าสูงสุดที่ `100%` แล้วคำนวณ:
@@ -81,3 +103,9 @@ DEF shred ถูก cap เฉพาะค่าสูงสุดที่ `100
 ข้อยกเว้นด้านแหล่งข้อมูล: `calRespenMultiplier` รวมค่าตามธาตุของดาเมจด้วย ส่วน convention RES/RES PEN อธิบายใน [Stats_Reset.md](../Setup/Stats_Reset.md)
 
 User ยืนยัน 2026-09-20 ว่า `Stats::Mitigration` ใช้ค่าติดลบเพื่อแสดงการลดดาเมจ เช่น `-20` → multiplier `0.8`; ค่าบวกเพิ่มดาเมจตามสูตร ปัจจุบันยังไม่มี caller กำหนด stat นี้
+
+## `calToughnessMultiplier()` (บรรทัด 392)
+
+คืน Broken Multiplier แบบคิดสด — `1.0` เมื่อศัตรู broken อยู่ · `0.9` เมื่อยังไม่ broken · และคืน `1` (ไม่ใส่ 0.9) เมื่อ action นั้นตั้ง `toughnessAvgCalculate` ไว้ เพราะตัวคูณจะถูกเฉลี่ยทีหลังแทน
+
+เหตุผลของการมีสองเส้นทางนี้ และวิธีที่ตัวคูณเฉลี่ยถูกปั๊มลงสมุดตอนจบรัน อธิบายไว้ใน [CalDamageNote.md](CalDamageNote.md) หัวข้อ "สมุดดาเมจ 2 เล่ม"

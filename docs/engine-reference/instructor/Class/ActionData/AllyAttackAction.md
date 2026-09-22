@@ -114,3 +114,14 @@ User ยืนยัน 2026-09-17:
 - `critGarantee` เตรียมไว้สำหรับบังคับคริ แต่ยังไม่ได้ทำใช้งาน
 
 ตรวจโค้ด: `critAble` เริ่มเป็น `true` และ `CalStats.h` คืนตัวคูณคริเป็น `1` เมื่อปิด; `critGarantee` เริ่มเป็น `false` และพบเฉพาะจุดประกาศใน `src`
+
+## setter สองตัวท้ายไฟล์ (บรรทัด 432–437)
+
+| setter | เขียน field | ผลที่ตามมา |
+|---|---|---|
+| `setToughnessAvgCalculate(bool)` | `toughnessAvgCalculate` | เลือกว่าดาเมจก้อนนี้ลง **สมุดเฉลี่ย** (`1`) หรือ **สมุดคิดสด** (`0`) — กติกาเต็มอยู่ใน [CalDamageNote.md](../../Function/Calculate/CalDamageNote.md) |
+| `setDamageNote(bool)` | `damageNote` | เปิด/ปิดการเก็บ sample ดาเมจเฉลี่ยของ action นี้ — `Combat.h:149` เรียก `Cal_AverageDamage()` เฉพาะเมื่อธงนี้เป็นจริง |
+
+ทั้งคู่เป็น one-liner เขียนทับตรง ๆ ไม่มีการตรวจสอบ · ผู้ใช้หลักคือ `Superbreak_trigger()` ที่เขียน `toughnessAvgCalculate` ทับตามเงื่อนไข `DahliaCheck` ([Combat.md](../../Function/Combat/Combat.md))
+
+`castToAllyAttackAction()` (บรรทัด 440) — `dynamic_cast` จาก `AllyActionData*` ลงมาเป็น `AllyAttackAction*` คืน `nullptr` ถ้า action นั้นไม่ใช่การโจมตี ใช้คู่กับ `castToAllyActionData()` / `castToEnemyActionData()` ตามลำดับชั้นใน [ActionData.md](ActionData.md)

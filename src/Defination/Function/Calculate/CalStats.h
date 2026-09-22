@@ -203,33 +203,6 @@ double calBonusDmgMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
     }
     return (Bonus_dmg_mtpr / 100 < 0) ? 0 : Bonus_dmg_mtpr / 100;
 }
-double calCritMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
-    double Crit_rate_mtpr;
-    double Crit_dam_mtpr;
-    
-    if(!act->critAble)return 1;
-
-    Crit_rate_mtpr = act->Attacker->Stats_type[Stats::CR][AType::None] + target->Stats_type[Stats::CR][AType::None];
-    Crit_dam_mtpr = act->Attacker->Stats_type[Stats::CD][AType::None] + target->Stats_type[Stats::CD][AType::None];
-    for(int i=0,sz=act->damageTypeList.size();i<sz;i++){
-            Crit_rate_mtpr += act->Attacker->Stats_type[Stats::CR][act->damageTypeList[i]] + target->Stats_type[Stats::CR][act->damageTypeList[i]];
-            Crit_dam_mtpr += act->Attacker->Stats_type[Stats::CD][act->damageTypeList[i]] + target->Stats_type[Stats::CD][act->damageTypeList[i]];
-    }
-    
-    if(act->getChar()->canCheckDmgformulaCritRate()){
-        cout<<"Base  Crit rate : "<<setw(7)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::CR][AType::None]
-        <<" Total Crit rate : "<<setw(7)<<fixed<<setprecision(2)<<Crit_rate_mtpr<<endl;
-    }
-    if(act->getChar()->canCheckDmgformulaCritDam()){
-        cout<<"Base  Crit dam  : "<<setw(7)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::CD][AType::None]
-        <<" Total Crit dam  : "<<setw(7)<<fixed<<setprecision(2)<<Crit_dam_mtpr<<endl;
-    }
-    if(Crit_rate_mtpr>=100){
-        Crit_rate_mtpr = 100;
-    }
-    return max(1.0, 1+(Crit_rate_mtpr/100 * Crit_dam_mtpr/100));
-
-}
 double Cal_Crit_rate_multiplier(shared_ptr<AllyAttackAction> &act,Enemy *target) {
     double Crit_rate_mtpr;
 
@@ -237,10 +210,10 @@ double Cal_Crit_rate_multiplier(shared_ptr<AllyAttackAction> &act,Enemy *target)
     for (int i = 0, sz = act->damageTypeList.size(); i < sz; i++) {
         Crit_rate_mtpr += act->Attacker->Stats_type[Stats::CR][act->damageTypeList[i]] + target->Stats_type[Stats::CR][act->damageTypeList[i]];
     }
-    
+
     if(act->getChar()->canCheckDmgformulaCritRate()){
-        cout<<"Base  Crit rate : "<<setw(6)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::CR][AType::None]
-        <<" Total Crit rate : "<<setw(6)<<fixed<<setprecision(2)<<Crit_rate_mtpr<<endl;
+        cout<<"Base  Crit rate : "<<setw(7)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::CR][AType::None]
+        <<" Total Crit rate : "<<setw(7)<<fixed<<setprecision(2)<<Crit_rate_mtpr<<endl;
     }
 
     return (Crit_rate_mtpr < 0) ? 0 : Crit_rate_mtpr;
@@ -255,11 +228,24 @@ double Cal_Crit_dam_multiplier(shared_ptr<AllyAttackAction> &act,Enemy *target) 
     }
 
     if(act->getChar()->canCheckDmgformulaCritDam()){
-        cout<<"Base  Crit dam : "<<setw(7)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::CD][AType::None]
-        <<" Total Crit dam : "<<setw(7)<<fixed<<setprecision(2)<<Crit_dam_mtpr<<endl;
+        cout<<"Base  Crit dam  : "<<setw(7)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::CD][AType::None]
+        <<" Total Crit dam  : "<<setw(7)<<fixed<<setprecision(2)<<Crit_dam_mtpr<<endl;
     }
 
     return (Crit_dam_mtpr < 0) ? 0 : Crit_dam_mtpr;
+}
+double calCritMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
+    if(!act->critAble)return 1;
+
+    // รวมสูตร CR/CD ไว้ที่ Cal_Crit_*_multiplier ที่เดียว (เดิมเขียนซ้ำในนี้)
+    double Crit_rate_mtpr = Cal_Crit_rate_multiplier(act,target);
+    double Crit_dam_mtpr  = Cal_Crit_dam_multiplier(act,target);
+
+    if(Crit_rate_mtpr>=100){
+        Crit_rate_mtpr = 100;
+    }
+    return max(1.0, 1+(Crit_rate_mtpr/100 * Crit_dam_mtpr/100));
+
 }
 double calDefShredMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
     double Def_shred_mtpr;

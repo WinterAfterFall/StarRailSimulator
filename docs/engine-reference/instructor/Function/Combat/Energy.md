@@ -45,3 +45,13 @@ field อยู่ที่ `CharUnit.h:36-39` · เซ็ตครั้งแ
 `ultUseCheck` หัก `Ult_cost` เสร็จแล้วเรียก `Increase_energy(ptr, 5)` ทันที = กฎเกม "ใช้ ult แล้วได้คืน 5 energy" · ใช้ **2-arg** ถูกแล้ว เพราะในเกม 5 ก้อนนี้**โดน ERR คูณ** (ยืนยัน 2026-09-13)
 
 `ultUseCheck(ptr)` ตรวจตามลำดับ: ยูนิตยังอยู่ → `Current_energy >= Ult_cost` → `ultCondition` ทุกข้อคืน `true` → หัก `Ult_cost` → เรียก `Increase_energy(ptr, 5)` → ยิง `WhenUseUlt_List` ถ้าเงื่อนไขข้อใดไม่ผ่าน จะคืน `false` ก่อนหักพลังงานและก่อนยิง event; เพิ่มเงื่อนไขผ่าน `CharUnit::addUltCondition(function<bool()>)` (`Energy.h`)
+
+## ฟังก์ชันทั้งไฟล์ — อยู่ที่ไหนบ้าง
+
+| ฟังก์ชัน | บรรทัด | อธิบายไว้ที่ |
+|---|---|---|
+| `Increase_energy(CharUnit*, Energy)` · `(AllyUnit*, Energy)` | 3 · 10 | ในไฟล์นี้ — แบบ 2-arg (ERR คูณ) ดูตารางหัวข้อ ERR ด้านบน |
+| `Increase_energy(CharUnit*, %, flat)` · `(AllyUnit*, %, flat)` | 17 · 24 | ในไฟล์นี้ — แบบ 3-arg (fix energy, ERR ไม่คูณ) |
+| `ultUseCheck(CharUnit*)` | 31 | ในไฟล์นี้ (หัวข้อ "จังหวะตรวจ Ultimate") |
+| `allUltimateCheck()` | 44 | ➡️ [Combat.md](Combat.md) หัวข้อ "จังหวะตรวจ Ultimate" — เป็นตัววน `Ultimate_List` แล้วเรียก `Deal_damage()` ให้เมื่อไม่ได้อยู่ใน `WhileAction` |
+| `CharUnit::addUltCondition(condition)` | 51 | ➡️ [CharUnit.md](../../Class/Unit/CharUnit.md) — ต่อเงื่อนไขเพิ่มให้ `ultUseCheck` |

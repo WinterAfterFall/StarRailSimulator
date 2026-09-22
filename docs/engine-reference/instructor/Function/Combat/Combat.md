@@ -87,3 +87,39 @@ User ยืนยัน 2026-09-20 (เหตุผล): บางทีมม�
 จากโค้ด: ถ้าเป็น `1` ทุกครั้งที่ Break จะตั้ง ATV ศัตรูเป็น `Max_atv * 0.5` ก่อนใส่ action delay ตามธาตุ
 
 User ยืนยัน 2026-09-20 (เหตุผล): SPB ทำดาเมจได้เฉพาะช่วงที่ศัตรูล้ม ซึ่งกินเวลาถึงเทิร์นถัดไปของศัตรู ถ้าเบรคเร็วเกินไปจนแตกในจังหวะที่ศัตรูใกล้ได้เทิร์นพอดี ช่วงทำดาเมจจะสั้นผิดปกติ โหมดนี้จึงสมมติว่าแตกกลางเทิร์นเสมอ เพื่อให้ผลของทีม Super Break คงที่
+
+## ทรัพยากรทีม — `genSkillPoint()` · `genPunchLine()` (บรรทัด 220–235)
+
+สองฟังก์ชันนี้คือ **ทางเดียว**ที่ควรใช้แก้ค่า Skill Point และ Punchline เพราะมันห่อ event ไว้ให้
+
+```cpp
+void genSkillPoint(AllyUnit *ptr, int p){
+    allEventSkillPoint(ptr, p);     // ← ยิง event ก่อน แล้วค่อยเปลี่ยนค่า
+    sp += p;
+    if (sp > Max_sp) sp = Max_sp;   // เพดานเท่านั้น ไม่มีพื้น
+}
+void genPunchLine(AllyUnit *ptr, int p){
+    allEventPunchLine(ptr, p);
+    punchline += p;
+    punchline = max(punchline, 0);  // พื้นเท่านั้น ไม่มีเพดาน
+}
+```
+
+| | `genSkillPoint` | `genPunchLine` |
+|---|---|---|
+| global ที่แก้ | `sp` | `punchline` |
+| clamp | เพดาน `Max_sp` · **ไม่มีพื้น** | พื้น `0` · **ไม่มีเพดาน** |
+| event | `allEventSkillPoint` | `allEventPunchLine` |
+| ใช้ `p` ติดลบ | ใช่ — การ "กิน" SP คือส่งค่าลบ | ใช่ — `Combat.h:58` ส่ง `-punchline` เพื่อล้างทั้งกอง |
+
+สามเรื่องที่ต้องระวัง:
+
+1. **event ยิงก่อนค่าเปลี่ยน** — trigger ที่อ่าน `sp` / `punchline` ระหว่าง event จะเห็น**ค่าเก่า** ส่วนค่าที่กำลังจะเปลี่ยนรับมาทาง argument `p`
+2. **event ยิงด้วย `p` ที่ร้องขอ ไม่ใช่ที่เปลี่ยนจริง** — ขอ SP ตอนเต็มหลอดอยู่แล้วก็ยังยิง event ด้วยเลขเต็ม แม้ `sp` จะไม่ขยับ
+3. **`sp` ไม่มีพื้น** — ส่งค่าลบเกินที่มีจะได้ SP ติดลบ ผู้เรียกต้องเช็คเองว่ามี SP พอ
+
+`genPunchLine(nullptr, …)` ที่ `Combat.h:58-59` คือกรณี "ไม่มีเจ้าของ" — ใช้ตอน Aha Instant ล้างและแจก Punchline ใหม่ ดูหัวข้อ [Punchline](#punchline) ด้านบน
+
+## `EnemyActionData::EnemyAction()` (บรรทัด 158)
+
+ตัวมันเองมีแค่ 2 บรรทัด — เรียก `actionFunction()` ที่ศัตรูตัวนั้นตั้งไว้ แล้ว `resetTurn(turn)` · เนื้อหาว่าศัตรูเลือกท่า/เลือกเป้าอย่างไรอยู่ใน [EnemyCombat.md](EnemyCombat.md) และ [EnemyActionData.md](../../Class/ActionData/EnemyActionData.md)

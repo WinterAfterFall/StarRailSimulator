@@ -47,3 +47,5 @@ trace "taunt +X%" → เรียก `ptr->tauntIncreaseChange(X)` (`value` = X
 > ⚠️ ถ้าเพิ่ม taunt ให้ **memosprite** ต้องเรียกใน `WhenOnField_List` (หลัง `Memosprite_reset`) ไม่ใช่ `Reset_List` — ไม่งั้น `Memosprite_reset` reset `tauntIncrease=0` / `taunt=baseTaunt` ทับ (ดู [Stats_Reset.md](../../Function/Setup/Stats_Reset.md))
 
 - ✅ `UnitGotHit` populate แล้ว (2026-09-02, `EnemyActionData.h:47,72`) — enemy single-target สร้างความเสียหายจริง → ดู [🐞 #11](../../BUGS.md)
+
+`castToEnemyActionData()` (ท้ายไฟล์ บรรทัด 86) — `dynamic_cast` จาก `ActionData*` เป็น `EnemyActionData*` คืน `nullptr` ถ้า action นั้นเป็นของฝ่ายเรา ดูลำดับชั้นใน [ActionData.md](ActionData.md)

@@ -231,3 +231,23 @@ user ยืนยัน (2026-09-16):
 5. ตอนจบ run, `Cal_DamageSummary` เฉลี่ยตัวอย่างเหล่านี้เป็น `currentDmgRecord`; `changeMaxDamage` เก็บค่าของ run ที่ดีกว่าเป็น `maxDmgRecord`
 
 ดังนั้น `avgDmgRecord` ฝั่งศัตรูเป็นผลรวมค่าเฉลี่ยของตัวอย่างดาเมจสะสมต่อ ATV จากผลที่เก็บไว้ของตัวละคร ไม่ใช่ดาเมจเฉลี่ยต่อจำนวนครั้งที่โจมตี
+
+## get/set/add ของสถานะดีบัฟ (บรรทัด 166–206)
+
+ทุกตัวเป็น one-liner อ่าน/เขียน map หรือ field ตรง ๆ โดยใช้ **ชื่อดีบัฟเป็น key** — โครงเดียวกับฝั่ง ally ใน [CharUnit.md](CharUnit.md)
+
+| get | set | add | ที่เก็บจริง |
+|---|---|---|---|
+| `getTotalDebuff()` | `setTotalDebuff(v)` | `addTotalDebuff(v)` | `Total_debuff` (int ตัวเดียว) |
+| `getDebuff(name)` | `setDebuff(name, v)` | — | `debuffCheck` |
+| `getDebuffNote(name)` | `setDebuffNote(name, v)` | — | `debuffNote` |
+| `getStack(name)` | `setStack(name, v)` | `addStack(name, v)` | `stack` |
+| `getDebuffTimeCount(name)` | `setDebuffTimeCount(name, v)` | — | **`debuffEnd`** |
+
+⚠️ จุดที่ต้องระวัง:
+
+- **`getDebuffTimeCount` / `setDebuffTimeCount` แตะ `debuffEnd`** ซึ่งเก็บ "เทิร์นที่หมดอายุ" = `turnCnt ของศัตรูตัวนี้ + duration` **ไม่ใช่จำนวนเทิร์นที่เหลือ** ทางที่ควรใช้คือ `extendDebuff()` ใน [Debuff_Stats.md](../../Function/Combat/Debuff_Stats.md)
+- **`addStack()` มีพื้นที่ 0 ในตัวเอง** (ตัดค่าติดลบทิ้ง) แต่ **ไม่มีเพดาน** — เพดาน `StackLimit` อยู่ที่ `calDebuffStack()` ใน [DebuffStack.md](../../Function/Combat/DebuffStack.md) เรียก `addStack()` ตรง ๆ จึงข้ามทั้งเพดาน ทั้ง event และทั้งการนับ `Total_debuff`
+- **`addTotalDebuff()` ไม่มี clamp เลย** ติดลบได้ถ้าถอนเกินจำนวนที่ลง — เป็นเหตุผลว่าทำไมกติกา "นับตอนเปลี่ยนผ่าน 0 ↔ บวก" ถึงต้องรัดกุม (ดู BUGS #22)
+- ทุกตัวที่รับ `name` ใช้ `operator[]` → **อ่านชื่อที่ไม่เคยมีจะสร้าง entry ใหม่ค่า 0 ทิ้งไว้** สะกดชื่อผิดจึงเงียบสนิท ไม่พัง
+- `getDebuff()` คืน `int` ไม่ใช่ `bool` แม้จะใช้เป็นธงเปิด/ปิด

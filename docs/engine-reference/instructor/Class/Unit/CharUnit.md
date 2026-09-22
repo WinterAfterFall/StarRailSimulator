@@ -175,3 +175,29 @@ user อธิบาย (2026-09-15): เดิมใช้ `vector<Path>` เ�
 ## `Eidolon`
 
 user ยืนยัน (2026-09-15): เก็บระดับ Eidolon ของตัวละครตั้งแต่ E0–E6 เพื่อเปิดความสามารถตามระดับของตัวละคร
+
+## get/set ของ map สถานะ (`#pragma region set_methods` / `get_methods`, บรรทัด 161–236)
+
+ทุกตัวเป็น one-liner ที่อ่าน/เขียน `map` ตัวใดตัวหนึ่งด้วย **ชื่อบัฟเป็น key** ไม่มี logic ซ่อนอยู่เลย:
+
+| get | set | map ที่แตะ | ชนิด |
+|---|---|---|---|
+| `getStack(name)` | `setStack(name, v)` | `stack` | `int` |
+| `getBuffNote(name)` | `setBuffNote(name, v)` | `buffNote` | `double` |
+| `getBuffCountdown(name)` | `setBuffCountdown(name, v)` | **`buffEnd`** | `int` |
+| `getBuffCheck(name)` | `setBuffCheck(name, v)` | `buffCheck` | `bool` |
+| `getBuffSubUnitTarget(name)` | `setBuffSubUnitTarget(name, p)` | `buffSubUnitTarget` | `AllyUnit*` |
+| `getBuffAllyTarget(name)` | `setBuffAllyTarget(name, p)` | `buffAllyTarget` | `CharUnit*` |
+| `getAdjust(name)` | `setAdjust(name, v)` | `Adjust` | `double` |
+
+⚠️ สามข้อที่ทำให้พลาดได้:
+
+1. **`getBuffCountdown` / `setBuffCountdown` แตะ `buffEnd`** ซึ่งเก็บ "เทิร์นที่หมดอายุ" (`turnCnt + duration`) **ไม่ใช่จำนวนเทิร์นที่เหลือ** ชื่อฟังก์ชันจึงชวนเข้าใจผิด — เขียน `setBuffCountdown(name, 3)` หมายถึง "หมดอายุตอน turnCnt = 3" ไม่ใช่ "อีก 3 เทิร์น"
+2. **ทุกตัวใช้ `operator[]`** — อ่านชื่อที่ไม่เคยมี จะ **สร้าง entry ใหม่ค่าเริ่มต้น** (0 / false / `nullptr`) ทิ้งไว้ใน map ไม่ใช่แค่คืนค่าว่าง เป็นเหตุผลว่าทำไมการสะกดชื่อบัฟผิดจึงเงียบสนิทแทนที่จะพัง
+3. `setStack()` **เขียนทับ** ต่างจาก `addStack()` ที่บวกเพิ่ม — เส้นทาง stack ปกติควรผ่าน [BuffStack.md](../../Function/Combat/BuffStack.md) ไม่ใช่เรียก setter ตรง
+
+### setter ของเกณฑ์ requirement
+
+`setSpeedRequire` · `setAtkRequire` · `setHpRequire` · `setDefRequire` · `setApplyBaseChance` · `setEhrRequire` — เขียนทับ field ตรง ๆ ตัวละ 1 บรรทัด (บรรทัด 183–200) ส่วนทางที่ใช้จริงตอนสะสมเกณฑ์จากหลายแหล่งคือ `newSpeedRequire()` / `newApplyBaseChanceRequire()` / `newEhrRequire()` (ประกาศบรรทัด 287–289 นิยามที่ `RelicAdjust.h`) ซึ่งเก็บ "ค่าที่เข้มที่สุด" แทนการเขียนทับ — อธิบายไว้ใน [RelicAdjust.md](../../Function/AdjustFunction/RelicAdjust.md) · ส่วนการแปลงเกณฑ์เป็นจำนวน roll อยู่ใน [CalRequireStats.md](../../Function/Calculate/CalRequireStats.md)
+
+`setTargetAlly` / `setTargetSubUnit` / `setTargetBuff` เป็นชื่อย่อที่เรียกต่อไปยัง `setDefaultAllyTargetNum` / `setDefaultSubUnitTargetNum` / `setDefaultTargetNum` ตามลำดับ

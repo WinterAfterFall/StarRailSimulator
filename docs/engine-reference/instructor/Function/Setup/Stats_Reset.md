@@ -29,3 +29,14 @@ User ยืนยัน 2026-09-18: ระบบตั้งใจเก็บ R
 ## Summon และ countdown
 
 2026-09-18: แก้ `Summon_reset()` และ `Countdown_reset()` ให้ล้าง `Atv_stats->extraTurn` เหมือน unit ประเภทอื่น ป้องกัน state รั่วข้าม simulation run โดยมีกรณีใช้งานจริงคือ countdown ของ Phainon ถูกตั้ง `extraTurn = 1` เมื่อใช้ Ultimate
+
+## ฟังก์ชันทั้งไฟล์ — อยู่ที่ไหนบ้าง
+
+ไฟล์นี้มี 4 ฟังก์ชัน ทุกตัวเป็น "ล้างกระดานต่อ 1 run" ไม่ใช่ต่อเทิร์น
+
+| ฟังก์ชัน | บรรทัด | อธิบายไว้ที่ |
+|---|---|---|
+| `Basic_reset()` | 3 | ➡️ [SetCombat.md](SetCombat.md) — ล้าง `Stats_type` / `Stats_each_element` ทั้งกอง แล้วรีเซ็ต speed, `turnCnt`, `priority` ฯลฯ ของ ally ทุกตัว · มี regression test ที่ `test/basic_reset_stats_regression.cpp` |
+| `Memosprite_reset()` | 195 | ในไฟล์นี้ (หัวข้อแรก — ยังไล่ไม่ครบทั้งฟังก์ชัน) |
+| `Summon_reset()` | 269 | ในไฟล์นี้ (หัวข้อ "Summon และ countdown") |
+| `Countdown_reset()` | 284 | ในไฟล์นี้ (หัวข้อ "Summon และ countdown") |

@@ -65,3 +65,45 @@ double decreaseSheild(AllyUnit *ptr,double Value){
 ```
 - behavior เดิม (ตอน `currentSheild == 0`) ไม่เปลี่ยน → sim output ปัจจุบันไม่กระทบ
 - **ยังค้าง:** ระบบ **สร้าง** โล่ — อ่าน `Stats_type[SHEILD]` เป็นตัวคูณ outgoing shield, เพิ่ม `currentSheild`, countdown/ถอนเหมือนบัฟ, ปลด comment Aventurine
+
+## primitive เพิ่ม/ลด HP — 4 ตัวที่ทุกอย่างวิ่งผ่าน
+
+| ฟังก์ชัน | บรรทัด | ยิง event | เช็คสถานะยูนิต | clamp |
+|---|---|---|---|---|
+| `IncreaseCurrentHP(ptr, Value)` | 112 | ❌ | ❌ | เพดานที่ `totalHP` |
+| `IncreaseHP(Healer, target, Value)` | 115 | ✅ `allEventHeal` | `isExisted()` | ผ่าน `IncreaseCurrentHP` |
+| `DecreaseCurrentHP(ptr, Value)` | 121 | ❌ | ❌ | **พื้นที่ `1`** · คืนค่าที่ลดจริง |
+| `DecreaseHP(...)` 4 overload | 126–176 | ✅ `allEventChangeHP` | `isExisted()` / `isTargetable()` | ผ่าน `DecreaseCurrentHP` |
+
+กติกาเดียวกันทั้งสองฝั่ง: ตัว `…CurrentHP` คือ **ตัวเขียนเลขดิบ** ไม่ยิง event ไม่เช็คอะไร ส่วนตัวไม่มี `Current` คือ **ทางเข้าที่ถูกต้อง** ที่ห่อ event และเงื่อนไขไว้ให้
+
+### `IncreaseHP()` — 2 เงื่อนไขที่ทำให้ฮีล "หายไปเงียบ ๆ"
+
+```cpp
+if (Value == 0 || !target->isExisted()) return;   // ← ออกก่อน ไม่ยิง allEventHeal
+IncreaseCurrentHP(target, Value);
+allEventHeal(Healer, target, Value);
+```
+
+- **ฮีล 0 ไม่ยิง event** — ตัวละคร/LC ที่ผูก trigger ไว้กับ `Heal_List` จะไม่ทำงาน แม้ผู้ฮีลจะ "ใช้ท่าฮีล" จริง
+- **ยูนิตที่ตายแล้วรับฮีลไม่ได้** — `isExisted()` เป็นตัวกั้น (การชุบชีวิตต้องทำผ่านทางอื่น)
+- ⚠️ `allEventHeal` ส่ง `Value` **ก่อน clamp** ไม่ใช่จำนวนที่เข้า HP จริง — ฮีล 5000 ใส่ยูนิตที่ขาด HP อยู่ 200 จะยิง event ด้วยเลข 5000 ต่างจากฝั่งลด HP ที่ `allEventChangeHP` ส่ง `actualDecrease` (ค่าที่ลดจริง) ถ้าเขียนตัวละครที่อ่าน "ฮีลไปเท่าไร" ต้องระวังจุดนี้
+
+### `DecreaseHP()` — 4 overload
+
+| signature | คอมเมนต์ในโค้ด | ตัวกรอง |
+|---|---|---|
+| `(AllyUnit *target, Unit *Trigger, Value, %totalHP, %currentHP)` | — | `isExisted()` |
+| `(Unit *Trigger, Value, %totalHP, %currentHP)` | "ลดเลือดทั้งทีม" | `isTargetable()` |
+| `(Unit *Trigger, vector<AllyUnit*> target, Value, %totalHP, %currentHP)` | — | `isTargetable()` |
+| `(Unit *Trigger, string Name, Value, %totalHP, %currentHP)` | "ลดเลือดทั้งทีมยกเว้นตัวเอง" | `isSameName(Name)` แล้ว `isTargetable()` |
+
+ทุกตัวรวมสามแหล่งเข้าด้วยกันก่อนหัก: `Value` (แบน) + `%totalHP × totalHP` + `%currentHP × currentHP` แล้วส่ง `actualDecrease` (ค่าที่ลดจริงหลังชน floor `1`) เข้า `allEventChangeHP`
+
+⚠️ สองข้อควรระวัง:
+- `decreaseHPCount++` เกิด **ก่อน** การเช็ค `isExisted()` ในทุก overload — ตัวนับจึงขยับแม้ไม่มีใครเสียเลือดจริง
+- overload เป้าเดียวใช้ `isExisted()` แต่อีกสามตัวใช้ `isTargetable()` ซึ่งเข้มกว่า (ตัด `OutofBounds` ออกด้วย ดู [ActionValueStats.md](../../Class/Unit/ActionValueStats.md)) การลดเลือดเป้าเดียวจึงยิงโดน unit ที่อยู่นอกสนามได้ ส่วนแบบทั้งทีมไม่โดน
+
+### สวิตช์ debug ของฝั่งฮีล
+
+กรอบ `Heal Count : N` ที่ `RestoreHP` ทั้ง 4 overload พิมพ์ออกมา คุมด้วย `checkHeal || checkHealFormula` ของ **ผู้ฮีล** เท่านั้น ส่วนบรรทัดตัวเลขข้างในคุมด้วยเงื่อนไข AND ระหว่างผู้ฮีลกับผู้รับ — รายละเอียดทั้งหมดอยู่ใน [FormulaCheck.md](../AdjustFunction/FormulaCheck.md) · ฝั่งลด HP **ไม่มี debug print ของตัวเอง** แม้จะมี flag `checkHpChange` ค้างอยู่

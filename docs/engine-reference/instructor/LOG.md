@@ -2,6 +2,15 @@
 
 หมายเหตุ ณ 2026-09-21: บันทึกเก่าด้านล่างเป็นผลการทำงาน ณ เวลานั้น ไฟล์ใน `test/` ถูก `.gitignore`; ใน workspace ปัจจุบันไม่พบ `basic_reset_stats_regression.cpp`, `hp_decrease_event_regression.cpp` หรือ `break_status_regression.cpp` จึงไม่ควรอ่านการอ้างชื่อเหล่านี้เป็นหลักฐานว่ารันซ้ำได้ตอนนี้ ดู [คู่มือ build/run/test](../../build-run-and-test.md)
 
+## อัปเดต 2026-09-22
+
+- ตรวจความครอบคลุมของ mirror `instructor` เทียบกับทุก `.h` นอก `Data` ด้วยสคริปต์ดึงชื่อฟังก์ชันที่มีนิยามจริง (485 ตัว): โครงสร้างครบทุกไฟล์ยกเว้น `Library.h`/`include.h` ที่เป็น aggregator ล้วน ส่วนเนื้อหาพบรูราว 20 ฟังก์ชันกระจุกใน 4 จุด
+- เขียนใหม่เป็นทัวร์เต็ม 4 ไฟล์ที่เดิมเป็นโน้ตบันทึกเฉพาะบั๊ก: [BuffStack.md](Function/Combat/BuffStack.md) (เดิม 5/10 ฟังก์ชัน) · [DebuffStack.md](Function/Combat/DebuffStack.md) (2/6) · [Debuff_Stats.md](Function/Combat/Debuff_Stats.md) (เติมกลุ่ม `extendDebuffAll`/`extendDebuffTargets`) · [Dot.md](Function/Combat/Dot.md) (เติมตารางฟังก์ชันทั้งไฟล์) โดยยกข้อสรุปที่ user ยืนยันไว้เดิมมาครบ
+- เติมส่วนที่ขาดใน [FormulaCheck.md](Function/AdjustFunction/FormulaCheck.md) (สาย heal/HP change ทั้งยวง + ตาราง `canCheckDmgformula*`), [CalDamageNote.md](Function/Calculate/CalDamageNote.md) (วงจร `Cal_AverageDamage` → `Cal_DamageSummary` → `changeMaxDamage`), [ChangeHP.md](Function/Combat/ChangeHP.md) (primitive เพิ่ม/ลด HP 4 ตัว), [CalStats.md](Function/Calculate/CalStats.md), [Combat.md](Function/Combat/Combat.md) (`genSkillPoint`/`genPunchLine`/`EnemyAction`), [CharUnit.md](Class/Unit/CharUnit.md) กับ [Enemy.md](Class/Unit/Enemy.md) (ตาราง get/set/add ของ map สถานะ) และตระกูล `castTo*` ใน `Class/ActionData/*`
+- User ยืนยันว่า `debuffRemoveStack()` ที่ไม่ลด `Total_debuff` เป็นการออกแบบ ไม่ใช่บั๊ก — ใช้เป็นคอมโบคู่กับ `isDebuffEnd()` ซึ่งเรียก `debuffRemove()` ล้าง flag และลดตัวนับให้แล้ว บันทึกแพตเทิร์นไว้ใน [DebuffStack.md](Function/Combat/DebuffStack.md) และอ้างต่อใน [Dot.md](Function/Combat/Dot.md)
+- User ยืนยันว่าสวิตช์ `checkHpChange` / `checkHpChangeFormula` ที่ยังไม่มีใครอ่าน **ยังพังอยู่ รอแก้ภายหลัง** ไม่ใช่โค้ดตกค้างที่ต้องถอด บันทึกสถานะไว้ใน [FormulaCheck.md](Function/AdjustFunction/FormulaCheck.md)
+- **แก้โค้ด**: ยุบสูตร CR/CD ที่เขียนซ้ำสองที่ใน `CalStats.h` ตามที่ user สั่ง — `calCritMultiplier()` เรียก `Cal_Crit_rate_multiplier()` / `Cal_Crit_dam_multiplier()` แทนการคำนวณเอง (เดิมสองฟังก์ชันนั้นไม่มีผู้เรียกเลย ทำให้การแก้ป้าย debug 2026-09-20 ไปโดนเฉพาะชุดที่ไม่ทำงาน) ปรับความกว้างคอลัมน์ debug ของทั้งสองให้ตรงกับของเดิม ผลบนจอไม่เปลี่ยน · ต่างจากเดิมกรณีเดียวคือ CR และ CD ติดลบพร้อมกัน ซึ่งเดิมได้ลบ×ลบเป็นตัวคูณเกิน 1 ตอนนี้คืน `1.0` · ตรวจ `g++ -std=c++17 -fsyntax-only Application.cpp` ผ่าน **ยังไม่ได้รัน sim ยืนยันผล**
+
 ## อัปเดต 2026-09-21
 
 - User ขอ mirror ทุกไฟล์ที่สำรวจแล้วภายใต้ `instructor` ยกเว้น `Data`: เพิ่มไฟล์รายตัว `Declaration` 27, `Enum` 4, `StdInclude` 1 และ README ของโฟลเดอร์ใหม่ ตรวจคู่ source–คู่มือใน `Declaration`/`Enum`/`Defination/Class`/`Defination/Function` แล้วไม่ขาด (ยกเว้นไฟล์รวมตามกติกา) ไฟล์ declaration ที่ยังไม่ได้ไล่เชิงลึกระบุเพียงบทบาทและชี้ไปนิยาม

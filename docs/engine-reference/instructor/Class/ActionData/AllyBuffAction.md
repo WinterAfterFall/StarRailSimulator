@@ -45,3 +45,5 @@ overload ที่ไม่รับพารามิเตอร์เรี�
 - `isSameAction(AllyUnit*, AType)` / `isSameAction(string, AType)` ตรวจยูนิตตรงตัวพร้อมประเภทแอ็กชัน ส่วน `isSameAction(AType)` ตรวจเฉพาะประเภท
 
 คลาสแม่ตรวจ `Attacker` และ `actionTypeList` โดยตรงเมื่อเป็น buff; เมื่อเป็น attack จะวน `AttackSetList` พฤติกรรมตรวจเดิมจึงคงอยู่ ตรวจ `src` ก่อนลบไม่พบจุดเรียกใช้เมธอดเฉพาะฝั่ง buff
+
+`castToAllyBuffAction()` (ท้ายไฟล์ บรรทัด 113) — `dynamic_cast` จาก `AllyActionData*` ลงมาเป็น `AllyBuffAction*` คืน `nullptr` ถ้า action นั้นไม่ใช่การบัฟ ดูลำดับชั้นใน [ActionData.md](ActionData.md)
