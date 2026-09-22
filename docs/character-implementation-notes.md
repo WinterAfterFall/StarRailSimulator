@@ -77,7 +77,7 @@
 ### ชื่อบัฟ
 
 - string key · ใช้ชื่อ trace/eidolon จริงในเกม
-- **prefix ด้วยชื่อตัวละคร** — `buffCheck`/`buffEnd` เป็น map เดียวทั้งเกม ชนกันได้ (ข้ามตัวละคร + ปนกับ state flag)
+- **prefix ด้วยชื่อตัวละครหรือแหล่งบัฟ** — `buffCheck`/`buffEnd` เป็น map **แยกต่อ `AllyUnit` แต่ละตัว** ชื่อเดียวกันบนเป้าหมายเดียวกันใช้ flag และวันหมดอายุร่วมกัน แม้จะมาจากผู้แจกคนละคน จึงควรตั้งชื่อให้แยกเอฟเฟกต์ที่ตั้งใจให้เป็นคนละบัฟ ส่วนเป้าหมายคนละตัวมี map แยกกัน
 - แนะนำ: buff name + magnitude เป็น `const string` / `constexpr` constant ที่ namespace scope → apply/remove อ้าง symbol เดียว
 - (ไฟล์เก่าบางตัวจงใจไม่ใส่ชื่อ เมื่อรู้ว่าบัฟไม่มีทางซ้อน — convention ใหม่ = ใส่ชื่อ+prefix เสมอ)
 
@@ -101,9 +101,10 @@
 
 ### memosprite สืบ stat จากเจ้าของ
 
-`Memosprite_reset` (ต้น wave) ก๊อป `Stats_type` + `Stats_each_element` ของเจ้าของ **ทั้งก้อน** ใส่ memo → memo ได้ crit / DMG% / ทุกอย่างจากเจ้าของฟรี (`FLAT_HP` scale ด้วย `Unit_Hp_Ratio` + `fixHP`)
-- บัฟ memo หลังจุดนั้น: `buffSingleChar` (เจ้าของ + memo) หรือ `buffAllMemosprite`
-- speed memo = snapshot ณ ต้น wave (`fixSpeed + calculateSpeedOnStats(owner)*Unit_Speed_Ratio/100`) — ไม่ตามบัฟ speed เจ้าของกลางรบ
+`Memosprite_reset()` รันใน `Reset()` **หนึ่งครั้งต่อ run** ก่อน `Set_Stats()` และ `Start_game()` ไม่ได้รันตอนเริ่มแต่ละ wave: ก๊อป `Stats_type` + `Stats_each_element` ของเจ้าของทั้งก้อนใส่ memo (`FLAT_HP` คูณ `Unit_Hp_Ratio` แล้วบวก `fixHP`) จากนั้น `Set_Stats()` เพิ่ม substats ที่เลือกให้ทั้งเจ้าของและ memo
+
+- บัฟ memo หลังจุดนั้น: `buffSingleChar` (เจ้าของ + memo) หรือ `buffAllMemosprite`; memo ที่ถูก summon ใน wave แรกยังอยู่ต่อใน wave ถัดไปของ run เดียวกัน
+- `baseSpeed` ของ memo คำนวณตอน `Memosprite_reset()` จาก `fixSpeed + calculateSpeedOnStats(owner)*Unit_Speed_Ratio/100`; `Set_Stats()` เพิ่ม flat SPD ตาม ratio ให้ภายหลัง จึงไม่คำนวณ `baseSpeed` ใหม่ตามบัฟ speed ของเจ้าของระหว่างต่อสู้
 - รายละเอียด: [`engine-reference/instructor/Function/Setup/Stats_Reset.md`](engine-reference/instructor/Function/Setup/Stats_Reset.md)
 
 ## 5. Energy

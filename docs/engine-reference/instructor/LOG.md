@@ -1,5 +1,7 @@
 # LOG — บันทึกการไล่โค้ด
 
+หมายเหตุ ณ 2026-09-21: บันทึกเก่าด้านล่างเป็นผลการทำงาน ณ เวลานั้น ไฟล์ใน `test/` ถูก `.gitignore`; ใน workspace ปัจจุบันไม่พบ `basic_reset_stats_regression.cpp`, `hp_decrease_event_regression.cpp` หรือ `break_status_regression.cpp` จึงไม่ควรอ่านการอ้างชื่อเหล่านี้เป็นหลักฐานว่ารันซ้ำได้ตอนนี้ ดู [คู่มือ build/run/test](../../build-run-and-test.md)
+
 ## อัปเดต 2026-09-21
 
 - User ขอ mirror ทุกไฟล์ที่สำรวจแล้วภายใต้ `instructor` ยกเว้น `Data`: เพิ่มไฟล์รายตัว `Declaration` 27, `Enum` 4, `StdInclude` 1 และ README ของโฟลเดอร์ใหม่ ตรวจคู่ source–คู่มือใน `Declaration`/`Enum`/`Defination/Class`/`Defination/Function` แล้วไม่ขาด (ยกเว้นไฟล์รวมตามกติกา) ไฟล์ declaration ที่ยังไม่ได้ไล่เชิงลึกระบุเพียงบทบาทและชี้ไปนิยาม

@@ -7,9 +7,9 @@
 **สร้างครั้งแรก** `SetMemoStats(ptr, fixHP, Hp_ratio, fixSpeed, Speed_ratio, element, name, type)` (`StatsSet.h:30`) — เซ็ต field, `owner = ptr`, `charptr` = ตัวเอง, `num` = ของเจ้าของ, `baseHp = owner.baseHp * Hp_ratio/100`, `baseAtk`/`baseDef` = ของเจ้าของดิบ ๆ
 
 **`Memosprite_reset()` — รันใน `Reset()` = ต่อ run (ไม่ใช่ต่อ wave)** (`Stats_Reset.h:197-270`) — จุดที่กลไกจริงเกิด:
-1. ล้าง `Stats_type` / `Stats_each_element` ของ memo → **ก๊อป `Stats_type` + `Stats_each_element` ของเจ้าของทั้งก้อนมาใส่** (`:215-229`) → memo สืบ crit / DMG% / ทุก stat จากเจ้าของ ณ ต้น run (หลัง relic + trace + substats แต่ก่อนบัฟกลางรบ)
+1. ล้าง `Stats_type` / `Stats_each_element` ของ memo → **ก๊อป `Stats_type` + `Stats_each_element` ของเจ้าของทั้งก้อนมาใส่** (`:215-229`) ณ ต้น run ก่อน `Set_Stats()` ลง substats ที่เลือกใน run นี้; `Set_Stats()` เพิ่ม substats ให้เจ้าของและ memo ภายหลัง
 2. `Stats_type[FLAT_HP]` ทุก AType `*= Unit_Hp_Ratio/100` → แล้ว `[FLAT_HP][None] += fixHP` (`:230-233`) — **`fixHP` ถูกใช้ตรงนี้** (ไม่ใช่ที่ `SetMemoStats`)
-3. `baseSpeed = fixSpeed + calculateSpeedOnStats(owner) * Unit_Speed_Ratio/100` (`:255`) — **snapshot ณ ต้น run** = เอาแค่ผลของ relic + stat/trace ของเจ้าของ. **โดยตั้งใจ:** บัฟสปีดที่เจ้าของได้กลางรบ (Ruan Mei ฯลฯ) **ไม่ส่งผล** ต่อ memo — ยกเว้นบัฟสปีดที่ยิงใส่ memo โดยตรง
+3. `baseSpeed = fixSpeed + calculateSpeedOnStats(owner) * Unit_Speed_Ratio/100` (`:255`) — **คำนวณ ณ ต้น run ก่อน `Set_Stats()`**; `Set_Stats()` เพิ่ม flat SPD ของ substats ให้ memo แยกต่างหากตาม `Unit_Speed_Ratio` บัฟสปีดที่เจ้าของได้กลางรบ (Ruan Mei ฯลฯ) จึงไม่คำนวณ `baseSpeed` ของ memo ใหม่ — ยกเว้นบัฟสปีดที่ยิงใส่ memo โดยตรง
 4. `status = Death` · `currentHP = 0` (`:262-263`) — **memo เริ่มต้น run ในสภาพตาย** (ถูกต้องตามดีไซน์) ต้องถูก summon ด้วยสกิลกลางรบ (ต่างจาก summon ที่ `Summon_reset` ตั้ง `Alive`). ภายใน run ที่มีหลาย wave: memo ที่ summon ใน wave 0 **อยู่ต่อ** wave 1+ (`Memosprite_reset` ไม่รันซ้ำระหว่าง wave)
 
 memosprite 2 แบบ: **สปีดคงที่** (RMC "Mem" — `fixSpeed=130, Speed_ratio=0` → 130 ตายตัว) · **อิงสปีดเจ้าของ** (Aglaea "Garmentmaker" — `fixSpeed=0, Speed_ratio=35` → 35% ของสปีด Aglaea ณ ต้น run)
@@ -20,7 +20,7 @@ memosprite 2 แบบ: **สปีดคงที่** (RMC "Mem" — `fixSpeed
 
 User ยืนยัน 2026-09-18: ตั้งใจให้ตัวละครทุกตัวได้รับ 2 average substat rolls ของทุก stat ที่ระบุพร้อมกัน ได้แก่ ATK%, Flat ATK, HP%, Flat HP, DEF%, Flat DEF, CR, CD, BE, EHR, RES และ SPD ก่อนใส่ main stats จาก Body/Boot/Orb/Rope โดย CR/CD รวมค่าฐาน 5%/50% และ Flat ATK/HP รวม main stat จากถุงมือ/หมวก
 
-มี regression test ที่ `test/basic_reset_stats_regression.cpp` ตรวจว่า `Basic_reset()` ให้ EHR เริ่มต้นเท่ากับ `3.888 * 2`
+บันทึกการแก้เดิมระบุว่าเคยมี regression test `test/basic_reset_stats_regression.cpp` ตรวจ EHR เริ่มต้น `3.888 * 2` แต่ไม่พบไฟล์นี้ใน workspace ปัจจุบัน (`test/` ถูก `.gitignore`) จึงยังรันยืนยันเคสนี้ซ้ำจากไฟล์ดังกล่าวไม่ได้ ดูวิธีตรวจไฟล์ทดสอบที่มีจริงใน [build-run-and-test.md](../../../../build-run-and-test.md)
 
 ## Enemy elemental resistance
 

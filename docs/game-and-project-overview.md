@@ -1,7 +1,6 @@
 # Star Rail 系统 & โปรเจกต์นี้ — ภาพรวม
 
-> ไฟล์นี้เตรียมไว้ให้ผู้ใช้เล่าระบบพื้นฐานของเกม Honkai: Star Rail และจุดประสงค์ของโปรแกรม
-> เพื่อให้ Claude เข้าใจบริบทเวลาคุยกัน จดเป็นข้อ ๆ ได้เลย เดี๋ยวค่อยจัดระเบียบทีหลัง
+เอกสารนี้สรุปกติกาที่ simulator ใช้จริงจากโค้ด สำหรับลำดับ event และสูตรย่อยให้ตามลิงก์ไปคู่มือ engine; วิธีเริ่มโปรแกรมอยู่ใน [build-run-and-test.md](build-run-and-test.md) และข้อมูล kit ของตัวละครอยู่ใน [character-kit-reference](character-kit-reference/README.md)
 
 ## 1. จุดประสงค์ของโปรแกรม (Project purpose)
 
@@ -16,6 +15,8 @@
 
 ดังนั้นเวลาออกแบบ/รีวิวโค้ด engine อย่ายึดค่าคงที่ "4 ตัวละคร" หรือ "5 ศัตรู" เป็น hard cap ทางเทคนิค
 เว้นแต่ผู้ใช้จะระบุไว้อย่างชัดเจนว่าต้องการจำกัดในกรณีนั้น ๆ
+
+ข้อนี้เป็น **เป้าหมายการออกแบบ** ของ engine: ทางเข้า `Application.cpp` และ `ManualBuilder.cpp` ปัจจุบันยังผูก `Char1`–`Char4` กับสี่ช่องแรกโดยตรง และ `Application.cpp` มีตัวเลือกศัตรูที่ยังไม่ implement ครบ ดูข้อจำกัดการรันจริงใน [build-run-and-test.md](build-run-and-test.md)
 
 ### 1.1 หลักการออกแบบ: Determinism > Realism เวลาเจอ RNG
 
@@ -40,15 +41,21 @@ random number generator ตรง ๆ ถ้าเจอจุดที่ยั
 
 ### 2.1 Action Value / ลำดับการเล่น (turn order)
 
-_(ผู้ใช้เล่า)_
+แต่ละยูนิตมี `atv` เป็นเวลาที่เหลือก่อนถึงเทิร์นและ `Max_atv = 10000 / effectiveSpeed` เป็นเวลาต่อรอบ โดย `effectiveSpeed = baseSpeed × (1 + speedPercent/100) + flatSpeed` `Find_turn()` เลือกยูนิตที่ `atv` ต่ำสุด; เมื่อเสมอกันใช้ `priority` ที่สูงกว่า `Atv_fix()` ลด `atv` ของยูนิตที่เดินเวลาได้ทุกตัวและเพิ่ม `Current_atv` แล้วจึงประมวลผลเทิร์น ถ้าเวลารวมเกิน `Wave[i]` จะจบ wave โดยไม่ให้ยูนิตนั้นออกท่า
+
+`Action_forward()` ลด `atv` ตามเปอร์เซ็นต์ของ `Max_atv`; ถ้าถึงศูนย์จะกำหนด priority ใหม่ แอ็กชันที่ตั้ง `Turn_reset` และการโจมตีของศัตรูเรียก `resetTurn()` เพื่อตั้ง `atv` กลับเป็น `Max_atv` รายละเอียดการเปลี่ยน speed, การแทรกเทิร์น และ Aha ดู [Action_value.md](engine-reference/instructor/Function/Combat/Action_value.md) และ [Combat.md](engine-reference/instructor/Function/Combat/Combat.md)
 
 ### 2.2 Energy / Ultimate
 
-_(ผู้ใช้เล่า)_
+พลังงานจากแอ็กชันใช้ `Increase_energy(ptr, E)` ซึ่งคูณ Energy Recharge; พลังงานคงที่หรือเปอร์เซ็นต์ของหลอดใช้ overload `(ptr, percent, flat)` ซึ่งไม่คูณ Energy Recharge ทั้งสองแบบ clamp ผลให้อยู่ในช่วง `0..Max_energy` และส่ง event ก่อนเปลี่ยนค่าหลอด
+
+`ultUseCheck()` ตรวจว่ายูนิตยังอยู่ มีพลังงานถึง `Ult_cost` และผ่าน `ultCondition` ทุกข้อ **ก่อน** หัก cost จากนั้นคืนพลังงาน 5 ผ่าน overload ที่คูณ Energy Recharge แล้วส่ง `WhenUseUlt_List` จุดที่ engine เรียกตรวจอัลติอยู่ใน [Combat.md](engine-reference/instructor/Function/Combat/Combat.md); ความหมายของสอง overload และลำดับเต็มอยู่ใน [Energy.md](engine-reference/instructor/Function/Combat/Energy.md)
 
 ### 2.3 Damage formula
 
-_(ผู้ใช้เล่า)_
+`Attack()` วน `damageSplit`: หนึ่งรายการมีเป้าหมาย, สเกล ATK/HP/DEF, ดาเมจฐานคงที่, สเกล Elation และค่าลด Toughness `calDamage()` รวมดาเมจฐานกับสเกล ATK/HP/DEF แล้วคูณ Crit, DMG%, DEF shred, RES PEN, Vulnerability, Mitigation, Multiplier increase และตัวคูณสถานะ Break ตามลำดับ ส่วน Elation, Break, DoT และ Super Break มีสูตรและ event ของตัวเอง ดู [CalDamage.md](engine-reference/instructor/Function/Calculate/CalDamage.md)
+
+ดาเมจที่คำนวณแล้วถูกบันทึกแยกเป็นแบบใช้สถานะ Break ณ ตอนโจมตี กับแบบคูณสัดส่วนเวลาที่ศัตรูอยู่ในสถานะ Break ตอนสรุปผล เพื่อให้ดาเมจที่ไวต่อจังหวะมีค่าประมาณที่ใช้เทียบบิลด์ได้ ดู [CalDamageNote.md](engine-reference/instructor/Function/Calculate/CalDamageNote.md)
 
 ### 2.4 Buff / Debuff — กฎ duration ที่ sim ใช้
 

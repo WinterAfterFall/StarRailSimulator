@@ -5,13 +5,13 @@
 ## วิธีอ่าน
 
 - **path เดียวกับโค้ด** — `src/Defination/X/Y.h` → `instructor/X/Y.md`; `src/Declaration/X/Y.h` → `instructor/Declaration/X/Y.md`; `src/Enum/Y.h` → `instructor/Enum/Y.md` · ทุกโฟลเดอร์ที่เพิ่มใหม่มี `README.md`
-- **ไฟล์ว่าง = ยังไม่ได้ไล่ หรือยังไม่มีข้อมูลละเอียด**
+- **ไฟล์คู่มือรายโค้ดที่ว่าง = ยังไม่ได้ไล่ หรือยังไม่มีข้อมูลละเอียด**; `README.md` ของบางโฟลเดอร์ยังเป็น placeholder สำหรับสารบัญ ไม่ใช่หลักฐานว่าสำรวจโค้ดในหมวดนั้นไม่ครบ
 - ไม่มี `.md` ให้ไฟล์ที่เป็นแค่รวม include: `Library.h` · `include.h` · `All_*.h`
 - **กลไกอธิบายไว้ที่ไฟล์ของโค้ดที่ทำงานจริง** — ไฟล์คลาสมีตาราง field แล้วลิงก์ชี้ไป · เรื่องที่เล่ากลไกเดียวข้ามหลายไฟล์เก็บไว้ที่ไฟล์หลักของกลไกนั้นทั้งก้อน
 - โค้ดนอก `Defination/` ที่สำรวจแล้วมีคู่มือรายไฟล์ในรากโฟลเดอร์นี้ เช่น [Setting.md](Setting.md), [StdInclude.md](StdInclude.md), [Application.md](Application.md), [SettingFunction.md](SettingFunction.md), [Main.md](Main.md) และ [ManualBuilder.md](ManualBuilder.md); คำประกาศอยู่ใน [Declaration/](Declaration/README.md) และ enum อยู่ใน [Enum/](Enum/README.md)
 - ทางเข้ารันแบบ interactive คือ `Application.cpp` → `SettingFunction.h` → `Main.h`; `ManualBuilder.cpp` เป็นทางเข้าอีกแบบสำหรับกำหนดทีมในโค้ดโดยตรง (ไม่ใช่ไฟล์ที่ `Application.cpp` include)
 - บั๊กทั้งหมด → [BUGS.md](BUGS.md) · บันทึกการทำงานแต่ละวัน + รายการค้าง → [LOG.md](LOG.md)
-- เอกสารคู่กัน: [`character-implementation-notes.md`](../../character-implementation-notes.md) (วิธีเขียนตัวละคร) · [`future-improvements.md`](../future-improvements.md) (ของที่รู้ว่าควรปรับ แต่เลื่อนไว้)
+- เอกสารคู่กัน: [`character-implementation-notes.md`](../../character-implementation-notes.md) (วิธีเขียนตัวละคร) · [`build-run-and-test.md`](../../build-run-and-test.md) (วิธี build/run/test) · [`future-improvements.md`](../future-improvements.md) (ของที่รู้ว่าควรปรับ แต่เลื่อนไว้)
 
 ## แผนที่สถานะ
 
@@ -23,7 +23,7 @@
 
 `Application.cpp::main()` เรียก `SetValue()` ตั้งค่าตั้งต้น, รับจำนวนตัวละคร, เรียก `BuildSelector()` เก็บตัวเลือกตัวละคร/Light Cone/Relic/Planar เป็น callback ใน `CharSelectList`, แล้วจึงเรียก callback `Setup()` ของแต่ละตัวละครให้สร้างยูนิตจริง หลัง `EnemySelector()` จะผูก `Char1`–`Char4` กับ `charUnit[1..4]`, เปิดการตรวจสูตร Crit ให้ `Char1` และเข้า `Main()`
 
-`SettingFunction.h` เป็นตัวแปลงชื่อที่ผู้ใช้พิมพ์เป็น callback ของแต่ละชุดอุปกรณ์; `askYesNo()` ถือ Enter เป็น yes ส่วน `askNoYes()` ถือ Enter เป็น no ทั้งคู่รับข้อความด้วย `getline()` `EnemySelector()` ปัจจุบันถามจำนวนศัตรูแต่ไม่ได้ใช้ตัวเลขนั้น: ทางลัดสร้างศัตรูค่าคงที่ 2 ตัว (`Main` และ `Adjacent`) ส่วนทางเลือกตั้งค่าเองยังไม่มีโค้ดสร้างศัตรู User ยืนยันว่าเป็นฟีเจอร์ที่ยังไม่ implement และ fix 2 ตัวไว้ชั่วคราว; งานต่ออยู่ใน [`future-improvements.md`](../future-improvements.md)
+`SettingFunction.h` เป็นตัวแปลงชื่อที่ผู้ใช้พิมพ์เป็น callback ของแต่ละชุดอุปกรณ์; `askYesNo()` ถือ Enter เป็น yes ส่วน `askNoYes()` ถือ Enter เป็น no ทั้งคู่รับข้อความด้วย `getline()` `EnemySelector()` ปัจจุบันถามจำนวนศัตรูแต่ไม่ได้ใช้ตัวเลขนั้น: ต้องตอบ `yes` ที่คำถามกำหนดสถานะศัตรูเอง จึงจะสร้างศัตรูค่าคงที่ 2 ตัว (`Main` และ `Adjacent`); ตอบ `no` หรือ Enter จะไม่สร้างศัตรู เพราะสาขานั้นยังไม่ implement ชื่อคำถามยังชวนเข้าใจผิด ดูวิธีรันใน [build-run-and-test.md](../../build-run-and-test.md)
 
 `Main.h::Main()` เรียก `Setup()` หนึ่งครั้ง แล้ววน run เพื่อรีเซ็ต/สุ่ม substats/จำลองทุก wave/รวมดาเมจ/พิมพ์ผล ก่อนให้ `Reroll_substats()` ตัดสินว่าจะวนอีกหรือจบ; ลำดับย่อยดูหัวข้อ run/wave ด้านล่าง `ManualBuilder.cpp` ใช้ชุดตัวละคร/อุปกรณ์และศัตรูที่เขียนไว้ในไฟล์ พร้อมเปิดตัวช่วยพิมพ์เวลาของตัวละครทั้งสี่ แล้วทำลูปจำลองแบบเดียวกันภายใน `main()` ของตัวเอง จึงเป็นทางเข้าแยกสำหรับ build คนละ executable
 

@@ -21,6 +21,16 @@ User ยืนยัน 2026-09-20 ว่า `constDmg` เป็นดาเม
 
 ลำดับที่แสดงข้างต้นเป็นลำดับการเรียกในโค้ดเพื่ออ่าน flow ได้ง่าย แต่ multiplier เหล่านี้คูณต่อกันทั้งหมด จึงสลับลำดับกันได้ตามสมบัติการคูณสลับที่โดยไม่เปลี่ยนผลลัพธ์ (ตราบใดที่แต่ละฟังก์ชันยังคำนวณจาก state เดิม)
 
+## `calElationDamage(act, target, abilityRatio)`
+
+`Attack()` เรียกต่อจาก `calDamage()` สำหรับแต่ละรายการใน `damageSplit` ถ้า `abilityRatio.Elation <= 0` จะกลับทันทีโดยไม่บันทึกดาเมจ ฐานดาเมจเมื่อมีค่า Elation คือ `Level_multiplier × 2 × abilityRatio.Elation / 100` แล้วคูณ `calElationMultiplier` → Punchline/Certified Banger → Merrymake → Crit → DEF shred → RES PEN → Vulnerability → Mitigation → Multiplier increase → Toughness multiplier ตามลำดับ ไม่ใช้สเกล ATK/HP/DEF หรือ DMG% ของ `calDamage()`
+
+ผลที่ได้ลง `Cal_DamageNote()` ในชื่อ `act->actionName` แล้วเรียก `allEventAfterDealingDamage()` อีกครั้งสำหรับดาเมจส่วน Elation ดังนั้นหนึ่งรายการโจมตีที่มีทั้งดาเมจปกติและ Elation จะมีการบันทึกและ event หลังสร้างดาเมจแยกสองครั้ง ดูสูตรตัวคูณ Elation, Punchline และ Merrymake ใน [CalStats.md](CalStats.md)
+
+## `Cal_Break_damage(act, target, Constant)`
+
+เริ่มจาก `Constant × Level_multiplier` เรียก `allEventBeforeAttack(act)` แล้วคูณ `(0.5 + target->Max_toughness / 40)` × Break Effect × DEF shred × RES PEN × Vulnerability × Mitigation × Multiplier increase × Toughness multiplier ไม่ใช้ Crit หรือ DMG% หลังคำนวณจะบันทึกผ่าน `Cal_DamageNote()` ยิง `allEventAfterDealingDamage()` แล้ว `allEventAfterAttack(act)` ตามลำดับ ส่วน event ก่อนโจมตีและหลังโจมตีของฟังก์ชันนี้แยกจากลูปโจมตีปกติใน `Attack()`
+
 ## `Cal_Total_Toughness_Reduce()`
 
 รวม `TOUGH_REDUCE` และ `BREAK_EFF` จาก `Attacker` กับ `target` ใน `AType::None` และใน `act->actionTypeList` แล้วนำไปคูณกับ `Base_Toughness_reduce`:

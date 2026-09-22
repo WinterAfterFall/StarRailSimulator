@@ -44,4 +44,4 @@ field อยู่ที่ `CharUnit.h:36-39` · เซ็ตครั้งแ
 
 `ultUseCheck` หัก `Ult_cost` เสร็จแล้วเรียก `Increase_energy(ptr, 5)` ทันที = กฎเกม "ใช้ ult แล้วได้คืน 5 energy" · ใช้ **2-arg** ถูกแล้ว เพราะในเกม 5 ก้อนนี้**โดน ERR คูณ** (ยืนยัน 2026-09-13)
 
-จากนั้นวน `ultCondition` ทุกข้อ (ต้องผ่านหมด) แล้วยิง `WhenUseUlt_List` — `ultCondition` เพิ่มผ่าน `CharUnit::addUltCondition(function<bool()>)` (`Energy.h`)
+`ultUseCheck(ptr)` ตรวจตามลำดับ: ยูนิตยังอยู่ → `Current_energy >= Ult_cost` → `ultCondition` ทุกข้อคืน `true` → หัก `Ult_cost` → เรียก `Increase_energy(ptr, 5)` → ยิง `WhenUseUlt_List` ถ้าเงื่อนไขข้อใดไม่ผ่าน จะคืน `false` ก่อนหักพลังงานและก่อนยิง event; เพิ่มเงื่อนไขผ่าน `CharUnit::addUltCondition(function<bool()>)` (`Energy.h`)
