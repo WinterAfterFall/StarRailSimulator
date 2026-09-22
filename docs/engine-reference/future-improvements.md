@@ -41,6 +41,9 @@ expire(BUFF_BENEDICTION, Stats::ATK_P, BENEDICTION_ATK);
 ดู [`instructor/Function/Combat/ChangeHP.md`](instructor/Function/Combat/ChangeHP.md) (ระบบโล่) — `decreaseSheild()` แก้แล้ว แต่ยังไม่มีโค้ดไหน **เพิ่ม** `currentSheild`
 ค้าง: อ่าน `Stats_type[SHEILD]` เป็นตัวคูณ outgoing shield, เพิ่ม `currentSheild`, countdown/ถอนเหมือนบัฟ, ปลด comment Aventurine
 
+**ตัวละครที่รอระบบนี้อยู่**
+- **Luocha E2** (`Data/Character/Abundance/Luocha.h`) — สาขา "เป้าหมาย HP ≥ 50% → Shield = 18% ATK + 240 นาน 2 เทิร์น" ยังไม่ได้ implement ส่วนสาขา HP < 50% (Outgoing Healing +30%) ทำไปแล้ว · เมื่อมีระบบโล่ให้กลับมาเติมสาขานี้ใน `Luocha::Talent()`
+
 ## 3. ป้องกันตัวนับดีบัฟรวมติดลบ
 
 ปัจจุบัน `debuffRemove()` ลด `Total_debuff` โดยตรง ควรตรวจว่า debuff นั้น active อยู่ก่อนลด และ clamp ค่า `Total_debuff` ขั้นต่ำเป็น 0 เพื่อรองรับการเรียกล้างซ้ำในอนาคต ปัจจุบันยังไม่พบอาการผิดพลาด จึงเก็บไว้เป็นงานปรับปรุงภายหลัง
@@ -103,3 +106,14 @@ User ขอให้จดไว้ 2026-09-17; ยังไม่ implement แ
 ผู้ใช้เห็นว่าเป็นโค้ดที่ไม่จำเป็น แต่ยังไม่ต้องแก้พฤติกรรมตอนนี้ ควรพิจารณาตัดเงื่อนไขหรือแยกเส้นทางหลัง Broken ในการ refactor ครั้งถัดไป
 
 6-16
+
+---
+
+## 9. ไม่ได้จำลองดาเมจที่ศัตรูสร้างใส่ฝ่ายเรา
+
+ซิมนี้วัด "ดาเมจที่ทีมทำได้" ฝ่ายศัตรูจึงไม่มีสูตรดาเมจขาออก — `Stats::Mitigration` ที่ดูชื่อใกล้เคียงเป็นการลดดาเมจ **ที่ฝ่ายเราตีออก** (`calMitigationMultiplier` รับ `AllyAttackAction`, `Function/Calculate/CalStats.h:399`) ไม่ใช่ดาเมจที่รับเข้า ใส่ผลแบบ "ศัตรูตีเบาลง" ลงไปจะกลายเป็นทำให้ทีมตัวเองตีเบาลงแทน
+
+เกี่ยวโยงกับ "ศัตรูไม่มี HP" (ดู `instructor/Data/README.md`) — ทั้งสองเรื่องคือผลของการที่ฝั่งศัตรูถูกจำลองเป็นเป้านิ่งที่มีแต่ toughness/debuff
+
+**ตัวละครที่รอระบบนี้อยู่**
+- **Luocha E4** (`Data/Character/Abundance/Luocha.h`) — "ขณะ Field active → ศัตรู Weakened สร้าง DMG น้อยลง 12%" ยังไม่มีจุดให้เกาะ มีคอมเมนต์อธิบายไว้เหนือ `Abyss_Flower()` แล้ว
