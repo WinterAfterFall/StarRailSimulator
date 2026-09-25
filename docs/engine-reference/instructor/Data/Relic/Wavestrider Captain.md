@@ -27,5 +27,8 @@ AllyDeath_List : if (isBuffGoneByDeath(target, help))   buffSingle(ptr, {{ATK_P,
 ## จุดที่ควรรู้
 
 - ชื่อ stack/บัฟ ผูกกับเจ้าของ: `string help = ptr->getName() + " help";` (5) — เหตุผลเดียวกับ `Sacerdos_Relived_Ordeal.md`
-- **`Buff_List` ไม่ได้กรองว่าใครเป็นคนบัฟ** (20-26) กรองแค่ว่า **เป้าหมาย** เป็นเจ้าของ relic → บัฟจากใครก็นับ ซึ่งตรงกับ kit ที่นับ "ครั้งที่ถูกบัฟ"
+- `Buff_List` ข้าม action ที่ผู้สวมเป็นคนทำเอง (`act->isSameName(ptr)`) แล้วนับเมื่อ **เป้าหมาย** เป็นผู้สวม — ตรงกับ kit "target of **another** ally's ability"
 - **stack ถูกล้างเฉพาะตอนได้ใช้งาน** (`setStack(help, 0)` บรรทัด 14) ถ้ากดอัลติตอน stack ยังไม่ถึง 2 จะไม่เกิดอะไรและ stack คงอยู่ต่อ
+
+## แก้เมื่อ 2026-09-26
+- `Buff_List` เดิมไม่กรองผู้กระทำ → ผู้สวมบัฟตัวเองก็ได้ "Help" · เพิ่ม `if(act->isSameName(ptr))return;`

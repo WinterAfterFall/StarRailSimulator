@@ -18,6 +18,7 @@ namespace Relic{
         }));
 
         Buff_List.push_back(TriggerByAllyBuffAction_Func(PRIORITY_IMMEDIATELY, [ptr,help](shared_ptr<AllyBuffAction> &act) {
+            if(act->isSameName(ptr))return;
             for(auto &each : act->buffTargetList){
                 if(each->isSameName(ptr)){
                     calStack(each,1,2,help);

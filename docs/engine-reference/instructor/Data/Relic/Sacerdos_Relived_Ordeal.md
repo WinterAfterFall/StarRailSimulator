@@ -33,3 +33,6 @@ string Sacerdos = ptr->getName() + " Sacerdos";
 
 ## แก้เมื่อ 2026-09-25
 - ลบ guard `turn->num != ptr->currentCharNum` ใน `After_turn_List` · `currentCharNum` คือเป้าบัฟที่เลือกอยู่ ไม่ใช่ผู้ถือบัฟ → ถ้าบัฟลงคนอื่น (memosprite / เปลี่ยนเป้า) stack CD จะไม่ถูกถอน · ตอนนี้ `isBuffEnd(tempstats, ...)` ตัดสินเองว่าเป็นเทิร์นของผู้ถือบัฟหรือไม่
+
+## แก้เมื่อ 2026-09-26
+- เดิมนับทุก buff action เป้าเดี่ยว · kit ระบุ "When using Skill or Ultimate" → เพิ่มเงื่อนไข `act->isSameAction(AType::SKILL) || act->isSameAction(AType::Ult)`

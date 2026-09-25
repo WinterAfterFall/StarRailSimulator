@@ -5,7 +5,7 @@
 | โบนัส | โค้ด | บรรทัด |
 |---|---|---|
 | 2-pc — CD +16% | `Reset_List` → `Stats_type[Stats::CD][AType::None] += 16` | 7 |
-| 4-pc — ignore DEF สำหรับ Elation DMG +10% | `Stats_type[Stats::DEF_SHRED][AType::ElationDMG] += 10` | 8 |
+| 4-pc — ignore DEF สำหรับ Elation DMG +10% (ผู้สวม + memosprite) | `WhenOnField_List` → `buffSingleChar` | 9-11 |
 | 4-pc — บัฟทั้งทีมตามค่า `punchline` | `PunchLine_List` | 11-17 |
 
 ## รากฐาน: `PunchLine_List` และตัวแปร `punchline`
@@ -32,3 +32,6 @@ ptr->setBuffNote("MagicalGirl Buff", buff);
 
 ## แก้เมื่อ 2026-09-25
 - `PunchLine_List` เปลี่ยนจาก `buffAllAlly` → `buffSingleChar(ptr, ...)` · DEF_SHRED (ElationDMG) จาก Punchline ลงเฉพาะผู้สวมและ memosprite · เดิมแจกทั้งทีม และถ้าใส่สองคนค่าจะซ้อนกัน
+
+## แก้เมื่อ 2026-09-26
+- ท่อนพื้นฐาน DEF_SHRED 10 (ElationDMG) เดิมเขียน `Stats_type` ของผู้สวม → memosprite ไม่ได้ · ย้ายไป `WhenOnField_List` + `buffSingleChar` ให้ตรงกับท่อน Punchline

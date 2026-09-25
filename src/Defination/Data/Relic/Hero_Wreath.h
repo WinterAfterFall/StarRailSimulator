@@ -9,9 +9,13 @@ namespace Relic{
         }));
 
         Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            if (ptr->memosprite && ptr->buffCheck["Hero_Wreath"] == 0 && !ptr->memosprite->isDeath()) {
+            bool onField = ptr->memosprite && ptr->memosprite->isExisted();
+            if (onField && ptr->buffCheck["Hero_Wreath"] == 0) {
                 ptr->buffCheck["Hero_Wreath"] = 1;
                 buffSingle(ptr,{{Stats::SPD_P,AType::None,6}});
+            } else if (!onField && ptr->buffCheck["Hero_Wreath"] == 1) {
+                ptr->buffCheck["Hero_Wreath"] = 0;
+                buffSingle(ptr,{{Stats::SPD_P,AType::None,-6}});
             }
         }));
 
