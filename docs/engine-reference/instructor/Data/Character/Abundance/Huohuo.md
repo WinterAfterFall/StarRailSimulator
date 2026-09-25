@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Abundance/Huohuo.h`
 
-kit อ้างอิง: `docs/kit-reference/Character/Huohuo.md` · **ฮีลเลอร์แบบ "ฮีลต่อเนื่อง" (Divine Provision)** — อ่าน `Luocha.md` และ `Gallagher.md` ก่อนสำหรับ API การฮีล
+kit อ้างอิง: `docs/kit-reference/Character/Abundance/huohuo.md` · **ฮีลเลอร์แบบ "ฮีลต่อเนื่อง" (Divine Provision)** — อ่าน `Luocha.md` และ `Gallagher.md` ก่อนสำหรับ API การฮีล
 
 ## ตาราง: ความสามารถ → โค้ด
 

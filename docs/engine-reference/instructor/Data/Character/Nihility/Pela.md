@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Nihility/Pela.h`
 
-kit อ้างอิง: `docs/kit-reference/Character/Pela.md` · **ไฟล์นี้ยัง implement ไม่ครบ kit** — ดูหัวข้อ "ส่วนที่ยังไม่มีในโค้ด" ก่อนใช้เป็นตัวอย่าง
+kit อ้างอิง: `docs/kit-reference/Character/Nihility/pela.md` · **ไฟล์นี้ยัง implement ไม่ครบ kit** — ดูหัวข้อ "ส่วนที่ยังไม่มีในโค้ด" ก่อนใช้เป็นตัวอย่าง
 
 โครงต่างจาก `Tingyun.h` ตรงที่แยก `Basic_Atk` ออกเป็นฟังก์ชันระดับ namespace (forward-declare บรรทัด 4-5) แทนที่จะเป็น lambda ใน `Setup` — รับ `CharUnit *ptr` เข้ามา ใช้ได้เมื่อ action นั้นไม่ต้อง capture state อื่นของ `Setup`
 

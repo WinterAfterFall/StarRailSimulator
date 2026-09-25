@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Nihility/Kafka.h`
 
-kit อ้างอิง: `docs/kit-reference/Character/Kafka.md` · **ไฟล์อ้างอิงของ DoT แบบ "จุดระเบิด" (detonate) และ Follow-up ATK** — คู่กับ `Black Swan.md` ที่เป็นฝั่ง DoT แบบสะสม stack
+kit อ้างอิง: `docs/kit-reference/Character/Nihility/kafka.md` · **ไฟล์อ้างอิงของ DoT แบบ "จุดระเบิด" (detonate) และ Follow-up ATK** — คู่กับ `Black Swan.md` ที่เป็นฝั่ง DoT แบบสะสม stack
 
 ## ตาราง: ความสามารถ → โค้ด
 

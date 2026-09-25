@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Erudition/Anaxa.h`
 
-kit อ้างอิง: `docs/kit-reference/Character/Anaxa.md` · **ไฟล์อ้างอิงของการแปะธาตุอ่อนแอ (weakness) เป็นกลไกหลัก** · คู่กับ `FireFly.md` ที่ใช้ `weaknessApply` แบบเจาะธาตุเดียว
+kit อ้างอิง: `docs/kit-reference/Character/Erudition/anaxa.md` · **ไฟล์อ้างอิงของการแปะธาตุอ่อนแอ (weakness) เป็นกลไกหลัก** · คู่กับ `FireFly.md` ที่ใช้ `weaknessApply` แบบเจาะธาตุเดียว
 
 ## ตาราง: ความสามารถ → โค้ด
 

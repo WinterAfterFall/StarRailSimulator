@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Harmony/Sunday.h`
 
-kit อ้างอิง: `docs/kit-reference/Character/Sunday.md` · **ไฟล์อ้างอิงของ `buffAllyTarget` — การจำผู้ถือบัฟข้ามเวลา** และของบัฟที่ต้องลงถึง memosprite ทุกจุด
+kit อ้างอิง: `docs/kit-reference/Character/Harmony/sunday.md` · **ไฟล์อ้างอิงของ `buffAllyTarget` — การจำผู้ถือบัฟข้ามเวลา** และของบัฟที่ต้องลงถึง memosprite ทุกจุด
 
 ## ตาราง: ความสามารถ → โค้ด
 

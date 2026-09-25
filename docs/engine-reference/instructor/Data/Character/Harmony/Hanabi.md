@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Harmony/Hanabi.h`
 
-kit อ้างอิง: `docs/kit-reference/Character/Hanabi.md` · **ตัวเดียวที่แก้ `Max_sp` ของทีม** และใช้ `Skill_point_List` เป็นแกนของ Talent · `HanabiV1.h` เป็นเวอร์ชันเก่า (ข้าม)
+kit อ้างอิง: `docs/kit-reference/Character/Harmony/sparkle.md` · **ตัวเดียวที่แก้ `Max_sp` ของทีม** และใช้ `Skill_point_List` เป็นแกนของ Talent · `HanabiV1.h` เป็นเวอร์ชันเก่า (ข้าม)
 
 ## ตาราง: ความสามารถ → โค้ด
 

@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Nihility/Guinaifen.h`
 
-kit อ้างอิง: `docs/kit-reference/Character/Guinaifen.md` · **DoT สาย Burn** — โครงเดียวกับ `Kafka.md` แต่เรียบกว่ามาก อ่าน Kafka ก่อน
+kit อ้างอิง: `docs/kit-reference/Character/Nihility/guinaifen.md` · **DoT สาย Burn** — โครงเดียวกับ `Kafka.md` แต่เรียบกว่ามาก อ่าน Kafka ก่อน
 
 ## ตาราง: ความสามารถ → โค้ด
 

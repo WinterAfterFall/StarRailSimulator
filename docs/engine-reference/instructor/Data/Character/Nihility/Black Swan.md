@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Nihility/Black Swan.h`
 
-kit อ้างอิง: `docs/kit-reference/Character/Black Swan.md` · **ไฟล์อ้างอิงหลักของระบบ DoT** — ใครจะทำตัวละคร DoT ให้เริ่มอ่านที่นี่ (`Black SwanV1.h` เป็นเวอร์ชันเก่า ข้าม)
+kit อ้างอิง: `docs/kit-reference/Character/Nihility/black-swan.md` · **ไฟล์อ้างอิงหลักของระบบ DoT** — ใครจะทำตัวละคร DoT ให้เริ่มอ่านที่นี่ (`Black SwanV1.h` เป็นเวอร์ชันเก่า ข้าม)
 
 ## ตาราง: ความสามารถ → โค้ด
 

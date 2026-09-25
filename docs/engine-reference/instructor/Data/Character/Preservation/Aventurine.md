@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Preservation/Aventurine.h`
 
-kit อ้างอิง: `docs/kit-reference/Character/Aventurine.md`
+kit อ้างอิง: `docs/kit-reference/Character/Preservation/aventurine.md`
 
 ## สถานะ: **ทั้งไฟล์ถูกคอมเมนต์ทิ้ง — ไม่มีโค้ดที่ทำงานเลย**
 

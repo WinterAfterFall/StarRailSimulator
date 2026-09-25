@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Harmony/Tribbie.h`
 
-kit อ้างอิง: `docs/kit-reference/Character/Tribbie.md` · **ไฟล์อ้างอิงของ True DMG (`Cal_DamageNote`) และ `Char.Print_Func`** · ดาเมจสเกลกับ HP · มี `//temp` (บรรทัด 11)
+kit อ้างอิง: `docs/kit-reference/Character/Harmony/tribbie.md` · **ไฟล์อ้างอิงของ True DMG (`Cal_DamageNote`) และ `Char.Print_Func`** · ดาเมจสเกลกับ HP · มี `//temp` (บรรทัด 11)
 
 ## ตาราง: ความสามารถ → โค้ด
 

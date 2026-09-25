@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Erudition/The_Herta.h`
 
-kit อ้างอิง: `docs/kit-reference/Character/The_Herta.md` · **ไฟล์ที่ซับซ้อนที่สุดในกลุ่มที่สำรวจแล้ว (320 บรรทัด)** — ตัวอย่างของตัวละครที่มีทรัพยากร 3 ชั้น (Interpretation บนศัตรู / Inspiration บนตัวเอง / Answer บนตัวเอง) และ AI ที่ปรับจูนตามรูปแบบทีม · มี `//temp` (บรรทัด 6) ส่วน AI ยังไม่นิ่ง
+kit อ้างอิง: `docs/kit-reference/Character/Erudition/the-herta.md` · **ไฟล์ที่ซับซ้อนที่สุดในกลุ่มที่สำรวจแล้ว (320 บรรทัด)** — ตัวอย่างของตัวละครที่มีทรัพยากร 3 ชั้น (Interpretation บนศัตรู / Inspiration บนตัวเอง / Answer บนตัวเอง) และ AI ที่ปรับจูนตามรูปแบบทีม · มี `//temp` (บรรทัด 6) ส่วน AI ยังไม่นิ่ง
 
 ## ทรัพยากร 3 ตัว เก็บที่ไหน
 

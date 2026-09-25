@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Harmony/Ruan_Mei.h`
 
-kit อ้างอิง: `docs/kit-reference/Character/Ruan_Mei.md` · namespace `RuanMei` (ไม่มี `_`) แต่ชื่อ unit เป็น `"Ruan_Mei"` · **ซัพพอร์ตสาย Break** — ใช้ `Cal_Break_damage` เป็นแหล่งดาเมจหลัก
+kit อ้างอิง: `docs/kit-reference/Character/Harmony/ruan-mei.md` · namespace `RuanMei` (ไม่มี `_`) แต่ชื่อ unit เป็น `"Ruan_Mei"` · **ซัพพอร์ตสาย Break** — ใช้ `Cal_Break_damage` เป็นแหล่งดาเมจหลัก
 
 ## ตาราง: ความสามารถ → โค้ด
 

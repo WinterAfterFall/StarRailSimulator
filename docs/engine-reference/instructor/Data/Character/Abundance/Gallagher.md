@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Abundance/Gallagher.h`
 
-kit อ้างอิง: `docs/kit-reference/Character/Gallagher.md` · **ไฟล์อ้างอิงของ "stat ที่คำนวณจาก stat อื่นแบบ live"** (A2: Outgoing Healing = 50% ของ Break Effect) — กลไกนี้ไม่มีในตัวละครอื่นที่สำรวจมา · คู่กับ `Luocha.md` สำหรับระบบฮีลพื้นฐาน
+kit อ้างอิง: `docs/kit-reference/Character/Abundance/gallagher.md` · **ไฟล์อ้างอิงของ "stat ที่คำนวณจาก stat อื่นแบบ live"** (A2: Outgoing Healing = 50% ของ Break Effect) — กลไกนี้ไม่มีในตัวละครอื่นที่สำรวจมา · คู่กับ `Luocha.md` สำหรับระบบฮีลพื้นฐาน
 
 ## ตาราง: ความสามารถ → โค้ด
 

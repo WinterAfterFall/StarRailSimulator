@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Erudition/Jingyuan.h`
 
-kit อ้างอิง: `docs/kit-reference/Character/Jingyuan.md` · **ไฟล์อ้างอิงเดียวของระบบ `summon`** (ต่างจาก memosprite ของ path Remembrance)
+kit อ้างอิง: `docs/kit-reference/Character/Erudition/jing-yuan.md` · **ไฟล์อ้างอิงเดียวของระบบ `summon`** (ต่างจาก memosprite ของ path Remembrance)
 
 ## ตาราง: ความสามารถ → โค้ด
 

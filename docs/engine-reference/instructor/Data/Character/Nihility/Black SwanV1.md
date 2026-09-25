@@ -2,7 +2,7 @@
 
 **เวอร์ชันเก่าของ Black Swan — ไม่ใช่ตัวที่ใช้งานจริง** · ตัวจริงคือ `Black Swan.h` (ดู `Black Swan.md`)
 
-`docs/kit-reference/Character/README.md` ระบุไว้ว่า "ข้าม V1 dupes — ดูไฟล์ตัวจริงแทน" และ `kit-reference/Character/Black Swan.md` ก็เขียนว่า "(เวอร์ชันเก่า `Black SwanV1.h` — ข้าม)"
+`docs/kit-reference/Character/README.md` ระบุไว้ว่า "ข้าม V1 dupes — ดูไฟล์ตัวจริงแทน" และ `kit-reference/Character/Nihility/black-swan.md` ก็เขียนว่า "(เวอร์ชันเก่า `Black SwanV1.h` — ข้าม)"
 
 > **แต่ยัง `#include` อยู่**: `All_Nihility_char.h:11` → `#include"Black SwanV1.h"` · ยังคอมไพล์เข้าไปในโปรแกรม (namespace ต่างกันจึงไม่ชน)
 

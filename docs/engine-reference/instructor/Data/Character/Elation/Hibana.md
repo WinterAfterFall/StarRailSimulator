@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Elation/Hibana.h`
 
-kit อ้างอิง: `docs/kit-reference/Character/Hibana.md` · **ตัวจริงในเกมชื่อ Sparxie** (ดู `docs/kit-reference/Character/README.md` ตาราง codename) · **ไฟล์อ้างอิงหลักของ path Elation**
+kit อ้างอิง: `docs/kit-reference/Character/Elation/sparxie.md` · **ตัวจริงในเกมชื่อ Sparxie** (ดู `docs/kit-reference/Character/README.md` ตาราง codename) · **ไฟล์อ้างอิงหลักของ path Elation**
 
 ## ระบบ Elation — คำศัพท์
 

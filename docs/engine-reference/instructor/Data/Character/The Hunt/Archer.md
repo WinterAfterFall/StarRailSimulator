@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/The Hunt/Archer.h`
 
-kit อ้างอิง: `docs/kit-reference/Character/Archer.md` · **ตัวละคร collab (ชุดเดียวกับ `../Destruction/Saber.md`)** · ตัวเดียวของ path `The Hunt` ในโปรเจกต์ · เป็นตัวที่ 2 ที่แก้ `Max_sp` (อีกตัวคือ `../Harmony/Hanabi.md`)
+kit อ้างอิง: `docs/kit-reference/Character/Hunt/archer.md` · **ตัวละคร collab (ชุดเดียวกับ `../Destruction/Saber.md`)** · ตัวเดียวของ path `The Hunt` ในโปรเจกต์ · เป็นตัวที่ 2 ที่แก้ `Max_sp` (อีกตัวคือ `../Harmony/Hanabi.md`)
 
 ## ตาราง: ความสามารถ → โค้ด
 

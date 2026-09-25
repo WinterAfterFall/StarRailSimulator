@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Remembrance/Hyacine.h`
 
-kit อ้างอิง: `docs/kit-reference/Character/Hyacine.md` · **ฮีลเลอร์สาย memosprite** — รวมระบบฮีล (`Luocha.md`, `Gallagher.md`) เข้ากับ memosprite (`RMC.md`) · มี `//temp` (บรรทัด 5)
+kit อ้างอิง: `docs/kit-reference/Character/Remembrance/hyacine.md` · **ฮีลเลอร์สาย memosprite** — รวมระบบฮีล (`Luocha.md`, `Gallagher.md`) เข้ากับ memosprite (`RMC.md`) · มี `//temp` (บรรทัด 5)
 
 ## ตาราง: ความสามารถ → โค้ด
 

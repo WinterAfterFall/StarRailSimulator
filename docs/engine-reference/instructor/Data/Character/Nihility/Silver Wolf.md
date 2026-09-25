@@ -1,6 +1,6 @@
 `if (E2 หรือ act->isSameName(sw))`# `src/Defination/Data/Character/Nihility/Silver Wolf.h`
 `if (E2 หรือ act->isSameName(sw))`
-`if (E2 หรือ act->isSameName(sw))`kit อ้างอิง: `docs/kit-reference/Character/Silver Wolf.md` · namespace `SW` และ **ชื่อ unit เป็น `"SW"` ไม่ใช่ `"Silver Wolf"`** · **ไฟล์อ้างอิงของ debuff หลายชั้น (Bug 1/2/3) และการแปะ weakness ตามธาตุของทีม**
+`if (E2 หรือ act->isSameName(sw))`kit อ้างอิง: `docs/kit-reference/Character/Nihility/silver-wolf.md` · namespace `SW` และ **ชื่อ unit เป็น `"SW"` ไม่ใช่ `"Silver Wolf"`** · **ไฟล์อ้างอิงของ debuff หลายชั้น (Bug 1/2/3) และการแปะ weakness ตามธาตุของทีม**
 `if (E2 หรือ act->isSameName(sw))`
 `if (E2 หรือ act->isSameName(sw))`## ตาราง: ความสามารถ → โค้ด
 `if (E2 หรือ act->isSameName(sw))`

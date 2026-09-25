@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Harmony/Robin.h`
 
-kit อ้างอิง: `docs/kit-reference/Character/Robin.md` · **ไฟล์ที่มี `addUltCondition` มากที่สุด (4 ก้อน)** และเป็นที่เดียวที่แก้ `baseSpeed` ระหว่างเกม · มี `//temp` (บรรทัด 6)
+kit อ้างอิง: `docs/kit-reference/Character/Harmony/robin.md` · **ไฟล์ที่มี `addUltCondition` มากที่สุด (4 ก้อน)** และเป็นที่เดียวที่แก้ `baseSpeed` ระหว่างเกม · มี `//temp` (บรรทัด 6)
 
 ## ตาราง: ความสามารถ → โค้ด
 

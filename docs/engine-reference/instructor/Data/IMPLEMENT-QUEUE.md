@@ -51,7 +51,7 @@
 
 ## ขั้นตอนที่ต้องทำต่อตัว
 
-1. research kit จากแหล่งข้างบน → เขียนไฟล์ `docs/kit-reference/Character/<ชื่อ>.md` ตามรูปแบบเดิม (ดู `docs/kit-reference/Character/README.md`)
+1. research kit จากแหล่งข้างบน → เขียนไฟล์ `docs/kit-reference/Character/<Path>/<slug>.md` ตามรูปแบบเดิม (ดู `docs/kit-reference/Character/README.md`)
 2. เขียน `src/Defination/Data/Character/<Path>/<ชื่อ>.h` ตามแบบแผนใน `README.md` ของโฟลเดอร์นี้
 3. เพิ่ม `#include` ใน `All_<Path>_char.h`
 4. เขียนไฟล์ mapping `docs/engine-reference/instructor/Data/Character/<Path>/<ชื่อ>.md`

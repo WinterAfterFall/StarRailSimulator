@@ -3,7 +3,9 @@
 โฟลเดอร์นี้เก็บ **สรุป kit ของตัวละคร Honkai: Star Rail จากเกมจริง** เพื่อใช้เป็น
 ground-truth เวลาเทียบกับโค้ด implementation ใน `src/Defination/Data/Character/`
 
-- 1 ไฟล์ = 1 ตัวละคร ชื่อไฟล์ตรงกับไฟล์ `.h` ในโค้ด (เช่น `Cerydra.md` ↔ `Harmony/Cerydra.h`)
+- แบ่งโฟลเดอร์ตาม Path: `<Path>/<slug>.md` (slug ตามชื่อในเกมของ prydwen เช่น `Harmony/cerydra.md` ↔ `Harmony/Cerydra.h`) — ครอบคลุม 92 ตัว (snapshot prydwen 2026-05-30)
+- แต่ละไฟล์: frontmatter + JSON ตัวเลขทุกเลเวลจาก prydwen และสำหรับ 40 ตัวที่มีโค้ด จะมีหัวข้อ "สรุป kit ภาษาไทย + จุดเทียบโค้ด" (เนื้อหาจากไฟล์ kit-reference เดิม)
+- ตัวที่ codename ในโค้ดไม่ตรงชื่อเกม ดูตารางด้านล่าง (เช่น `Hibana.h` → `Elation/sparxie.md`, `Hanabi.h` → `Harmony/sparkle.md`, `RMC.h` → `Remembrance/trailblazer-remembrance.md`)
 - เนื้อหา = **เฉพาะ kit ในเกม** (Basic / Skill / Ultimate / Talent / Technique / Traces / Eidolons)
   ไม่รวมวิธีปั้น relic / lightcone / ทีมแนะนำ
 - ตัวเลข multiplier เป็นค่า **max trace level** (Basic Lv.6-7 / Skill·Ult·Talent Lv.10) ก่อนบวก Eidolon

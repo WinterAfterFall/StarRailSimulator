@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Nihility/Dahlia.h`
 
-kit อ้างอิง: `docs/kit-reference/Character/Dahlia.md` · **ซัพพอร์ต Super Break ที่แก้ toughness reduction ของ action คนอื่นโดยตรง** · เป็นที่เดียวที่ใช้ `WeaknessApply_List` และตั้ง global `DahliaCheck`
+kit อ้างอิง: `docs/kit-reference/Character/Nihility/the-dahlia.md` · **ซัพพอร์ต Super Break ที่แก้ toughness reduction ของ action คนอื่นโดยตรง** · เป็นที่เดียวที่ใช้ `WeaknessApply_List` และตั้ง global `DahliaCheck`
 
 ## ตาราง: ความสามารถ → โค้ด
 

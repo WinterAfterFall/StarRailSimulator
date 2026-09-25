@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Nihility/Luka.h`
 
-kit อ้างอิง: `docs/kit-reference/Character/Luka.md` · **ไฟล์อ้างอิงของตัวละครที่มี "ทรัพยากร" (Fighting Will) และ Enhanced Basic ATK**
+kit อ้างอิง: `docs/kit-reference/Character/Nihility/luka.md` · **ไฟล์อ้างอิงของตัวละครที่มี "ทรัพยากร" (Fighting Will) และ Enhanced Basic ATK**
 
 ## ตาราง: ความสามารถ → โค้ด
 

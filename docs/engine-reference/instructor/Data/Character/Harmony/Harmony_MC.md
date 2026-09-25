@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Harmony/Harmony_MC.h`
 
-kit อ้างอิง: `docs/kit-reference/Character/Harmony_MC.md` · namespace `HarmonyMC` · **ซัพพอร์ต Super Break** — เป็นแหล่ง Super Break ให้ทั้งทีม ไม่ใช่แค่ตัวเอง (ต่างจาก `../Destruction/FireFly.md` และ `../Erudition/Rappa.md`)
+kit อ้างอิง: `docs/kit-reference/Character/Harmony/trailblazer-harmony.md` · namespace `HarmonyMC` · **ซัพพอร์ต Super Break** — เป็นแหล่ง Super Break ให้ทั้งทีม ไม่ใช่แค่ตัวเอง (ต่างจาก `../Destruction/FireFly.md` และ `../Erudition/Rappa.md`)
 
 ## ตาราง: ความสามารถ → โค้ด
 

@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Destruction/Mydei.h`
 
-kit อ้างอิง: `docs/kit-reference/Character/Mydei.md` · **ไฟล์อ้างอิงของ taunt และการแลก HP เป็นทรัพยากร** · ดาเมจสเกลกับ HP ทั้งหมด
+kit อ้างอิง: `docs/kit-reference/Character/Destruction/mydei.md` · **ไฟล์อ้างอิงของ taunt และการแลก HP เป็นทรัพยากร** · ดาเมจสเกลกับ HP ทั้งหมด
 
 ## ตาราง: ความสามารถ → โค้ด
 
