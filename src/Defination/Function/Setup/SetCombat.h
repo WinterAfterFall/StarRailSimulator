@@ -110,7 +110,7 @@ void Reset(){
         Path temp = Path::Elation;
         ahaSpeedAdjust(temp);
         for(auto &each : charList){
-            if(each->path[0] == Path::Elation)buffSingle(each,{{Stats::CertifiedBanger,AType::None,20}},"CB Buff",2);
+            if(each->path == Path::Elation)buffSingle(each,{{Stats::CertifiedBanger,AType::None,20}},"CB Buff",2);
         }
     }
 }

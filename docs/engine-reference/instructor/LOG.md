@@ -2,6 +2,10 @@
 
 หมายเหตุ ณ 2026-09-21: บันทึกเก่าด้านล่างเป็นผลการทำงาน ณ เวลานั้น ไฟล์ใน `test/` ถูก `.gitignore`; ใน workspace ปัจจุบันไม่พบ `basic_reset_stats_regression.cpp`, `hp_decrease_event_regression.cpp` หรือ `break_status_regression.cpp` จึงไม่ควรอ่านการอ้างชื่อเหล่านี้เป็นหลักฐานว่ารันซ้ำได้ตอนนี้ ดู [คู่มือ build/run/test](../../build-run-and-test.md)
 
+## อัปเดต 2026-09-25
+
+- **2026-09-25** — refactor `CharUnit::path` จาก `vector<Path>` เป็น `Path` ค่าเดียว · แก้ `path[0]` ทุกจุด + ลูปใน `Izumo.h` / `The_Herta.h` เป็น `==` · ปิด QUESTIONS CE3
+
 ## อัปเดต 2026-09-22
 
 - ตรวจความครอบคลุมของ mirror `instructor` เทียบกับทุก `.h` นอก `Data` ด้วยสคริปต์ดึงชื่อฟังก์ชันที่มีนิยามจริง (485 ตัว): โครงสร้างครบทุกไฟล์ยกเว้น `Library.h`/`include.h` ที่เป็น aggregator ล้วน ส่วนเนื้อหาพบรูราว 20 ฟังก์ชันกระจุกใน 4 จุด

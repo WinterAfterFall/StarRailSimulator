@@ -19,12 +19,12 @@ CharUnit* SetCharBasicStats(double BaseSpeed,double Max_Energy,double Ult_cost,i
         charUnit[num]->Ult_cost = Ult_cost;
         charUnit[num]->Eidolon = Eidolon;
         charUnit[num]->Element_type.push_back(Element_type);
-        charUnit[num]->path.push_back(path);
+        charUnit[num]->path = path;
         charUnit[num]->Atv_stats->num = num;
         charUnit[num]->Atv_stats->Name = Name;
         charUnit[num]->Atv_stats->side = Side::Ally;
         charUnit[num]->Atv_stats->Type = unitType;
-        charUnit[num]->baseTaunt = tauntValueEachPath[charUnit[num]->path[0]];
+        charUnit[num]->baseTaunt = tauntValueEachPath[charUnit[num]->path];
         return charUnit[num].get();
 }
 void SetMemoStats(CharUnit *ptr,double fixHP,double Hp_ratio,double fixSpeed,double Speed_ratio,ElementType Element_type,string Name,UnitType unitType){
@@ -49,7 +49,7 @@ void SetMemoStats(CharUnit *ptr,double fixHP,double Hp_ratio,double fixSpeed,dou
         ptr->memospriteList[num]->Atv_stats->Type = unitType;
         ptr->memospriteList[num]->Atv_stats->charptr = ptr->memospriteList[num].get();
         ptr->memospriteList[num]->owner = ptr;
-        ptr->memospriteList[num]->baseTaunt = tauntValueEachPath[ptr->path[0]];
+        ptr->memospriteList[num]->baseTaunt = tauntValueEachPath[ptr->path];
 
 }
 void SetCountdownStats(CharUnit *ptr,double BaseSpeed,string Name){

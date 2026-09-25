@@ -85,7 +85,7 @@
         for(BuffClass &buff : buffSet){
             if(buff.statsType==Stats::FLAT_SPD||buff.statsType==Stats::SPD_P){
                 ptr->speedBuff(buff);
-                ahaSpeedAdjust(ptr->owner->path[0]);
+                ahaSpeedAdjust(ptr->owner->path);
             }
             else ptr->Stats_type[buff.statsType][buff.actionType] += buff.value;
             if(buff.actionType==AType::None)StatsAdjust(ptr,buff.statsType);
@@ -96,7 +96,7 @@
             for(BuffClass &buff : buffSet){
                 if(buff.statsType==Stats::FLAT_SPD||buff.statsType==Stats::SPD_P){
                     ptr->speedBuff(buff);
-                    ahaSpeedAdjust(ptr->owner->path[0]);
+                    ahaSpeedAdjust(ptr->owner->path);
                 }
                 else ptr->Stats_type[buff.statsType][buff.actionType] += buff.value;
                 if(buff.actionType==AType::None)StatsAdjust(ptr,buff.statsType);

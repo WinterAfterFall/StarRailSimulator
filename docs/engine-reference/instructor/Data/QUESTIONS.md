@@ -9,7 +9,9 @@
 
 # 1. Relic
 
-### 🔴 R1. `Hero_Wreath.h:24` — CD +30% trigger ผิดเงื่อนไข
+### ✅ R1. `Hero_Wreath.h:24` — CD +30% trigger ผิดเงื่อนไข
+> **แก้แล้ว 2026-09-25**: เช็ค `side == Memosprite` + เจ้าของตรงกัน · เพิ่ม `After_turn_List` ถอน CD (เดิมไม่มีโค้ดถอน → ค้างถาวร)
+
 ```cpp
 if (act->Attacker->Atv_stats->side == Side::Ally && ptr->memospriteList.size() > 0)
 ```
@@ -17,7 +19,9 @@ kit บอก "เมื่อ **memosprite** โจมตี" แต่โค�
 
 **ถาม**: แก้ให้ตรง kit (เช็คว่าผู้โจมตีเป็น memosprite ของเจ้าของ) หรือปล่อยแบบนี้เพราะทีมที่ใส่เซ็ตนี้มี memosprite ตีบ่อยอยู่แล้ว?
 
-### 🔴 R2. `Diviner of Distant Reach.h:12-16` — Elation ลงผิดคน
+### ✅ R2. `Diviner of Distant Reach.h:12-16` — Elation ลงผิดคน
+> **แก้แล้ว 2026-09-25**: แบบ (ก) — `buffSingle(each, ...)` แจกทุกคนคนละ 10 · `"DoD Buff"` กันซ้อนเมื่อมีหลายคนใส่
+
 ```cpp
 for(auto &each : allyList){
     if(isHaveToAddBuff(each,"DoD Buff"))
@@ -28,27 +32,37 @@ for(auto &each : allyList){
 
 **ถาม**: เจตนาคือ (ก) แจกเพื่อนคนละ 10 → แก้เป็น `buffSingle(each, ...)` หรือ (ข) เจ้าของได้ 10 ครั้งเดียว → เอาลูปออก?
 
-### 🔴 R3. `Goddess of Sun and Thunder.h` — บัฟ CD ทีมค้างถ้าเจ้าของตาย
+### ✅ R3. `Goddess of Sun and Thunder.h` — บัฟ CD ทีมค้างถ้าเจ้าของตาย
+> **แก้แล้ว 2026-09-25**: เพิ่ม `AllyDeath_List` ถอน SPD เจ้าของ + CD ทั้งทีมเมื่อเจ้าของตาย
+
 บัฟ CD +15% ลงทั้งทีมด้วย `buffAllAlly` แต่ถอนด้วย `isBuffEnd(ptr, ...)` ที่ผูกกับเทิร์นของ**เจ้าของ relic** และไม่มี `AllyDeath_List`
 
 **ถาม**: เพิ่ม `AllyDeath_List` แบบ `Wavestrider Captain.h` ไหม หรือถือว่าเคสเจ้าของตายไม่เกิดในซิมนี้?
 
-### R4. `Diviner of Distant Reach.h` — สองสาขา copy ทั้งก้อน
+### ✅ R4. `Diviner of Distant Reach.h` — สองสาขา copy ทั้งก้อน
+> **2026-09-25**: ยังไม่แก้ — บันทึกเป็นหัวข้อรวมใน `future-improvements.md` ข้อ 10 (เงื่อนไข SPD แบบ realtime) พร้อม GiantTree / FirmanentFrontline
+
 ต่างกันแค่ CR 18 vs 10 · ยุบเป็น `double cr = trigger ? 18 : 10;` แล้วเหลือ lambda เดียวได้
 
 **ถาม**: ให้รีแฟกเตอร์เลยไหม? (มีแบบเดียวกันที่ `Planar/GiantTree.h` และ `Planar/FirmanentFrontline.h`)
 
-### R5. `PairSet.h` — `Relic.Name` เป็น `"PairSet"` เสมอ
+### ✅ R5. `PairSet.h` — `Relic.Name` เป็น `"PairSet"` เสมอ
+> **2026-09-25 ไม่ต้องแก้**: PairSet คือ relic ยำ 2+2 — แต่ละ `PairSetType` ให้ค่า 2 ชิ้นแบบคงที่ (CD, DMG, ATK, HP, DEF ฯลฯ) ผ่าน `RelicPairSet` · ไม่มีโค้ดไหนเช็คชื่อ `"PairSet"`
+
 ไม่บอกว่าใส่คู่ไหน → ตัวละคร/relic ที่เช็คชื่อแยกไม่ออก
 
 **ถาม**: ต้องการให้ชื่อบอกคู่ที่ใส่ไหม (เช่น `"PairSet:ATK+CritDam"`) หรือไม่มีใครเช็คชื่อ PairSet อยู่แล้ว?
 
-### R6. `Sacerdos_Relived_Ordeal.h:21-22` — guard ด้วย `currentCharNum` + `dynamic_cast`
+### ✅ R6. `Sacerdos_Relived_Ordeal.h:21-22` — guard ด้วย `currentCharNum` + `dynamic_cast`
+> **แก้แล้ว 2026-09-25**: ลบ `if (turn->num != ptr->currentCharNum) return;` — เหลือ `dynamic_cast` กันเทิร์นที่ไม่ใช่ ally และ `isBuffEnd` เช็คเทิร์นเจ้าของบัฟเอง
+
 `currentCharNum` เปลี่ยนได้ระหว่างเกมเมื่อมี memosprite
 
 **ถาม**: เปลี่ยนเป็นเทียบชื่อ + `canCastToAllyUnit()` ไหม?
 
-### R7. `Ever-Glorious Magical Girl.h` — `buffNote` ต่อเจ้าของ แต่ `buffAllAlly` ทั้งทีม
+### ✅ R7. `Ever-Glorious Magical Girl.h` — `buffNote` ต่อเจ้าของ แต่ `buffAllAlly` ทั้งทีม
+> **แก้แล้ว 2026-09-25**: เปลี่ยนเป็น `buffSingleChar(ptr, ...)` — ลงเฉพาะผู้สวม + memosprite ตรงกับ `buffNote` ที่เก็บต่อเจ้าของ
+
 ถ้ามีสองคนใส่เซ็ตนี้ ค่าจะซ้อน
 
 **ถาม**: เป็นเคสที่เกิดจริงไหม ถ้าไม่ก็ปล่อยได้
@@ -454,10 +468,8 @@ Cipher ไม่เคยใช้ Skill เลย → `Patron` ติดได�
 ### CE2. `Anaxa.h:245-253` — `while(1)` ใน Skill ถ้า `targetList` ว่างจะวนไม่จบ
 **ถาม**: ใส่ guard ไหม?
 
-### CE3. `Anaxa.h:97` — A4 เช็ค `path[0]` ช่องแรกช่องเดียว
-ต่างจาก `Izumo.h` และ `The_Herta.h` ที่วนทุก path → ตัวที่มีหลาย path ถูกนับพลาด
-
-**ถาม**: แก้ให้วนทุก path ใช่ไหม?
+### ~~CE3. `Anaxa.h:97` — A4 เช็ค `path[0]` ช่องแรกช่องเดียว~~
+✅ **ปิด** (2026-09-25): `path` เปลี่ยนจาก `vector<Path>` เป็น `Path` ค่าเดียวแล้ว — ปัญหาหายไป
 
 ### CE4. `Anaxa.h:42-47` — `addUltCondition` ถูกคอมเมนต์ทิ้งทั้งก้อน
 **ถาม**: ตั้งใจเอาออกหรือลืมเปิดคืน?

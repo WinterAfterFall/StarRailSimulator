@@ -72,7 +72,7 @@ flag `AnaxaTalent` ถูกตั้งเป็น `true` ที่ต้น�
 - **`while(1)` ใน Skill** (245-253) มี `break` เมื่อ `cnt == 0` ทั้งสองชั้น — ถ้า `act->targetList` ว่าง (ไม่มีศัตรู) จะวนไม่จบเช่นกัน
 - **`Basic_Atk` และ `Skill` เพิ่ม energy ผ่าน `charUnit[ptr->Atv_stats->num]`** (191, 226) แล้ว Skill ยังเรียก `Increase_energy(ptr, 30)` ซ้ำอีกครั้งในสาขาเทิร์นแรก (233) — รวมเป็น 60 ในเทิร์นแรก
 - **`Reset_List` บวก `DMG += 30` ลอย ๆ** (90) ไม่มีคอมเมนต์ว่ามาจาก trace ไหน (อาการเดียวกับ `Saber.h`, `Hibana.h`)
-- **`WhenOnField_List` ของ A4 เช็ค `charUnit[i]->path[0]` ช่องแรกช่องเดียว** (97) ต่างจาก `../../Planar/Izumo.md` และ `The_Herta.h` ที่วนทุก path — ตัวที่มีหลาย path จะถูกนับพลาด
+- `WhenOnField_List` ของ A4 เช็ค `charUnit[i]->path == Path::Erudition` (97)
 - **`AnaxaDebuff` ประกาศตัวแปร `string element;` ที่ไม่ได้ใช้** (275)
 - **`addUltCondition` ถูกคอมเมนต์ทิ้งทั้งก้อน** (42-47) → กด ult ทันทีที่ energy เต็มเสมอ
 - **E6 คูณ `dmgSrc` ทุกช่องด้วย 1.3 ใน `BeforeAttackAction_List`** (156-162) ซึ่งยิงทุก action ของ Anaxa รวมถึง action ที่ Talent เรียกซ้ำ — ต้องดูว่าคูณซ้อนหรือไม่ เพราะ action ถูกสร้างใหม่ทุกครั้งจึงน่าจะปลอดภัย

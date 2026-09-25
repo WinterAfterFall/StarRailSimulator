@@ -112,7 +112,7 @@ public:
     vector<int> rerollSweepBase;       // จุดตั้งต้นของ sweep — ทุกชุดทดลองแตกออกจากตรงนี้
     #pragma endregion
 
-    vector<Path> path ;//*
+    Path path;//*
     //*
     vector<unique_ptr<Unit>> summonList;  //
     vector<unique_ptr<Memosprite>> memospriteList;  // 

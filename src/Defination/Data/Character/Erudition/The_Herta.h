@@ -83,9 +83,7 @@ namespace TheHerta{
             // substats
             int cnt = 0;
             for (int i = 1; i <= Total_ally; i++) {
-                for (auto e : charUnit[i]->path) {
-                    if (e == Path::Erudition) cnt++;
-                }
+                if (charUnit[i]->path == Path::Erudition) cnt++;
                 if (cnt >= 2) {
                     ptr->buffCheck["Two_Erudition"] = 1;
                     break;
@@ -124,11 +122,7 @@ namespace TheHerta{
                 buffSingle(Hertaptr,{{Stats::DMG,AType::None,-50}});
                 if(ptr->Eidolon >= 2)Action_forward(ptr->Atv_stats.get(),35);
             }
-            bool Erudition_check = 0;
-
-            for(auto e : act->Attacker->owner->path){
-                if(e == Path::Erudition) Erudition_check = 1;
-            }
+            bool Erudition_check = act->Attacker->owner->path == Path::Erudition;
             for(auto e : act->targetList){
                 Apply_Herta_Stack(ptr, e, 1);
             }

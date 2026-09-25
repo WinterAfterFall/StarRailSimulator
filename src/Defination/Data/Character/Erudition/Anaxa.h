@@ -94,7 +94,7 @@ namespace  Anaxa{
             if(!ptr->Adjust["AnaxaA4"]){
                 int cnt = 0;
                 for(int i=1; i<=Total_ally;i++){
-                    if(charUnit[i]->path[0]==Path::Erudition)
+                    if(charUnit[i]->path==Path::Erudition)
                     cnt++;
                     
                 }

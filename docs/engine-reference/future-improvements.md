@@ -55,7 +55,7 @@ expire(BUFF_BENEDICTION, Stats::ATK_P, BENEDICTION_ATK);
 **สภาพตอนนี้:** `SetSummonStats` / `SetCountdownStats` (`StatsSet.h:55-77`) สร้าง object เป็น `AllyUnit` (เก็บใน `vector<unique_ptr<Unit>>`) แต่ใช้แค่ส่วน atv จริง ๆ — ไม่มี HP / ไม่โดนตี / ไม่รับบัฟ stat. และ **ไม่เซ็ต `owner`** (ต่างจาก `SetMemoStats` ที่เซ็ต `owner = ptr`)
 
 ผลข้างเคียงที่ตามมา (ทั้งหมด "latent" — ยังเกิดไม่ได้เพราะกำแพง type):
-- `buffSingle` path บัฟ speed (`Buff_Stats.h:88,99`) → `ahaSpeedAdjust(ptr->owner->path[0])` → null deref ถ้า `ptr` เป็น summon/countdown
+- `buffSingle` path บัฟ speed (`Buff_Stats.h:88,99`) → `ahaSpeedAdjust(ptr->owner->path)` → null deref ถ้า `ptr` เป็น summon/countdown
 - `speedBuff` บน unit ที่ `baseSpeed <= 0` → ตัวเลขสะสมเงียบ ๆ แล้วเด้งมามีผลทีหลัง ([`instructor/Function/Combat/Action_value.md`](instructor/Function/Combat/Action_value.md))
 
 **ทางแก้ที่ user เลือก:** refactor ให้ summon/countdown เป็น **`ActionValueStats` ตรง ๆ** (เหมือน `aha`) ไม่ใช่ `AllyUnit` → ไม่มี `owner` / `Stats_type` / buff maps ที่ไม่ได้ใช้ → ปัญหา `owner==nullptr` + speed-buff-สะสม หายไปทั้งชุด · งานที่ต้องทำ: เปลี่ยน `summonList`/`countdownList` เป็น `vector<unique_ptr<ActionValueStats>>`, ปรับ `Turn_func` / `summon()` / reset ให้เข้ากับ interface ใหม่, ไล่ทุกจุดที่ cast `summonList[i].get()` เป็น `Unit*`/`AllyUnit*`

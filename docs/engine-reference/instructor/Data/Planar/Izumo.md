@@ -12,13 +12,11 @@
 ```cpp
 for (int i = 1; i <= Total_ally; i++) {
     if (ptr->Atv_stats->Name == charUnit[i]->Atv_stats->Name) continue;   // ข้ามตัวเอง
-    for (auto e1 : charUnit[i]->path)
-        for (auto e2 : ptr->path)
-            if (e2 == e1) { ptr->Stats_type[Stats::CR][AType::None] += 12; return; }
+    if (charUnit[i]->path == ptr->path) { ptr->Stats_type[Stats::CR][AType::None] += 12; return; }
 }
 ```
 
-- **`path` เป็น `vector` ไม่ใช่ค่าเดียว** — ตัวละครมีได้หลาย path (เช่น memosprite ที่นับสอง path) จึงต้องวนซ้อนสองชั้น · `The_Herta.h` ก็ใช้วิธีเดียวกันตอนนับ Erudition ในทีม
+- `path` เป็นค่าเดียว (`Path`) — เทียบ `==` ตรง ๆ
 - `return` ทันทีที่เจอคู่แรก — กันการบวกซ้ำถ้ามีเพื่อน path เดียวกันหลายคน
 - ข้ามตัวเองด้วยการ**เทียบชื่อ** ไม่ใช่เทียบ pointer
 

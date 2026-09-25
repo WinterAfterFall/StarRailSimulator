@@ -36,7 +36,7 @@ macro ในไฟล์: `#define endl '\n'` · `F`=`first` · `S`=`second` · 
 | `Memosprite` | `SetMemoStats` (`StatsSet.h:51`) | `CharUnit` เจ้าของ |
 | summon / countdown (`SetSummonStats`/`SetCountdownStats`) | **ไม่มีใครตั้ง** | `nullptr` → ดู [🐞 #8](../../BUGS.md) |
 
-> จุดเสี่ยง null-deref: `buffSingle` (`Buff_Stats.h:88,99`) path บัฟ speed ทำ `ahaSpeedAdjust(ptr->owner->path[0])` — ถ้า `ptr` เป็น summon/countdown (`owner == nullptr`) = crash. **ปัจจุบันเกิดไม่ได้** เพราะ summon/countdown เป็น `unique_ptr<Unit>` ส่งเข้า `buffSingle(AllyUnit*)` ตรง ๆ ไม่ได้ + ไม่อยู่ใน `allyList`.
+> จุดเสี่ยง null-deref: `buffSingle` (`Buff_Stats.h:88,99`) path บัฟ speed ทำ `ahaSpeedAdjust(ptr->owner->path)` — ถ้า `ptr` เป็น summon/countdown (`owner == nullptr`) = crash. **ปัจจุบันเกิดไม่ได้** เพราะ summon/countdown เป็น `unique_ptr<Unit>` ส่งเข้า `buffSingle(AllyUnit*)` ตรง ๆ ไม่ได้ + ไม่อยู่ใน `allyList`.
 > **ทางแก้ที่ user เลือก** (2026-09-02): ไม่ปะจุดเดียว — อนาคต refactor summon/countdown ให้เป็นแค่ `ActionValueStats` (ไม่ใช่ `AllyUnit`) → ไม่มี field `owner` ตั้งแต่แรก → ดู [`future-improvements.md`](../../../future-improvements.md) หัวข้อ 3
 
 ## targeting nums
