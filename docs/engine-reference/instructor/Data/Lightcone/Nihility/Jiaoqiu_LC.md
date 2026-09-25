@@ -18,7 +18,7 @@ function<void(CharUnit *ptr)> Jiaoqiu_LC(int superimpose, bool isDot)
 
 | ท่อน | โค้ด |
 |---|---|
-| EHR `40 + 10S` | `Reset_List` |
+| EHR `50 + 10S` (แก้ 2026-09-26 — เดิม `40+10S` ขาด kit 10%) | `Reset_List` |
 | BA/Skill/Ult ของผู้สวม → เป้าติด VUL 2 เทิร์น | `BeforeAttackAction_List` + guard `isSameOwnerName(ptr)` |
 | ถอน | `After_turn_List` → `isDebuffEnd` ทั้งสองชื่อ |
 

@@ -8,8 +8,19 @@ namespace Nihility_Lightcone{
                 ptr->Stats_type[Stats::EHR][AType::None] += 35 + 5 * superimpose;
             }));
 
-            WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                buffAllAlly({{Stats::SPD_P,AType::None,7.5 + 2.5*superimpose}});
+            BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
+                for(Enemy* &e : act->targetList){
+                    if(e->getStack("Hys LC")<=0)continue;
+                    buffSingle(act->Attacker,{{Stats::SPD_P,AType::None,7.5 + 2.5*superimpose}},"Hys LC SPD",3);
+                    return;
+                }
+            }));
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+                AllyUnit *ally = turn->canCastToAllyUnit();
+                if(!ally)return;
+                if(isBuffEnd(ally,"Hys LC SPD")){
+                    buffSingle(ally,{{Stats::SPD_P,AType::None,-(7.5 + 2.5*superimpose)}});
+                }
             }));
 
             BeforeApplyDebuff.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](Enemy *target, AllyUnit *Trigger) {

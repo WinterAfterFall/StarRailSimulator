@@ -10,13 +10,13 @@ namespace Nihility_Lightcone{
             }));
     
             Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,Charring](Enemy *target, AllyUnit *Breaker) {
-                debuffSingleApply(ptr,target,{{Stats::VUL,AType::None,15.0 + 3 * superimpose}},Charring,2);
+                debuffStackSingle(ptr,target,{{Stats::VUL,AType::Break,15.0 + 3 * superimpose}},1,2,Charring,2);
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,Charring]() {
                 if (turn->side != Side::Enemy) return;
                 if (isDebuffEnd(enemyUnit[turn->num].get(),Charring)) {
-                    debuffSingle(enemyUnit[turn->num].get(),{{Stats::VUL,AType::None,-(15.0 + 3 * superimpose)}});
+                    debuffStackRemove(enemyUnit[turn->num].get(),{{Stats::VUL,AType::Break,15.0 + 3 * superimpose}},Charring);
 
                 }
             }));
