@@ -12,6 +12,7 @@ namespace Destruction_Lightcone{
             }));
     
             Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_ACTTACK, [ptr,superimpose](Enemy *target, AllyUnit *Trigger) {
+                if(!Trigger->isSameNum(ptr))return;
                 buffSingle(ptr,{{Stats::DMG,AType::None,9.0 + 3 * superimpose}},"Aeon Dmg%",2);
             }));
 

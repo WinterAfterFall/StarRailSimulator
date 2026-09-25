@@ -12,14 +12,11 @@
 
 ชื่อ debuff prefix ด้วยชื่อเจ้าของ
 
-## บั๊ก: guard ผู้โจมตีเขียนกลับด้าน
+## guard ผู้โจมตี (แก้แล้ว 2026-09-26)
 
-```cpp
-if (act->Attacker->Atv_stats->num != ptr->Atv_stats->num && act->Attacker->Atv_stats->side != Side::Ally) return;
-```
-เจตนาน่าจะเป็น "ไม่ใช่ผู้สวมและไม่ใช่ฝ่ายเรา ให้ข้าม" แต่ `side != Side::Ally` เป็นเท็จสำหรับ ally ทุกคน → **เงื่อนไขรวมเป็นเท็จเสมอสำหรับ ally** → ไม่เคย `return` → **debuff ถูกลงทุกครั้งที่ใครในทีมโจมตี**
+เดิมเขียน `num != ptr->num && side != Side::Ally` ซึ่งเป็นเท็จเสมอสำหรับ ally → Routed ติดทุกครั้งที่ใครในทีมโจมตี · ตอนนี้เป็น `if (!act->isSameOwnerName(ptr)) return;` → เฉพาะผู้สวม
 
-ถ้าตั้งใจให้เฉพาะผู้สวม ควรเป็น `if (!act->isSameOwnerName(ptr)) return;`
+kit บอกว่าติดเมื่อ "สร้าง Break DMG" แต่โค้ดติดทุกการโจมตีของผู้สวม — ผลต่างน้อยเพราะ Firefly สร้าง Break DMG เกือบทุกครั้ง
 
 ## จุดที่ควรระวังเพิ่ม
 
