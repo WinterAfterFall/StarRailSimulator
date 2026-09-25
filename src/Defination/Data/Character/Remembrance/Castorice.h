@@ -44,7 +44,7 @@ namespace Castorice{
             }
         };
         
-        ptr->memospriteList[0]->Turn_func = [ptr,Casptr,Polluxptr](){
+        ptr->memosprite->Turn_func = [ptr,Casptr,Polluxptr](){
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::SKILL,ptr->getMemosprite(),TraceType::Aoe,"Pollux Skill",
             [ptr,Casptr,Polluxptr](shared_ptr<AllyAttackAction> &act){

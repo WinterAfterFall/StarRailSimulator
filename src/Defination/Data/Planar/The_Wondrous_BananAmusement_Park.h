@@ -8,7 +8,7 @@ namespace Planar{
         }));
 
         WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            if (ptr->summonList.size() != 0 || ptr->memospriteList.size() > 0) {
+            if (ptr->summonList.size() != 0 || ptr->memosprite) {
                 ptr->Stats_type[Stats::CD][AType::None] += 32;
             }
         }));

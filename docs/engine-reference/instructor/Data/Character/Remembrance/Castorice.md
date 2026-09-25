@@ -19,7 +19,7 @@ kit อ้างอิง: `docs/character-kit-reference/Castorice.md` · **ไ�
 | **Basic ATK** | `BasicAttack(ptr)` — `DmgSrc(DmgSrcType::HP, 50, 10)` | 286-296 |
 | **Skill** | `Skill(ptr)` — blast 50/30 + `DecreaseHP(ptr,"Netherwing",0,0,30)` | 297-310 |
 | **Enhanced Skill** (Netherwing อยู่) | `Enchance_Skill(ptr)` — AoE 2 ชุด + `setJoint()` + `switchAttacker` | 311-339 |
-| **Memosprite Skill** | `memospriteList[0]->Turn_func` — ลูป `while (currentHP > 8500)` ยิงซ้ำจนเลือดหมด | 45-117 |
+| **Memosprite Skill** | `memosprite->Turn_func` — ลูป `while (currentHP > 8500)` ยิงซ้ำจนเลือดหมด | 45-117 |
 | **Kamikaze** (จบอายุ Netherwing) | `Kamikaze(ptr)` — `TraceType::Bounce` + `addEnemyBounce(HP 40/5, 6 หรือ 9)` แล้ว `death()` | 340-372 |
 | **Ultimate** — เรียก Netherwing | `Ultimate_List` — `AllyBuffAction` · `summon(100)` · `extendBuffTime("NetherwingLifeSpan", Adjust)` · `debuffAllEnemyMark` RESPEN 20 | 141-161 |
 | Ult ให้ทีม DMG +10% 3 เทิร์น | `buffAllAlly({{DMG, 10}}, "Roar Rumbles the Realm", 3)` | 152 |

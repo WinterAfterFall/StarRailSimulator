@@ -19,5 +19,5 @@
 
 ## จุดที่ควรระวัง
 
-- ลูปเช็ค `e->Atv_stats->side == Side::Memosprite` ทั้งที่วน `memospriteList` อยู่แล้ว — เงื่อนไขซ้ำซ้อน
-- ถ้าผู้สวมไม่ใช่ path Remembrance `memospriteList` จะว่าง → ปลอดภัยโดยบังเอิญ
+- ลูปเช็ค `e->Atv_stats->side == Side::Memosprite` ทั้งที่อ่านจาก `memosprite` อยู่แล้ว — เงื่อนไขซ้ำซ้อน
+- ถ้าผู้สวมไม่ใช่ path Remembrance `memosprite` เป็น `nullptr` → `if` ข้ามไป ปลอดภัย

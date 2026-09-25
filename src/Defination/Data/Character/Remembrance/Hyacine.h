@@ -41,7 +41,7 @@ namespace Hyacine{
                 Basic_Atk(ptr);
             }
         };
-        ptr->memospriteList[0]->Turn_func = [ptr,Hycptr,Icaptr](){
+        ptr->memosprite->Turn_func = [ptr,Hycptr,Icaptr](){
     
             Memo_Skill(ptr);
             
@@ -335,10 +335,10 @@ namespace Hyacine{
     }
 
     void SummonIca(CharUnit *ptr){
-        if(!ptr->memospriteList[0]->isDeath())return;
-        ptr->memospriteList[0]->summon(100);
-        if(ptr->memospriteList[0]->buffCheck["Ica First Summon"]==0){
-            ptr->memospriteList[0]->buffCheck["Ica First Summon"]=1;
+        if(!ptr->memosprite->isDeath())return;
+        ptr->memosprite->summon(100);
+        if(ptr->memosprite->buffCheck["Ica First Summon"]==0){
+            ptr->memosprite->buffCheck["Ica First Summon"]=1;
             Increase_energy(ptr,30);
         }
         Increase_energy(ptr,15);

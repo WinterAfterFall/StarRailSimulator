@@ -6,6 +6,7 @@
 
 - **2026-09-25** — refactor `CharUnit::path` จาก `vector<Path>` เป็น `Path` ค่าเดียว · แก้ `path[0]` ทุกจุด + ลูปใน `Izumo.h` / `The_Herta.h` เป็น `==` · ปิด QUESTIONS CE3
 - refactor `AllyUnit::Element_type` จาก `vector<ElementType>` เป็น `ElementType` ค่าเดียว · แก้ `Element_type[0]` ทุกจุด (commit ก่อนหน้าทำแบบเดียวกันกับ `CharUnit::path`)
+- refactor `CharUnit::memospriteList` (`vector<unique_ptr<Memosprite>>`) เป็น `unique_ptr<Memosprite> memosprite` · ลูปทุกจุดเป็น `if(auto *e = X->memosprite.get())` · ลบ `getMemosprite(int)` · `chooseAllyBuff` ค่า `currentMemoNum == 1` = memosprite · ผล ManualBuilder (ทีม default + ทีม Aglaea/Sunday/RMC/Hyacine) ตรงกับก่อนแก้ทุก byte
 
 ## อัปเดต 2026-09-22
 

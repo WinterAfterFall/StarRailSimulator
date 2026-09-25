@@ -41,8 +41,8 @@
     }
     void extendCharBuffTime(CharUnit *ptr,string Buff_name,int Turn_extend){
         extendBuffTime(ptr,Buff_name,Turn_extend);
-        for(auto &each : ptr->memospriteList){
-            extendBuffTime(each.get(),Buff_name,Turn_extend);
+        if(auto *each = ptr->memosprite.get()){
+            extendBuffTime(each,Buff_name,Turn_extend);
         }
     }
     void extendBuffTimeAllAlly(string Buff_name,int Turn_extend){
@@ -119,55 +119,55 @@
 //buff เดี่ยวแต่ให้ Memosprite ของคนนั้นด้วย
     void buffSingleChar(CharUnit *ptr,vector<BuffClass> buffSet){
         buffSingle(ptr,buffSet);
-        for (auto &e : ptr->memospriteList) {
-            buffSingle(e.get(),buffSet);
+        if(auto *e = ptr->memosprite.get()){
+            buffSingle(e,buffSet);
         }
     }
     void buffSingleChar(CharUnit *ptr,vector<BuffElementClass> buffSet){
         buffSingle(ptr,buffSet);
-        for (auto &e : ptr->memospriteList) {
-            buffSingle(e.get(),buffSet);
+        if(auto *e = ptr->memosprite.get()){
+            buffSingle(e,buffSet);
         }
     }
     void buffSingleChar(CharUnit *ptr,vector<BuffClass> buffSet,string Buff_name,int extend){
         buffSingle(ptr,buffSet,Buff_name,extend);
-        for (auto &e : ptr->memospriteList) {
-            buffSingle(e.get(),buffSet,Buff_name,extend);
+        if(auto *e = ptr->memosprite.get()){
+            buffSingle(e,buffSet,Buff_name,extend);
         }
     }
     void buffSingleChar(CharUnit *ptr,vector<BuffElementClass> buffSet,string Buff_name,int extend){
         buffSingle(ptr,buffSet,Buff_name,extend);
-        for (auto &e : ptr->memospriteList) {
-            buffSingle(e.get(),buffSet,Buff_name,extend);
+        if(auto *e = ptr->memosprite.get()){
+            buffSingle(e,buffSet,Buff_name,extend);
         }
     }   
 
 //buff เฉพาะ Memosprite
     void buffAllMemosprite(vector<BuffClass> buffSet) {
         for (int i=1;i<=Total_ally;i++) {
-            for (auto &memo : charUnit[i]->memospriteList) {
-                buffSingle(memo.get(),buffSet);
+            if(auto *memo = charUnit[i]->memosprite.get()){
+                buffSingle(memo,buffSet);
             }
         }
     }
     void buffAllMemosprite(vector<BuffElementClass> buffSet) {
         for (int i=1;i<=Total_ally;i++) {
-            for (auto &memo : charUnit[i]->memospriteList) {
-                buffSingle(memo.get(),buffSet);
+            if(auto *memo = charUnit[i]->memosprite.get()){
+                buffSingle(memo,buffSet);
             }
         }
     }
     void buffAllMemosprite(vector<BuffClass> buffSet, string Buff_name,int extend) {
         for (int i=1;i<=Total_ally;i++) {
-            for (auto &memo : charUnit[i]->memospriteList) {
-                buffSingle(memo.get(),buffSet,Buff_name,extend);
+            if(auto *memo = charUnit[i]->memosprite.get()){
+                buffSingle(memo,buffSet,Buff_name,extend);
             }
         }
     }
     void buffAllMemosprite(vector<BuffElementClass> buffSet, string Buff_name,int extend) {
         for (int i=1;i<=Total_ally;i++) {
-            for (auto &memo : charUnit[i]->memospriteList) {
-                buffSingle(memo.get(),buffSet,Buff_name,extend);
+            if(auto *memo = charUnit[i]->memosprite.get()){
+                buffSingle(memo,buffSet,Buff_name,extend);
             }
         }
     }

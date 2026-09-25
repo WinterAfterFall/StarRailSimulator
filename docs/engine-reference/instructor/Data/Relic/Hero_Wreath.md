@@ -10,7 +10,7 @@
 
 ## รากฐาน: memosprite
 
-- `ptr->memospriteList` คือลิสต์ memosprite ของตัวละครนั้น · เช็ค "มีตัวที่ยังไม่ตายไหม" ด้วย `each->isDeath()` (14)
+- `ptr->memosprite` คือ memosprite ของตัวละครนั้น (`nullptr` ถ้าไม่มี) · เช็คว่ายังไม่ตายด้วย `isDeath()` (12)
 - **`buffSingleChar(ptr, {stat}, ชื่อ, เทิร์น)` = บัฟที่ลงให้ทั้งตัวละครและ memosprite ของเขา** ต่างจาก `buffSingle` ที่ลงเฉพาะ unit ที่ส่งไป · ตรงกับ kit ที่บอกว่า CD +30% ได้ "ทั้งคู่" · คู่เดียวกันนี้มีในฝั่ง extend ด้วย (`extendCharBuffTime`, `Function/Combat/Buff_Stats.h:42`)
 
 ## รากฐาน: บัฟถาวรที่ลงครั้งเดียวด้วย flag ของตัวเอง
@@ -19,7 +19,7 @@ SPD +6% ต้องลง **ครั้งเดียว** ตอน memospri
 
 ## จุดที่ควรระวัง
 
-- **CD +30% ไม่ได้เช็คว่าผู้โจมตีคือ memosprite** — เงื่อนไขจริงคือ `act->Attacker->Atv_stats->side == Side::Ally && ptr->memospriteList.size() > 0` (24) แปลว่า **ใครในทีมโจมตีก็ได้** ขอแค่เจ้าของ relic มี memosprite อยู่ · kit ระบุว่าต้องเป็น memosprite เป็นผู้โจมตี → **ค่าที่ได้สูงกว่าจริง** และบัฟถูกต่ออายุแทบทุก action
+- **CD +30% ไม่ได้เช็คว่าผู้โจมตีคือ memosprite** — เงื่อนไขจริงคือ `act->Attacker->Atv_stats->side == Side::Ally && ptr->memosprite` (24) แปลว่า **ใครในทีมโจมตีก็ได้** ขอแค่เจ้าของ relic มี memosprite อยู่ · kit ระบุว่าต้องเป็น memosprite เป็นผู้โจมตี → **ค่าที่ได้สูงกว่าจริง** และบัฟถูกต่ออายุแทบทุก action
 - ยังไม่ได้เช็คด้วยว่า memosprite ตัวนั้นยังไม่ตาย (ต่างจากบล็อก SPD ที่เช็ค `isDeath()`)
 
 ## แก้เมื่อ 2026-09-25

@@ -115,7 +115,7 @@ public:
     Path path;//*
     //*
     vector<unique_ptr<Unit>> summonList;  //
-    vector<unique_ptr<Memosprite>> memospriteList;  // 
+    unique_ptr<Memosprite> memosprite;  // 
     vector<unique_ptr<Unit>> countdownList;  // 
 
     int Technique = 1;
@@ -153,7 +153,7 @@ public:
     #pragma endregion
     
     bool isAllyHaveSummon(){
-        if(this->summonList.size()!=0||this->memospriteList.size()!=0)return true;
+        if(this->summonList.size()!=0||this->memosprite)return true;
         return false;
     }
     
@@ -236,10 +236,7 @@ public:
         return this->Atv_stats->num;
     }
     AllyUnit* getMemosprite(){
-        return this->memospriteList[0].get();
-    }
-    AllyUnit* getMemosprite(int num){
-        return this->memospriteList[num].get();
+        return this->memosprite.get();
     }
     
     #pragma endregion

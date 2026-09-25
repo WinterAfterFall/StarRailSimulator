@@ -10,7 +10,7 @@ namespace Remembrance_Lightcone{
             }));
     
             Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                if (!ptr->memospriteList[0]->isDeath()&& isHaveToAddBuff(ptr,"SweatNowCryLess")) {
+                if (!ptr->memosprite->isDeath()&& isHaveToAddBuff(ptr,"SweatNowCryLess")) {
                     buffSingleChar(ptr,{{Stats::DMG, AType::None, 20.0 + superimpose * 4}});
                 }
             }));

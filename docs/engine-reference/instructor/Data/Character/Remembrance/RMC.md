@@ -23,13 +23,13 @@ kit อ้างอิง: `docs/character-kit-reference/RMC.md` · **ไฟล�
 | **E2** — memosprite ตัวอื่นโจมตี → energy 8 | `Before_turn_List` ตั้ง flag + `AfterAttackActionList` ใช้ flag | 133-135, 167-173 |
 | True DMG จาก `Mem_Support` | `AfterDealingDamage_List` → `Cal_DamageNote` | 136-152 |
 | AI: เทิร์นของตัวละคร | `Turn_func` — เทิร์นแรก Skill (เรียก Mem) ที่เหลือ BA | 34-40 |
-| AI: เทิร์นของ memosprite | `ptr->memospriteList[0]->Turn_func` — มี charge → Enhanced Skill ไม่งั้น Skill | 41-48 |
+| AI: เทิร์นของ memosprite | `ptr->memosprite->Turn_func` — มี charge → Enhanced Skill ไม่งั้น Skill | 41-48 |
 | AI: กดอัลติเมื่อไหร่ | `addUltCondition` — charge ≥ 60 และเป้าที่บัฟใกล้ได้เล่น → รอ | 50-53 |
 
 ## รากฐาน: memosprite
 
 **1. memosprite เป็น unit เต็มตัวที่มีเทิร์นของตัวเอง**
-`SetMemoStats(ตัวละคร, HP, ATK, DEF, SPD, element, ชื่อ, UnitType)` สร้างแล้วผูกไว้ใน `ptr->memospriteList` · เข้าถึงได้ 2 ทาง: `ptr->getMemosprite()` (คืน `CharUnit*`-like) และ `ptr->memospriteList[0]` (คืน `unique_ptr`) — ไฟล์นี้ใช้ทั้งสองแบบสลับกัน · **มี `Turn_func` แยกของตัวเอง** (41) ซึ่งคือ AI ว่า memosprite จะทำอะไรในเทิร์นของมัน
+`SetMemoStats(ตัวละคร, HP, ATK, DEF, SPD, element, ชื่อ, UnitType)` สร้างแล้วผูกไว้ใน `ptr->memosprite` · เข้าถึงได้ 2 ทาง: `ptr->getMemosprite()` (คืน `CharUnit*`-like) และ `ptr->memosprite` (คืน `unique_ptr`) — ไฟล์นี้ใช้ทั้งสองแบบสลับกัน · **มี `Turn_func` แยกของตัวเอง** (41) ซึ่งคือ AI ว่า memosprite จะทำอะไรในเทิร์นของมัน
 
 **2. วงจรชีวิต: `isDeath()` → `summon(HP%)` → `resetATV(SPD)`**
 Skill ของ RMC เช็ค `isDeath()` ก่อน ถ้าตายอยู่จึงเรียกออกมาใหม่ (208-213) · `summon(100)` = เรียกด้วย HP เต็ม 100% · `resetATV(130)` = ตั้ง action value เริ่มต้นด้วย SPD 130 · ถ้า Mem ยังอยู่ Skill จะไม่ทำอะไรเลยนอกจากกิน SP และให้ energy

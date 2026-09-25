@@ -12,7 +12,7 @@
 | CalCheck | `checkDamage` · `checkDmgFormula*` · `checkHeal*` · `checkHpChange*` | [FormulaCheck.md](../../Function/AdjustFunction/FormulaCheck.md) |
 | Substats Reroll | `Substats` `bestSubstats` `Total_substats` `rerollActive` `rerollTargetIndex` `rerollSourceIndex` `rerollImproved` `rerollSweepBase` | [Substats_Reset.md](../../Function/Setup/Substats_Reset.md) |
 | Ult condition | `ultCondition` · `addUltCondition()` | [Energy.md](../../Function/Combat/Energy.md) (`ultUseCheck`) |
-| Sub-unit lists | `summonList` `memospriteList` `countdownList` | ในไฟล์นี้ (เจตนาการออกแบบ ยังไม่ได้ไล่การทำงานครบ) |
+| Sub-unit lists | `summonList` `memosprite` `countdownList` | ในไฟล์นี้ (เจตนาการออกแบบ ยังไม่ได้ไล่การทำงานครบ) |
 | Technique | `Technique` | ในไฟล์นี้ (ความหมายขึ้นอยู่กับตัวละคร) |
 | Relic main stats | `Body` `Boot` `Orb` `Rope` | ในไฟล์นี้ (คงค่าระหว่าง reroll substats) |
 | Requirement stats | `SpeedRequire` … `ExtraEhr` · `ApplyBaseChance` | ในไฟล์นี้ (เจตนาการออกแบบ ยังไม่ได้ไล่สูตรครบ) |
@@ -75,13 +75,13 @@ field อยู่ที่ `CharUnit.h:43-46` · `class Func_class { string Nam
 
 - `summonList` — เก็บซัมมอนที่ไม่มีตัวตนให้ถูกโจมตี จึงโดนตีไม่ได้ และคำนวณความเสียหายโดยอิง stats ของเจ้าของ
 - `countdownList` — เก็บ countdown ตามระบบของเกม ใช้กำหนดเวลาจบบัฟหรือเริ่มบัฟของเอฟเฟกต์บางอย่างที่ตัวละครบางตัวมี
-- `memospriteList` — เป็นเอกสิทธิ์ของตัวละครสาย Remembrance ที่สามารถอัญเชิญ memosprite ได้ โดย memosprite เป็นอีกยูนิตหนึ่งแยกจากเจ้าของ โดนโจมตีได้ และมี stats ของตัวเอง
+- `memosprite` (`unique_ptr<Memosprite>`, `nullptr` ถ้าไม่มี · เดิมเป็น `vector` เปลี่ยน 2026-09-25) — เป็นเอกสิทธิ์ของตัวละครสาย Remembrance ที่สามารถอัญเชิญ memosprite ได้ โดย memosprite เป็นอีกยูนิตหนึ่งแยกจากเจ้าของ โดนโจมตีได้ และมี stats ของตัวเอง
 
-User ยืนยัน 2026-09-18: `isAllyHaveSummon()` คืน true เมื่อตัวละครมี `summonList` หรือ `memospriteList` อย่างใดอย่างหนึ่ง เพื่อแยกเอฟเฟกต์สำหรับตัวละครที่มีสิ่งอัญเชิญ เช่นบัฟของ Sunday; จงใจไม่รวม `countdownList` เพราะเป็นตัวจับเวลา ไม่ใช่ยูนิตอัญเชิญ
+User ยืนยัน 2026-09-18: `isAllyHaveSummon()` คืน true เมื่อตัวละครมี `summonList` หรือ `memosprite` อย่างใดอย่างหนึ่ง เพื่อแยกเอฟเฟกต์สำหรับตัวละครที่มีสิ่งอัญเชิญ เช่นบัฟของ Sunday; จงใจไม่รวม `countdownList` เพราะเป็นตัวจับเวลา ไม่ใช่ยูนิตอัญเชิญ
 
-`setTargetAlly`, `setTargetSubUnit` และ `setTargetBuff` เป็น API ตั้งเป้าหมายเริ่มต้นของบัฟ ไม่ใช่ dead code ที่ควรลบ แม้ยังไม่มี caller ภายใน repository: user ยืนยัน 2026-09-18 ว่า `0` ในช่อง sub-unit ให้ `chooseAllyBuff()` คืน `CharUnit` และ `1..N` เลือก memosprite ลำดับที่ 1..N. ฟังก์ชันจึงแปลงเป็น index ของ vector ด้วย `currentMemoNum - 1`; ก่อนแก้ ค่า 1 อ่าน `memospriteList[1]` ผิดเป็นตัวที่สองหรือ out-of-bounds
+`setTargetAlly`, `setTargetSubUnit` และ `setTargetBuff` เป็น API ตั้งเป้าหมายเริ่มต้นของบัฟ ไม่ใช่ dead code ที่ควรลบ แม้ยังไม่มี caller ภายใน repository: user ยืนยัน 2026-09-18 ว่า `0` ในช่อง sub-unit ให้ `chooseAllyBuff()` คืน `CharUnit` และ `1` เลือก memosprite (2026-09-25: เหลือ memosprite ตัวเดียว ค่าอื่นคืน `CharUnit`)
 
-User ยืนยัน 2026-09-18: ปัจจุบันทุกตัวละครใช้ memosprite ตัวเดียวผ่าน `getMemosprite()` ซึ่งคืน index 0 แต่ให้เก็บ overload `getMemosprite(int num)` ที่ยังไม่มี caller ไว้รองรับตัวละครที่อาจมีหลาย memosprite ในอนาคต
+ทุกตัวละครใช้ memosprite ตัวเดียวผ่าน `getMemosprite()` (คืน `memosprite.get()`) · 2026-09-25: refactor เป็นค่าเดียวตามคำขอ user และลบ overload `getMemosprite(int num)` (เดิม user ให้เก็บไว้เผื่อหลาย memosprite 2026-09-18)
 
 User ยืนยัน 2026-09-18: `isSameOwner()` ตั้งใจเทียบด้วยชื่อของตัวละคร ไม่ใช่ pointer identity เพราะ simulator ไม่อนุญาตตัวละครชื่อซ้ำในทีม; memosprite จะเทียบชื่อของ `owner` ส่วนตัวละครปกติเทียบชื่อตัวเอง
 

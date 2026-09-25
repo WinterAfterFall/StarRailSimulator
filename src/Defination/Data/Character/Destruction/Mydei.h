@@ -193,7 +193,7 @@ namespace Mydei{
 
         // SetMemoStats(ptr,66,35,ElementType::Lightning,"MemName",Side::AllyUnit);
         // SetCountdownStats(ptr,"Name");
-        // ptr->memospriteList[0]->Turn_func = Mem_turn;
+        // ptr->memosprite->Turn_func = Mem_turn;
         // ptr->countdownList[0]->Turn_func = CountDown_turn;
 
     }

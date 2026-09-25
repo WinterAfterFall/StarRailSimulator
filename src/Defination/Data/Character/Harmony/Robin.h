@@ -45,7 +45,7 @@ namespace Robin{
             if(driverType!=DriverType::AlwaysPull){
                 CharUnit *ally =charUnit[ptr->currentCharNum].get();
                     if(ally->getATV()==0)return false;
-                for(auto &each : ally->memospriteList){
+                if(auto *each = ally->memosprite.get()){
                     if(each->getATV()==0)return false;
                 }
                 return true;

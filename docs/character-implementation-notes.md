@@ -117,7 +117,7 @@
 
 | helper | หมายเหตุ |
 |---|---|
-| `chooseAllyBuff(ptr)` | `currentMemoNum == 0` เลือก `charUnit[currentCharNum]`; ค่า `1..N` เลือก `memospriteList[currentMemoNum - 1]` · **preset** ไม่ใช่ dynamic best-DPS · `currentCharNum`/`currentMemoNum` reset เป็น `default*` ต่อ **run** (`Stats_Reset.h:34-35`) |
+| `chooseAllyBuff(ptr)` | `currentMemoNum == 0` เลือก `charUnit[currentCharNum]`; ค่า `1` เลือก `memosprite` (ถ้าไม่มี memosprite คืนตัวละคร) · **preset** ไม่ใช่ dynamic best-DPS · `currentCharNum`/`currentMemoNum` reset เป็น `default*` ต่อ **run** (`Stats_Reset.h:34-35`) |
 | `chooseCharacterBuff` / `chooseEnemyTarget` | เวอร์ชัน CharUnit / Enemy |
 | `genSkillPoint(ptr, n)` | `-1` ตอน skill, `+1` ตอน basic |
 | `Attack(act)` | resolve `AllyAttackAction` → สร้างความเสียหาย · จุดเข้าดาเมจหลัก |

@@ -43,26 +43,26 @@ void buffStackSingle(AllyUnit *ptr,vector<BuffElementClass> buffSet , int Stack_
 
 void buffStackChar(CharUnit *ptr,vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name){
     buffStackSingle(ptr,buffSet,Stack_increase,Stack_limit,Stack_Name);
-    for (auto &each : ptr->memospriteList) {
-        buffStackSingle(each.get(),buffSet,Stack_increase,Stack_limit,Stack_Name);
+    if(auto *each = ptr->memosprite.get()){
+        buffStackSingle(each,buffSet,Stack_increase,Stack_limit,Stack_Name);
     }
 }
 void buffStackChar(CharUnit *ptr,vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name,int extend){
     buffStackSingle(ptr,buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
-    for (auto &each : ptr->memospriteList) {
-        buffStackSingle(each.get(),buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
+    if(auto *each = ptr->memosprite.get()){
+        buffStackSingle(each,buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
     }
 }
 void buffStackChar(CharUnit *ptr,vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name){
     buffStackSingle(ptr,buffSet,Stack_increase,Stack_limit,Stack_Name);
-    for (auto &each : ptr->memospriteList) {
-        buffStackSingle(each.get(),buffSet,Stack_increase,Stack_limit,Stack_Name);
+    if(auto *each = ptr->memosprite.get()){
+        buffStackSingle(each,buffSet,Stack_increase,Stack_limit,Stack_Name);
     }
 }
 void buffStackChar(CharUnit *ptr,vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name,int extend){
     buffStackSingle(ptr,buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
-    for (auto &each : ptr->memospriteList) {
-        buffStackSingle(each.get(),buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
+    if(auto *each = ptr->memosprite.get()){
+        buffStackSingle(each,buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
     }
 }
 
@@ -89,29 +89,29 @@ void buffStackAllAlly(vector<BuffElementClass> buffSet , int Stack_increase, int
 //
 void buffStackAllMemosprite(vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name){
     for (auto &each : charList) {
-        for (auto &each2 : each->memospriteList) {
-            buffStackSingle(each2.get(),buffSet,Stack_increase,Stack_limit,Stack_Name);
+        if(auto *each2 = each->memosprite.get()){
+            buffStackSingle(each2,buffSet,Stack_increase,Stack_limit,Stack_Name);
         }
     }
 }
 void buffStackAllMemosprite(vector<BuffClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name,int extend){
     for (auto &each : charList) {
-        for (auto &each2 : each->memospriteList) {
-            buffStackSingle(each2.get(),buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
+        if(auto *each2 = each->memosprite.get()){
+            buffStackSingle(each2,buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
         }
     }
 }
 void buffStackAllMemosprite(vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name){
     for (auto &each : charList) {
-        for (auto &each2 : each->memospriteList) {
-            buffStackSingle(each2.get(),buffSet,Stack_increase,Stack_limit,Stack_Name);
+        if(auto *each2 = each->memosprite.get()){
+            buffStackSingle(each2,buffSet,Stack_increase,Stack_limit,Stack_Name);
         }
     }
 }
 void buffStackAllMemosprite(vector<BuffElementClass> buffSet , int Stack_increase, int Stack_limit, string Stack_Name,int extend){
     for (auto &each : charList) {
-        for (auto &each2 : each->memospriteList) {
-            buffStackSingle(each2.get(),buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
+        if(auto *each2 = each->memosprite.get()){
+            buffStackSingle(each2,buffSet,Stack_increase,Stack_limit,Stack_Name,extend);
         }
     }
 }
@@ -202,14 +202,14 @@ void buffResetStack(AllyUnit *ptr,vector<BuffElementClass> buffSet,string Stack_
 }
 void buffCharResetStack(CharUnit *ptr,vector<BuffClass> buffSet,string Stack_Name){
     buffResetStack(ptr,buffSet,Stack_Name);
-    for(auto &e : ptr->memospriteList){
-        buffResetStack(e.get(),buffSet,Stack_Name);
+    if(auto *e = ptr->memosprite.get()){
+        buffResetStack(e,buffSet,Stack_Name);
     }
 }
 void buffCharResetStack(CharUnit *ptr,vector<BuffElementClass> buffSet,string Stack_Name){
     buffResetStack(ptr,buffSet,Stack_Name);
-    for(auto &e : ptr->memospriteList){
-        buffResetStack(e.get(),buffSet,Stack_Name);
+    if(auto *e = ptr->memosprite.get()){
+        buffResetStack(e,buffSet,Stack_Name);
     }
 }
 void buffResetStackAllAlly(vector<BuffClass> buffSet,string Stack_Name){

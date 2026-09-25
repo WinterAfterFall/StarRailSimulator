@@ -70,12 +70,12 @@ namespace Sunday{
                         buffSingle(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"),{{Stats::DMG, AType::None, -30}});
                         ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->setBuffCheck("Ode_to_Caress_and_Cicatrix",false);
                         //Memopsrite
-                        for(auto &each : ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->memospriteList){
+                        if(auto *each = ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->memosprite.get()){
                             if(each->getBuffCheck("Ode_to_Caress_and_Cicatrix")){
-                                buffSingle(each.get(),{{Stats::CD, AType::TEMP, -SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
-                                buffSingle(each.get(),{{Stats::CD, AType::None, -SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+                                buffSingle(each,{{Stats::CD, AType::TEMP, -SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+                                buffSingle(each,{{Stats::CD, AType::None, -SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
                                 if (ptr->Eidolon >= 2)
-                                buffSingle(each.get(),{{Stats::DMG, AType::None, -30}});
+                                buffSingle(each,{{Stats::DMG, AType::None, -30}});
                                 each->setBuffCheck("Ode_to_Caress_and_Cicatrix",false);
                             }
                         }
@@ -91,13 +91,12 @@ namespace Sunday{
                     if (ptr->Eidolon >= 2)
                     buffSingle(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"),{{Stats::DMG, AType::None, 30}});
                 }
-                for(auto &each : ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->memospriteList){
-                    if(!each->isTargetable())continue;
+                if(auto *each = ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->memosprite.get(); each && each->isTargetable()){
                     each->setBuffCheck("Ode_to_Caress_and_Cicatrix",true);
-                    buffSingle(each.get(),{{Stats::CD, AType::TEMP, SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
-                    buffSingle(each.get(),{{Stats::CD, AType::None, SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+                    buffSingle(each,{{Stats::CD, AType::TEMP, SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+                    buffSingle(each,{{Stats::CD, AType::None, SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
                     if (ptr->Eidolon >= 2)
-                    buffSingle(each.get(),{{Stats::DMG, AType::None, 30}});
+                    buffSingle(each,{{Stats::DMG, AType::None, 30}});
                 }
             });
             act->addBuffChar(chooseCharacterBuff(ptr));
@@ -130,12 +129,12 @@ namespace Sunday{
                     buffSingle(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"),{{Stats::DMG, AType::None, -30}});
                     ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->setBuffCheck("Ode_to_Caress_and_Cicatrix",false);
                 }
-                for(auto &each : ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->memospriteList){
+                if(auto *each = ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->memosprite.get()){
                     if(each->getBuffCheck("Ode_to_Caress_and_Cicatrix")){
-                        buffSingle(each.get(),{{Stats::CD, AType::TEMP, -SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
-                        buffSingle(each.get(),{{Stats::CD, AType::None, -SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+                        buffSingle(each,{{Stats::CD, AType::TEMP, -SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+                        buffSingle(each,{{Stats::CD, AType::None, -SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
                         if (ptr->Eidolon >= 2)
-                        buffSingle(each.get(),{{Stats::DMG, AType::None, -30}});
+                        buffSingle(each,{{Stats::DMG, AType::None, -30}});
                         each->setBuffCheck("Ode_to_Caress_and_Cicatrix",false);
                     }
                 }
@@ -202,10 +201,9 @@ namespace Sunday{
                 buffSingle(chooseCharacterBuff(ptr),{{Stats::CD, AType::TEMP, buffValue - ptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
                 buffSingle(chooseCharacterBuff(ptr),{{Stats::CD, AType::None, buffValue - ptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
             }
-            for(auto &each : chooseCharacterBuff(ptr)->memospriteList ){
-                if(!each->getBuffCheck("Ode_to_Caress_and_Cicatrix"))continue;
-                buffSingle(each.get(),{{Stats::CD, AType::TEMP, buffValue - ptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
-                buffSingle(each.get(),{{Stats::CD, AType::None, buffValue - ptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+            if(auto *each = chooseCharacterBuff(ptr)->memosprite.get(); each && each->getBuffCheck("Ode_to_Caress_and_Cicatrix")){
+                buffSingle(each,{{Stats::CD, AType::TEMP, buffValue - ptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+                buffSingle(each,{{Stats::CD, AType::None, buffValue - ptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
             }
             ptr->buffNote["Ode_to_Caress_and_Cicatrix"] =  buffValue;
             
@@ -288,7 +286,7 @@ namespace Sunday{
             for(std::unique_ptr<Unit> &e : chooseCharacterBuff(ptr)->summonList){
                 Action_forward(e->Atv_stats.get(),100);
             }
-            for(auto &each : chooseCharacterBuff(ptr)->memospriteList){
+            if(auto *each = chooseCharacterBuff(ptr)->memosprite.get()){
                 Action_forward(each->Atv_stats.get(),100);
             }
             Action_forward(chooseCharacterBuff(ptr)->Atv_stats.get(),100);

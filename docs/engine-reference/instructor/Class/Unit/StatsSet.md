@@ -24,7 +24,7 @@ SetMemoStats(ptr, ...);       // ถ่ายค่าที่รวมคร�
 
 ถ้าเรียก `SetMemoStats` ก่อน memosprite จะได้ค่าพื้นฐานเป็น `0` หรือขาดส่วนของ LC
 
-LC / Relic / Planar ที่อ้าง `memospriteList` (`Reminiscence.h`, `SweatNowCryLess.h`, `Hero_Wreath.h`, `The_Wondrous_BananAmusement_Park.h`) อ่านข้างใน lambda ของ trigger ทั้งหมด ไม่ได้อ่านตอน setup จึงเรียก `SetMemoStats` หลังจากสามตัวนี้ได้ปลอดภัย
+LC / Relic / Planar ที่อ้าง `memosprite` (`Reminiscence.h`, `SweatNowCryLess.h`, `Hero_Wreath.h`, `The_Wondrous_BananAmusement_Park.h`) อ่านข้างใน lambda ของ trigger ทั้งหมด ไม่ได้อ่านตอน setup จึงเรียก `SetMemoStats` หลังจากสามตัวนี้ได้ปลอดภัย
 
 ### ประวัติ
 

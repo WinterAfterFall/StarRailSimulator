@@ -18,9 +18,8 @@ AllyUnit* chooseAllyBuff(AllyUnit *ptr){
     CharUnit *character = charUnit[ptr->currentCharNum].get();
     if(!character) return nullptr;
     if(ptr->currentMemoNum){
-        int memoIndex = ptr->currentMemoNum - 1;
-        if(memoIndex < 0 || memoIndex >= static_cast<int>(character->memospriteList.size())) return character;
-        return character->memospriteList[memoIndex].get();
+        if(ptr->currentMemoNum != 1 || !character->memosprite) return character;
+        return character->memosprite.get();
     }
     return character;
 }

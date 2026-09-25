@@ -44,13 +44,13 @@ macro ในไฟล์: `#define endl '\n'` · `F`=`first` · `S`=`second` · 
 `defaultCharNum = Main_dps_num` · `defaultMemoNum = 0` · `currentCharNum` / `currentMemoNum` · `Enemy_target_num = Main_Enemy_num`
 - `current*` = "ตอนนี้ unit นี้เล็งบัฟไปที่ ally/memosprite ตัวไหน" · `currentCharNum` reset กลับเป็น `defaultCharNum` ที่ `Stats_Reset.h:34`
 - ✅ ~~**`currentMemoNum` ไม่เคย reset**~~ แก้แล้ว (commit `8690113` · โค้ดตอนนี้ `Stats_Reset.h:35,260` เขียน `= defaultMemoNum`) · บันทึกเดิม: `Stats_Reset.h:35` + `:260` เขียน `currentMemoNum = currentMemoNum` (assign ตัวเอง = no-op) บรรทัดข้างบนคือ `currentCharNum = defaultCharNum` → บรรทัดนี้ตั้งใจจะเป็น `= defaultMemoNum`
-  - แก้ 2026-09-18: `chooseAllyBuff` ใช้ `0` เลือกตัวละคร และแปลงค่า `1..N` เป็น `memospriteList[currentMemoNum - 1]` จึงเลือก memo ตัวแรกด้วยค่า 1 ได้ถูกต้อง
+  - แก้ 2026-09-18: `chooseAllyBuff` ใช้ `0` เลือกตัวละคร และค่า 1 เลือก memo ตัวแรกได้ถูกต้อง · 2026-09-25: memosprite เหลือตัวเดียว (`CharUnit::memosprite`) ค่า 1 = memosprite ค่าอื่นหรือไม่มี memosprite = ตัวละคร
   - ปัจจุบันยังไม่ crash = น่าจะยังไม่มีตัวละครไหน set `currentMemoNum` เป็นค่าอื่นนอกจาก 0
 
 ## methods
 
 **สร้าง / ตาย**
-- `summon(double percent)` — `status=Alive` · `currentHP = percent/100 * totalHP` · `resetATV()`. **ไม่ใช่ override — เป็น name-hiding** ของ `Unit::summon()` (no-arg). ที่ใช้งานได้ถูกเพราะ container คนละชนิด: `memospriteList` = `unique_ptr<Memosprite>` → เรียก `summon(100)` (เวอร์ชันนี้) · `summonList`/`countdownList` = `unique_ptr<Unit>` → เรียก `Unit::summon()` (แค่ `status=Alive` + `resetATV`, ไม่มี HP)
+- `summon(double percent)` — `status=Alive` · `currentHP = percent/100 * totalHP` · `resetATV()`. **ไม่ใช่ override — เป็น name-hiding** ของ `Unit::summon()` (no-arg). ที่ใช้งานได้ถูกเพราะ container คนละชนิด: `memosprite` = `unique_ptr<Memosprite>` → เรียก `summon(100)` (เวอร์ชันนี้) · `summonList`/`countdownList` = `unique_ptr<Unit>` → เรียก `Unit::summon()` (แค่ `status=Alive` + `resetATV`, ไม่มี HP)
 - `death()` — ดู [Unit.md](Unit.md) (ยิง `AllyDeath_List`)
 
 **ฮีล — `RestoreHP` 4 overload** → อธิบายที่ [ChangeHP.md](../../Function/Combat/ChangeHP.md)

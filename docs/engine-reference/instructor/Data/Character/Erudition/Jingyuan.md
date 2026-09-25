@@ -24,7 +24,7 @@ kit อ้างอิง: `docs/character-kit-reference/Jingyuan.md` · **ไ�
 | | `summon` (`SetSummonStats`) | `memosprite` (`SetMemoStats`) |
 |---|---|---|
 | ใช้กับ | Jingyuan (ไฟล์นี้) | path Remembrance ทั้งหมด |
-| เข้าถึง | `ptr->summonList[0]` | `ptr->memospriteList[0]` / `getMemosprite()` |
+| เข้าถึง | `ptr->summonList[0]` | `ptr->memosprite` / `getMemosprite()` |
 | มี HP ของตัวเอง | ไม่ | มี |
 | ผู้กระทำของ action | **เจ้าของ** (`JYptr`) ไม่ใช่ตัว summon | ตัว memosprite เอง |
 | `Side` | `Side::Ally` | `Side::Memosprite` |

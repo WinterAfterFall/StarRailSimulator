@@ -85,7 +85,7 @@ CRIT Rate +12% · Lightning DMG +22.4% · DEF +12.5%
 - **Supreme Stance (Ult 350)**: countdown SPD 100, Enhanced BA (Joint ATK 200%+200%), no Skill
 - **Joint ATK** = ดาเมจ 2 แหล่ง (Aglaea ATK + Garmentmaker ATK) — sim ต้องแยก ATK stat 2 ตัว
 - โค้ด: `Start_game_List` (`Aglaea.h:88`, `AGptr`) + memosprite handling
-- **หมายเหตุ**: `elationCount`-style — Remembrance ใช้ `memospriteList`
+- **หมายเหตุ**: `elationCount`-style — Remembrance ใช้ `memosprite`
 
 ## แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/aglaea — kit tab (review patch 3.0, calc patch 3.4, profile 01/Jun/2026)

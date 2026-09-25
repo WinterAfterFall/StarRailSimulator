@@ -38,7 +38,7 @@ ptr->setBuffAllyTarget("Ode_to_Caress_and_Cicatrix", nullptr);   // ตอนห
 
 ## รากฐาน: บัฟที่ต้องลงถึง memosprite ทุกจุด
 
-Ode ของ Sunday ต้องลงทั้งตัวละครและ memosprite **แต่แยกกัน** เพราะต้องเช็ค `isTargetable()` รายตัว → โค้ดวน `memospriteList` **ซ้ำในทุกจุด**: ตอนลง (94-101), ตอนถอนเพราะ ult ซ้ำ (73-81), ตอนหมดอายุ (133-141), ตอนคำนวณใหม่ (205-209), ตอนตาย (215-221)
+Ode ของ Sunday ต้องลงทั้งตัวละครและ memosprite **แต่แยกกัน** เพราะต้องเช็ค `isTargetable()` รายตัว → โค้ดวน `memosprite` **ซ้ำในทุกจุด**: ตอนลง (94-101), ตอนถอนเพราะ ult ซ้ำ (73-81), ตอนหมดอายุ (133-141), ตอนคำนวณใหม่ (205-209), ตอนตาย (215-221)
 
 > `buffSingleChar` ทำให้ในคราวเดียวได้ แต่ที่นี่ต้องเช็ค `buffCheck` รายตัวก่อนถอน จึงทำเองทุกที่
 
@@ -63,4 +63,4 @@ if (E6 && target->getStack("The_Sorrowing_Body") > 0 && StatsType == Stats::CR) 
 - **`E1` ลง DEF_SHRED สองครั้งด้วยค่าต่างกัน** (273-278): `buffSingle` ให้ตัวละคร 16 + summon 24 แล้ว `buffSingleChar` ให้ทั้งตัวละครและ memosprite อีก 40 · ตอนถอน (156-162) เลือกสาขาตาม `turn->side` ซึ่ง**ไม่ตรงกับตอนลงที่ลงทั้งสองแบบพร้อมกัน** → มีโอกาสถอนไม่ครบ
 - **`ult_condition(CharUnit*)` คืน `false` เสมอ ไม่มีใครเรียก** (298-301) — โค้ดตายพร้อมโค้ดเดิมที่ถูกคอมเมนต์ · เหมือน `Jingyuan.h` และ `The_Herta.h`
 - **`addUltImmediatelyUseCondition` ถูกคอมเมนต์ทิ้ง** (39-42)
-- **`Before_turn_List` ตอนหมดอายุ Ode ไม่เช็ค null ก่อนวน memospriteList** (133) — มี `return` ที่บรรทัด 125 กันไว้แล้วถ้า target เป็น null แต่ถ้า `getBuffCheck` เป็นเท็จจะข้ามบล็อกแรกแล้วมาวน memosprite ต่อ ซึ่งยังปลอดภัยเพราะ target ไม่ null
+- **`Before_turn_List` ตอนหมดอายุ Ode ไม่เช็ค null ก่อนอ่าน memosprite** (133) — มี `return` ที่บรรทัด 125 กันไว้แล้วถ้า target เป็น null แต่ถ้า `getBuffCheck` เป็นเท็จจะข้ามบล็อกแรกแล้วมาวน memosprite ต่อ ซึ่งยังปลอดภัยเพราะ target ไม่ null

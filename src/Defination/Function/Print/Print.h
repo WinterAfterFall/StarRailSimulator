@@ -57,7 +57,7 @@ void printSummaryResult(){
         cout<< "\033[0m"<<"| ";
         cout<<charUnit[i]->Atv_stats->Name + " Turn : "<<charUnit[i]->Atv_stats->turnCnt;
         cout<< "\033[0m"<<" | ";
-        for(auto &e : charUnit[i]->memospriteList){
+        if(auto *e = charUnit[i]->memosprite.get()){
             cout<<e->Atv_stats->Name + " Turn : "<<e->Atv_stats->turnCnt;
             cout<< "\033[0m"<<" | ";
         }
