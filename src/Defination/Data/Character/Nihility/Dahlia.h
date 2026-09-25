@@ -93,7 +93,7 @@ namespace Dahlia{
             make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"Dahlia Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 for(auto &each : act->targetList){
-                    weaknessApply(ptr,each,{chooseCharacterBuff(ptr)->Element_type[0]},4);
+                    weaknessApply(ptr,each,{chooseCharacterBuff(ptr)->Element_type},4);
                     debuffSingleApply(ptr,each,{{Stats::DEF_SHRED,AType::None,18}},"Wilt",4);
                 }
                 Attack(act);
@@ -210,7 +210,7 @@ namespace Dahlia{
             }
             if(ptr->Eidolon>=2){
                 for(auto &each : enemyList){
-                    weaknessApply(ptr,each,{chooseCharacterBuff(ptr)->Element_type[0]},3);
+                    weaknessApply(ptr,each,{chooseCharacterBuff(ptr)->Element_type},3);
                     debuffSingleApply(ptr,each,{{Stats::DEF_SHRED,AType::None,18}},"Wilt",3);
                 }
             }
@@ -218,7 +218,7 @@ namespace Dahlia{
 
         WeaknessApply_List.push_back(TriggerByWeaknessApply_Func(PRIORITY_IMMEDIATELY, [ptr](AllyUnit *Trigger,Enemy *target, vector<ElementType> elementList) {
             buffSingle(ptr,{{Stats::SPD_P,AType::None,30}},"Dahlia A6",2);
-            if(Trigger->Element_type[0] == ElementType::Fire){
+            if(Trigger->Element_type == ElementType::Fire){
                 Increase_energy(ptr,10,0);
                 if(phaseStatus == PhaseStatus::WhileAction)ptr->setBuffCheck("Dahlia A6",1);
             }

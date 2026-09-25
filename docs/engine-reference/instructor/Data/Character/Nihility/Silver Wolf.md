@@ -9,7 +9,7 @@
 `if (E2 หรือ act->isSameName(sw))`| ธาตุ / path / energy ult | `SetCharBasicStats(107, 110, 110, E, Quantum, Nihility, "SW", Standard)` | 7 |
 `if (E2 หรือ act->isSameName(sw))`| จำนวนเป้าที่ตั้งใจเล่นด้วย | `ptr->Adjust["SW Targets amount"] = 1;` | 28 |
 `if (E2 หรือ act->isSameName(sw))`| **Basic ATK** | lambda `BA` — `addDamageInsByDebuff(..., "Bug 2")` ×3 | 30-42 |
-`if (E2 หรือ act->isSameName(sw))`| **Skill** — แปะ weakness ตามธาตุของเพื่อน | lambda `Skill` — วน `charUnit[i]->Element_type[0]` หาธาตุที่ศัตรูยังไม่มี | 44-64 |
+`if (E2 หรือ act->isSameName(sw))`| **Skill** — แปะ weakness ตามธาตุของเพื่อน | lambda `Skill` — วน `charUnit[i]->Element_type` หาธาตุที่ศัตรูยังไม่มี | 44-64 |
 `if (E2 หรือ act->isSameName(sw))`| Skill — RESPEN ธาตุนั้น +20 · RESPEN รวม +13 | `debuffSingleApply(..., RESPEN[ธาตุ] 20, "SW Weakness", 3)` · `(..., RESPEN 13, "SW Res", 2)` | 54, 58 |
 `if (E2 หรือ act->isSameName(sw))`| **Ultimate** — DEF_SHRED 45 ทุกตัว | `Ultimate_List` — AoE 380%×3 + `debuffAllEnemyApply(..., "SW Ult", 3)` | 78-114 |
 `if (E2 หรือ act->isSameName(sw))`| **Talent** — Bug 1/2/3 | `When_attack_List` + `Toughness_break_List` (โค้ดเหมือนกัน) | 188-210, 212-226 |
@@ -45,9 +45,9 @@
 `if (E2 หรือ act->isSameName(sw))`
 `if (E2 หรือ act->isSameName(sw))````cpp
 `if (E2 หรือ act->isSameName(sw))`for (int i = 1; i <= Total_ally; i++) {
-`if (E2 หรือ act->isSameName(sw))`    if (enemy->Default_Weakness_type[charUnit[i]->Element_type[0]]) continue;   // มีอยู่แล้ว ข้าม
-`if (E2 หรือ act->isSameName(sw))`    weaknessApply(sw, enemy, {charUnit[i]->Element_type[0]}, 3);
-`if (E2 หรือ act->isSameName(sw))`    debuffSingleApply(sw, enemy, {{RESPEN, charUnit[i]->Element_type[0], AType::None, 20}}, "SW Weakness", 3);
+`if (E2 หรือ act->isSameName(sw))`    if (enemy->Default_Weakness_type[charUnit[i]->Element_type]) continue;   // มีอยู่แล้ว ข้าม
+`if (E2 หรือ act->isSameName(sw))`    weaknessApply(sw, enemy, {charUnit[i]->Element_type}, 3);
+`if (E2 หรือ act->isSameName(sw))`    debuffSingleApply(sw, enemy, {{RESPEN, charUnit[i]->Element_type, AType::None, 20}}, "SW Weakness", 3);
 `if (E2 หรือ act->isSameName(sw))`    sw->setBuffNote("SW Weakness num", i);                                      // จำว่าแปะธาตุของใคร
 `if (E2 หรือ act->isSameName(sw))`    break;
 `if (E2 หรือ act->isSameName(sw))`}

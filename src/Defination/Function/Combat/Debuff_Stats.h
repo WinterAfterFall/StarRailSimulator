@@ -79,12 +79,12 @@ vector<ElementType> weaknessApplyChoose(AllyUnit *ptr,Enemy *enemy,int amount,st
     vector<ElementType> choose;
     int i=1;
     for(auto &each : charList){
-        if(enemy->Weakness_type[each->Element_type[0]])continue;
-        if(each->path==Path::Harmony)weaknessPriority.push_back({Total_ally+4,each->Element_type[0]});
-        else if(each->path==Path::Nihility)weaknessPriority.push_back({Total_ally+1,each->Element_type[0]});
-        else if(each->path==Path::Abundance)weaknessPriority.push_back({Total_ally+3,each->Element_type[0]});
-        else if(each->path==Path::Preservation)weaknessPriority.push_back({Total_ally+2,each->Element_type[0]});
-        else weaknessPriority.push_back({i,each->Element_type[0]});
+        if(enemy->Weakness_type[each->Element_type])continue;
+        if(each->path==Path::Harmony)weaknessPriority.push_back({Total_ally+4,each->Element_type});
+        else if(each->path==Path::Nihility)weaknessPriority.push_back({Total_ally+1,each->Element_type});
+        else if(each->path==Path::Abundance)weaknessPriority.push_back({Total_ally+3,each->Element_type});
+        else if(each->path==Path::Preservation)weaknessPriority.push_back({Total_ally+2,each->Element_type});
+        else weaknessPriority.push_back({i,each->Element_type});
         i++;
     }
     if(weaknessPriority.size()==0){

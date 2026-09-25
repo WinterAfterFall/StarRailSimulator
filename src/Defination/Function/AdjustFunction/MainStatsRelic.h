@@ -54,7 +54,7 @@ function<void(CharUnit *ptr)> CharUnit::RelicMainStatsSet(Stats stats){
     };
     if(stats == Stats::DMG)
     return [=](CharUnit *ptr) {
-        ptr->Stats_each_element[Stats::DMG][ptr->Element_type[0]][AType::None] += 38.88;
+        ptr->Stats_each_element[Stats::DMG][ptr->Element_type][AType::None] += 38.88;
     };
     if(stats == Stats::EHR)
     return [=](CharUnit *ptr) {

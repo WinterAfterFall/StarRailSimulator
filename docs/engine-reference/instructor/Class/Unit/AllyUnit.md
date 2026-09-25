@@ -9,7 +9,7 @@ macro ในไฟล์: `#define endl '\n'` · `F`=`first` · `S`=`second` · 
 |---|---|---|
 | `baseAtk` `baseHp` `baseDef` | `SetAllyBaseStats(hp,atk,def)` (บวกสะสม) + minor trace hardcode | สูตรดาเมจ (`calAtkMultiplier` ใช้ `baseAtk` + `Stats_type`) |
 | `baseTaunt` | `SetCharBasicStats` / `SetMemoStats` = `tauntValueEachPath[path]` | [EnemyActionData.md](../ActionData/EnemyActionData.md) |
-| `Element_type` | `vector<ElementType>` — **push ครั้งเดียวเสมอ (size 1)**. TODO: เปลี่ยนเป็น `ElementType` เดี่ยวไปก่อน ค่อยกลับมาทำ multi-element ทีหลัง | |
+| `Element_type` | `ElementType` ค่าเดียว (เดิมเป็น `vector` — เปลี่ยนแล้ว 2026-09-25) | |
 | `totalATK` `totalHP` `totalDEF` | **cache** ของ `calculate*OnStats()` — เขียนที่ `SetCombat.h:101` (ต้นรบ) + ทุกครั้งบัฟ `AType::None` ผ่าน `StatsAdjust()→{Atk,Hp,Def}Adjust` (`AdjustStats.h`) | abilities ที่ scale ตาม totalHP/ATK · requirement check · print · `HpAdjust` ใช้ปรับ `currentHP` เมื่อ maxHP เปลี่ยน · **สูตรดาเมจไม่อ่าน** (recompute เอง) |
 | `currentHP` | `IncreaseCurrentHP` / `DecreaseCurrentHP` (clamp `[1, totalHP]`) · `HpAdjust` (`AdjustStats.h`) — กติกา: **maxHP เพิ่ม x → currentHP เพิ่ม x** · **maxHP ลด → currentHP คงเดิม** เว้นแต่ลดจนต่ำกว่า currentHP → clamp ลงมาเท่า maxHP. _(แก้ 2026-09-02 — โค้ดเดิมหัก currentHP ตาม delta ทุกกรณีที่ maxHP ลด แม้ currentHP ยังไม่ชนเพดานใหม่ → เป้าเสีย HP ฟรีเวลาบัฟ maxHP หลุด)_ | |
 | `currentSheild` | **ไม่มีโค้ดไหนเพิ่มค่า** — ระบบโล่ยัง stub. reset = 0 เท่านั้น (`Stats_Reset.h:38`) | `decreaseSheild` (ดู [🐞 BUGS.md](../../BUGS.md)) |

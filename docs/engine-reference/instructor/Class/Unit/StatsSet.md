@@ -51,7 +51,7 @@ LC / Relic / Planar ที่อ้าง `memospriteList` (`Reminiscence.h`, `S
 
 ### `SetCharBasicStats`
 
-ตั้ง `baseSpeed`, `Max_energy`, `Ult_cost`, `Eidolon`, `Element_type`, `path`, `Name`, `side`, `Type` และ `baseTaunt` · รายละเอียด energy ดู [Energy.md](../../Function/Combat/Energy.md) · `Type` ดู [ActionValueStats.md](ActionValueStats.md) · `Element_type` / `path` เป็น vector ที่ push ครั้งเดียว ดู [AllyUnit.md](AllyUnit.md) และ [CharUnit.md](CharUnit.md)
+ตั้ง `baseSpeed`, `Max_energy`, `Ult_cost`, `Eidolon`, `Element_type`, `path`, `Name`, `side`, `Type` และ `baseTaunt` · รายละเอียด energy ดู [Energy.md](../../Function/Combat/Energy.md) · `Type` ดู [ActionValueStats.md](ActionValueStats.md) · `Element_type` / `path` เป็นค่าเดียว ดู [AllyUnit.md](AllyUnit.md) และ [CharUnit.md](CharUnit.md)
 
 ### `SetMemoStats`
 

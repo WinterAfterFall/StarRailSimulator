@@ -18,7 +18,7 @@ CharUnit* SetCharBasicStats(double BaseSpeed,double Max_Energy,double Ult_cost,i
         charUnit[num]->Max_energy = Max_Energy;
         charUnit[num]->Ult_cost = Ult_cost;
         charUnit[num]->Eidolon = Eidolon;
-        charUnit[num]->Element_type.push_back(Element_type);
+        charUnit[num]->Element_type = Element_type;
         charUnit[num]->path = path;
         charUnit[num]->Atv_stats->num = num;
         charUnit[num]->Atv_stats->Name = Name;
@@ -42,7 +42,7 @@ void SetMemoStats(CharUnit *ptr,double fixHP,double Hp_ratio,double fixSpeed,dou
         ptr->memospriteList[num]->baseAtk = ptr->baseAtk;
         ptr->memospriteList[num]->baseHp = ptr->baseHp*(ptr->memospriteList[num]->Unit_Hp_Ratio/100);
         ptr->memospriteList[num]->baseDef = ptr->baseDef;
-        ptr->memospriteList[num]->Element_type.push_back(Element_type);
+        ptr->memospriteList[num]->Element_type = Element_type;
         ptr->memospriteList[num]->Atv_stats->num = Num;
         ptr->memospriteList[num]->Atv_stats->Name = Name;
         ptr->memospriteList[num]->Atv_stats->side = Side::Memosprite;

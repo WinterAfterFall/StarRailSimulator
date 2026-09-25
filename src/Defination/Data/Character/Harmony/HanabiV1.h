@@ -128,7 +128,7 @@ namespace HanabiV1{
             int qtCount = 0;
 
             for(int i=1;i<=Total_ally;i++){
-                if(charUnit[i]->Element_type[0] ==ElementType::Quantum)
+                if(charUnit[i]->Element_type ==ElementType::Quantum)
                     qtCount++;
             }
 
@@ -136,7 +136,7 @@ namespace HanabiV1{
             if(qtCount == 2)atkBuff = 30;
             else if(qtCount >= 3)atkBuff = 45;
             for(auto &each : charList){
-                if(each->Element_type[0] ==ElementType::Quantum)
+                if(each->Element_type ==ElementType::Quantum)
                     buffSingle(each,{{Stats::ATK_P,AType::None,atkBuff}});
                 else
                     buffSingle(each,{{Stats::ATK_P,AType::None,15}});

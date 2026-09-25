@@ -52,7 +52,7 @@ function<void(CharUnit *ptr)> CharUnit::RelicPairSet(PairSetType Type){
     };
     if(Type == PairSetType::DMG)
     return [=](CharUnit *ptr) {
-        ptr->Stats_each_element[Stats::DMG][ptr->Element_type[0]][AType::None] += 10;
+        ptr->Stats_each_element[Stats::DMG][ptr->Element_type][AType::None] += 10;
     };
 
 
