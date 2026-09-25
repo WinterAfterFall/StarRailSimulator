@@ -12,7 +12,7 @@ namespace Planar{
             if(cnt<4){
                 buff = (4 - cnt)* 12;
             }else if(cnt>4){
-                buff = (cnt - 4)* 12;
+                buff = (cnt - 4)* 9;
             }
 
             buffSingleChar(ptr,{{Stats::DMG,AType::None,buff - ptr->getBuffNote("Arcadia")}});

@@ -7,9 +7,14 @@ namespace Planar{
             ptr->Stats_type[Stats::CD][AType::None] += 16;
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
-            if (ptr->summonList.size() != 0 || ptr->memosprite) {
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+            bool onField = ptr->summonList.size() != 0 || (ptr->memosprite && ptr->memosprite->isExisted());
+            if (onField && !ptr->getBuffCheck("Banana")) {
+                ptr->setBuffCheck("Banana", 1);
                 ptr->Stats_type[Stats::CD][AType::None] += 32;
+            } else if (!onField && ptr->getBuffCheck("Banana")) {
+                ptr->setBuffCheck("Banana", 0);
+                ptr->Stats_type[Stats::CD][AType::None] -= 32;
             }
         }));
        

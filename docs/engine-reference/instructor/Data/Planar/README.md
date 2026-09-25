@@ -27,7 +27,7 @@
 
 | ไฟล์ | `Planar.Name` | สแตตพื้นฐาน | ส่วนมีเงื่อนไข (ในโค้ดมักไม่เช็คเงื่อนไข) |
 |---|---|---|---|
-| `Arcadia.h` | `Arcadia` | — | DMG ตามส่วนต่างจำนวนเพื่อน 4 คน: ขาด ×12 / เกิน ×9 (**โค้ดใช้ 12 ทั้งสองทิศ = บั๊ก**) |
+| `Arcadia.h` | `Arcadia` | — | DMG ตามส่วนต่างจำนวนเพื่อน 4 คน: ขาด ×12 / เกิน ×9 |
 | `Bone_Collection.h` | `Bone_Collection` | HP +12 | CD +28 (ถึง memosprite ด้วย) |
 | `Broken_Keel.h` | `Broken_Keel` | Effect RES +10 | ทั้งทีม CD +10 |
 | `FirmanentFrontline.h` | `FirmanentFrontline` | ATK +12 | DMG +18 / +12 ตาม `bool` |
@@ -41,7 +41,7 @@
 | `SpaceSealing.h` | `SpaceSealing` | ATK +24 (รวมสองท่อนแล้ว) | — |
 | `Talia.h` | `Talia` | BE +16 | BE +20 |
 | `Tengoku@Livestream.h` | `Tengoku@Livestream` | CD +16 | CD +32 เมื่อใช้ SP ครบ 3 ในเทิร์นเดียว (**เช็คจริง**) |
-| `The_Wondrous_BananAmusement_Park.h` | `The_Wondrous_BananAmusement_Park` | CD +16 | CD +32 ถ้ามี summon หรือ memosprite (**เช็คจริง**) |
+| `The_Wondrous_BananAmusement_Park.h` | `The_Wondrous_BananAmusement_Park` | CD +16 | CD +32 ขณะมี summon หรือ memosprite อยู่ในสนาม (**เช็คจริง** ทุกต้นเทิร์น) |
 
 > มี 4 เซ็ตเท่านั้นที่ยังเช็คเงื่อนไขจริง — `Izumo`, `Lushaka`, `Tengoku@Livestream`, `The_Wondrous_BananAmusement_Park`
 
