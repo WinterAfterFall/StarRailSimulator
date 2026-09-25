@@ -2,7 +2,7 @@
 
 `namespace Erudition_Lightcone` · `Light_cone.Name` = `"BP_Erudition"` · base stats `SetAllyBaseStats(847, 529, 331)`
 
-**มาจาก Battle Pass**
+**มาจาก Battle Pass** · เซ็ตจริง: **Today Is Another Peaceful Day** (0.2/0.25/0.3/0.35/0.4% ต่อ energy สูงสุด 160 — ตรงกับโค้ด)
 
 | ท่อน | โค้ด |
 |---|---|

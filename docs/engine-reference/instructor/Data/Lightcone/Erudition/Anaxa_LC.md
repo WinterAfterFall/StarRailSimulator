@@ -7,12 +7,13 @@
 | ท่อน | โค้ด |
 |---|---|
 | DMG `50 + 10S` | `Reset_List` |
-| ต้นเทิร์น → energy 10 | `Before_turn_List` |
-| โจมตี → เป้าติด DEF_SHRED `9 + 3S` 2 เทิร์น | `When_attack_List` |
+| ต้นเทิร์นของผู้สวม → energy 10 | `Before_turn_List` + `turn->isSameName` |
+| ผู้สวมโจมตี → เป้าติด DEF_SHRED `9 + 3S` 2 เทิร์น | `When_attack_List` + `act->isSameName(ptr)` |
 | ถอน | `After_turn_List` → `isDebuffEnd` |
 
 ## จุดที่ควรระวัง
 
-- **`Before_turn_List` ไม่ guard ว่าเป็นเทิร์นของใคร** → ได้ energy 10 **ทุกต้นเทิร์นของทุก unit รวมศัตรู** · ถ้า kit ระบุเฉพาะเทิร์นตัวเอง ควรเช็ค `turn->isSameName(ptr->Atv_stats->Name)`
-- **`When_attack_List` ไม่ guard ผู้โจมตี** → ลง DEF_SHRED ทุกครั้งที่ใครในทีมโจมตี
+- **DMG `50 + 10S` ตัดเงื่อนไขทิ้ง** — kit ให้เฉพาะเป้าที่ผู้สวมแปะ weakness ไว้ โค้ดให้ทุกเป้า
 - **ชื่อ debuff ไม่ prefix ด้วยชื่อเจ้าของ**
+
+> เคยไม่ guard ทั้ง `Before_turn_List` (ได้ energy ทุกต้นเทิร์นรวมศัตรู) และ `When_attack_List` (ใครโจมตีก็ลด DEF) — kit ระบุ "wearer's turn" / "attacked by the wearer" · แก้แล้ว

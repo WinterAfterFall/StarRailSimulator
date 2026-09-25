@@ -5,20 +5,24 @@
 | ท่อน | โค้ด |
 |---|---|
 | ATK% `7 + S` | `Reset_List` |
-| ATK% เพิ่มตามจำนวนเป้าของ action (`เป้า × 3 + S`) | `BeforeAttackAction_List` |
-| ถ้า ATK ที่ได้ ≥ 24 → SPD `6 + 2S` 1 เทิร์น | เงื่อนไขในบล็อกเดียวกัน |
+| หลังผู้สวมโจมตี → ATK% `min(เป้า, 5) × (3 + S)` จนกว่าจะโจมตีครั้งถัดไป | `AfterAttackActionList` |
+| ถ้าตีโดน ≥ 3 เป้า → SPD `6 + 2S` 1 เทิร์น | เงื่อนไขในบล็อกเดียวกัน |
 | ถอน SPD | `After_turn_List` |
 
 ## รากฐาน: ถอนของเก่า-ตั้งค่าใหม่-ใส่ของใหม่
 
 ```cpp
 ptr->Stats_type[ATK_P][None] -= ptr->buffNote["Calculus_Atk_buff"];
-ptr->buffNote["Calculus_Atk_buff"] = act->targetList.size() * 3 + superimpose;
+ptr->buffNote["Calculus_Atk_buff"] = min(act->targetList.size(), 5) * (3 + superimpose);
 ptr->Stats_type[ATK_P][None] += ptr->buffNote["Calculus_Atk_buff"];
 ```
 ค่าเปลี่ยนเป็นค่าใหม่ทั้งก้อน (ไม่ใช่เพิ่มทีละนิด) → ต้องถอนของเดิมออกก่อน · สำนวนเดียวกับ `../../Relic/Grand_Duke.md`
 
 ## จุดที่ควรระวัง
 
-- **`BeforeAttackAction_List` ไม่ guard ผู้โจมตี** → ATK ของผู้สวมเปลี่ยนตามจำนวนเป้าของ action ของ **ทุกคนในทีม** รวม DoT และ additional · เป็นบั๊กที่ชัดเจนถ้า kit ระบุเฉพาะ action ของผู้สวม
-- **ATK ที่ค้างอยู่จาก action สุดท้ายไม่ถูกถอน** — ค้างจนกว่าจะมี action ถัดไปมาเขียนทับ
+- **ATK ค้างจนกว่าผู้สวมจะโจมตีครั้งถัดไป** — ตรงกับ kit ("lasts until the next attack")
+
+> สูตรต่อเป้าเคยเป็น `เป้า * 3 + S` (S5 ตี 5 เป้าได้ 20) แก้เป็น `เป้า * (3 + S)` แล้ว (S5 ตี 5 เป้า = 8 × 5 = 40) · เงื่อนไข SPD เคยเช็ค `ATK ที่ได้ >= 24` แก้เป็น `targetList.size() >= 3` ตาม kit
+
+> เคยลงใน `BeforeAttackAction_List` (บัฟเข้าการโจมตีที่นับเป้าเอง ผิดจาก kit ที่ให้ผลกับครั้งถัดไป) และไม่มีเพดาน 5 สแต็ก · ย้ายไป `AfterAttackActionList` + `min(เป้า, 5)` แล้ว
+> เคยไม่ guard ผู้โจมตี (action ของทุกคนในทีมเปลี่ยน ATK/เปิด SPD ให้ผู้สวม) · เพิ่ม `if (!act->isSameName(ptr)) return;` แล้ว
