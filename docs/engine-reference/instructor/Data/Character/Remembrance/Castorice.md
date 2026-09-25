@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Remembrance/Castorice.h`
 
-kit อ้างอิง: `docs/character-kit-reference/Castorice.md` · **ไฟล์ที่ซับซ้อนที่สุดในโปรเจกต์ (397 บรรทัด)** · อ่าน `RMC.md` (พื้นฐาน memosprite) และ `Aglaea.md` (joint attack) ก่อน
+kit อ้างอิง: `docs/kit-reference/Character/Castorice.md` · **ไฟล์ที่ซับซ้อนที่สุดในโปรเจกต์ (397 บรรทัด)** · อ่าน `RMC.md` (พื้นฐาน memosprite) และ `Aglaea.md` (joint attack) ก่อน
 
 ## สิ่งที่ทำให้ไฟล์นี้ต่างจากทุกตัว
 

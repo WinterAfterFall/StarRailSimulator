@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Erudition/Serval.h`
 
-kit อ้างอิง: `docs/character-kit-reference/Serval.md` · **ไฟล์นี้มีคอมเมนต์ `//temp` (บรรทัด 11) และยังไม่เสร็จ — อย่าใช้เป็นแม่แบบ** ใช้ `Kafka.md` / `Black Swan.md` แทน ที่นี่ให้อ่านเพื่อรู้ว่ามีอะไรค้างอยู่
+kit อ้างอิง: `docs/kit-reference/Character/Serval.md` · **ไฟล์นี้มีคอมเมนต์ `//temp` (บรรทัด 11) และยังไม่เสร็จ — อย่าใช้เป็นแม่แบบ** ใช้ `Kafka.md` / `Black Swan.md` แทน ที่นี่ให้อ่านเพื่อรู้ว่ามีอะไรค้างอยู่
 
 ## ตาราง: ความสามารถ → โค้ด
 

@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Nihility/Cipher.h`
 
-kit อ้างอิง: `docs/character-kit-reference/Cipher.md` · **ไฟล์ที่ใช้ True DMG (`Cal_DamageNote`) หนักที่สุดในโปรเจกต์** — ดาเมจหลักของตัวละครนี้คือ True DMG ที่แปะจากดาเมจของทั้งทีม
+kit อ้างอิง: `docs/kit-reference/Character/Cipher.md` · **ไฟล์ที่ใช้ True DMG (`Cal_DamageNote`) หนักที่สุดในโปรเจกต์** — ดาเมจหลักของตัวละครนี้คือ True DMG ที่แปะจากดาเมจของทั้งทีม
 
 ## `Adjust` ที่ต้องตั้งจากข้างนอก
 

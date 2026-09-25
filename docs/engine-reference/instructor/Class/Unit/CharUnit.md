@@ -36,8 +36,8 @@
 **True DMG ในเกม** — ตัวคูณตัวหนึ่งในสูตร แต่แทนที่จะบวกกลับเข้าดาเมจหลัก มัน **แยกยอดที่เพิ่มออกมานำเสนอเป็นดาเมจก้อนใหม่**
 
 ผลตามมา 2 ข้อ:
-1. **True DMG ต่อยอดจาก True DMG ไม่ได้** — เลขมันสำเร็จรูปมาแล้วจากก้อนแม่ ไม่มีตัวคูณอื่นมาซ้อนได้อีก (wiki: "not modified by other multipliers during damage calculation") · เทียบ Cipher A2/A4 ที่ระบุว่า tally นับเฉพาะ **non-True DMG** (`docs/character-kit-reference/Cipher.md:39,50`)
-2. **ก้อนที่แยกออกมา "ย้ายเป้า" ได้** — เช่น **Tribbie E1**: เอา 24% ของดาเมจที่ศัตรู **ทุกตัว** กินในการโจมตีนั้น ไปกองใส่ศัตรู **ตัวเดียว** (`docs/character-kit-reference/Tribbie.md:55`)
+1. **True DMG ต่อยอดจาก True DMG ไม่ได้** — เลขมันสำเร็จรูปมาแล้วจากก้อนแม่ ไม่มีตัวคูณอื่นมาซ้อนได้อีก (wiki: "not modified by other multipliers during damage calculation") · เทียบ Cipher A2/A4 ที่ระบุว่า tally นับเฉพาะ **non-True DMG** (`docs/kit-reference/Character/Cipher.md:39,50`)
+2. **ก้อนที่แยกออกมา "ย้ายเป้า" ได้** — เช่น **Tribbie E1**: เอา 24% ของดาเมจที่ศัตรู **ทุกตัว** กินในการโจมตีนั้น ไปกองใส่ศัตรู **ตัวเดียว** (`docs/kit-reference/Character/Tribbie.md:55`)
 
 ข้อ 2 คือเหตุผลที่ key ต้องเป็นคู่ เพราะ sim มีระบบ **avg weakness multiplier**:
 - **`src`** = ศัตรูที่ดาเมจ **ต้นทาง** ลง → บอกว่าต้องใช้ weaken / toughness-avg **ของใคร**

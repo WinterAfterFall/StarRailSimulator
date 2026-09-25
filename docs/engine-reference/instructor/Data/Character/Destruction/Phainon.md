@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Destruction/Phainon.h`
 
-kit อ้างอิง: `docs/character-kit-reference/Phainon.md` · **ไฟล์ใหญ่ที่สุดในโปรเจกต์ (476 บรรทัด)** · เป็นที่เดียวที่ใช้ `UnitStatus::Retire` / `AtvFreeze` และที่เดียวที่มี `Setup_List` ตรวจรายชื่อเพื่อนร่วมทีม
+kit อ้างอิง: `docs/kit-reference/Character/Phainon.md` · **ไฟล์ใหญ่ที่สุดในโปรเจกต์ (476 บรรทัด)** · เป็นที่เดียวที่ใช้ `UnitStatus::Retire` / `AtvFreeze` และที่เดียวที่มี `Setup_List` ตรวจรายชื่อเพื่อนร่วมทีม
 
 ## โครงใหญ่: สถานะอัลติที่ "ลบทีมออกจากสนาม"
 

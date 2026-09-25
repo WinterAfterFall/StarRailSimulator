@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Abundance/Luocha.h`
 
-kit อ้างอิง: `docs/character-kit-reference/Luocha.md` · **ไฟล์อ้างอิงของสายฮีล (Abundance) ไฟล์แรกที่สำรวจ** — สิ่งที่ต่างจากตัวอื่นทั้งหมดคือ API การฮีล (`RestoreHP` / `HealSrc`) และการที่ผลของตัวละครไม่ได้อยู่ที่ดาเมจ
+kit อ้างอิง: `docs/kit-reference/Character/Luocha.md` · **ไฟล์อ้างอิงของสายฮีล (Abundance) ไฟล์แรกที่สำรวจ** — สิ่งที่ต่างจากตัวอื่นทั้งหมดคือ API การฮีล (`RestoreHP` / `HealSrc`) และการที่ผลของตัวละครไม่ได้อยู่ที่ดาเมจ
 
 ## ตาราง: ความสามารถ → โค้ด
 

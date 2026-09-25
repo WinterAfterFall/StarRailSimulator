@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Remembrance/RMC.h`
 
-kit อ้างอิง: `docs/character-kit-reference/RMC.md` · **ไฟล์อ้างอิงหลักของระบบ memosprite** — ใครจะทำตัวละคร Remembrance ให้เริ่มที่นี่ · มี `//temp` (บรรทัด 5)
+kit อ้างอิง: `docs/kit-reference/Character/RMC.md` · **ไฟล์อ้างอิงหลักของระบบ memosprite** — ใครจะทำตัวละคร Remembrance ให้เริ่มที่นี่ · มี `//temp` (บรรทัด 5)
 
 ## ตาราง: ความสามารถ → โค้ด
 

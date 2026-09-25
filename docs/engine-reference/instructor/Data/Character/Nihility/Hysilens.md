@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Nihility/Hysilens.h`
 
-kit อ้างอิง: `docs/character-kit-reference/Hysilens.md` · **DoT ที่จัดการ 4 ชนิดพร้อมกันเป็นรายชนิด** — ต่างจาก Arcana ของ `Black Swan.md` ที่มัดรวมเป็นก้อนเดียว · อ่าน `Kafka.md` ก่อน
+kit อ้างอิง: `docs/kit-reference/Character/Hysilens.md` · **DoT ที่จัดการ 4 ชนิดพร้อมกันเป็นรายชนิด** — ต่างจาก Arcana ของ `Black Swan.md` ที่มัดรวมเป็นก้อนเดียว · อ่าน `Kafka.md` ก่อน
 
 ## ตาราง: ความสามารถ → โค้ด
 

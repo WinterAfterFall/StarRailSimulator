@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Elation/YaoGuang.h`
 
-kit อ้างอิง: `docs/character-kit-reference/YaoGuang.md` · `Atv_stats->Name` = `"Yao Guang"` (มีช่องว่าง ต่างจากชื่อ namespace) · **ซัพพอร์ตสาย Elation** — อ่าน `Hibana.md` ก่อนสำหรับคำศัพท์ของ path นี้
+kit อ้างอิง: `docs/kit-reference/Character/YaoGuang.md` · `Atv_stats->Name` = `"Yao Guang"` (มีช่องว่าง ต่างจากชื่อ namespace) · **ซัพพอร์ตสาย Elation** — อ่าน `Hibana.md` ก่อนสำหรับคำศัพท์ของ path นี้
 
 ## ตาราง: ความสามารถ → โค้ด
 

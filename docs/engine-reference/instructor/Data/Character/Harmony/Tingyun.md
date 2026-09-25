@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Harmony/Tingyun.h`
 
-kit อ้างอิง: `docs/character-kit-reference/Tingyun.md` · ทั้งตัวละครอยู่ในฟังก์ชันเดียว `Tingyun::Setup(E, LC, Relic, Planar)` ไม่มี class ไม่มี virtual — "ความสามารถ" = lambda ที่ push เข้า event list กลางตอน setup
+kit อ้างอิง: `docs/kit-reference/Character/Tingyun.md` · ทั้งตัวละครอยู่ในฟังก์ชันเดียว `Tingyun::Setup(E, LC, Relic, Planar)` ไม่มี class ไม่มี virtual — "ความสามารถ" = lambda ที่ push เข้า event list กลางตอน setup
 
 ## ตารางหลัก: ความสามารถ → โค้ด
 

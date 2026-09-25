@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Harmony/Bronya.h`
 
-kit อ้างอิง: `docs/character-kit-reference/Bronya.md` · **ตัวที่นิยาม `Driver_num` ของทั้งเกม** · มี `//temp` (บรรทัด 7)
+kit อ้างอิง: `docs/kit-reference/Character/Bronya.md` · **ตัวที่นิยาม `Driver_num` ของทั้งเกม** · มี `//temp` (บรรทัด 7)
 
 ## ตาราง: ความสามารถ → โค้ด
 

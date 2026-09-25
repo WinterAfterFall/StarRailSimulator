@@ -2,7 +2,7 @@
 
 **เวอร์ชันเก่าของ Hanabi — ไม่ใช่ตัวที่ใช้งานจริง** · ตัวจริงคือ `Hanabi.h` (ดู `Hanabi.md`)
 
-`docs/character-kit-reference/README.md` ระบุว่า "ข้าม V1 dupes (`HanabiV1`, `Black SwanV1`) — ดูไฟล์ตัวจริงแทน"
+`docs/kit-reference/Character/README.md` ระบุว่า "ข้าม V1 dupes (`HanabiV1`, `Black SwanV1`) — ดูไฟล์ตัวจริงแทน"
 
 > **แต่ยัง `#include` อยู่**: `All_Harmony_char.h:4` → `#include"HanabiV1.h"`
 

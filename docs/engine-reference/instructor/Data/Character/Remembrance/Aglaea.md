@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Remembrance/Aglaea.h`
 
-kit อ้างอิง: `docs/character-kit-reference/Aglaea.md` · **ไฟล์อ้างอิงของ countdown unit และ joint attack** · อ่าน `RMC.md` ก่อนสำหรับพื้นฐาน memosprite · มี `//temp` (บรรทัด 6)
+kit อ้างอิง: `docs/kit-reference/Character/Aglaea.md` · **ไฟล์อ้างอิงของ countdown unit และ joint attack** · อ่าน `RMC.md` ก่อนสำหรับพื้นฐาน memosprite · มี `//temp` (บรรทัด 6)
 
 ## unit ที่ไฟล์นี้สร้าง 3 ตัว
 

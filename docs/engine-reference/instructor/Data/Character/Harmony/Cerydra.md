@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Harmony/Cerydra.h`
 
-kit อ้างอิง: `docs/character-kit-reference/Cerydra.md` · **ไฟล์อ้างอิงของ `AllyActionList` และการ copy action ทั้งก้อนเพื่อยิงซ้ำ**
+kit อ้างอิง: `docs/kit-reference/Character/Cerydra.md` · **ไฟล์อ้างอิงของ `AllyActionList` และการ copy action ทั้งก้อนเพื่อยิงซ้ำ**
 
 ## ตาราง: ความสามารถ → โค้ด
 

@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Nihility/Fugue.h`
 
-kit อ้างอิง: `docs/character-kit-reference/Fugue.md` · **ซัพพอร์ต Super Break** — คู่กับ `../Harmony/Harmony_MC.md` · เป็นที่เดียวที่เรียก `Toughness_break()` ด้วยมือ
+kit อ้างอิง: `docs/kit-reference/Character/Fugue.md` · **ซัพพอร์ต Super Break** — คู่กับ `../Harmony/Harmony_MC.md` · เป็นที่เดียวที่เรียก `Toughness_break()` ด้วยมือ
 
 ## ตาราง: ความสามารถ → โค้ด
 

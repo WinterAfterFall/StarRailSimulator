@@ -1,7 +1,7 @@
 #include "../include.h"
 
 //========================  Tingyun (ถิงหยุน) — Lightning / Harmony / 4★  ========================
-// kit อ้างอิง: docs/character-kit-reference/Tingyun.md
+// kit อ้างอิง: docs/kit-reference/Character/Tingyun.md
 // ตัวเลข ability = 4★ ที่ E6  →  Basic ATK Lv.7 / Skill·Ultimate·Talent Lv.12
 namespace Tingyun{
 

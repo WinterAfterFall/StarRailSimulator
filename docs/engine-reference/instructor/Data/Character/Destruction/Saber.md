@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Destruction/Saber.h`
 
-kit อ้างอิง: `docs/character-kit-reference/Saber.md` · **ตัวละคร collab ที่กติกา energy ต่างจากทุกตัว** (`Ult_cost` 360 และเก็บ energy ล้นไว้ใช้ต่อ) — `Tingyun.h` มีสาขา escape hatch สำหรับ Saber โดยเฉพาะ
+kit อ้างอิง: `docs/kit-reference/Character/Saber.md` · **ตัวละคร collab ที่กติกา energy ต่างจากทุกตัว** (`Ult_cost` 360 และเก็บ energy ล้นไว้ใช้ต่อ) — `Tingyun.h` มีสาขา escape hatch สำหรับ Saber โดยเฉพาะ
 
 ## ตาราง: ความสามารถ → โค้ด
 

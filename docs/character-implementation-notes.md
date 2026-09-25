@@ -144,7 +144,7 @@
 
 # ส่วนที่ 2 — Tingyun case study
 
-ไฟล์: `src/Defination/Data/Character/Harmony/Tingyun.h` · kit: `docs/character-kit-reference/Tingyun.md`
+ไฟล์: `src/Defination/Data/Character/Harmony/Tingyun.h` · kit: `docs/kit-reference/Character/Tingyun.md`
 
 ## kit ↔ code (หลัง fix)
 

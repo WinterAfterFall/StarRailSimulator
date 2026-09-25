@@ -4,7 +4,7 @@ path Elation · 2 ไฟล์ · **อ่าน `Hibana.md` ก่อนเพ�
 
 | ไฟล์ | ตัวจริงในเกม | บทบาท |
 |---|---|---|
-| `Hibana.h` | **Sparxie** (ดู `docs/character-kit-reference/README.md`) | DPS — เผา SP ทั้งกระดานแล้วคูณดาเมจ |
+| `Hibana.h` | **Sparxie** (ดู `docs/kit-reference/Character/README.md`) | DPS — เผา SP ทั้งกระดานแล้วคูณดาเมจ |
 | `YaoGuang.h` | Yao Guang (ชื่อ unit มีช่องว่าง) | ซัพพอร์ต — ยิง Elation Skill ของทั้งทีมผ่าน `AhaInstant` |
 
 ## คำศัพท์ของ path Elation

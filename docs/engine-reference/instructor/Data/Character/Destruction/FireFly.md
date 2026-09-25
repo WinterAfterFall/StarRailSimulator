@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Destruction/FireFly.h`
 
-kit อ้างอิง: `docs/character-kit-reference/FireFly.md` · **ไฟล์อ้างอิงของ Super Break และ Break Effect** — ตัวเดียวที่ดาเมจหลักมาจาก `Superbreak_trigger` ไม่ใช่ `addDamageIns`
+kit อ้างอิง: `docs/kit-reference/Character/FireFly.md` · **ไฟล์อ้างอิงของ Super Break และ Break Effect** — ตัวเดียวที่ดาเมจหลักมาจาก `Superbreak_trigger` ไม่ใช่ `addDamageIns`
 
 ## ตาราง: ความสามารถ → โค้ด
 

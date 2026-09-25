@@ -236,4 +236,4 @@
 - 🐞 ~~#1 · #2 · #4 · #16~~ ✅ แก้แล้ว 2026-09-13 (push แล้ว) · ~~#8~~ ปิด — user: summon/countdown ไม่ได้ใช้ `owner`
 - dead code (โซนอื่น): `DecreaseHP(Unit*, vector, ...)` overload — **ปล่อยไว้** (user 2026-09-13); ข้อสรุปเดิมที่รวม `Enemy::hitCount` ถูกแก้ไขวันที่ 2026-09-16: user ยืนยันว่ามีการใช้งาน ไม่ใช่ dead code
 - `future-improvements.md`: ระบบสร้างโล่ · per-unit `priority` reset · buff auto-removal helper · AllyUnit cosmetic
-- ~~`docs/character-kit-reference/*.md` (~40 ไฟล์) ยัง untracked~~ ✅ เข้า git แล้ว (`f6af8b7`)
+- ~~`docs/kit-reference/Character/*.md` (~40 ไฟล์) ยัง untracked~~ ✅ เข้า git แล้ว (`f6af8b7`)

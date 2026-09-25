@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Erudition/Jade.h`
 
-kit อ้างอิง: `docs/character-kit-reference/Jade.md` · **ไฟล์อ้างอิงของ Follow-up ATK ที่ยิงเป็นชุดจากตัวนับ** · มี `//temp` (บรรทัด 10)
+kit อ้างอิง: `docs/kit-reference/Character/Jade.md` · **ไฟล์อ้างอิงของ Follow-up ATK ที่ยิงเป็นชุดจากตัวนับ** · มี `//temp` (บรรทัด 10)
 
 ## ตาราง: ความสามารถ → โค้ด
 

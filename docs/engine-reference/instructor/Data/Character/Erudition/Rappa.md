@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Erudition/Rappa.h`
 
-kit อ้างอิง: `docs/character-kit-reference/Rappa.md` · **สาย Break/Super Break** — คู่กับ `../Destruction/FireFly.md` แต่ใช้ `Cal_Break_damage` โดยตรงด้วย
+kit อ้างอิง: `docs/kit-reference/Character/Rappa.md` · **สาย Break/Super Break** — คู่กับ `../Destruction/FireFly.md` แต่ใช้ `Cal_Break_damage` โดยตรงด้วย
 
 ## ตาราง: ความสามารถ → โค้ด
 
