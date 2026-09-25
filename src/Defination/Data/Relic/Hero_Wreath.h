@@ -21,8 +21,15 @@ namespace Relic{
         }));
 
         BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
-            if (act->Attacker->Atv_stats->side == Side::Ally && ptr->memospriteList.size() > 0) {
+            if (act->Attacker->Atv_stats->side == Side::Memosprite && act->Attacker->owner->isSameName(ptr)) {
                 buffSingleChar(ptr,{{Stats::CD, AType::None, 30}}, "Hero_Wreath_buff",2);
+            }
+        }));
+
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+            if (isBuffEnd(ptr, "Hero_Wreath_buff")) buffSingle(ptr, {{Stats::CD, AType::None, -30}});
+            for (auto &each : ptr->memospriteList) {
+                if (isBuffEnd(each.get(), "Hero_Wreath_buff")) buffSingle(each.get(), {{Stats::CD, AType::None, -30}});
             }
         }));
         

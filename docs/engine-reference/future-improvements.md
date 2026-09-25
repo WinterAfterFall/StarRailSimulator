@@ -117,3 +117,21 @@ User ขอให้จดไว้ 2026-09-17; ยังไม่ implement แ
 
 **ตัวละครที่รอระบบนี้อยู่**
 - **Luocha E4** (`Data/Character/Abundance/Luocha.h`) — "ขณะ Field active → ศัตรู Weakened สร้าง DMG น้อยลง 12%" ยังไม่มีจุดให้เกาะ มีคอมเมนต์อธิบายไว้เหนือ `Abyss_Flower()` แล้ว
+
+---
+
+## 10. เงื่อนไขที่อิง SPD — ตอนนี้ระบุ on/off เองตอนประกอบทีม
+
+relic / planar / ความสามารถที่ให้ผลต่างกันตาม SPD ปัจจุบันของผู้สวม **ไม่ได้อ่าน SPD จริงระหว่างการต่อสู้** แต่ใช้ factory รับ `bool trigger` แล้วผู้ประกอบทีมเลือกเองว่าเข้าเงื่อนไขหรือไม่ · ค่าที่ได้จึงคงที่ตั้งแต่ `Reset_List` ตลอดทั้งเกม
+
+| ไฟล์ | `trigger = true` | `trigger = false` |
+|---|---|---|
+| `Data/Relic/Diviner of Distant Reach.h` | CR +18 | CR +10 |
+| `Data/Planar/FirmanentFrontline.h` | DMG +18 | DMG +12 |
+| `Data/Planar/GiantTree.h` | HEALING_OUT +20 | HEALING_OUT +12 |
+
+ทั้งสามไฟล์ copy lambda ทั้งก้อนสองสาขา ต่างกันแค่ตัวเลขเดียว
+
+**ข้อจำกัดของวิธีนี้**: ถ้า SPD เปลี่ยนระหว่างเกม (บัฟ SPD จากเพื่อน, บัฟหมดอายุ, ดีบัฟ) ค่าไม่ตามไป · ต้องให้คนประกอบทีมรู้ SPD สุดท้ายเอง
+
+**อนาคต**: อ่าน SPD จริงแบบ realtime — ใช้ delta idiom (`buffNote` เก็บค่าล่าสุด ใส่แค่ส่วนต่าง) ใน `Stats_Adjust_List` ที่ยิงเมื่อ SPD เปลี่ยน แบบเดียวกับ trace ที่คำนวณจาก stat แบบ live · เมื่อทำแล้วลบพารามิเตอร์ `bool trigger` ออกและยุบเหลือ lambda เดียว · ความสามารถใหม่ที่อิง SPD ควรเขียนแบบ realtime ตั้งแต่แรก

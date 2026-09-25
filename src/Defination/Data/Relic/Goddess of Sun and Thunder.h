@@ -26,7 +26,14 @@ namespace Relic{
                     });
                 }
         }));
-        
-        
+
+        AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr](AllyUnit* target) {
+            if(target->isSameName(ptr) && isBuffGoneByDeath(ptr,"Goddess of Sun and Thunder")){
+                buffSingle(ptr,{{Stats::SPD_P,AType::None,-6}});
+                buffAllAlly({
+                    {Stats::CD,AType::None,-15}
+                });
+            }
+        }));
     }
 }
