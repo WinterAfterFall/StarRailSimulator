@@ -18,7 +18,7 @@ namespace Elation_Lightcone{
                     ptr->Energy_recharge += 10 + 2 * superimpose;
                     buffAllAlly({
                         {Stats::CR, AType::None,9.0 + superimpose},
-                        {Stats::CD, AType::None,30.0 + 5 * superimpose}
+                        {Stats::CD, AType::None,22.5 + 7.5 * superimpose}
                     });
                 }
             }));
@@ -29,7 +29,7 @@ namespace Elation_Lightcone{
                     ptr->Energy_recharge += 10 + 2 * superimpose;
                     buffAllAlly({
                         {Stats::CR, AType::None,9.0 + superimpose},
-                        {Stats::CD, AType::None,30.0 + 5 * superimpose}
+                        {Stats::CD, AType::None,22.5 + 7.5 * superimpose}
                     });
                 }
             }));
@@ -39,7 +39,7 @@ namespace Elation_Lightcone{
                     ptr->Energy_recharge -= 10 + 2 * superimpose;
                     buffAllAlly({
                         {Stats::CR, AType::None,-(9.0 + superimpose)},
-                        {Stats::CD, AType::None,-(30.0 + 5 * superimpose)}
+                        {Stats::CD, AType::None,-(22.5 + 7.5 * superimpose)}
                     });
                 }
             }));

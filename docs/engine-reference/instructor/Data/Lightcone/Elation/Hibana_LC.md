@@ -2,7 +2,7 @@
 
 `namespace Elation_Lightcone` · `Light_cone.Name` = `"Hibana_LC"` · base stats `SetAllyBaseStats(1058, 582, 463)`
 
-**signature ของ Hibana/Sparxie** (ดู `../../Character/Elation/Hibana.md`)
+ชื่อในเกม: **Dazzled by a Flowery World** · **signature ของ Hibana/Sparxie** (ดู `../../Character/Elation/Hibana.md`)
 
 | ท่อน | โค้ด |
 |---|---|
@@ -16,12 +16,19 @@
 
 ```cpp
 Setup_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+    for (auto &each : charList) {           // ผู้สวมคนแรกเท่านั้นที่บวก
+        if (each->Light_cone.Name != "Hibana_LC") continue;
+        if (each != ptr) return;
+        break;
+    }
     Max_sp += min(3, elationCount);
 }));
 ```
+> **แก้ 2026-09-26**: เดิมผู้สวมทุกคนบวก `Max_sp` → สวม 2 คนได้ SP limit 2 เท่า · kit "Light Cone effects of the same type cannot stack" → ตอนนี้ให้เฉพาะผู้สวมคนแรกใน `charList` บวก (ชื่อ LC ถูกตั้งตอนประกอบทีม จึงอ่านได้ใน `Setup_List`)
+
 **ต้องรอให้ทีมประกอบเสร็จก่อน** เพราะ `elationCount` ถูก `++` ใน `Setup` ของตัวละคร Elation แต่ละตัว — ถ้าเขียนตรง ๆ ใน lambda ของ LC จะได้ค่าที่ยังนับไม่ครบ
 
-เป็น LC ใบเดียวที่ใช้ `Setup_List` · ตัวละครที่ใช้คือ `../../Character/Destruction/Phainon.md`
+เป็น LC ใบเดียวที่ใช้ `Setup_List` · ตัวละครที่ใช้ `Setup_List` ด้วยเหตุผลเดียวกัน (รอทีมประกอบเสร็จ) คือ `../../Character/Destruction/Phainon.md` (แก้ 2026-09-26: เดิมเขียนกำกวมเหมือน Phainon ใช้ LC ใบนี้)
 
 ## จุดที่ควรระวัง
 

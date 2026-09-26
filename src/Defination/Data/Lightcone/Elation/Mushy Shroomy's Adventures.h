@@ -13,7 +13,7 @@ namespace Elation_Lightcone{
 
             BeforeAllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,debuffName](shared_ptr<AllyActionData> &act) {
                 if(act->isSameAction(ptr,AType::ElationSkill)){
-                    debuffAllEnemyApply(ptr,{{Stats::VUL,AType::ElationDMG,5.0 + superimpose}},debuffName);
+                    debuffAllEnemyApply(ptr,{{Stats::VUL,AType::ElationDMG,5.0 + superimpose}},debuffName,2);
                 }
             }));
 

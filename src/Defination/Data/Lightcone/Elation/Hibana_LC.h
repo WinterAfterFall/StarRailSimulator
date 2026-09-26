@@ -10,6 +10,12 @@ namespace Elation_Lightcone{
             }));
 
             Setup_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+                // effects of the same type cannot stack: only the first wearer adds SP limit
+                for(auto &each : charList){
+                    if(each->Light_cone.Name != "Hibana_LC")continue;
+                    if(each != ptr)return;
+                    break;
+                }
                 Max_sp+=min(3,elationCount);
             }));
 

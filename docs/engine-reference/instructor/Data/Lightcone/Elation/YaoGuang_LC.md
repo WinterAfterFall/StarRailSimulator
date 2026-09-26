@@ -8,9 +8,13 @@
 |---|---|
 | SPD% `15 + 3S` | `Reset_List` → `Atv_stats->speedPercent` |
 | ต้น wave → energy 15 (ไม่ผ่าน ER) | `Start_wave_List` → `Increase_energy(ptr, 0, 15)` |
-| ต้นเกม → ER `10+2S` + ทีม CR `9+S` / CD `30+5S` 3 เทิร์น | `Start_game_List` + `isHaveToAddBuff(ptr, "Great Fortune", 3)` |
+| ต้นเกม → ER `10+2S` + ทีม CR `9+S` / CD `22.5+7.5S` 3 เทิร์น | `Start_game_List` + `isHaveToAddBuff(ptr, "Great Fortune", 3)` |
 | ใช้ Ult → เหมือนกัน (ต่ออายุ) | `Buff_List` → `act->isSameAction(ptr, AType::Ult)` |
 | ถอน | `After_turn_List` |
+
+ชื่อในเกม: **When She Decided to See**
+
+> **แก้ 2026-09-26**: CD ทีมเดิม `30+5S` = 35/40/45/50/55 ไม่ตรง kit 30/38/45/53/60 → `22.5+7.5S` = 30/37.5/45/52.5/60 (kit ปัด .5 ขึ้น) · แก้ครบ 3 ที่ (ลง 2 ที่ + ถอน 1 ที่) ให้ค่าเท่ากัน
 
 ## จุดที่น่าสนใจ
 
