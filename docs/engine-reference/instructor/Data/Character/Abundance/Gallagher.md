@@ -9,27 +9,27 @@ kit อ้างอิง: `docs/kit-reference/Character/Abundance/gallagher.md`
 | ธาตุ / path / energy ult | `SetCharBasicStats(98, 110, 110, E, ElementType::Fire, Path::Abundance, "Gallagher", UnitType::Standard)` | 14 |
 | Base HP/ATK/DEF | `SetAllyBaseStats(1305, 529, 441)` | 15 |
 | build — **substat เป็น `BE`** (Break Effect) | `pushSubstats(Stats::BE)` + main stat หมวก `HEALING_OUT` + `setSpeedRequire(150)` | 18-21 |
-| **Basic ATK** — Corkage Fee | `Basic_Atk(ptr)` — `addDamageIns` 2 ครั้ง (55/5) | 163-175 |
-| **Enhanced BA** — Nectar Blitz | `Enchance_Basic_Atk(ptr)` — 3 จังหวะ (62.5/7.5, 37.5/4.5, 150/18) + ลด ATK เป้า | 176-194 |
-| Nectar Blitz ลด ATK เป้า 16% | `target->atkPercent -= 16` + `debuffApply` + `extendDebuff(..., "Nectar_Blitz", 2)` | 182-186 |
-| **Skill** — Special Brew (ฮีลล้วน) | `Skill_func(ptr)` — **`AllyBuffAction`** ไม่ใช่ `AllyAttackAction` เพราะไม่มีดาเมจ | 195-206 |
+| **Basic ATK** — Corkage Fee | `Basic_Atk(ptr)` — `addDamageIns` 2 ครั้ง (55/5) | 166-178 |
+| **Enhanced BA** — Nectar Blitz | `Enchance_Basic_Atk(ptr)` — 3 จังหวะ (68.75/7.5, 41.25/4.5, 165/18) = 275% (Lv7 ตาม E3 เหมือน BA ปกติ 110%) + ลด ATK เป้า | 179-197 |
+| Nectar Blitz ลด ATK เป้า 16% | `target->atkPercent -= 16` + `debuffApply` + `extendDebuff(..., "Nectar_Blitz", 2)` | 186-188 |
+| **Skill** — Special Brew (ฮีลล้วน) | `Skill_func(ptr)` — **`AllyBuffAction`** ไม่ใช่ `AllyAttackAction` เพราะไม่มีดาเมจ | 198-209 |
 | **Ultimate** — Champagne Etiquette | `Ultimate_List` (`PRIORITY_DEBUFF`) — AoE 165%×3 args | 44-67 |
 | Ult → ติด Besotted | `debuffAllEnemyApply(Charptr, {{Stats::VUL, AType::Break, 13.2}}, "Besotted")` แล้ว `extendDebuffAll` แยก | 50-55 |
 | Ult → BA ครั้งถัดไปเป็น Nectar Blitz | `ptr->buffCheck["Gallagher_enchance_basic_atk"] = 1` | 49 |
 | **A4** — หลัง Ult advance 100% | `Action_forward(ptr->Atv_stats.get(), 100)` ใน callback ของ Ult | 48 |
 | **Talent** — Besotted ให้ Break DMG taken +12% | อยู่ในตัว debuff เอง: `Stats::VUL` ที่ `AType::Break` | 50 |
-| **Talent** — ตี Besotted → ผู้โจมตีถูกฮีล | `When_attack_List` (`PRIORITY_HEAL`) → นับเป้าที่ติด Besotted แล้ว `RestoreHP(act->Attacker, ...)` | 135-143 |
-| **A6** — Nectar Blitz → ฮีลทั้งทีม | สาขา `isSameAction("Gallagher", AType::BA) && buffCheck[...] == 1` → `RestoreHP(HealSrc)` **overload 1 arg = ฮีลทุกคน** | 125-134 |
-| **A2** — Outgoing Healing = 50% ของ Break Effect (cap 75) | `WhenOnField_List` ตั้งค่าครั้งแรก + `Stats_Adjust_List` คำนวณใหม่ทุกครั้งที่ `BE` เปลี่ยน | 101-105, 145-152 |
-| **Technique** | อยู่ใน `WhenOnField_List` (**ไม่ใช่ `Start_game_List`** แบบตัวอื่น) | 106-120 |
-| **Minor traces** | `Reset_List` | 69-81 |
-| **E1** — ต้นเกม energy 20 | `Start_game_List` → `if (ptr->Eidolon >= 1) Increase_energy(ptr, 20)` (ส่วน Effect RES +50% **ไม่มี**) | 95-99 |
+| **Talent** — ตี Besotted → ผู้โจมตีถูกฮีล | `When_attack_List` (`PRIORITY_HEAL`) → นับเป้าที่ติด Besotted แล้ว `RestoreHP(act->Attacker, ...)` | 138-146 |
+| **A6** — Nectar Blitz → ฮีลทั้งทีม | สาขา `isSameAction("Gallagher", AType::BA) && buffCheck[...] == 1` → `RestoreHP(HealSrc)` **overload 1 arg = ฮีลทุกคน** | 126-137 |
+| **A2** — Outgoing Healing = 50% ของ Break Effect (cap 75) | `WhenOnField_List` ตั้งค่าครั้งแรก + `Stats_Adjust_List` คำนวณใหม่ทุกครั้งที่ `BE` เปลี่ยน | 104-108, 148-155 |
+| **Technique** | อยู่ใน `WhenOnField_List` (**ไม่ใช่ `Start_game_List`** แบบตัวอื่น) | 109-123 |
+| **Minor traces** | `Reset_List` | 69-84 |
+| **E1** — ต้นเกม energy 20 | `Start_game_List` → `if (ptr->Eidolon >= 1) Increase_energy(ptr, 20)` + `Reset_List` → Effect RES +50% | 77-79, 98-102 |
 | **E4** — Besotted จาก Ult ยืดอีก 1 เทิร์น | `extendDebuffAll("Besotted", 3)` แทน 2 | 51-55 |
-| **E6** — Break Effect / Break Efficiency +20% | `Reset_List` → `Stats::BREAK_EFF += 20` และ `Stats::BE += 20` | 77-80 |
+| **E6** — Break Effect / Break Efficiency +20% | `Reset_List` → `Stats::BREAK_EFF += 20` และ `Stats::BE += 20` | 80-83 |
 | **E2** | **ไม่มี** | — |
 | AI: เทิร์นนี้กดอะไร | `Turn_func` — `turnCnt % 8 == 1` → Skill · ไม่งั้นดู flag ว่าเป็น EBA หรือ BA | 29-39 |
 | AI: กดอัลติเมื่อไหร่ | `addUltCondition` → `phaseStatus != BeforeTurn && atv != 0` | 40-42 |
-| หมด Besotted / Nectar_Blitz → ถอน | `After_turn_List` + `canCastToEnemy()` + `isDebuffEnd` | 83-92 |
+| หมด Besotted / Nectar_Blitz → ถอน | `After_turn_List` + `canCastToEnemy()` + `isDebuffEnd` | 86-95 |
 
 ## รากฐานที่เพิ่ม
 
@@ -74,15 +74,17 @@ Skill ของ Gallagher เป็นการฮีลล้วน จึง�
 | Skill heal | 1600 | 1768 |
 | Talent heal ต่อเป้าที่ Besotted | 640 | 707 |
 | Ult DMG | 150% | 165% |
+| Nectar Blitz DMG | 250% (Lv6) | 275% (Lv7) |
+
+> **แก้ 2026-09-26**: Nectar Blitz เดิม 250% (Lv6) ไม่ตรงกับ BA ปกติ 110% / ลด ATK 16% ที่เป็น Lv7 → ปรับเป็น 275% (user เลือก Lv7) · Effect RES จาก minor trace 18 → 28 ตาม kit · เพิ่ม E1 Effect RES +50% · อัปเดตเลขบรรทัดทั้งตาราง
 
 ## ส่วนที่ยังไม่มีในโค้ด
 
 - **E2 — Lion’s Tail** (Skill ลบ debuff 1 อัน + Effect RES +30% 2 เทิร์น) ไม่มีทั้งอัน · ส่วนลบ debuff ไม่มีระบบ cleanse รองรับ (เหมือน A2 ของ `Luocha.md`)
-- **E1 ทำแค่ครึ่งเดียว** — energy 20 มีแล้ว แต่ **Effect RES +50% ไม่มี**
 
 ## จุดที่ควรระวัง
 
-- **Nectar Blitz ลด ATK ซ้ำซ้อนได้** — `debuffApply(act->Attacker, target, "Nectar_Blitz")` คืน `bool` ว่าลงติดใหม่หรือไม่ แต่**โค้ดไม่ได้เช็คค่าที่คืนมา** แล้ว `target->atkPercent -= 16` ทุกครั้ง (183-185) · ถ้า Nectar Blitz ลงซ้ำขณะที่ debuff เดิมยังไม่หมด (ult ถี่ → EBA ถี่) ATK ศัตรูจะถูกลบ 16 หลายรอบ แต่ `After_turn_List` คืนให้แค่ครั้งเดียว → **ค่ารั่วถาวร** · เทียบกับ `debuffSingleApply` ที่ engine เช็คให้เอง (ดู `Kafka.md` หัวข้อ "แก้เมื่อ")
+- ~~**Nectar Blitz ลด ATK ซ้ำซ้อนได้**~~ **แก้ 2026-09-26**: เดิมไม่เช็คค่าที่ `debuffApply` คืน → ลบ 16 ทุกครั้งแต่คืนครั้งเดียว ค่ารั่วถาวร · ตอนนี้ `if(debuffApply(...)) atkPercent -= 16` ลบเฉพาะตอนติดใหม่ (ต่ออายุด้วย `extendDebuff` เหมือนเดิม)
 - **`Turn_func` กด Skill ทุก 8 เทิร์นแบบตายตัว** (30) — kit ไม่มีกฎนี้ Gallagher ควรกด Skill เมื่อทีมต้องการฮีล · เป็นการประมาณรอบที่ไม่ได้อิงสถานะจริง ต่างจาก `The_Herta.h` ที่อ่าน `sp` / `Sp_Safety` ของเกม
 - **Ult ลง Besotted โดยไม่ระบุ duration แล้วค่อย `extendDebuffAll` ทีหลัง** (50-55) — ต่างจาก Technique ที่ส่ง `2` ไปกับ `debuffAllEnemyApply` เลย (110) · ผลเหมือนกันแต่เป็นสองสำนวนในไฟล์เดียว
 - **`Skill_func` รับ lambda ที่ประกาศ `shared_ptr<AllyBuffAction> act` แบบ by-value** (200) ขณะที่ทุกไฟล์อื่นใช้ `&` — ยังทำงานได้ แต่คัดลอก shared_ptr ทุกครั้งที่เรียก

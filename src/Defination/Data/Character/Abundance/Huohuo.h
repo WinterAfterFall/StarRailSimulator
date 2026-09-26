@@ -3,7 +3,7 @@
 namespace Huohuo{
     void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
         CharUnit *ptr = SetCharBasicStats(98,140,140,E,ElementType::Wind,Path::Abundance,"Huohuo",UnitType::Standard);
-        ptr->SetAllyBaseStats(1358,602,509);
+        ptr->SetAllyBaseStats(1358,601,509);
 
         //substats
         ptr->pushSubstats(Stats::HP_P);
@@ -11,7 +11,7 @@ namespace Huohuo{
         ptr->setSpeedRequire(140);
         ptr->setRelicMainStats(Stats::HEALING_OUT,Stats::FLAT_SPD,Stats::HP_P,Stats::ER);
 
-        
+
         //func
         LC(ptr);
         Relic(ptr);
@@ -19,12 +19,40 @@ namespace Huohuo{
 
         AllyUnit *hh = ptr;
 
-        
+
         #pragma region Ability
+
+        // Talent: gain/refresh "Divine Provision" (E1 +1 turn) · regaining resets the 6-trigger counter
+        function<void(int)> gainDivineProvision = [ptr,hh](int turns) {
+            if(isHaveToAddBuff(hh,"Divine Provision")){
+                if(ptr->Eidolon>=1)buffAllAlly({{Stats::SPD_P,AType::None,12}});
+            }
+            hh->setStack("Divine Provision",6);
+            if(ptr->Eidolon>=1)turns++;
+            extendBuffTime(hh,"Divine Provision",turns);
+        };
+
+        // Talent: heal the acting ally + lowest HP% ally, then every ally at HP <= 50% · A6 energy +1
+        function<void(AllyUnit*)> divineProvisionHeal = [hh](AllyUnit *ally) {
+            if(!hh->getBuffCheck("Divine Provision")||!hh->getStack("Divine Provision"))return;
+            hh->stack["Divine Provision"]--;
+            Increase_energy(hh,1);
+            AllyUnit *lowest = nullptr;
+            for(auto &each : allyList){
+                if(!each->isTargetable())continue;
+                if(!lowest || each->currentHP/each->totalHP < lowest->currentHP/lowest->totalHP)lowest = each;
+            }
+            hh->RestoreHP(ally,HealSrc(HealSrcType::HP,4.5,HealSrcType::CONST,120));
+            if(lowest && lowest != ally)hh->RestoreHP(lowest,HealSrc(HealSrcType::HP,4.5,HealSrcType::CONST,120));
+            for(auto &each : allyList){
+                if(each->isTargetable() && each->currentHP<=each->totalHP/2)
+                    hh->RestoreHP(each,HealSrc(HealSrcType::HP,4.5,HealSrcType::CONST,120));
+            }
+        };
 
         function<void()> BA = [ptr,hh]() {
             genSkillPoint(hh,1);
-            shared_ptr<AllyAttackAction> act = 
+            shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"HH BA",
             [hh](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(hh,20);
@@ -34,21 +62,16 @@ namespace Huohuo{
             act->addToActionBar();
         };
 
-        function<void()> Skill = [ptr,hh]() {
+        function<void()> Skill = [ptr,hh,gainDivineProvision]() {
             genSkillPoint(hh,-1);
-            shared_ptr<AllyBuffAction> act = 
+            shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Blast,"HH Skill",
-            [ptr,hh](shared_ptr<AllyBuffAction> &act){
+            [ptr,hh,gainDivineProvision](shared_ptr<AllyBuffAction> &act){
                 Increase_energy(hh,30);
-                hh->RestoreHP(HealSrc(HealSrcType::HP,21,HealSrcType::CONST,560),
-                HealSrc(HealSrcType::HP,16.8,HealSrcType::CONST,448),
+                hh->RestoreHP(HealSrc(HealSrcType::HP,24,HealSrcType::CONST,640),
+                HealSrc(HealSrcType::HP,19.2,HealSrcType::CONST,512),
                 HealSrc());
-                if(isHaveToAddBuff(hh,"Divine Provision")){
-                    hh->setStack("Divine Provision",6);
-                    if(ptr->Eidolon>=1)buffAllAlly({{Stats::SPD_P,AType::None,12}});
-                }
-                if(ptr->Eidolon>=1) extendBuffTime(hh,"Divine Provision",3);
-                else extendBuffTime(hh,"Divine Provision",2);
+                gainDivineProvision(3);
             });
             act->addBuffAllAllies();
             act->addToActionBar();
@@ -59,21 +82,28 @@ namespace Huohuo{
             if(hh->Atv_stats->turnCnt%3==0)Skill();
             else BA();
         };
-        
+
         ptr->addUltCondition([ptr,hh]() -> bool {
             if(phaseStatus == PhaseStatus::BeforeTurn&&turn->isSameUnit(chooseAllyBuff(hh)))return true;
             return false;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,hh]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,hh,gainDivineProvision]() {
             shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"HH Ult",
-            [hh](shared_ptr<AllyBuffAction> &act){
+            [ptr,hh,gainDivineProvision](shared_ptr<AllyBuffAction> &act){
                 CharCmd::printUltStart("Huohuo");
                 buffAllAlly({{Stats::ATK_P,AType::None,40}},"HH Ult",2);
+                // A4: allies with Max Energy >= 160 gain extra ATK +24%
                 for(auto &each : allyList){
+                    if(each->owner->Max_energy>=160)buffSingle(each,{{Stats::ATK_P,AType::None,24}},"HH Ult A4",2);
+                }
+                // energy 20% of Max Energy to all allies except Huohuo (not per memosprite)
+                for(auto &each : charList){
+                    if(each == ptr)continue;
                     Increase_energy(each,20,0);
                 }
+                gainDivineProvision(3);
             });
             act->addBuffAllAllies();
             act->addToActionBar();
@@ -92,22 +122,26 @@ namespace Huohuo{
 
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hh]() {
+        // A2: energy 30 + Divine Provision 2 turns at battle start · Technique: all enemies ATK -25% 2 turns
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hh,gainDivineProvision]() {
+            Increase_energy(hh,0,30);
+            gainDivineProvision(2);
+            if(ptr->Technique){
+                for(auto &each : enemyList){
+                    if(!debuffApply(hh,each,"HH Technique",2))continue;
+                    each->atkPercent -= 25;
+                }
+            }
+        }));
+
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hh,divineProvisionHeal]() {
             AllyUnit *ally = turn->canCastToAllyUnit();
             if(!ally)return;
             if(isBuffEnd(hh,"Divine Provision")){
                 hh->setStack("Divine Provision",0);
                 if(ptr->Eidolon>=1)buffAllAlly({{Stats::SPD_P,AType::None,-12}});
             }
-            if(hh->getBuffCheck("Divine Provision")&&hh->getStack("Divine Provision")){
-                hh->stack["Divine Provision"]--;
-                Increase_energy(hh,1);
-                for(auto &each : allyList){
-                    if(each->currentHP<=each->totalHP/2)
-                        hh->RestoreHP(each,HealSrc(HealSrcType::HP,4.5,HealSrcType::CONST,120));
-                }
-                hh->RestoreHP(ally,HealSrc(HealSrcType::HP,4.5,HealSrcType::CONST,120));
-            }
+            divineProvisionHeal(ally);
         }));
 
         After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
@@ -116,9 +150,16 @@ namespace Huohuo{
                 if(isBuffEnd(ally,"HH Ult")){
                     buffSingle(ally,{{Stats::ATK_P,AType::None,-40}});
                 }
+                if(isBuffEnd(ally,"HH Ult A4")){
+                    buffSingle(ally,{{Stats::ATK_P,AType::None,-24}});
+                }
                 if(isBuffEnd(ally,"HH E6")){
                     buffSingle(ally,{{Stats::DMG,AType::None,-50}});
                 }
+            }
+            Enemy *enemy = turn->canCastToEnemy();
+            if(enemy && isDebuffEnd(enemy,"HH Technique")){
+                enemy->atkPercent += 25;
             }
         }));
 
@@ -126,22 +167,16 @@ namespace Huohuo{
             if(isBuffGoneByDeath(target,"HH Ult")){
                 buffSingle(target,{{Stats::ATK_P,AType::None,-40}});
             }
+            if(isBuffGoneByDeath(target,"HH Ult A4")){
+                buffSingle(target,{{Stats::ATK_P,AType::None,-24}});
+            }
             if(isBuffGoneByDeath(target,"HH E6")){
                 buffSingle(target,{{Stats::DMG,AType::None,-50}});
             }
         }));
 
-        WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY, [ptr,hh](CharUnit *ally) {
-            if(hh->getBuffCheck("Divine Provision")&&hh->getStack("Divine Provision")){
-                hh->stack["Divine Provision"]--;
-                Increase_energy(hh,1);
-                for(auto &each : allyList){
-                    if(each->currentHP<=each->totalHP/2)
-                    hh->RestoreHP(each,HealSrc(HealSrcType::HP,4.5,HealSrcType::CONST,120));
-                }
-                hh->RestoreHP(ally,HealSrc(HealSrcType::HP,4.5,HealSrcType::CONST,120));
-
-            }
+        WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY, [divineProvisionHeal](CharUnit *ally) {
+            divineProvisionHeal(ally);
         }));
 
         if(ptr->Eidolon>=6)

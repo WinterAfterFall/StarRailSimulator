@@ -16,6 +16,7 @@
 - ไล่ Remembrance LC เทียบ kit: `Hyacnine_LC.h` Additional DMG ไม่เคยออก + ยอดสะสม + จังหวะ · `SweatNowCryLess.h` ค่า/ถอนเมื่อ memosprite ตาย/null · `Geniuses_Greetings.h` ถอนผ่านเจ้าของเทิร์น (user กำหนด) · Castorice HP% · Curtain prefix · Reminiscence ล้างทันที · Victory ถอนผ่าน `buffSingle` · **ยังไม่ได้รัน sim**
 
 - ไล่ Elation LC เทียบ kit: `YaoGuang_LC.h` CD ทีม `30+5S` → `22.5+7.5S` · `Mushy Shroomy's Adventures.h` VUL ค้างถาวร (ไม่ได้ส่ง duration) → 2 เทิร์น · `Hibana_LC.h` `Max_sp` บวกเฉพาะผู้สวมคนแรก (cannot stack) · แก้คู่มือ Mushy (เดิมว่าซ้อนทับ จริง ๆ ไม่ซ้อน) / Hibana (ประโยค Phainon) / README (trigger ของแต่ละใบ + ชื่อในเกม) · Today's Good Luck ถูกต้องแล้ว · `g++ -fsyntax-only` ผ่าน **ยังไม่ได้รัน sim**
+- ไล่ Abundance character เทียบ kit: `Huohuo.h` โค้ดเป็น kit ก่อน remake (user ยืนยัน) → ปรับตาม kit: Divine Provision 3 เทิร์น + ได้จาก Ult + รีเซ็ตตัวนับ 6, A2 (energy 30 + DP 2 เทิร์น), A4 (Max Energy ≥160 ATK +24%), Ult energy ยกเว้นตัวเอง/ไม่ซ้ำ memosprite, ฮีลคน HP% ต่ำสุด, Technique, ATK 601, Skill heal Lv10 · `Gallagher.h` Nectar Blitz Lv7 275% (user เลือก), Effect RES 28, E1 RES +50%, Nectar Blitz ลด ATK ไม่ซ้อน · คู่มือ Luocha/Gallagher เลขบรรทัด + `RestoreHP(HealSrc)` · ตรวจ `Increase_energy(ptr,5)` ทั้งโปรเจกต์: ไม่มีที่ไหนอยู่ใน Ult (engine บวก +5 ใน `ultUseCheck`) → ไม่ต้องแก้ · `g++ -fsyntax-only` ผ่าน **ยังไม่ได้รัน sim**
 
 ## อัปเดต 2026-09-25
 

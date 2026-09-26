@@ -8,24 +8,26 @@ kit อ้างอิง: `docs/kit-reference/Character/Abundance/luocha.md` ·
 |---|---|---|
 | ธาตุ / path / energy ult | `SetCharBasicStats(101, 100, 100, E, ElementType::Imaginary, Path::Abundance, "Luocha", UnitType::Standard)` | 12 |
 | Base HP/ATK/DEF | `SetAllyBaseStats(1280, 756, 363)` | 13 |
-| build — **main stat หมวกเป็น `HEALING_OUT`** | `setRelicMainStats(Stats::HEALING_OUT, FLAT_SPD, ATK_P, ER)` + `setSpeedRequire(150)` | 17-18 |
-| **Basic ATK** — Thorns of the Abyss | `Luocha::Basic_Atk(ptr)` — `addDamageIns` 3 ครั้ง (30/3, 30/3, 40/4) = ตีเป้าเดียว 3 จังหวะ | 108-125 |
+| build — **main stat หมวกเป็น `HEALING_OUT`** | `setRelicMainStats(Stats::HEALING_OUT, FLAT_SPD, ATK_P, ER)` + `setSpeedRequire(150)` | 15-18 |
+| **Basic ATK** — Thorns of the Abyss | `Luocha::Basic_Atk(ptr)` — `addDamageIns` 3 ครั้ง (30/3, 30/3, 40/4) = ตีเป้าเดียว 3 จังหวะ | 144-161 |
 | **Skill** — Prayer of Abyss Flower (กดเอง) | **ไม่มี** — มีแต่ทาง auto ผ่าน `Talent()` | — |
-| **Talent** (เอฟเฟกต์ Skill ที่ trigger เอง) | `Luocha::Talent(ptr)` — energy 30 + `++stack["Abyss_Flower"]` + `RestoreHP` 60% ATK + 800 + เรียก `Abyss_Flower()` | 93-99 |
-| จังหวะ trigger Talent | ใน callback ของ BA: `if (ptr->Atv_stats->turnCnt % 2 == 1) Talent(ptr);` | 116-118 |
-| **Talent** — ครบ 2 stack → กาง Field | `Luocha::Abyss_Flower(ptr)` — `if (stack >= 2)` → กิน 2 stack + `setBuffCheck` + `extendBuffTime(..., "Cycle_of_Life", 2)` | 100-112 |
-| Field — ฮีลผู้โจมตีเมื่อตีศัตรู | `When_attack_List` → `if (ptr->getBuffCheck("Cycle_of_Life"))` → `ptr->RestoreHP(act->Attacker, ...)` | 78-87 |
-| **A4** — เพื่อนที่เหลือฮีล 7% ATK + 93 | arg ที่ 3 ของ `RestoreHP(target, main, other)` | 83 |
-| **Ultimate** — Death Wish | `Ultimate_List` (`PRIORITY_DEBUFF`) — AoE 200%×3 args + `++stack` + `Abyss_Flower()` | 33-47 |
-| **Technique** — กาง Field ตั้งแต่ต้นเกม | `Start_game_List` → `stack["Abyss_Flower"] = 2` แล้วเรียก `Abyss_Flower()` | 71-76 |
-| **Minor traces** | `Reset_List` | 49-57 |
-| **E1** — Field active → ทีม ATK +20% | `buffAllAlly({{ATK_P, ..., 20}})` ใน `Abyss_Flower()` และ `-20` ตอนหมดใน `After_turn_List` | 63-65, 103-105 |
-| **E2** — เป้าหมาย HP < 50% → Outgoing Healing +30% | `Talent()` — หาเป้าที่เสีย HP เยอะสุด แล้วครอบ `buffSingle(HEALING_OUT +30)` → `RestoreHP` → `-30` | 99-118 |
-| **E6** — Ult → All-Type RES −20% 2 เทิร์น | `debuffAllEnemyApply(ptr, {{Stats::RESPEN, AType::None, 20}}, "Luocha E6", 2)` ใน callback ของ Ult + ถอนใน `After_turn_List` | 38-40, 68-71 |
+| **Talent** (เอฟเฟกต์ Skill ที่ trigger เอง) | `Luocha::Talent(ptr)` — energy 30 + `++stack["Abyss_Flower"]` + `RestoreHP` 60% ATK + 800 + เรียก `Abyss_Flower()` | 100-127 |
+| จังหวะ trigger Talent | ใน callback ของ BA: `if (ptr->Atv_stats->turnCnt % 2 == 1) Talent(ptr);` | 152-154 |
+| **Talent** — ครบ 2 stack → กาง Field | `Luocha::Abyss_Flower(ptr)` — `if (stack >= 2)` → กิน 2 stack + `setBuffCheck` + `extendBuffTime(..., "Cycle_of_Life", 2)` | 131-143 |
+| Field — ฮีลผู้โจมตีเมื่อตีศัตรู | `When_attack_List` → `if (ptr->getBuffCheck("Cycle_of_Life"))` → `ptr->RestoreHP(act->Attacker, ...)` | 85-94 |
+| **A4** — เพื่อนที่เหลือฮีล 7% ATK + 93 | arg ที่ 3 ของ `RestoreHP(target, main, other)` | 90 |
+| **Ultimate** — Death Wish | `Ultimate_List` (`PRIORITY_DEBUFF`) — AoE 200%×3 args + `++stack` + `Abyss_Flower()` | 34-51 |
+| **Technique** — กาง Field ตั้งแต่ต้นเกม | `Start_game_List` → `stack["Abyss_Flower"] = 2` แล้วเรียก `Abyss_Flower()` | 78-83 |
+| **Minor traces** | `Reset_List` | 53-61 |
+| **E1** — Field active → ทีม ATK +20% | `buffAllAlly({{ATK_P, ..., 20}})` ใน `Abyss_Flower()` และ `-20` ตอนหมดใน `After_turn_List` | 67-69, 139-141 |
+| **E2** — เป้าหมาย HP < 50% → Outgoing Healing +30% | `Talent()` — หาเป้าที่เสีย HP เยอะสุด แล้วครอบ `buffSingle(HEALING_OUT +30)` → `RestoreHP` → `-30` | 107-123 |
+| **E6** — Ult → All-Type RES −20% 2 เทิร์น | `debuffAllEnemyApply(ptr, {{Stats::RESPEN, AType::None, 20}}, "Luocha E6", 2)` ใน callback ของ Ult + ถอนใน `After_turn_List` | 41, 72-75 |
 | **A2 / A6 / E4** | **ไม่มี** | — |
 | AI: เทิร์นนี้กดอะไร | `Turn_func` → `Basic_Atk(ptr)` เสมอ | 25-27 |
 | AI: กดอัลติเมื่อไหร่ | `addUltCondition` → `!getBuffCheck("Cycle_of_Life")` — **Field กางอยู่ = ยังไม่กด รอให้หมดก่อน** | 29-32 |
-| Field หมดอายุ → ถอน E1 | `After_turn_List` → `isBuffEnd(Charptr, "Cycle_of_Life")` (stack ถูกกินตอนกางไปแล้ว) | 60-69 |
+| Field หมดอายุ → ถอน E1 | `After_turn_List` → `isBuffEnd(Charptr, "Cycle_of_Life")` (stack ถูกกินตอนกางไปแล้ว) | 64-76 |
+
+> **แก้ 2026-09-26** (คู่มืออย่างเดียว): `RestoreHP(HealSrc)` เดิมเขียนว่าฮีลตัวเอง → จริง ๆ ฮีลทั้งทีม · หัวข้อ 5 อ้างโค้ด `stack < 2` → ปัจจุบันใช้ `!getBuffCheck("Cycle_of_Life")` · อัปเดตเลขบรรทัดทั้งตาราง
 
 ## รากฐานที่เพิ่ม: การฮีล
 
@@ -33,7 +35,7 @@ kit อ้างอิง: `docs/kit-reference/Character/Abundance/luocha.md` ·
 (`Class/Unit/AllyUnit.h:185-188`)
 | รูปแบบ | ความหมาย |
 |---|---|
-| `RestoreHP(HealSrc)` | ฮีลตัวเอง |
+| `RestoreHP(HealSrc)` | ฮีล**ทุกคนในทีม** (วน `allyList` — `ChangeHP.h:65`) |
 | `RestoreHP(main, adjacent, other)` | แจกตาม `Target_type` แบบเดียวกับ `addDamageIns` 3 args |
 | `RestoreHP(target, HealSrc)` | ฮีลเป้าที่ระบุคนเดียว |
 | `RestoreHP(target, main, other)` | เป้าที่ระบุได้ `main` ที่เหลือได้ `other` — ตรงกับรูปของ Field + A4 พอดี (78-87) |
@@ -48,7 +50,7 @@ kit อ้างอิง: `docs/kit-reference/Character/Abundance/luocha.md` ·
 ไม่มี concept ของพื้นที่หรือ aura บนสนาม · Field active = `buffCheck["Cycle_of_Life"]` บนตัว Luocha ซึ่งถูกอ่านใน `When_attack_List` (79) และ `addUltCondition` (30) ส่วนอายุ 2 เทิร์นอยู่ที่ `buffEnd` ของชื่อเดียวกัน · **ตัวนับ stack กับสถานะ Field เป็นคนละเรื่อง**: stack คือทรัพยากรที่สะสมแล้วถูกกิน สถานะ Field คือผลที่ได้จากการกิน — เดิมโค้ดใช้ `stack >= 2` แทนสถานะ Field ซึ่งทำให้ทั้งสองอย่างพันกันจนพัง (ดูหัวข้อ "แก้เมื่อ")
 
 **5. `addUltCondition` ใช้ gate ด้วยทรัพยากรได้ ไม่จำเป็นต้องเป็นเรื่องจังหวะ**
-`return stack["Abyss_Flower"] < 2;` (30) — มี Field อยู่แล้วก็ยังไม่ต้องกด ult · ต่างจาก Tingyun/The Herta ที่ gate ด้วย action bar หรือ energy ของเพื่อน
+`return !ptr->getBuffCheck("Cycle_of_Life");` (31) — มี Field อยู่แล้วก็ยังไม่ต้องกด ult · ต่างจาก Tingyun/The Herta ที่ gate ด้วย action bar หรือ energy ของเพื่อน
 
 ## ส่วนที่ยังไม่มีในโค้ด
 

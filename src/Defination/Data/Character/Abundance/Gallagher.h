@@ -69,11 +69,14 @@ namespace Gallagher{
         Reset_List.push_back({PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Stats_type[Stats::BE][AType::None] += 13.3;
             ptr->Stats_type[Stats::HP_P][AType::None] += 18;
-            ptr->Stats_type[Stats::RES][AType::None] += 18;
+            ptr->Stats_type[Stats::RES][AType::None] += 28;
 
             // relic
 
             // substats
+            if (ptr->Eidolon >= 1) {
+                ptr->Stats_type[Stats::RES][AType::None] += 50;
+            }
             if (ptr->Eidolon >= 6) {
                 ptr->Stats_type[Stats::BREAK_EFF][AType::None] += 20;
                 ptr->Stats_type[Stats::BE][AType::None] += 20;
@@ -180,15 +183,15 @@ namespace Gallagher{
         [ptr](shared_ptr<AllyAttackAction> &act){
             Increase_energy(ptr,20);
             for(Enemy* &target : act->targetList){
-                debuffApply(act->Attacker,target,"Nectar_Blitz");
-                target->atkPercent -= 16;
+                if(debuffApply(act->Attacker,target,"Nectar_Blitz"))
+                    target->atkPercent -= 16;
                 extendDebuff(target,"Nectar_Blitz",2);
             }
             Attack(act);
         });
-        act->addDamageIns(DmgSrc(DmgSrcType::ATK,62.5,7.5));
-        act->addDamageIns(DmgSrc(DmgSrcType::ATK,37.5,4.5));
-        act->addDamageIns(DmgSrc(DmgSrcType::ATK,150,18));
+        act->addDamageIns(DmgSrc(DmgSrcType::ATK,68.75,7.5));
+        act->addDamageIns(DmgSrc(DmgSrcType::ATK,41.25,4.5));
+        act->addDamageIns(DmgSrc(DmgSrcType::ATK,165,18));
         act->addToActionBar();
 
     }
