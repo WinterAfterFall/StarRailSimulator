@@ -5,6 +5,7 @@
 ## อัปเดต 2026-09-27
 
 - ไล่ Destruction character: `FireFly.h` — Enhanced Skill hit สุดท้าย `4*` → `0.4*` (ดาเมจเกิน 4.6 เท่า) · Skill 200% · VUL Combustion → `AType::Break` · A6 ไม่เคยทำงาน + หาร 10 · A2 BE +25 + หน่วง countdown · A4 ตาม kit rework (150/300 → SPB 100/150 เฉพาะ Enhanced Skill ขณะ Combustion) · Talent energy 50% · E1 เฉพาะ Skill · E2 guard + ครั้งเดียวต่อเทิร์น (stack เริ่ม 2 ตั้งใจตาม user) · E4 · E6 · base 814/523 · Ult `p3`/`p4` ของ rework ยังไม่รู้ความหมาย · `g++ -fsyntax-only` ผ่าน **ยังไม่ได้รัน sim**
+- `Mydei.h` — Skill/Kingslayer energy `(ptr,30,0)` = 30% Max Energy (48) → `(ptr,30)` ผ่าน ER · เข้า Vendetta นอกเทิร์นตัวเอง advance ทันที · Charge cap 200 + GodSlayer ต้องอยู่ใน Vendetta · ATK 426 · เขียน BA ให้เสร็จ · ลบ `buffNote["count"]` · คู่มืออธิบาย `Increase_energy` 3 args · `g++ -fsyntax-only` ผ่าน **ยังไม่ได้รัน sim**
 
 ## อัปเดต 2026-09-26
 

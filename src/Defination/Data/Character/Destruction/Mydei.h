@@ -16,7 +16,7 @@ namespace Mydei{
     void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
         CharUnit *ptr = SetCharBasicStats(95,160,160,E,ElementType::Imaginary,Path::Destruction,"Mydei",UnitType::Standard);
         AllyUnit *Mydeiptr = ptr;
-        ptr->SetAllyBaseStats(1552,427,194);
+        ptr->SetAllyBaseStats(1552,426,194);
 
         //substats
         ptr->pushSubstats(Stats::CD);
@@ -86,6 +86,7 @@ namespace Mydei{
 
             ptr->Stats_type[Stats::CR][AType::None] += ptr->buffNote["Mydei_A6"] * 1.2;
             ptr->Stats_type[Stats::CR][AType::TEMP] += ptr->buffNote["Mydei_A6"] * 1.2;
+            // A6 Incoming Healing +0.75%: engine has no incoming-heal stat, Outgoing works the same for Mydei's self-heals
             ptr->Stats_type[Stats::HEALING_OUT][AType::None] += ptr->buffNote["Mydei_A6"] * 0.75;
             ptr->Stats_type[Stats::HEALING_OUT][AType::TEMP] += ptr->buffNote["Mydei_A6"] * 0.75;
             if (ptr->Eidolon >= 6) {
@@ -201,18 +202,21 @@ namespace Mydei{
 
     void Basic_Atk(CharUnit *ptr){
         genSkillPoint(ptr,1);
-        Increase_energy(ptr,30,0);
-        shared_ptr<AllyActionData> act = make_shared<AllyActionData>();
-        Action_bar.push(act);
-        //none complete
-
+        shared_ptr<AllyAttackAction> act =
+        make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Mydei BA",
+        [ptr](shared_ptr<AllyAttackAction> &act){
+            Increase_energy(ptr,20);
+            Attack(act);
+        });
+        act->addDamageIns(DmgSrc(DmgSrcType::HP,50,10));
+        act->addToActionBar();
     }
     void Skill(CharUnit *ptr){
         
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"Mydei Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(ptr,30,0);
+            Increase_energy(ptr,30);
             DecreaseHP(ptr,ptr,0,0,50);
             Attack(act);
         });
@@ -227,7 +231,7 @@ namespace Mydei{
         shared_ptr<AllyAttackAction> act = 
         make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"KingSlayer",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(ptr,30,0);
+            Increase_energy(ptr,30);
             DecreaseHP(ptr,ptr,0,0,35);
             Attack(act);
         });
@@ -293,11 +297,14 @@ namespace Mydei{
     }
     void ChargePoint(CharUnit *ptr,double point){
         if(ptr->buffCheck["Mydei_cannot_charge"])return;
-        ptr->buffNote["Mydei_Charge_point"]+=point;
+        // Talent: Charge cap 200
+        ptr->buffNote["Mydei_Charge_point"] = min(200.0, ptr->buffNote["Mydei_Charge_point"] + point);
         if(ptr->buffNote["Mydei_Charge_point"]>=100&&ptr->buffCheck["Mydei_Vendetta"]==false){
             ptr->buffCheck["Mydei_Vendetta"]=true;
             ptr->buffNote["Mydei_Charge_point"]-=100;
-            ptr->buffCheck["Mydei_action"]=1;
+            // advance 100%: during Mydei's own action wait until it ends (resetTurn), otherwise advance now
+            if(turn->isSameUnit(ptr))ptr->buffCheck["Mydei_action"]=1;
+            else Action_forward(ptr->Atv_stats.get(), 100);
             ptr->RestoreHP(
                     ptr,
                     HealSrc(HealSrcType::TOTAL_HP,25)
@@ -308,6 +315,7 @@ namespace Mydei{
             if (ptr->Eidolon >= 4) buffSingle(ptr,{{Stats::CD,AType::None,30}});
             allEventAdjustStats(ptr,Stats::HP_P);
         }
+        if(!ptr->buffCheck["Mydei_Vendetta"])return;
         if(ptr->Eidolon>=6){
             if(ptr->buffNote["Mydei_Charge_point"]>=100){
                 ptr->buffNote["Mydei_Charge_point"]-=100;
@@ -316,7 +324,6 @@ namespace Mydei{
         }else{
             if(ptr->buffNote["Mydei_Charge_point"]>=150){
                 ptr->buffNote["Mydei_Charge_point"]-=150;
-                ptr->buffNote["count"]++;
                 GodSlayer(ptr);
             }
         }
