@@ -27,7 +27,8 @@ namespace Luocha{
         };
 
         ptr->addUltCondition([ptr]() -> bool {
-            return ptr->stack["Abyss_Flower"] < 2;
+            // Field กางอยู่ -> ยังไม่กด ult รอให้หมดก่อน
+            return !ptr->getBuffCheck("Cycle_of_Life");
         });
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_DEBUFF, ptr, [ptr]() {
@@ -35,6 +36,9 @@ namespace Luocha{
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Luocha Ult",
         [ptr](shared_ptr<AllyAttackAction> &act){
             Attack(act);
+            // E6: ลด All-Type RES ศัตรูทุกตัว 20% 2 เทิร์น
+            // RESPEN ที่ Stats_type (ไม่ผูก element) = ลดทุกธาตุ (ดู CalStats.h:274)
+            if(ptr->Eidolon>=6)debuffAllEnemyApply(ptr,{{Stats::RESPEN,AType::None,20}},"Luocha E6",2);
             ++ptr->stack["Abyss_Flower"];
             Abyss_Flower(ptr);
         });
@@ -63,8 +67,11 @@ namespace Luocha{
                     if (ptr->Eidolon >= 1) {
                         buffAllAlly({{Stats::ATK_P,AType::None,-20}});
                     }
-                    Charptr->setStack("Abyss_Flower",0);
                 }
+            }
+            Enemy *enemy = turn->canCastToEnemy();
+            if (enemy && isDebuffEnd(enemy,"Luocha E6")) {
+                debuffSingle(enemy,{{Stats::RESPEN,AType::None,-20}});
             }
         }));
 
@@ -76,7 +83,7 @@ namespace Luocha{
         }));
 
         When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
-            if (ptr->stack["Abyss_Flower"] >= 2) {
+            if (ptr->getBuffCheck("Cycle_of_Life")) {
                 ptr->RestoreHP(
                     act->Attacker,
                     HealSrc(HealSrcType::ATK,18,HealSrcType::CONST,240),
@@ -93,16 +100,45 @@ namespace Luocha{
     void Talent(CharUnit *ptr){
         Increase_energy(ptr,30);
         ++ptr->stack["Abyss_Flower"];
+
+        // E2: เป้าที่จะได้ฮีลคือคนที่เสีย HP เยอะสุด (RestoreHP 3 args เลือกแบบนี้ - ดู ChangeHP.h:3)
+        //   HP < 50%  -> Luocha Outgoing Healing +30% เฉพาะการฮีลครั้งนี้
+        //   HP >= 50% -> kit ให้ Shield 18% ATK + 240 : engine ยังไม่มีระบบ shield จึงข้าม
+        bool e2Boost = false;
+        if(ptr->Eidolon>=2){
+            AllyUnit *healTarget = nullptr;
+            double mostLost = -1;
+            for(auto &each : allyList){
+                if(!each->isTargetable())continue;
+                if(calculateHPLost(each) > mostLost){
+                    mostLost = calculateHPLost(each);
+                    healTarget = each;
+                }
+            }
+            if(healTarget && healTarget->currentHP*2 < healTarget->totalHP)e2Boost = true;
+        }
+
+        if(e2Boost)buffSingle(ptr,{{Stats::HEALING_OUT,AType::None,30}});
         ptr->RestoreHP(HealSrc(HealSrcType::ATK,60,HealSrcType::CONST,800),HealSrc(),HealSrc());
+        if(e2Boost)buffSingle(ptr,{{Stats::HEALING_OUT,AType::None,-30}});
+
         Abyss_Flower(ptr);
         
     }
+    // E4 (ขณะ Field active -> ศัตรู Weakened สร้าง DMG น้อยลง 12%) ไม่ได้ implement
+    // engine ไม่ได้คำนวณดาเมจที่ศัตรูสร้างใส่ฝ่ายเรา จึงไม่มีจุดให้ผลนี้เกาะ
+    // (Stats::Mitigration เป็นการลดดาเมจ "ที่ฝ่ายเราตีออก" ไม่ใช่ดาเมจที่รับเข้า - ดู CalStats.h:399)
     void Abyss_Flower(CharUnit *ptr){
-        if(ptr->stack["Abyss_Flower"]==2){
-            extendBuffTime(ptr,"Cycle _of_Life",2);
-        if(ptr->Eidolon>=1){
-            buffAllAlly({{Stats::ATK_P,AType::None,20}});
-        }
+        if(ptr->stack["Abyss_Flower"]>=2){
+            // kit: ครบ 2 stack -> กินทั้งหมดแล้วกาง Field
+            // Field active เช็คจาก buffCheck["Cycle_of_Life"] ไม่ใช่จำนวน stack (stack ถูกกินไปแล้ว)
+            bool wasActive = ptr->getBuffCheck("Cycle_of_Life");
+            ptr->stack["Abyss_Flower"] -= 2;
+            ptr->setBuffCheck("Cycle_of_Life",1);
+            extendBuffTime(ptr,"Cycle_of_Life",2);
+            if(ptr->Eidolon>=1&&!wasActive){
+                buffAllAlly({{Stats::ATK_P,AType::None,20}});
+            }
         }
     }
     void Basic_Atk(CharUnit *ptr){

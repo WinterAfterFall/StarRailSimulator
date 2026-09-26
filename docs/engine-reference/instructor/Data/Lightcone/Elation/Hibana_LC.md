@@ -1,0 +1,30 @@
+# `src/Defination/Data/Lightcone/Elation/Hibana_LC.h`
+
+`namespace Elation_Lightcone` · `Light_cone.Name` = `"Hibana_LC"` · base stats `SetAllyBaseStats(1058, 582, 463)`
+
+**signature ของ Hibana/Sparxie** (ดู `../../Character/Elation/Hibana.md`)
+
+| ท่อน | โค้ด |
+|---|---|
+| CD `40 + 8S` | `Reset_List` |
+| **`Max_sp += min(3, elationCount)`** | `Setup_List` |
+| ล้างตัวนับ SP ต้นเทิร์น | `Before_turn_List` |
+| ผู้สวมใช้ SP → DEF_SHRED[ElationDMG] `4+S` ต่อแต้ม (cap 4) | `Skill_point_List` |
+| ใช้ SP ครบ 4 ในเทิร์น → ทีม Elation `16+4S` (ครั้งเดียวต่อคน) | `isHaveToAddBuff(each, "Stream Promo")` |
+
+## รากฐาน: `Setup_List` ในไฟล์ LC
+
+```cpp
+Setup_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+    Max_sp += min(3, elationCount);
+}));
+```
+**ต้องรอให้ทีมประกอบเสร็จก่อน** เพราะ `elationCount` ถูก `++` ใน `Setup` ของตัวละคร Elation แต่ละตัว — ถ้าเขียนตรง ๆ ใน lambda ของ LC จะได้ค่าที่ยังนับไม่ครบ
+
+เป็น LC ใบเดียวที่ใช้ `Setup_List` · ตัวละครที่ใช้คือ `../../Character/Destruction/Phainon.md`
+
+## จุดที่ควรระวัง
+
+- **`Max_sp` ถูกแก้โดย 3 ที่ในโปรเจกต์** — `../../Character/Harmony/Hanabi.h`, `../../Character/The Hunt/Archer.h` และใบนี้ · ถ้าอยู่ในทีมเดียวกันจะบวกสะสม
+- **บัฟ `"Stream Promo"` ไม่มีอายุและไม่มีการถอน** — `isHaveToAddBuff` แบบ 2 args ทำให้ลงได้ครั้งเดียวต่อคนตลอดการต่อสู้
+- **`buffStackSingle` ของ DEF_SHRED ไม่มี duration** → stack ค้างถาวร

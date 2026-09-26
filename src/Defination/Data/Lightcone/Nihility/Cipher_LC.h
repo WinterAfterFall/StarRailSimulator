@@ -6,8 +6,11 @@ namespace Nihility_Lightcone{
             ptr->Light_cone.Name = "Cipher_LC";
             ptr->newApplyBaseChanceRequire(120);
 
-            BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
+            AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
+                if(!act->isSameOwnerName(ptr))return;
                 debuffAllEnemyApply(ptr,{{Stats::DEF_SHRED,AType::None,14.0 + (superimpose * 2)}},"Bamboozle",2);
+                double speed = ptr->Atv_stats->baseSpeed * (1 + ptr->Atv_stats->speedPercent / 100) + ptr->Atv_stats->flatSpeed;
+                if(speed >= 170)
                 debuffAllEnemyApply(ptr,{{Stats::DEF_SHRED,AType::None,7.0 + superimpose}},"Theft",2);
             }));
 

@@ -11,7 +11,7 @@ namespace Destruction_Lightcone{
             
     
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,debuffName](shared_ptr<AllyAttackAction> &act) {
-                if (act->Attacker->Atv_stats->num != ptr->Atv_stats->num && act->Attacker->Atv_stats->side != Side::Ally) return;
+                if (!act->isSameOwnerName(ptr)) return;
                 for(Enemy* &e :act->targetList){
                     debuffSingleApply(ptr,e,{
                         {Stats::VUL,AType::Break,20.0 + 4 * superimpose},

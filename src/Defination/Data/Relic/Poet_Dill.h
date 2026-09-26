@@ -7,7 +7,9 @@ namespace Relic{
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Atv_stats->speedPercent -= 8;
             ptr->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 10;
-            ptr->Stats_type[Stats::CR][AType::None] += 32;
+        }));
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+            buffSingleChar(ptr,{{Stats::CR, AType::None, 32.0}});
         }));
         
         

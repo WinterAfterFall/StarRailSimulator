@@ -54,6 +54,10 @@ namespace Pela{
             ptr->Stats_type[Stats::ATK_P][AType::None] += 18;
             ptr->Stats_type[Stats::EHR][AType::None] += 10;
 
+            // A2 Bash: kit = +20% DMG เฉพาะศัตรูที่ติด debuff → ใส่ตรง ๆ ไม่ผูกเงื่อนไข
+            // (Pela ไม่ใช่ตัวดาเมจ และศัตรูติด debuff อยู่แล้วแทบตลอด)
+            ptr->Stats_type[Stats::DMG][AType::None] += 20;
+
             // relic
 
             // substats

@@ -10,10 +10,12 @@ namespace Erudition_Lightcone{
             }));
 
             Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+                if(!turn->isSameName(ptr->Atv_stats->Name))return;
                 Increase_energy(ptr,10);
             }));
 
             When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
+                if(!act->isSameName(ptr))return;
                 for(auto &each : act->targetList){
                     debuffSingleApply(ptr,each,{{Stats::DEF_SHRED,AType::None,(9.0 + superimpose * 3.0)}},"AnaxaLC_Debuff",2);
                 }

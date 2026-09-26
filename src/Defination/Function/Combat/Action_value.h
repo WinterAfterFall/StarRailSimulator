@@ -96,7 +96,7 @@ void ahaSpeedAdjust(Path &path){
     double newFlatSpeed = 0;
     vector<double> ElationSpd;
     for(auto &each : charList){
-        if(each->path[0]!=Path::Elation)continue;
+        if(each->path!=Path::Elation)continue;
         ElationSpd.push_back(calculateSpeedOnStats(each));
     }
     sort(ElationSpd.begin(), ElationSpd.end(), greater<double>());

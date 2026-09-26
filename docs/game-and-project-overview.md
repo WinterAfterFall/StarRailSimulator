@@ -1,6 +1,6 @@
 # Star Rail 系统 & โปรเจกต์นี้ — ภาพรวม
 
-เอกสารนี้สรุปกติกาที่ simulator ใช้จริงจากโค้ด สำหรับลำดับ event และสูตรย่อยให้ตามลิงก์ไปคู่มือ engine; วิธีเริ่มโปรแกรมอยู่ใน [build-run-and-test.md](build-run-and-test.md) และข้อมูล kit ของตัวละครอยู่ใน [character-kit-reference](character-kit-reference/README.md)
+เอกสารนี้สรุปกติกาที่ simulator ใช้จริงจากโค้ด สำหรับลำดับ event และสูตรย่อยให้ตามลิงก์ไปคู่มือ engine; วิธีเริ่มโปรแกรมอยู่ใน [build-run-and-test.md](build-run-and-test.md) และข้อมูล kit ของตัวละครอยู่ใน [kit-reference/Character](kit-reference/Character/README.md)
 
 ## 1. จุดประสงค์ของโปรแกรม (Project purpose)
 

@@ -97,10 +97,10 @@ void Reset(){
         each->totalATK = calculateAtkOnStats(each);
         each->totalHP = calculateHpOnStats(each);
         each->totalDEF = calculateDefOnStats(each);
-        for(auto &memo : each->memospriteList){
-            memo->totalATK = calculateAtkOnStats(memo.get());
-            memo->totalHP = calculateHpOnStats(memo.get());
-            memo->totalDEF = calculateDefOnStats(memo.get());
+        if(auto *memo = each->memosprite.get()){
+            memo->totalATK = calculateAtkOnStats(memo);
+            memo->totalHP = calculateHpOnStats(memo);
+            memo->totalDEF = calculateDefOnStats(memo);
         }
         each->currentHP = each->totalHP;
     }
@@ -110,7 +110,7 @@ void Reset(){
         Path temp = Path::Elation;
         ahaSpeedAdjust(temp);
         for(auto &each : charList){
-            if(each->path[0] == Path::Elation)buffSingle(each,{{Stats::CertifiedBanger,AType::None,20}},"CB Buff",2);
+            if(each->path == Path::Elation)buffSingle(each,{{Stats::CertifiedBanger,AType::None,20}},"CB Buff",2);
         }
     }
 }

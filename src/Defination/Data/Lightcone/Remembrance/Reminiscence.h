@@ -6,7 +6,7 @@ namespace Remembrance_Lightcone{
             ptr->Light_cone.Name = "Reminiscence";
             
             Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                for (auto &e : ptr->memospriteList) {
+                if(auto *e = ptr->memosprite.get()){
                     if (e->Atv_stats->side == Side::Memosprite && e->isDeath()) {
                         buffCharResetStack(ptr,{{Stats::DMG,AType::None,7.0 + superimpose}},"Reminiscence");
                         return;

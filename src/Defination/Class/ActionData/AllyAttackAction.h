@@ -51,7 +51,7 @@ class  AllyAttackAction : public AllyActionData {
         Attacker = ptr;
         source = ptr;
         this->actionName = name;
-        Damage_element = ptr->Element_type[0];
+        Damage_element = ptr->Element_type;
         this->traceType = traceType;
         setupActionType(actionType);
         AttackSetList.emplace_back(Attacking(ptr,this->actionTypeList));
@@ -62,7 +62,7 @@ class  AllyAttackAction : public AllyActionData {
         source = ptr;
         this->actionName = name;
         this->actionFunction = actionFunction;
-        Damage_element = ptr->Element_type[0];
+        Damage_element = ptr->Element_type;
         this->traceType = traceType;
         setupActionType(actionType);
         AttackSetList.emplace_back(Attacking(ptr,this->actionTypeList));

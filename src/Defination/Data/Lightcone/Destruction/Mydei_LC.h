@@ -6,18 +6,19 @@ namespace Destruction_Lightcone{
             ptr->Light_cone.Name = "Mydei_LC";
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 ptr->Stats_type[Stats::HP_P][AType::None] += 15 + 3*superimpose;
-                ptr->Stats_type[Stats::HEALING_OUT][AType::None] += 15 + 5 * superimpose;
+                ptr->Stats_type[Stats::HEALING_IN][AType::None] += 15 + 5 * superimpose;
             }));
     
             BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
                 if (!act->Attacker->isSameName(ptr)) return;
                 if (act->isSameAction(AType::SKILL)||act->isSameAction(AType::Ult)) {
+                    double hpBefore = ptr->currentHP;
+                    DecreaseHP(ptr, ptr, 0, (5.5 + 0.5 * superimpose), 0);
                     ptr->buffNote["Mydei_LC_Mark"]++;
                     buffSingle(ptr,{{Stats::DMG, AType::None, (25.0 + 5 * superimpose)}});
-                    if (ptr->currentHP >= 50000.0 / (5.5 + 0.5 * superimpose)) {
-                        buffSingle(ptr,{{Stats::DMG, AType::None, (25.0 + 5 * superimpose)}});
+                    if (hpBefore - ptr->currentHP > 500) {
                         ptr->buffNote["Mydei_LC_Mark"]++;
-                        DecreaseHP(ptr, ptr, 0, (5.5 + 0.5 * superimpose), 0);
+                        buffSingle(ptr,{{Stats::DMG, AType::None, (25.0 + 5 * superimpose)}});
                     }
                 }
             }));

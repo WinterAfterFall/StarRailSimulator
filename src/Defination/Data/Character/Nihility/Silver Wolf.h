@@ -49,9 +49,9 @@ namespace SW{
                 Increase_energy(sw,30);
                 for(auto &enemy : act->targetList){
                     for(int i=1;i<=Total_ally;i++){
-                        if(enemy->Default_Weakness_type[charUnit[i]->Element_type[0]])continue;
-                        weaknessApply(sw,enemy,{charUnit[i]->Element_type[0]},3);
-                        debuffSingleApply(sw,enemy,{{Stats::RESPEN,charUnit[i]->Element_type[0],AType::None,20}},"SW Weakness",3);
+                        if(enemy->Default_Weakness_type[charUnit[i]->Element_type])continue;
+                        weaknessApply(sw,enemy,{charUnit[i]->Element_type},3);
+                        debuffSingleApply(sw,enemy,{{Stats::RESPEN,charUnit[i]->Element_type,AType::None,20}},"SW Weakness",3);
                         sw->setBuffNote("SW Weakness num",i);
                         break;
                     }
@@ -141,7 +141,7 @@ namespace SW{
             Enemy *enemy = turn->canCastToEnemy();
             if(enemy){
                 if(isDebuffEnd(enemy,"SW Weakness")){
-                    debuffSingle(enemy,{{Stats::RESPEN,charUnit[sw->getBuffNote("SW Weakness num")]->Element_type[0],AType::None,-20}});
+                    debuffSingle(enemy,{{Stats::RESPEN,charUnit[sw->getBuffNote("SW Weakness num")]->Element_type,AType::None,-20}});
                 }
                 if(isDebuffEnd(enemy,"SW Res")){
                     debuffSingle(enemy,{{Stats::RESPEN,AType::None,-13}});

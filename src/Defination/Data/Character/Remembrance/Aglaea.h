@@ -50,7 +50,7 @@ namespace Aglaea{
             if (ptr->countdownList[0]->isDeath() && 
                 (ptr->countdownList[0]->Atv_stats->atv > ptr->Atv_stats->atv && 
                 (ptr->Atv_stats->atv != ptr->Atv_stats->Max_atv))) return false;
-            if (ptr->memospriteList[0]->Atv_stats->atv == 0 || ptr->Atv_stats->atv == 0) return false;
+            if (ptr->memosprite->Atv_stats->atv == 0 || ptr->Atv_stats->atv == 0) return false;
             return true;
         });
 
@@ -59,15 +59,15 @@ namespace Aglaea{
             shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Single,"AG Ult",
             [ptr,AGptr](shared_ptr<AllyBuffAction> &act){
-                if (ptr->memospriteList[0]->isDeath()) Summon(ptr);
+                if (ptr->memosprite->isDeath()) Summon(ptr);
 
                 if (ptr->countdownList[0]->isDeath())
-                buffSingle(AGptr,{{Stats::SPD_P, AType::None, 15.0 * ptr->memospriteList[0]->stack["Brewed_by_Tears"]}});
+                buffSingle(AGptr,{{Stats::SPD_P, AType::None, 15.0 * ptr->memosprite->stack["Brewed_by_Tears"]}});
 
                 Action_forward(ptr->Atv_stats.get(), 100);
                 ptr->countdownList[0]->summon();
                 double BuffValue = calculateSpeedForBuff(ptr, 360) +
-                calculateSpeedForBuff(ptr->memospriteList[0].get(), 720);
+                calculateSpeedForBuff(ptr->memosprite.get(), 720);
 
                 buffSingleChar(ptr,{{Stats::FLAT_ATK, AType::TEMP, BuffValue - ptr->buffNote["Aglaea_A2"]}});
                 buffSingleChar(ptr,{{Stats::FLAT_ATK, AType::None, BuffValue - ptr->buffNote["Aglaea_A2"]}});
@@ -158,7 +158,7 @@ namespace Aglaea{
             if (StatsType == Stats::FLAT_SPD||StatsType == Stats::SPD_P) {
                 // adjust
                 double BuffValue = calculateSpeedForBuff(ptr, 360) + 
-                calculateSpeedForBuff(ptr->memospriteList[0].get(), 720);
+                calculateSpeedForBuff(ptr->memosprite.get(), 720);
 
                 buffSingleChar(ptr,{{Stats::FLAT_ATK, AType::TEMP, BuffValue - ptr->buffNote["Aglaea_A2"]}});
                 buffSingleChar(ptr,{{Stats::FLAT_ATK, AType::None, BuffValue - ptr->buffNote["Aglaea_A2"]}});
@@ -168,14 +168,14 @@ namespace Aglaea{
         }));
 
         
-        ptr->memospriteList[0]->Turn_func = [ptr,AGptr](){
+        ptr->memosprite->Turn_func = [ptr,AGptr](){
         
             Memo_Skill(ptr);
             
         };
 
         ptr->countdownList[0]->Turn_func = [ptr,AGptr](){
-            buffSingle(AGptr,{{Stats::SPD_P, AType::None, -15.0 * ptr->memospriteList[0]->stack["Brewed_by_Tears"]}});
+            buffSingle(AGptr,{{Stats::SPD_P, AType::None, -15.0 * ptr->memosprite->stack["Brewed_by_Tears"]}});
             
             ptr->countdownList[0]->death();
             
@@ -183,13 +183,13 @@ namespace Aglaea{
             buffSingleChar(ptr,{{Stats::FLAT_ATK, AType::None,-ptr->buffNote["Aglaea_A2"]}});
     
             ptr->buffNote["Aglaea_A2"] = 0;
-            ptr->memospriteList[0]->death(); 
+            ptr->memosprite->death(); 
             double temp =0;
-            if(ptr->memospriteList[0]->stack["Brewed_by_Tears"]>1){
-                temp = ptr->memospriteList[0]->stack["Brewed_by_Tears"]-1;
+            if(ptr->memosprite->stack["Brewed_by_Tears"]>1){
+                temp = ptr->memosprite->stack["Brewed_by_Tears"]-1;
             }
-            buffSingle(ptr->memospriteList[0].get(),{{Stats::FLAT_SPD, AType::None, -55.0 * temp}});
-            ptr->memospriteList[0]->stack["Brewed_by_Tears"] = 1;
+            buffSingle(ptr->memosprite.get(),{{Stats::FLAT_SPD, AType::None, -55.0 * temp}});
+            ptr->memosprite->stack["Brewed_by_Tears"] = 1;
             Increase_energy(ptr,20);
     
             if(ptr->Print)CharCmd::printUltEnd("Aglaea");
@@ -241,7 +241,7 @@ namespace Aglaea{
         make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"AG Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
             Increase_energy(ptr,30);
-            if(ptr->memospriteList[0]->isDeath()){
+            if(ptr->memosprite->isDeath()){
                 Summon(ptr);
                 act->Turn_reset=false;
             }
@@ -252,7 +252,7 @@ namespace Aglaea{
     }
     void Summon(CharUnit *ptr){
         ptr->getMemosprite()->summon(100);
-        Action_forward(ptr->memospriteList[0]->Atv_stats.get(),100);
+        Action_forward(ptr->memosprite->Atv_stats.get(),100);
     }
     
 

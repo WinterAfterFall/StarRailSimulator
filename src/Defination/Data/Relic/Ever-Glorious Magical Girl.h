@@ -5,12 +5,14 @@ namespace Relic{
 
         Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             ptr->Stats_type[Stats::CD][AType::None] += 16;
-            ptr->Stats_type[Stats::DEF_SHRED][AType::ElationDMG] += 10;
+        }));
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+            buffSingleChar(ptr,{{Stats::DEF_SHRED, AType::ElationDMG, 10.0}});
         }));
 
         PunchLine_List.push_back(TriggerSkill_point_func(PRIORITY_IMMEDIATELY, [ptr](AllyUnit *SP_maker, int SP) {
             int buff = max(0,min(50,punchline)/5);
-            buffAllAlly({
+            buffSingleChar(ptr,{
                 {Stats::DEF_SHRED,AType::ElationDMG,buff - ptr->buffNote["MagicalGirl Buff"]}
             });
             ptr->setBuffNote("MagicalGirl Buff",buff);

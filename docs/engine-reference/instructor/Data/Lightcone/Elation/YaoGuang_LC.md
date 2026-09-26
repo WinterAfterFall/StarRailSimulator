@@ -1,0 +1,24 @@
+# `src/Defination/Data/Lightcone/Elation/YaoGuang_LC.h`
+
+`namespace Elation_Lightcone` · `Light_cone.Name` = `"YaoGuang_LC"` · base stats `SetAllyBaseStats(1058, 529, 529)`
+
+**signature ของ Yao Guang** (ดู `../../Character/Elation/YaoGuang.md`)
+
+| ท่อน | โค้ด |
+|---|---|
+| SPD% `15 + 3S` | `Reset_List` → `Atv_stats->speedPercent` |
+| ต้น wave → energy 15 (ไม่ผ่าน ER) | `Start_wave_List` → `Increase_energy(ptr, 0, 15)` |
+| ต้นเกม → ER `10+2S` + ทีม CR `9+S` / CD `30+5S` 3 เทิร์น | `Start_game_List` + `isHaveToAddBuff(ptr, "Great Fortune", 3)` |
+| ใช้ Ult → เหมือนกัน (ต่ออายุ) | `Buff_List` → `act->isSameAction(ptr, AType::Ult)` |
+| ถอน | `After_turn_List` |
+
+## จุดที่น่าสนใจ
+
+**บล็อกบัฟถูก copy 2 ที่** (`Start_game_List` และ `Buff_List`) เหมือนกันทุกบรรทัด — `isHaveToAddBuff(..., 3)` แบบ 3 args ทำให้ต่ออายุได้โดยไม่บวกซ้ำ จึงเรียกซ้ำได้อย่างปลอดภัย
+
+**ใช้ `Buff_List` ไม่ใช่ `WhenUseUlt_List`** เพราะ Ult ของ Yao Guang เป็น `AllyBuffAction` ที่ไม่มีดาเมจ
+
+## จุดที่ควรระวัง
+
+- บัฟทีมใช้ `buffAllAlly` ไม่มีชื่อ คุมอายุด้วยบัฟบนผู้สวม → **ไม่มี `AllyDeath_List`** ถ้าเพื่อนตายค่าจะค้าง
+- `Start_wave_List` vs `Start_game_List` เป็นคนละ trigger — ใบนี้ใช้ทั้งคู่

@@ -43,7 +43,7 @@ return {applied, next};
 |---|---|---|---|
 | `buffStackChar(CharUnit*, …)` | 44–67 | ตัวละคร **+ memosprite ทุกตัวของมัน** | ใช้เมื่อบัฟต้องตกถึงเมมอสไปรต์ด้วย |
 | `buffStackAllAlly(…)` | 69–88 | `allyList` | `allyList` = ทุกยูนิตฝ่ายเรารวมเมมอสไปรต์ |
-| `buffStackAllMemosprite(…)` | 90–117 | `charList` → `memospriteList` ของแต่ละตัว | ⚠️ ต้องส่ง `each2.get()` (ตัวเมมอสไปรต์) ไม่ใช่พอยน์เตอร์เจ้าของ |
+| `buffStackAllMemosprite(…)` | 90–117 | `charList` → `memosprite` ของแต่ละตัว (ถ้ามี) | ⚠️ ต้องส่งตัวเมมอสไปรต์ ไม่ใช่พอยน์เตอร์เจ้าของ |
 | `buffStackTargets(vector<AllyUnit*>, …)` | 119–138 | เฉพาะรายการที่ส่งมา | |
 | `buffStackExcludingBuffer(AllyUnit*, …)` | 140–163 | `allyList` **ยกเว้นตัวผู้บัฟ** | ตัดด้วย `isSameName()` |
 | `buffStackExcludingBuffer(AllyUnit*, targets, …)` | 164–187 | รายการที่ส่งมา ยกเว้นผู้บัฟ | |

@@ -83,9 +83,7 @@ namespace TheHerta{
             // substats
             int cnt = 0;
             for (int i = 1; i <= Total_ally; i++) {
-                for (auto e : charUnit[i]->path) {
-                    if (e == Path::Erudition) cnt++;
-                }
+                if (charUnit[i]->path == Path::Erudition) cnt++;
                 if (cnt >= 2) {
                     ptr->buffCheck["Two_Erudition"] = 1;
                     break;
@@ -124,11 +122,7 @@ namespace TheHerta{
                 buffSingle(Hertaptr,{{Stats::DMG,AType::None,-50}});
                 if(ptr->Eidolon >= 2)Action_forward(ptr->Atv_stats.get(),35);
             }
-            bool Erudition_check = 0;
-
-            for(auto e : act->Attacker->owner->path){
-                if(e == Path::Erudition) Erudition_check = 1;
-            }
+            bool Erudition_check = act->Attacker->owner->path == Path::Erudition;
             for(auto e : act->targetList){
                 Apply_Herta_Stack(ptr, e, 1);
             }
@@ -137,9 +131,12 @@ namespace TheHerta{
             } else {
                 Apply_Herta_Stack(ptr, enemyUnit[Main_Enemy_num].get(), 1);
             }
-            int energy_gen = act->targetList.size();
-            if(energy_gen < 9) energy_gen = 9;
-            Increase_energy(ptr, 0, energy_gen);
+            // A2: energy คงที่ 3 ต่อเป้าหมายที่โดน นับสูงสุด 5 เป้า
+            // A4 (ทีมมี Erudition >= 2): นับอย่างน้อย 3 เป้า
+            int targetCnt = act->targetList.size();
+            if(ptr->buffCheck["Two_Erudition"] == 1 && targetCnt < 3) targetCnt = 3;
+            if(targetCnt > 5) targetCnt = 5;
+            Increase_energy(ptr, 0, 3 * targetCnt);
         }));
 
         Enemy_Death_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, AllyUnit *Killer) {
@@ -151,20 +148,21 @@ namespace TheHerta{
     }
     
 
+    // Interpretation ที่ Enhanced Skill จะนับได้จริง ถึงเกณฑ์ A2 (42) หรือยัง
+    // ต้องนับแบบเดียวกับที่ Enchance_Skill คำนวณ multiplier (E1 = +50% ของ stack สูงสุดตัวอื่น)
     bool Stack_Herta_Check(CharUnit *ptr){
-        int temp = enemyUnit[Main_Enemy_num]->debuffCheck["Herta_Stack"];
+        double temp = enemyUnit[Main_Enemy_num]->debuffCheck["Herta_Stack"];
         if(ptr->Eidolon>=1){
-            int mx = -1;
+            double mx = 0;
             for(int i=1;i<=Total_enemy;i++){
                 if(i==Main_Enemy_num)continue;
-                mx = max(mx,enemyUnit[i]->debuffCheck["Herta_Stack"]);
+                mx = max(mx,(double)enemyUnit[i]->debuffCheck["Herta_Stack"]);
             }
-            temp+=mx;
-
+            temp+=0.5*mx;
         }
         if(temp>=42)return true;
         
-        return true;
+        return false;
     }
     bool Enchance_Skill_Condition(CharUnit *ptr){
         if(ptr->Eidolon>=2&&driverType==DriverType::DoubleTurn&&charUnit[Driver_num]->Atv_stats->Max_atv < ptr->Atv_stats->Max_atv&&ptr->Atv_stats->Max_atv*0.65<charUnit[Driver_num]->Atv_stats->atv){
@@ -185,13 +183,13 @@ namespace TheHerta{
             
         }
         if(ptr->buffNote["The_Herta_Skill_Enchance"]>0){
-            // if(CharCmd::Using_Skill(ptr)&&Stack_Herta_Check(ptr)){
-            //     Enchance_Skill(ptr);
-            // }else{
-            //     Basic_Atk(ptr);
-            // }
-            Enchance_Skill(ptr);
-            
+            // คุ้มที่จะปล่อย Enhanced Skill ตอนนี้ไหม: SP พอ + stack ถึงเกณฑ์ A2
+            // ยังไม่ถึง -> กด Basic ATK รอสะสม stack ต่อ (เก็บ Inspiration ไว้)
+            if(CharCmd::Using_Skill(ptr)&&Stack_Herta_Check(ptr)){
+                Enchance_Skill(ptr);
+            }else{
+                Basic_Atk(ptr);
+            }
             return true;
         }
         return false;

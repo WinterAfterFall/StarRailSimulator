@@ -2,7 +2,7 @@
 
 รวม **91 ตัว** (นับ Trailblazer แยกตาม Path = 5 รายการ) ถึง **Version 4.5**
 
-- ✅ = โปรเจกต์นี้ implement แล้ว (ดู [`docs/character-kit-reference/README.md`](../docs/character-kit-reference/README.md))
+- ✅ = โปรเจกต์นี้ implement แล้ว (ดู [`docs/kit-reference/Character/README.md`](../docs/kit-reference/Character/README.md))
 - ⏳ = ยังไม่ปล่อย
 - ❓ = เลข version ยังไม่ชัวร์
 

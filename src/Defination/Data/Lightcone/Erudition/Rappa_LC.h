@@ -25,7 +25,7 @@ namespace Erudition_Lightcone{
                 if (act->isSameAction(ptr,AType::BA)&& ptr->buffCheck["Ration"] == 1) {
                     ptr->stack["Ration"]++;
                     if (ptr->stack["Ration"] == 2) {
-                        Action_forward(ptr->Atv_stats.get(), (40 + superimpose * 5));
+                        Action_forward(ptr->Atv_stats.get(), (45 + superimpose * 5));
                         ptr->buffCheck["Ration"] = 0;
                     }
                 }

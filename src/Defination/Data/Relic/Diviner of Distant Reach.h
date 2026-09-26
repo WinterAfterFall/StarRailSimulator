@@ -11,7 +11,7 @@ namespace Relic{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             for(auto &each : allyList){
                 if(isHaveToAddBuff(each,"DoD Buff"))
-                buffSingle(ptr,{{Stats::Elation,AType::None,10}});
+                buffSingle(each,{{Stats::Elation,AType::None,10}});
         }
         }));
         };
@@ -25,7 +25,7 @@ namespace Relic{
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
             for(auto &each : allyList){
                 if(isHaveToAddBuff(each,"DoD Buff"))
-                buffSingle(ptr,{{Stats::Elation,AType::None,10}});
+                buffSingle(each,{{Stats::Elation,AType::None,10}});
         }
         }));
         };

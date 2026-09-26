@@ -194,7 +194,7 @@ void Basic_reset(){
 }
 void Memosprite_reset(){
     for(auto &each : charList){
-        for(auto &memo : each->memospriteList){
+        if(auto *memo = each->memosprite.get()){
             for(auto &e1:memo->Stats_type){
                 for(auto &e2:e1.second){
                     e2.second = 0;

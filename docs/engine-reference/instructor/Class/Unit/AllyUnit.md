@@ -9,7 +9,7 @@ macro ในไฟล์: `#define endl '\n'` · `F`=`first` · `S`=`second` · 
 |---|---|---|
 | `baseAtk` `baseHp` `baseDef` | `SetAllyBaseStats(hp,atk,def)` (บวกสะสม) + minor trace hardcode | สูตรดาเมจ (`calAtkMultiplier` ใช้ `baseAtk` + `Stats_type`) |
 | `baseTaunt` | `SetCharBasicStats` / `SetMemoStats` = `tauntValueEachPath[path]` | [EnemyActionData.md](../ActionData/EnemyActionData.md) |
-| `Element_type` | `vector<ElementType>` — **push ครั้งเดียวเสมอ (size 1)**. TODO: เปลี่ยนเป็น `ElementType` เดี่ยวไปก่อน ค่อยกลับมาทำ multi-element ทีหลัง | |
+| `Element_type` | `ElementType` ค่าเดียว (เดิมเป็น `vector` — เปลี่ยนแล้ว 2026-09-25) | |
 | `totalATK` `totalHP` `totalDEF` | **cache** ของ `calculate*OnStats()` — เขียนที่ `SetCombat.h:101` (ต้นรบ) + ทุกครั้งบัฟ `AType::None` ผ่าน `StatsAdjust()→{Atk,Hp,Def}Adjust` (`AdjustStats.h`) | abilities ที่ scale ตาม totalHP/ATK · requirement check · print · `HpAdjust` ใช้ปรับ `currentHP` เมื่อ maxHP เปลี่ยน · **สูตรดาเมจไม่อ่าน** (recompute เอง) |
 | `currentHP` | `IncreaseCurrentHP` / `DecreaseCurrentHP` (clamp `[1, totalHP]`) · `HpAdjust` (`AdjustStats.h`) — กติกา: **maxHP เพิ่ม x → currentHP เพิ่ม x** · **maxHP ลด → currentHP คงเดิม** เว้นแต่ลดจนต่ำกว่า currentHP → clamp ลงมาเท่า maxHP. _(แก้ 2026-09-02 — โค้ดเดิมหัก currentHP ตาม delta ทุกกรณีที่ maxHP ลด แม้ currentHP ยังไม่ชนเพดานใหม่ → เป้าเสีย HP ฟรีเวลาบัฟ maxHP หลุด)_ | |
 | `currentSheild` | **ไม่มีโค้ดไหนเพิ่มค่า** — ระบบโล่ยัง stub. reset = 0 เท่านั้น (`Stats_Reset.h:38`) | `decreaseSheild` (ดู [🐞 BUGS.md](../../BUGS.md)) |
@@ -36,7 +36,7 @@ macro ในไฟล์: `#define endl '\n'` · `F`=`first` · `S`=`second` · 
 | `Memosprite` | `SetMemoStats` (`StatsSet.h:51`) | `CharUnit` เจ้าของ |
 | summon / countdown (`SetSummonStats`/`SetCountdownStats`) | **ไม่มีใครตั้ง** | `nullptr` → ดู [🐞 #8](../../BUGS.md) |
 
-> จุดเสี่ยง null-deref: `buffSingle` (`Buff_Stats.h:88,99`) path บัฟ speed ทำ `ahaSpeedAdjust(ptr->owner->path[0])` — ถ้า `ptr` เป็น summon/countdown (`owner == nullptr`) = crash. **ปัจจุบันเกิดไม่ได้** เพราะ summon/countdown เป็น `unique_ptr<Unit>` ส่งเข้า `buffSingle(AllyUnit*)` ตรง ๆ ไม่ได้ + ไม่อยู่ใน `allyList`.
+> จุดเสี่ยง null-deref: `buffSingle` (`Buff_Stats.h:88,99`) path บัฟ speed ทำ `ahaSpeedAdjust(ptr->owner->path)` — ถ้า `ptr` เป็น summon/countdown (`owner == nullptr`) = crash. **ปัจจุบันเกิดไม่ได้** เพราะ summon/countdown เป็น `unique_ptr<Unit>` ส่งเข้า `buffSingle(AllyUnit*)` ตรง ๆ ไม่ได้ + ไม่อยู่ใน `allyList`.
 > **ทางแก้ที่ user เลือก** (2026-09-02): ไม่ปะจุดเดียว — อนาคต refactor summon/countdown ให้เป็นแค่ `ActionValueStats` (ไม่ใช่ `AllyUnit`) → ไม่มี field `owner` ตั้งแต่แรก → ดู [`future-improvements.md`](../../../future-improvements.md) หัวข้อ 3
 
 ## targeting nums
@@ -44,13 +44,13 @@ macro ในไฟล์: `#define endl '\n'` · `F`=`first` · `S`=`second` · 
 `defaultCharNum = Main_dps_num` · `defaultMemoNum = 0` · `currentCharNum` / `currentMemoNum` · `Enemy_target_num = Main_Enemy_num`
 - `current*` = "ตอนนี้ unit นี้เล็งบัฟไปที่ ally/memosprite ตัวไหน" · `currentCharNum` reset กลับเป็น `defaultCharNum` ที่ `Stats_Reset.h:34`
 - ✅ ~~**`currentMemoNum` ไม่เคย reset**~~ แก้แล้ว (commit `8690113` · โค้ดตอนนี้ `Stats_Reset.h:35,260` เขียน `= defaultMemoNum`) · บันทึกเดิม: `Stats_Reset.h:35` + `:260` เขียน `currentMemoNum = currentMemoNum` (assign ตัวเอง = no-op) บรรทัดข้างบนคือ `currentCharNum = defaultCharNum` → บรรทัดนี้ตั้งใจจะเป็น `= defaultMemoNum`
-  - แก้ 2026-09-18: `chooseAllyBuff` ใช้ `0` เลือกตัวละคร และแปลงค่า `1..N` เป็น `memospriteList[currentMemoNum - 1]` จึงเลือก memo ตัวแรกด้วยค่า 1 ได้ถูกต้อง
+  - แก้ 2026-09-18: `chooseAllyBuff` ใช้ `0` เลือกตัวละคร และค่า 1 เลือก memo ตัวแรกได้ถูกต้อง · 2026-09-25: memosprite เหลือตัวเดียว (`CharUnit::memosprite`) ค่า 1 = memosprite ค่าอื่นหรือไม่มี memosprite = ตัวละคร
   - ปัจจุบันยังไม่ crash = น่าจะยังไม่มีตัวละครไหน set `currentMemoNum` เป็นค่าอื่นนอกจาก 0
 
 ## methods
 
 **สร้าง / ตาย**
-- `summon(double percent)` — `status=Alive` · `currentHP = percent/100 * totalHP` · `resetATV()`. **ไม่ใช่ override — เป็น name-hiding** ของ `Unit::summon()` (no-arg). ที่ใช้งานได้ถูกเพราะ container คนละชนิด: `memospriteList` = `unique_ptr<Memosprite>` → เรียก `summon(100)` (เวอร์ชันนี้) · `summonList`/`countdownList` = `unique_ptr<Unit>` → เรียก `Unit::summon()` (แค่ `status=Alive` + `resetATV`, ไม่มี HP)
+- `summon(double percent)` — `status=Alive` · `currentHP = percent/100 * totalHP` · `resetATV()`. **ไม่ใช่ override — เป็น name-hiding** ของ `Unit::summon()` (no-arg). ที่ใช้งานได้ถูกเพราะ container คนละชนิด: `memosprite` = `unique_ptr<Memosprite>` → เรียก `summon(100)` (เวอร์ชันนี้) · `summonList`/`countdownList` = `unique_ptr<Unit>` → เรียก `Unit::summon()` (แค่ `status=Alive` + `resetATV`, ไม่มี HP)
 - `death()` — ดู [Unit.md](Unit.md) (ยิง `AllyDeath_List`)
 
 **ฮีล — `RestoreHP` 4 overload** → อธิบายที่ [ChangeHP.md](../../Function/Combat/ChangeHP.md)

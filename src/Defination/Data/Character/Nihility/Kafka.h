@@ -185,7 +185,7 @@ namespace Kafka{
         BeforeAttack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,Fua,kafka](shared_ptr<AllyAttackAction> &act) {
             if(act->isSameName("Kafka")){
                 for(auto &each : act->targetList){
-                    debuffSingleApply(kafka,each,{{Stats::VUL,AType::Dot,30}},"kafka E1",2);
+                    debuffSingleApply(kafka,each,{{Stats::VUL,AType::Dot,30}},"Kafka E1",2);
                 }
             }
         }));

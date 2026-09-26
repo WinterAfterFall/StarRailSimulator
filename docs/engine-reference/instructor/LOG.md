@@ -2,6 +2,12 @@
 
 หมายเหตุ ณ 2026-09-21: บันทึกเก่าด้านล่างเป็นผลการทำงาน ณ เวลานั้น ไฟล์ใน `test/` ถูก `.gitignore`; ใน workspace ปัจจุบันไม่พบ `basic_reset_stats_regression.cpp`, `hp_decrease_event_regression.cpp` หรือ `break_status_regression.cpp` จึงไม่ควรอ่านการอ้างชื่อเหล่านี้เป็นหลักฐานว่ารันซ้ำได้ตอนนี้ ดู [คู่มือ build/run/test](../../build-run-and-test.md)
 
+## อัปเดต 2026-09-25
+
+- **2026-09-25** — refactor `CharUnit::path` จาก `vector<Path>` เป็น `Path` ค่าเดียว · แก้ `path[0]` ทุกจุด + ลูปใน `Izumo.h` / `The_Herta.h` เป็น `==` · ปิด QUESTIONS CE3
+- refactor `AllyUnit::Element_type` จาก `vector<ElementType>` เป็น `ElementType` ค่าเดียว · แก้ `Element_type[0]` ทุกจุด (commit ก่อนหน้าทำแบบเดียวกันกับ `CharUnit::path`)
+- refactor `CharUnit::memospriteList` (`vector<unique_ptr<Memosprite>>`) เป็น `unique_ptr<Memosprite> memosprite` · ลูปทุกจุดเป็น `if(auto *e = X->memosprite.get())` · ลบ `getMemosprite(int)` · `chooseAllyBuff` ค่า `currentMemoNum == 1` = memosprite · ผล ManualBuilder (ทีม default + ทีม Aglaea/Sunday/RMC/Hyacine) ตรงกับก่อนแก้ทุก byte
+
 ## อัปเดต 2026-09-22
 
 - ตรวจความครอบคลุมของ mirror `instructor` เทียบกับทุก `.h` นอก `Data` ด้วยสคริปต์ดึงชื่อฟังก์ชันที่มีนิยามจริง (485 ตัว): โครงสร้างครบทุกไฟล์ยกเว้น `Library.h`/`include.h` ที่เป็น aggregator ล้วน ส่วนเนื้อหาพบรูราว 20 ฟังก์ชันกระจุกใน 4 จุด
@@ -167,7 +173,7 @@
 1. **`Attacker` กับ `source` ยืนยันแล้ว (2026-09-16)** — `Attacker` คือผู้ทำแอ็กชัน ส่วน `source` เป็นเจ้าของค่าพลังฐานสเกล ATK/HP/DEF; CR/CD, DMG%, การลด DEF และ RES PEN ยังอิง `Attacker` ตัวอย่าง Netherwing ใช้ HP ของ Castorice แต่ใช้ค่าคริติคอลและ stats อื่นของตัวเอง ดู [AllyActionData.md](Class/ActionData/AllyActionData.md) · `Turn_reset` ยืนยันแล้ว: บ่งบอกว่าหลังจบแอ็กชันจะรีเซ็ตเทิร์นหรือไม่ · `traceType` ยืนยันแล้ว: รูปแบบเป้าหมาย Single / Blast / Aoe / Bounce · `isSameName` / `isSameOwnerName` ยืนยันแล้ว: ตรวจยูนิตโดยตรง / รวมยูนิตของตัวละครนั้น · `isSameAction` / `isSameOwnerAction` ถามแล้ว ห้ามถามซ้ำ · `getChar()` ยืนยันแล้ว: คืนตัวละครเจ้าของเมื่อผู้โจมตีเป็น memosprite หรือคืนตัวละครผู้โจมตีเอง · `AttackSetList` / `switchAttacker` ยืนยันแล้ว 2026-09-17: ผู้ร่วมโจมตีและจังหวะสลับภายในแอ็กชันเดียว ดู [AllyAttackAction.md](Class/ActionData/AllyAttackAction.md) · `damageSplit` ยืนยันแล้ว 2026-09-17: ชั้นนอกแบ่งจังหวะโจมตี ชั้นในเก็บดาเมจต่อเป้าหมายในจังหวะนั้น · `Damage` ยืนยันแล้ว 2026-09-17: จับคู่เป้าหมายกับสเกลดาเมจ ค่าคงที่ และค่าลด toughness · หน่วย `DmgSrc` ยืนยันแล้ว 2026-09-17: สเกลเป็นเปอร์เซ็นต์, constDmg เป็นค่าคงที่, toughnessReduce เป็นหน่วย toughness · `critAble` / `critGarantee` ยืนยันแล้ว 2026-09-17: เปิด/ปิดการติดคริ และตัวบังคับคริที่ยังไม่ได้ใช้งาน · `targetList` ยืนยันแล้ว 2026-09-17: รายชื่อเป้าหมายไม่ซ้ำของแอ็กชัน · `Damage_element` ยืนยันแล้ว 2026-09-17: ธาตุดาเมจเริ่มจากผู้โจมตีและเปลี่ยนได้ · `actionFunction` อธิบายแล้ว 2026-09-17: รายละเอียดแอ็กชันมีมาก จึงใช้ callback เพื่อ custom ได้ง่าย · `addDamage` ยืนยันแล้ว 2026-09-17: เพิ่มค่าที่ระบุให้ทุกรายการใน damageSplit · `addDamageIns` / `addDamageHit` ยืนยันแล้ว 2026-09-17: เพิ่มรอบโจมตี / เพิ่ม hit ในรอบนั้น โค้ดถูกต้องแล้ว ไม่ต้องแก้ · `multiplyDmg` ยืนยันแล้ว: คูณ ATK/HP/DEF/constDmg ด้วย value/100 ไม่เปลี่ยน toughnessReduce/Elation · ท่า Bounce ยืนยันแล้ว: วนเป้าหมายแทนการสุ่ม, bestBounce เลือกเป้าหลัก, FairBounce กระจายทั่วกลุ่ม · `setJoint()` ยืนยันแล้ว: เตรียมโจมตีร่วมกับ memosprite และติดประเภท Summon · `addDamageInsByDebuff` ยืนยันแล้ว: เลือกศัตรูที่ยังไม่มีดีบัฟเพื่อกระจายให้ครบก่อน แล้วกลับไปเป้าหลัก · `AllyBuffAction` ยืนยันแล้ว: buffTargetList เก็บเป้าหมายฝ่ายเรา, actionFunction กำหนดผลต่อเป้าหมาย · `addBuffChar` / `addBuffAllAllies` ยืนยันแล้ว: รวม memosprite และเว้น OutofBounds · `addBuffSingleTarget(ptr)` ยืนยันแล้ว: ผู้เรียกตรวจความเหมาะสมเอง ไม่กรอง OutofBounds · รวมเมธอดตรวจ buff ให้ใช้ AllyActionData แล้ว; เมธอด owner ใช้ isSameOwnerAction / isSameOwnerDamageType
 2. ครั้งหน้า: ตรวจส่วนที่ยังไม่ได้บันทึกของ `Class/ActionData` เทียบคู่มือเดิมก่อน โดยเฉพาะ constructors, helpers และการเข้าคิว; เรื่อง toughnessAvgCalculate, damageNote, Dont_care_weakness และ Aha มีข้อมูลในคู่มือ Function/Unit อยู่แล้ว ให้อ้างอิงก่อนถาม · กฎ actionTypeList / damageTypeList ยืนยันแล้ว 6 ข้อ ห้ามถามซ้ำ
 3. จากนั้นไล่ส่วนที่เหลือของ `Class/CombatData`: `Damage` / `DmgSrc` และหน่วยอธิบายแล้ว ไม่ต้องเริ่มใหม่; ต่อ `HealData.h` แล้ว `Class/Trigger`
-4. เก็บงานค้าง: เปลี่ยน `path` / `Element_type` เป็นค่าเดี่ยว (ยังไม่ทำ), รายละเอียดสูตร CharUnit ที่ยังไม่ได้ไล่, Dahlia SPB บนเป้าที่ broken แล้วยังลงสมุดเฉลี่ย (user: ช่างมัน), ยังไม่ได้รัน sim ยืนยันผล Dahlia / Castorice
+4. เก็บงานค้าง: ~~เปลี่ยน `path` / `Element_type` เป็นค่าเดี่ยว~~ ✅ ทำแล้ว 2026-09-25, รายละเอียดสูตร CharUnit ที่ยังไม่ได้ไล่, Dahlia SPB บนเป้าที่ broken แล้วยังลงสมุดเฉลี่ย (user: ช่างมัน), ยังไม่ได้รัน sim ยืนยันผล Dahlia / Castorice
 
 ## ประวัติการสำรวจ
 
@@ -230,4 +236,4 @@
 - 🐞 ~~#1 · #2 · #4 · #16~~ ✅ แก้แล้ว 2026-09-13 (push แล้ว) · ~~#8~~ ปิด — user: summon/countdown ไม่ได้ใช้ `owner`
 - dead code (โซนอื่น): `DecreaseHP(Unit*, vector, ...)` overload — **ปล่อยไว้** (user 2026-09-13); ข้อสรุปเดิมที่รวม `Enemy::hitCount` ถูกแก้ไขวันที่ 2026-09-16: user ยืนยันว่ามีการใช้งาน ไม่ใช่ dead code
 - `future-improvements.md`: ระบบสร้างโล่ · per-unit `priority` reset · buff auto-removal helper · AllyUnit cosmetic
-- ~~`docs/character-kit-reference/*.md` (~40 ไฟล์) ยัง untracked~~ ✅ เข้า git แล้ว (`f6af8b7`)
+- ~~`docs/kit-reference/Character/*.md` (~40 ไฟล์) ยัง untracked~~ ✅ เข้า git แล้ว (`f6af8b7`)

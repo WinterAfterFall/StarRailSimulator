@@ -26,7 +26,7 @@ namespace Luka{
                 if(ptr->Eidolon>=4)buffStackSingle(lk,{{Stats::ATK_P,AType::None,5}},amount,4,"Luka E4");
             }else{
             }
-            lk->addStack("Fighting Will",amount);
+            lk->addStack("Fighting Will",amount);   // kit cap 4 - จงใจไม่ clamp (user สั่ง: จะได้ไม่ต้องจูน rotation คุมไม่ให้เกิน cap)
         };
         
         #pragma region Ability
@@ -78,13 +78,13 @@ namespace Luka{
         function<void()> Skill = [ptr,lk,FW]() {
             genSkillPoint(lk,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Luka Skill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Single,"Luka Skill",
             [ptr,lk,FW](shared_ptr<AllyAttackAction> &act){
                 FW(1);
                 if(ptr->Eidolon>=2)FW(1);
                 Increase_energy(lk,30);
                 for(auto &each : act->targetList){
-                    dotSingleApply(lk,each,{DotType::Burn},"Luka Bleed",3);
+                    dotSingleApply(lk,each,{DotType::Bleed},"Luka Bleed",3);
                 }
                 Attack(act);
             });
@@ -100,7 +100,10 @@ namespace Luka{
                 Skill();
                 return;
             }
-            if(lk->getStack("Fighting Will")>=2)EBA();
+            if(lk->getStack("Fighting Will")>=2){
+                EBA();
+                return;
+            }
             BA();
         };
         
@@ -110,7 +113,7 @@ namespace Luka{
 
         Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,lk,FW]() {
             shared_ptr<AllyAttackAction> act =
-            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Luka BA",
+            make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Single,"Luka Ult",
             [ptr,lk,FW](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Luka");
                 FW(2);
@@ -146,7 +149,7 @@ namespace Luka{
                 [ptr,lk](shared_ptr<AllyAttackAction> &act){
                     Attack(act);
                     for(auto &each : act->targetList){
-                        dotSingleApply(lk,each,{DotType::Burn},"Luka Bleed",3);
+                        dotSingleApply(lk,each,{DotType::Bleed},"Luka Bleed",3);
                     }
                 });
                 act->addDamageIns(
@@ -171,7 +174,7 @@ namespace Luka{
             if (!target->getDebuff("Luka Bleed")) return;
             if (Dot_type != DotType::General && Dot_type != DotType::Bleed) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Burn,ptr,TraceType::Single,"Luka Bleed");
+            make_shared<AllyAttackAction>(AType::Bleed,ptr,TraceType::Single,"Luka Bleed");
             act->addDamageIns(DmgSrc(DmgSrcType::ATK,372),target);
             act->multiplyDmg(Dot_ratio);
             Attack(act);

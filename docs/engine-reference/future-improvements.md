@@ -41,6 +41,9 @@ expire(BUFF_BENEDICTION, Stats::ATK_P, BENEDICTION_ATK);
 ดู [`instructor/Function/Combat/ChangeHP.md`](instructor/Function/Combat/ChangeHP.md) (ระบบโล่) — `decreaseSheild()` แก้แล้ว แต่ยังไม่มีโค้ดไหน **เพิ่ม** `currentSheild`
 ค้าง: อ่าน `Stats_type[SHEILD]` เป็นตัวคูณ outgoing shield, เพิ่ม `currentSheild`, countdown/ถอนเหมือนบัฟ, ปลด comment Aventurine
 
+**ตัวละครที่รอระบบนี้อยู่**
+- **Luocha E2** (`Data/Character/Abundance/Luocha.h`) — สาขา "เป้าหมาย HP ≥ 50% → Shield = 18% ATK + 240 นาน 2 เทิร์น" ยังไม่ได้ implement ส่วนสาขา HP < 50% (Outgoing Healing +30%) ทำไปแล้ว · เมื่อมีระบบโล่ให้กลับมาเติมสาขานี้ใน `Luocha::Talent()`
+
 ## 3. ป้องกันตัวนับดีบัฟรวมติดลบ
 
 ปัจจุบัน `debuffRemove()` ลด `Total_debuff` โดยตรง ควรตรวจว่า debuff นั้น active อยู่ก่อนลด และ clamp ค่า `Total_debuff` ขั้นต่ำเป็น 0 เพื่อรองรับการเรียกล้างซ้ำในอนาคต ปัจจุบันยังไม่พบอาการผิดพลาด จึงเก็บไว้เป็นงานปรับปรุงภายหลัง
@@ -52,7 +55,7 @@ expire(BUFF_BENEDICTION, Stats::ATK_P, BENEDICTION_ATK);
 **สภาพตอนนี้:** `SetSummonStats` / `SetCountdownStats` (`StatsSet.h:55-77`) สร้าง object เป็น `AllyUnit` (เก็บใน `vector<unique_ptr<Unit>>`) แต่ใช้แค่ส่วน atv จริง ๆ — ไม่มี HP / ไม่โดนตี / ไม่รับบัฟ stat. และ **ไม่เซ็ต `owner`** (ต่างจาก `SetMemoStats` ที่เซ็ต `owner = ptr`)
 
 ผลข้างเคียงที่ตามมา (ทั้งหมด "latent" — ยังเกิดไม่ได้เพราะกำแพง type):
-- `buffSingle` path บัฟ speed (`Buff_Stats.h:88,99`) → `ahaSpeedAdjust(ptr->owner->path[0])` → null deref ถ้า `ptr` เป็น summon/countdown
+- `buffSingle` path บัฟ speed (`Buff_Stats.h:88,99`) → `ahaSpeedAdjust(ptr->owner->path)` → null deref ถ้า `ptr` เป็น summon/countdown
 - `speedBuff` บน unit ที่ `baseSpeed <= 0` → ตัวเลขสะสมเงียบ ๆ แล้วเด้งมามีผลทีหลัง ([`instructor/Function/Combat/Action_value.md`](instructor/Function/Combat/Action_value.md))
 
 **ทางแก้ที่ user เลือก:** refactor ให้ summon/countdown เป็น **`ActionValueStats` ตรง ๆ** (เหมือน `aha`) ไม่ใช่ `AllyUnit` → ไม่มี `owner` / `Stats_type` / buff maps ที่ไม่ได้ใช้ → ปัญหา `owner==nullptr` + speed-buff-สะสม หายไปทั้งชุด · งานที่ต้องทำ: เปลี่ยน `summonList`/`countdownList` เป็น `vector<unique_ptr<ActionValueStats>>`, ปรับ `Turn_func` / `summon()` / reset ให้เข้ากับ interface ใหม่, ไล่ทุกจุดที่ cast `summonList[i].get()` เป็น `Unit*`/`AllyUnit*`
@@ -103,3 +106,32 @@ User ขอให้จดไว้ 2026-09-17; ยังไม่ implement แ
 ผู้ใช้เห็นว่าเป็นโค้ดที่ไม่จำเป็น แต่ยังไม่ต้องแก้พฤติกรรมตอนนี้ ควรพิจารณาตัดเงื่อนไขหรือแยกเส้นทางหลัง Broken ในการ refactor ครั้งถัดไป
 
 6-16
+
+---
+
+## 9. ไม่ได้จำลองดาเมจที่ศัตรูสร้างใส่ฝ่ายเรา
+
+ซิมนี้วัด "ดาเมจที่ทีมทำได้" ฝ่ายศัตรูจึงไม่มีสูตรดาเมจขาออก — `Stats::Mitigration` ที่ดูชื่อใกล้เคียงเป็นการลดดาเมจ **ที่ฝ่ายเราตีออก** (`calMitigationMultiplier` รับ `AllyAttackAction`, `Function/Calculate/CalStats.h:399`) ไม่ใช่ดาเมจที่รับเข้า ใส่ผลแบบ "ศัตรูตีเบาลง" ลงไปจะกลายเป็นทำให้ทีมตัวเองตีเบาลงแทน
+
+เกี่ยวโยงกับ "ศัตรูไม่มี HP" (ดู `instructor/Data/README.md`) — ทั้งสองเรื่องคือผลของการที่ฝั่งศัตรูถูกจำลองเป็นเป้านิ่งที่มีแต่ toughness/debuff
+
+**ตัวละครที่รอระบบนี้อยู่**
+- **Luocha E4** (`Data/Character/Abundance/Luocha.h`) — "ขณะ Field active → ศัตรู Weakened สร้าง DMG น้อยลง 12%" ยังไม่มีจุดให้เกาะ มีคอมเมนต์อธิบายไว้เหนือ `Abyss_Flower()` แล้ว
+
+---
+
+## 10. เงื่อนไขที่อิง SPD — ตอนนี้ระบุ on/off เองตอนประกอบทีม
+
+relic / planar / ความสามารถที่ให้ผลต่างกันตาม SPD ปัจจุบันของผู้สวม **ไม่ได้อ่าน SPD จริงระหว่างการต่อสู้** แต่ใช้ factory รับ `bool trigger` แล้วผู้ประกอบทีมเลือกเองว่าเข้าเงื่อนไขหรือไม่ · ค่าที่ได้จึงคงที่ตั้งแต่ `Reset_List` ตลอดทั้งเกม
+
+| ไฟล์ | `trigger = true` | `trigger = false` |
+|---|---|---|
+| `Data/Relic/Diviner of Distant Reach.h` | CR +18 | CR +10 |
+| `Data/Planar/FirmanentFrontline.h` | DMG +18 | DMG +12 |
+| `Data/Planar/GiantTree.h` | HEALING_OUT +20 | HEALING_OUT +12 |
+
+ทั้งสามไฟล์ copy lambda ทั้งก้อนสองสาขา ต่างกันแค่ตัวเลขเดียว
+
+**ข้อจำกัดของวิธีนี้**: ถ้า SPD เปลี่ยนระหว่างเกม (บัฟ SPD จากเพื่อน, บัฟหมดอายุ, ดีบัฟ) ค่าไม่ตามไป · ต้องให้คนประกอบทีมรู้ SPD สุดท้ายเอง
+
+**อนาคต**: อ่าน SPD จริงแบบ realtime — ใช้ delta idiom (`buffNote` เก็บค่าล่าสุด ใส่แค่ส่วนต่าง) ใน `Stats_Adjust_List` ที่ยิงเมื่อ SPD เปลี่ยน แบบเดียวกับ trace ที่คำนวณจาก stat แบบ live · เมื่อทำแล้วลบพารามิเตอร์ `bool trigger` ออกและยุบเหลือ lambda เดียว · ความสามารถใหม่ที่อิง SPD ควรเขียนแบบ realtime ตั้งแต่แรก

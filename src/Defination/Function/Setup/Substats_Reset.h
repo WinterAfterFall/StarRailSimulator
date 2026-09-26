@@ -3,44 +3,44 @@ void Set_Stats(CharUnit *ptr){
     for(int i=0,sz = ptr->Substats.size();i<sz;i++){
         if(ptr->Substats[i].first==Stats::FLAT_SPD){
             ptr->Atv_stats->flatSpeed+=2.3*ptr->Substats[i].second;
-            for(auto &memo : ptr->memospriteList){
+            if(auto *memo = ptr->memosprite.get()){
             memo->Atv_stats->flatSpeed+=(2.3*ptr->Substats[i].second)*(memo->Unit_Speed_Ratio/100);
             }
             
         }else if(ptr->Substats[i].first==Stats::HP_P){ 
             buffSingle(ptr,{{Stats::HP_P,AType::None,3.888*ptr->Substats[i].second}});
-            for(auto &memo : ptr->memospriteList){ 
-            buffSingle(memo.get(),{{Stats::HP_P,AType::None,3.888*ptr->Substats[i].second}});
+            if(auto *memo = ptr->memosprite.get()){ 
+            buffSingle(memo,{{Stats::HP_P,AType::None,3.888*ptr->Substats[i].second}});
             }
         }
         if(ptr->Substats[i].first==Stats::CR){
             buffSingle(ptr,{{Stats::CR,AType::None,2.9*ptr->Substats[i].second}});
-            for(auto &memo : ptr->memospriteList){
-            buffSingle(memo.get(),{{Stats::CR,AType::None,2.9*ptr->Substats[i].second}});
+            if(auto *memo = ptr->memosprite.get()){
+            buffSingle(memo,{{Stats::CR,AType::None,2.9*ptr->Substats[i].second}});
             }
 
         }else if(ptr->Substats[i].first==Stats::CD){
             buffSingle(ptr,{{Stats::CD,AType::None,5.8*ptr->Substats[i].second}});
-            for(auto &memo : ptr->memospriteList){
-            buffSingle(memo.get(),{{Stats::CD,AType::None,5.8*ptr->Substats[i].second}});
+            if(auto *memo = ptr->memosprite.get()){
+            buffSingle(memo,{{Stats::CD,AType::None,5.8*ptr->Substats[i].second}});
             }
             
         }else if(ptr->Substats[i].first==Stats::ATK_P){
             buffSingle(ptr,{{Stats::ATK_P,AType::None,3.888*ptr->Substats[i].second}});
-            for(auto &memo : ptr->memospriteList){
-            buffSingle(memo.get(),{{Stats::ATK_P,AType::None,3.888*ptr->Substats[i].second}});
+            if(auto *memo = ptr->memosprite.get()){
+            buffSingle(memo,{{Stats::ATK_P,AType::None,3.888*ptr->Substats[i].second}});
             }
             
         }else if(ptr->Substats[i].first==Stats::DEF_P){
             buffSingle(ptr,{{Stats::DEF_P,AType::None,4.86*ptr->Substats[i].second}});
-            for(auto &memo : ptr->memospriteList){
-            buffSingle(memo.get(),{{Stats::DEF_P,AType::None,4.86*ptr->Substats[i].second}});
+            if(auto *memo = ptr->memosprite.get()){
+            buffSingle(memo,{{Stats::DEF_P,AType::None,4.86*ptr->Substats[i].second}});
             }
             
         }else if(ptr->Substats[i].first==Stats::BE){
             buffSingle(ptr,{{Stats::BE,AType::None,5.8*ptr->Substats[i].second}});
-            for(auto &memo : ptr->memospriteList){
-            buffSingle(memo.get(),{{Stats::BE,AType::None,5.8*ptr->Substats[i].second}});
+            if(auto *memo = ptr->memosprite.get()){
+            buffSingle(memo,{{Stats::BE,AType::None,5.8*ptr->Substats[i].second}});
             }
         }
     }

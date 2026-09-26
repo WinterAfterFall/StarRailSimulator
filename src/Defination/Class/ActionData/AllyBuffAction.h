@@ -69,8 +69,8 @@ class AllyBuffAction : public AllyActionData {
     }
     void addBuffChar(CharUnit* ptr){
         if(ptr->getType() != UnitType::OutofBounds)buffTargetList.push_back(ptr);
-        for(auto &e:ptr->memospriteList){
-            if(e->getType() != UnitType::OutofBounds)buffTargetList.push_back(e.get());
+        if(auto *e = ptr->memosprite.get()){
+            if(e->getType() != UnitType::OutofBounds)buffTargetList.push_back(e);
         }
     }
     void addBuffAllAllies(){
@@ -78,9 +78,9 @@ class AllyBuffAction : public AllyActionData {
             if(charUnit[i]->getType() != UnitType::OutofBounds)
                 buffTargetList.push_back(charUnit[i].get());\
 
-            for(auto &e:charUnit[i]->memospriteList){
+            if(auto *e = charUnit[i]->memosprite.get()){
                 if(e->getType() != UnitType::OutofBounds)
-                    buffTargetList.push_back(e.get());
+                    buffTargetList.push_back(e);
             }
         }
     }

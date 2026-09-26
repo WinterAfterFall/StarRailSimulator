@@ -14,7 +14,7 @@ void CharUnit::EhrRequirment(){
     x = x * 3.888;
     this->ExtraEhr += x;
     this->Stats_type[Stats::EHR][AType::None] += x;
-    for(auto &each : this->memospriteList){
+    if(auto *each = this->memosprite.get()){
        each->Stats_type[Stats::EHR][AType::None]+=x;
     }
     return ;
@@ -32,7 +32,7 @@ void CharUnit::SpeedRequirment(){
     x = x * 2.3;
     this->ExtraSpeed += x;
     this->Atv_stats->flatSpeed += x;
-    for(auto &each : this->memospriteList){
+    if(auto *each = this->memosprite.get()){
         each->Atv_stats->flatSpeed+=x*(each->Unit_Speed_Ratio/100);
     }
     return;
@@ -49,7 +49,7 @@ void CharUnit::AtkRequirment(){
     x = x * 3.888;
     this->ExtraAtk += x;
     this->Stats_type[Stats::ATK_P][AType::None] += x;
-    for(auto &each : this->memospriteList){
+    if(auto *each = this->memosprite.get()){
         each->Stats_type[Stats::ATK_P][AType::None] +=x;
     }
     return;
@@ -66,7 +66,7 @@ void CharUnit::HpRequirment(){
     x = x * 3.888;
     this->ExtraHp += x;
     this->Stats_type[Stats::HP_P][AType::None] += x;
-    for(auto &each : this->memospriteList){
+    if(auto *each = this->memosprite.get()){
         each->Stats_type[Stats::HP_P][AType::None] += x;
     }
     return;
@@ -83,7 +83,7 @@ void CharUnit::DefRequirment(){
     x = x * 4.86;
     this->ExtraDef += x;
     this->Stats_type[Stats::DEF_P][AType::None] += x;
-    for(auto &each : this->memospriteList){
+    if(auto *each = this->memosprite.get()){
         each->Stats_type[Stats::DEF_P][AType::None] +=x;
     }
     return;

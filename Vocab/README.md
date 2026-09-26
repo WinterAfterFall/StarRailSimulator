@@ -4,7 +4,7 @@
 ของ StarRailSimulator — เน้น "ชื่อเรียก + ความสามารถแบบย่อ" ไม่ใช่การอธิบายกลไกเชิงลึก
 
 ถ้าอยากได้ **กลไกเชิงลึก + สูตรคำนวณ** ให้ไปอ่าน [`docs/hsr-system-reference.md`](../docs/hsr-system-reference.md) แทน
-ถ้าอยากได้ **kit เต็มของตัวละครรายตัว** ให้ไปอ่าน [`docs/character-kit-reference/`](../docs/character-kit-reference/)
+ถ้าอยากได้ **kit เต็มของตัวละครรายตัว** ให้ไปอ่าน [`docs/kit-reference/Character/`](../docs/kit-reference/Character/)
 
 ---
 
