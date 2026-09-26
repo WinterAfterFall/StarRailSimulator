@@ -81,7 +81,7 @@ namespace Saber{
             );
 
             if(Total_enemy==1||(bestBounce&&Total_enemy==5))
-            act->multiplyDmg(370/150*100);
+            act->multiplyDmg(370.0/150*100);
             if(Total_enemy==2)
             act->multiplyDmg(200);
             act->addToActionBar();
@@ -93,7 +93,7 @@ namespace Saber{
             make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"Saber Skill",
             [ptr,sb,CoreResonance](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(sb,30);
-                buffSingle(sb,{{Stats::CD,AType::None,50}},"Saber A6",2);
+                buffSingle(sb,{{Stats::CD,AType::None,50}},"Saber A6 Skill",2);
                 CoreResonance(3);
                 Attack(act);
                 if(ptr->Eidolon>=1)CoreResonance(1);
@@ -124,6 +124,7 @@ namespace Saber{
             make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"Saber ESkill",
             [ptr,sb,resetCR,CoreResonance](shared_ptr<AllyAttackAction> &act){
                 Increase_energy(sb,30);
+                buffSingle(sb,{{Stats::CD,AType::None,50}},"Saber A6 Skill",2);
                 Attack(act);
                 if(ptr->Eidolon>=1)CoreResonance(1);
             });
@@ -214,10 +215,11 @@ namespace Saber{
             if(isBuffEnd(sb,"Saber Tech")){
                 buffSingle(sb,{{Stats::ATK_P,AType::None,-35}});
             }
-            if(isBuffEnd(sb,"Saber A6")){
+            if(isBuffEnd(sb,"Saber A6 Skill")){
                 buffSingle(sb,{{Stats::CD,AType::None,-50}});
             }
-            if(ptr->Ult_cost<=ptr->Current_energy + 8 * sb->buffNote["Core Resonance"]){
+            // Skill energy (30, via ER) + consumed Core Resonance (8 each, fixed) would fill Energy
+            if(ptr->Ult_cost<=ptr->Current_energy + 30*ptr->Energy_recharge/100 + 8 * sb->buffNote["Core Resonance"]){
                 sb->setBuffCheck("Saber ESkill",1);
                 if(sb->getBuffCheck("Mana Flow")){
                     Action_forward(sb->Atv_stats.get(),1000);
@@ -228,7 +230,8 @@ namespace Saber{
         }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,sb,CoreResonance]() {
-            Increase_energy(ptr,10,0);
+            // A4: Energy below 60% at battle start -> set to 60%
+            if(ptr->Current_energy < ptr->Max_energy*0.6)ptr->Current_energy = ptr->Max_energy*0.6;
             sb->setBuffCheck("Mana Flow",1);
             CoreResonance(1);
             if(ptr->Technique){

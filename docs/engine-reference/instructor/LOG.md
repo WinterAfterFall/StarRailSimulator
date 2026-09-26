@@ -7,6 +7,7 @@
 - ไล่ Destruction character: `FireFly.h` — Enhanced Skill hit สุดท้าย `4*` → `0.4*` (ดาเมจเกิน 4.6 เท่า) · Skill 200% · VUL Combustion → `AType::Break` · A6 ไม่เคยทำงาน + หาร 10 · A2 BE +25 + หน่วง countdown · A4 ตาม kit rework (150/300 → SPB 100/150 เฉพาะ Enhanced Skill ขณะ Combustion) · Talent energy 50% · E1 เฉพาะ Skill · E2 guard + ครั้งเดียวต่อเทิร์น (stack เริ่ม 2 ตั้งใจตาม user) · E4 · E6 · base 814/523 · Ult `p3`/`p4` ของ rework ยังไม่รู้ความหมาย · `g++ -fsyntax-only` ผ่าน **ยังไม่ได้รัน sim**
 - `Mydei.h` — Skill/Kingslayer energy `(ptr,30,0)` = 30% Max Energy (48) → `(ptr,30)` ผ่าน ER · เข้า Vendetta นอกเทิร์นตัวเอง advance ทันที · Charge cap 200 + GodSlayer ต้องอยู่ใน Vendetta · ATK 426 · เขียน BA ให้เสร็จ · ลบ `buffNote["count"]` · คู่มืออธิบาย `Increase_energy` 3 args · `g++ -fsyntax-only` ผ่าน **ยังไม่ได้รัน sim**
 - `Phainon.h` — `"PN Talent"` CD +30 และ `"PN A4"` DMG +45 ไม่มีโค้ดถอน (ติดถาวร) → ถอนใน `After_turn_List` · A4 ไม่นับฮีลตัวเอง · A2 ต้นเกม Coreflame 3 → 1 · Counter Calamity `Fua` → `SKILL` · Soulscorch เริ่ม 1 · HP 1433 · ไม่แก้ตาม user: Coreflame cap, E1 kill bonus · `* 7` ของ countdown SPD ยังไม่ทราบที่มา · `g++ -fsyntax-only` ผ่าน **ยังไม่ได้รัน sim**
+- `Saber.h` — EBA 1 ตัว `370/150*100` หารจำนวนเต็ม (300% แทน 370%) → `370.0` · A4 เริ่มต่อสู้ +10% → เติมเป็น 60% · ESkill ได้ A6 CD +50% · เงื่อนไข ESkill/Mana Burst นับ energy Skill 30×ER · เปลี่ยนชื่อบัฟ `"Saber A6 Skill"` · ไม่แก้ตาม user: A4 cap, base stats · **Destruction ครบ 4 ตัว** · `g++ -fsyntax-only` ผ่าน **ยังไม่ได้รัน sim**
 
 ## อัปเดต 2026-09-26
 

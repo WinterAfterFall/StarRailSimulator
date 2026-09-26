@@ -9,7 +9,7 @@ DPS ที่มีทรัพยากรหนักและสถานะ�
 | `Saber.h` | energy พิเศษ (360) | lambda คู่ สะสม/ใช้ทรัพยากร · การจัดจังหวะ ult ที่ซับซ้อนที่สุด |
 | `FireFly.h` | Super Break | `Superbreak_trigger` · `weaknessApply` · ดาเมจที่ประกอบใน callback ทั้งก้อน |
 
-> **แก้ 2026-09-27**: FireFly ปรับตาม kit (rework patch 4.2) — ดู `FireFly.md` · Mydei energy Skill 48 → 30 (ผ่าน ER) + Vendetta advance + Charge cap — ดู `Mydei.md` · Phainon Talent CD / A4 DMG เดิมติดถาวร + A2 Coreflame + Counter เป็น Skill — ดู `Phainon.md`
+> **แก้ 2026-09-27**: FireFly ปรับตาม kit (rework patch 4.2) — ดู `FireFly.md` · Mydei energy Skill 48 → 30 (ผ่าน ER) + Vendetta advance + Charge cap — ดู `Mydei.md` · Phainon Talent CD / A4 DMG เดิมติดถาวร + A2 Coreflame + Counter เป็น Skill — ดู `Phainon.md` · Saber EBA หารจำนวนเต็ม + A4 60% + ESkill A6 — ดู `Saber.md`
 
 ## แบบแผนร่วมของกลุ่มนี้
 
