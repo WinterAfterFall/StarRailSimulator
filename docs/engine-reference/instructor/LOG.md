@@ -2,6 +2,10 @@
 
 หมายเหตุ ณ 2026-09-21: บันทึกเก่าด้านล่างเป็นผลการทำงาน ณ เวลานั้น ไฟล์ใน `test/` ถูก `.gitignore`; ใน workspace ปัจจุบันไม่พบ `basic_reset_stats_regression.cpp`, `hp_decrease_event_regression.cpp` หรือ `break_status_regression.cpp` จึงไม่ควรอ่านการอ้างชื่อเหล่านี้เป็นหลักฐานว่ารันซ้ำได้ตอนนี้ ดู [คู่มือ build/run/test](../../build-run-and-test.md)
 
+## อัปเดต 2026-09-27
+
+- ไล่ Destruction character: `FireFly.h` — Enhanced Skill hit สุดท้าย `4*` → `0.4*` (ดาเมจเกิน 4.6 เท่า) · Skill 200% · VUL Combustion → `AType::Break` · A6 ไม่เคยทำงาน + หาร 10 · A2 BE +25 + หน่วง countdown · A4 ตาม kit rework (150/300 → SPB 100/150 เฉพาะ Enhanced Skill ขณะ Combustion) · Talent energy 50% · E1 เฉพาะ Skill · E2 guard + ครั้งเดียวต่อเทิร์น (stack เริ่ม 2 ตั้งใจตาม user) · E4 · E6 · base 814/523 · Ult `p3`/`p4` ของ rework ยังไม่รู้ความหมาย · `g++ -fsyntax-only` ผ่าน **ยังไม่ได้รัน sim**
+
 ## อัปเดต 2026-09-26
 
 - User วางกฎ prefix ชื่อ buff/debuff: ปกติใส่ชื่อเจ้าของนำหน้า ยกเว้น kit บอกว่าซ้อนไม่ได้ หรือบัฟอยู่บนตัวผู้สวมเอง นอกนั้นคือลืม · ไล่ LC ทั้งหมด เจอ `Bronya_LC.h` ลืม → แก้ · บันทึกกฎใน `Data/Lightcone/Nihility/README.md` ข้อ 4
