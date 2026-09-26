@@ -8,7 +8,7 @@
 |---|---|
 | ER `8 + 2S` | `Reset_List` → `ptr->Energy_recharge += 8 + 2*superimpose` |
 | ใช้ Skill → ตั้ง flag | `AllyActionList` → `buffCheck["Battle_Isnt_Over_buff"] = 1` |
-| ต้นเทิร์นถัดไป → คนที่กำลังจะเล่นได้ DMG `25 + 5S` | `Before_turn_List` → `buffSingle(tempstats, ..., BattleBuff, 0)` |
+| ต้นเทิร์นถัดไปของเพื่อน **(ยกเว้นผู้สวม)** → ได้ DMG `25 + 5S` | `Before_turn_List` → `buffSingle(tempstats, ..., BattleBuff, 0)` |
 | กด ult → คืน SP 1 **ครั้งเว้นครั้ง** | `WhenUseUlt_List` + `buffCheck["Battle_Isnt_Over_cnt"]` สลับ |
 | ถอน | `After_turn_List` → `isBuffEnd` |
 
@@ -30,6 +30,6 @@ else                                        { buffCheck[...] = false; }
 
 ## จุดที่ควรระวัง
 
-- ใช้ `dynamic_cast<AllyUnit*>(turn->charptr)` แทน `turn->canCastToAllyUnit()` ทั้งสองที่ — โค้ดเก่า
-- `buffCheck` ถูกใช้เก็บทั้ง flag (`_buff`), ตัวสลับ (`_cnt`) และสถานะบัฟ (`_check`) ในไฟล์เดียว ชื่อใกล้กันมาก
+- `buffCheck` บนผู้สวมเก็บ flag (`_buff`) และตัวสลับ (`_cnt`) ชื่อใกล้กัน
+- **แก้ 2026-09-26 ตาม kit** ("the next ally taking action (except the wearer)"): เดิมถ้าผู้สวมได้เล่นต่อเอง บัฟจะตกที่ตัวเอง → ตอนนี้ข้ามเทิร์นของผู้สวม flag รอเพื่อนคนถัดไป · ลบ `buffCheck["Battle_Isnt_Over_buff_check"]` ที่ตั้งแต่ไม่มีใครอ่าน · `dynamic_cast` → `turn->canCastToAllyUnit()`
 - **แก้ 2026-09-26**: ชื่อบัฟบนเพื่อนเดิมเป็น `"Battle_Isnt_Over_buff_check"` ไม่มีชื่อเจ้าของนำหน้า · kit ไม่ได้ระบุว่าห้ามซ้อน และบัฟลงบนคนอื่น จึงเติม `ptr->getName()` นำหน้าตามกฎการตั้งชื่อ (ดู `../Nihility/README.md` ข้อ 4) · key ใน `ptr->buffCheck` ยังไม่มี prefix เพราะอยู่บนตัวผู้สวมเอง

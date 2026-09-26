@@ -15,6 +15,7 @@
 
 ## จุดที่ควรระวัง
 
-- **`AllyDeath_List` เรียก `buffResetStack` โดยไม่เช็ค `isBuffGoneByDeath` ก่อน** → ถอน stack กับทุกคนที่ตายแม้ไม่เคยมีบัฟ · อาการเดียวกับ E6 ใน `../../Character/Harmony/Sunday.md`
-- **`After_turn_List` guard ด้วย `turn->num != ptr->currentCharNum`** แล้วใช้ `dynamic_cast` — ผูกกับเลขช่องซึ่งเปลี่ยนได้เมื่อมี memosprite
+- **`AllyDeath_List` เรียก `buffResetStack` โดยไม่เช็คว่ามีบัฟไหม** — ไม่เป็นปัญหา: `buffResetStack` ลบ `value × stack ปัจจุบัน` ถ้าไม่เคยมี stack ก็ลบ 0 · ใช้ `isBuffGoneByDeath` ไม่ได้ด้วย เพราะ `buffStackSingle` ไม่ตั้ง `buffCheck`
 - **`stack["Hymn_cnt"]` ไม่รีเซ็ตข้ามการต่อสู้** ถ้าไม่มีใครล้าง
+
+> **แก้ 2026-09-26**: `After_turn_List` เดิม guard ด้วย `turn->num != ptr->currentCharNum` (เลขลำดับคิว ATV เทียบกับเลขช่องเป้าหมายของ Sunday — คนละระบบ) → ถอน stack ได้เฉพาะเป้าปัจจุบัน ถ้า Sunday เปลี่ยนเป้า stack บนตัวเดิมค้าง · ตอนนี้ใช้ `turn->canCastToAllyUnit()` แล้วเช็ค `isBuffEnd` กับทุกคน

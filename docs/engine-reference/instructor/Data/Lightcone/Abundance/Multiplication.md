@@ -6,14 +6,14 @@
 
 | ท่อน | โค้ด |
 |---|---|
-| ผู้สวมใช้ BA → advance `10 + 2S` | `AllyActionList` → `act->isSameOwnerAction(ptr, AType::BA)` → `Action_forward(turn, ...)` |
+| ผู้สวมใช้ BA → action ถัดไป advance `10 + 2S` | `AfterAttackActionList` → `act->isSameAction(ptr, AType::BA)` → `Action_forward(ptr->Atv_stats.get(), ...)` |
 
 **ไม่มีสแตตติดตัว**
 
-## จุดที่น่าสังเกต
+## รากฐาน: advance ต้องเกิดหลัง turn reset
 
-**`Action_forward(turn, ...)` ส่ง `turn` (global ของเทิร์นปัจจุบัน) ไม่ใช่ `ptr->Atv_stats.get()`** — ต่างจากทุกใบอื่นในโปรเจกต์ที่ระบุ unit ตรง ๆ
+ลำดับใน `Function/Combat/Combat.h`: `allEventWhenAllyAction` (`AllyActionList`) → `AllyAction()` → `Attack()` ซึ่งจบด้วย `if(act->Turn_reset) resetTurn(turn)` (บรรทัด 218; BA ตั้ง `Turn_reset = true` ใน `Class/ActionData/AllyAttackAction.h:83`) → `allEventAfterAttackAction` (`AfterAttackActionList`)
 
-ผลคือ advance ตกที่ **unit ที่กำลังเล่นอยู่** ซึ่งในกรณีปกติคือผู้สวมเอง (เพราะเพิ่งใช้ BA) แต่ถ้ามี action ซ้อนจากเทิร์นของคนอื่นจะไปถูกคนผิด
+**advance ที่สั่งก่อน `resetTurn` จะถูกลบทิ้ง** · kit: "their **next** action will be Advanced Forward" จึงต้องสั่งใน `AfterAttackActionList`
 
-**`isSameOwnerAction(ptr, AType::BA)`** เป็น overload ที่เช็คทั้ง owner และชนิด action ในครั้งเดียว — ครอบ memosprite ของเจ้าของด้วย
+> **แก้ 2026-09-26**: เดิมอยู่ใน `AllyActionList` + `Action_forward(turn, ...)` → advance ถูก `resetTurn` ลบทุกครั้ง **ใบนี้ไม่เคยมีผล** และ `turn` อาจเป็นคนอื่นถ้าโจมตีนอกเทิร์นตัวเอง · ตอนนี้ advance ตัวผู้สวมตรง ๆ หลังโจมตี · guard เปลี่ยนจาก `isSameOwnerAction` (รวม memosprite) เป็น `isSameAction(ptr, AType::BA)` ตาม kit "the wearer uses their Basic ATK"

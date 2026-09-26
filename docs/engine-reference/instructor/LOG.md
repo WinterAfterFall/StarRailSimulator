@@ -7,6 +7,9 @@
 - User วางกฎ prefix ชื่อ buff/debuff: ปกติใส่ชื่อเจ้าของนำหน้า ยกเว้น kit บอกว่าซ้อนไม่ได้ หรือบัฟอยู่บนตัวผู้สวมเอง นอกนั้นคือลืม · ไล่ LC ทั้งหมด เจอ `Bronya_LC.h` ลืม → แก้ · บันทึกกฎใน `Data/Lightcone/Nihility/README.md` ข้อ 4
 - แก้ Nihility LC: `Hysilens_LC.h` ทำ Enthrallment 3 เทิร์นจริง + ถอด VUL stack เมื่อหมด + กัน recursion · `Fermata.h` ถอนตามรายการที่จด · `Before_the_Tutorial` guard memosprite + DEF shred ทุกช่อง · รีแฟกเตอร์ `Resolution.h` / `Kafka_LC.h` / `Fugue_LC.h` · แก้คู่มือ Eyes of the Prey (`AType::Dot` มีอยู่แล้ว) และลิงก์ Gallagher · `g++ -fsyntax-only` ผ่าน **ยังไม่ได้รัน sim**
 
+- ไล่ Harmony LC เทียบ kit: `For_Tomorrow_Journey.h` ชื่อถอนบัฟผิด · `Cerydra LC.h` Skill DMG + SP จาก ult · `Sunday_LC.h` ถอน stack ทุกคน · Memories/Meshing ครั้งเดียวต่อเทิร์น · `Bronya_LC.h` ยกเว้นผู้สวม · คู่มือ Robin/Victual (ตั้งใจตาม kit)
+- Abundance: `Multiplication.h` advance เดิมถูก `resetTurn` ของ BA ลบทุกครั้ง → ย้ายไป `AfterAttackActionList` · **ยังไม่ได้รัน sim**
+
 ## อัปเดต 2026-09-25
 
 - **2026-09-25** — refactor `CharUnit::path` จาก `vector<Path>` เป็น `Path` ค่าเดียว · แก้ `path[0]` ทุกจุด + ลูปใน `Izumo.h` / `The_Herta.h` เป็น `==` · ปิด QUESTIONS CE3

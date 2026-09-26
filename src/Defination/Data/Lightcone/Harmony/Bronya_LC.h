@@ -29,17 +29,17 @@ namespace Harmony_Lightcone{
             }));
     
             Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,BattleBuff]() {
-                AllyUnit *tempstats = dynamic_cast<AllyUnit *>(turn->charptr);
+                AllyUnit *tempstats = turn->canCastToAllyUnit();
                 if (!tempstats) return;
+                if (tempstats->isSameName(ptr)) return; // kit: next ally except the wearer
                 if (ptr->buffCheck["Battle_Isnt_Over_buff"] == 1) {
                     buffSingle(tempstats,{{Stats::DMG,AType::None,25.0+5*superimpose}},BattleBuff,0);
                     ptr->buffCheck["Battle_Isnt_Over_buff"] = 0;
-                    ptr->buffCheck["Battle_Isnt_Over_buff_check"] = 1;
                 }
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,BattleBuff]() {
-                AllyUnit *tempstats = dynamic_cast<AllyUnit *>(turn->charptr);
+                AllyUnit *tempstats = turn->canCastToAllyUnit();
                 if (!tempstats) return;
                 if (isBuffEnd(tempstats,BattleBuff)) {
                     buffSingle(tempstats,{{Stats::DMG,AType::None,-25.0-5*superimpose}});

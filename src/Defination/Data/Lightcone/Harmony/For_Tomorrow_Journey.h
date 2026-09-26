@@ -18,7 +18,7 @@ namespace Harmony_Lightcone{
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
-                if (isBuffEnd(ptr,"Himeko_LC_buff")) {
+                if (isBuffEnd(ptr,"For_Tomorrow_Journey_Buff")) {
                     buffSingle(ptr,{
                         {Stats::DMG,AType::None,-(15.0 + 3 * superimpose)}
                     });

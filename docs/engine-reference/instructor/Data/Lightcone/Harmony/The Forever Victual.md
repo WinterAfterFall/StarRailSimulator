@@ -11,6 +11,6 @@
 
 ## จุดที่น่าสังเกต
 
-**stack ไม่มีวันถูกถอน** — `buffStackSingle` ถูกเรียกโดยไม่ส่ง duration และไม่มี `After_turn_List` รองรับ · ถ้า kit ระบุว่าเป็นบัฟถาวรที่สะสมจนเต็มก็ถูก แต่ควรยืนยันกับ kit
+**stack ไม่มี duration โดยตั้งใจ** — kit: "After the wearer uses Skill, increases ATK by ... stacking up to 3 times" ไม่ระบุระยะเวลา จึงสะสมถาวรจนเต็ม 3 ถูกต้อง
 
 ใช้ `AllyActionList` + `act->isSameAction(ptr, AType::SKILL)` เพื่อจับ Skill ที่เป็นได้ทั้ง attack และ buff action

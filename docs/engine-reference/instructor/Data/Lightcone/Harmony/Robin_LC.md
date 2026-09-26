@@ -21,5 +21,5 @@ WhenUseUlt:  ptr->Energy_recharge -= stack * (2.5 + 0.5*S);  stack = 0;
 
 ## จุดที่ควรระวัง
 
-- **`When_attack_List` ไม่ guard ผู้โจมตี** → ได้ stack จากการโจมตีของ **ทุกคน** รวม DoT/additional · ถ้า kit ระบุเฉพาะเจ้าของจะสะสมเร็วเกินจริง
+- **`When_attack_List` ไม่ guard ผู้โจมตีโดยตั้งใจ** — kit: "Every time **any ally** attacks, the wearer gains 1 stack of Cantillation" จึงถูกต้อง
 - **บัฟทีมใช้ `buffAllAlly` แบบไม่มีชื่อ** แล้วคุมอายุด้วยบัฟ `"Cadenza"` บนตัวผู้สวม → ไม่มี `AllyDeath_List` รองรับ

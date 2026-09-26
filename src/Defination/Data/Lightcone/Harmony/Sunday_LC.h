@@ -6,8 +6,7 @@ namespace Harmony_Lightcone{
             ptr->Light_cone.Name = "Sunday_LC";
             string hymn = ptr->getName() +  " Hymn";
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,hymn]() {
-                if (turn->num != ptr->currentCharNum) return;
-                AllyUnit *tempstats = dynamic_cast<AllyUnit*>(turn->charptr);
+                AllyUnit *tempstats = turn->canCastToAllyUnit();
                 if (!tempstats) return;
                 if (isBuffEnd(tempstats,hymn)) {
                     buffResetStack(tempstats,{{Stats::DMG,AType::None,(12.75 + (2.25)*superimpose)}},hymn);
