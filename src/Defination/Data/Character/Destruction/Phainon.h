@@ -3,7 +3,7 @@
 namespace Phainon{
     void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
         CharUnit *ptr = SetCharBasicStats(94,0,0,E,ElementType::Physical,Path::Destruction,"Phainon",UnitType::Standard);
-        ptr->SetAllyBaseStats(1436,582,703);
+        ptr->SetAllyBaseStats(1433,582,703);
         LC(ptr);
         Relic(ptr);
         Planar(ptr);
@@ -85,6 +85,7 @@ namespace Phainon{
             make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"PN Calamity",
             [ptr,pn,Scourge](shared_ptr<AllyBuffAction> &act){
                 pn->setBuffCheck("Soulscorch",1);
+                pn->setBuffNote("Soulscorch",1);
                 pn->setBuffCountdown("PN Counter",Total_enemy);
                 Scourge(Total_enemy);
                 for(int i=1;i<=Total_enemy;i++){
@@ -275,7 +276,7 @@ namespace Phainon{
                 }
             }
             buffStackSingle(pn,{{Stats::ATK_P,AType::None,50}},1,2,"PN A6");
-            CoreFlame(3);
+            CoreFlame(1);   // A2: +1 at battle start (+3 when transformation ends)
             if(ptr->Eidolon>=6){
                 CoreFlame(6);
             }
@@ -309,7 +310,7 @@ namespace Phainon{
             
             if(!pn->getBuffCountdown("PN Counter")&&pn->getBuffCheck("Soulscorch")){
                 shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Fua,ptr,TraceType::Blast,"PN Calamity",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"PN Calamity",
             [ptr,pn](shared_ptr<AllyAttackAction> &act){
                 Attack(act);
             });
@@ -337,6 +338,12 @@ namespace Phainon{
                 buffSingle(pn,{
                     {Stats::CD,AType::None,-50}
                 });
+            }
+            if(isBuffEnd(pn,"PN Talent")){
+                buffSingle(pn,{{Stats::CD,AType::None,-30}});
+            }
+            if(isBuffEnd(pn,"PN A4")){
+                buffSingle(pn,{{Stats::DMG,AType::None,-45}});
             }
         }));
 
@@ -388,7 +395,8 @@ namespace Phainon{
         }));
 
         Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD,CoreFlame](AllyUnit *Healer, AllyUnit *target, double Value) {
-            if(target->isSameName(pn)){
+            // A4: only heals from allies (Khaslana's self-heal after attacking does not count)
+            if(target->isSameName(pn)&&!Healer->isSameName(pn)){
                 buffSingle(pn,{{Stats::DMG,AType::None,45}},"PN A4",4);
             }
         }));
@@ -401,6 +409,9 @@ namespace Phainon{
             }
             if(isBuffGoneByDeath(target,"PN Talent")){
                 buffSingle(pn,{{Stats::CD,AType::None,-30}});
+            }
+            if(isBuffGoneByDeath(target,"PN A4")){
+                buffSingle(pn,{{Stats::DMG,AType::None,-45}});
             }
         }));
 
