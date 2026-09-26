@@ -2,6 +2,11 @@
 
 หมายเหตุ ณ 2026-09-21: บันทึกเก่าด้านล่างเป็นผลการทำงาน ณ เวลานั้น ไฟล์ใน `test/` ถูก `.gitignore`; ใน workspace ปัจจุบันไม่พบ `basic_reset_stats_regression.cpp`, `hp_decrease_event_regression.cpp` หรือ `break_status_regression.cpp` จึงไม่ควรอ่านการอ้างชื่อเหล่านี้เป็นหลักฐานว่ารันซ้ำได้ตอนนี้ ดู [คู่มือ build/run/test](../../build-run-and-test.md)
 
+## อัปเดต 2026-09-26
+
+- User วางกฎ prefix ชื่อ buff/debuff: ปกติใส่ชื่อเจ้าของนำหน้า ยกเว้น kit บอกว่าซ้อนไม่ได้ หรือบัฟอยู่บนตัวผู้สวมเอง นอกนั้นคือลืม · ไล่ LC ทั้งหมด เจอ `Bronya_LC.h` ลืม → แก้ · บันทึกกฎใน `Data/Lightcone/Nihility/README.md` ข้อ 4
+- แก้ Nihility LC: `Hysilens_LC.h` ทำ Enthrallment 3 เทิร์นจริง + ถอด VUL stack เมื่อหมด + กัน recursion · `Fermata.h` ถอนตามรายการที่จด · `Before_the_Tutorial` guard memosprite + DEF shred ทุกช่อง · รีแฟกเตอร์ `Resolution.h` / `Kafka_LC.h` / `Fugue_LC.h` · แก้คู่มือ Eyes of the Prey (`AType::Dot` มีอยู่แล้ว) และลิงก์ Gallagher · `g++ -fsyntax-only` ผ่าน **ยังไม่ได้รัน sim**
+
 ## อัปเดต 2026-09-25
 
 - **2026-09-25** — refactor `CharUnit::path` จาก `vector<Path>` เป็น `Path` ค่าเดียว · แก้ `path[0]` ทุกจุด + ลูปใน `Izumo.h` / `The_Herta.h` เป็น `==` · ปิด QUESTIONS CE3

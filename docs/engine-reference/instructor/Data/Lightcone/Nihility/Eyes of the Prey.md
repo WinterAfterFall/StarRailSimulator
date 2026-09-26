@@ -13,4 +13,4 @@
 
 ## ข้อควรรู้
 
-`Stats::DMG` ที่ `AType::Dot` เข้าเฉพาะ action ที่มี `AType::Dot` อยู่ใน `damageTypeList` · **ตัวละคร DoT สร้าง action ด้วย `AType::Shock`/`Bleed`/`Burn`/`WindShear` ไม่ใช่ `AType::Dot`** → ต้องตรวจว่า action เหล่านั้นถูกเติม `AType::Dot` เข้าไปด้วยหรือไม่ (ดู `../../Planar/Revelry by the Sea.md` ที่มีข้อสังเกตเดียวกัน)
+`Stats::DMG` ที่ `AType::Dot` เข้าเฉพาะ action ที่มี `AType::Dot` อยู่ใน `damageTypeList` · **action ของ DoT ทุกชนิดมี `AType::Dot` อยู่แล้ว** — ตอนสร้าง action ด้วย `AType::Shock`/`Bleed`/`Burn`/`WindShear` ตัว `setupActionType()` ใส่ `AType::Dot` ลงทั้ง `actionTypeList` และ `damageTypeList` ให้เอง (`Class/ActionData/AllyAttackAction.h:145-160`) โบนัส DoT DMG ของใบนี้จึงมีผลกับ DoT ทุกชนิด

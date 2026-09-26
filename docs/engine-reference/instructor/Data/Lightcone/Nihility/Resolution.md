@@ -11,16 +11,12 @@
 
 ชื่อ debuff prefix ด้วยชื่อเจ้าของ
 
-## จุดที่ควรระวัง: จัดการ debuff ด้วยมือทั้งหมด
+## รูปแบบปัจจุบัน
 
 ```cpp
-ลง:   if (!debuffApply(ptr, e, ensnared)) continue;
-      e->Stats_type[Stats::DEF_SHRED][AType::None] += 11 + superimpose;
-      e->debuffEnd[ensnared] = 1 + e->Atv_stats->turnCnt;
-ถอน:  if (enemyUnit[turn->num]->debuffEnd[ensnared] == enemyUnit[turn->num]->Atv_stats->turnCnt) {
-          ... -= 11 + superimpose;  debuffCheck[ensnared] = 0;  --Total_debuff;
-      }
+ลง:   debuffSingleApply(ptr, e, {{DEF_SHRED, None, 11 + S}}, ensnared, 1);
+ถอน:  if (isDebuffEnd(enemy, ensnared)) debuffSingle(enemy, {{DEF_SHRED, None, -(11 + S)}});
 ```
-**เขียน `Stats_type` / `debuffEnd` / `debuffCheck` / `Total_debuff` เองทั้งหมด** แทนที่จะใช้ `debuffSingleApply(..., ชื่อ, เทิร์น)` + `isDebuffEnd` ที่ทำให้ครบในบรรทัดเดียว
+guard ผู้โจมตีด้วย `isSameOwnerName(ptr)`
 
-เป็นโค้ดเก่ารูปแบบเดียวกับ `../../Character/Nihility/Pela.md` (ซึ่งบันทึกไว้ว่าควรรีแฟกเตอร์) · **ใช้ `debuffApply` ถูก** (เช็คค่าคืนก่อนบวก stat) จึงไม่รั่วเหมือน `../../Relic/Gallagher`
+> **แก้ 2026-09-26**: เดิมจัดการ debuff ด้วยมือทั้งหมด (เขียน `Stats_type` / `debuffEnd` / `debuffCheck` / `Total_debuff` เอง และใช้ `enemyUnit[turn->num]`) แบบโค้ดเก่าของ `../../Character/Nihility/Pela.md` · เปลี่ยนเป็น `debuffSingleApply` + `isDebuffEnd` ผลเท่าเดิม (ยังเช็คลงซ้ำผ่าน `debuffApply` ภายใน จึงไม่รั่วแบบ Nectar Blitz ใน `../../Character/Abundance/Gallagher.md`) · guard เดิมเทียบชื่อ → memosprite ของผู้สวมไม่นับ แก้เป็น `isSameOwnerName`

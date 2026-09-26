@@ -15,6 +15,6 @@
 ## จุดที่ควรระวัง
 
 - **`Toughness_break_List` ไม่ guard ว่าใคร break** → ลง VUL ทุกครั้งที่ใครก็ตาม break ซึ่งน่าจะตรงกับ kit ของใบนี้ แต่ควรยืนยัน
-- **`After_turn_List` ใช้ `enemyUnit[turn->num]` โดยตรงหลังเช็ค `turn->side != Side::Enemy`** แทน `turn->canCastToEnemy()` — โค้ดเก่า แต่ผลเหมือนกัน
+- ~~`After_turn_List` ใช้ `enemyUnit[turn->num]` ตรง ๆ~~ — เปลี่ยนเป็น `turn->canCastToEnemy()` แล้ว 2026-09-26
 
 > **แก้ 2026-09-26**: เดิมเป็น `VUL[AType::None]` (เพิ่มดาเมจทุกชนิด) และไม่ stack · kit เป็น Break DMG taken stack 2 → เปลี่ยนเป็น `VUL[AType::Break]` + `debuffStackSingle`

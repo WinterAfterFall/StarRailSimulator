@@ -14,10 +14,10 @@ namespace Nihility_Lightcone{
             }));
     
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,Charring]() {
-                if (turn->side != Side::Enemy) return;
-                if (isDebuffEnd(enemyUnit[turn->num].get(),Charring)) {
-                    debuffStackRemove(enemyUnit[turn->num].get(),{{Stats::VUL,AType::Break,15.0 + 3 * superimpose}},Charring);
-
+                Enemy *enemy = turn->canCastToEnemy();
+                if(!enemy)return;
+                if (isDebuffEnd(enemy,Charring)) {
+                    debuffStackRemove(enemy,{{Stats::VUL,AType::Break,15.0 + 3 * superimpose}},Charring);
                 }
             }));
         };

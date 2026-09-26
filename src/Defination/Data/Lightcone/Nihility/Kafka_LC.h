@@ -24,7 +24,7 @@ namespace Nihility_Lightcone{
                 if(!enemy)return;
 
                 if(isDebuffEnd(enemy,Erode)){
-                    enemy->changeShock(-1);
+                    dotRemove(enemy,{DotType::Shock});
                 }
             }));
 

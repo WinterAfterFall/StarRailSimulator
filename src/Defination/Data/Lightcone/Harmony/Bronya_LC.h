@@ -4,6 +4,7 @@ namespace Harmony_Lightcone{
         return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(1164,529,463);
             ptr->Light_cone.Name = "Bronya_LC";
+            string BattleBuff = ptr->getName() + " Battle_Isnt_Over_buff_check";
     
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
                 ptr->Energy_recharge += 8 + 2 * superimpose;
@@ -27,20 +28,20 @@ namespace Harmony_Lightcone{
                 }
             }));
     
-            Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,BattleBuff]() {
                 AllyUnit *tempstats = dynamic_cast<AllyUnit *>(turn->charptr);
                 if (!tempstats) return;
                 if (ptr->buffCheck["Battle_Isnt_Over_buff"] == 1) {
-                    buffSingle(tempstats,{{Stats::DMG,AType::None,25.0+5*superimpose}},"Battle_Isnt_Over_buff_check",0);
+                    buffSingle(tempstats,{{Stats::DMG,AType::None,25.0+5*superimpose}},BattleBuff,0);
                     ptr->buffCheck["Battle_Isnt_Over_buff"] = 0;
                     ptr->buffCheck["Battle_Isnt_Over_buff_check"] = 1;
                 }
             }));
     
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,BattleBuff]() {
                 AllyUnit *tempstats = dynamic_cast<AllyUnit *>(turn->charptr);
                 if (!tempstats) return;
-                if (isBuffEnd(tempstats,"Battle_Isnt_Over_buff_check")) {
+                if (isBuffEnd(tempstats,BattleBuff)) {
                     buffSingle(tempstats,{{Stats::DMG,AType::None,-25.0-5*superimpose}});
                 }
             }));

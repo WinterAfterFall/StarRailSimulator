@@ -10,7 +10,7 @@
 | โจมตี → SPD stack `4 + 0.8S` (cap 3) | `AfterAttackActionList` → `buffStackSingle(..., 1, 3, "Kafka LC")` |
 | โจมตี → เป้าติด Shock ชื่อ `Erode` 1 เทิร์น | `dotSingleApply(ptr, each, {DotType::Shock}, Erode, 1)` |
 | Erode DoT `50 + 10S` | **`Dot_List` ของตัว LC เอง** |
-| ถอน | `After_turn_List` → `isDebuffEnd(enemy, Erode)` → `enemy->changeShock(-1)` |
+| ถอน | `After_turn_List` → `isDebuffEnd(enemy, Erode)` → `dotRemove(enemy, {DotType::Shock})` |
 
 ## รากฐาน: LC ที่ลงทะเบียน `Dot_List`
 
@@ -22,7 +22,7 @@ Dot_List.push_back(TriggerDot_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,Erode]
 ```
 guard 2 ชั้นเหมือน handler ของตัวละคร (ดู `../../Character/Nihility/Kafka.md` รากฐานข้อ 3) — **แปลว่า `Dot_trigger` ของ Kafka จะจุดระเบิด DoT ของ LC ใบนี้ด้วย** ซึ่งเป็นเจตนาของ kit
 
-## จุดที่ควรระวัง
+## ข้อควรรู้
 
-- **ถอน Shock ด้วย `changeShock(-1)` แต่ลงด้วย `dotSingleApply`** — `dotSingleApply` เรียก `changeDotType(Shock, +1)` ข้างใน (`Function/Combat/Dot.h:10`) จึงคู่กันถูก แต่ใช้คนละระดับ API · ที่ถูกตามแบบแผนคือ `dotRemove(enemy, {DotType::Shock})` (ดู `../../Character/Nihility/Guinaifen.md`)
-- **`buffStackSingle` ของ SPD ไม่มี duration** → stack ค้างถาวร
+- **SPD stack ไม่มี duration โดยตั้งใจ** — kit: "their SPD increases by ... stacking up to 3 times" ไม่มีระยะเวลา จึงค้างตลอดการต่อสู้ถูกต้อง
+- **แก้ 2026-09-26**: เดิมถอน Shock ด้วย `changeShock(-1)` (ผลเท่ากัน) → เปลี่ยนเป็น `dotRemove(enemy, {DotType::Shock})` คู่กับ `dotSingleApply` ตามแบบแผน (ดู `../../Character/Nihility/Guinaifen.md`)

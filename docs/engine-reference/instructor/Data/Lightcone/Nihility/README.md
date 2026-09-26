@@ -6,7 +6,7 @@
 |---|---|---|---|---|
 | `Kafka_LC.h` | `Kafka_LC` | `Kafka_LC` | DMG `20+4S` | โจมตี → SPD stack (cap 3) + ลง Shock `Erode` · มี `Dot_List` ของตัวเอง |
 | `BlackSwan_LC.h` | `BlackSwan_LC` | `BlackSwan_LC` | EHR `35+5S` | ผู้สวมตีเป้าติด DoT ชนิดไหน → ATK/DEF_SHRED[Dot] เพิ่มชนิดละครั้ง (4 ชนิด) |
-| `Hysilens_LC.h` | `Hysilens_LC` | `Hysilens_LC` | EHR `35+5S` | ตีเป้าติด Enthrallment → ผู้ตี SPD `7.5+2.5S` 3 เทิร์น · ลง debuff → VUL[Dot] stack ตามจำนวน debuff ที่เพิ่ม (cap 6) |
+| `Hysilens_LC.h` | `Hysilens_LC` | `Hysilens_LC` | EHR `35+5S` | ลง debuff → เป้าเข้า Enthrallment 3 เทิร์น · ระหว่างนั้น debuff ที่ลงเพิ่ม → VUL[Dot] stack (cap 6) · ตีเป้าติด Enthrallment → ผู้ตี SPD `7.5+2.5S` 3 เทิร์น |
 | `Cipher_LC.h` | `Cipher_LC` | `Cipher_LC` | SPD% `15+3S` | ผู้สวมโจมตีเสร็จ → ศัตรูทุกตัวติด `Bamboozle` · SPD ≥ 170 ติด `Theft` เพิ่ม |
 | `Fugue_LC.h` | `Fugue_LC` | `Fugue_LC` | BE `50+10S` | มีการ break → เป้าติด Break VUL `15+3S` 2 เทิร์น (stack 2) |
 | `Jiaoqiu_LC.h` | `Jiaoqiu_LC(S, **bool isDot**)` | `Jiaoqiu_LC` | EHR `50+10S` | BA/Skill/Ult → เป้าติด VUL · ค่าต่างกันตาม `isDot` |
@@ -22,17 +22,21 @@
 ## แบบแผนของโฟลเดอร์นี้
 
 **1. `newApplyBaseChanceRequire` / `newEhrRequire` — LC ที่บังคับเกณฑ์ build**
-`BP2.h` (100), `Cipher_LC.h` (120), `Resolution.h` (`50 + S*10`), `ShowTime.h` (`newEhrRequire(80)`) · เป็นกลไกเดียวกับที่ `../../Character/Nihility/Kafka.md` A2 ใช้ยกเกณฑ์ให้เพื่อน
+`BP2.h` (100), `Cipher_LC.h` (120), `Hysilens_LC.h` (80), `Resolution.h` (`50 + S*10`), `ShowTime.h` (`newEhrRequire(80)`) · เป็นกลไกเดียวกับที่ `../../Character/Nihility/Kafka.md` A2 ใช้ยกเกณฑ์ให้เพื่อน
 
 **2. trigger เฉพาะกลุ่มนี้: `BeforeApplyDebuff` / `AfterApplyDebuff`**
 `TriggerBySomeAlly_Func` รับ `(Enemy *target, AllyUnit *Trigger)` — ยิงก่อน/หลังการลง debuff · ใช้โดย `Hysilens_LC.h`, `ShowTime.h`
 
 **3. ตัวนับชนิด DoT บนศัตรูอ่านได้ตรง ๆ** — `target->ShockCount`, `WindSheerCount`, `BurnCount`, `BleedCount` (สะกด `WindSheer` ไม่ใช่ `WindShear`) · ใช้โดย `BlackSwan_LC.h` และ `Fermata.h`
 
-**4. ชื่อ debuff prefix ด้วยชื่อเจ้าของ** — `Fugue_LC.h`, `Jiaoqiu_LC.h`, `Kafka_LC.h`, `Resolution.h` ทำถูก · `BP2.h`, `Cipher_LC.h`, `Hysilens_LC.h` ไม่ได้ทำ
+**4. กฎการ prefix ชื่อ buff/debuff ด้วยชื่อเจ้าของ** (user ยืนยัน 2026-09-26)
+- **ค่าเริ่มต้น = ใส่ prefix** เพราะ buff/debuff ปกติซ้อนกันได้ถ้าสวมหลายคน: `Fugue_LC.h`, `Jiaoqiu_LC.h`, `Kafka_LC.h`, `Resolution.h`
+- **ยกเว้น 1: kit ระบุว่าซ้อนไม่ได้** ("same effect type cannot be stacked" / "only the most recently inflicted instance takes effect"): `BP2.h` (`Holiday Vul`), `Cipher_LC.h` (`Bamboozle`/`Theft`), `Hysilens_LC.h` (`Hys LC`, `Hys LC SPD`)
+- **ยกเว้น 2: บัฟอยู่บนตัวผู้สวมเท่านั้น**: `ShowTime.h`, `HertaShop.h`, `BlackSwan_LC.h`, stack SPD ของ `Kafka_LC.h`
+- นอกเหนือจากนี้ = ลืมใส่ ต้องแก้
 
 ## จุดที่ควรระวังร่วมกัน
 
-- ~~`Cipher_LC.h` ไม่ guard ผู้โจมตี / Theft ไม่เช็ค SPD~~ · ~~`Fugue_LC.h` VUL ทุกชนิด~~ · ~~`BlackSwan_LC.h` DEF ignore ทุกชนิด~~ · ~~`Hysilens_LC.h` SPD ทั้งทีมถาวร~~ · ~~EHR ของ `Before_the_Tutorial` / `Jiaoqiu_LC`~~ — แก้ตาม kit แล้ว 2026-09-26
-- **`Resolution.h` จัดการ debuff ด้วยมือทั้งหมด** (เขียน `Stats_type`, `debuffEnd`, `debuffCheck`, `Total_debuff` เอง) แทนที่จะใช้ `debuffSingleApply` + `isDebuffEnd` — เป็นโค้ดเก่าแบบเดียวกับ `../../Character/Nihility/Pela.md`
-- **`Hysilens_LC.h` มีโค้ด debug ที่ถูกคอมเมนต์ทิ้ง 5 บรรทัด** และตั้ง `buffCheck["LC Hys using"]` โดยไม่มีใครอ่าน
+- แก้ตาม kit แล้ว 2026-09-26: `Cipher_LC.h` guard/SPD 170 · `Fugue_LC.h` Break VUL · `BlackSwan_LC.h` DEF ignore เฉพาะ DoT · `Hysilens_LC.h` Enthrallment/SPD/ถอด VUL stack · EHR ของ `Before_the_Tutorial` / `Jiaoqiu_LC` · `Fermata.h` ถอนตามรายการ · `Before_the_Tutorial` guard memosprite + DEF shred ทุกช่อง
+- รีแฟกเตอร์โค้ดเก่าแล้ว 2026-09-26: `Resolution.h` → `debuffSingleApply` + `isDebuffEnd` · `Kafka_LC.h` → `dotRemove` · `Fugue_LC.h` → `canCastToEnemy()` · ลบโค้ด debug ใน `Hysilens_LC.h`
+- ตั้งใจ ไม่ใช่บั๊ก: `GNSW.h` สมมติ 3 stack เต็มเสมอ · `Jiaoqiu_LC.h` ให้ผู้จัดทีมเลือก `isDot` · SPD stack ของ `Kafka_LC.h` ถาวรตาม kit

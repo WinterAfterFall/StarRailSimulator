@@ -13,5 +13,5 @@
 ## จุดที่ควรระวัง
 
 - **แก้ 2026-09-26**: เดิมลงใน `BeforeAttackAction_List` ไม่ guard ผู้โจมตี (ใครตีก็ลง) และ Theft ไม่เช็ค SPD 170 · ตอนนี้ย้ายไป `AfterAttackActionList` ตาม kit ("After the wearer uses an attack") guard ผู้สวม และคำนวณ SPD จริงเป็น `baseSpeed × (1 + speedPercent/100) + flatSpeed`
-- **ชื่อ debuff ไม่ได้ prefix ด้วยชื่อเจ้าของ** — ถ้ามีสองคนสวมใบนี้ ค่าจะชนกัน (ต่างจาก `Fugue_LC.h`, `Jiaoqiu_LC.h` ที่ทำถูก)
+- **ชื่อ debuff ไม่ prefix ด้วยชื่อเจ้าของ — ตั้งใจ**: `Bamboozle` / `Theft` มีได้ชั้นเดียวบนศัตรู ต่อให้สวม 2 คนก็ติดแค่อันเดียว (ดูแบบแผนข้อ 4 ใน `README.md`)
 - SPD เขียนที่ `Atv_stats->speedPercent` ไม่ใช่ `Stats_type[Stats::SPD_P]`
