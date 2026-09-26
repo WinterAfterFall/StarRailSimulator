@@ -8,7 +8,14 @@
 | กด ult → BA DMG `15 + 5S` 3 เทิร์น | `WhenUseUlt_List` + `isSameOwner` → `buffSingleChar` |
 | ถอน | `After_turn_List` |
 
-## จุดที่ควรระวัง
+## รากฐาน: ถอนผ่านเจ้าของเทิร์น
 
-- **`dynamic_cast` ที่ไม่ได้ใช้** — `tempstats` ถูกใช้แค่เป็นตัวกรองว่าเทิร์นนี้เป็นของ ally แต่บล็อกข้างในอ้าง `ptr` ทั้งหมด · เขียน `if (!turn->canCastToAllyUnit()) return;` ก็ได้ผลเดียวกัน
-- **ลงด้วย `buffSingleChar` (ถึง memosprite) แต่ถอนด้วย `buffSingle` (เฉพาะตัวละคร)** → **บัฟบน memosprite ไม่ถูกถอน** ค้างถาวร
+```cpp
+AllyUnit *tempstats = turn->canCastToAllyUnit();
+if (isBuffEnd(tempstats, "Geniuses_Greetings")) buffSingle(tempstats, {{DMG, BA, -(15 + 5S)}});
+```
+`buffSingleChar(ptr, ..., "Geniuses_Greetings", 3)` ลงบัฟพร้อม `buffEnd` แยกให้ทั้งผู้สวมและ memosprite · ตอนจบเทิร์นของใคร ก็เช็ค `buffEnd` ของคนนั้นแล้วถอนจากคนนั้น → ผู้สวมกับ memosprite หมดอายุตามเทิร์นของตัวเอง
+
+ชื่อบัฟไม่มี prefix เพราะลงเฉพาะผู้สวมและ memosprite ของตัวเอง
+
+> **แก้ 2026-09-26** (user กำหนดวิธี: เช็ค buffEnd ผ่านเจ้าของเทิร์น): เดิมลงด้วย `buffSingleChar` (ผู้สวม + memosprite) แต่ถอนด้วย `buffSingle(ptr, ...)` เฉพาะผู้สวม → **บัฟบน memosprite ค้างถาวร** · ลบ `dynamic_cast` ที่ไม่ได้ใช้

@@ -16,6 +16,4 @@
 
 **ถอนครบทั้ง 2 ทาง** — `isBuffEnd` และ `isBuffGoneByDeath`
 
-## จุดที่ควรระวัง
-
-**ถอนบัฟด้วยการเขียน `Stats_type` ตรง ๆ** แทน `buffSingle` ค่าติดลบ — ผลเหมือนกันแต่ไม่ยิง `StatsAdjust` และผิดแผนจากตอนลงที่ใช้ `buffAllAlly`
+> **แก้ 2026-09-26**: เดิมถอนด้วยการเขียน `Stats_type[DMG] -= ...` ตรง ๆ → เปลี่ยนเป็น `buffSingle` ค่าติดลบให้คู่กับตอนลง · `dynamic_cast` → `turn->canCastToAllyUnit()`

@@ -6,7 +6,7 @@ namespace Remembrance_Lightcone{
             ptr->Light_cone.Name = "Aglaea_LC";
             ptr->Atv_stats->baseSpeed+= 10 + superimpose * 2;
             When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                if (act->Attacker->Atv_stats->num == ptr->Atv_stats->num) {
+                if (act->isSameOwnerName(ptr)) {
                 if (ptr->stack["Aglaea_LC_stack"] < 6) {
                     buffSingleChar(ptr,{{Stats::CD, AType::None, 7.5 + 1.5 * superimpose}});
                     ptr->stack["Aglaea_LC_stack"]++;

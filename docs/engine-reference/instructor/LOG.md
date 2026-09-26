@@ -12,6 +12,9 @@
 
 - **Engine (user สั่ง)**: แยก ally action event เป็น Before/After — `AllyActionList` → `BeforeAllyActionList`, `allEventWhenAllyAction` → `allEventBeforeAllyAction` (ผู้ใช้เดิมทุกจุดเป็น Before) · เพิ่ม `AfterAllyActionList` + `allEventAfterAllyAction` ยิงหลัง `AllyAction()` ใน 3 ลูปของ `Combat.h` · ดู [Event.md](Function/Event/Event.md)
 
+- Multiplication ย้ายจาก `AfterAttackActionList` ไป `AfterAllyActionList` ตามที่ user สั่ง
+- ไล่ Remembrance LC เทียบ kit: `Hyacnine_LC.h` Additional DMG ไม่เคยออก + ยอดสะสม + จังหวะ · `SweatNowCryLess.h` ค่า/ถอนเมื่อ memosprite ตาย/null · `Geniuses_Greetings.h` ถอนผ่านเจ้าของเทิร์น (user กำหนด) · Castorice HP% · Curtain prefix · Reminiscence ล้างทันที · Victory ถอนผ่าน `buffSingle` · **ยังไม่ได้รัน sim**
+
 ## อัปเดต 2026-09-25
 
 - **2026-09-25** — refactor `CharUnit::path` จาก `vector<Path>` เป็น `Path` ค่าเดียว · แก้ `path[0]` ทุกจุด + ลูปใน `Izumo.h` / `The_Herta.h` เป็น `==` · ปิด QUESTIONS CE3

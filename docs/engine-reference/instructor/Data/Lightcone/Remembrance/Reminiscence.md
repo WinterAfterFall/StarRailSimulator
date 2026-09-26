@@ -6,7 +6,7 @@
 
 | ท่อน | โค้ด |
 |---|---|
-| memosprite ของผู้สวมตาย → ล้าง stack ทั้งหมด | `Before_turn_List` → `buffCharResetStack` |
+| memosprite ของผู้สวมตาย → ล้าง stack ทั้งหมดทันที | `AllyDeath_List` → `buffCharResetStack` (สำรองใน `Before_turn_List`) |
 | ต้นเทิร์นของ memosprite → DMG stack `7 + S` (cap 4) | `buffStackChar(..., 1, 4, "Reminiscence")` |
 
 **ไม่มีสแตตติดตัว**
@@ -21,3 +21,5 @@
 
 - ลูปเช็ค `e->Atv_stats->side == Side::Memosprite` ทั้งที่อ่านจาก `memosprite` อยู่แล้ว — เงื่อนไขซ้ำซ้อน
 - ถ้าผู้สวมไม่ใช่ path Remembrance `memosprite` เป็น `nullptr` → `if` ข้ามไป ปลอดภัย
+
+> **แก้ 2026-09-26 ตาม kit** ("removed ... when the memosprite disappears"): เดิมล้างเฉพาะตอน `Before_turn` → ช่วงระหว่าง memosprite ตายจนถึงเทิร์นถัดไปยังได้บัฟ · เพิ่ม `AllyDeath_List` ล้างทันที

@@ -6,7 +6,7 @@
 
 | ท่อน | โค้ด |
 |---|---|
-| HP% `22 + 8S` | `Reset_List` |
+| HP% `22.5 + 7.5S` | `Reset_List` |
 | memosprite ของผู้สวมตาย → advance `9 + 3S` (ครั้งเดียวต่อ ult) | `AllyDeath_List` + flag `Castorice_LC_check` |
 | กด ult → ล้าง flag | `WhenUseUlt_List` |
 | ผู้สวมเสีย HP ในเทิร์นตัวเอง → DEF_SHRED `25 + 5S` 2 เทิร์น | `HPDecrease_List` |
@@ -28,3 +28,5 @@ if ((turn->side == Side::Memosprite || turn->side == Side::Ally)
 ## ข้อสังเกต
 
 flag `Castorice_LC_check` ทำให้ advance เกิดได้ครั้งเดียวต่อรอบ ult — ล้างเมื่อกด ult ใหม่ · ตรงกับ kit ที่ผูกกับรอบของ Netherwing
+
+> **แก้ 2026-09-26 ตาม kit**: HP% เดิม `22 + 8S` (30/38/46/54/62) → kit 30/38/45/53/60 (ปัดจาก 30/37.5/45/52.5/60) = `22.5 + 7.5S`

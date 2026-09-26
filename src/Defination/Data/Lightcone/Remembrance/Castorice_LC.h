@@ -6,7 +6,7 @@ namespace Remembrance_Lightcone{
             ptr->Light_cone.Name = "Castorice_LC";
 
             Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr, superimpose]() {
-                ptr->Stats_type[Stats::HP_P][AType::None] += 22 + 8*superimpose;
+                ptr->Stats_type[Stats::HP_P][AType::None] += 22.5 + 7.5*superimpose;
             }));
 
             AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr, superimpose](AllyUnit* target) {
@@ -23,7 +23,7 @@ namespace Remembrance_Lightcone{
                     ptr->setBuffCheck("Castorice_LC_check",0);
                 }
             }));
-            
+
             HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_IMMEDIATELY, [ptr, superimpose](Unit *Trigger, AllyUnit *target, double Value) {
                 if(!turn)return;
                 if((turn->side==Side::Memosprite||turn->side==Side::Ally)

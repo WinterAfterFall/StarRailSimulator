@@ -5,9 +5,11 @@
 | ท่อน | โค้ด |
 |---|---|
 | CR `10 + 2S` | `Reset_List` |
-| memosprite ยังอยู่ → DMG `20 + 4S` (ครั้งเดียวตลอดการต่อสู้) | `Before_turn_List` + `isHaveToAddBuff(ptr, "SweatNowCryLess")` |
+| memosprite อยู่บนสนาม → ผู้สวมและ memosprite DMG `21 + 3S` | `Before_turn_List` ลง/ถอนตามสถานะ memosprite |
+| memosprite ตาย → ถอนทันที | `AllyDeath_List` |
 
-## จุดที่ควรระวัง
+## รากฐาน: บัฟแบบ "ขณะที่ ... อยู่"
 
-- **`ptr->memosprite` เข้าถึงโดยไม่เช็ค `nullptr`** → **ถ้าผู้สวมไม่ใช่ path Remembrance จะ crash** · ใบอื่นในโฟลเดอร์ใช้ `if(auto *e = ptr->memosprite.get())` ซึ่งปลอดภัยกว่า
-- **`isHaveToAddBuff` แบบ 2 args ไม่มีอายุ** → บัฟลงครั้งเดียวแล้วอยู่ถาวร แม้ memosprite ตายไปแล้วก็ไม่ถอน · ถ้า kit ระบุว่าเป็นเงื่อนไขต่อเนื่อง ควรมีโค้ดถอน (แบบที่ `Reminiscence.h` ทำ)
+flag `buffCheck["SweatNowCryLess"]` บนผู้สวมบอกว่าบัฟลงอยู่หรือไม่ · `Before_turn_List` ของทุกเทิร์นเทียบกับสถานะ memosprite (มีและยังไม่ตาย) แล้วลงหรือถอนให้ตรง · `AllyDeath_List` ถอนทันทีเมื่อ memosprite ตาย ไม่ต้องรอเทิร์นถัดไป · อ่าน `ptr->memosprite.get()` แล้วเช็ค null ก่อน ผู้สวมที่ไม่ใช่ path Remembrance จึงไม่ crash
+
+> **แก้ 2026-09-26 ตาม kit**: (1) DMG เดิม `20 + 4S` (24/28/32/36/40) → kit 24/27/30/33/36 = `21 + 3S` (2) เดิมลงครั้งเดียวแล้วค้างถาวรแม้ memosprite ตาย → ถอน/ลงตามสถานะ (3) เดิม `ptr->memosprite->isDeath()` ไม่เช็ค null → crash ถ้าผู้สวมไม่มี memosprite

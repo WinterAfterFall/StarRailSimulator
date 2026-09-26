@@ -20,26 +20,29 @@ namespace Remembrance_Lightcone{
                 if(allyaction->isSameAction(AType::BA)
                 ||allyaction->isSameAction(AType::SKILL)
                 ||allyaction->isSameAction(AType::Ult)){
+                    double consumePercent = 0.75 + 0.25 * superimpose;
                     double temp = 0;
                     for(auto &each : allyList){
-                        temp+=each->currentHP*0.01;
+                        if(!each->isTargetable())continue;
+                        temp += each->currentHP * consumePercent / 100;
                     }
-                    ptr->buffNote["Hyacnine_LC Note"] +=temp;
-                    DecreaseHP(ptr,0,0,(0.75 + 0.25 * superimpose));
+                    ptr->buffNote["Hyacnine_LC Note"] += temp;
+                    DecreaseHP(ptr,0,0,consumePercent);
                 }
             }));
 
             AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                if(act->Attacker->Atv_stats->side == Side::Memosprite
-                    &&act->Attacker->Atv_stats->num==ptr->Atv_stats->num
-                    &&act->isSameAction(AType::SKILL)){
-                        shared_ptr<AllyAttackAction> addtionaldmg = 
-                        make_shared<AllyAttackAction>(AType::Addtional,act->Attacker,TraceType::Single,"Hyc LC AddDmg");
-                        act->addDamageIns(DmgSrc(DmgSrcType::CONST,ptr->buffNote["Hyacnine_LC Note"] * (1.875 + 0.625 * superimpose),0));
-                        Attack(addtionaldmg);
-                        
-                        ptr->setBuffNote("Hyacnine_LC Note",0);
-                }
+                // kit: after the next attack launched by the wearer's memosprite
+                if(act->Attacker->Atv_stats->side != Side::Memosprite
+                    ||act->Attacker->Atv_stats->num != ptr->Atv_stats->num)return;
+                double consumed = ptr->buffNote["Hyacnine_LC Note"];
+                if(consumed <= 0)return;
+                // reset first: the Additional DMG is also a memosprite attack and fires this list again
+                ptr->setBuffNote("Hyacnine_LC Note",0);
+                shared_ptr<AllyAttackAction> addtionaldmg =
+                make_shared<AllyAttackAction>(AType::Addtional,act->Attacker,TraceType::Single,"Hyc LC AddDmg");
+                addtionaldmg->addDamageIns(DmgSrc(DmgSrcType::CONST,consumed * (1.875 + 0.625 * superimpose),0));
+                Attack(addtionaldmg);
             }));
 
             After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
@@ -51,5 +54,5 @@ namespace Remembrance_Lightcone{
             }));
         };
     }
-    
+
 }

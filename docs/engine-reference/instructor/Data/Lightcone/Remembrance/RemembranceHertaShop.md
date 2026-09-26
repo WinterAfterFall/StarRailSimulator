@@ -12,8 +12,10 @@
 
 ## จุดที่ทำถูก
 
-**ถอนครบทั้ง 2 ทาง** (`isBuffEnd` และ `isBuffGoneByDeath`) — เป็น 1 ใน 2 ใบของโฟลเดอร์ที่ทำครบ (อีกใบคือ `Victory_In_Blink.h`)
+**ถอนครบทั้ง 2 ทาง** (`isBuffEnd` และ `isBuffGoneByDeath`)
 
 **ใช้ `AfterAction_List` + `castToAllyActionData()`** เพื่อจับ Skill ที่เป็นได้ทั้ง attack และ buff action
+
+> **แก้ 2026-09-26**: ชื่อบัฟทีมเดิม `"Curtain Never Falls"` ไม่มี prefix · kit ไม่ได้บอกว่าซ้อนไม่ได้และบัฟลงคนอื่น → เติม `ptr->getName()` นำหน้าตามกฎ (ดู `../Nihility/README.md` ข้อ 4)
 
 > มีไฟล์ชื่อคล้ายกันอีก 2 ใบ: `../Nihility/HertaShop.h` และ `../Destruction/HertaShop.h` — คนละใบ คนละ namespace

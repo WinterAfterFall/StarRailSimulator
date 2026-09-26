@@ -16,8 +16,9 @@
 
 **นับ stack เองด้วย `ptr->stack[...]` แทน `buffStackSingle`** — เพราะต้องรู้ว่าถึง 6 พอดีเมื่อไหร่เพื่อให้บัฟก้อนใหญ่ · `buffStackSingle` ไม่บอกว่าเต็มแล้ว (ต้องใช้ `calStack` ที่คืน `pair`)
 
-**ไม่มีการถอน** — CD และ BA DMG สะสมแล้วอยู่ถาวร
+**ไม่มีการถอน** — CD และ BA DMG สะสมแล้วอยู่ถาวร ถูกต้องตาม kit
 
 ## จุดที่ควรระวัง
 
-- **guard ด้วย `act->Attacker->Atv_stats->num == ptr->Atv_stats->num`** (เทียบเลขช่อง) → memosprite ที่ใช้เลขช่องเดียวกับเจ้าของก็นับด้วย ซึ่งน่าจะเป็นเจตนา แต่ไม่ชัดเจนจากโค้ด
+- **guard ด้วย `act->isSameOwnerName(ptr)`** → นับทั้งผู้สวมและ memosprite ของผู้สวม ตาม kit "After the wearer **and the wearer's memosprite** attacks" · **แก้ 2026-09-26** (user สั่ง): เดิมเทียบเลขช่อง `act->Attacker->Atv_stats->num == ptr->Atv_stats->num` ซึ่งได้ผลเดียวกันเพราะ memosprite ใช้เลขช่องของเจ้าของ (`Class/Unit/StatsSet.h:45`) แต่ countdown ก็ใช้เลขช่องเดียวกันด้วย จึงเปลี่ยนมาเช็คเจ้าของตรง ๆ
+- ค่าทุกตัวตรง kit (`baseSpeed` 12–20, CD 9–15 ต่อ stack, BA DMG ต่อ stack เมื่อครบ 6) และ stack ถาวรตาม kit (ไม่มี duration)
