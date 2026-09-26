@@ -6,7 +6,7 @@
 
 | ท่อน | โค้ด |
 |---|---|
-| ใช้ Skill ครั้งแรกของเทิร์น → energy `7 + S` | `AllyActionList` + flag `Passkey` |
+| ใช้ Skill ครั้งแรกของเทิร์น → energy `7 + S` | `BeforeAllyActionList` + flag `Passkey` |
 | ล้าง flag ต้นเทิร์นตัวเอง | `Before_turn_List` → `turn->isSameName(ptr->Atv_stats->Name)` |
 
 **ไม่มีสแตตติดตัว**

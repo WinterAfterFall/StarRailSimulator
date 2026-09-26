@@ -22,7 +22,7 @@ namespace Harmony_Lightcone{
                 }
             }));
 
-            AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
+            BeforeAllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
                 if (act->isSameAction(ptr,AType::Fua)) {
                     Increase_energy(ptr, 12);
                     if(isHaveToAddBuff(ptr,"Presage",2)){

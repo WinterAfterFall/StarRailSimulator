@@ -9,7 +9,7 @@ namespace Harmony_Lightcone{
                 ptr->Stats_type[Stats::ATK_P][AType::None] += 12 + 4 * superimpose;
             }));
 
-            AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
+            BeforeAllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
                 if(act->isSameAction(ptr,AType::SKILL))
                 buffStackSingle(ptr,{{Stats::ATK_P,AType::None,6.0 + 2 * superimpose}},1,3,"The Forever Victual");
             }));

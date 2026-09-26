@@ -18,7 +18,7 @@ namespace Erudition_Lightcone{
                 }
             }));
 
-            AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
+            BeforeAllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
                 if (act->isSameAction(ptr,AType::Ult)) {
                     buffSingle(ptr,{
                         {Stats::DMG,AType::SKILL,(50.0 + 10 * superimpose)},

@@ -11,7 +11,7 @@
 | `Ruan_Mei.h` | Break support | `Turn_Skip` — ทำให้ศัตรูข้ามเทิร์น · `buffAllAllyExcludingBuffer` |
 | `Hanabi.h` | SP economy | `Max_sp` · `Skill_point_List` เป็นแกนของ Talent |
 | `Harmony_MC.h` | Super Break | Super Break ให้ทั้งทีม · `AType::TEMP` กันลูปสูตร BE→BE |
-| `Cerydra.h` | บัฟ Skill ของเป้า | `AllyActionList` · copy action ทั้งก้อนเพื่อยิงซ้ำ |
+| `Cerydra.h` | บัฟ Skill ของเป้า | `BeforeAllyActionList` · copy action ทั้งก้อนเพื่อยิงซ้ำ |
 | `Tribbie.h` | Zone + True DMG | `Cal_DamageNote` · `Char.Print_Func` |
 | `HanabiV1.h` | (เวอร์ชันเก่า) | ดู `HanabiV1.md` |
 

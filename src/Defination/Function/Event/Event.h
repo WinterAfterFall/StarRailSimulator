@@ -103,8 +103,13 @@ void allEventBeforeAction(shared_ptr<ActionData> &act){
         e.Call(act);
     }
 }
-void allEventWhenAllyAction(shared_ptr<AllyActionData> &act){
-    for(TriggerByAllyAction_Func &e : AllyActionList){
+void allEventBeforeAllyAction(shared_ptr<AllyActionData> &act){
+    for(TriggerByAllyAction_Func &e : BeforeAllyActionList){
+        e.Call(act);
+    }
+}
+void allEventAfterAllyAction(shared_ptr<AllyActionData> &act){
+    for(TriggerByAllyAction_Func &e : AfterAllyActionList){
         e.Call(act);
     }
 }

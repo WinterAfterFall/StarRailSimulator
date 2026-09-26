@@ -7,10 +7,10 @@
 | ท่อน | โค้ด |
 |---|---|
 | ATK% `12 + 4S` | `Reset_List` |
-| ใช้ Skill → ATK stack `6 + 2S` (cap 3) | `AllyActionList` → `buffStackSingle(ptr, ..., 1, 3, "The Forever Victual")` |
+| ใช้ Skill → ATK stack `6 + 2S` (cap 3) | `BeforeAllyActionList` → `buffStackSingle(ptr, ..., 1, 3, "The Forever Victual")` |
 
 ## จุดที่น่าสังเกต
 
 **stack ไม่มี duration โดยตั้งใจ** — kit: "After the wearer uses Skill, increases ATK by ... stacking up to 3 times" ไม่ระบุระยะเวลา จึงสะสมถาวรจนเต็ม 3 ถูกต้อง
 
-ใช้ `AllyActionList` + `act->isSameAction(ptr, AType::SKILL)` เพื่อจับ Skill ที่เป็นได้ทั้ง attack และ buff action
+ใช้ `BeforeAllyActionList` + `act->isSameAction(ptr, AType::SKILL)` เพื่อจับ Skill ที่เป็นได้ทั้ง attack และ buff action

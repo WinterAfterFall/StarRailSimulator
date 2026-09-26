@@ -107,7 +107,8 @@ vector<TriggerByAlly_Func> WhenUseUlt_List;
 
 vector<TriggerByAction_Func> BeforeAction_List;
 vector<TriggerByAction_Func> AfterAction_List;
-vector<TriggerByAllyAction_Func> AllyActionList;
+vector<TriggerByAllyAction_Func> BeforeAllyActionList;
+vector<TriggerByAllyAction_Func> AfterAllyActionList;
 vector<TriggerByAllyAttackAction_Func> BeforeAttackAction_List;
 vector<TriggerByAllyAttackAction_Func> AfterAttackActionList;
 vector<TriggerByAllyAttackAction_Func> BeforeAttack_List;

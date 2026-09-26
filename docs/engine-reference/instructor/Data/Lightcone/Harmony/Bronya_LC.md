@@ -7,7 +7,7 @@
 | ท่อน | โค้ด |
 |---|---|
 | ER `8 + 2S` | `Reset_List` → `ptr->Energy_recharge += 8 + 2*superimpose` |
-| ใช้ Skill → ตั้ง flag | `AllyActionList` → `buffCheck["Battle_Isnt_Over_buff"] = 1` |
+| ใช้ Skill → ตั้ง flag | `BeforeAllyActionList` → `buffCheck["Battle_Isnt_Over_buff"] = 1` |
 | ต้นเทิร์นถัดไปของเพื่อน **(ยกเว้นผู้สวม)** → ได้ DMG `25 + 5S` | `Before_turn_List` → `buffSingle(tempstats, ..., BattleBuff, 0)` |
 | กด ult → คืน SP 1 **ครั้งเว้นครั้ง** | `WhenUseUlt_List` + `buffCheck["Battle_Isnt_Over_cnt"]` สลับ |
 | ถอน | `After_turn_List` → `isBuffEnd` |

@@ -1,6 +1,6 @@
 # `src/Defination/Data/Character/Harmony/Cerydra.h`
 
-kit อ้างอิง: `docs/kit-reference/Character/Harmony/cerydra.md` · **ไฟล์อ้างอิงของ `AllyActionList` และการ copy action ทั้งก้อนเพื่อยิงซ้ำ**
+kit อ้างอิง: `docs/kit-reference/Character/Harmony/cerydra.md` · **ไฟล์อ้างอิงของ `BeforeAllyActionList` และการ copy action ทั้งก้อนเพื่อยิงซ้ำ**
 
 ## ตาราง: ความสามารถ → โค้ด
 
@@ -11,7 +11,7 @@ kit อ้างอิง: `docs/kit-reference/Character/Harmony/cerydra.md` · 
 | **Skill** — Veci: SPD +20 flat ทั้งคู่ | lambda `Skill` — `buffSingle` ให้ตัวเองและเป้าหมาย | 42-61 |
 | **Ultimate** | `Ultimate_List` — AoE 240%×3 + charge +2 + ล้าง Talent limit | 78-95 |
 | **charge** (ทรัพยากรแกน) | lambda `charge(int)` → `addStack("Cerydra charge", value)` | 22-24 |
-| charge จาก action ของเป้าที่บัฟ | `AllyActionList` — เป้าใช้ Skill/BA → energy +5 และ charge +1 | 176-182 |
+| charge จาก action ของเป้าที่บัฟ | `BeforeAllyActionList` — เป้าใช้ Skill/BA → energy +5 และ charge +1 | 176-182 |
 | **Peerage** — charge ครบ 6 → บัฟ Skill ของเป้า | `AfterAttackActionList` → `DMG[SKILL] +72`, `RESPEN[SKILL] +10` | 203-217 |
 | **Coup de Main** — ยิง Skill ของเป้าซ้ำ 1 ครั้ง | `make_shared<AllyAttackAction>(*act)` แล้ว `addToActionBar()` | 186-190 |
 | **Talent** — Additional DMG เมื่อเป้าโจมตี (cap 20 ครั้ง) | `When_attack_List` → `AType::Addtional` 60% | 219-229 |
@@ -25,10 +25,10 @@ kit อ้างอิง: `docs/kit-reference/Character/Harmony/cerydra.md` · 
 | **E6** — RESPEN ทั้งคู่ · Additional DMG ×6 | `WhenOnField_List` · `newAct->multiplyDmg(600)` | 120-127, 226 |
 | AI: เทิร์นนี้กดอะไร | `Turn_func` — `sp > Sp_Safety + 1` → Skill ไม่งั้น BA | 64-67 |
 
-## รากฐาน: `AllyActionList` — trigger จาก action ทุกชนิดของฝ่ายเรา
+## รากฐาน: `BeforeAllyActionList` — trigger จาก action ทุกชนิดของฝ่ายเรา
 
 ```cpp
-AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,
+BeforeAllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,
     [](shared_ptr<AllyActionData> &act){ ... }));
 ```
 รับ `AllyActionData` (คลาสแม่ของ attack และ buff action) → **เป็นตัวเดียวที่เห็นทั้ง Skill ที่เป็นดาเมจและ Skill ที่เป็นบัฟ** · ต่างจาก `BeforeAction_List` / `AfterAction_List` ของ `../Remembrance/Hyacine.md` ที่เห็น action ของศัตรูด้วย

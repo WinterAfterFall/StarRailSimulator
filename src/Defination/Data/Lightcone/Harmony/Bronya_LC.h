@@ -10,7 +10,7 @@ namespace Harmony_Lightcone{
                 ptr->Energy_recharge += 8 + 2 * superimpose;
             }));
 
-            AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
+            BeforeAllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
                 if (act->Attacker->Atv_stats->Name == ptr->Atv_stats->Name) {
                     if (act->isSameAction(AType::SKILL)) {
                         ptr->buffCheck["Battle_Isnt_Over_buff"] = 1;

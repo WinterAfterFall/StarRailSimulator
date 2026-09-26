@@ -3,7 +3,8 @@
 void allEventBeforeTurn();
 void allEventAfterTurn();
 void allEventBeforeAction(shared_ptr<ActionData> &act);
-void allEventWhenAllyAction(shared_ptr<AllyActionData> &act);
+void allEventBeforeAllyAction(shared_ptr<AllyActionData> &act);
+void allEventAfterAllyAction(shared_ptr<AllyActionData> &act);
 void allEventAfterAction(shared_ptr<ActionData> &act);
 void allEventBuff(shared_ptr<AllyBuffAction> &act);
 void allEventBeforeAttackAction(shared_ptr<AllyAttackAction> &act);

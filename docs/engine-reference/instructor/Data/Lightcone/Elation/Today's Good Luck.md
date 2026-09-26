@@ -7,7 +7,7 @@
 | ท่อน | โค้ด |
 |---|---|
 | CR `10 + 2S` | `Reset_List` |
-| ใช้ Elation Skill → Elation stack `10 + 2S` (cap 2) | `AllyActionList` → `buffStackSingle(ptr, ..., 1, 2, "TDGL Stack")` |
+| ใช้ Elation Skill → Elation stack `10 + 2S` (cap 2) | `BeforeAllyActionList` → `buffStackSingle(ptr, ..., 1, 2, "TDGL Stack")` |
 
 ## จุดที่ควรระวัง
 

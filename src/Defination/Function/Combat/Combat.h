@@ -39,8 +39,9 @@ void AhaTurn(){
         phaseStatus = PhaseStatus::WhileAction;
         allEventBeforeAction(temp);
         if (auto allyActionData = dynamic_pointer_cast<AllyActionData>(temp)) {
-            allEventWhenAllyAction(allyActionData);
+            allEventBeforeAllyAction(allyActionData);
             allyActionData->AllyAction();
+            allEventAfterAllyAction(allyActionData);
         } else if (auto enemyActionData = dynamic_pointer_cast<EnemyActionData>(temp)) {
             enemyActionData->EnemyAction();
         }
@@ -87,8 +88,9 @@ void AhaInstant(int PL){
         phaseStatus = PhaseStatus::WhileAction;
         allEventBeforeAction(temp);
         if (auto allyActionData = dynamic_pointer_cast<AllyActionData>(temp)) {
-            allEventWhenAllyAction(allyActionData);
+            allEventBeforeAllyAction(allyActionData);
             allyActionData->AllyAction();
+            allEventAfterAllyAction(allyActionData);
         } else if (auto enemyActionData = dynamic_pointer_cast<EnemyActionData>(temp)) {
             enemyActionData->EnemyAction();
         }
@@ -113,8 +115,9 @@ void Deal_damage(){
         phaseStatus = PhaseStatus::WhileAction;
         allEventBeforeAction(temp);
         if (auto allyActionData = dynamic_pointer_cast<AllyActionData>(temp)) {
-            allEventWhenAllyAction(allyActionData);
+            allEventBeforeAllyAction(allyActionData);
             allyActionData->AllyAction();
+            allEventAfterAllyAction(allyActionData);
         } else if (auto enemyActionData = dynamic_pointer_cast<EnemyActionData>(temp)) {
             enemyActionData->EnemyAction();
         }

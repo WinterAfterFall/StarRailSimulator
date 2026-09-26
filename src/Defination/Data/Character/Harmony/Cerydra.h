@@ -174,7 +174,7 @@ namespace Cerydra{
             }
         }));
 
-        AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,crd,charge](shared_ptr<AllyActionData> &act) {
+        BeforeAllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,crd,charge](shared_ptr<AllyActionData> &act) {
             if(act->Attacker->isSameName(chooseAllyBuff(crd))&&
             (act->isSameAction(AType::SKILL)||act->isSameAction(AType::BA))){
                 Increase_energy(ptr,5);

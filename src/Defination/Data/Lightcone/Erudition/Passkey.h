@@ -10,7 +10,7 @@ namespace Erudition_Lightcone{
                 if(turn->isSameName(ptr->Atv_stats->Name))ptr->setBuffCheck("Passkey",0);
             }));
 
-            AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
+            BeforeAllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
                 if (act->isSameAction(ptr,AType::SKILL)&&!ptr->getBuffCheck("Passkey")) {
                     Increase_energy(ptr, 7 + superimpose);
                     ptr->setBuffCheck("Passkey",1);

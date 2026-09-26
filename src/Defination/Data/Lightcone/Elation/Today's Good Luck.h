@@ -9,7 +9,7 @@ namespace Elation_Lightcone{
                 ptr->Stats_type[Stats::CR][AType::None] += 10.0 + superimpose *2;
             }));
 
-            AllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &act) {
+            BeforeAllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &act) {
                 if(act->isSameAction(ptr,AType::ElationSkill)){
                     buffStackSingle(ptr,{{Stats::Elation,AType::None,10.0 + superimpose *2}},1,2,"TDGL Stack");
                 }

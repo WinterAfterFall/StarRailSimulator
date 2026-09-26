@@ -17,6 +17,6 @@ Setup_List.push_back(... { Max_sp += min(3, elationCount); });
 ```
 เป็น **LC ใบเดียวที่แก้ `Max_sp`** และเป็นที่เดียวในกลุ่ม LC ที่ใช้ `Setup_List` — จำเป็นเพราะต้องรอให้ `elationCount` ถูกนับครบทุกตัวก่อน (`Setup_List` รันหลังประกอบทีมเสร็จ เหมือน `../../Character/Destruction/Phainon.md`)
 
-**2. ทั้ง 4 ใบผูกกับ `AType::ElationSkill` / `AType::ElationDMG`** — ใช้ `AllyActionList` + `act->isSameAction(ptr, AType::ElationSkill)` เป็นมาตรฐานของโฟลเดอร์
+**2. ทั้ง 4 ใบผูกกับ `AType::ElationSkill` / `AType::ElationDMG`** — ใช้ `BeforeAllyActionList` + `act->isSameAction(ptr, AType::ElationSkill)` เป็นมาตรฐานของโฟลเดอร์
 
 **3. `Stats::Elation` เป็นทั้งสแตตติดตัวและเป้าหมายของบัฟ** — ต่างจาก path อื่นที่ stat หลักเป็น ATK/CD

@@ -12,8 +12,8 @@
 
 ## รากฐาน: advance ต้องเกิดหลัง turn reset
 
-ลำดับใน `Function/Combat/Combat.h`: `allEventWhenAllyAction` (`AllyActionList`) → `AllyAction()` → `Attack()` ซึ่งจบด้วย `if(act->Turn_reset) resetTurn(turn)` (บรรทัด 218; BA ตั้ง `Turn_reset = true` ใน `Class/ActionData/AllyAttackAction.h:83`) → `allEventAfterAttackAction` (`AfterAttackActionList`)
+ลำดับใน `Function/Combat/Combat.h`: `allEventBeforeAllyAction` (`BeforeAllyActionList`) → `AllyAction()` → `Attack()` ซึ่งจบด้วย `if(act->Turn_reset) resetTurn(turn)` (บรรทัด 218; BA ตั้ง `Turn_reset = true` ใน `Class/ActionData/AllyAttackAction.h:83`) → `allEventAfterAttackAction` (`AfterAttackActionList`)
 
 **advance ที่สั่งก่อน `resetTurn` จะถูกลบทิ้ง** · kit: "their **next** action will be Advanced Forward" จึงต้องสั่งใน `AfterAttackActionList`
 
-> **แก้ 2026-09-26**: เดิมอยู่ใน `AllyActionList` + `Action_forward(turn, ...)` → advance ถูก `resetTurn` ลบทุกครั้ง **ใบนี้ไม่เคยมีผล** และ `turn` อาจเป็นคนอื่นถ้าโจมตีนอกเทิร์นตัวเอง · ตอนนี้ advance ตัวผู้สวมตรง ๆ หลังโจมตี · guard เปลี่ยนจาก `isSameOwnerAction` (รวม memosprite) เป็น `isSameAction(ptr, AType::BA)` ตาม kit "the wearer uses their Basic ATK"
+> **แก้ 2026-09-26**: เดิมอยู่ใน `BeforeAllyActionList` + `Action_forward(turn, ...)` → advance ถูก `resetTurn` ลบทุกครั้ง **ใบนี้ไม่เคยมีผล** และ `turn` อาจเป็นคนอื่นถ้าโจมตีนอกเทิร์นตัวเอง · ตอนนี้ advance ตัวผู้สวมตรง ๆ หลังโจมตี · guard เปลี่ยนจาก `isSameOwnerAction` (รวม memosprite) เป็น `isSameAction(ptr, AType::BA)` ตาม kit "the wearer uses their Basic ATK"

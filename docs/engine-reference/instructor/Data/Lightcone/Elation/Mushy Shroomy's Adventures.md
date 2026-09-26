@@ -7,7 +7,7 @@
 | ท่อน | โค้ด |
 |---|---|
 | Elation `10 + 2S` | `Reset_List` |
-| ใช้ Elation Skill → ศัตรูทุกตัวติด VUL[ElationDMG] `5 + S` | `AllyActionList` → `debuffAllEnemyApply(..., debuffName)` |
+| ใช้ Elation Skill → ศัตรูทุกตัวติด VUL[ElationDMG] `5 + S` | `BeforeAllyActionList` → `debuffAllEnemyApply(..., debuffName)` |
 | ถอน | `After_turn_List` → `isDebuffEnd` |
 
 ชื่อ debuff prefix ด้วยชื่อเจ้าของ (`ptr->getName() + " MushyShroomy Debuff"`)

@@ -10,6 +10,8 @@
 - ไล่ Harmony LC เทียบ kit: `For_Tomorrow_Journey.h` ชื่อถอนบัฟผิด · `Cerydra LC.h` Skill DMG + SP จาก ult · `Sunday_LC.h` ถอน stack ทุกคน · Memories/Meshing ครั้งเดียวต่อเทิร์น · `Bronya_LC.h` ยกเว้นผู้สวม · คู่มือ Robin/Victual (ตั้งใจตาม kit)
 - Abundance: `Multiplication.h` advance เดิมถูก `resetTurn` ของ BA ลบทุกครั้ง → ย้ายไป `AfterAttackActionList` · **ยังไม่ได้รัน sim**
 
+- **Engine (user สั่ง)**: แยก ally action event เป็น Before/After — `AllyActionList` → `BeforeAllyActionList`, `allEventWhenAllyAction` → `allEventBeforeAllyAction` (ผู้ใช้เดิมทุกจุดเป็น Before) · เพิ่ม `AfterAllyActionList` + `allEventAfterAllyAction` ยิงหลัง `AllyAction()` ใน 3 ลูปของ `Combat.h` · ดู [Event.md](Function/Event/Event.md)
+
 ## อัปเดต 2026-09-25
 
 - **2026-09-25** — refactor `CharUnit::path` จาก `vector<Path>` เป็น `Path` ค่าเดียว · แก้ `path[0]` ทุกจุด + ลูปใน `Izumo.h` / `The_Herta.h` เป็น `==` · ปิด QUESTIONS CE3
