@@ -40,7 +40,7 @@ void AhaTurn(){
         allEventBeforeAction(temp);
         if (auto allyActionData = dynamic_pointer_cast<AllyActionData>(temp)) {
             allEventBeforeAllyAction(allyActionData);
-            allyActionData->AllyAction();
+            allyActionData->ElationSkillAction();
             allEventAfterAllyAction(allyActionData);
         } else if (auto enemyActionData = dynamic_pointer_cast<EnemyActionData>(temp)) {
             enemyActionData->EnemyAction();
@@ -89,7 +89,7 @@ void AhaInstant(int PL){
         allEventBeforeAction(temp);
         if (auto allyActionData = dynamic_pointer_cast<AllyActionData>(temp)) {
             allEventBeforeAllyAction(allyActionData);
-            allyActionData->AllyAction();
+            allyActionData->ElationSkillAction();
             allEventAfterAllyAction(allyActionData);
         } else if (auto enemyActionData = dynamic_pointer_cast<EnemyActionData>(temp)) {
             enemyActionData->EnemyAction();
@@ -149,6 +149,35 @@ void AllyActionData::AllyAction(){
         attackAction->actionTypeList = attackAction->AttackSetList[0].actionTypeList;
         attackAction->damageTypeList = attackAction->AttackSetList[0].damageTypeList;
         allEventAfterAttackAction(attackAction); 
+        if(attackAction->damageNote)Cal_AverageDamage(attackAction->Attacker->owner,attackAction->targetList); 
+
+    }else{
+        if(buffAction->actionFunction)buffAction->actionFunction(buffAction);
+        if(buffAction->Turn_reset)resetTurn(turn);
+        allEventBuff(buffAction);
+    }
+    
+}
+// Same as AllyAction but without Before/AfterAttackAction:
+// inside an Aha Instant each Elation Skill is not its own attack action
+void AllyActionData::ElationSkillAction(){
+    std::shared_ptr<AllyActionData> self = shared_from_this();
+    std::shared_ptr<AllyAttackAction> attackAction = dynamic_pointer_cast<AllyAttackAction>(self);
+    std::shared_ptr<AllyBuffAction> buffAction = dynamic_pointer_cast<AllyBuffAction>(self);
+    if(attackAction){
+        if(attackAction->actionFunction)attackAction->actionFunction(attackAction);
+        else Attack(attackAction);    
+        
+        for(int i = 0; i < attackAction->AttackSetList.size() ; i++){
+            attackAction->Attacker = attackAction->AttackSetList[i].attacker;
+            attackAction->actionTypeList = attackAction->AttackSetList[i].actionTypeList;
+            attackAction->damageTypeList = attackAction->AttackSetList[i].damageTypeList;
+            allEventWhenAttack(attackAction);
+        }
+        
+        attackAction->Attacker = attackAction->AttackSetList[0].attacker;
+        attackAction->actionTypeList = attackAction->AttackSetList[0].actionTypeList;
+        attackAction->damageTypeList = attackAction->AttackSetList[0].damageTypeList;
         if(attackAction->damageNote)Cal_AverageDamage(attackAction->Attacker->owner,attackAction->targetList); 
 
     }else{
