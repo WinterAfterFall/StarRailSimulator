@@ -51,8 +51,7 @@ void AhaTurn(){
     phaseStatus = beforeStatus;
 
     for(auto &each : charList){
-        if(each->path == Path::Elation)buffSingle(each,{{Stats::CertifiedBanger,AType::None,1.0*punchline}},"CB Buff " + to_string(aha->turnCnt),2);
-        if(each->isSameName("Yao Guang"))extendBuffTime(each,"CB Buff " + to_string(aha->turnCnt),3);
+        if(each->path == Path::Elation)buffSingle(each,{{Stats::CertifiedBanger,AType::None,1.0*punchline}},"CB Buff " + to_string(aha->turnCnt),CB_duration);
     }
     CBcheck.push_back({"CB Buff " + to_string(aha->turnCnt),elationCount,punchline});
 
@@ -99,8 +98,7 @@ void AhaInstant(int PL){
     }
     phaseStatus = beforeStatus;
     for(auto &each : charList){
-        if(each->path == Path::Elation)buffSingle(each,{{Stats::CertifiedBanger,AType::None,1.0*PL}},"CB Buff " + to_string(aha->turnCnt),2);
-        if(each->isSameName("Yao Guang"))extendBuffTime(each,"CB Buff " + to_string(aha->turnCnt),3);
+        if(each->path == Path::Elation)buffSingle(each,{{Stats::CertifiedBanger,AType::None,1.0*PL}},"CB Buff " + to_string(aha->turnCnt),CB_duration);
     }
     CBcheck.push_back({"CB Buff " + to_string(aha->turnCnt),elationCount,PL});
 

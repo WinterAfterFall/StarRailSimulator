@@ -13,6 +13,7 @@ namespace YaoGuang{
         ptr->setRelicMainStats(Stats::CR,Stats::FLAT_SPD,Stats::HP_P,Stats::ER);
 
         elationCount++;
+        CB_duration += 1; // A6: Certified Banger duration +1
         
         //func
         LC(ptr);

@@ -79,6 +79,7 @@ bool bestBounce = 0;
 unique_ptr<ActionValueStats> aha = make_unique<ActionValueStats>("Aha",80);
 int punchline = 0;
 int elationCount = 0;
+int CB_duration = 2; // Certified Banger duration (turns) · Yao Guang A6 +1
 deque<tuple<string,int, double>> CBcheck;
 
 
