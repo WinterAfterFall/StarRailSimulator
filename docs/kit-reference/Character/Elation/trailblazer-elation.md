@@ -19,7 +19,7 @@ overrides: "prydwen record (2026-05-30, unit_id 90) — replaced by nanoka.cc da
 
 > Source: hsr.nanoka.cc (game data 4.5.54; the data file names the unit `{NICKNAME}`). Mechanics below are paraphrased, not the in-game prose.
 > Values are shown at the sim's convention: **5★ = Basic Lv.6, Skill/Ult/Talent/Elation Skill Lv.10**.
-> Not implemented in code yet.
+> Code: `src/Defination/Data/Character/Elation/EMC.h` (unit `"EMC"`) · Elation Skill Participant ID = 120.
 
 ## Base stats (Lv.80)
 

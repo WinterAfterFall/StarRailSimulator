@@ -101,6 +101,8 @@ void charSelector(function<void(int eidolon, function<void(CharUnit *ptr)> lc, f
             charSetup = SilverWolf999::setup;
         else if (name == "Evanescia") 
             charSetup = Evanescia::setup;
+        else if (name == "EMC") 
+            charSetup = EMC::setup;
 
         // --- Erudition ---
         else if (name == "Anaxa") 
