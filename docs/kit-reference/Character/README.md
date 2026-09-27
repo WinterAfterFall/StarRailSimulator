@@ -15,6 +15,7 @@ ground-truth เวลาเทียบกับโค้ด implementation ใ
 ## แหล่งอ้างอิงหลัก
 - prydwen.gg/star-rail/characters/&lt;name&gt; (kit tab) — patch อ้างอิงส่วนใหญ่ ~3.x–4.x (review/calc date ระบุในแต่ละไฟล์)
 - ทุกไฟล์ระบุ URL + patch ที่ prydwen review/calc ล่าสุดไว้ท้ายไฟล์
+- **ยกเว้นโฟลเดอร์ `Elation/`** — ทั้ง 7 ไฟล์ (sparxie, yao-guang, pearl, evanescia, silver-wolf-lv-999, aventurine-waveflair, trailblazer-elation) เขียนใหม่จาก **hsr.nanoka.cc (game data 4.5.54, snapshot 2026-09-28)** ในรูปแบบย่อ: ตาราง ability + ตารางตัวเลขทุกเลเวล + traces + eidolons ส่วน `pearl.md` เป็นตัวใหม่ (ยังไม่มีโค้ด)
 
 ## Codename / เวอร์ชัน — สรุป
 | ไฟล์โค้ด | ตัวจริงในเกม |

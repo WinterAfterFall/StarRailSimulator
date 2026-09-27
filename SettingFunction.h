@@ -97,6 +97,8 @@ void charSelector(function<void(int eidolon, function<void(CharUnit *ptr)> lc, f
             charSetup = Hibana::setup;
         else if (name == "YaoGuang") 
             charSetup = YaoGuang::setup;
+        else if (name == "SilverWolf999") 
+            charSetup = SilverWolf999::setup;
 
         // --- Erudition ---
         else if (name == "Anaxa") 
