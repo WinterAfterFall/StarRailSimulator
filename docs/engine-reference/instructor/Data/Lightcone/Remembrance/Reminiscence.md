@@ -4,10 +4,13 @@
 
 **base stats ต่ำสุดในโฟลเดอร์** (3★)
 
-| ท่อน | โค้ด |
-|---|---|
-| memosprite ของผู้สวมตาย → ล้าง stack ทั้งหมดทันที | `AllyDeath_List` → `buffCharResetStack` (สำรองใน `Before_turn_List`) |
-| ต้นเทิร์นของ memosprite → DMG stack `7 + S` (cap 4) | `buffStackChar(..., 1, 4, "Reminiscence")` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(635, 423, 265)` | `Reminiscence.h:5` |
+| ต้นเทิร์นของ memosprite → ผู้สวมและ memosprite DMG `7 + S` ต่อชั้น (สูงสุด 4) | `Before_turn_List` เจ้าของเทิร์นเป็น memosprite ของผู้สวม → `buffStackChar(…, 1, 4, "Reminiscence")` | `:16-18` |
+| memosprite หายไป → ล้างทั้งกอง | ต้นเทิร์นถ้า memosprite ตาย → `buffCharResetStack` · และทันทีที่ตายผ่าน `AllyDeath_List` | `:9-14` · `:22-25` |
 
 **ไม่มีสแตตติดตัว**
 

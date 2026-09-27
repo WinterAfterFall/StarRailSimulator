@@ -4,11 +4,14 @@
 
 **ฟังก์ชันชื่อ `HertaShop` แต่ `Light_cone.Name` เป็น `"Solitary Healing"`** — ชื่อไฟล์บอกแหล่งที่มา (ร้าน Herta) ไม่ใช่ชื่อใบ
 
-| ท่อน | โค้ด |
-|---|---|
-| Break Effect `15 + 5S` | `Reset_List` |
-| กด ult → DoT DMG `18 + 6S` 2 เทิร์น | `WhenUseUlt_List` + `isSameOwner` |
-| ถอน | `After_turn_List` → `isBuffEnd` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(1058, 529, 397)` | `HertaShop.h:5` |
+| Break Effect `15 + 5S` | บวกถาวร | `:8` |
+| ผู้สวมกด Ult → DoT DMG `18 + 6S` นาน 2 เทิร์น | `WhenUseUlt_List` + `isSameOwner` → `buffSingle(…, "Solitary Healing", 2)` | `:10-12` |
+| ถอนเมื่อหมดอายุ | ท้ายเทิร์น ally `isBuffEnd` | `:14-21` |
 
 ## จุดที่ควรระวัง
 

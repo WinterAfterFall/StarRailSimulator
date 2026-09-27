@@ -2,12 +2,14 @@
 
 เซ็ตจริง: **Knight of Purity Palace** · `Relic.Name` = `"Knight"` (ชื่อย่อ)
 
-| โบนัส | โค้ด | บรรทัด |
-|---|---|---|
-| 2-pc — DEF +15% | `Stats_type[Stats::DEF_P][AType::None] += 15` | 7 |
-| 4-pc — Shield effectiveness +20% | `Stats_type[Stats::SHEILD][AType::None] += 20` | 8 |
+## ความสามารถหลัก → โค้ดที่ทำงาน
 
-ไฟล์สั้นที่สุดในกลุ่ม ไม่มี trigger ใด ๆ ทั้ง 2 อย่างอยู่ใน `Reset_List` ก้อนเดียว
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| 2-pc — DEF +15% | บวก DEF% ถาวร | `Knight_of_Purity_Palace.h:7` |
+| 4-pc — Shield +20% | บวก `Stats::SHEILD` ถาวร (ยังไม่มีผล — ดูด้านล่าง) | `:8` |
+
+ไฟล์สั้นที่สุดในกลุ่ม ไม่มี trigger ใด ๆ ทั้ง 2 อย่างอยู่ใน `Reset_List` ก้อนเดียว (`:6-9`)
 
 ## จุดที่ควรรู้
 

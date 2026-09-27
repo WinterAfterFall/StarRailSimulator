@@ -4,11 +4,12 @@
 
 ฟังก์ชันชื่อ `The_Moles`
 
-| ท่อน | โค้ด |
-|---|---|
-| ใช้ BA ครั้งแรก → ATK `9 + 3S` | `isHaveToAddBuff(ptr, "The Moles BA")` |
-| ใช้ Skill ครั้งแรก → ATK `9 + 3S` | `isHaveToAddBuff(ptr, "The Moles Skill")` |
-| ใช้ Ult ครั้งแรก → ATK `9 + 3S` | `isHaveToAddBuff(ptr, "The Moles Ult")` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(1058, 476, 265)` | `The Moles.h:5` |
+| ใช้ BA / Skill / Ult ครั้งแรกของแต่ละชนิด → ATK `9 + 3S`% (รวมได้ 3 ก้อน ถาวร) | `BeforeAttackAction_List` guard `isSameOwnerName` · ใช้ `isHaveToAddBuff` ชื่อแยกต่อชนิดท่าเป็นตัวจำว่าเคยใช้แล้ว | `:7-15` (BA `:9-10` · Skill `:11-12` · Ult `:13-14`) |
 
 **ไม่มีสแตตติดตัว** และ **ไม่มีการถอน** — สะสมได้สูงสุด 3 ก้อนแล้วอยู่ถาวร
 

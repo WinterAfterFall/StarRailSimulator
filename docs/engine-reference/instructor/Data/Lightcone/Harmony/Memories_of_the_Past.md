@@ -4,11 +4,14 @@
 
 **4★**
 
-| ท่อน | โค้ด |
-|---|---|
-| Break Effect `21 + 7S` | `Reset_List` |
-| โจมตี → energy `3 + S` **ครั้งเดียวต่อเทิร์น** | `AfterAttackActionList` + guard ชื่อผู้โจมตี + flag `"Memories_of_the_Past_Triggered"` |
-| ล้าง flag | `Before_turn_List` (ทุกเทิร์นของทุกยูนิต) |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(953, 423, 397)` | `Memories_of_the_Past.h:5` |
+| Break Effect `21 + 7S` | บวกถาวร | `:20` |
+| ผู้สวมโจมตี → energy `3 + S` (ครั้งเดียวต่อเทิร์น) | `AfterAttackActionList` + flag `"Memories_of_the_Past_Triggered"` | `:8-13` |
+| ล้าง flag | ต้นเทิร์นของทุก unit | `:15-17` |
 
 ไม่มีบัฟที่ต้องถอน
 

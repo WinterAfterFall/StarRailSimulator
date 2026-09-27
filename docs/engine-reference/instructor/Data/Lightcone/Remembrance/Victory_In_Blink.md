@@ -2,11 +2,14 @@
 
 `namespace Remembrance_Lightcone` · `Light_cone.Name` = `"Victory_In_Blink"` · base stats `SetAllyBaseStats(847, 476, 397)`
 
-| ท่อน | โค้ด |
-|---|---|
-| CD `9 + 3S` | `Reset_List` |
-| memosprite ของผู้สวมใช้ buff action → ทีม DMG `6 + 2S` 3 เทิร์น | `Buff_List` |
-| ถอน | `After_turn_List` + `AllyDeath_List` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(847, 476, 397)` | `Victory_In_Blink.h:5` |
+| CD `9 + 3S` | บวกถาวร | `:10` |
+| memosprite ของผู้สวมใช้ท่าบัฟ → ทั้งทีม DMG `6 + 2S` นาน 3 เทิร์น | `Buff_List` เช็คผู้กระทำเป็น memosprite ของผู้สวม → `buffAllAlly(…, VictoryBlink, 3)` ชื่อผูกเจ้าของ (`:7`) | `:13-18` |
+| ถอนเมื่อหมดอายุ / ตาย | ท้ายเทิร์นผู้ถือ `isBuffEnd` · `AllyDeath_List` + `isBuffGoneByDeath` | `:20-26` · `:28-32` |
 
 ชื่อบัฟ prefix ด้วยชื่อเจ้าของ
 

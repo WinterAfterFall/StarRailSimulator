@@ -4,12 +4,15 @@
 
 **signature ของ Blade** (ตัวละครยังไม่มีในโปรเจกต์ — อยู่ในคิว `../../IMPLEMENT-QUEUE.md`)
 
-| ท่อน | โค้ด |
-|---|---|
-| CR `15 + 3S` · HP% `15 + 3S` | `Reset_List` |
-| ถูกตี → DMG `20 + 4S` (ครั้งเดียว) | `Enemy_hit_List` + `isHaveToAddBuff(ptr, "Blade_LC_Mark")` |
-| เสีย HP → เหมือนกัน | `HPDecrease_List` |
-| ผู้สวมโจมตี → ถอนและล้าง flag | `AfterAttackActionList` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(1270, 582, 331)` | `Blade_LC.h:5` |
+| CR `15 + 3S` และ HP% `15 + 3S` | บวกถาวร | `:9-10` |
+| ผู้สวมถูกศัตรูตี → DMG `20 + 4S` สำหรับการโจมตีครั้งถัดไป | `Enemy_hit_List` หาผู้สวมใน `target` · `isHaveToAddBuff(ptr, "Blade_LC_Mark")` กันลงซ้ำ | `:14-23` |
+| ผู้สวมเสีย HP (จากอะไรก็ได้) → บัฟเดียวกัน | `HPDecrease_List` guard `target` เป็นผู้สวม | `:24-30` |
+| ใช้หมดเมื่อผู้สวมโจมตี | `AfterAttackActionList` → ถ้ามี flag ลบ DMG และล้าง flag | `:31-37` |
 
 ## จุดที่ทำถูก
 

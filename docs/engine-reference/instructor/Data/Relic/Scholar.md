@@ -2,11 +2,14 @@
 
 เซ็ตจริง: **Scholar Lost in Erudition** · `Relic.Name` = `"Scholar"`
 
-| โบนัส | โค้ด | บรรทัด |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| 2-pc — CR +8% | `Reset_List` → `Stats_type[Stats::CR][AType::None] += 8` | 7 |
-| 4-pc — Skill / Ult DMG +20% | `Stats_type[Stats::DMG][AType::Ult] += 20` และ `[AType::SKILL] += 20` | 8-9 |
-| 4-pc — หลังใช้อัลติ Skill ครั้งถัดไป +25% | `WhenUseUlt_List` ลงบัฟ → `AfterAttackActionList` ถอนเมื่อ Skill ออกไปแล้ว | 12-27 |
+| 2-pc — CR +8% | บวก CR ถาวร | `Scholar.h:7` |
+| 4-pc — Skill และ Ult DMG +20% | บวก DMG ที่จำกัด `AType::Ult` และ `AType::SKILL` ถาวร | `:8-9` |
+| 4-pc — หลังกด Ult, Skill ครั้งถัดไป DMG +25% | `WhenUseUlt_List` (เฉพาะผู้สวม) จอง flag แล้วบวก 25 | `:12-18` |
+| — ถอนหลังใช้ Skill ครั้งนั้น | `AfterAttackActionList` เจอ Skill ของผู้สวม → ล้าง flag ลบ 25 (หลังดาเมจคำนวณแล้ว) | `:20-27` |
 
 ## รากฐาน: บัฟ "ครั้งเดียวแล้วหมด" ที่ไม่ผูกกับเทิร์น
 

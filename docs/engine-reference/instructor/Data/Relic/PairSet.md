@@ -7,6 +7,13 @@ function<void(CharUnit *ptr)> PairSet(PairSetType first, PairSetType second)
 ```
 เป็น **factory** คืน lambda แล้วข้างในเรียก `ptr->RelicPairSet(first)` / `(second)` ซึ่งเป็นเมธอดของ `CharUnit` (`Function/Setup/SetRelic.h:16`) ที่แปลง `PairSetType` เป็น lambda ลงสแตต แล้ว push ทั้งคู่เข้า `Reset_List` ก้อนเดียว
 
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| 2-pc + 2-pc จากสองเซ็ต | factory รับ `PairSetType` สองตัว · แปลงเป็น lambda ผ่าน `ptr->RelicPairSet(…)` แล้วเรียกทั้งคู่ใน `Reset_List` ก้อนเดียว | `PairSet.h:3-13` (แปลงชนิด: `Function/Setup/SetRelic.h:16`) |
+| ตั้งชื่อ | `Relic.Name = "PairSet"` เสมอ | `PairSet.h:5` |
+
 ## `PairSetType` → สแตตที่ได้
 
 (`Enum/RelicEnum.h` + `Function/Setup/SetRelic.h:16`)

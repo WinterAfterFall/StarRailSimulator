@@ -2,9 +2,12 @@
 
 `namespace Destruction_Lightcone` · `Light_cone.Name` = `"Secret_Vow"` · base stats `SetAllyBaseStats(1058, 476, 265)`
 
-| ท่อน | โค้ด |
-|---|---|
-| DMG `30 + 10S` | `Reset_List` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(1058, 476, 265)` | `Secret_Vow.h:5` |
+| DMG `30 + 10S` (เวอร์ชันเข้าเงื่อนไขของ kit) | บวก DMG ทุกประเภทถาวร | `:8` |
 
 มี `Reset_List` ก้อนเดียว ไม่มี trigger
 

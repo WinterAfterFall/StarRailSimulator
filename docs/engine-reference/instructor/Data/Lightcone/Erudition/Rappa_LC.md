@@ -4,12 +4,15 @@
 
 **signature ของ Rappa** (ดู `../../Character/Erudition/Rappa.md`)
 
-| ท่อน | โค้ด |
-|---|---|
-| Break Effect `50 + 10S` | `Reset_List` |
-| ต้นเกม → energy `27.5 + 2.5S` | `Start_game_List` |
-| กด ult → เปิดสถานะ `Ration` | `WhenUseUlt_List` + `isSameOwner` |
-| ใช้ BA ครบ 2 ครั้งหลัง ult → advance `45 + 5S` | `AfterAttackActionList` + `stack["Ration"]` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(953, 582, 529)` | `Rappa_LC.h:5` |
+| Break Effect `50 + 10S` | บวกถาวร | `:9` |
+| ต้นเกม → energy `27.5 + 2.5S` | `Start_game_List` | `:12-14` |
+| ผู้สวมกด Ult → เข้าสถานะ "Ration" | `WhenUseUlt_List` + `isSameOwner` ตั้ง flag และนับใหม่ | `:17-22` |
+| ใช้ Basic ATK ครบ 2 ครั้งหลัง Ult → advance `45 + 5S`% | `AfterAttackActionList` นับ `stack["Ration"]` ถึง 2 → `Action_forward` และปิดสถานะ | `:24-32` |
 
 ## จุดที่น่าสนใจ
 

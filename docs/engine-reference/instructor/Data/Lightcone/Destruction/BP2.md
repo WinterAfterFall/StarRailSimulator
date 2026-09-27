@@ -4,11 +4,13 @@
 
 **ฟังก์ชันชื่อ `BP2` แต่ `Light_cone.Name` เป็น `"A Trail of Bygone Blood"`** — ชื่อไฟล์บอกว่ามาจาก Battle Pass
 
-| ท่อน | โค้ด |
-|---|---|
-| CR `10 + 2S` | `Reset_List` |
-| Skill DMG `20 + 4S` | `Stats_type[Stats::DMG][AType::SKILL]` |
-| Ult DMG `20 + 4S` | `Stats_type[Stats::DMG][AType::Ult]` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(1058, 529, 331)` | `BP2.h:5` |
+| CR `10 + 2S` | บวก CR ถาวร | `:9` |
+| Skill DMG และ Ult DMG `20 + 4S` | บวก DMG ที่จำกัด `AType::SKILL` / `AType::Ult` ถาวร | `:10-11` |
 
 มี `Reset_List` ก้อนเดียว ไม่มี trigger
 

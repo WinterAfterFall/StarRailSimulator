@@ -2,10 +2,12 @@
 
 `Planar.Name` = `"Kalpagni_Lantern"` · เซ็ตจริง: **Lushaka, the Sunken Seas** ไม่ใช่ — เซ็ตนี้คือ **Forge of the Kalpagni Lantern**
 
-| ท่อน | โค้ด | บรรทัด |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| SPD +6% | `Reset_List` → `Atv_stats->speedPercent += 6` | 7 |
-| Break Effect +40% (kit: เฉพาะเป้าที่มี Fire weakness) | `WhenOnField_List` | 11 |
+| SPD +6% | บวก `speedPercent` ถาวร | `Kalpagni_Lantern.h:7` |
+| Break Effect +40% (kit: ตีเป้าที่มี Fire weakness) | ลง BE ถาวรตอนเข้าสนาม · ไม่เช็ค weakness ของเป้า | `:10-12` |
 
 ## จุดที่ควรรู้
 

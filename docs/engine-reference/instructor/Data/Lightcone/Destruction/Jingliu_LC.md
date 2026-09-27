@@ -4,13 +4,16 @@
 
 **signature ของ Jingliu** (ตัวละครยังไม่มีในโปรเจกต์ — อยู่ในคิว `../../IMPLEMENT-QUEUE.md`)
 
-| ท่อน | โค้ด |
-|---|---|
-| CD `17 + 3S` | `Reset_List` |
-| ถูกตี → DMG stack `11.5 + 2.5S` (cap 3) | `Enemy_hit_List` |
-| เสีย HP → DMG stack เหมือนกัน | `HPDecrease_List` |
-| ครบ 3 stack → DEF_SHRED `10 + 2S` | `isHaveToAddBuff(ptr, "Jingliu_LC Def Shred")` |
-| ผู้สวมโจมตี → ล้างทั้งหมด | `AfterAttackActionList` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(1164, 582, 397)` | `Jingliu_LC.h:5` |
+| CD `17 + 3S` | บวกถาวร | `:8` |
+| ถูกตี → DMG `11.5 + 2.5S` ต่อ stack (สูงสุด 3) | `Enemy_hit_List` วนทุกเป้าที่โดนแล้วบวก stack (ไม่เช็คว่าเป็นผู้สวม — ดูด้านล่าง) | `:11-19` (stack `:13`) |
+| เสีย HP → stack เหมือนกัน | `HPDecrease_List` (ไม่ guard `target`) | `:21-28` (stack `:22`) |
+| ครบ 3 stack → ignore DEF `10 + 2S`% | `isHaveToAddBuff(ptr, "Jingliu_LC Def Shred")` กันลงซ้ำ · มีสองชุดเหมือนกัน | `:15-18` · `:23-26` |
+| ผู้สวมโจมตี → ล้างทั้งหมด | `AfterAttackActionList` → `buffCharResetStack` ถอน DMG · ถอน DEF_SHRED ถ้ามี flag | `:29-37` |
 
 ## จุดที่ควรระวัง
 

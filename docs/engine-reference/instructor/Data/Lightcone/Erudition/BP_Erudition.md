@@ -4,9 +4,12 @@
 
 **มาจาก Battle Pass** · เซ็ตจริง: **Today Is Another Peaceful Day** (0.2/0.25/0.3/0.35/0.4% ต่อ energy สูงสุด 160 — ตรงกับโค้ด)
 
-| ท่อน | โค้ด |
-|---|---|
-| DMG ขึ้นกับ `Max_energy` ของผู้สวม | `Reset_List` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(847, 529, 331)` | `BP_Erudition.h:5` |
+| DMG ตาม Max Energy ของผู้สวม (`0.15 + 0.05S`% ต่อ energy, นับสูงสุด 160) | `Reset_List` · Max Energy > 160 → ค่าเพดาน `24 + 8S` · ไม่งั้นคูณตรง | `:7-13` (เพดาน `:9` · คูณ `:11`) |
 
 ```cpp
 if (ptr->Max_energy > 160) ptr->Stats_type[DMG][None] += 24 + superimpose * 8;

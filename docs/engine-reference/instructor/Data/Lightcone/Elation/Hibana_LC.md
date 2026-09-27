@@ -4,13 +4,16 @@
 
 ชื่อในเกม: **Dazzled by a Flowery World** · **signature ของ Hibana/Sparxie** (ดู `../../Character/Elation/Hibana.md`)
 
-| ท่อน | โค้ด |
-|---|---|
-| CD `40 + 8S` | `Reset_List` |
-| **`Max_sp += min(3, elationCount)`** | `Setup_List` |
-| ล้างตัวนับ SP ต้นเทิร์น | `Before_turn_List` |
-| ผู้สวมใช้ SP → DEF_SHRED[ElationDMG] `4+S` ต่อแต้ม (cap 4) | `Skill_point_List` |
-| ใช้ SP ครบ 4 ในเทิร์น → ทีม Elation `16+4S` (ครั้งเดียวต่อคน) | `isHaveToAddBuff(each, "Stream Promo")` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(1058, 582, 463)` | `Hibana_LC.h:5` |
+| CD `40 + 8S` | บวกถาวร | `:9` |
+| SP สูงสุดของทีม +จำนวนตัว Elation (สูงสุด 3) — ไม่ซ้อนถ้าใส่หลายคน | `Setup_List` ให้เฉพาะผู้สวมคนแรกใน `charList` บวก `Max_sp` | `:12-20` |
+| ล้างตัวนับ SP | ต้นทุกเทิร์นตั้ง stack `"Hibana LC sp count"` = 0 | `:22-24` |
+| ผู้สวมใช้ SP → Elation DMG ignore DEF `4 + S`% ต่อแต้ม (สูงสุด 4) | `Skill_point_List` เฉพาะผู้สวม SP ติดลบ · `buffStackSingle(…, -SP, 4, "Hibana LC Defshred")` | `:26-29` |
+| ใช้ SP ครบ 4 ในเทิร์น → ทั้งทีม Elation `16 + 4S` | วน `allyList` · `isHaveToAddBuff(each, "Stream Promo")` ลงคนละครั้ง | `:30-35` |
 
 ## รากฐาน: `Setup_List` ในไฟล์ LC
 

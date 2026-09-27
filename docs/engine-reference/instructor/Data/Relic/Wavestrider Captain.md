@@ -2,12 +2,15 @@
 
 เซ็ตจริง: **Wavestrider Captain** · `Relic.Name` = `"Captain"` (ชื่อย่อ)
 
-| โบนัส | โค้ด | บรรทัด |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| 2-pc — CD +16% | `Reset_List` → `Stats_type[Stats::CD][AType::None] += 16` | 8 |
-| 4-pc — นับจำนวนครั้งที่ถูกบัฟ (สูงสุด 2) | `Buff_List` → `calStack(each, 1, 2, help)` | 20-26 |
-| 4-pc — กดอัลติตอนครบ 2 → ATK +48% 1 เทิร์น แล้วล้าง stack | `WhenUseUlt_List` | 11-18 |
-| — ถอนเมื่อหมดอายุ / เมื่อตาย | `After_turn_List` + `AllyDeath_List` | 28-39 |
+| 2-pc — CD +16% | บวก CD ถาวร | `Wavestrider Captain.h:8` |
+| 4-pc — ถูกเพื่อนบัฟ → ได้ "Help" 1 ชั้น (สูงสุด 2) | `Buff_List` ข้าม action ของผู้สวมเอง · ถ้าผู้สวมอยู่ใน `buffTargetList` นับ `calStack(…, 1, 2, help)` | `:20-27` |
+| 4-pc — กด Ult ตอนมี Help 2 ชั้น → ATK +48% 1 เทิร์น แล้วล้าง Help | `WhenUseUlt_List` เฉพาะผู้สวม · stack ≥ 2 → ตั้ง 0 และ `buffSingle` ATK 48 ชื่อ `help` อายุ 1 | `:11-18` |
+| — ถอน ATK เมื่อหมดอายุ | ท้ายเทิร์นผู้สวม `isBuffEnd` | `:29-33` |
+| — ถอน ATK เมื่อตาย | `AllyDeath_List` + `isBuffGoneByDeath` | `:36-40` |
 
 ## รากฐาน: ถอนบัฟให้ครบ **ทุกทาง** ที่บัฟหายได้
 
@@ -26,9 +29,9 @@ AllyDeath_List : if (isBuffGoneByDeath(target, help))   buffSingle(ptr, {{ATK_P,
 
 ## จุดที่ควรรู้
 
-- ชื่อ stack/บัฟ ผูกกับเจ้าของ: `string help = ptr->getName() + " help";` (5) — เหตุผลเดียวกับ `Sacerdos_Relived_Ordeal.md`
+- ชื่อ stack/บัฟ ผูกกับเจ้าของ: `string help = ptr->getName() + " help";` (`:5`) — เหตุผลเดียวกับ `Sacerdos_Relived_Ordeal.md`
 - `Buff_List` ข้าม action ที่ผู้สวมเป็นคนทำเอง (`act->isSameName(ptr)`) แล้วนับเมื่อ **เป้าหมาย** เป็นผู้สวม — ตรงกับ kit "target of **another** ally's ability"
-- **stack ถูกล้างเฉพาะตอนได้ใช้งาน** (`setStack(help, 0)` บรรทัด 14) ถ้ากดอัลติตอน stack ยังไม่ถึง 2 จะไม่เกิดอะไรและ stack คงอยู่ต่อ
+- **stack ถูกล้างเฉพาะตอนได้ใช้งาน** (`setStack(help, 0)` `:14`) ถ้ากดอัลติตอน stack ยังไม่ถึง 2 จะไม่เกิดอะไรและ stack คงอยู่ต่อ
 
 ## แก้เมื่อ 2026-09-26
 - `Buff_List` เดิมไม่กรองผู้กระทำ → ผู้สวมบัฟตัวเองก็ได้ "Help" · เพิ่ม `if(act->isSameName(ptr))return;`

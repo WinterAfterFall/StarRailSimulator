@@ -4,9 +4,9 @@ kit อ้างอิง: `docs/kit-reference/Character/Destruction/mydei.md` �
 
 > **แก้ 2026-09-27** (รีวิวเทียบ kit): Skill / Kingslayer energy `Increase_energy(ptr, 30, 0)` = 30% ของ Max Energy (48 แต้ม ไม่ผ่าน ER) → `Increase_energy(ptr, 30)` ตาม kit · เข้า Vendetta นอกเทิร์นตัวเอง (เช่นโดนศัตรูตี) advance ทันที เดิมรอจนมีคนโจมตีเสร็จ · Charge cap 200 + GodSlayer ต้องอยู่ใน Vendetta · ATK 426 · เขียน `Basic_Atk` ให้เสร็จ · ลบ `buffNote["count"]`
 
-## ตาราง: ความสามารถ → โค้ด
+## ความสามารถหลัก → โค้ดที่ทำงาน
 
-| ส่วนของ kit | ลงที่ไหนในโค้ด | บรรทัด |
+| ความสามารถ | ทำงานยังไง | บรรทัดใน `Mydei.h` |
 |---|---|---|
 | ธาตุ / path / energy ult | `SetCharBasicStats(95, 160, 160, E, Imaginary, Destruction, "Mydei", Standard)` | 17 |
 | build — HP เป็นแกน | main stat `HP_P` 2 ช่อง + `setSpeedRequire(135)` | 26-27 |

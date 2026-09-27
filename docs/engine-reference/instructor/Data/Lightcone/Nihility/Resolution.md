@@ -4,10 +4,14 @@
 
 บังคับ `newApplyBaseChanceRequire(50 + S*10)` — เป็นใบเดียวที่เกณฑ์ขึ้นกับ superimpose
 
-| ท่อน | โค้ด |
-|---|---|
-| โจมตี → เป้าติด `Ensnared` DEF_SHRED `11 + S` | `AfterAttackActionList` |
-| ถอน | `After_turn_List` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(953, 476, 331)` | `Resolution.h:5` |
+| (AI) EHR ขั้นต่ำ `50 + 10S` | `newApplyBaseChanceRequire` | `:8` |
+| ผู้สวมโจมตี → เป้าติด "Ensnared" DEF ลด `11 + S`% นาน 1 เทิร์น | `AfterAttackActionList` → `debuffSingleApply` ชื่อผูกเจ้าของ (`:7`) | `:10-15` |
+| ถอนเมื่อหมดอายุ | ท้ายเทิร์นศัตรู `isDebuffEnd` | `:17-23` |
 
 ชื่อ debuff prefix ด้วยชื่อเจ้าของ
 

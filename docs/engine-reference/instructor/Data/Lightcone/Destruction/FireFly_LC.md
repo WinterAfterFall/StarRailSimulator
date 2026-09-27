@@ -4,11 +4,14 @@
 
 **signature ของ FireFly** (ดู `../../Character/Destruction/FireFly.md`)
 
-| ท่อน | โค้ด |
-|---|---|
-| Break Effect `50 + 10S` | `Reset_List` |
-| โจมตี → เป้าติด Break VUL `20 + 4S` + SPD −20 (2 เทิร์น) | `AfterAttackActionList` |
-| ถอน | `After_turn_List` → `isDebuffEnd` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(1164, 476, 529)` | `FireFly_LC.h:5` |
+| Break Effect `50 + 10S` | บวกถาวร | `:9` |
+| ผู้สวมโจมตี → เป้าติด "Routed": Break DMG ที่รับ +`20 + 4S`% และ SPD −20% นาน 2 เทิร์น | `AfterAttackActionList` guard `isSameOwnerName(ptr)` · `debuffSingleApply` ทุกเป้าใน `targetList` · ชื่อ debuff ขึ้นต้นด้วยชื่อผู้สวม (`:7`) | `:13-21` |
+| หมดอายุ → ถอน | ท้ายเทิร์นศัตรู `isDebuffEnd` → คืน VUL และ SPD | `:23-32` |
 
 ชื่อ debuff prefix ด้วยชื่อเจ้าของ
 

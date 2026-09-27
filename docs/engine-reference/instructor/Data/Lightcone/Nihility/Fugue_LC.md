@@ -4,11 +4,14 @@
 
 **signature ของ Fugue** (ดู `../../Character/Nihility/Fugue.md`)
 
-| ท่อน | โค้ด |
-|---|---|
-| Break Effect `50 + 10S` | `Reset_List` |
-| มีการ break → เป้าติด Break VUL `15 + 3S` 2 เทิร์น stack สูงสุด 2 | `Toughness_break_List` → `debuffStackSingle(..., 1, 2, Charring, 2)` |
-| ถอนทุก stack | `After_turn_List` → `isDebuffEnd` + `debuffStackRemove` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(953, 582, 529)` | `Fugue_LC.h:5` |
+| Break Effect `50 + 10S` | บวกถาวร | `:9` |
+| ศัตรูถูก break (โดยใครก็ได้) → รับ Break DMG +`15 + 3S`% ต่อชั้น (สูงสุด 2, นาน 2 เทิร์น) | `Toughness_break_List` → `debuffStackSingle(…, 1, 2, Charring, 2)` ชื่อผูกเจ้าของ (`:7`) | `:12-14` |
+| ถอนเมื่อหมดอายุ | ท้ายเทิร์นศัตรู `isDebuffEnd` → `debuffStackRemove` | `:16-22` |
 
 ชื่อ debuff prefix ด้วยชื่อเจ้าของ (`ptr->getName() + " Charring"`)
 

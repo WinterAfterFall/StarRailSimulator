@@ -4,10 +4,13 @@
 
 ฟังก์ชันชื่อ `EyesOfThePrey`
 
-| ท่อน | โค้ด |
-|---|---|
-| EHR `15 + 5S` | `Reset_List` |
-| DoT DMG `18 + 6S` | `Stats_type[Stats::DMG][AType::Dot]` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(953, 476, 331)` | `Eyes of the Prey.h:5` |
+| EHR `15 + 5S` | บวกถาวร | `:9` |
+| DoT DMG `18 + 6S` | บวก DMG ที่ `AType::Dot` ถาวร | `:10` |
 
 **ไม่มี trigger เลย** — มีแต่ `Reset_List` ก้อนเดียว · เป็นหนึ่งในไฟล์ที่สั้นที่สุดในโฟลเดอร์
 

@@ -2,10 +2,12 @@
 
 `Planar.Name` = `"Broken_Keel"` · เซ็ตจริง: **Broken Keel** · เซ็ตซัพพอร์ต
 
-| ท่อน | โค้ด | บรรทัด |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| Effect RES +10% | `Reset_List` → `Stats_type[Stats::RES][AType::None] += 10` | 7 |
-| **ทั้งทีม** CD +10% (kit: ต้องมี Effect RES ≥ 30%) | `WhenOnField_List` → `buffAllAlly({{Stats::CD, AType::None, 10.0}})` | 11 |
+| Effect RES +10% | บวก Effect RES ถาวร | `Broken_Keel.h:7` |
+| ทั้งทีม CD +10% (kit: Effect RES ≥ 30%) | ลงตอนเข้าสนามด้วย `buffAllAlly` ครั้งเดียว ไม่ถอน · ไม่เช็ค Effect RES | `:10-12` |
 
 ## จุดที่ควรรู้
 

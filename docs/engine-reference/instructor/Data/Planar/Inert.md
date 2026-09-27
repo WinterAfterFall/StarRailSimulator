@@ -2,10 +2,12 @@
 
 `Planar.Name` = `"Inert"` · เซ็ตจริง: **Inert Salsotto**
 
-| ท่อน | โค้ด | บรรทัด |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| CR +8% | `Reset_List` | 7 |
-| Ultimate DMG +15% · Follow-up DMG +15% (kit: ต้องมี CR ≥ 50%) | `Reset_List` ก้อนเดียวกัน | 8-9 |
+| CR +8% | บวก CR ถาวร | `Inert.h:7` |
+| Ult DMG +15% และ Follow-up DMG +15% (kit: CR ≥ 50%) | บวก DMG ที่จำกัด `AType::Ult` / `AType::Fua` ถาวรใน `Reset_List` ก้อนเดียวกัน · ไม่เช็ค CR | `:8-9` |
 
 ## จุดที่ควรรู้
 

@@ -4,10 +4,13 @@
 
 **signature ของ Black Swan** (ดู `../../Character/Nihility/Black Swan.md`)
 
-| ท่อน | โค้ด |
-|---|---|
-| EHR `35 + 5S` | `Reset_List` |
-| ผู้สวมตีศัตรูที่ติด DoT ชนิดไหน → ATK `4+S` + DEF_SHRED[Dot] `6.5+0.7S` **ชนิดละครั้ง** | `BeforeAttackAction_List` + guard `isSameOwnerName` วนทุกเป้า |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(953, 635, 463)` | `BlackSwan_LC.h:5` |
+| EHR `35 + 5S` | บวกถาวร | `:8` |
+| ผู้สวมโจมตีเป้าที่ติด DoT แต่ละชนิด (Shock / Wind Shear / Burn / Bleed) → ATK `4 + S`% และ DoT ignore DEF `6.5 + 0.7S`% ต่อชนิด (ครั้งเดียวต่อชนิด ถาวร) | `BeforeAttackAction_List` วนเป้า · เช็คตัวนับ DoT ของศัตรู · `isHaveToAddBuff` ชื่อแยกต่อชนิด | `:11-37` (Shock `:14` · Wind `:20` · Burn `:25` · Bleed `:31`) |
 
 ## รากฐาน: อ่านตัวนับชนิด DoT บนศัตรูตรง ๆ
 

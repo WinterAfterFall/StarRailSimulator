@@ -4,11 +4,14 @@
 
 **ฟังก์ชันชื่อ `Hertashop` แต่ `Light_cone.Name` เป็น `"Fall of an Aeon"`** — ชื่อไฟล์บอกแหล่งที่มา
 
-| ท่อน | โค้ด |
-|---|---|
-| โจมตี → ATK stack `6 + 2S` (cap 4) | `When_attack_List` → `buffStackSingle(..., 1, 4, "Aeon Atk")` |
-| ผู้สวม break → DMG `9 + 3S` 2 เทิร์น | `Toughness_break_List` + guard `Trigger->isSameNum(ptr)` |
-| ถอน DMG | `After_turn_List` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(1058, 529, 397)` | `HertaShop.h:5` |
+| ผู้สวมโจมตี → ATK `6 + 2S`% ต่อ stack (สูงสุด 4) | `When_attack_List` guard `isSameOwnerName` · `buffStackSingle(…, 1, 4, "Aeon Atk")` · ไม่มีอายุ ค้างถึงจบไฟต์ | `:8-12` |
+| ผู้สวม break ศัตรู → DMG `9 + 3S`% นาน 2 เทิร์น | `Toughness_break_List` guard `Trigger->isSameNum(ptr)` | `:14-17` |
+| ถอน DMG เมื่อหมดอายุ | ท้ายเทิร์นผู้สวม `isBuffEnd` | `:19-23` |
 
 **ไม่มีสแตตติดตัว**
 

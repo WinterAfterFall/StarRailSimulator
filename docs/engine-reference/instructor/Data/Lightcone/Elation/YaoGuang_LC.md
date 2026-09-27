@@ -4,13 +4,16 @@
 
 **signature ของ Yao Guang** (ดู `../../Character/Elation/YaoGuang.md`)
 
-| ท่อน | โค้ด |
-|---|---|
-| SPD% `15 + 3S` | `Reset_List` → `Atv_stats->speedPercent` |
-| ต้น wave → energy 15 (ไม่ผ่าน ER) | `Start_wave_List` → `Increase_energy(ptr, 0, 15)` |
-| ต้นเกม → ER `10+2S` + ทีม CR `9+S` / CD `22.5+7.5S` 3 เทิร์น | `Start_game_List` + `isHaveToAddBuff(ptr, "Great Fortune", 3)` |
-| ใช้ Ult → เหมือนกัน (ต่ออายุ) | `Buff_List` → `act->isSameAction(ptr, AType::Ult)` |
-| ถอน | `After_turn_List` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(1058, 529, 529)` | `YaoGuang_LC.h:5` |
+| SPD `15 + 3S`% | บวก `speedPercent` ถาวร | `:9` |
+| ต้นทุก wave → energy +15 (ไม่ผ่าน ER) | `Start_wave_List` → `Increase_energy(ptr, 0, 15)` | `:12-14` |
+| ต้นเกม → "Great Fortune": ผู้สวม ER `10 + 2S` · ทั้งทีม CR `9 + S` และ CD `22.5 + 7.5S` นาน 3 เทิร์น | `Start_game_List` · `isHaveToAddBuff(ptr, "Great Fortune", 3)` กันซ้อน + ตั้งอายุ | `:16-24` |
+| ผู้สวมใช้ Ult → Great Fortune เหมือนกัน | `Buff_List` เฉพาะ Ult ของผู้สวม | `:26-35` |
+| ถอนเมื่อหมดอายุ | ท้ายเทิร์นผู้สวม `isBuffEnd` → คืน ER และ CR/CD ทั้งทีม | `:37-45` |
 
 ชื่อในเกม: **When She Decided to See**
 

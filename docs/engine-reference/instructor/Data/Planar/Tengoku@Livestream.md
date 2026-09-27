@@ -2,12 +2,14 @@
 
 `Planar.Name` = `"Tengoku@Livestream"` · ฟังก์ชัน `TengokuLivestream` (ไม่มี `@`) · **เซ็ตที่ผูกกับการใช้ skill point**
 
-| ท่อน | โค้ด | บรรทัด |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| CD +16% | `Reset_List` | 7 |
-| ใช้ SP ครบ 3 แต้มในเทิร์นเดียว → CD +32% นาน 3 เทิร์น | `Skill_point_List` | 19-24 |
-| รีเซ็ตตัวนับต้นเทิร์น | `Before_turn_List` → `setStack("Tengoku sp count", 0)` | 10-12 |
-| ถอนบัฟเมื่อหมดอายุ | `After_turn_List` + `isBuffEnd` | 14-17 |
+| CD +16% | บวก CD ถาวร | `Tengoku@Livestream.h:7` |
+| ใช้ SP ครบ 3 แต้มในเทิร์นเดียว → CD +32% นาน 3 เทิร์น | `Skill_point_List` นับ SP ที่ถูกใช้ (ค่าติดลบ) ของทั้งทีมใน stack `"Tengoku sp count"` · ถึง 3 → `buffSingle` ชื่อ `"Tengoku Buff"` (กันซ้อนในตัว) — **เช็คเงื่อนไขจริง** | `:19-24` |
+| — รีเซ็ตตัวนับ | ต้นทุกเทิร์น (ของทุก unit) ตั้ง stack เป็น 0 | `:10-12` |
+| — ถอนเมื่อหมดอายุ | ท้ายเทิร์นผู้สวม `isBuffEnd` → CD −32 | `:14-17` |
 
 ## รากฐาน: `Skill_point_List` — trigger จากการได้/ใช้ skill point
 

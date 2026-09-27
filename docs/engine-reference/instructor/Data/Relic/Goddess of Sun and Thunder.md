@@ -2,11 +2,14 @@
 
 `Relic.Name` = `"Goddess of Sun and Thunder"` · **เซ็ตสำหรับสายฮีล**
 
-| โบนัส | โค้ด | บรรทัด |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| 2-pc — SPD +6% | `Reset_List` → `Atv_stats->speedPercent += 6` | 7 |
-| 4-pc — เมื่อเจ้าของฮีล: เจ้าของ SPD +6% และทั้งทีม CD +15% (2 เทิร์น) | `Healing_List` | 10-19 |
-| — ถอนเมื่อหมดอายุ | `After_turn_List` + `isBuffEnd` | 21-28 |
+| 2-pc — SPD +6% | บวก `speedPercent` ถาวร | `Goddess of Sun and Thunder.h:7` |
+| 4-pc — เมื่อผู้สวม (หรือ memosprite ของเขา) ฮีล: ผู้สวม SPD +6% และทั้งทีม CD +15% นาน 2 เทิร์น | `Healing_List` เช็ค `Healer->owner` เป็นผู้สวม · `isHaveToAddBuff(…, 2)` กันลงซ้ำเมื่อฮีลหลายครั้งและตั้งอายุ 2 เทิร์น | `:10-19` |
+| — ถอนเมื่อครบเวลา | ท้ายเทิร์นผู้สวม `isBuffEnd` → ลบ SPD −6 และ CD −15 ทั้งทีม | `:21-28` |
+| — ถอนเมื่อผู้สวมตาย | `AllyDeath_List` + `isBuffGoneByDeath` ลบค่าชุดเดียวกัน กันบัฟทีมค้าง | `:30-37` |
 
 ## รากฐาน: `Healing_List` — trigger จากการฮีล
 
@@ -16,7 +19,7 @@ Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY,
 ```
 callback ได้ทั้ง **ผู้ฮีล เป้าหมาย และจำนวนที่ฮีล** · เป็น list เดียวที่ผูกกับระบบฮีลโดยตรง (ดูระบบฮีลเต็ม ๆ ที่ `../Character/Abundance/Luocha.md`)
 
-**guard ใช้ `Healer->owner->isSameName(ptr)`** (11) ไม่ใช่ `Healer->isSameName(ptr)` — เพราะผู้ฮีลอาจเป็น memosprite ของเจ้าของ relic ก็ได้ ต้องเทียบที่ `owner`
+**guard ใช้ `Healer->owner->isSameName(ptr)`** (`:11`) ไม่ใช่ `Healer->isSameName(ptr)` — เพราะผู้ฮีลอาจเป็น memosprite ของเจ้าของ relic ก็ได้ ต้องเทียบที่ `owner`
 
 ## รากฐาน: `isHaveToAddBuff(ptr, ชื่อ, เทิร์น)` แบบ 3 args
 
@@ -24,9 +27,7 @@ callback ได้ทั้ง **ผู้ฮีล เป้าหมาย แ
 
 ## จุดที่ควรระวัง
 
-- **บัฟ CD ลงทั้งทีมด้วย `buffAllAlly` แบบไม่มีชื่อบัฟ** (14-16, 24-26) เป็นการบวก/ลบค่าดิบ ความถูกต้องขึ้นกับการจับคู่ครั้งลง/ครั้งถอนให้สมดุล ซึ่งที่นี่พึ่ง `isHaveToAddBuff` กับ `isBuffEnd` อย่างละครั้ง · อาการเดียวกับ E1 ของ `../Character/Abundance/Luocha.md`
-- **ไม่มีการถอนเมื่อเพื่อนตาย** — ต่างจาก `Wavestrider Captain.h` ที่มี `AllyDeath_List` คู่กับ `After_turn_List` · บัฟ CD ที่ค้างบนคนที่ตายจะไม่ถูกถอน
-- `isBuffEnd(ptr, ...)` เช็คบนตัวเจ้าของ relic แต่บัฟ CD อยู่กับทุกคน → ถ้าเจ้าของตายก่อนบัฟหมดอายุ ทั้งทีมจะค้าง CD +15% ต่อไป
+- **บัฟ CD ลงทั้งทีมด้วย `buffAllAlly` แบบไม่มีชื่อบัฟ** (`:14-16`, `:24-26`, `:33-35`) เป็นการบวก/ลบค่าดิบ ความถูกต้องขึ้นกับการจับคู่ครั้งลง/ครั้งถอนให้สมดุล ซึ่งที่นี่พึ่ง `isHaveToAddBuff` กับ `isBuffEnd` อย่างละครั้ง · อาการเดียวกับ E1 ของ `../Character/Abundance/Luocha.md`
 
 ## แก้เมื่อ 2026-09-25
 - เพิ่ม `AllyDeath_List`: เมื่อเจ้าของตาย (`isBuffGoneByDeath`) ถอน SPD +6% ของเจ้าของ และ CD +15% ของทั้งทีม · เดิมบัฟทีมค้างเพราะการถอนผูกกับเทิร์นเจ้าของ

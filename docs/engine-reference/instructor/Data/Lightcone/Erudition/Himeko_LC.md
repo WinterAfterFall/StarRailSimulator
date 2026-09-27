@@ -4,11 +4,14 @@
 
 **signature ของ Himeko** (ตัวละครยังไม่มีในโปรเจกต์)
 
-| ท่อน | โค้ด |
-|---|---|
-| ATK% `(7.5 + 1.5S) × Total_enemy` | `WhenOnField_List` |
-| มีการ break → DMG `25 + 5S` 1 เทิร์น | `Toughness_break_List` → `buffSingle(..., "Himeko_LC_buff", 1)` |
-| ถอน | `After_turn_List` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(1164, 582, 397)` | `Himeko_LC.h:5` |
+| ATK% `(7.5 + 1.5S)` × จำนวนศัตรูในสนาม | ลงครั้งเดียวตอนเข้าสนามด้วย `Total_enemy` | `:8-10` |
+| มีการ break (ใครก็ได้) → DMG `25 + 5S` นาน 1 เทิร์น | `Toughness_break_List` → `buffSingle(…, "Himeko_LC_buff", 1)` | `:18-20` |
+| ถอนเมื่อหมดอายุ | ท้ายเทิร์นผู้สวม `isBuffEnd` | `:12-16` |
 
 ## จุดที่ควรระวัง
 

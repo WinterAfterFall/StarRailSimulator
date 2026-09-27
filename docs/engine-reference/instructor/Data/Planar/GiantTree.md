@@ -2,14 +2,14 @@
 
 `Planar.Name` = `"GiantTree"` · เซ็ตจริง: **Sprightly Vonwacq** ไม่ใช่ — เซ็ตนี้คือ **Giant Tree of Rapt Brooding** · **factory รับ `bool`**
 
-```cpp
-function<void(CharUnit *ptr)> GiantTree(bool trigger)
-```
+## ความสามารถหลัก → โค้ดที่ทำงาน
 
-| `trigger` | SPD | Outgoing Healing |
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| `true` | +6% | +20% |
-| `false` | +6% | +12% |
+| SPD +6% | บวก `speedPercent` ถาวร (ทั้งสองสาขา) | `GiantTree.h:8` (`true`) · `:16` (`false`) |
+| Outgoing Healing +12% (SPD ≥ 135) / +20% (SPD ≥ 180) | ผู้ประกอบทีมเลือกชั้นผ่าน `trigger` · `true` = 20, `false` = 12 | `:9` · `:17` |
+
+factory `GiantTree(bool trigger)` (`:3`) คืน lambda คนละก้อน
 
 kit: SPD +6% · Outgoing Healing **+12% เมื่อ SPD ≥ 135** และ **+20% เมื่อ SPD ≥ 180** → `trigger` คือ "SPD ถึงชั้นบน (180) หรือยัง" ที่ผู้ประกอบทีมตัดสินเอง ไม่ใช่โค้ดเช็คให้
 

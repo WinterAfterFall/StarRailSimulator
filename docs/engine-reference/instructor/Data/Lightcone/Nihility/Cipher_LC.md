@@ -4,11 +4,16 @@
 
 **signature ของ Cipher** (ดู `../../Character/Nihility/Cipher.md`) · บังคับ `newApplyBaseChanceRequire(120)`
 
-| ท่อน | โค้ด |
-|---|---|
-| SPD% `15 + 3S` | `Reset_List` → `Atv_stats->speedPercent` |
-| ผู้สวมโจมตีเสร็จ → ศัตรูทุกตัวติด `Bamboozle` DEF_SHRED `14+2S` · ถ้า SPD ≥ 170 ติด `Theft` `7+S` เพิ่ม | `AfterAttackActionList` + guard `isSameOwnerName` → `debuffAllEnemyApply` |
-| ถอน | `After_turn_List` → `isDebuffEnd` ทั้งสองชื่อ |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(953, 582, 529)` | `Cipher_LC.h:5` |
+| (AI) EHR ขั้นต่ำ 120 | `newApplyBaseChanceRequire(120)` | `:7` |
+| SPD `15 + 3S`% | บวก `speedPercent` ถาวร | `:18` |
+| ผู้สวมโจมตี → ศัตรูทุกตัว DEF ลด `14 + 2S`% ("Bamboozle") นาน 2 เทิร์น | `AfterAttackActionList` → `debuffAllEnemyApply` | `:9-11` |
+| ถ้า SPD ≥ 170 → DEF ลดเพิ่ม `7 + S`% ("Theft") | คำนวณ SPD จาก `baseSpeed`/`speedPercent`/`flatSpeed` ในบล็อกเดียวกัน | `:12-14` |
+| ถอนเมื่อหมดอายุ | ท้ายเทิร์นศัตรู `isDebuffEnd` ทั้งสองชื่อ | `:21-30` |
 
 ## จุดที่ควรระวัง
 

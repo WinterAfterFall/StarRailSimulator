@@ -16,11 +16,14 @@ function<void(CharUnit *ptr)> Jiaoqiu_LC(int superimpose, bool isDot)
 | `true` | `Cornered` | VUL `20 + 4S` |
 | `false` | `Unarmored` | VUL `8 + 2S` |
 
-| ท่อน | โค้ด |
-|---|---|
-| EHR `50 + 10S` (แก้ 2026-09-26 — เดิม `40+10S` ขาด kit 10%) | `Reset_List` |
-| BA/Skill/Ult ของผู้สวม → เป้าติด VUL 2 เทิร์น | `BeforeAttackAction_List` + guard `isSameOwnerName(ptr)` |
-| ถอน | `After_turn_List` → `isDebuffEnd` ทั้งสองชื่อ |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(953, 582, 529)` | `Jiaoqiu_LC.h:5` |
+| EHR `50 + 10S` | บวกถาวร | `:10` |
+| ผู้สวมใช้ BA/Skill/Ult → เป้ารับ DMG เพิ่ม นาน 2 เทิร์น: `isDot=true` → "Cornered" `20 + 4S`% · `false` → "Unarmored" `8 + 2S`% | `BeforeAttackAction_List` guard ชนิดท่า + `isSameOwnerName` · ชื่อ debuff ผูกเจ้าของ (`:7-8`) | `:13-23` (Cornered `:18` · Unarmored `:19`) |
+| ถอนเมื่อหมดอายุ | ท้ายเทิร์นศัตรู `isDebuffEnd` ทั้งสองชื่อ | `:25-35` |
 
 ## จุดที่ทำถูก
 

@@ -4,9 +4,9 @@ kit อ้างอิง: `docs/kit-reference/Character/Abundance/huohuo.md` ·
 
 > **แก้ 2026-09-26** (โค้ดเดิมเป็น kit ก่อน remake → ปรับตาม kit ปัจจุบัน): ATK ฐาน 602 → 601 · Skill ฮีล 21%+560 / 16.8%+448 → 24%+640 / 19.2%+512 · Divine Provision 2 → **3 เทิร์น** (E1 +1) และ **ได้จาก Ult ด้วย** · ได้ซ้ำ = **รีเซ็ตตัวนับเป็น 6 ทุกครั้ง** (เดิมรีเซ็ตเฉพาะตอนหมดแล้วได้ใหม่) · เพิ่ม **A2** (energy 30 + Divine Provision 2 เทิร์นตอนเริ่ม) · เพิ่ม **A4** (Max Energy ≥ 160 → ATK +24% เพิ่ม) · Ult คืน energy **ยกเว้นตัวเอง** และวน `charList` (เดิมวน `allyList` → Huohuo ได้เอง + เจ้าของ memosprite ได้ 2 เท่า) · Talent ฮีลคน HP% ต่ำสุดด้วย · เพิ่ม Technique (ATK ศัตรู −25% 2 เทิร์น) · รวมโค้ด Divine Provision ที่เคย copy 2 ที่เป็น lambda เดียว
 
-## ตาราง: ความสามารถ → โค้ด
+## ความสามารถหลัก → โค้ดที่ทำงาน
 
-| ส่วนของ kit | ลงที่ไหนในโค้ด | บรรทัด |
+| ความสามารถ | ทำงานยังไง | บรรทัดใน `Huohuo.h` |
 |---|---|---|
 | ธาตุ / path / energy ult | `SetCharBasicStats(98, 140, 140, E, Wind, Abundance, "Huohuo", Standard)` · base `(1358, 601, 509)` | 5-6 |
 | build — HP + Outgoing Healing | main stat หมวก `HEALING_OUT` + `pushSubstats(HP_P)` | 9-12 |

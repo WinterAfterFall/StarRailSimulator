@@ -4,12 +4,14 @@
 
 **signature ของ Sunday** (ดู `../../Character/Harmony/Sunday.md`)
 
-| ท่อน | โค้ด |
-|---|---|
-| Skill เป้าเดียว → energy `5.5 + 0.5S` | `Buff_List` |
-| Skill เป้าเดียว → เป้าได้ DMG `12.75 + 2.25S` stack (cap 3, 3 เทิร์น) | `buffStackSingle(each, ..., 1, 3, hymn, 3)` |
-| ทุก 2 ครั้งที่ใช้ Skill → คืน SP 1 | `ptr->stack["Hymn_cnt"]` |
-| ถอน | `After_turn_List` + `AllyDeath_List` → `buffResetStack` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(1164, 476, 529)` | `Sunday_LC.h:5` |
+| บัฟเพื่อนเป้าเดี่ยว → ผู้สวมได้ energy `5.5 + 0.5S` · เป้าได้ "Hymn" DMG `12.75 + 2.25S` ต่อชั้น (สูงสุด 3, นาน 3 เทิร์น) | `Buff_List` เฉพาะผู้สวม + `TraceType::Single` · `buffStackSingle(…, 1, 3, hymn, 3)` ชื่อผูกเจ้าของ (`:7`) | `:20-25` |
+| ทุก 2 ครั้ง → SP +1 | นับ `stack["Hymn_cnt"]` ถึง 2 แล้วรีเซ็ต | `:26-30` |
+| ถอน Hymn เมื่อหมดอายุ / เป้าตาย | ท้ายเทิร์นผู้ถือ `isBuffEnd` → `buffResetStack` · `AllyDeath_List` ถอนทั้งกอง | `:8-14` · `:16-18` |
 
 ชื่อบัฟ prefix ด้วยชื่อเจ้าของ (`ptr->getName() + " Hymn"`) เหมือน `Cerydra LC.md`
 

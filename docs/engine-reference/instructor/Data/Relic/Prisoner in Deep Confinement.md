@@ -2,10 +2,12 @@
 
 เซ็ตจริง: **Prisoner in Deep Confinement** · `Relic.Name` = `"Prisoner"` (ชื่อย่อ)
 
-| โบนัส | โค้ด | บรรทัด |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| 2-pc — ATK +12% | `Stats_type[Stats::ATK_P][AType::None] += 12` | 7 |
-| 4-pc — ignore DEF 6% ต่อ DoT บนเป้า (สูงสุด 3 ชั้น) | `Stats_type[Stats::DEF_SHRED][AType::None] += 18` | 8 |
+| 2-pc — ATK +12% | บวก ATK% ถาวร | `Prisoner in Deep Confinement.h:7` |
+| 4-pc — ignore DEF 6% ต่อ DoT บนเป้า (สูงสุด 3) | ลงเต็มเพดาน 18 ถาวร ไม่นับ DoT จริง | `:8` |
 
 ## เงื่อนไขที่ถูกตัดทิ้ง
 

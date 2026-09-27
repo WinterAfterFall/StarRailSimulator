@@ -2,10 +2,12 @@
 
 `Planar.Name` = `"Bone_Collection"` · เซ็ตจริง: **Bone Collection Serene Demesne** · เซ็ตสาย memosprite
 
-| ท่อน | โค้ด | บรรทัด |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| HP +12% | `Reset_List` → `Stats_type[Stats::HP_P][AType::None] += 12` | 7 |
-| CD +28% | `WhenOnField_List` → `buffSingleChar(ptr,{{Stats::CD, AType::None, 28.0}})` | 11 |
+| HP +12% | บวก HP% ถาวร | `Bone_Collection.h:7` |
+| CD +28% (kit: มีเงื่อนไข HP / memosprite) | ลงตอนเข้าสนามด้วย `buffSingleChar` → ผู้สวมและ memosprite ได้ทั้งคู่ · ไม่เช็คเงื่อนไข | `:10-12` |
 
 ## จุดที่ควรรู้
 

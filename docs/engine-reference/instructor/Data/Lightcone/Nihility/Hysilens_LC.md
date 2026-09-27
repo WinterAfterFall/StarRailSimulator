@@ -4,14 +4,17 @@
 
 **signature ของ Hysilens** (ดู `../../Character/Nihility/Hysilens.md`) · บังคับ `newApplyBaseChanceRequire(80)` แทนโอกาส 80% ของ Enthrallment
 
-| ท่อน | โค้ด |
-|---|---|
-| EHR `35 + 5S` | `Reset_List` |
-| ผู้สวมลง debuff ใส่เป้าที่ยังไม่ติด → เป้าเข้า `Hys LC Enthrallment` 3 เทิร์น | `AfterApplyDebuff` (ตั้ง flag เอง ไม่ยิง event ซ้ำ) |
-| ผู้สวมลง debuff ใส่เป้าที่ติด Enthrallment → VUL[Dot] stack `3.75 + 1.25S` ตามจำนวน debuff ที่เพิ่ม (cap 6) | `BeforeApplyDebuff` + `AfterApplyDebuff` |
-| เพื่อนคนไหนตีเป้าติด Enthrallment → ผู้ตี SPD `7.5 + 2.5S` 3 เทิร์น | `BeforeAttackAction_List` → `buffSingle(act->Attacker, ..., "Hys LC SPD", 3)` |
-| Enthrallment หมด → ถอด VUL stack ทั้งหมด | `After_turn_List` → `isDebuffEnd` + `debuffStackRemove` + ลด `Total_debuff` ของ stack |
-| ถอน SPD | `After_turn_List` → `isBuffEnd(ally, "Hys LC SPD")` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(953, 635, 463)` | `Hysilens_LC.h:5` |
+| (AI) EHR ขั้นต่ำ 80 | `newApplyBaseChanceRequire(80)` | `:7` |
+| EHR `35 + 5S` | บวกถาวร | `:9` |
+| ผู้สวมติด debuff ให้ศัตรูครั้งแรก → ศัตรูเข้า "Enthrallment" 3 เทิร์น | จด `Total_debuff` ก่อนติด (`BeforeApplyDebuff`) แล้วเทียบหลังติด (`AfterApplyDebuff`) · ยังไม่มี Enthrallment → ตั้ง debuff ตรง ๆ ไม่ยิง event ซ้ำ | ก่อน `:35-40` · หลัง `:42-58` (เข้าสถานะ `:55-57`) |
+| ติด debuff เพิ่มขณะ Enthrallment → DoT VUL `3.75 + 1.25S`% ต่อ debuff (สูงสุด 6) | จำนวนที่ติดจริง = ส่วนต่าง `Total_debuff` → `debuffStackSingle` · flag `"Hys LC Stacking"` กัน VUL นับตัวเอง | `:46-53` |
+| ใครตีศัตรูที่ติด Enthrallment → ผู้โจมตี SPD `7.5 + 2.5S`% นาน 3 เทิร์น | `BeforeAttackAction_List` | `:12-18` |
+| ถอน SPD / Enthrallment + VUL | ท้ายเทิร์น ally `isBuffEnd` · ท้ายเทิร์นศัตรู `isDebuffEnd` → `debuffStackRemove` | `:19-33` |
 
 ชื่อ `Hys LC Enthrallment` / `Hys LC` / `Hys LC SPD` ไม่มี prefix โดยตั้งใจ — kit ระบุ "Effects of the same type cannot stack" (ดูแบบแผนข้อ 4 ใน `README.md`)
 

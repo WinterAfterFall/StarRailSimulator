@@ -2,11 +2,13 @@
 
 `Relic.Name` = `"Ever-Glorious Magical Girl"` · ฟังก์ชันชื่อ `MagicalGirl` · **เซ็ตสาย Elation**
 
-| โบนัส | โค้ด | บรรทัด |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| 2-pc — CD +16% | `Reset_List` → `Stats_type[Stats::CD][AType::None] += 16` | 7 |
-| 4-pc — ignore DEF สำหรับ Elation DMG +10% (ผู้สวม + memosprite) | `WhenOnField_List` → `buffSingleChar` | 9-11 |
-| 4-pc — บัฟทั้งทีมตามค่า `punchline` | `PunchLine_List` | 11-17 |
+| 2-pc — CD +16% | บวก CD ถาวรตอนเริ่ม | `Ever-Glorious Magical Girl.h:7` |
+| 4-pc — Elation DMG ignore DEF 10% (ผู้สวม + memosprite) | ลงตอนเข้าสนามด้วย `buffSingleChar` ให้ทั้งตัวละครและ memosprite · จำกัดเฉพาะดาเมจ `AType::ElationDMG` | `:9-11` |
+| 4-pc — ignore DEF เพิ่ม 1% ต่อ Punchline ทุก 5 แต้ม (สูงสุด 10%) | ทุกครั้งที่ Punchline เปลี่ยน คำนวณ `min(50, punchline)/5` แล้วลงเฉพาะส่วนต่างจากค่าเดิมที่จำไว้ใน `buffNote` | `:13-19` |
 
 ## รากฐาน: `PunchLine_List` และตัวแปร `punchline`
 
@@ -18,7 +20,7 @@ PunchLine_List.push_back(TriggerSkill_point_func(PRIORITY_IMMEDIATELY,
 
 ```cpp
 int buff = max(0, min(50, punchline) / 5);   // 0..10
-buffAllAlly({{Stats::DEF_SHRED, AType::ElationDMG, buff - ptr->buffNote["MagicalGirl Buff"]}});
+buffSingleChar(ptr, {{Stats::DEF_SHRED, AType::ElationDMG, buff - ptr->buffNote["MagicalGirl Buff"]}});
 ptr->setBuffNote("MagicalGirl Buff", buff);
 ```
 
@@ -27,7 +29,6 @@ ptr->setBuffNote("MagicalGirl Buff", buff);
 ## จุดที่ควรรู้
 
 - **`AType::ElationDMG` เป็นประเภทดาเมจเฉพาะทางของ path Elation** ใช้จำกัดขอบเขตของ `DEF_SHRED` แบบเดียวกับที่ `Iron_Cavalry.h` ใช้ `AType::Break` / `AType::SPB`
-- **`buffNote` เก็บบนตัวเจ้าของ relic แต่บัฟลงทั้งทีม** → ถ้ามีสองคนในทีมใส่เซ็ตนี้ ต่างคนต่างมี `buffNote` ของตัวเอง แต่ `buffAllAlly` บวกให้ทีมทั้งคู่ ผลจะซ้อนกันได้ (ในทางปฏิบัติไม่ค่อยเกิด)
 - `min(50, punchline) / 5` เป็นการหารจำนวนเต็ม → ค่าเพิ่มเป็นขั้น ๆ ทีละ 5 punchline
 
 ## แก้เมื่อ 2026-09-25

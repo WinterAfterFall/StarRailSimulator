@@ -4,12 +4,14 @@
 
 **signature ของ Robin** (ดู `../../Character/Harmony/Robin.md`)
 
-| ท่อน | โค้ด |
-|---|---|
-| โจมตี → `Energy_recharge += 2.5 + 0.5S` (cap 5 stack) | `When_attack_List` + `stack["Cantillation"]` |
-| กด ult → ล้าง stack และคืน ER ที่เพิ่มไปทั้งหมด | `WhenUseUlt_List` |
-| กด ult → ทีม DMG `20 + 4S` + ตัวเอง ATK `36 + 12S` (1 เทิร์น) | `isHaveToAddBuff(ptr, "Cadenza", 1)` |
-| ถอน | `After_turn_List` → `isBuffEnd(ptr, "Cadenza")` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(953, 635, 463)` | `Robin_LC.h:5` |
+| ใครก็ตามในทีมโจมตี → ผู้สวมได้ "Cantillation" ER `2.5 + 0.5S` ต่อชั้น (สูงสุด 5) | `When_attack_List` นับ `stack["Cantillation"]` แล้วบวก `Energy_recharge` | `:8-13` |
+| ผู้สวมกด Ult → ล้าง Cantillation และเปิด "Cadenza": ทั้งทีม DMG `20 + 4S` · ผู้สวม ATK `36 + 12S` นาน 1 เทิร์น | `WhenUseUlt_List` + `isSameOwner` · คืน ER ตาม stack · `isHaveToAddBuff(ptr, "Cadenza", 1)` | `:15-24` |
+| ถอน Cadenza เมื่อหมดอายุ | ท้ายเทิร์นผู้สวม `isBuffEnd` | `:26-31` |
 
 ## รากฐาน: ER เป็นทรัพยากรที่สะสมแล้วคืน
 

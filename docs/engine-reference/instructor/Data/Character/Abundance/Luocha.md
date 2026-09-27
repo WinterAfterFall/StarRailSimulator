@@ -2,9 +2,9 @@
 
 kit อ้างอิง: `docs/kit-reference/Character/Abundance/luocha.md` · **ไฟล์อ้างอิงของสายฮีล (Abundance) ไฟล์แรกที่สำรวจ** — สิ่งที่ต่างจากตัวอื่นทั้งหมดคือ API การฮีล (`RestoreHP` / `HealSrc`) และการที่ผลของตัวละครไม่ได้อยู่ที่ดาเมจ
 
-## ตาราง: ความสามารถ → โค้ด
+## ความสามารถหลัก → โค้ดที่ทำงาน
 
-| ส่วนของ kit | ลงที่ไหนในโค้ด | บรรทัด |
+| ความสามารถ | ทำงานยังไง | บรรทัดใน `Luocha.h` |
 |---|---|---|
 | ธาตุ / path / energy ult | `SetCharBasicStats(101, 100, 100, E, ElementType::Imaginary, Path::Abundance, "Luocha", UnitType::Standard)` | 12 |
 | Base HP/ATK/DEF | `SetAllyBaseStats(1280, 756, 363)` | 13 |

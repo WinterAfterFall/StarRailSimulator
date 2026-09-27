@@ -4,12 +4,15 @@
 
 **signature ของ Anaxa** (ดู `../../Character/Erudition/Anaxa.md`)
 
-| ท่อน | โค้ด |
-|---|---|
-| DMG `50 + 10S` | `Reset_List` |
-| ต้นเทิร์นของผู้สวม → energy 10 | `Before_turn_List` + `turn->isSameName` |
-| ผู้สวมโจมตี → เป้าติด DEF_SHRED `9 + 3S` 2 เทิร์น | `When_attack_List` + `act->isSameName(ptr)` |
-| ถอน | `After_turn_List` → `isDebuffEnd` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(953, 582, 529)` | `Anaxa_LC.h:5` |
+| DMG `50 + 10S` | บวกถาวร | `:9` |
+| ต้นเทิร์นผู้สวม → energy +10 | `Before_turn_List` guard `turn` เป็นผู้สวม | `:12-15` |
+| ผู้สวมโจมตี → เป้าติด DEF ลด `9 + 3S`% นาน 2 เทิร์น | `When_attack_List` → `debuffSingleApply(…, "AnaxaLC_Debuff", 2)` ทุกเป้า | `:17-22` |
+| ถอนเมื่อหมดอายุ | ท้ายเทิร์นศัตรู `isDebuffEnd` | `:25-31` |
 
 ## จุดที่ควรระวัง
 

@@ -4,11 +4,14 @@
 
 **signature ของ Mydei** (ดู `../../Character/Destruction/Mydei.md`) · base HP สูงสุดในโฟลเดอร์
 
-| ท่อน | โค้ด |
-|---|---|
-| HP% `15 + 3S` · Incoming Healing `15 + 5S` (`HEALING_IN`) | `Reset_List` |
-| Skill/Ult → จ่าย HP `5.5 + 0.5S`% Max HP ทุกครั้ง + DMG `25 + 5S` (อีกก้อนถ้า HP ที่จ่ายจริง > 500) | `BeforeAttackAction_List` |
-| ถอนทั้งหมด | `AfterAttackActionList` → คูณด้วย `buffNote["Mydei_LC_Mark"]` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(1376, 476, 397)` | `Mydei_LC.h:5` |
+| HP% `15 + 3S` และ Incoming Healing `15 + 5S` | บวกถาวร (`HEALING_IN`) | `:8-9` |
+| ใช้ Skill/Ult → จ่าย HP `5.5 + 0.5S`% Max HP แล้ว DMG `25 + 5S`% สำหรับ action นั้น · ถ้า HP ที่จ่ายจริง > 500 ได้อีกก้อน | `BeforeAttackAction_List` เฉพาะผู้สวม · `DecreaseHP` แล้ววัดส่วนต่าง HP · นับจำนวนก้อนใน `buffNote["Mydei_LC_Mark"]` | `:12-24` (จ่าย HP `:16` · ก้อนที่ 2 `:19-22`) |
+| หลัง action → ถอนทุกก้อน | `AfterAttackActionList` ถอน `(25 + 5S) × buffNote` แล้วตั้ง 0 | `:26-30` |
 
 ## รากฐาน: นับจำนวนก้อนบัฟไว้ใน `buffNote` เพื่อถอนทีเดียว
 

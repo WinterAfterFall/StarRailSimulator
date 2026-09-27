@@ -4,12 +4,15 @@
 
 **signature ของ Cerydra** (ดู `../../Character/Harmony/Cerydra.md`)
 
-| ท่อน | โค้ด |
-|---|---|
-| ATK% `48 + 16S` | `Reset_List` |
-| Skill เป้าเดียว → เป้าได้ **Skill DMG** (`DMG[AType::SKILL]`) `40.5 + 13.5S` 3 เทิร์น | `Buff_List` → guard `act->isSameAction(ptr, AType::SKILL) && act->traceType == TraceType::Single` |
-| ใช้ ult โจมตี → คืน SP 1 | `AfterAttackActionList` → `act->isSameAction(ptr, AType::Ult)` → `genSkillPoint(ptr, 1)` |
-| ถอนเมื่อหมดอายุ / เมื่อตาย | `After_turn_List` + `AllyDeath_List` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(953, 635, 463)` | `Cerydra LC.h:5` |
+| ATK% `48 + 16S` | บวกถาวร | `:10` |
+| ใช้ Skill บัฟเพื่อนเป้าเดี่ยว → เป้าได้ Skill DMG `40.5 + 13.5S` นาน 3 เทิร์น | `Buff_List` เฉพาะ Skill ของผู้สวม + `TraceType::Single` · ชื่อบัฟผูกเจ้าของ (`:7`) | `:31-37` |
+| ใช้ Ult → SP +1 | `AfterAttackActionList` เฉพาะ Ult ของผู้สวม | `:27-29` |
+| ถอนเมื่อหมดอายุ / เป้าตาย | ท้ายเทิร์นของผู้ถือบัฟ `isBuffEnd` · `AllyDeath_List` + `isBuffGoneByDeath` | `:13-19` · `:21-25` |
 
 ## จุดที่ทำถูกและควรลอก
 

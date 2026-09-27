@@ -4,12 +4,15 @@
 
 **signature ของ Tribbie** (ดู `../../Character/Harmony/Tribbie.md`)
 
-| ท่อน | โค้ด |
-|---|---|
-| CD `30 + 6S` | `Reset_List` |
-| ต้นเกม → energy 21 + ทีม CD `36 + 12S` 2 เทิร์น | `Start_game_List` + `isHaveToAddBuff(ptr, "Presage", 2)` |
-| ใช้ FuA → energy 12 + ต่ออายุบัฟทีม | `BeforeAllyActionList` → `act->isSameAction(ptr, AType::Fua)` |
-| ถอน | `After_turn_List` → `isBuffEnd(ptr, "Presage")` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(1270, 529, 397)` | `Tribbie_LC.h:5` |
+| CD `30 + 6S` | บวกถาวร | `:9` |
+| ต้นเกม → energy 21 และ "Presage": ทั้งทีม CD `36 + 12S` นาน 2 เทิร์น | `Start_game_List` · `isHaveToAddBuff(ptr, "Presage", 2)` | `:12-17` |
+| ผู้สวมใช้ Follow-up → energy 12 และ Presage เหมือนกัน | `BeforeAllyActionList` เฉพาะ `AType::Fua` | `:25-32` |
+| ถอน Presage เมื่อหมดอายุ | ท้ายเทิร์นผู้สวม `isBuffEnd` | `:19-23` |
 
 ## จุดที่น่าสนใจ
 

@@ -2,11 +2,13 @@
 
 เซ็ตจริง: **Iron Cavalry Against the Scourge** · `Relic.Name` = `"Iron_Cavalry"`
 
-| โบนัส | โค้ด | บรรทัด |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| 2-pc — Break Effect +16% | `Reset_List` → `Stats_type[Stats::BE][AType::None] += 16` | 7 |
-| 4-pc — Break DMG ignore DEF 10% (ต้องมี BE ≥ 150%) | `WhenOnField_List` → `Stats_type[Stats::DEF_SHRED][AType::Break] += 10` | 11 |
-| 4-pc — Super Break ignore DEF เพิ่ม 15% (ต้องมี BE ≥ 250%) | `Stats_type[Stats::DEF_SHRED][AType::SPB] += 15` | 12 |
+| 2-pc — Break Effect +16% | บวก BE ถาวร | `Iron_Cavalry.h:7` |
+| 4-pc — Break DMG ignore DEF 10% (kit: BE ≥ 150%) | ลงตอนเข้าสนาม จำกัดเฉพาะ `AType::Break` · ไม่เช็ค BE | `:11` |
+| 4-pc — Super Break ignore DEF อีก 15% (kit: BE ≥ 250%) | จำกัดเฉพาะ `AType::SPB` · ไม่เช็ค BE | `:12` |
 
 ## จุดที่ควรรู้
 

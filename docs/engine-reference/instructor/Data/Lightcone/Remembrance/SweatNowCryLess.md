@@ -2,11 +2,14 @@
 
 `namespace Remembrance_Lightcone` · `Light_cone.Name` = `"SweatNowCryLess"` · base stats `SetAllyBaseStats(1058, 529, 198)`
 
-| ท่อน | โค้ด |
-|---|---|
-| CR `10 + 2S` | `Reset_List` |
-| memosprite อยู่บนสนาม → ผู้สวมและ memosprite DMG `21 + 3S` | `Before_turn_List` ลง/ถอนตามสถานะ memosprite |
-| memosprite ตาย → ถอนทันที | `AllyDeath_List` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(1058, 529, 198)` | `SweatNowCryLess.h:5` |
+| CR `10 + 2S` | บวกถาวร | `:9` |
+| ขณะ memosprite อยู่สนาม → ผู้สวมและ memosprite DMG `21 + 3S` | ต้นทุกเทิร์นเช็คสถานะ memosprite · ลงด้วย `isHaveToAddBuff` / ถอนเมื่อไม่อยู่ ผ่าน flag `"SweatNowCryLess"` | `:13-22` |
+| memosprite ตาย → ถอนทันที | `AllyDeath_List` | `:24-29` |
 
 ## รากฐาน: บัฟแบบ "ขณะที่ ... อยู่"
 

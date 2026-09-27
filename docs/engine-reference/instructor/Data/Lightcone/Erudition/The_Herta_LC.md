@@ -4,12 +4,15 @@
 
 **signature ของ The Herta** (ดู `../../Character/Erudition/The_Herta.md`)
 
-| ท่อน | โค้ด |
-|---|---|
-| CR `10 + 2S` | `Reset_List` |
-| ใช้ Ult → Skill/Ult DMG `50 + 10S` 3 เทิร์น | `BeforeAllyActionList` → `act->isSameAction(ptr, AType::Ult)` |
-| ถ้า `Ult_cost >= 140` → คืน SP 1 | เงื่อนไขในบล็อกเดียวกัน |
-| ถอน | `After_turn_List` → `isBuffEnd` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(953, 635, 463)` | `The_Herta_LC.h:5` |
+| CR `10 + 2S` | บวกถาวร | `:9` |
+| ผู้สวมใช้ Ult → Skill DMG และ Ult DMG `50 + 10S` นาน 3 เทิร์น | `BeforeAllyActionList` เฉพาะ Ult → `buffSingle(…, "The_Herta_LC_buff", 3)` | `:21-26` |
+| ถ้า Ult cost ≥ 140 → SP +1 | ในบล็อกเดียวกัน | `:27-29` |
+| ถอนเมื่อหมดอายุ | ท้ายเทิร์นผู้สวม `isBuffEnd` | `:12-19` |
 
 ## จุดที่น่าสนใจ
 

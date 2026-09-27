@@ -4,13 +4,16 @@
 
 **signature ของ Hyacine** (ชื่อไฟล์สะกด `Hyacnine` ต่างจากชื่อตัวละคร `Hyacine`) · ดู `../../Character/Remembrance/Hyacine.md`
 
-| ท่อน | โค้ด |
-|---|---|
-| SPD% `15 + 3S` | `Reset_List` |
-| memosprite ของผู้สวมใช้ Skill → ศัตรูทุกตัวติด VUL `13.5 + 4.5S` 2 เทิร์น | `BeforeAction_List` |
-| ผู้สวมใช้ BA/Skill/Ult → ทีมเสีย HP ปัจจุบัน `0.75 + 0.25S`% และสะสมยอดที่เสีย | `BeforeAction_List` ท่อนที่สอง → `DecreaseHP(ptr, 0, 0, %)` (overload ลดทั้งทีม) |
-| memosprite โจมตีครั้งถัดไป (ท่าไหนก็ได้) → ปล่อยยอดสะสม × `1.875 + 0.625S` เป็น Additional DMG | `AfterAttackActionList` |
-| ถอน VUL | `After_turn_List` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(1164, 476, 529)` | `Hyacnine_LC.h:5` |
+| SPD `15 + 3S`% | บวก `speedPercent` ถาวร | `:8` |
+| memosprite ของผู้สวมใช้ Skill → ศัตรูทุกตัว VUL `13.5 + 4.5S`% นาน 2 เทิร์น | `BeforeAction_List` เช็ค `side == Memosprite` + `num` + Skill → `debuffAllEnemyApply` | `:14-18` |
+| ผู้สวมใช้ BA/Skill/Ult → หัก HP ทุกคน `0.75 + 0.25S`% ของ HP ปัจจุบัน แล้วจดยอดรวมไว้ | ในบล็อกเดียวกัน วน `allyList` รวมยอดลง `buffNote["Hyacnine_LC Note"]` แล้ว `DecreaseHP` | `:19-31` |
+| การโจมตีครั้งถัดไปของ memosprite → Additional DMG = ยอด HP ที่จด × `(1.875 + 0.625S)` | `AfterAttackActionList` · รีเซ็ตยอดก่อนยิง (กันยิงซ้ำ) แล้ว `Attack` action `AType::Addtional` ค่า `CONST` | `:34-46` |
+| ถอน VUL | ท้ายเทิร์นศัตรู `isDebuffEnd` | `:48-54` |
 
 ## รากฐาน: `act->castToAllyActionData()`
 

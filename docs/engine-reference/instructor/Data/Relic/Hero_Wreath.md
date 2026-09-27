@@ -2,11 +2,14 @@
 
 เซ็ตจริง: **Hero of Triumphant Song** · `Relic.Name` = `"Hero_Wreath"` · **เซ็ตสำหรับสาย memosprite**
 
-| โบนัส | โค้ด | บรรทัด |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| 2-pc — ATK +12% | `Reset_List` → `Stats_type[Stats::ATK_P][AType::None] += 12` | 8 |
-| 4-pc — ขณะ memosprite อยู่สนาม: SPD +6% | `Before_turn_List` + flag `buffCheck["Hero_Wreath"]` | 11-21 |
-| 4-pc — เมื่อ memosprite โจมตี: CD ทั้งคู่ +30% 2 เทิร์น | `BeforeAttackAction_List` → `buffSingleChar` | 23-27 |
+| 2-pc — ATK +12% | บวก ATK% ถาวร | `Hero_Wreath.h:8` |
+| 4-pc — ขณะ memosprite อยู่สนาม: SPD +6% | ต้นทุกเทิร์นของผู้สวมเช็ค `memosprite->isExisted()` · ลง/ถอน 6% ตามสถานะ โดยใช้ flag `buffCheck["Hero_Wreath"]` กันลงซ้ำ | `:11-20` |
+| 4-pc — memosprite โจมตี → ผู้สวมและ memosprite CD +30% นาน 2 เทิร์น | `BeforeAttackAction_List` กรอง `side == Memosprite` และเป็นของผู้สวม แล้ว `buffSingleChar` | `:22-26` |
+| — ถอน CD เมื่อหมดอายุ | ท้ายเทิร์นของแต่ละตัว (ผู้สวม / memosprite) เช็ค `isBuffEnd` แยกกัน | `:28-33` |
 
 ## รากฐาน: memosprite
 
@@ -15,11 +18,7 @@
 
 ## รากฐาน: บัฟถาวรที่ลงครั้งเดียวด้วย flag ของตัวเอง
 
-SPD +6% ต้องลง **ครั้งเดียว** ตอน memosprite ปรากฏ แต่ `Before_turn_List` ยิงทุกเทิร์น → ใช้ `buffCheck["Hero_Wreath"] == 0` เป็นยาม แล้วตั้งเป็น 1 ทันทีที่ลง (15) · ถ้า memosprite ออกจากสนาม จะถอน −6% และตั้ง flag กลับเป็น 0 (เปิด/ปิดตามสถานะจริง)
-
-## จุดที่ควรระวัง
-
-- **CD +30% ไม่ได้เช็คว่าผู้โจมตีคือ memosprite** — เงื่อนไขจริงคือ `act->Attacker->Atv_stats->side == Side::Ally && ptr->memosprite` (24) แปลว่า **ใครในทีมโจมตีก็ได้** ขอแค่เจ้าของ relic มี memosprite อยู่ · kit ระบุว่าต้องเป็น memosprite เป็นผู้โจมตี → **ค่าที่ได้สูงกว่าจริง** และบัฟถูกต่ออายุแทบทุก action
+SPD +6% ต้องลง **ครั้งเดียว** ตอน memosprite ปรากฏ แต่ `Before_turn_List` ยิงทุกเทิร์น → ใช้ `buffCheck["Hero_Wreath"] == 0` เป็นยาม แล้วตั้งเป็น 1 ทันทีที่ลง (`:14-15`) · ถ้า memosprite ออกจากสนาม จะถอน −6% และตั้ง flag กลับเป็น 0 (เปิด/ปิดตามสถานะจริง)
 
 ## แก้เมื่อ 2026-09-25
 - CD +30% เดิม trigger เมื่อใครฝ่ายเราตีก็ได้ → เปลี่ยนเป็นเฉพาะ memosprite ของเจ้าของ (`side == Side::Memosprite && Attacker->owner->isSameName(ptr)`)

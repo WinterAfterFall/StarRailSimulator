@@ -4,9 +4,12 @@
 
 **4★ · ใบที่กระทบ AI ของทั้งทีม**
 
-| ท่อน | โค้ด |
-|---|---|
-| กด ult → advance ทั้งทีม `14 + 2S`% | `WhenUseUlt_List` → `if (ally->isSameOwner(ptr)) All_Action_forward(14 + 2*superimpose);` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(953, 423, 397)` | `DDD.h:5` |
+| ผู้สวมกด Ult → ทั้งทีม advance `14 + 2S`% | `WhenUseUlt_List` + `isSameOwner` → `All_Action_forward` | `:8-12` |
 
 ไม่มีสแตตติดตัว มี trigger เดียว — ไฟล์สั้นที่สุดในโฟลเดอร์
 

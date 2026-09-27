@@ -2,11 +2,13 @@
 
 เซ็ตจริง: **Poet of Mourning Collapse** · `Relic.Name` = `"Poet_Dill"`
 
-| โบนัส | โค้ด | บรรทัด |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| 2-pc — Quantum DMG +10% | `Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 10` | 9 |
-| 4-pc — SPD −8% | `ptr->Atv_stats->speedPercent -= 8` | 8 |
-| 4-pc — CR +20% / +32% ถ้า SPD < 110 / 95 (ทั้งผู้สวมและ memosprite) | `WhenOnField_List` → `buffSingleChar(ptr,{{CR, 32}})` | 11-13 |
+| 2-pc — Quantum DMG +10% | บวก DMG ธาตุควอนตัมถาวร | `Poet_Dill.h:9` |
+| 4-pc — SPD −8% | ลบ `speedPercent` ถาวร (ผลเสียของเซ็ต) | `:8` |
+| 4-pc — CR +20% / +32% ถ้า SPD < 110 / 95 (ผู้สวม + memosprite) | ลงชั้นสูงสุด 32 ตอนเข้าสนามด้วย `buffSingleChar` ไม่เช็ค SPD | `:11-13` |
 
 ## จุดที่ควรรู้
 

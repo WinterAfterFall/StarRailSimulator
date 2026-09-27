@@ -4,13 +4,16 @@
 
 **signature ของ Kafka** (ดู `../../Character/Nihility/Kafka.md`) · **LC ใบเดียวในโปรเจกต์ที่มี `Dot_List` ของตัวเอง**
 
-| ท่อน | โค้ด |
-|---|---|
-| DMG `20 + 4S` | `Reset_List` |
-| โจมตี → SPD stack `4 + 0.8S` (cap 3) | `AfterAttackActionList` → `buffStackSingle(..., 1, 3, "Kafka LC")` |
-| โจมตี → เป้าติด Shock ชื่อ `Erode` 1 เทิร์น | `dotSingleApply(ptr, each, {DotType::Shock}, Erode, 1)` |
-| Erode DoT `50 + 10S` | **`Dot_List` ของตัว LC เอง** |
-| ถอน | `After_turn_List` → `isDebuffEnd(enemy, Erode)` → `dotRemove(enemy, {DotType::Shock})` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(1058, 582, 463)` | `Kafka_LC.h:5` |
+| DMG `20 + 4S` | บวกถาวร | `:9` |
+| ผู้สวมโจมตี → SPD `4 + 0.8S`% ต่อชั้น (สูงสุด 3) | `AfterAttackActionList` → `buffStackSingle(…, 1, 3, "Kafka LC")` · ไม่มีอายุ | `:12-14` |
+| ผู้สวมโจมตี → เป้าที่ยังไม่มี "Erode" ติด Shock พิเศษ 1 เทิร์น | `dotSingleApply(…, Shock, Erode, 1)` ชื่อผูกเจ้าของ (`:7`) | `:15-17` |
+| Shock/DoT ยิงบนเป้าที่ติด Erode → ดาเมจเพิ่ม `50 + 10S`% ATK × ตัวคูณ DoT | `Dot_List` สร้าง action `AType::Shock` แล้ว `multiplyDmg(Dot_ratio)` | `:31-40` |
+| ถอน Erode | ท้ายเทิร์นศัตรู `isDebuffEnd` → `dotRemove` | `:22-29` |
 
 ## รากฐาน: LC ที่ลงทะเบียน `Dot_List`
 

@@ -4,10 +4,13 @@
 
 **base stats ต่ำสุดในทุกโฟลเดอร์** (3★)
 
-| ท่อน | โค้ด |
-|---|---|
-| ใช้ Skill ครั้งแรกของเทิร์น → energy `7 + S` | `BeforeAllyActionList` + flag `Passkey` |
-| ล้าง flag ต้นเทิร์นตัวเอง | `Before_turn_List` → `turn->isSameName(ptr->Atv_stats->Name)` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(741, 370, 265)` | `Passkey.h:5` |
+| ใช้ Skill → energy `7 + S` (ครั้งเดียวต่อเทิร์น) | `BeforeAllyActionList` เฉพาะ Skill ของผู้สวม และ flag `"Passkey"` ยังเป็น 0 | `:13-18` |
+| ล้าง flag | ต้นเทิร์นของผู้สวม | `:9-11` |
 
 **ไม่มีสแตตติดตัว**
 

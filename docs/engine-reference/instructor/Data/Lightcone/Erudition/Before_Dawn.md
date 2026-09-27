@@ -2,11 +2,14 @@
 
 `namespace Erudition_Lightcone` · `Light_cone.Name` = `"Before_Dawn"` · base stats `SetAllyBaseStats(1058, 582, 463)`
 
-| ท่อน | โค้ด |
-|---|---|
-| CD `30 + 6S` · Skill DMG `15 + 3S` · Ult DMG `15 + 3S` | `Reset_List` |
-| ใช้ Skill/Ult → ตั้ง `stack["Somnus_Corpus"] = 1` | `AfterAttackActionList` |
-| FuA ครั้งถัดไป → DMG[Fua] `40 + 8S` เฉพาะ action นั้น | `BeforeAttackAction_List` ลง / `AfterAttackActionList` ถอน |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(1058, 582, 463)` | `Before_Dawn.h:5` |
+| CD `30 + 6S` · Skill DMG และ Ult DMG `15 + 3S` | บวกถาวร | `:9-11` |
+| ใช้ Skill/Ult → ได้ "Somnus Corpus" | `AfterAttackActionList` ตั้ง `stack["Somnus_Corpus"] = 1` | `:29-34` |
+| Follow-up ครั้งถัดไป (มี Somnus Corpus) → FuA DMG `40 + 8S` แล้วใช้หมด | ลงก่อน action ใน `BeforeAttackAction_List` · ถอนและล้าง stack หลัง action | ลง `:14-24` · ถอน `:36-45` |
 
 ## รากฐาน: บัฟที่ครอบ action เดียวโดยเขียน `Stats_type` ตรง ๆ
 

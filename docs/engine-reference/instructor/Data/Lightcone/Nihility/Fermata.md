@@ -2,10 +2,13 @@
 
 `namespace Nihility_Lightcone` · `Light_cone.Name` = `"Fermata"` · base stats `SetAllyBaseStats(953, 476, 331)`
 
-| ท่อน | โค้ด |
-|---|---|
-| Break Effect `12 + 4S` | `Reset_List` |
-| เป้าที่ติด Shock/WindShear รับดาเมจ +`12 + 4S` **เฉพาะก้อนนั้น** | `BeforeAttack_List` ลง / `AfterAttack_List` ถอน |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(953, 476, 331)` | `Fermata.h:5` |
+| Break Effect `12 + 4S` | บวกถาวร | `:10` |
+| ดาเมจของผู้สวมต่อเป้าที่ติด Shock หรือ Wind Shear +`12 + 4S`% | ก่อนการโจมตีของผู้สวม ลง DMG ที่ตัวเป้า แล้วจดเป้าไว้ใน `buffedTargets` (`:7`) · หลังการโจมตีถอนคืนทุกตัว | ลง `:13-22` · ถอน `:24-30` |
 
 ## รากฐาน: บัฟชั่วคราวครอบ action ด้วยคู่ Before/After + จดรายการ
 

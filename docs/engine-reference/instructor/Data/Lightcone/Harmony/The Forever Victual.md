@@ -4,10 +4,13 @@
 
 **free** · ฟังก์ชันชื่อ `ForeverVictual` (ไม่มี `The`)
 
-| ท่อน | โค้ด |
-|---|---|
-| ATK% `12 + 4S` | `Reset_List` |
-| ใช้ Skill → ATK stack `6 + 2S` (cap 3) | `BeforeAllyActionList` → `buffStackSingle(ptr, ..., 1, 3, "The Forever Victual")` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(953, 476, 331)` | `The Forever Victual.h:5` |
+| ATK% `12 + 4S` | บวกถาวร | `:9` |
+| ผู้สวมใช้ Skill → ATK `6 + 2S`% ต่อชั้น (สูงสุด 3) | `BeforeAllyActionList` → `buffStackSingle(…, 1, 3, "The Forever Victual")` · ไม่มีอายุ | `:12-15` |
 
 ## จุดที่น่าสังเกต
 

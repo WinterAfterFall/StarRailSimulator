@@ -4,11 +4,14 @@
 
 **signature ของ Aglaea** (ดู `../../Character/Remembrance/Aglaea.md`)
 
-| ท่อน | โค้ด |
-|---|---|
-| **`baseSpeed += 10 + 2S`** | เขียนตรงใน lambda ตอน `Setup` |
-| โจมตี → CD `7.5 + 1.5S` (cap 6 stack) | `When_attack_List` + `stack["Aglaea_LC_stack"]` |
-| ครบ 6 stack → BA DMG `6 × (7.5 + 1.5S)` | เงื่อนไขในบล็อกเดียวกัน |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(1058, 635, 397)` | `Aglaea_LC.h:5` |
+| SPD `10 + 2S` (ค่าคงที่) | บวก `baseSpeed` ตรง ๆ ตอน setup | `:7` |
+| ผู้สวมหรือ memosprite โจมตี → CD `7.5 + 1.5S` ต่อชั้น (สูงสุด 6) ให้ทั้งคู่ | `When_attack_List` guard `isSameOwnerName` · นับ `stack["Aglaea_LC_stack"]` · `buffSingleChar` · ไม่มีอายุ | `:8-18` (CD `:11`) |
+| ครบ 6 ชั้น → Basic ATK DMG `6 × (7.5 + 1.5S)` | ลงครั้งเดียวตอนถึง 6 | `:13-15` |
 
 ## จุดที่น่าสังเกต
 

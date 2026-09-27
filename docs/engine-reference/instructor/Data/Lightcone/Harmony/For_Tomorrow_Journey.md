@@ -4,11 +4,14 @@
 
 **free**
 
-| ท่อน | โค้ด |
-|---|---|
-| ATK% `12 + 4S` | `Reset_List` |
-| กด ult → ตัวเอง DMG `15 + 3S` 1 เทิร์น | `WhenUseUlt_List` → `buffSingle(..., "For_Tomorrow_Journey_Buff", 1)` |
-| ถอน | `After_turn_List` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(953, 476, 331)` | `For_Tomorrow_Journey.h:5` |
+| ATK% `12 + 4S` | บวกถาวร | `:9` |
+| ผู้สวมกด Ult → DMG `15 + 3S` นาน 1 เทิร์น | `WhenUseUlt_List` + `isSameOwner` → `buffSingle(…, "For_Tomorrow_Journey_Buff", 1)` | `:12-18` |
+| ถอนเมื่อหมดอายุ | ท้ายเทิร์นผู้สวม `isBuffEnd` | `:20-26` |
 
 ## แก้แล้ว 2026-09-26: ถอนบัฟด้วยชื่อผิด
 

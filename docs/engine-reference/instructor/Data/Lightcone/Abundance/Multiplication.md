@@ -4,9 +4,12 @@
 
 **ใบเดียวของโฟลเดอร์** · 3★ base stats ต่ำ
 
-| ท่อน | โค้ด |
-|---|---|
-| ผู้สวมใช้ BA → action ถัดไป advance `10 + 2S` | `AfterAllyActionList` → `act->isSameAction(ptr, AType::BA)` → `Action_forward(ptr->Atv_stats.get(), ...)` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(953, 318, 198)` | `Multiplication.h:5` |
+| ผู้สวมใช้ Basic ATK → action ถัดไป advance `10 + 2S`% | `AfterAllyActionList` (หลัง action จบ ไม่ถูก turn reset ลบทิ้ง) → `isSameAction(ptr, AType::BA)` → `Action_forward` | `:8-12` (advance `:10`) |
 
 **ไม่มีสแตตติดตัว**
 

@@ -2,14 +2,15 @@
 
 `Relic.Name` = `"Diviner of Distant Reach"` · ฟังก์ชัน `DivinerOfDistant(bool trigger)` — **factory ที่รับเงื่อนไขมาจากข้างนอก**
 
-```cpp
-function<void(CharUnit *ptr)> DivinerOfDistant(bool trigger)
-```
+## ความสามารถหลัก → โค้ดที่ทำงาน
 
-| `trigger` | CR ที่ได้ | ส่วนที่เหมือนกันทั้งสองสาขา |
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| `true` | +18 | `speedPercent += 6` · `Start_game_List` แจก `Stats::Elation` +10 |
-| `false` | +10 | เหมือนกันทุกอย่าง |
+| 2-pc — SPD +6% | บวก `speedPercent` ของผู้สวมตรง ๆ ตอนเริ่ม | `Diviner of Distant Reach.h:8` (`trigger=true`) · `:22` (`false`) |
+| 4-pc — CR +10% / +18% | kit: CR สูงขึ้นเมื่อเงื่อนไขในเกมเข้า · ซิมให้คนประกอบทีมเลือกเองผ่านพารามิเตอร์ `trigger` (`true` = 18, `false` = 10) | `:9` · `:23` |
+| 4-pc — ทั้งทีม Elation +10 | ตอนเริ่มเกมวนทุกคนใน `allyList` ลง `Stats::Elation` +10 · `isHaveToAddBuff(each, "DoD Buff")` กันไม่ให้ซ้อนเมื่อใส่หลายคน | `:11-16` · `:25-30` |
+
+ฟังก์ชันเป็น factory: `DivinerOfDistant(bool trigger)` (`:3`) คืน lambda คนละก้อนตาม `trigger`
 
 ## รากฐาน: relic ที่รับพารามิเตอร์
 
@@ -17,8 +18,7 @@ function<void(CharUnit *ptr)> DivinerOfDistant(bool trigger)
 
 ## จุดที่ควรรู้
 
-- **สองสาขาต่างกันแค่เลข CR เดียว (18 vs 10) แต่โค้ดถูก copy ทั้งก้อน** (4-31) — ถ้าจะแก้ `Start_game_List` หรือ `speedPercent` ต้องแก้ 2 ที่เสมอ · เขียนเป็นตัวแปร `double cr = trigger ? 18 : 10;` แล้วเหลือ lambda เดียวได้
-- **ลูป `Start_game_List` ดูแปลก** (12-16): วน `allyList` เช็ค `isHaveToAddBuff(each, "DoD Buff")` ทีละคน แต่ `buffSingle(ptr, ...)` ที่บวก `Stats::Elation` +10 **ลงที่เจ้าของ relic เสมอ** ไม่ใช่ที่ `each` → ผลคือเจ้าของได้ Elation +10 คูณจำนวนเพื่อนที่ยังไม่ถูก mark · ถ้าเจตนาคือ "แจกเพื่อนคนละ 10" ต้องเป็น `buffSingle(each, ...)` ถ้าเจตนาคือ "ได้ 10 ครั้งเดียว" ก็ไม่ต้องวน
+- **สองสาขาต่างกันแค่เลข CR เดียว (18 vs 10) แต่โค้ดถูก copy ทั้งก้อน** (`:4-31`) — ถ้าจะแก้ `Start_game_List` หรือ `speedPercent` ต้องแก้ 2 ที่เสมอ · เขียนเป็นตัวแปร `double cr = trigger ? 18 : 10;` แล้วเหลือ lambda เดียวได้
 - `Stats::Elation` เป็น stat เฉพาะของ path Elation (เทียบกับ `AType::ElationDMG` ที่เป็นประเภทดาเมจ)
 
 ## แก้เมื่อ 2026-09-25

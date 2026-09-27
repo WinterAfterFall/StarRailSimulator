@@ -2,9 +2,11 @@
 
 `Planar.Name` = `"SpaceSealing"` · เซ็ตจริง: **Space Sealing Station**
 
-| ท่อน | โค้ด | บรรทัด |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| ATK +24% | `Reset_List` → `Stats_type[Stats::ATK_P][AType::None] += 24` | 7 |
+| ATK +12% และอีก +12% เมื่อ SPD ≥ 120 | รวมเป็น ATK +24% ก้อนเดียวถาวร · ไม่เช็ค SPD | `SpaceSealing.h:7` |
 
 ไฟล์ที่สั้นที่สุดในโฟลเดอร์ — มี `Reset_List` ก้อนเดียว ไม่มี trigger
 

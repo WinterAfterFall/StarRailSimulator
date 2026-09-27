@@ -2,15 +2,17 @@
 
 เซ็ตจริง: **Eagle of Twilight Line** · `Relic.Name` = `"Eagle_Beaked_Helmet"` (ชื่อไฟล์เป็นชื่อ **ชิ้นหัว** ไม่ใช่ชื่อเซ็ต)
 
-| โบนัส | โค้ด | บรรทัด |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| 2-pc — Wind DMG +10% | `Reset_List` → `Stats_each_element[Stats::DMG][ElementType::Wind][AType::None] += 10` | 11 |
-| 4-pc — ใช้อัลติแล้ว advance ตัวเอง 25% | `WhenUseUlt_List` → `if (ally->isSameOwner(ptr)) Action_forward(ptr->Atv_stats.get(), 25)` | 14-18 |
-| — | `addUltCondition`: `atv <= Max_atv * 0.25` → ยังไม่กด | 5-8 |
+| 2-pc — Wind DMG +10% | บวก DMG ธาตุลมถาวรตอนเริ่ม | `Eagle_Beaked_Helmet.h:11` |
+| 4-pc — ใช้ Ult แล้ว advance ตัวเอง 25% | `WhenUseUlt_List` ยิงทุกครั้งที่ใครกด ult · กรองด้วย `isSameOwner(ptr)` แล้ว `Action_forward(…, 25)` | `:14-18` |
+| (AI) รอกด ult ถ้าใกล้ได้เทิร์นอยู่แล้ว | `addUltCondition` — ถ้า ATV เหลือ ≤ 25% ของ Max ไม่กด เพราะ advance 25% จะเสียเปล่า | `:5-8` |
 
 ## รากฐาน: relic ที่แก้ AI ของตัวละคร
 
-**เซ็ตนี้ใส่ `addUltCondition` ของตัวเอง** (5-8) — ถ้าตัวละครใกล้ได้เล่นอยู่แล้ว (`atv` เหลือไม่ถึง 25% ของ `Max_atv`) การกดอัลติจะทำให้ advance 25% เสียเปล่า จึงสั่งให้รอ
+**เซ็ตนี้ใส่ `addUltCondition` ของตัวเอง** (`:5-8`) — ถ้าตัวละครใกล้ได้เล่นอยู่แล้ว (`atv` เหลือไม่ถึง 25% ของ `Max_atv`) การกดอัลติจะทำให้ advance 25% เสียเปล่า จึงสั่งให้รอ
 
 **นี่คือเหตุผลว่าทำไมจังหวะกดอัลติของตัวละครหนึ่งอาจไม่ได้อยู่ในไฟล์ตัวละครเลย** — `addUltCondition` เป็นรายการเงื่อนไขที่ต่อกันได้ ทั้งไฟล์ตัวละคร relic และ light cone ต่างเพิ่มของตัวเองได้ ทุกเงื่อนไขต้องเป็นจริงพร้อมกันถึงจะกด
 

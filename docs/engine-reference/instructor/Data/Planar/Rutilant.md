@@ -2,10 +2,12 @@
 
 `Planar.Name` = `"Rutilant"` · เซ็ตจริง: **Rutilant Arena**
 
-| ท่อน | โค้ด | บรรทัด |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| CR +8% | `Reset_List` | 7 |
-| Basic ATK / Skill DMG +20% (kit: ต้องมี CR ≥ 70%) | `WhenOnField_List` | 11-12 |
+| CR +8% | บวก CR ถาวร | `Rutilant.h:7` |
+| Basic ATK และ Skill DMG +20% (kit: CR ≥ 70%) | บวก DMG ที่ `AType::SKILL` และ `AType::BA` ตอนเข้าสนาม · ไม่เช็ค CR | `:10-13` |
 
 ## จุดที่ควรรู้
 

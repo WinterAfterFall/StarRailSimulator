@@ -4,13 +4,16 @@
 
 **signature ของ Castorice** (ดู `../../Character/Remembrance/Castorice.md`)
 
-| ท่อน | โค้ด |
-|---|---|
-| HP% `22.5 + 7.5S` | `Reset_List` |
-| memosprite ของผู้สวมตาย → advance `9 + 3S` (ครั้งเดียวต่อ ult) | `AllyDeath_List` + flag `Castorice_LC_check` |
-| กด ult → ล้าง flag | `WhenUseUlt_List` |
-| ผู้สวมเสีย HP ในเทิร์นตัวเอง → DEF_SHRED `25 + 5S` 2 เทิร์น | `HPDecrease_List` |
-| ถอน | `After_turn_List` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(1270, 529, 397)` | `Castorice_LC.h:5` |
+| HP% `22.5 + 7.5S` | บวกถาวร | `:9` |
+| memosprite ของผู้สวมตาย → ผู้สวม advance `9 + 3S`% (ครั้งเดียวต่อ Ult) | `AllyDeath_List` เช็ค `side == Memosprite` และ `num` ตรงกัน · flag `"Castorice_LC_check"` | `:12-19` |
+| กด Ult → รีเซ็ต flag ข้างบน | `WhenUseUlt_List` + `isSameOwner` | `:21-25` |
+| ในเทิร์นของผู้สวม/memosprite เขาเสีย HP → "Death Flower": ignore DEF `25 + 5S`% นาน 2 เทิร์น (ทั้งคู่) | `HPDecrease_List` เช็คเจ้าของเทิร์นและเป้าเป็นฝั่งผู้สวม · `isHaveToAddBuff(…, 2)` + `buffSingleChar` | `:27-35` |
+| ถอน Death Flower | ท้ายเทิร์นผู้สวม `isBuffEnd` | `:38-42` |
 
 ## จุดที่ทำถูก
 

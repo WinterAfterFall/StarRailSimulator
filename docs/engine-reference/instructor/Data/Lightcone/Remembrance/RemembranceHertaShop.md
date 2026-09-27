@@ -4,11 +4,14 @@
 
 **ฟังก์ชันชื่อ `RemembranceHertaShop` แต่ชื่อใบจริงต่างออกไป** — ชื่อไฟล์บอกแหล่งที่มา (ร้าน Herta)
 
-| ท่อน | โค้ด |
-|---|---|
-| SPD% `4.5 + 1.5S` | `Reset_List` |
-| ผู้สวมใช้ Skill → ทีม DMG `6 + 2S` 3 เทิร์น | `AfterAction_List` → `castToAllyActionData()` + `isSameAction(ptr, AType::SKILL)` |
-| ถอน | `After_turn_List` + `AllyDeath_List` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(1058, 529, 397)` | `RemembranceHertaShop.h:5` |
+| SPD `4.5 + 1.5S`% | บวก `speedPercent` ถาวร | `:10` |
+| ผู้สวมใช้ Skill → ทั้งทีม DMG `6 + 2S` นาน 3 เทิร์น | `AfterAction_List` เฉพาะ Skill ของผู้สวม → `buffAllAlly(…, Curtain, 3)` ชื่อผูกเจ้าของ (`:7`) | `:13-21` |
+| ถอนเมื่อหมดอายุ / ตาย | ท้ายเทิร์นผู้ถือ `isBuffEnd` · `AllyDeath_List` + `isBuffGoneByDeath` | `:23-31` · `:33-39` |
 
 ## จุดที่ทำถูก
 

@@ -2,10 +2,12 @@
 
 เซ็ตจริง: **Genius of Brilliant Stars** · `Relic.Name` = `"GeniusBrilliant"`
 
-| โบนัส | โค้ด | บรรทัด |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| 2-pc — Quantum DMG +10% | `Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 10` | 7 |
-| 4-pc — ignore DEF 10% (+10% ถ้าเป้าอ่อนแอ Quantum) | `Stats_type[Stats::DEF_SHRED][AType::None] += 20` | 8 |
+| 2-pc — Quantum DMG +10% | บวก DMG ธาตุควอนตัมถาวร | `GeniusBrilliant.h:7` |
+| 4-pc — ignore DEF 10% (+10% ถ้าเป้าอ่อน Quantum) | รวมเป็น 20 ถาวรทุกดาเมจ ไม่เช็ค weakness ของเป้า | `:8` |
 
 ## เงื่อนไขที่ถูกตัดทิ้ง
 

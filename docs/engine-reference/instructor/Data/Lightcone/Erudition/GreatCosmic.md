@@ -2,10 +2,13 @@
 
 `namespace Erudition_Lightcone` · `Light_cone.Name` = `"GreatCosmic"` · base stats `SetAllyBaseStats(953, 476, 331)`
 
-| ท่อน | โค้ด |
-|---|---|
-| ATK% `6 + 2S` | `Reset_List` |
-| DMG `(3 + S) × 7` | `Reset_List` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(953, 476, 331)` | `GreatCosmic.h:5` |
+| ATK% `6 + 2S` | บวกถาวร | `:9` |
+| DMG `(3 + S) × 7` | kit: DMG ตามจำนวน debuff บนเป้า · โค้ดใส่เต็มเพดาน 7 ชั้นถาวร | `:10` |
 
 ## จุดที่ควรสังเกต
 

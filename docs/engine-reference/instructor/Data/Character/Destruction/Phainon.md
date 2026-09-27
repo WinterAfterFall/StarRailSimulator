@@ -18,9 +18,9 @@ Ult ของ Phainon ไม่ใช่ดาเมจ แต่เป็นก
 
 > **แก้ 2026-09-27** (รีวิวเทียบ kit): Talent CD +30% (`"PN Talent"`) และ A4 DMG +45% (`"PN A4"`) เดิม**ไม่มีโค้ดถอน → ติดถาวร** ตั้งแต่ครั้งแรก · ตอนนี้ถอนใน `After_turn_List` (+ A4 ใน `AllyDeath_List`) · A4 ไม่นับการฮีลตัวเองของ Khaslana · A2 ต้นเกม Coreflame 3 → 1 · Counter ของ Calamity `AType::Fua` → `AType::SKILL` (kit: นับเป็น Skill DMG) · Calamity เริ่ม Soulscorch 1 stack · HP ฐาน 1436 → 1433 · อัปเดตเลขบรรทัด · **ไม่แก้ตาม user**: Coreflame cap 15, E1 +1.5%/kill, Final Hit ลดตาม extra turn ที่เหลือ, ยืดบัฟเพื่อนตอนแปลงร่าง
 
-## ตาราง: ความสามารถ → โค้ด
+## ความสามารถหลัก → โค้ดที่ทำงาน
 
-| ส่วนของ kit | ลงที่ไหนในโค้ด | บรรทัด |
+| ความสามารถ | ทำงานยังไง | บรรทัดใน `Phainon.h` |
 |---|---|---|
 | ธาตุ / path / **energy ult = 0** | `SetCharBasicStats(94, 0, 0, E, Physical, Destruction, "Phainon", Standard)` | 5 |
 | countdown unit | `SetCountdownStats(ptr, baseSpeed*0.6*7, "Phainon Extra Turn")` | 10 |
@@ -64,12 +64,14 @@ setBuffNote(..., 0);
 
 ## รากฐาน: countdown unit เป็น "ตัวเดินเทิร์นพิเศษ"
 
+`pnCD` เป็น `TimerATV*` (ATV ล้วน ไม่มี stats/buff — `Class/Unit/ActionValueStats.h`) จึงส่งเข้า `Action_forward` ได้ตรง ๆ และมี `status` / `summon()` / `death()` / `Turn_func` ของตัวเอง
+
 ต่างจาก `../Remembrance/Aglaea.md` ที่ countdown เป็นแค่นาฬิกาจับเวลา — ของ Phainon **countdown คือตัวที่เล่นแทน** ในสถานะอัลติ
 
 ```cpp
 pn->setBuffCountdown("PN Extra Turn", 8);       // จำนวนเทิร์นพิเศษ
-pnCD->summon();  pnCD->resetATV(...);  Action_forward(pnCD->Atv_stats.get(), 1000);
-pnCD->Atv_stats->extraTurn = 1;                 // ธงว่าเป็นเทิร์นพิเศษ
+pnCD->summon();  pnCD->resetATV(...);  Action_forward(pnCD, 1000);
+pnCD->extraTurn = 1;                 // ธงว่าเป็นเทิร์นพิเศษ
 ...
 // Turn_func ของ countdown: เลือกท่า -> ลดตัวนับ -> resetTurn(turn)
 pn->buffEnd["PN Extra Turn"] -= 1;

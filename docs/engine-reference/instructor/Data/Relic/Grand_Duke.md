@@ -2,17 +2,19 @@
 
 เซ็ตจริง: **The Ashblazing Grand Duke** · `Relic.Name` = `"Grand_Duke"`
 
-| โบนัส | โค้ด | บรรทัด |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| 2-pc — Follow-up ATK DMG +20% | `Reset_List` → `Stats_type[Stats::DMG][AType::Fua] += 20` | 7 |
-| 4-pc — ATK +6% ต่อ hit ของ follow-up (สูงสุด 8 ชั้น) | `BeforeAttackPerHit_List` | 10-31 |
-| — หมดอายุ 3 เทิร์น | `After_turn_List` + `isBuffEnd` | 33-40 |
+| 2-pc — Follow-up DMG +20% | บวก DMG ที่จำกัดเฉพาะ `AType::Fua` | `Grand_Duke.h:7` |
+| 4-pc — Follow-up แต่ละ hit ให้ ATK +6% (สูงสุด 8 ชั้น) นาน 3 เทิร์น | `BeforeAttackPerHit_List` ยิงทุก hit · ถ้า action มี `Fua` ถอน ATK ชั้นเดิมทั้งหมด ตั้ง stack = `hitCount` (clamp 8) แล้วลงใหม่ · ต่ออายุ 3 เทิร์นทุก hit | `:10-31` |
+| — หมดอายุ | ท้ายเทิร์นผู้สวม `isBuffEnd` → ถอน ATK ทั้งกอง stack กลับ 0 | `:33-40` |
 
 ## รากฐาน: `BeforeAttackPerHit_List` — trigger ราย hit ไม่ใช่ราย action
 
 list นี้ยิง **ทุก hit** ของ action หนึ่ง ต่างจาก `BeforeAttack_List` / `When_attack_List` ที่ยิงครั้งเดียวต่อ action · จำเป็นสำหรับเซ็ตนี้เพราะ stack นับตามจำนวน hit ที่ follow-up ปล่อยไปแล้ว ซึ่งอ่านจาก `act->Attacker->hitCount`
 
-การเช็คว่าเป็น follow-up ทำโดยวน `act->actionTypeList` หา `AType::Fua` (14-19) ไม่ใช่เทียบ `AType` ตัวเดียว เพราะ action หนึ่งมีได้หลายประเภทพร้อมกัน
+การเช็คว่าเป็น follow-up ทำโดยวน `act->actionTypeList` หา `AType::Fua` (`:14-19`) ไม่ใช่เทียบ `AType` ตัวเดียว เพราะ action หนึ่งมีได้หลายประเภทพร้อมกัน
 
 ## รากฐาน: สำนวน "ถอนของเก่า-ตั้งค่าใหม่-ใส่ของใหม่"
 
@@ -26,6 +28,6 @@ act->Attacker->Stats_type[Stats::ATK_P][AType::None] += act->Attacker->stack["Gr
 
 ## จุดที่ควรรู้
 
-- **`hitCnt` ไม่ได้บวกสะสม** — `hitCnt = act->Attacker->hitCount` (22) คือค่าจาก unit ไม่ใช่การนับเพิ่มเอง แล้ว clamp ที่ 8 · ตัวแปรถูกประกาศ `int hitCnt = 0;` ไว้นอก `if` (20) ทั้งที่ใช้ข้างในอย่างเดียว
-- **อายุบัฟต่ออายุใหม่ทุก hit** (`extendBuffTime(..., 3)` บรรทัด 29) ไม่ใช่ตั้งครั้งเดียวตอนเริ่มสะสม
-- `After_turn_List` guard ด้วย `turn->Name != ptr->Atv_stats->Name` (34) — ต่างจากที่อื่นในกลุ่ม relic ที่ปล่อยให้ `isBuffEnd` เช็คเจ้าของเทิร์นเอง ผลเหมือนกันแต่เป็นการเช็คซ้ำ
+- **`hitCnt` ไม่ได้บวกสะสม** — `hitCnt = act->Attacker->hitCount` (`:22`) คือค่าจาก unit ไม่ใช่การนับเพิ่มเอง แล้ว clamp ที่ 8 · ตัวแปรถูกประกาศ `int hitCnt = 0;` ไว้นอก `if` (`:20`) ทั้งที่ใช้ข้างในอย่างเดียว
+- **อายุบัฟต่ออายุใหม่ทุก hit** (`extendBuffTime(..., 3)` `:29`) ไม่ใช่ตั้งครั้งเดียวตอนเริ่มสะสม
+- `After_turn_List` guard ด้วย `turn->Name != ptr->Atv_stats->Name` (`:34`) — ต่างจากที่อื่นในกลุ่ม relic ที่ปล่อยให้ `isBuffEnd` เช็คเจ้าของเทิร์นเอง ผลเหมือนกันแต่เป็นการเช็คซ้ำ

@@ -4,11 +4,14 @@
 
 ฟังก์ชันชื่อ `MushyShroomy`
 
-| ท่อน | โค้ด |
-|---|---|
-| Elation `10 + 2S` | `Reset_List` |
-| ใช้ Elation Skill → ศัตรูทุกตัวติด VUL[ElationDMG] `5 + S` 2 เทิร์น | `BeforeAllyActionList` → `debuffAllEnemyApply(..., debuffName, 2)` |
-| ถอน | `After_turn_List` → `isDebuffEnd` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(847, 476, 397)` | `Mushy Shroomy's Adventures.h:5` |
+| Elation `10 + 2S` | บวกถาวร | `:10` |
+| ผู้สวมใช้ Elation Skill → ศัตรูทุกตัวรับ Elation DMG +`5 + S`% นาน 2 เทิร์น | `BeforeAllyActionList` → `debuffAllEnemyApply` ชื่อ debuff ขึ้นต้นด้วยชื่อผู้สวม (`:7`) | `:14-18` |
+| ถอนเมื่อหมดอายุ | ท้ายเทิร์นศัตรู `isDebuffEnd` | `:20-26` |
 
 ชื่อ debuff prefix ด้วยชื่อเจ้าของ (`ptr->getName() + " MushyShroomy Debuff"`)
 

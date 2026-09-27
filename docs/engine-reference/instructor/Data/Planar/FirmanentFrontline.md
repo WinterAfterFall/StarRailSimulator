@@ -2,14 +2,14 @@
 
 `Planar.Name` = `"FirmanentFrontline"` · เซ็ตจริง: **Firmament Frontline: Glamoth** (ชื่อในโค้ดสะกดตก `e`) · **factory รับ `bool`**
 
-```cpp
-function<void(CharUnit *ptr)> FirmanentFrontline(bool trigger)
-```
+## ความสามารถหลัก → โค้ดที่ทำงาน
 
-| `trigger` | ATK | DMG |
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| `true` | +12% | +18% |
-| `false` | +12% | +12% |
+| ATK +12% | บวก ATK% ถาวร (มีทั้งสองสาขา) | `FirmanentFrontline.h:8` (`true`) · `:16` (`false`) |
+| DMG +12% (SPD ≥ 135) / +18% (SPD ≥ 160) | ผู้ประกอบทีมเลือกชั้นผ่าน `trigger` · `true` = 18, `false` = 12 · ไม่มีกรณี 0% | `:9` · `:17` |
+
+factory `FirmanentFrontline(bool trigger)` (`:3`) คืน lambda คนละก้อน
 
 kit: DMG +12% เมื่อ SPD ≥ 135 และ **+18%** เมื่อ SPD ≥ 160 → `trigger` คือ "SPD ถึงชั้นบนหรือยัง" ที่ผู้ประกอบทีมตัดสินเอง
 

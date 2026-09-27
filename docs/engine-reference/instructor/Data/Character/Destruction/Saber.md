@@ -4,9 +4,9 @@ kit อ้างอิง: `docs/kit-reference/Character/Destruction/saber.md` �
 
 > **แก้ 2026-09-27** (รีวิวเทียบ kit): EBA ศัตรู 1 ตัว `370/150*100` หารจำนวนเต็มได้ 200 → `370.0/150*100` (รวม 370% ตาม kit) · A4 เริ่มต่อสู้เดิม +10% Max Energy → เติมเป็น 60% ถ้าต่ำกว่า · ESkill ได้ A6 CD +50% ด้วย · เงื่อนไข ESkill / Mana Burst นับ energy 30 (ผ่าน ER) ของ Skill ด้วย · เปลี่ยนชื่อบัฟ CD +50% เป็น `"Saber A6 Skill"` ไม่ให้ซ้ำกับชื่อ stack · **ไม่แก้ตาม user**: A4 cap 120/200, base stats (1242/602/655 vs kit 1241/601/654)
 
-## ตาราง: ความสามารถ → โค้ด
+## ความสามารถหลัก → โค้ดที่ทำงาน
 
-| ส่วนของ kit | ลงที่ไหนในโค้ด | บรรทัด |
+| ความสามารถ | ทำงานยังไง | บรรทัดใน `Saber.h` |
 |---|---|---|
 | ธาตุ / path / **energy ult 360** | `SetCharBasicStats(101, 360, 360, E, Wind, Destruction, "Saber", Standard)` | 5 |
 | **Core Resonance** (ทรัพยากรแกน) | lambda `CoreResonance(int value)` — จุดเดียวที่แตะ `buffNote["Core Resonance"]` | 25-29 |

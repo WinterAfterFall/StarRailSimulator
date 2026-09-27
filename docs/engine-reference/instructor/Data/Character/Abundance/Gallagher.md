@@ -2,9 +2,9 @@
 
 kit อ้างอิง: `docs/kit-reference/Character/Abundance/gallagher.md` · **ไฟล์อ้างอิงของ "stat ที่คำนวณจาก stat อื่นแบบ live"** (A2: Outgoing Healing = 50% ของ Break Effect) — กลไกนี้ไม่มีในตัวละครอื่นที่สำรวจมา · คู่กับ `Luocha.md` สำหรับระบบฮีลพื้นฐาน
 
-## ตาราง: ความสามารถ → โค้ด
+## ความสามารถหลัก → โค้ดที่ทำงาน
 
-| ส่วนของ kit | ลงที่ไหนในโค้ด | บรรทัด |
+| ความสามารถ | ทำงานยังไง | บรรทัดใน `Gallagher.h` |
 |---|---|---|
 | ธาตุ / path / energy ult | `SetCharBasicStats(98, 110, 110, E, ElementType::Fire, Path::Abundance, "Gallagher", UnitType::Standard)` | 14 |
 | Base HP/ATK/DEF | `SetAllyBaseStats(1305, 529, 441)` | 15 |

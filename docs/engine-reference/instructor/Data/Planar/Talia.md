@@ -2,10 +2,12 @@
 
 `Planar.Name` = `"Talia"` · เซ็ตจริง: **Talia: Kingdom of Banditry**
 
-| ท่อน | โค้ด | บรรทัด |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| Break Effect +16% | `Reset_List` | 7 |
-| Break Effect +20% เพิ่ม (kit: ต้องมี SPD ≥ 145) | `WhenOnField_List` | 11 |
+| Break Effect +16% | บวก BE ถาวร | `Talia.h:7` |
+| Break Effect +20% เพิ่ม (kit: SPD ≥ 145) | ลง BE ตอนเข้าสนาม · ไม่เช็ค SPD | `:10-12` |
 
 ## จุดที่ควรรู้
 

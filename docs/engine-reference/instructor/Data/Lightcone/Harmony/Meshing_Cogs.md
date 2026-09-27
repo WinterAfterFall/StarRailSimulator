@@ -4,11 +4,14 @@
 
 **free (3★)** — base stats ต่ำสุดในโฟลเดอร์
 
-| ท่อน | โค้ด |
-|---|---|
-| โจมตี → energy `3 + S` | `AfterAttackActionList` |
-| **ถูกโจมตี** → energy `3 + S` | `Enemy_hit_List` |
-| ทั้งสองทางรวมกัน **ครั้งเดียวต่อเทิร์น** | flag `"Meshing_Cogs_Triggered"` ร่วมกัน · ล้างใน `Before_turn_List` |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(847, 318, 265)` | `Meshing_Cogs.h:5` |
+| ผู้สวมโจมตี → energy `3 + S` (ครั้งเดียวต่อเทิร์น) | `AfterAttackActionList` + flag `"Meshing_Cogs_Triggered"` | `:8-13` |
+| ผู้สวมถูกตี → energy เดียวกัน (ใช้ flag ร่วม) | `Enemy_hit_List` หาผู้สวมใน `target` ด้วย `num` | `:15-23` |
+| ล้าง flag | ต้นเทิร์นของทุก unit | `:25-27` |
 
 ## จุดที่น่าสังเกต
 

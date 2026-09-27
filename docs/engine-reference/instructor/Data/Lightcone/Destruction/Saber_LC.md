@@ -4,12 +4,15 @@
 
 **signature ของ Saber** (ดู `../../Character/Destruction/Saber.md`)
 
-| ท่อน | โค้ด |
-|---|---|
-| CD `27 + 9S` | `Reset_List` |
-| กด ult → ATK `30 + 10S` 2 เทิร์น | `WhenUseUlt_List` + `isSameOwner` |
-| **ถ้า `Max_energy >= 300`** → ATK อีกก้อน + energy 10 (ไม่ผ่าน ER) | บัฟชื่อ `"Extra Saber_LC"` แยก |
-| ถอน | `After_turn_List` → เช็คทั้งสองชื่อ |
+## ความสามารถหลัก → โค้ดที่ทำงาน
+
+| ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
+|---|---|---|
+| base stats | `SetAllyBaseStats(953, 582, 529)` | `Saber_LC.h:5` |
+| CD `27 + 9S` | บวกถาวร | `:9` |
+| ผู้สวมกด Ult → ATK `30 + 10S`% นาน 2 เทิร์น | `WhenUseUlt_List` + `isSameOwner` → บัฟชื่อ `"Saber_LC"` | `:14-16` |
+| ถ้า Max Energy ≥ 300 → energy +10% ของ max และ ATK อีกก้อน | บัฟชื่อแยก `"Extra Saber_LC"` | `:17-21` |
+| ถอนเมื่อหมดอายุ | ท้ายเทิร์นผู้สวม เช็คทั้งสองชื่อ | `:25-32` |
 
 ## จุดที่น่าสนใจ
 
