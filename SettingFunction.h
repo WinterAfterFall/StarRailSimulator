@@ -169,6 +169,8 @@ void charSelector(function<void(int eidolon, function<void(CharUnit *ptr)> lc, f
             charSetup = Hyacine::setup;
         else if (name == "RMC") 
             charSetup = RMC::setup;
+        else if (name == "RobinSummeretto") 
+            charSetup = RobinSummeretto::setup;
 
         // --- The Hunt ---
         else if (name == "Archer") 

@@ -1,12 +1,13 @@
 # `src/Defination/Data/Character/Remembrance/`
 
-memosprite ทั้งหมด · 4 ไฟล์ · **อ่าน `RMC.md` ก่อนเสมอ**
+memosprite ทั้งหมด · 5 ไฟล์ · **อ่าน `RMC.md` ก่อนเสมอ**
 
 | ไฟล์ | memosprite | สิ่งที่ไฟล์นี้สอนเป็นไฟล์แรก |
 |---|---|---|
 | `RMC.h` | Mem | **ระบบ memosprite ทั้งหมด** · `whenEnergyIncreaseList` · `afterDealingDamageList` · `AType::TEMP` กันลูป |
 | `Aglaea.h` | Garmentmaker | countdown unit · joint attack (`setJoint` / `switchAttacker`) · `buffStackChar` |
 | `Castorice.h` | Netherwing | HP เป็นทรัพยากรสองทาง · ลูปโจมตีจนทรัพยากรหมด · ตั้งเงื่อนไข ult ให้ตัวละครอื่น |
+| `RobinSummeretto.h` | Summer Songbirds | memosprite ที่**ไม่ได้เทิร์นจนกว่าจะเข้า state** (`ATV_FREEZE`) · เจ้าของหยุดเทิร์นระหว่าง state · countdown ที่ต้อง `resetTurn` เอง · ทรัพยากร Vibes · ดู [RobinSummeretto.md](RobinSummeretto.md) |
 | `Hyacine.h` | Little Ica | ฮีล + memosprite · `beforeActionList`/`afterActionList` · `healCount` |
 
 ## สิ่งที่ต้องรู้ก่อนแตะไฟล์ในโฟลเดอร์นี้

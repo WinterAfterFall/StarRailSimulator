@@ -24,7 +24,7 @@
 | `Nihility/` | Kafka, Black Swan, Luka, Pela, Guinaifen, Silver Wolf, Hysilens, Cipher, Dahlia, Fugue (+Black SwanV1) | DoT และ debuff ฝั่งศัตรู |
 | `Erudition/` | Jingyuan, Serval, Jade, Anaxa, Rappa, The_Herta | AoE, summon, Break/Super Break |
 | `Destruction/` | Mydei, Phainon, Saber, FireFly | ทรัพยากรหนัก, สถานะพิเศษที่กินหลายเทิร์น |
-| `Remembrance/` | RMC, Aglaea, Castorice, Hyacine | memosprite ทั้งหมด |
+| `Remembrance/` | RMC, Aglaea, Castorice, Hyacine, RobinSummeretto | memosprite ทั้งหมด |
 | `Abundance/` | Luocha, Gallagher, Huohuo | ระบบฮีล |
 | `Elation/` | Hibana, YaoGuang, SilverWolf999, Evanescia, EMC, AventurineWaveflair | path Elation — punchline, Aha Instant |
 | `The Hunt/` | Archer | ตัวเดียวของ path นี้ |
