@@ -1,10 +1,6 @@
 #include "../include.h"
 
 void Take_action();
-void AhaTurn();
-void BeforeAhaInstant();
-void AhaInstant(int PL);
-void AfterAhaInstant();
 void Deal_damage();
 void Attack(shared_ptr<AllyAttackAction> &act);
 void genSkillPoint(AllyUnit *ptr,int p);

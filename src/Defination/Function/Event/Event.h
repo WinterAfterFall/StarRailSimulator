@@ -242,3 +242,13 @@ void allEventAfterDealingDamage(shared_ptr<AllyAttackAction> &act, Enemy *target
         e.Call(act, target, damage);
     }
 }
+void BeforeAhaInstant(){
+    for(TriggerByYourSelf_Func &e : BeforeAhaInstant_List){
+        e.Call(e.owner);
+    }
+}
+void AfterAhaInstant(){
+    for(TriggerByYourSelf_Func &e : AfterAhaInstant_List){
+        e.Call(e.owner);
+    }
+}

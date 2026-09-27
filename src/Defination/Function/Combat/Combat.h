@@ -24,86 +24,6 @@ void Take_action(){
     if(!turn->extraTurn)allEventAfterTurn();
 
 }
-void AhaTurn(){
-    ++(aha->turnCnt);
-
-    BeforeAhaInstant();
-    
-    CharCmd::printText("Aha Instant");
-    for(TriggerByYourSelf_Func &e : ElationSkill_List){
-        e.Call(e.owner);
-    }
-    PhaseStatus beforeStatus = phaseStatus;
-    while(!AhaInstantBar.empty()){
-        shared_ptr<ActionData> temp = AhaInstantBar.front();
-        phaseStatus = PhaseStatus::WhileAction;
-        allEventBeforeAction(temp);
-        if (auto allyActionData = dynamic_pointer_cast<AllyActionData>(temp)) {
-            allEventBeforeAllyAction(allyActionData);
-            allyActionData->ElationSkillAction();
-            allEventAfterAllyAction(allyActionData);
-        } else if (auto enemyActionData = dynamic_pointer_cast<EnemyActionData>(temp)) {
-            enemyActionData->EnemyAction();
-        }
-        allEventAfterAction(temp);
-        AhaInstantBar.pop();
-    }
-    phaseStatus = beforeStatus;
-
-    for(auto &each : charList){
-        if(each->path == Path::Elation)buffSingle(each,{{Stats::CertifiedBanger,AType::None,1.0*punchline}},"CB Buff " + to_string(aha->turnCnt),CB_duration);
-    }
-    CBcheck.push_back({"CB Buff " + to_string(aha->turnCnt),elationCount,punchline});
-
-    genPunchLine(nullptr,-punchline);
-    genPunchLine(nullptr,elationCount);
-    
-    AfterAhaInstant();
-    
-    resetTurn(aha.get());
-}
-void BeforeAhaInstant(){
-    for(TriggerByYourSelf_Func &e : BeforeAhaInstant_List){
-        e.Call(e.owner);
-    }
-}
-void AfterAhaInstant(){
-    for(TriggerByYourSelf_Func &e : AfterAhaInstant_List){
-        e.Call(e.owner);
-    }
-}
-void AhaInstant(int PL){
-    ++(aha->turnCnt);
-    int oldPL = punchline;
-    punchline = PL;
-    CharCmd::printText("Aha Instant");
-    for(TriggerByYourSelf_Func &e : ElationSkill_List){
-        e.Call(e.owner);
-    }
-    
-    PhaseStatus beforeStatus = phaseStatus;
-    while(!AhaInstantBar.empty()){
-        shared_ptr<ActionData> temp = AhaInstantBar.front();
-        phaseStatus = PhaseStatus::WhileAction;
-        allEventBeforeAction(temp);
-        if (auto allyActionData = dynamic_pointer_cast<AllyActionData>(temp)) {
-            allEventBeforeAllyAction(allyActionData);
-            allyActionData->ElationSkillAction();
-            allEventAfterAllyAction(allyActionData);
-        } else if (auto enemyActionData = dynamic_pointer_cast<EnemyActionData>(temp)) {
-            enemyActionData->EnemyAction();
-        }
-        allEventAfterAction(temp);
-        AhaInstantBar.pop();
-    }
-    phaseStatus = beforeStatus;
-    for(auto &each : charList){
-        if(each->path == Path::Elation)buffSingle(each,{{Stats::CertifiedBanger,AType::None,1.0*PL}},"CB Buff " + to_string(aha->turnCnt),CB_duration);
-    }
-    CBcheck.push_back({"CB Buff " + to_string(aha->turnCnt),elationCount,PL});
-
-    punchline = oldPL;
-}
 void Deal_damage(){
     if(actionBarUse)return;
     actionBarUse = true;
@@ -181,7 +101,6 @@ void AllyActionData::ElationSkillAction(){
     }else{
         if(buffAction->actionFunction)buffAction->actionFunction(buffAction);
         if(buffAction->Turn_reset)resetTurn(turn);
-        allEventBuff(buffAction);
     }
     
 }

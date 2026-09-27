@@ -8,6 +8,7 @@
 #include "DebuffStack.h"
 #include "AdjustStats.h"
 #include "Combat.h"
+#include "AhaCombat.h"
 #include "Energy.h" 
 #include "ChangeHP.h"
 #include "EnemyCombat.h"

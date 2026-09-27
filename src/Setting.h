@@ -60,7 +60,7 @@ unordered_map<Path, double> tauntValueEachPath = {
 };
 ActionValueStats* turn = nullptr;
 queue<shared_ptr<ActionData>> Action_bar;
-queue<shared_ptr<ActionData>> AhaInstantBar;
+queue<shared_ptr<AllyActionData>> AhaInstantBar;
 
 double Level_multiplier = 3767.5533;
 double Current_atv =0;
