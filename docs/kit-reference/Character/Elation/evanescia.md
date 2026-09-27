@@ -19,7 +19,7 @@ overrides: "prydwen record (2026-05-30, unit_id 89) — replaced by nanoka.cc da
 
 > Source: hsr.nanoka.cc (game data 4.5.54). Mechanics below are paraphrased, not the in-game prose.
 > Values are shown at the sim's convention: **5★ = Basic Lv.6, Skill/Ult/Talent/Elation Skill Lv.10**.
-> Not implemented in code yet.
+> Code: `src/Defination/Data/Character/Elation/Evanescia.h` · Elation Skill Participant ID = 146.
 
 ## Base stats (Lv.80)
 
