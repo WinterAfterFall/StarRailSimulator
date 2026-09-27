@@ -4,7 +4,7 @@ namespace Remembrance_Lightcone{
         return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(1164,476,529);
             ptr->Light_cone.Name = "Hyacnine_LC";
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Atv_stats->speedPercent += 15 + 3 * superimpose;
             }));
 
@@ -45,7 +45,7 @@ namespace Remembrance_Lightcone{
                 Attack(addtionaldmg);
             }));
 
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 Enemy *enemy = turn->canCastToEnemy();
                 if(!enemy)return;
                 if(isDebuffEnd(enemy,"Hyacnine_LC Debuff")){

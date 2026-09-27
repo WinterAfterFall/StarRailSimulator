@@ -22,7 +22,7 @@ namespace Harmony_Lightcone{
                 }
             }));
 
-            Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+            Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
                 ptr->setBuffCheck("Meshing_Cogs_Triggered",0);
             }));
         };

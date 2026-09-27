@@ -5,7 +5,7 @@ namespace Nihility_Lightcone{
             ptr->SetAllyBaseStats(1058,529,331);
             ptr->Light_cone.Name = "Holiday";
             ptr->newApplyBaseChanceRequire(100);
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::DMG][AType::None] += 12 + 4 * superimpose;
             }));
             
@@ -16,7 +16,7 @@ namespace Nihility_Lightcone{
             }));
 
 
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 Enemy *enemy = turn->canCastToEnemy();
                 if(!enemy)return;
 

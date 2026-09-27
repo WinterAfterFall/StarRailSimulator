@@ -4,7 +4,7 @@ namespace Planar{
         if(trigger)
         return [=](CharUnit *ptr) {
             ptr->Planar.Name = "GiantTree";
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
                 ptr->Atv_stats->speedPercent += 6;
                 ptr->Stats_type[Stats::HEALING_OUT][AType::None] += 20;
             }));
@@ -12,7 +12,7 @@ namespace Planar{
         else 
         return [=](CharUnit *ptr) {
             ptr->Planar.Name = "GiantTree";
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
                 ptr->Atv_stats->speedPercent += 6;
                 ptr->Stats_type[Stats::HEALING_OUT][AType::None] += 12;
             }));

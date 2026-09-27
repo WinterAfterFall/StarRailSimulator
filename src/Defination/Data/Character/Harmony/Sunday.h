@@ -40,7 +40,7 @@ namespace Sunday{
         //     if(Buff_check(ptr, "Ode_to_Caress_and_Cicatrix"))return false;
         //     return true;
         // });
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,SDptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [SDptr](CharUnit *ptr) {
             shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Single,"SD Ult",
             [ptr,SDptr](shared_ptr<AllyBuffAction> &act){
@@ -104,7 +104,7 @@ namespace Sunday{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,SDptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [SDptr](CharUnit *ptr) {
             ptr->Stats_type[Stats::CD][AType::None] += 37.3;
             ptr->Stats_type[Stats::DEF_P][AType::None] += 12.5;
             ptr->Stats_type[Stats::RES][AType::None] += 18;
@@ -116,7 +116,7 @@ namespace Sunday{
         }));
 
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,SDptr]() {
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [SDptr](CharUnit *ptr) {
             if(turn->isSameName("Sunday")&&ptr->Eidolon>=4){
                 Increase_energy(ptr,8);
             }
@@ -143,7 +143,7 @@ namespace Sunday{
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,SDptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [SDptr](CharUnit *ptr) {
             AllyUnit *Temp_stats = turn->canCastToAllyUnit();
             if(!Temp_stats)return;
             if (isBuffEnd(Temp_stats,"Benison_of_Paper_and_Rites")) {
@@ -175,7 +175,7 @@ namespace Sunday{
             
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,SDptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [SDptr](CharUnit *ptr) {
             Increase_energy(ptr, 25);
         }));
 

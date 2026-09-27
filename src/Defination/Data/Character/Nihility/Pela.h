@@ -33,7 +33,7 @@ namespace Pela{
             return false;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Pela Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
@@ -49,7 +49,7 @@ namespace Pela{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_each_element[Stats::DMG][ElementType::Ice][AType::None] += 22.4;
             ptr->Stats_type[Stats::ATK_P][AType::None] += 18;
             ptr->Stats_type[Stats::EHR][AType::None] += 10;
@@ -64,18 +64,18 @@ namespace Pela{
         }));
 
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             if (ptr->Technique == 1) {
                 debuffAllEnemyApply(ptr,{{Stats::DEF_SHRED, AType::None, 20}}, "Pela_Technique",2);
                 Increase_energy(ptr, 20);
             }
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             buffAllAlly({{Stats::EHR, AType::None, 10}});
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             if (turn->side == Side::Enemy) {
                 if (enemyUnit[turn->num]->debuffEnd["Zone_Suppression"] == enemyUnit[turn->num]->Atv_stats->turnCnt) {
                     enemyUnit[turn->num]->debuffCheck["Zone_Suppression"] = 0;

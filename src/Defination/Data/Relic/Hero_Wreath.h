@@ -4,11 +4,11 @@ namespace Relic{
     void Hero_Wreath(CharUnit *ptr){
         ptr->Relic.Name = "Hero_Wreath";
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::ATK_P][AType::None] += 12;
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             bool onField = ptr->memosprite && ptr->memosprite->isExisted();
             if (onField && ptr->buffCheck["Hero_Wreath"] == 0) {
                 ptr->buffCheck["Hero_Wreath"] = 1;
@@ -25,7 +25,7 @@ namespace Relic{
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             if (isBuffEnd(ptr, "Hero_Wreath_buff")) buffSingle(ptr, {{Stats::CD, AType::None, -30}});
             if(auto *each = ptr->memosprite.get()){
                 if (isBuffEnd(each, "Hero_Wreath_buff")) buffSingle(each, {{Stats::CD, AType::None, -30}});

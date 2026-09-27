@@ -31,7 +31,7 @@ namespace Luocha{
             return !ptr->getBuffCheck("Cycle_of_Life");
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_DEBUFF, ptr, [ptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_DEBUFF, ptr, [](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Luocha Ult",
         [ptr](shared_ptr<AllyAttackAction> &act){
@@ -50,7 +50,7 @@ namespace Luocha{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::ATK_P][AType::None] += 28;
             ptr->Stats_type[Stats::HP_P][AType::None] += 18;
             ptr->Stats_type[Stats::DEF_P][AType::None] += 12.5;
@@ -61,7 +61,7 @@ namespace Luocha{
         }));
 
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Charptr = ptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Charptr = ptr](CharUnit *ptr) {
             if (turn->Name == "Luocha") {
                 if (isBuffEnd(Charptr,"Cycle_of_Life")) {
                     if (ptr->Eidolon >= 1) {
@@ -75,7 +75,7 @@ namespace Luocha{
             }
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             if (ptr->Technique == 1) {
                 ptr->stack["Abyss_Flower"] = 2;
                 Abyss_Flower(ptr);

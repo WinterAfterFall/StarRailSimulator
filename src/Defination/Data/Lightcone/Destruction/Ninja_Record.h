@@ -4,7 +4,7 @@ namespace Destruction_Lightcone{
         return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(1058,476,265);
             ptr->Light_cone.Name = "Ninja Record";
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::HP_P][AType::None] += 9 + 3 * superimpose;
             }));
     
@@ -22,7 +22,7 @@ namespace Destruction_Lightcone{
                 }
             }));
     
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,superimpose]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [superimpose](CharUnit *ptr) {
                 if (isBuffEnd(ptr,"Ninja_Record_Buff")) {
                     buffSingle(ptr,{{Stats::CD, AType::None, -(13.5 + 4.5 * superimpose)}});
                 }

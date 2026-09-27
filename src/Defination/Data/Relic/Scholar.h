@@ -3,7 +3,7 @@ namespace Relic{
     void Scholar(CharUnit *ptr);
     void Scholar(CharUnit *ptr){
         ptr->Relic.Name = "Scholar";
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::CR][AType::None] += 8;
             ptr->Stats_type[Stats::DMG][AType::Ult] += 20;
             ptr->Stats_type[Stats::DMG][AType::SKILL] += 20;

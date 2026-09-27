@@ -3,11 +3,11 @@ namespace Planar{
     void Rutilant(CharUnit *ptr){
         
         ptr->Planar.Name = "Rutilant";
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::CR][AType::None] += 8;
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::DMG][AType::SKILL] += 20;
             ptr->Stats_type[Stats::DMG][AType::BA] += 20;
         }));

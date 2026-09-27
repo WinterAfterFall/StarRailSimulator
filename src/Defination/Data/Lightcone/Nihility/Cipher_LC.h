@@ -14,11 +14,11 @@ namespace Nihility_Lightcone{
                 debuffAllEnemyApply(ptr,{{Stats::DEF_SHRED,AType::None,7.0 + superimpose}},"Theft",2);
             }));
 
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Atv_stats->speedPercent += 15 + 3 * superimpose;
             }));
 
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 Enemy *enemy = turn->canCastToEnemy();
                 if(!enemy)return;
                 if(isDebuffEnd(enemy,"Bamboozle")){

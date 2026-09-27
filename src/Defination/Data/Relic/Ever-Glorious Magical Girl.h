@@ -3,10 +3,10 @@ namespace Relic{
     void MagicalGirl(CharUnit *ptr){
         ptr->Relic.Name = "Ever-Glorious Magical Girl";
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::CD][AType::None] += 16;
         }));
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             buffSingleChar(ptr,{{Stats::DEF_SHRED, AType::ElationDMG, 10.0}});
         }));
 

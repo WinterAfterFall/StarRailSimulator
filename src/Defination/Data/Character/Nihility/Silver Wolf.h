@@ -75,7 +75,7 @@ namespace SW{
             BA();
         };
         
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,sw]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [sw](CharUnit *ptr) {
 
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"SW Ult",
@@ -113,7 +113,7 @@ namespace SW{
 
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 8;
             ptr->Stats_type[Stats::ATK_P][AType::None] += 28;
             ptr->Stats_type[Stats::EHR][AType::None] += 18;
@@ -129,7 +129,7 @@ namespace SW{
 
         }));
                
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,sw]() {
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [sw](CharUnit *ptr) {
 
             if(turn->isSameUnit(sw)){
                 Increase_energy(sw,5);
@@ -137,7 +137,7 @@ namespace SW{
         }));
 
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,sw]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [sw](CharUnit *ptr) {
             Enemy *enemy = turn->canCastToEnemy();
             if(enemy){
                 if(isDebuffEnd(enemy,"SW Weakness")){
@@ -161,7 +161,7 @@ namespace SW{
             }
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,sw]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [sw](CharUnit *ptr) {
             
             if(ptr->Technique){
                 shared_ptr<AllyAttackAction> act = 

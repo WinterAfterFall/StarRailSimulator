@@ -4,11 +4,11 @@ namespace Relic{
         if(trigger)
         return [=](CharUnit *ptr) {
         ptr->Relic.Name = "Diviner of Distant Reach";
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Atv_stats->speedPercent +=6;
             ptr->Stats_type[Stats::CR][AType::None] += 18;
         }));
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             for(auto &each : allyList){
                 if(isHaveToAddBuff(each,"DoD Buff"))
                 buffSingle(each,{{Stats::Elation,AType::None,10}});
@@ -18,11 +18,11 @@ namespace Relic{
         else 
         return [=](CharUnit *ptr) {
         ptr->Relic.Name = "Diviner of Distant Reach";
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Atv_stats->speedPercent +=6;
             ptr->Stats_type[Stats::CR][AType::None] += 10;
         }));
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             for(auto &each : allyList){
                 if(isHaveToAddBuff(each,"DoD Buff"))
                 buffSingle(each,{{Stats::Elation,AType::None,10}});

@@ -4,7 +4,7 @@ namespace Planar{
         if(trigger)
         return [=](CharUnit *ptr) {
             ptr->Planar.Name = "FirmanentFrontline";
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
                 ptr->Stats_type[Stats::ATK_P][AType::None] += 12;
                 ptr->Stats_type[Stats::DMG][AType::None] += 18;
             }));
@@ -12,7 +12,7 @@ namespace Planar{
         else 
         return [=](CharUnit *ptr) {
             ptr->Planar.Name = "FirmanentFrontline";
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
                 ptr->Stats_type[Stats::ATK_P][AType::None] += 12;
                 ptr->Stats_type[Stats::DMG][AType::None] += 12;
             }));

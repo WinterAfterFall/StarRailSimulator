@@ -6,7 +6,7 @@ namespace Harmony_Lightcone{
             ptr->Light_cone.Name = "Bronya_LC";
             string BattleBuff = ptr->getName() + " Battle_Isnt_Over_buff_check";
     
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Energy_recharge += 8 + 2 * superimpose;
             }));
 
@@ -28,7 +28,7 @@ namespace Harmony_Lightcone{
                 }
             }));
     
-            Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,BattleBuff]() {
+            Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose,BattleBuff](CharUnit *ptr) {
                 AllyUnit *tempstats = turn->canCastToAllyUnit();
                 if (!tempstats) return;
                 if (tempstats->isSameName(ptr)) return; // kit: next ally except the wearer
@@ -38,7 +38,7 @@ namespace Harmony_Lightcone{
                 }
             }));
     
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,BattleBuff]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose,BattleBuff](CharUnit *ptr) {
                 AllyUnit *tempstats = turn->canCastToAllyUnit();
                 if (!tempstats) return;
                 if (isBuffEnd(tempstats,BattleBuff)) {

@@ -46,7 +46,7 @@ namespace TheHerta{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [ptr,Hertaptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [Hertaptr](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"THerta Ult",
             [ptr,Hertaptr](shared_ptr<AllyAttackAction> &act){
@@ -73,7 +73,7 @@ namespace TheHerta{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::ATK_P][AType::None] += 18;
             ptr->Stats_each_element[Stats::DMG][ElementType::Ice][AType::None] += 22.4;
             ptr->Atv_stats->flatSpeed += 5;
@@ -92,7 +92,7 @@ namespace TheHerta{
         }));
 
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hertaptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Hertaptr](CharUnit *ptr) {
             if (ptr->Technique == 1) {
                 buffSingle(Hertaptr,{{Stats::ATK_P,AType::None,60}},"The_Herta_Technique",2);
             }
@@ -102,7 +102,7 @@ namespace TheHerta{
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Hertaptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [Hertaptr](CharUnit *ptr) {
             if (isBuffEnd(Hertaptr,"The_Herta_Technique")) {
                 buffSingle(Hertaptr,{{Stats::ATK_P,AType::None,-60}});
             }
@@ -111,7 +111,7 @@ namespace TheHerta{
             }
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             if (ptr->buffCheck["Two_Erudition"] == 1) {
                 buffAllAlly({{Stats::CD,AType::None,80}});
             }

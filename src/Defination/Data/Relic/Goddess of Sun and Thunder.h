@@ -3,7 +3,7 @@ namespace Relic{
     void Goddess_of_Sun_and_Thunder(CharUnit *ptr){
         ptr->Relic.Name = "Goddess of Sun and Thunder";
         
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Atv_stats->speedPercent += 6;
         }));
 
@@ -18,7 +18,7 @@ namespace Relic{
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             if(isBuffEnd(ptr,"Goddess of Sun and Thunder")){
                     buffSingle(ptr,{{Stats::SPD_P,AType::None,-6}});
                     buffAllAlly({

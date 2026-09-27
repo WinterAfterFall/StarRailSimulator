@@ -38,7 +38,7 @@ namespace Jingyuan{
             }
         };
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [ptr,JYptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [JYptr](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,JYptr,TraceType::Aoe,"JY Ult",
             [ptr,JYptr](shared_ptr<AllyAttackAction> &act){
@@ -62,7 +62,7 @@ namespace Jingyuan{
         }));
         
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,JYptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [JYptr](CharUnit *ptr) {
             if (!(ptr->Atv_stats->num == turn->num && turn->side == Side::Ally)) return;
             
             if (isBuffEnd(JYptr,"War_Marshal")) {
@@ -79,7 +79,7 @@ namespace Jingyuan{
         }));
 
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::ATK_P][AType::None] += 28;
             ptr->Stats_type[Stats::CR][AType::None] += 12;
             ptr->Stats_type[Stats::DEF_P][AType::None] += 12.5;
@@ -94,7 +94,7 @@ namespace Jingyuan{
             ptr->summonList[0]->Atv_stats->speedPercent = 0;
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,JYptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [JYptr](CharUnit *ptr) {
             if (ptr->Technique == 1) {
                 ptr->stack["LL_stack"] += 3;
                 ptr->summonList[0]->speedBuff({Stats::FLAT_SPD,AType::None,30});

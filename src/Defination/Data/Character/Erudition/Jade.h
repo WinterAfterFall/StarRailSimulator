@@ -42,7 +42,7 @@ namespace Jade{
             }
         };
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [ptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Jade Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
@@ -58,7 +58,7 @@ namespace Jade{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::ATK_P][AType::None] += 18;
             ptr->Stats_type[Stats::RES][AType::None] += 10;
             ptr->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 22.4;
@@ -67,7 +67,7 @@ namespace Jade{
             // substats
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             Jade_Talent(ptr, Total_enemy);
             Action_forward(ptr->Atv_stats.get(), 50);
             if (ptr->Technique == 1) {
@@ -87,7 +87,7 @@ namespace Jade{
             }
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             if (chooseAllyBuff(ptr)->Atv_stats->Name == turn->Name) {
                 Jade_Talent(ptr, 3);
             }

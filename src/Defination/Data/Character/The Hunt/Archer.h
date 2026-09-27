@@ -94,7 +94,7 @@ namespace Archer{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [ptr,ac,Charge]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [ac,Charge](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Single,"Archer Ult",
             [ptr,ac,Charge](shared_ptr<AllyAttackAction> &act){
@@ -114,7 +114,7 @@ namespace Archer{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 22.4;
             ptr->Stats_type[Stats::ATK_P][AType::None] += 18;
             ptr->Stats_type[Stats::CR][AType::None] += 6.7;
@@ -127,7 +127,7 @@ namespace Archer{
 
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,ac,Charge]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [ac,Charge](CharUnit *ptr) {
             Charge(1);
             if(ptr->Technique){
                 shared_ptr<AllyAttackAction> act = 
@@ -145,14 +145,14 @@ namespace Archer{
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,ac]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [ac](CharUnit *ptr) {
             if(ptr->Eidolon>=6&&turn->isSameName("Archer")){
                 genSkillPoint(ac,1);
             }
         }));
 
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,ac]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [ac](CharUnit *ptr) {
             Enemy *enemy = turn->canCastToEnemy();
             if(isBuffEnd(ac,"Archer A6")){
                 buffSingle(ac,{{Stats::CD,AType::None,-120}});

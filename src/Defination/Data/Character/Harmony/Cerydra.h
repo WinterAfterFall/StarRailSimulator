@@ -75,7 +75,7 @@ namespace Cerydra{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,crd,charge]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [crd,charge](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Crd Ult",
             [ptr,crd,charge](shared_ptr<AllyAttackAction> &act){
@@ -94,7 +94,7 @@ namespace Cerydra{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,crd,charge]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [crd,charge](CharUnit *ptr) {
             ptr->Stats_each_element[Stats::DMG][ElementType::Wind][AType::None] += 22.4;
             ptr->Stats_type[Stats::ATK_P][AType::None] += 18;
             ptr->Stats_type[Stats::HP_P][AType::None] += 10;
@@ -103,7 +103,7 @@ namespace Cerydra{
             charge(2);
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,crd,charge]() {
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [crd,charge](CharUnit *ptr) {
             if(ptr->Eidolon>=1){
                 buffSingle(chooseAllyBuff(crd),{
                     {Stats::DEF_SHRED,AType::None,16}
@@ -127,7 +127,7 @@ namespace Cerydra{
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,crd]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [crd](CharUnit *ptr) {
             AllyUnit *ally = turn->canCastToAllyUnit();
             if(!ally)return;
             if(isBuffEnd(ally,"Veci")){
@@ -135,7 +135,7 @@ namespace Cerydra{
             }
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,crd,charge]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [crd,charge](CharUnit *ptr) {
             double temp = 0;
             temp = calculateAtkForBuff(crd,24);
             buffSingle(chooseAllyBuff(crd),

@@ -5,7 +5,7 @@ namespace Relic{
         ptr->Relic.Name = "Sacerdos_Relived_Ordeal";
         string Sacerdos = ptr->getName() + " Sacerdos";
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Sacerdos]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Sacerdos](CharUnit *ptr) {
             ptr->Atv_stats->speedPercent += 6;
         }));
 
@@ -18,7 +18,7 @@ namespace Relic{
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Sacerdos]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Sacerdos](CharUnit *ptr) {
             AllyUnit *tempstats = dynamic_cast<AllyUnit *>(turn->charptr);
             if (!tempstats) return;
             if (isBuffEnd(tempstats,Sacerdos)) {

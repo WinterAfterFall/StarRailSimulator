@@ -29,7 +29,7 @@ namespace HarmonyMC{
             }
         };
         
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,HMCptr](){
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [HMCptr](CharUnit *ptr){
 
             shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"HMC Ult",
@@ -43,7 +43,7 @@ namespace HarmonyMC{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr){
             ptr->Stats_type[Stats::BE][AType::None] += 37.3;
             ptr->Stats_type[Stats::RES][AType::None] += 10;
             ptr->Stats_each_element[Stats::DMG][ElementType::Imaginary][AType::None] += 14.4;
@@ -53,26 +53,26 @@ namespace HarmonyMC{
             // substats
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,HMCptr](){
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [HMCptr](CharUnit *ptr){
             ptr->buffNote["Harmony_MC_E4"] = calculateBreakEffectForBuff(ptr, 15);                  
             buffAllAllyExcludingBuffer(HMCptr,{{Stats::BE,AType::TEMP,ptr->buffNote["Harmony_MC_E4"]}});
             buffAllAllyExcludingBuffer(HMCptr,{{Stats::BE,AType::None,ptr->buffNote["Harmony_MC_E4"]}});
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr){
             if(ptr->Technique == 1){
                 buffAllAlly({{Stats::BE,AType::None,30}});
             }
             ptr->Energy_recharge += 25;
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,HMCptr](){
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [HMCptr](CharUnit *ptr){
             if(isBuffEnd(HMCptr,"Harmony_MC_ult")){
                 buffAllAlly({{Stats::BE,AType::None,-33}});
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr](){
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [](CharUnit *ptr){
             if(turn->Name == "Harmony_MC" && turn->turnCnt == 3){
                 ptr->Energy_recharge -= 25;
             }

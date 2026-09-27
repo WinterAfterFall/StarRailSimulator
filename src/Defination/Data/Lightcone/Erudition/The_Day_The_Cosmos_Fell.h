@@ -5,7 +5,7 @@ namespace Erudition_Lightcone{
             ptr->SetAllyBaseStats(953,476,331);
             ptr->Light_cone.Name = "Cosmos_Fell";
     
-            WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::ATK_P][AType::None] += 14 + 2*superimpose;
                 ptr->Stats_type[Stats::CD][AType::None] += 15 + 5*superimpose;
             }));

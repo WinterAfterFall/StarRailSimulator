@@ -5,7 +5,7 @@ namespace Nihility_Lightcone{
             ptr->SetAllyBaseStats(953,635,463);
             ptr->Light_cone.Name = "Hysilens_LC";
             ptr->newApplyBaseChanceRequire(80);
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::EHR][AType::None] += 35 + 5 * superimpose;
             }));
 
@@ -16,7 +16,7 @@ namespace Nihility_Lightcone{
                     return;
                 }
             }));
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 AllyUnit *ally = turn->canCastToAllyUnit();
                 if(ally){
                     if(isBuffEnd(ally,"Hys LC SPD")){

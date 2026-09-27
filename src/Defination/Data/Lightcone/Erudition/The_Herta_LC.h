@@ -5,11 +5,11 @@ namespace Erudition_Lightcone{
             ptr->SetAllyBaseStats(953,635,463);
             ptr->Light_cone.Name = "The_Herta_LC";
     
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::CR][AType::None] += 10 + 2 * superimpose;
             }));
     
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 if (isBuffEnd(ptr,"The_Herta_LC_buff")) {
                     buffSingle(ptr,{
                         {Stats::DMG,AType::SKILL,-(50.0 + 10 * superimpose)},

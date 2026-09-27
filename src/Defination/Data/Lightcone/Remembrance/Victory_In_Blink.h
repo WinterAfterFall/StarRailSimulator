@@ -6,7 +6,7 @@ namespace Remembrance_Lightcone{
             ptr->Light_cone.Name = "Victory_In_Blink";
             string VictoryBlink = ptr->getName() + " Victory_Blink";
 
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,VictoryBlink]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose,VictoryBlink](CharUnit *ptr) {
                 ptr->Stats_type[Stats::CD][AType::None] += 9 + 3 * superimpose;
             }));
 
@@ -17,7 +17,7 @@ namespace Remembrance_Lightcone{
                 }
             }));
 
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,VictoryBlink]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose,VictoryBlink](CharUnit *ptr) {
                 AllyUnit *tempstats = turn->canCastToAllyUnit();
                 if (!tempstats) return;
                 if (isBuffEnd(tempstats,VictoryBlink)) {

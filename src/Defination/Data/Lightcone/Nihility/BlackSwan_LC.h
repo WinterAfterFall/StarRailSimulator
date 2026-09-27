@@ -4,7 +4,7 @@ namespace Nihility_Lightcone{
         return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(953,635,463);
             ptr->Light_cone.Name = "BlackSwan_LC";
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::EHR][AType::None] += 35 + 5 * superimpose;
             }));
 

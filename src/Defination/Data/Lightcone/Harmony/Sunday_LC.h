@@ -5,7 +5,7 @@ namespace Harmony_Lightcone{
             ptr->SetAllyBaseStats(1164,476,529);
             ptr->Light_cone.Name = "Sunday_LC";
             string hymn = ptr->getName() +  " Hymn";
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,hymn]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose,hymn](CharUnit *ptr) {
                 AllyUnit *tempstats = turn->canCastToAllyUnit();
                 if (!tempstats) return;
                 if (isBuffEnd(tempstats,hymn)) {

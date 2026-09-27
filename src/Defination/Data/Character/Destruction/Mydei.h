@@ -42,7 +42,7 @@ namespace Mydei{
             }
         };
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Blast,"Mydei Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
@@ -68,7 +68,7 @@ namespace Mydei{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::CD][AType::None] += 37.3;
             ptr->Stats_type[Stats::HP_P][AType::None] += 18;
             ptr->Atv_stats->flatSpeed += 5;
@@ -80,7 +80,7 @@ namespace Mydei{
         }));
         
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Mydeiptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Mydeiptr](CharUnit *ptr) {
             ptr->buffNote["Mydei_A6"] = (floor((ptr->totalHP - 4000) / 100) <= 40) ? floor((ptr->totalHP - 4000) / 100) : 40;
             if (ptr->buffNote["Mydei_A6"] < 0) ptr->buffNote["Mydei_A6"] = 0;
 
@@ -165,7 +165,7 @@ namespace Mydei{
         ptr->RestoreHP(ptr,HealSrc(HealSrcType::TOTAL_HP,10));
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [](CharUnit *ptr) {
             ptr->buffNote["Mydei_E2"] = 0;
         }));
 
@@ -186,7 +186,7 @@ namespace Mydei{
         }));
 
         // Mydei_Taunt หมดอายุบนศัตรูตัวไหน -> เอา Mydei ออกจาก tauntList ของตัวนั้น (แยกอิสระต่อ enemy)
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [](CharUnit *ptr) {
             Enemy *e = turn->canCastToEnemy();
             if (!e) return;
             if (isDebuffEnd(e, "Mydei_Taunt")) e->removeTaunt(ptr);

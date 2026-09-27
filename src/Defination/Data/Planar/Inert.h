@@ -3,7 +3,7 @@ namespace Planar{
     void Inert(CharUnit *ptr){
         
         ptr->Planar.Name = "Inert";
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::CR][AType::None] += 8;
             ptr->Stats_type[Stats::DMG][AType::Ult] += 15;
             ptr->Stats_type[Stats::DMG][AType::Fua] += 15;

@@ -76,7 +76,7 @@ namespace YaoGuang{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [](CharUnit *ptr) {
             shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"YG Ult",
             [ptr](shared_ptr<AllyBuffAction> &act){
@@ -108,7 +108,7 @@ namespace YaoGuang{
             Deal_damage();
         }));
 
-        ElationSkill_List.push_back(TriggerByYourSelf_Func(114, [ptr]() {
+        ElationSkill_List.push_back(TriggerByYourSelf_Func(114, ptr, [](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::ElationSkill,ptr,TraceType::Aoe,"YG Elation",
             [ptr](shared_ptr<AllyAttackAction> &act){
@@ -128,14 +128,14 @@ namespace YaoGuang{
             act->addToAhaInstant();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::CR][AType::None] += 18.7;
             ptr->Stats_type[Stats::CD][AType::None] += 60;
             ptr->Stats_type[Stats::Elation][AType::None] += 10+30;
             ptr->Atv_stats->flatSpeed += 9;
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             if(ptr->Eidolon>=1)buffAllAlly({{Stats::DEF_SHRED,AType::ElationDMG,20}});
             if(ptr->Eidolon>=6){
                 buffAllAlly({{Stats::Merrymake,AType::ElationDMG,25}});
@@ -144,7 +144,7 @@ namespace YaoGuang{
             StatsAdjust(ptr,Stats::SPD_P);
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             if(isBuffEnd(ptr,"YG Skill")){
                 buffAllAlly({
                         {Stats::Elation,AType::None,-ptr->getBuffNote("YG Skill")},
@@ -159,7 +159,7 @@ namespace YaoGuang{
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             AllyUnit *ally = turn->canCastToAllyUnit();
             Enemy *enemy = turn->canCastToEnemy();
             if(ally){
@@ -176,7 +176,7 @@ namespace YaoGuang{
 
         
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             if(!ptr->Technique)return;
             shared_ptr<AllyBuffAction> act = 
             make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"YG Skill",

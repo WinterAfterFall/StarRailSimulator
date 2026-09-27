@@ -3,7 +3,7 @@ namespace Relic{
     void Grand_Duke(CharUnit *ptr);
     void Grand_Duke(CharUnit *ptr){
         ptr->Relic.Name = "Grand_Duke";
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::DMG][AType::Fua] += 20;
         }));
 
@@ -30,7 +30,7 @@ namespace Relic{
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             if (turn->Name != ptr->Atv_stats->Name) return;
 
             if (isBuffEnd(ptr,"Grand_Duke")) {

@@ -4,7 +4,7 @@ namespace Erudition_Lightcone{
     return [=](CharUnit *ptr) {
         ptr->SetAllyBaseStats(847,529,331);
         ptr->Light_cone.Name = "BP_Erudition";
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
             if (ptr->Max_energy > 160) {
                 ptr->Stats_type[Stats::DMG][AType::None] += 24 + superimpose * 8;
             } else {

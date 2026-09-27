@@ -23,8 +23,8 @@ namespace SomeChar{
 
         ptr->Turn_func = [ptr,BA,Skill]() { ... };
         ptr->addUltCondition([ptr]() -> bool { return true; });
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr]() { ... }));
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() { ... }));
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [](CharUnit *ptr) { ... }));
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) { ... }));
     }
 }
 ```

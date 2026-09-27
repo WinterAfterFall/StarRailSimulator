@@ -5,11 +5,11 @@ namespace Erudition_Lightcone{
             ptr->SetAllyBaseStats(953,582,529);
             ptr->Light_cone.Name = "Anaxa_LC";
     
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::DMG][AType::None] += 50 + 10*superimpose;
             }));
 
-            Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 if(!turn->isSameName(ptr->Atv_stats->Name))return;
                 Increase_energy(ptr,10);
             }));
@@ -22,7 +22,7 @@ namespace Erudition_Lightcone{
             }));
 
             
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 Enemy *enemy = turn->canCastToEnemy();
                 if(!enemy)return;
                 if(isDebuffEnd(enemy,"AnaxaLC_Debuff")){

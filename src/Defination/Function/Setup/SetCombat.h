@@ -56,7 +56,7 @@ void Setup(){
         charUnit[i]->AvgDmgRecord.resize(Total_enemy+1);
     }
     for(TriggerByYourSelf_Func &e : Setup_List){
-        e.Call();
+        e.Call(e.owner);
     }
     if(elationCount){
         atvList.push_back(aha.get());
@@ -76,12 +76,12 @@ void Reset(){
     Countdown_reset();
     
     for(TriggerByYourSelf_Func &e : Reset_List){
-        e.Call();
+        e.Call(e.owner);
     }
     
     Memosprite_reset();
     for(TriggerByYourSelf_Func &e : WhenOnField_List){
-        e.Call();
+        e.Call(e.owner);
     }
     for(int i=1;i<=Total_ally;i++){
         charUnit[i]->AtkRequirment();
@@ -91,7 +91,7 @@ void Reset(){
         charUnit[i]->EhrRequirment();
     }
     for(TriggerByYourSelf_Func &e : Tune_stats_List){
-        e.Call();
+        e.Call(e.owner);
     }
     for(auto &each : charList){
         each->totalATK = calculateAtkOnStats(each);
@@ -118,7 +118,7 @@ void Reset(){
 void Start_game(){
     All_atv_reset();
     for(TriggerByYourSelf_Func &e : Start_game_List){
-        e.Call();
+        e.Call(e.owner);
     }
 }
 void EndWave(double Total_atv){
@@ -132,7 +132,7 @@ void Start_wave(int WAVE){
         enemyUnit[i]->Total_toughness_broken_time = 0;
     }
     for(TriggerByYourSelf_Func &e : Start_wave_List){
-        e.Call();
+        e.Call(e.owner);
     }
     
 }

@@ -109,7 +109,7 @@ namespace Tingyun{
         });
 
         // ---------- Ultimate: Amidst the Rejoicing Clouds ----------
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr, TYptr, clearStaleAllyBuffs]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [TYptr,clearStaleAllyBuffs](CharUnit *ptr) {
             shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult, ptr, TraceType::Single, "TY Ult",
             [ptr, TYptr, clearStaleAllyBuffs](shared_ptr<AllyBuffAction> &act){
@@ -137,7 +137,7 @@ namespace Tingyun{
         }));
 
         // ---------- Minor traces (รวม) + A4 Knell Subdual (Basic ATK DMG +40%) ----------
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr, TYptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [TYptr](CharUnit *ptr) {
             ptr->Stats_each_element[Stats::DMG][ElementType::Lightning][AType::None] += 8;   // Lightning DMG +8%
             ptr->Stats_type[Stats::ATK_P][AType::None] += 28;                                // ATK +28%
             ptr->Stats_type[Stats::DEF_P][AType::None] += 22.5;                              // DEF +22.5%
@@ -146,14 +146,14 @@ namespace Tingyun{
         }));
 
         // ---------- A6 Jubilant Passage: +5 energy ต้นเทิร์นของ Tingyun ----------
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr, TYptr]() {
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [TYptr](CharUnit *ptr) {
             if (turn->Name != ptr->Atv_stats->Name) return;
             Increase_energy(ptr, 5);
         }));
 
         // ---------- Buff expiry: ถอน stat delta เมื่อบัฟหมดเวลา (holder = buffSubUnitTarget) ----------
         // isBuffEnd เช็คเองว่าเป็นเทิร์นของ holder → เรียกทุก After_turn ปลอดภัย
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr, TYptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [TYptr](CharUnit *ptr) {
             auto expire = [ptr](const string &name, Stats stat, double value) {
                 AllyUnit *h = ptr->getBuffSubUnitTarget(name);
                 if (h && isBuffEnd(h, name)) buffSingle(h, {{stat, AType::None, -value}});
@@ -165,7 +165,7 @@ namespace Tingyun{
         }));
 
         // ---------- Technique Gentle Breeze: energy ต้นการต่อสู้ (50 ต่อ technique) ----------
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr, TYptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [TYptr](CharUnit *ptr) {
             Increase_energy(ptr, 0, 50 * ptr->Technique);
         }));
 

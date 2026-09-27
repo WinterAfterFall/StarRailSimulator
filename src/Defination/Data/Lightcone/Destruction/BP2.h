@@ -4,7 +4,7 @@ namespace Destruction_Lightcone{
         return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(1058,529,331);
             ptr->Light_cone.Name = "A Trail of Bygone Blood";
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](){
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr){
                         
                 ptr->Stats_type[Stats::CR][AType::None]+=10 + (2*superimpose);
                 ptr->Stats_type[Stats::DMG][AType::SKILL]+=20 + (4*superimpose);

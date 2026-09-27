@@ -15,7 +15,7 @@
 ## รากฐาน: `Setup_List` ในไฟล์ LC
 
 ```cpp
-Setup_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+Setup_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
     for (auto &each : charList) {           // ผู้สวมคนแรกเท่านั้นที่บวก
         if (each->Light_cone.Name != "Hibana_LC") continue;
         if (each != ptr) return;
