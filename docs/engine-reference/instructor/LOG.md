@@ -2,6 +2,11 @@
 
 หมายเหตุ ณ 2026-09-21: บันทึกเก่าด้านล่างเป็นผลการทำงาน ณ เวลานั้น ไฟล์ใน `test/` ถูก `.gitignore`; ใน workspace ปัจจุบันไม่พบ `basic_reset_stats_regression.cpp`, `hp_decrease_event_regression.cpp` หรือ `break_status_regression.cpp` จึงไม่ควรอ่านการอ้างชื่อเหล่านี้เป็นหลักฐานว่ารันซ้ำได้ตอนนี้ ดู [คู่มือ build/run/test](../../build-run-and-test.md)
 
+## อัปเดต 2026-09-28
+
+- **Engine (user สั่ง)**: summon/countdown เป็น `TimerATV` (ATV ล้วน `charptr` = nullptr) · Aha แยกเทิร์นด้วย `turn == aha.get()` · ดู [ActionValueStats.md](Class/Unit/ActionValueStats.md)
+- **Aha Instant (user สั่ง)**: ย้ายไป `AhaCombat.h` · 1 Aha Instant = 1 action — `runAhaInstantBar()` ยิง event ระดับ action ครั้งเดียว ใช้ attack/buff action ตัวแรกเป็นตัวแทน · `ElationSkillAction()` ไม่ยิง Before/AfterAttackAction และ `Buff_List` · `AhaInstantBar` รับแค่ `AllyActionData` · เพิ่ม `ElationSkillTrigger(PL, names)` · `CB_duration` global (Yao Guang A6 +1 ให้ Elation ทุกตัว) · ดู [AhaCombat.md](Function/Combat/AhaCombat.md) · `g++ -fsyntax-only` ผ่าน · user build `ManualBuilder` ผ่าน (ก่อนชุด Aha) · **ยังไม่ได้รันเทียบผล sim**
+
 ## อัปเดต 2026-09-27
 
 - **Engine (user สั่ง, branch `refactor/trigger-owner`)**: `owner` ย้ายขึ้น `TriggerFunc` · `TriggerByYourSelf_Func` บังคับใส่ owner และ `Call` รับ `CharUnit *ptr` · engine เรียก `e.Call(e.owner)` (13 จุดใน `Combat.h` / `Energy.h` / `Event.h` / `SetCombat.h`) · แปลง registration 365 จุดใน 128 ไฟล์ด้วยสคริปต์: ย้าย `ptr` จาก capture ไปเป็น parameter, owner = `ptr` ทุกจุด (ตรวจแล้วไม่มีจุดที่ owner เป็นตัวแปรอื่น) · รวม brace-init `push_back({PRI, ptr, ...})` 5 จุด · `g++ -fsyntax-only` ผ่าน · **refactor ล้วน ผล sim ต้องเท่าเดิม** · ยังไม่ได้รัน sim

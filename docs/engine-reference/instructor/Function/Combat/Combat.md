@@ -21,22 +21,9 @@ User อธิบาย 2026-09-17 ว่าเจตนาคือตรวจ
 - User ยืนยันว่าการไม่ตรวจหลังแต่ละแอ็กชันใน `AhaInstantBar` ถูกต้องแล้ว กฎหลังจบแอ็กชันข้างต้นใช้กับคิว `Action_bar`
 - User แก้โค้ด 2026-09-17: เพิ่มเงื่อนไข `canCastToAllyUnit` และลบจุดเรียกก่อน `allEventAfterTurn()` แล้ว จึงเหลือสองตำแหน่งข้างต้นใน `Combat.h`
 
-## `aha` — pseudo-unit ของทีม Elation
+## Aha Instant
 
-`aha` (`Setting.h:80`) = `unique_ptr<ActionValueStats>` ชื่อ `"Aha"` speed 80 — สร้างจาก `ActionValueStats` ตรง ๆ **ไม่มี object `Unit`** อยู่เบื้องหลัง → `charptr` เป็น `nullptr` ตลอด
-
-- **วิ่งอยู่บนลู่ atv แย่งเทิร์นกับตัวละครจริง** — ถูก push เข้า `atvList` ที่ `SetCombat.h:65` **เฉพาะเมื่อ `elationCount != 0`** (มีสมาชิก Elation ในทีม)
-- **ไม่มีตัวตนในสนาม** — ไม่มี HP / ไม่โดนตี / ไม่โดนบัฟ. หน้าที่เดียว = trigger `AhaInstant` ตามเวลาที่ atv พามันถึงเทิร์น
-- พอ `aha` ชนะ `Find_turn` → `turn->charptr == nullptr` → `Take_action` (`Combat.h:5`) แตกไป `AhaTurn()` (`Combat.h:31`): `++aha->turnCnt` → `BeforeAhaInstant()` → วน `ElationSkill_List` → drain `AhaInstantBar` → แจกบัฟ `CertifiedBanger` ให้สมาชิก Elation → `AfterAhaInstant()` → `resetTurn(aha)` (เริ่มนับรอบใหม่)
-- speed ของ `aha` ปรับด้วย `ahaSpeedAdjust(path)` (`Action_value.h:93`) — คิดจาก speed ของสมาชิก Elation ที่เรียงมากไปน้อย: `flatSpeed = spd₁/5 + spd₂/10 + spd₃/15 + …`
-
-> ⚠️ ตาราง field ใน [ActionValueStats.md](../../Class/Unit/ActionValueStats.md) บอก `charptr` "เซ็ตใน `Unit()` ctor เสมอ" — จริงสำหรับทุกตัว **ยกเว้น `aha`** ที่ตั้งใจให้เป็น null
-
-### `AhaInstant(PL)` — manual Aha Instant
-
-User ยืนยัน 2026-09-19: เป็น Aha Instant แบบสั่งเอง เผื่อสกิลพิเศษที่ต้องเรียก Aha Instant นอกเทิร์น (ตอนนี้ผู้เรียกคือ Yao Guang `YaoGuang.h:96-97`, PL 20 / 40 ตาม E1)
-
-จากโค้ด ต่างจาก `AhaTurn()`: ใช้ `punchline = PL` ชั่วคราวแล้วคืนค่าเดิม (ไม่หัก/ไม่ gen punchline), ไม่เรียก `BeforeAhaInstant` / `AfterAhaInstant`, ไม่ `resetTurn(aha)` แต่ยัง `++aha->turnCnt`, วน `ElationSkill_List`, drain `AhaInstantBar` และแจก `CB Buff`
+ย้ายไป `AhaCombat.h` แล้ว (2026-09-28) — `aha`, `AhaTurn()`, `AhaInstant(PL)`, `ElationSkillTrigger()`, `runAhaInstantBar()` ดู [AhaCombat.md](AhaCombat.md) · ในไฟล์นี้เหลือแค่ `Take_action` ที่แยกเทิร์นของ Aha ด้วย `turn == aha.get()` (`Combat.h:5`) และ `AllyActionData::ElationSkillAction()` (`Combat.h:81`) ที่ Aha ใช้รัน Elation Skill
 
 ## `Turn_Skip` (global bool, `Setting.h:72`)
 
@@ -53,7 +40,7 @@ User ยืนยัน 2026-09-19: เป็น Aha Instant แบบสั่�
 
 ขั้นที่ 2 คือกลไกที่ทำให้ enemy เลื่อนออกจากตำแหน่ง "ตัวถัดไป" — ไม่งั้น loop วนเลือกมันซ้ำไม่จบ. รอบหน้า freeze ถูกลบไปแล้ว → เล่นเทิร์นปกติ
 
-## `Attack()` (`Combat.h:162`) — ผู้โจมตีหลัง `switchAttacker`
+## `Attack()` (`Combat.h:111`) — ผู้โจมตีหลัง `switchAttacker`
 
 จากโค้ด: ระหว่างวน `damageSplit` สลับ `Attacker` / `source` / type ตาม `switchAttacker` และไม่คืนค่ากลับก่อน `allEventAfterAttack(act)` จึงเห็นผู้โจมตีตัวสุดท้ายที่สลับไป; การคืนเป็น `AttackSetList[0]` เกิดทีหลังใน `AllyAction()` ก่อน `allEventAfterAttackAction`
 
@@ -88,7 +75,7 @@ User ยืนยัน 2026-09-20 (เหตุผล): บางทีมม�
 
 User ยืนยัน 2026-09-20 (เหตุผล): SPB ทำดาเมจได้เฉพาะช่วงที่ศัตรูล้ม ซึ่งกินเวลาถึงเทิร์นถัดไปของศัตรู ถ้าเบรคเร็วเกินไปจนแตกในจังหวะที่ศัตรูใกล้ได้เทิร์นพอดี ช่วงทำดาเมจจะสั้นผิดปกติ โหมดนี้จึงสมมติว่าแตกกลางเทิร์นเสมอ เพื่อให้ผลของทีม Super Break คงที่
 
-## ทรัพยากรทีม — `genSkillPoint()` · `genPunchLine()` (บรรทัด 220–235)
+## ทรัพยากรทีม — `genSkillPoint()` · `genPunchLine()` (`Combat.h:169-184`)
 
 สองฟังก์ชันนี้คือ **ทางเดียว**ที่ควรใช้แก้ค่า Skill Point และ Punchline เพราะมันห่อ event ไว้ให้
 
@@ -110,7 +97,7 @@ void genPunchLine(AllyUnit *ptr, int p){
 | global ที่แก้ | `sp` | `punchline` |
 | clamp | เพดาน `Max_sp` · **ไม่มีพื้น** | พื้น `0` · **ไม่มีเพดาน** |
 | event | `allEventSkillPoint` | `allEventPunchLine` |
-| ใช้ `p` ติดลบ | ใช่ — การ "กิน" SP คือส่งค่าลบ | ใช่ — `Combat.h:58` ส่ง `-punchline` เพื่อล้างทั้งกอง |
+| ใช้ `p` ติดลบ | ใช่ — การ "กิน" SP คือส่งค่าลบ | ใช่ — `AhaCombat.h:55` ส่ง `-punchline` เพื่อล้างทั้งกอง |
 
 สามเรื่องที่ต้องระวัง:
 
@@ -118,8 +105,8 @@ void genPunchLine(AllyUnit *ptr, int p){
 2. **event ยิงด้วย `p` ที่ร้องขอ ไม่ใช่ที่เปลี่ยนจริง** — ขอ SP ตอนเต็มหลอดอยู่แล้วก็ยังยิง event ด้วยเลขเต็ม แม้ `sp` จะไม่ขยับ
 3. **`sp` ไม่มีพื้น** — ส่งค่าลบเกินที่มีจะได้ SP ติดลบ ผู้เรียกต้องเช็คเองว่ามี SP พอ
 
-`genPunchLine(nullptr, …)` ที่ `Combat.h:58-59` คือกรณี "ไม่มีเจ้าของ" — ใช้ตอน Aha Instant ล้างและแจก Punchline ใหม่ ดูหัวข้อ [Punchline](#punchline) ด้านบน
+`genPunchLine(nullptr, …)` ที่ `AhaCombat.h:55-56` คือกรณี "ไม่มีเจ้าของ" — ใช้ตอน Aha Instant ล้างและแจก Punchline ใหม่ ดูหัวข้อ [Punchline](#punchline) ด้านบน
 
-## `EnemyActionData::EnemyAction()` (บรรทัด 158)
+## `EnemyActionData::EnemyAction()` (`Combat.h:107`)
 
 ตัวมันเองมีแค่ 2 บรรทัด — เรียก `actionFunction()` ที่ศัตรูตัวนั้นตั้งไว้ แล้ว `resetTurn(turn)` · เนื้อหาว่าศัตรูเลือกท่า/เลือกเป้าอย่างไรอยู่ใน [EnemyCombat.md](EnemyCombat.md) และ [EnemyActionData.md](../../Class/ActionData/EnemyActionData.md)
