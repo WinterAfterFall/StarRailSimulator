@@ -6,7 +6,7 @@ namespace Remembrance_Lightcone{
             ptr->Light_cone.Name = "Memory's Curtain Never Falls";
             string Curtain = ptr->getName() + " Curtain Never Falls";
 
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Atv_stats->speedPercent += 4.5 + 1.5 * superimpose;
             }));
 
@@ -20,7 +20,7 @@ namespace Remembrance_Lightcone{
                 }
             }));
 
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,Curtain]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose,Curtain](CharUnit *ptr) {
                 AllyUnit *allyptr = turn->canCastToAllyUnit();
                 if(!allyptr)return;
                 if(isBuffEnd(allyptr,Curtain)){

@@ -23,7 +23,7 @@ void allEventBeforeTurn(){
     }
 
     for(TriggerByYourSelf_Func &e : Before_turn_List){
-        e.Call();
+        e.Call(e.owner);
     }
 }
 void allEventAfterTurn(){
@@ -78,7 +78,7 @@ void allEventAfterTurn(){
         }
     }
     for(TriggerByYourSelf_Func &e : After_turn_List){
-        e.Call();
+        e.Call(e.owner);
     }
 
     if (turn->side == Side::Ally) {

@@ -52,7 +52,7 @@ namespace RMC{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,RMCptr,Memptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [RMCptr,Memptr](CharUnit *ptr) {
 
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr->getMemosprite(),TraceType::Aoe,"RMC Ult",
@@ -74,7 +74,7 @@ namespace RMC{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [RMCptr,Memptr](CharUnit *ptr) {
             ptr->Stats_type[Stats::ATK_P][AType::None] += 14;
             ptr->Stats_type[Stats::HP_P][AType::None] += 14;
             ptr->Stats_type[Stats::CD][AType::None] += 37.3;
@@ -95,7 +95,7 @@ namespace RMC{
             }
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [RMCptr,Memptr](CharUnit *ptr) {
             if (ptr->Technique == 1) {
                 for (int i = 1; i <= Total_enemy; i++) {
                     Action_forward(enemyUnit[i]->Atv_stats.get(), -50);
@@ -116,21 +116,21 @@ namespace RMC{
             Action_forward(ptr->Atv_stats.get(), 30);
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [RMCptr,Memptr](CharUnit *ptr) {
             double buffValue = (calculateCritdamForBuff(ptr->memosprite.get(), 13.2) + 26.4);
             buffAllAlly({{Stats::CD, AType::TEMP, buffValue - ptr->memosprite->buffNote["Mem_Talent_Buff"]}});
             buffAllAlly({{Stats::CD, AType::None, buffValue - ptr->memosprite->buffNote["Mem_Talent_Buff"]}});
             ptr->memosprite->buffNote["Mem_Talent_Buff"] = buffValue;
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [RMCptr,Memptr](CharUnit *ptr) {
             if (isBuffEnd(chooseAllyBuff(RMCptr),"Mem_Support")) {
                 chooseCharacterBuff(RMCptr)->setBuffNote("Mem_Support",0);
                 buffSingleChar(chooseCharacterBuff(RMCptr),{{Stats::CR,AType::None,-10}});
             }
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMCptr,Memptr]() {
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [RMCptr,Memptr](CharUnit *ptr) {
             ptr->memosprite->buffCheck["RMC_E2"] = 1;
         }));
         AfterDealingDamage_List.push_back(TriggerAfterDealDamage(PRIORITY_IMMEDIATELY, [RMCptr,Memptr]

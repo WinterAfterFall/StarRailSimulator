@@ -27,7 +27,7 @@ namespace Bronya{
             Skill(ptr);
         };
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,Bronyaptr](){
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [Bronyaptr](CharUnit *ptr){
             shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"Bronya Ult",
             [ptr](shared_ptr<AllyBuffAction> &act){
@@ -54,7 +54,7 @@ namespace Bronya{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr){
             ptr->Stats_type[Stats::CD][AType::None] += 24;
             ptr->Stats_type[Stats::RES][AType::None] += 10;
             ptr->Stats_each_element[Stats::DMG][ElementType::Wind][AType::None] += 22.4;
@@ -62,12 +62,12 @@ namespace Bronya{
             ptr->Stats_type[Stats::CR][AType::BA] = 100;
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Bronyaptr](){
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Bronyaptr](CharUnit *ptr){
             if(ptr->Technique == 1)buffAllAlly({{Stats::ATK_P,AType::None,15}},"Bronya_Technique",2);
             buffAllAlly({{Stats::DEF_P,AType::None,20}},"Bronya_A4",2);
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Bronyaptr](){
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Bronyaptr](CharUnit *ptr){
             AllyUnit *tempstats = dynamic_cast<AllyUnit*>(turn->charptr);
             if(!tempstats) return;
             
@@ -98,14 +98,14 @@ namespace Bronya{
             }
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr){
             if(turn->Name == "Bronya"){
                 ptr->buffCheck["Bronya_E4"] = 0;
             }
             if(ptr->Atv_stats->num != Driver_num) return;
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr){
             buffAllAlly({{Stats::DMG,AType::None,10}});
         }));
 

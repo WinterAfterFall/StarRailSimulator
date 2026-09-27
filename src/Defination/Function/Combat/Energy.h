@@ -44,7 +44,7 @@ bool ultUseCheck(CharUnit *ptr){
 void allUltimateCheck(){
     for(TriggerByYourSelf_Func &e : Ultimate_List){
         if(!ultUseCheck(e.owner)) continue;
-        e.Call();
+        e.Call(e.owner);
         if(phaseStatus != PhaseStatus::WhileAction) Deal_damage();
     }
 }

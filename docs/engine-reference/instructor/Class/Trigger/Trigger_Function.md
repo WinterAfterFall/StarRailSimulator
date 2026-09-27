@@ -1,5 +1,9 @@
 # `src/Defination/Class/Trigger/Trigger_Function.h`
 
+## `TriggerFunc::owner`
+
+แก้ 2026-09-27 (user สั่ง): ย้าย `owner` (`CharUnit*`) จาก `TriggerByYourSelf_Func` ขึ้นมาที่ `TriggerFunc` คลาสแม่ · constructor `TriggerFunc(priority)` เดิมยังอยู่ (owner = `nullptr`) ให้ trigger ชนิดอื่นใช้ต่อได้ · ตอนนี้มีแค่ `TriggerByYourSelf_Func` ที่ **บังคับ** ใส่ owner · ใช้เลือก trigger ของคนใดคนหนึ่งได้ เช่น `ultUseCheck(e.owner)` ใน `Energy.h` หรือเรียก Elation Skill ของคนที่ระบุจาก `ElationSkill_List`
+
 ## `TriggerFunc::priority`
 
 User ยืนยัน 2026-09-18: ใช้กำหนดลำดับเอฟเฟกต์ที่เกิดในจังหวะเดียวกัน โดยค่ามากทำงานก่อนภายในลิสต์ event เดียวกัน
@@ -8,7 +12,15 @@ User ยืนยัน 2026-09-18: ใช้กำหนดลำดับเ�
 
 ## `TriggerByYourSelf_Func::Call`
 
-User ยืนยัน 2026-09-18: callback แบบ `function<void()>` ไม่รับพารามิเตอร์ตอนเรียก `e.Call()` ใช้ lambda จับข้อมูลที่ต้องการไว้ตอนสร้าง เช่น `[ptr]` เพื่อจำตัวละคร จึงไม่ต้องส่งตัวละครนั้นเข้าไปอีกตอนเรียก
+**แก้ 2026-09-27** (user สั่ง): เปลี่ยนจาก `function<void()>` เป็น `function<void(CharUnit *ptr)>` · constructor เดียว `TriggerByYourSelf_Func(priority, ptr, [..](CharUnit *ptr){...})` **บังคับใส่ owner** · engine เรียก `e.Call(e.owner)` ทุกลิสต์ (`Setup_List`, `Reset_List`, `WhenOnField_List`, `Tune_stats_List`, `Start_game_List`, `Start_wave_List`, `Before_turn_List`, `After_turn_List`, `Ultimate_List`, `ElationSkill_List`, `BeforeAhaInstant_List`, `AfterAhaInstant_List`) · lambda **ไม่ต้องจับ `[ptr]`** แล้ว ใช้ `ptr` จาก parameter · capture อื่น (`superimpose`, ชื่อบัฟ, lambda ช่วย) ยังจับตามเดิม
+
+```cpp
+Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+    ptr->Stats_type[Stats::CD][AType::None] += 40 + superimpose * 8;
+}));
+```
+
+เดิม (2026-09-18): callback ไม่รับพารามิเตอร์ ใช้ lambda จับ `[ptr]` ไว้ตอนสร้าง และ owner ใส่หรือไม่ใส่ก็ได้ (มีแค่ `Ultimate_List` ที่ใส่)
 
 ## `TriggerByAlly_Func::Call`
 

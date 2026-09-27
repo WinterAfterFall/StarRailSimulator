@@ -68,7 +68,7 @@ namespace Guinaifen{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,gui]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [gui](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Gui Skill",
             [ptr,gui](shared_ptr<AllyAttackAction> &act){
@@ -87,17 +87,17 @@ namespace Guinaifen{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,gui]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [gui](CharUnit *ptr) {
             ptr->Stats_each_element[Stats::DMG][ElementType::Fire][AType::None] += 22.4;
             ptr->Stats_type[Stats::BE][AType::None] += 24;
             ptr->Stats_type[Stats::EHR][AType::None] += 10;
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,gui]() {
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [gui](CharUnit *ptr) {
             ptr->Stats_type[Stats::DMG][AType::None] += 20;
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,gui]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [gui](CharUnit *ptr) {
             if(ptr->Technique){
                 shared_ptr<AllyAttackAction> act = 
                 make_shared<AllyAttackAction>(AType::Technique,ptr,TraceType::Aoe,"Gui Tech",
@@ -118,7 +118,7 @@ namespace Guinaifen{
             Action_forward(gui->Atv_stats.get(),25);          
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,gui]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [gui](CharUnit *ptr) {
             Enemy *enemy = turn->canCastToEnemy();
             if(!enemy)return;
             if(isDebuffEnd(enemy,"Gui Burn")){

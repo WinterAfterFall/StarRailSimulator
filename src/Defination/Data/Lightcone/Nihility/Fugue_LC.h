@@ -5,7 +5,7 @@ namespace Nihility_Lightcone{
             ptr->SetAllyBaseStats(953,582,529);
             ptr->Light_cone.Name = "Fugue_LC";
             string Charring = ptr->getName() + " Charring";
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,Charring]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose,Charring](CharUnit *ptr) {
                 ptr->Stats_type[Stats::BE][AType::None] += 50 + 10 * superimpose;
             }));
     
@@ -13,7 +13,7 @@ namespace Nihility_Lightcone{
                 debuffStackSingle(ptr,target,{{Stats::VUL,AType::Break,15.0 + 3 * superimpose}},1,2,Charring,2);
             }));
     
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,Charring]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose,Charring](CharUnit *ptr) {
                 Enemy *enemy = turn->canCastToEnemy();
                 if(!enemy)return;
                 if (isDebuffEnd(enemy,Charring)) {

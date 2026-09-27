@@ -31,7 +31,7 @@ namespace FireFly{
                 Enchance_Skill_func(ptr);
             }
         };
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::BE][AType::None] += 37.3;
             ptr->Stats_type[Stats::RES][AType::None] += 18;
             ptr->Atv_stats->flatSpeed += 5;
@@ -47,7 +47,7 @@ namespace FireFly{
             }
         }));
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_DEBUFF, ptr, [ptr,FFptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_DEBUFF, ptr, [FFptr](CharUnit *ptr) {
             buffSingle(FFptr,combustionBuff(ptr,1));
             ptr->setStack("FireFly A2 delay",0);
             Action_forward(FFptr->Atv_stats.get(), 100);
@@ -86,7 +86,7 @@ namespace FireFly{
             }
         ));
 
-        Start_wave_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
+        Start_wave_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [](CharUnit *ptr) {
             if (ptr->Technique == 1) {
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Technique,ptr,TraceType::Aoe,"FF Tech",
@@ -106,13 +106,13 @@ namespace FireFly{
             }
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             allEventAdjustStats(ptr, Stats::FLAT_ATK);
             // Talent: energy below 50% at battle start -> set to 50%
             if (ptr->Current_energy < ptr->Max_energy / 2) ptr->Current_energy = ptr->Max_energy / 2;
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             if (turn->isSameUnit(ptr)) ptr->setBuffCheck("FireFly_E2_used",0);
         }));
 
@@ -133,7 +133,7 @@ namespace FireFly{
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             Enemy *enemy = turn->canCastToEnemy();
             if(!enemy)return;
             isDebuffEnd(enemy,"FireFly Weakness");

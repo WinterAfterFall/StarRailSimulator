@@ -6,7 +6,7 @@ namespace Nihility_Lightcone{
             ptr->Light_cone.Name = "Fermata";
             shared_ptr<vector<Enemy*>> buffedTargets = make_shared<vector<Enemy*>>();
     
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::BE][AType::None] += 12 + superimpose * 4;
             }));
 

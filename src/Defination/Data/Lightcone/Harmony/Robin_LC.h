@@ -23,7 +23,7 @@ namespace Harmony_Lightcone{
                 }
             }));
     
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 if (isBuffEnd(ptr,"Cadenza")) {
                     buffAllAlly({{Stats::DMG, AType::None, -(20.0 + 4 * superimpose)}});
                     buffSingle(ptr,{{Stats::ATK_P, AType::None, -(36.0 + 12 * superimpose)}});

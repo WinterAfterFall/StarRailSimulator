@@ -6,7 +6,7 @@ namespace Erudition_Lightcone{
             ptr->Light_cone.Name = "Passkey";
             
 
-            Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 if(turn->isSameName(ptr->Atv_stats->Name))ptr->setBuffCheck("Passkey",0);
             }));
 

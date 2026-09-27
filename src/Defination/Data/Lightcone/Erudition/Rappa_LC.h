@@ -5,11 +5,11 @@ namespace Erudition_Lightcone{
             ptr->SetAllyBaseStats(953,582,529);
             ptr->Light_cone.Name = "Rappa_LC";
     
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::BE][AType::None] += 50 + superimpose * 10;
             }));
     
-            Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 Increase_energy(ptr, (27.5 + superimpose * 2.5));
             }));
 

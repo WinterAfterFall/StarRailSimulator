@@ -12,11 +12,11 @@ namespace Harmony_Lightcone{
                 Increase_energy(ptr, 3 + superimpose);
             }));
 
-            Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+            Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
                 ptr->setBuffCheck("Memories_of_the_Past_Triggered",0);
             }));
     
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::BE][AType::None] += 21 + 7 * superimpose;
             }));
         };

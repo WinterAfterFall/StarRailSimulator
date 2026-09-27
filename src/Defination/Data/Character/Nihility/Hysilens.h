@@ -143,7 +143,7 @@ namespace Hysilens{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,hys]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [hys](CharUnit *ptr) {
             genSkillPoint(hys,1);
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Hys Ult",
@@ -170,13 +170,13 @@ namespace Hysilens{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::ATK_P][AType::None] += 18;
             ptr->Stats_type[Stats::EHR][AType::None] += 10;
             ptr->Atv_stats->flatSpeed += 14;
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             //A6
             if(ptr->Eidolon>=2)buffAllAlly({{Stats::DMG,AType::None,90}});
             else ptr->Stats_type[Stats::DMG][AType::None] += 90;
@@ -188,7 +188,7 @@ namespace Hysilens{
 
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hys,Talent,E1]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [hys,Talent,E1](CharUnit *ptr) {
                 genSkillPoint(hys,1);
                 for(auto &each : enemyList){
                     if(debuffMark(hys,each,"Hys Ult")){
@@ -208,7 +208,7 @@ namespace Hysilens{
                 }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             Enemy *enemy = turn->canCastToEnemy();
             if(!enemy)return;
 
@@ -226,7 +226,7 @@ namespace Hysilens{
             
         }));
         
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hys]() {
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [hys](CharUnit *ptr) {
             for(int i=1;i<=Total_enemy;i++){
                 enemyUnit[i]->setStack("Hys Dot Limit",0);
             }

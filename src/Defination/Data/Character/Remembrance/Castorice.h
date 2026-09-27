@@ -123,7 +123,7 @@ namespace Castorice{
         };
 
         
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Casptr,Polluxptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Casptr,Polluxptr](CharUnit *ptr) {
             ptr->Stats_type[Stats::CD][AType::None] += 13.3;
             ptr->Stats_type[Stats::CR][AType::None] += 18.7;
             ptr->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 14.4;
@@ -138,7 +138,7 @@ namespace Castorice{
             return false;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,Casptr,Polluxptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [Casptr,Polluxptr](CharUnit *ptr) {
             ptr->buffNote["Newbud"] = 0;
 
             shared_ptr<AllyBuffAction> act =
@@ -162,7 +162,7 @@ namespace Castorice{
         }));
         
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Casptr,Polluxptr]() {
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Casptr,Polluxptr](CharUnit *ptr) {
             if(ptr->Eidolon>=4){
                 buffAllAlly({{Stats::HEALING_IN,AType::None,20}});
             }
@@ -171,7 +171,7 @@ namespace Castorice{
             }
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Casptr,Polluxptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Casptr,Polluxptr](CharUnit *ptr) {
             if(ptr->Technique==1){
                 debuffAllEnemyMark({{Stats::RESPEN,AType::None,20}},Polluxptr,"Lost Netherland");
                 
@@ -237,7 +237,7 @@ namespace Castorice{
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Casptr,Polluxptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [Casptr,Polluxptr](CharUnit *ptr) {
             
             if(isBuffEnd(Polluxptr,"NetherwingLifeSpan")){
                 Kamikaze(ptr);

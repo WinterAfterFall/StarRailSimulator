@@ -4,7 +4,7 @@ namespace Destruction_Lightcone{
         return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(1270,582,331);
             ptr->Light_cone.Name = "Blade LC";
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](){
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr){
                         
                 ptr->Stats_type[Stats::CR][AType::None]+=15 + (3*superimpose);
                 ptr->Stats_type[Stats::HP_P][AType::None]+=15 + (3*superimpose);

@@ -88,7 +88,7 @@ namespace Dahlia{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"Dahlia Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
@@ -107,13 +107,13 @@ namespace Dahlia{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::BE][AType::None] += 37.3;
             ptr->Stats_type[Stats::RES][AType::None] += 18;
             ptr->Atv_stats->flatSpeed += 5;
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             if(ptr->Eidolon>=2)debuffAllEnemyApply(ptr,{{Stats::RESPEN,AType::None,20}},"Dahlia E2");
             if(ptr->Eidolon>=6){
                 buffSingle(ptr,{{Stats::BE,AType::None,150}});
@@ -121,7 +121,7 @@ namespace Dahlia{
             }
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             if(isBuffEnd(ptr,"Dahlia Skill")){
                 buffAllAlly({{Stats::BREAK_EFF,AType::None,-50}});
             }
@@ -134,7 +134,7 @@ namespace Dahlia{
 
             }
         }));
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             Enemy *enemy = turn->canCastToEnemy();
             if(!enemy)return;
             if(isDebuffEnd(enemy,"Wilt")){
@@ -145,7 +145,7 @@ namespace Dahlia{
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             AllyUnit *ally = turn->canCastToAllyUnit();
             if(!ally)return;
             if(isBuffEnd(ally,"Dahlia A6")){
@@ -198,7 +198,7 @@ namespace Dahlia{
             }
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             Increase_energy(ptr,35);
             if(ptr->Technique){
                 if(isHaveToAddBuff(ptr,"Dahlia Skill",3)){

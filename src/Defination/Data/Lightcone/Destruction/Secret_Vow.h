@@ -4,7 +4,7 @@ namespace Destruction_Lightcone{
         return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(1058,476,265);
             ptr->Light_cone.Name = "Secret_Vow";
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::DMG][AType::None] += 30 + 10 * superimpose;
             }));
         };

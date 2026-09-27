@@ -5,7 +5,7 @@ namespace Remembrance_Lightcone{
             ptr->SetAllyBaseStats(953,476,331);
             ptr->Light_cone.Name = "Geniuses_Greetings";
 
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::ATK_P][AType::None] += 12 + 4 * superimpose;
             }));
 
@@ -15,7 +15,7 @@ namespace Remembrance_Lightcone{
                 }
             }));
 
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 AllyUnit *tempstats = turn->canCastToAllyUnit();
                 if (!tempstats) return;
                 if (isBuffEnd(tempstats,"Geniuses_Greetings")) {

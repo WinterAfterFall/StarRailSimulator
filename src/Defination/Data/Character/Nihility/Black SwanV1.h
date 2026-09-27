@@ -81,7 +81,7 @@ namespace BSV1{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,bs]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [bs](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"BS Ult",
             [ptr,bs](shared_ptr<AllyAttackAction> &act){
@@ -106,7 +106,7 @@ namespace BSV1{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::ATK_P][AType::None] += 28;
             ptr->Stats_each_element[Stats::DMG][ElementType::Wind][AType::None] += 14.4;
             ptr->Stats_type[Stats::EHR][AType::None] += 10;
@@ -114,12 +114,12 @@ namespace BSV1{
             ptr->Stats_type[Stats::DMG][AType::None] += 72;
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,bs]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [bs](CharUnit *ptr) {
             if(ptr->Technique)dotAllEnemyStack(bs,{DotType::WindShear},3,50,"Arcana");
             dotAllEnemyStack(bs,{DotType::WindShear},1,50,"Arcana");
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,bs]() {
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [bs](CharUnit *ptr) {
             Enemy* enemy = turn->canCastToEnemy();
             if(!enemy)return;
             
@@ -129,7 +129,7 @@ namespace BSV1{
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             Enemy* enemy = turn->canCastToEnemy();
             if(!enemy)return;
             

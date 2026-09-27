@@ -5,7 +5,7 @@ namespace Remembrance_Lightcone{
             ptr->SetAllyBaseStats(1270,529,397);
             ptr->Light_cone.Name = "Castorice_LC";
 
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr, superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::HP_P][AType::None] += 22.5 + 7.5*superimpose;
             }));
 
@@ -35,7 +35,7 @@ namespace Remembrance_Lightcone{
             }));
 
 
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr, superimpose]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 if(isBuffEnd(ptr,"Death Flower")){
                     buffSingleChar(ptr,{{Stats::DEF_SHRED, AType::None, -(25.0 + 5 * superimpose)}});
                 }

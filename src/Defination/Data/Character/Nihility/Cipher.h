@@ -71,7 +71,7 @@ namespace Cipher{
             else BA();
         };
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,cph]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [cph](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Cipher Ult",
             [ptr,cph](shared_ptr<AllyAttackAction> &act){
@@ -89,7 +89,7 @@ namespace Cipher{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Atv_stats->flatSpeed += 14;
             ptr->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 14.4;
             ptr->Stats_type[Stats::EHR][AType::None] += 10;
@@ -105,11 +105,11 @@ namespace Cipher{
             // substats
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_Last,[ptr,cph](){
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_Last, ptr, [cph](CharUnit *ptr){
             if(turn->isSameName("Cipher"))cph->setBuffCheck("Cipher Fua",0);
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_Last,[ptr,cph](){
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_Last, ptr, [cph](CharUnit *ptr){
             auto enemy =  turn->canCastToEnemy();
             auto ally =  turn->canCastToAllyUnit();
             if(ally){
@@ -129,7 +129,7 @@ namespace Cipher{
             }
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_Last,[ptr,cph](){
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_Last, ptr, [cph](CharUnit *ptr){
                 shared_ptr<AllyAttackAction> newAct = 
                 make_shared<AllyAttackAction>(AType::Technique,ptr,TraceType::Aoe,"Cipher Tech",
                 [ptr,cph](shared_ptr<AllyAttackAction> &act){

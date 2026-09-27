@@ -5,7 +5,7 @@ namespace Harmony_Lightcone{
             ptr->SetAllyBaseStats(953,476,331);
             ptr->Light_cone.Name = "The Forever Victual";
     
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::ATK_P][AType::None] += 12 + 4 * superimpose;
             }));
 

@@ -70,7 +70,7 @@ namespace Robin{
             return true;
         });
         
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,Robinptr](){
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [Robinptr](CharUnit *ptr){
             shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"RB Ult",
             [ptr,Robinptr](shared_ptr<AllyBuffAction> &act){
@@ -94,7 +94,7 @@ namespace Robin{
             if(ptr->Print)CharCmd::printUltStart("Robin");
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr){
             ptr->Stats_type[Stats::ATK_P][AType::None] += 28;
             ptr->Stats_type[Stats::HP_P][AType::None] += 18;
             ptr->Atv_stats->flatSpeed += 5;
@@ -104,21 +104,21 @@ namespace Robin{
             return;
         }));
 
-        Start_wave_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
+        Start_wave_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr){
             if(ptr->Technique == 1){
                 Increase_energy(ptr, 5);
             }
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr){
             Action_forward(ptr->Atv_stats.get(), 25);
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr){
             buffAllAlly({{Stats::CD, AType::None, 20}});
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,Robinptr](){
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [Robinptr](CharUnit *ptr){
             if(isBuffEnd(Robinptr,"Pinion'sAria")){
                 buffAllAlly({{Stats::DMG, AType::None, -50}});
             }

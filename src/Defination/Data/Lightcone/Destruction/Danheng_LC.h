@@ -4,7 +4,7 @@ namespace Destruction_Lightcone{
         return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(1058,635,397);
             ptr->Light_cone.Name = "Danheng_LC";
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](){
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr){
                 ptr->Stats_type[Stats::CR][AType::None]+=15 + (3*superimpose);
             }));
 
@@ -18,7 +18,7 @@ namespace Destruction_Lightcone{
                 }
             }));
 
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 if(isBuffEnd(ptr,"Danheng LC")){
                     ptr->Energy_recharge -= (5 + superimpose) * ptr->getStack("Danheng LC");
                     buffCharResetStack(ptr,{{Stats::ATK_P,AType::None,(15.0 + (3*superimpose))}},"Danheng LC");

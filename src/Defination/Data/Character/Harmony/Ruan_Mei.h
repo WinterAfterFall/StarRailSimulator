@@ -30,7 +30,7 @@ namespace RuanMei{
             }
         };
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,RMptr](){
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [RMptr](CharUnit *ptr){
 
             shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"RM Ult",
@@ -46,7 +46,7 @@ namespace RuanMei{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr){
             ptr->Stats_type[Stats::BE][AType::None] += 37.3;
             ptr->Stats_type[Stats::DEF_P][AType::None] += 22.5;
             ptr->Atv_stats->flatSpeed += 5;
@@ -56,14 +56,14 @@ namespace RuanMei{
             // substats
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr){
             buffAllAlly({
                 {Stats::BE, AType::None, 20},
             });
             buffAllAllyExcludingBuffer(ptr,{{Stats::SPD_P,AType::None,10}});
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTION, [ptr](){
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTION, ptr, [](CharUnit *ptr){
             if(ptr->Technique == 1){
             
                 shared_ptr<AllyBuffAction> act = 
@@ -84,7 +84,7 @@ namespace RuanMei{
             }
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,RMptr](){
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [RMptr](CharUnit *ptr){
             if(isBuffEnd(RMptr,"Mei_Skill")){
                 buffAllAlly({
                     {Stats::DMG,AType::None,-68},
@@ -112,7 +112,7 @@ namespace RuanMei{
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr](){
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr){
         }));
 
         AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,RMptr](shared_ptr<AllyAttackAction> &act){

@@ -6,11 +6,11 @@ namespace Harmony_Lightcone{
             ptr->Light_cone.Name = "Cerydra LC";
             string CerydraLCBuff = ptr->getName() +  " Cerydra LC Buff";
 
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::ATK_P][AType::None] += 48 + 16 * superimpose;
             }));
 
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,CerydraLCBuff]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose,CerydraLCBuff](CharUnit *ptr) {
                 AllyUnit *sptr = turn->canCastToAllyUnit();
                 if(!sptr)return;
                 if(isBuffEnd(sptr,CerydraLCBuff)){

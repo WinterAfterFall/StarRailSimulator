@@ -7,7 +7,7 @@ namespace Relic{
             return true;
         });
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_each_element[Stats::DMG][ElementType::Wind][AType::None] += 10;
         }));
 

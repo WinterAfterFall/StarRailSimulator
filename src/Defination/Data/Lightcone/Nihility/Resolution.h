@@ -14,7 +14,7 @@ namespace Nihility_Lightcone{
                 }
             }));
 
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,ensnared]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose,ensnared](CharUnit *ptr) {
                 Enemy *enemy = turn->canCastToEnemy();
                 if(!enemy)return;
                 if(isDebuffEnd(enemy,ensnared)){

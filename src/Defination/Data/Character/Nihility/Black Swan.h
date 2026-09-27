@@ -74,7 +74,7 @@ namespace BS{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,bs]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [bs](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"BS Ult",
             [ptr,bs](shared_ptr<AllyAttackAction> &act){
@@ -97,7 +97,7 @@ namespace BS{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::ATK_P][AType::None] += 28;
             ptr->Stats_each_element[Stats::DMG][ElementType::Wind][AType::None] += 14.4;
             ptr->Stats_type[Stats::EHR][AType::None] += 10;
@@ -110,7 +110,7 @@ namespace BS{
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             Enemy* enemy = turn->canCastToEnemy();
             if(!enemy)return;
 
@@ -138,7 +138,7 @@ namespace BS{
             }
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,bs]() {
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [bs](CharUnit *ptr) {
             buffAllAlly({{Stats::DMG,AType::None,72}});
             if(ptr->Eidolon>=1)debuffAllEnemyApply(bs,{
                 {Stats::RESPEN,ElementType::Wind,AType::None,25},
@@ -148,7 +148,7 @@ namespace BS{
                 ,"BS E1");
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,bs]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [bs](CharUnit *ptr) {
             if(ptr->Technique)dotAllEnemyStack(ptr,{DotType::WindShear,DotType::Bleed,DotType::Burn,DotType::Shock},2,1e9,"Arcana");
             dotAllEnemyStack(ptr,{DotType::WindShear,DotType::Bleed,DotType::Burn,DotType::Shock},1,1e9,"Arcana");
             debuffAllEnemyApply(bs,{{Stats::DEF_SHRED,AType::None,20.8}},"BS DefShred",3);

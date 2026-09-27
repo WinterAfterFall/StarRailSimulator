@@ -5,18 +5,18 @@ namespace Harmony_Lightcone{
             ptr->SetAllyBaseStats(1270,529,397);
             ptr->Light_cone.Name = "Tribbie_LC";
     
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::CD][AType::None] += 30 + 6 * superimpose;
             }));
     
-            Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 Increase_energy(ptr, 21);
                 if(isHaveToAddBuff(ptr,"Presage",2)){
                     buffAllAlly({{Stats::CD, AType::None, (36.0 + 12 * superimpose)}});
                 }
             }));
     
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 if (isBuffEnd(ptr,"Presage")) {
                     buffAllAlly({{Stats::CD, AType::None, -(36.0 + 12 * superimpose)}});
                 }

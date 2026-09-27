@@ -79,7 +79,7 @@ namespace Fugue{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [](CharUnit *ptr) {
 
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Fugue Ult",
@@ -98,7 +98,7 @@ namespace Fugue{
 
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::HP_P][AType::None] += 10;
             ptr->Stats_type[Stats::BE][AType::None] += 24 + 30;
             ptr->Atv_stats->flatSpeed += 14;
@@ -106,7 +106,7 @@ namespace Fugue{
             if(ptr->Eidolon>=6)ptr->Stats_type[Stats::BREAK_EFF][AType::None] += 50;
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             if(isBuffEnd(ptr,"Fugue Skill")) {
                 if(ptr->Eidolon>=6){
                     buffAllAlly({
@@ -123,7 +123,7 @@ namespace Fugue{
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             Enemy *enemy = turn->canCastToEnemy();
             AllyUnit *ally = turn->canCastToAllyUnit();
 

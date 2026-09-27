@@ -4,7 +4,7 @@ namespace Destruction_Lightcone{
         return [=](CharUnit *ptr) {
             ptr->SetAllyBaseStats(1164,582,397);
             ptr->Light_cone.Name = "Jingliu_LC";
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](){
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr){
                 ptr->Stats_type[Stats::CD][AType::None]+=17 + (3*superimpose);
             }));
 

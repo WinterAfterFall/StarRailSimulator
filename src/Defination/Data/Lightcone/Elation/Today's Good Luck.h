@@ -5,7 +5,7 @@ namespace Elation_Lightcone{
             ptr->SetAllyBaseStats(953,529,397);
             ptr->Light_cone.Name = "Today's Good Luck";
     
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::CR][AType::None] += 10.0 + superimpose *2;
             }));
 

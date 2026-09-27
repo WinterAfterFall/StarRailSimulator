@@ -88,7 +88,7 @@ namespace Hibana{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [](CharUnit *ptr) {
             CharCmd::printUltStart("Hibana");
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Hibana Ult",
@@ -126,7 +126,7 @@ namespace Hibana{
             Deal_damage();
         }));
 
-        ElationSkill_List.push_back(TriggerByYourSelf_Func(144, [ptr]() {
+        ElationSkill_List.push_back(TriggerByYourSelf_Func(144, ptr, [](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::ElationSkill,ptr,TraceType::Aoe,"Hbn Elation Skill",
             [ptr](shared_ptr<AllyAttackAction> &act){
@@ -147,7 +147,7 @@ namespace Hibana{
             act->addToAhaInstant();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::Elation][AType::None] += 28;
             ptr->Stats_type[Stats::CR][AType::None] += 12;
             ptr->Stats_type[Stats::CD][AType::None] += 13.3;
@@ -158,7 +158,7 @@ namespace Hibana{
 
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,BA,EBA]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [BA,EBA](CharUnit *ptr) {
             if(isBuffEnd(ptr,"Hbn E2")){
             buffCharResetStack(ptr,{{Stats::CD,AType::None,10}},"Hbn E2");
             }
@@ -185,7 +185,7 @@ namespace Hibana{
         }));
 
         
-        AfterAhaInstant_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,BA,EBA]() {
+        AfterAhaInstant_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [BA,EBA](CharUnit *ptr) {
             if(ptr->Eidolon>=1)genPunchLine(ptr,1);
 
             if(ptr->Eidolon>=2){

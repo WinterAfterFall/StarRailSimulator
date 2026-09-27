@@ -31,7 +31,7 @@ void AhaTurn(){
     
     CharCmd::printText("Aha Instant");
     for(TriggerByYourSelf_Func &e : ElationSkill_List){
-        e.Call();
+        e.Call(e.owner);
     }
     PhaseStatus beforeStatus = phaseStatus;
     while(!AhaInstantBar.empty()){
@@ -65,12 +65,12 @@ void AhaTurn(){
 }
 void BeforeAhaInstant(){
     for(TriggerByYourSelf_Func &e : BeforeAhaInstant_List){
-        e.Call();
+        e.Call(e.owner);
     }
 }
 void AfterAhaInstant(){
     for(TriggerByYourSelf_Func &e : AfterAhaInstant_List){
-        e.Call();
+        e.Call(e.owner);
     }
 }
 void AhaInstant(int PL){
@@ -79,7 +79,7 @@ void AhaInstant(int PL){
     punchline = PL;
     CharCmd::printText("Aha Instant");
     for(TriggerByYourSelf_Func &e : ElationSkill_List){
-        e.Call();
+        e.Call(e.owner);
     }
     
     PhaseStatus beforeStatus = phaseStatus;

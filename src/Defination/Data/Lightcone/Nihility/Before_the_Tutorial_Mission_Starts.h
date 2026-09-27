@@ -5,7 +5,7 @@ namespace Nihility_Lightcone{
             ptr->SetAllyBaseStats(953,476,331);
             ptr->Light_cone.Name = "Before_the_Tutorial";
     
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::EHR][AType::None] += 15 + 5 * superimpose;
             }));
     

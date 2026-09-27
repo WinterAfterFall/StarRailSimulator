@@ -5,7 +5,7 @@ namespace Erudition_Lightcone{
             ptr->SetAllyBaseStats(1058,582,463);
 
             ptr->Light_cone.Name = "Before_Dawn";
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::CD][AType::None] += 30 + 6 * superimpose;
                 ptr->Stats_type[Stats::DMG][AType::SKILL] += 15 + 3 * superimpose;
                 ptr->Stats_type[Stats::DMG][AType::Ult] += 15 + 3 * superimpose;

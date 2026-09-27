@@ -5,15 +5,15 @@ namespace Elation_Lightcone{
             ptr->SetAllyBaseStats(1058,529,529);
             ptr->Light_cone.Name = "YaoGuang_LC";
     
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Atv_stats->speedPercent += 15 + 3 * superimpose;
             }));
 
-            Start_wave_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Start_wave_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 Increase_energy(ptr,0,15);
             }));
 
-            Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 if(isHaveToAddBuff(ptr,"Great Fortune",3)){
                     ptr->Energy_recharge += 10 + 2 * superimpose;
                     buffAllAlly({
@@ -34,7 +34,7 @@ namespace Elation_Lightcone{
                 }
             }));
 
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 if (isBuffEnd(ptr,"Great Fortune")) {
                     ptr->Energy_recharge -= 10 + 2 * superimpose;
                     buffAllAlly({

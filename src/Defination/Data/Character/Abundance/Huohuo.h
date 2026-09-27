@@ -88,7 +88,7 @@ namespace Huohuo{
             return false;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,hh,gainDivineProvision]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [hh,gainDivineProvision](CharUnit *ptr) {
             shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"HH Ult",
             [ptr,hh,gainDivineProvision](shared_ptr<AllyBuffAction> &act){
@@ -110,7 +110,7 @@ namespace Huohuo{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::HP_P][AType::None] += 28;
             ptr->Stats_type[Stats::RES][AType::None] += 18;
             ptr->Atv_stats->flatSpeed +=5;
@@ -123,7 +123,7 @@ namespace Huohuo{
         }));
 
         // A2: energy 30 + Divine Provision 2 turns at battle start · Technique: all enemies ATK -25% 2 turns
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hh,gainDivineProvision]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [hh,gainDivineProvision](CharUnit *ptr) {
             Increase_energy(hh,0,30);
             gainDivineProvision(2);
             if(ptr->Technique){
@@ -134,7 +134,7 @@ namespace Huohuo{
             }
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,hh,divineProvisionHeal]() {
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [hh,divineProvisionHeal](CharUnit *ptr) {
             AllyUnit *ally = turn->canCastToAllyUnit();
             if(!ally)return;
             if(isBuffEnd(hh,"Divine Provision")){
@@ -144,7 +144,7 @@ namespace Huohuo{
             divineProvisionHeal(ally);
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             AllyUnit *ally = turn->canCastToAllyUnit();
             if(ally){
                 if(isBuffEnd(ally,"HH Ult")){

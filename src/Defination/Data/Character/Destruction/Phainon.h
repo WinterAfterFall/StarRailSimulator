@@ -194,7 +194,7 @@ namespace Phainon{
             return false;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,pn,pnCD,Scourge,CoreFlame]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [pn,pnCD,Scourge,CoreFlame](CharUnit *ptr) {
             CoreFlame(-12);
             shared_ptr<AllyBuffAction> act =
                 make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Single,"PN Ult",
@@ -254,7 +254,7 @@ namespace Phainon{
 
         #pragma endregion
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::CD][AType::None] += 37.3;
             ptr->Stats_type[Stats::CR][AType::None] += 12;
             ptr->Atv_stats->flatSpeed += 5;
@@ -267,7 +267,7 @@ namespace Phainon{
             }
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,pn,CoreFlame,Scourge]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [pn,CoreFlame,Scourge](CharUnit *ptr) {
             if(ptr->Technique){
                 genSkillPoint(pn,1);
                 Scourge(2);
@@ -282,7 +282,7 @@ namespace Phainon{
             }
         }));
 
-        Start_wave_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,pn]() {
+        Start_wave_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [pn](CharUnit *ptr) {
             if(ptr->Technique){
                 shared_ptr<AllyAttackAction> act = 
                 make_shared<AllyAttackAction>(AType::Technique,ptr,TraceType::Aoe,"PN Tech",
@@ -299,7 +299,7 @@ namespace Phainon{
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,pn]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [pn](CharUnit *ptr) {
             Enemy *enemy = turn->canCastToEnemy();
             AllyUnit *ally = turn->canCastToAllyUnit();
             if(enemy&&enemy->getDebuff("Soulscorch")){
@@ -422,7 +422,7 @@ namespace Phainon{
                 Cal_DamageNote(act,target,enemyUnit[Main_Enemy_num].get(),damage,36,"PN True Foundation");
         }));
 
-        Setup_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,pn]() {
+        Setup_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [pn](CharUnit *ptr) {
         CharUnit *sd = CharCmd::findAllyName("Sunday");
         CharUnit *tb = CharCmd::findAllyName("Tribbie");
         CharUnit *rb = CharCmd::findAllyName("Robin");

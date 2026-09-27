@@ -163,7 +163,7 @@ namespace Saber{
             return false;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,sb]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [sb](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Saber Ult",
             [ptr,sb](shared_ptr<AllyAttackAction> &act){
@@ -193,7 +193,7 @@ namespace Saber{
 
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_each_element[Stats::DMG][ElementType::Wind][AType::None] += 22.4;
             ptr->Stats_type[Stats::CR][AType::None] += 12;
             ptr->Stats_type[Stats::HP_P][AType::None] += 10;
@@ -208,7 +208,7 @@ namespace Saber{
 
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,sb]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [sb](CharUnit *ptr) {
             if(isBuffEnd(sb,"Saber Talent")){
                 buffSingle(sb,{{Stats::DMG,AType::None,-60}});
             }
@@ -229,7 +229,7 @@ namespace Saber{
             }else sb->setBuffCheck("Saber ESkill",0);
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,sb,CoreResonance]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [sb,CoreResonance](CharUnit *ptr) {
             // A4: Energy below 60% at battle start -> set to 60%
             if(ptr->Current_energy < ptr->Max_energy*0.6)ptr->Current_energy = ptr->Max_energy*0.6;
             sb->setBuffCheck("Mana Flow",1);

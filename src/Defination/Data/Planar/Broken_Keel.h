@@ -3,11 +3,11 @@ namespace Planar{
     void Broken_Keel(CharUnit *ptr);
     void Broken_Keel(CharUnit *ptr){
         ptr->Planar.Name="Broken_Keel";
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::RES][AType::None] += 10;
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             buffAllAlly({{Stats::CD, AType::None, 10.0}});
         }));
     }

@@ -54,7 +54,7 @@ namespace Aglaea{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,AGptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [AGptr](CharUnit *ptr) {
 
             shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Single,"AG Ult",
@@ -79,13 +79,13 @@ namespace Aglaea{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [AGptr](CharUnit *ptr) {
             ptr->Stats_type[Stats::DEF_P][AType::None] += 12.5;
             ptr->Stats_type[Stats::CR][AType::None] += 12;
             ptr->Stats_each_element[Stats::DMG][ElementType::Lightning][AType::None] += 22.4;
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,AGptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [AGptr](CharUnit *ptr) {
             if (ptr->Technique == 1) {
                 shared_ptr<AllyAttackAction> act = 
                 make_shared<AllyAttackAction>(AType::Technique,ptr,TraceType::Aoe,"AG Tech",

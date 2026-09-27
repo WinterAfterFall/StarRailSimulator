@@ -6,7 +6,7 @@ namespace Nihility_Lightcone{
             ptr->Light_cone.Name = "Jiaoqiu_LC";
             string Cornered = ptr->getName() + " Cornered";
             string Unarmored = ptr->getName() + " Unarmored";
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::EHR][AType::None] += 50 + 10 * superimpose;
             }));
             
@@ -22,7 +22,7 @@ namespace Nihility_Lightcone{
                     }
             }));
 
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,Unarmored,Cornered]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose,Unarmored,Cornered](CharUnit *ptr) {
                 Enemy *enemy = turn->canCastToEnemy();
                 if(!enemy)return;
 

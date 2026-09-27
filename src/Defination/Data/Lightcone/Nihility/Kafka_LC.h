@@ -5,7 +5,7 @@ namespace Nihility_Lightcone{
             ptr->SetAllyBaseStats(1058,582,463);
             ptr->Light_cone.Name = "Kafka_LC";
             string Erode = ptr->getName() + " Erode";
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::DMG][AType::None] += 20 + 4 * superimpose;
             }));
             
@@ -19,7 +19,7 @@ namespace Nihility_Lightcone{
             }));
 
 
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,Erode]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose,Erode](CharUnit *ptr) {
                 Enemy *enemy = turn->canCastToEnemy();
                 if(!enemy)return;
 

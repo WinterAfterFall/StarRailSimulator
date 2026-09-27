@@ -35,7 +35,7 @@ namespace Serval{
             }
         };
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::EHR][AType::None] += 18;
             ptr->Stats_type[Stats::CR][AType::None] += 18.7;
             ptr->Stats_type[Stats::RES][AType::None] += 10;
@@ -45,7 +45,7 @@ namespace Serval{
             // substats
         }));
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [ptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Serval Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
@@ -68,7 +68,7 @@ namespace Serval{
             Deal_damage();
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [](CharUnit *ptr) {
             if (turn->Name == "Serval") {
                 if (isBuffEnd(ptr,"Serval_A6")) {
                     ptr->Stats_type[Stats::ATK_P][AType::None] -= 20;
@@ -84,7 +84,7 @@ namespace Serval{
             }
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [](CharUnit *ptr) {
             Increase_energy(ptr, 15);
             if (ptr->Eidolon >= 6) {
                 ptr->Stats_type[Stats::DMG][AType::None] += 30;

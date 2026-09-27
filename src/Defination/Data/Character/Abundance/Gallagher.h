@@ -41,7 +41,7 @@ namespace Gallagher{
             return phaseStatus != PhaseStatus::BeforeTurn && ptr->Atv_stats->atv != 0;
         });
 
-        Ultimate_List.push_back({PRIORITY_DEBUFF, ptr, [ptr,Charptr = ptr]() {
+        Ultimate_List.push_back({PRIORITY_DEBUFF, ptr, [Charptr = ptr](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,Charptr,TraceType::Aoe,"Gall Ult",
                 [ptr,Charptr](shared_ptr<AllyAttackAction> &act){
@@ -66,7 +66,7 @@ namespace Gallagher{
             if (ptr->Print) CharCmd::printUltStart("Gallagher");
         }});
 
-        Reset_List.push_back({PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back({PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::BE][AType::None] += 13.3;
             ptr->Stats_type[Stats::HP_P][AType::None] += 18;
             ptr->Stats_type[Stats::RES][AType::None] += 28;
@@ -83,7 +83,7 @@ namespace Gallagher{
             }
         }});
 
-        After_turn_List.push_back({PRIORITY_IMMEDIATELY, [ptr]() {
+        After_turn_List.push_back({PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             Enemy * focusUnit = turn->canCastToEnemy();
             if(!focusUnit)return;
             if (isDebuffEnd(focusUnit,"Besotted")) {
@@ -95,13 +95,13 @@ namespace Gallagher{
         }});
 
 
-        Start_game_List.push_back({PRIORITY_IMMEDIATELY, [ptr]() {
+        Start_game_List.push_back({PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             if (ptr->Eidolon >= 1) {
                 Increase_energy(ptr, 20);
             }
         }});
 
-        WhenOnField_List.push_back({PRIORITY_IMMEDIATELY, [ptr,Charptr = ptr]() {
+        WhenOnField_List.push_back({PRIORITY_IMMEDIATELY, ptr, [Charptr = ptr](CharUnit *ptr) {
             double temp = calculateBreakEffectForBuff(ptr,50);
             if(temp>75)temp = 75;
             buffSingle(Charptr,{{Stats::HEALING_OUT,AType::None,temp - Charptr->getBuffNote("Novel Concoction")}});

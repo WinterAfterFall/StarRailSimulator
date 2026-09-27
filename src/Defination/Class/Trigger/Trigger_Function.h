@@ -11,21 +11,21 @@
 class TriggerFunc{
     public:
     int priority = 0;
+    CharUnit *owner = nullptr;
     
     TriggerFunc(int priority) : priority(priority) {}
+    TriggerFunc(int priority, CharUnit *owner) : priority(priority), owner(owner) {}
 
     static bool Trigger_cmp(const TriggerFunc& l, const TriggerFunc& r) {
         return l.priority > r.priority;  // Higher priority first
     }
 };
+// owner is required: the engine passes it back to Call as ptr
 class TriggerByYourSelf_Func : public TriggerFunc{
     public:
-    CharUnit *owner = nullptr;
-    function<void()> Call;
-    TriggerByYourSelf_Func(int priority, function<void()> Call)
-    : TriggerFunc(priority), Call(Call) {}
-    TriggerByYourSelf_Func(int priority, CharUnit *owner, function<void()> Call)
-    : TriggerFunc(priority), owner(owner), Call(Call) {}
+    function<void(CharUnit *ptr)> Call;
+    TriggerByYourSelf_Func(int priority, CharUnit *ptr, function<void(CharUnit *ptr)> Call)
+    : TriggerFunc(priority, ptr), Call(Call) {}
 };
 class TriggerByAlly_Func : public TriggerFunc{
     public:

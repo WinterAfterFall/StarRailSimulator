@@ -6,7 +6,7 @@ namespace Elation_Lightcone{
             ptr->Light_cone.Name = "Mushy Shroomy's Adventures";
             string debuffName = ptr->getName() +  " MushyShroomy Debuff";
     
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::Elation][AType::None] += 10 + superimpose * 2;
             }));
 
@@ -17,7 +17,7 @@ namespace Elation_Lightcone{
                 }
             }));
 
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,debuffName]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose,debuffName](CharUnit *ptr) {
                 Enemy* enemy = turn->canCastToEnemy();
                 if(!enemy)return;
                 if(isDebuffEnd(enemy,debuffName)){

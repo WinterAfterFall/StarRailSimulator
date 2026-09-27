@@ -92,7 +92,7 @@ namespace Kafka{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,kafka]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [kafka](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Kafka Ult",
             [ptr,kafka](shared_ptr<AllyAttackAction> &act){
@@ -114,13 +114,13 @@ namespace Kafka{
 
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::ATK_P][AType::None] += 28;
             ptr->Stats_type[Stats::EHR][AType::None] += 18;
             ptr->Stats_type[Stats::HP_P][AType::None] += 10;
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             for(auto &each : charList){
                 if(ptr->getAdjust("Kafka A2 " + each->getName())){
                     buffSingleChar(each,{{Stats::ATK_P,AType::None,100}});
@@ -133,7 +133,7 @@ namespace Kafka{
             }
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,kafka]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [kafka](CharUnit *ptr) {
             if(ptr->Technique){
                 shared_ptr<AllyAttackAction> act = 
                 make_shared<AllyAttackAction>(AType::Technique,ptr,TraceType::Aoe,"Kafka Tech",
@@ -154,7 +154,7 @@ namespace Kafka{
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,kafka]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [kafka](CharUnit *ptr) {
             if(turn->isSameName("Kafka"))kafka->addStack("Kafka Talent",1);
             Enemy *enemy = turn->canCastToEnemy();
             if(enemy&&isDebuffEnd(enemy,"Kafka Shock")){
@@ -189,7 +189,7 @@ namespace Kafka{
                 }
             }
         }));
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,kafka]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [kafka](CharUnit *ptr) {
             Enemy *enemy = turn->canCastToEnemy();
             if(enemy&&isDebuffEnd(enemy,"Kafka E1")){
                 debuffSingle(enemy,{{Stats::VUL,AType::Dot,-30}});

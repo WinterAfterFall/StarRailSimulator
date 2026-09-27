@@ -80,7 +80,7 @@ resetTurn(turn);
 ## รากฐาน: `Setup_List` — เงื่อนไขที่ขึ้นกับว่าใครอยู่ในทีม
 
 ```cpp
-Setup_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,pn]() {
+Setup_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [pn](CharUnit *ptr) {
     CharUnit *sd = CharCmd::findAllyName("Sunday");
     ...
     if (sd) ptr->addUltCondition([...]{ return pn->getBuffCheck("Benison_of_Paper_and_Rites") && ...; });

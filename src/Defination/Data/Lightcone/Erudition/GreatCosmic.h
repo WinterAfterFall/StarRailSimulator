@@ -5,7 +5,7 @@ namespace Erudition_Lightcone{
             ptr->SetAllyBaseStats(953,476,331);
             ptr->Light_cone.Name = "GreatCosmic";
     
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::ATK_P][AType::None] += (6 + superimpose * 2);
                 ptr->Stats_type[Stats::DMG][AType::None] += (3+superimpose)*7;
             }));

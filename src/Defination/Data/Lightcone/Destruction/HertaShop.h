@@ -16,7 +16,7 @@ namespace Destruction_Lightcone{
                 buffSingle(ptr,{{Stats::DMG,AType::None,9.0 + 3 * superimpose}},"Aeon Dmg%",2);
             }));
 
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, [ptr,superimpose]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [superimpose](CharUnit *ptr) {
                 if (isBuffEnd(ptr,"Aeon Dmg%")) {
                 buffSingle(ptr,{{Stats::DMG,AType::None,-(9.0 + 3 * superimpose)}});
                 }

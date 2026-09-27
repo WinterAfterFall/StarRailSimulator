@@ -46,7 +46,7 @@ namespace  Anaxa{
         //     return true;
         // });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [ptr,Anaxaptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [Anaxaptr](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,Anaxaptr,TraceType::Aoe,"Anaxa Ult",
             [ptr,Anaxaptr](shared_ptr<AllyAttackAction> &act){
@@ -82,7 +82,7 @@ namespace  Anaxa{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Anaxaptr](CharUnit *ptr) {
             ptr->Stats_type[Stats::CR][AType::None] += 12;
             ptr->Stats_type[Stats::HP_P][AType::None] += 10;
             ptr->Stats_each_element[Stats::DMG][ElementType::Wind][AType::None] += 22.4;
@@ -90,7 +90,7 @@ namespace  Anaxa{
             ptr->Stats_type[Stats::DMG][AType::None] += 30;
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr]() {
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Anaxaptr](CharUnit *ptr) {
             if(!ptr->Adjust["AnaxaA4"]){
                 int cnt = 0;
                 for(int i=1; i<=Total_ally;i++){
@@ -113,7 +113,7 @@ namespace  Anaxa{
         }));
 
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Anaxaptr](CharUnit *ptr) {
             buffStackSingle(ptr,{{Stats::DEF_SHRED,AType::None,4}},3,7,"Qualitative Shift");
             for(auto &each : enemyList){
                 AnaxaDebuff(ptr,each);
@@ -125,14 +125,14 @@ namespace  Anaxa{
             }
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr]() {
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Anaxaptr](CharUnit *ptr) {
             Enemy *enemy = turn->canCastToEnemy();
             if(enemy){
             isDebuffEnd(enemy,"Sublimation");
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Anaxaptr](CharUnit *ptr) {
             Enemy *enemy = turn->canCastToEnemy();
             AllyUnit *ally = turn->canCastToAllyUnit();
             if(enemy){

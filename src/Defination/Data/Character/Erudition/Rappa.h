@@ -34,7 +34,7 @@ namespace Rappa{
             if(ptr->buffCheck["Rappa_Ult"] == 1)return false;
             return true;
         });
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [ptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [](CharUnit *ptr) {
 
             shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Single,"Rappa Ult",
@@ -79,7 +79,7 @@ namespace Rappa{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::ATK_P][AType::None] += 28;
             ptr->Stats_type[Stats::BE][AType::None] += 13.3;
             ptr->Atv_stats->flatSpeed += 9;
@@ -94,7 +94,7 @@ namespace Rappa{
 
 
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_DEBUFF, [ptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_DEBUFF, ptr, [](CharUnit *ptr) {
             Enemy *enemyUnit = turn->canCastToEnemy();
             if (enemyUnit) {
                 
@@ -137,7 +137,7 @@ namespace Rappa{
         }));
 
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, [ptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [](CharUnit *ptr) {
             if (ptr->Technique == 1) {
                 Increase_energy(ptr, 10);
                 shared_ptr<AllyAttackAction> act = 

@@ -5,11 +5,11 @@ namespace Elation_Lightcone{
             ptr->SetAllyBaseStats(1058,582,463);
             ptr->Light_cone.Name = "Hibana_LC";
     
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->Stats_type[Stats::CD][AType::None] += 40 + superimpose * 8;
             }));
 
-            Setup_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Setup_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 // effects of the same type cannot stack: only the first wearer adds SP limit
                 for(auto &each : charList){
                     if(each->Light_cone.Name != "Hibana_LC")continue;
@@ -19,7 +19,7 @@ namespace Elation_Lightcone{
                 Max_sp+=min(3,elationCount);
             }));
 
-            Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose]() {
+            Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->setStack("Hibana LC sp count",0);
             }));
 

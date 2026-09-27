@@ -111,7 +111,7 @@ namespace Luka{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,lk,FW]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [lk,FW](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Single,"Luka Ult",
             [ptr,lk,FW](shared_ptr<AllyAttackAction> &act){
@@ -129,18 +129,18 @@ namespace Luka{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,lk]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [lk](CharUnit *ptr) {
             ptr->Stats_type[Stats::ATK_P][AType::None] += 28;
             ptr->Stats_type[Stats::EHR][AType::None] += 18;
             ptr->Stats_type[Stats::DEF_P][AType::None] += 12.5;
         }));
 
         if(ptr->Eidolon>=1)
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,lk]() {
+        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [lk](CharUnit *ptr) {
             ptr->Stats_type[Stats::DMG][AType::None] += 15;
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,lk,FW]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [lk,FW](CharUnit *ptr) {
             FW(1);
             if(ptr->Technique){
             FW(1);
@@ -160,7 +160,7 @@ namespace Luka{
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,lk]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [lk](CharUnit *ptr) {
             Enemy *enemy = turn->canCastToEnemy();
             if(!enemy)return;
             if(isDebuffEnd(enemy,"Luka Bleed")){

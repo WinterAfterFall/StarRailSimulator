@@ -53,7 +53,7 @@ namespace Hyacine{
             }
             return true;
         });
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,Hycptr,Icaptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [Hycptr,Icaptr](CharUnit *ptr) {
             shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"Hyc Ult",
             [ptr,Hycptr](shared_ptr<AllyBuffAction> &act){
@@ -85,7 +85,7 @@ namespace Hyacine{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Hycptr,Icaptr](CharUnit *ptr) {
             ptr->Atv_stats->flatSpeed += 14;
             ptr->Stats_type[Stats::HP_P][AType::None] += 10;
             ptr->Stats_type[Stats::RES][AType::None] += 18;
@@ -94,7 +94,7 @@ namespace Hyacine{
         }));
 
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Hycptr,Icaptr](CharUnit *ptr) {
             if(ptr->Technique){
                 BeforeHycHeal();
                 ptr->RestoreHP(HealSrc(HealSrcType::HP,30,HealSrcType::CONST,600));
@@ -133,7 +133,7 @@ namespace Hyacine{
 
         
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr]() {
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Hycptr,Icaptr](CharUnit *ptr) {
             if(isBuffEnd(Hycptr,"After Rain")){
                 if(ptr->Print)CharCmd::printUltEnd("Hyacine");
                 buffAllAlly({
@@ -147,7 +147,7 @@ namespace Hyacine{
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Hycptr,Icaptr](CharUnit *ptr) {
             if(isBuffEnd(Icaptr,"First Light Heals the World")){
                 buffResetStack(Icaptr,{{Stats::DMG,AType::None,80}},"First Light Heals the World");
             }
@@ -256,7 +256,7 @@ namespace Hyacine{
                 buffSingle(target,{{Stats::SPD_P,AType::None,30}},"Hyacine E2",2);
             }));
 
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr]() {
+            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Hycptr,Icaptr](CharUnit *ptr) {
                 AllyUnit *allyptr = turn->canCastToAllyUnit();
                 if(allyptr&&isBuffEnd(allyptr,"Hyacine E2")){
                     buffSingle(allyptr,{{Stats::SPD_P,AType::None,-30}});
@@ -265,7 +265,7 @@ namespace Hyacine{
         }
 
         if(ptr->Eidolon>=6)
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,Hycptr,Icaptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Hycptr,Icaptr](CharUnit *ptr) {
             buffAllAlly({
                 {Stats::RESPEN,AType::None,20}
             });

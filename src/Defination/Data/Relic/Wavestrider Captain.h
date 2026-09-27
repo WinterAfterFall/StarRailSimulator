@@ -4,7 +4,7 @@ namespace Relic{
         ptr->Relic.Name = "Captain";
         string help = ptr->getName() + " help";
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->Stats_type[Stats::CD][AType::None] += 16;
         }));
 
@@ -26,7 +26,7 @@ namespace Relic{
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,help]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [help](CharUnit *ptr) {
             if(isBuffEnd(ptr,help)){
                 buffSingle(ptr,{{Stats::ATK_P,AType::None,-48}});
             }

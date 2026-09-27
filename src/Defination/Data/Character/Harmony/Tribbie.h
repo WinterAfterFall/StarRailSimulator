@@ -39,7 +39,7 @@ namespace Tribbie{
 
         ptr->Char.Print_Func = Print_Stats;
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [ptr,TBptr]() {
+        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [TBptr](CharUnit *ptr) {
 
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"TB Ult",
@@ -91,7 +91,7 @@ namespace Tribbie{
             Deal_damage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr]() {
+        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [TBptr](CharUnit *ptr) {
             ptr->Stats_type[Stats::CD][AType::None] += 37.3;
             ptr->Stats_type[Stats::CR][AType::None] += 12;
             ptr->Stats_type[Stats::HP_P][AType::None] += 10;
@@ -105,7 +105,7 @@ namespace Tribbie{
         }));
 
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr]() {
+        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [TBptr](CharUnit *ptr) {
             if (isBuffEnd(TBptr,"Tribbie_Zone")) {
                 ptr->buffCheck["Tribbie_Zone"] = 0;
                 for(auto &each : enemyList){
@@ -127,13 +127,13 @@ namespace Tribbie{
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr]() {
+        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [TBptr](CharUnit *ptr) {
             if (isBuffEnd(TBptr,"Tribbie_A2")) {
                 buffResetStack(TBptr,{{Stats::DMG, AType::None, 72}},"Tribbie_A2");
             }
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, [ptr,TBptr]() {
+        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [TBptr](CharUnit *ptr) {
             Increase_energy(ptr, 30);
             buffAllAlly({{Stats::RESPEN, AType::None, 24}});
             isHaveToAddBuff(TBptr,"Numinosity", 3);
