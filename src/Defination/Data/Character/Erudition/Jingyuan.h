@@ -46,7 +46,7 @@ namespace Jingyuan{
                 if (ptr->Print)CharCmd::printUltStart("Jingyuan");
                 ptr->stack["LL_stack"] += 3;
                 if (ptr->stack["LL_stack"] >= 10) {
-                    ptr->summonList[0]->Atv_stats->flatSpeed = 70;
+                    ptr->summonList[0]->flatSpeed = 70;
                     ptr->summonList[0]->speedBuff({Stats::FLAT_SPD,AType::None,0});
                 } else {
                     ptr->summonList[0]->speedBuff({Stats::FLAT_SPD,AType::None,30});
@@ -90,8 +90,8 @@ namespace Jingyuan{
 
             // LL
             ptr->stack["LL_stack"] = 3;
-            ptr->summonList[0]->Atv_stats->flatSpeed = 0;
-            ptr->summonList[0]->Atv_stats->speedPercent = 0;
+            ptr->summonList[0]->flatSpeed = 0;
+            ptr->summonList[0]->speedPercent = 0;
         }));
 
         Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [JYptr](CharUnit *ptr) {
@@ -177,7 +177,7 @@ namespace Jingyuan{
             buffSingle(JYptr,{{Stats::CR,AType::None,10}},"War_Marshal",2);
             ptr->stack["LL_stack"]+=2;
             if(ptr->stack["LL_stack"]>=10){
-                ptr->summonList[0]->Atv_stats->flatSpeed=70;
+                ptr->summonList[0]->flatSpeed=70;
                 ptr->summonList[0]->speedBuff({Stats::FLAT_SPD,AType::None,0});
             }else{
                 ptr->summonList[0]->speedBuff({Stats::FLAT_SPD,AType::None,20});

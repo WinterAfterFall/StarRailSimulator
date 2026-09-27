@@ -32,7 +32,6 @@ public:
             Name = unitName;
             baseSpeed = speed;
         }
-        ~ActionValueStats(){}
 
 #pragma region Get Method
     double getBaseSpeed(){
@@ -127,6 +126,11 @@ public:
     void resetATV(double baseSpeed);
 #pragma endregion
 
+    // Turn/field state: forwarded to charptr for real units, overridden by TimerATV
+    virtual bool isAlive();
+    virtual bool isAtvChangeAble();
+    virtual void runTurn();
+    virtual ~ActionValueStats(){}
 };
 
 class BuffClass{
@@ -141,6 +145,32 @@ class BuffElementClass{
     ElementType element;
     AType actionType;
     double value;
+};
+
+// ATV-only turn owner (summon / countdown) : no stats, no buffs — only a timer with its own turn
+class TimerATV : public ActionValueStats {
+public:
+    function<void()> Turn_func;
+    UnitStatus status = UnitStatus::Alive;
+
+    using ActionValueStats::speedBuff;
+    void speedBuff(BuffClass buffSet){
+        if(buffSet.statsType==Stats::FLAT_SPD)this->speedBuff(0,buffSet.value);
+        else this->speedBuff(buffSet.value,0);
+    }
+    bool isAlive() override { return status == UnitStatus::Alive; }
+    bool isDeath(){ return status == UnitStatus::Death; }
+    bool isAtvChangeAble() override {
+        return !(status == UnitStatus::Death||status == UnitStatus::AtvFreeze||status == UnitStatus::Retire);
+    }
+    void runTurn() override { Turn_func(); }
+    void summon(){
+        this->status = UnitStatus::Alive;
+        this->resetATV();
+    }
+    void death(){
+        this->status = UnitStatus::Death;
+    }
 };
 
 #endif

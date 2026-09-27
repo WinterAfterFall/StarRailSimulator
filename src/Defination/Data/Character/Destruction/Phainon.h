@@ -9,7 +9,7 @@ namespace Phainon{
         Planar(ptr);
         SetCountdownStats(ptr,ptr->Atv_stats->baseSpeed*0.6*7,"Phainon Extra Turn");
         CharUnit *pn = ptr;
-        Unit *pnCD = ptr->countdownList[0].get();
+        TimerATV *pnCD = ptr->countdownList[0].get();
         
 
         //substats
@@ -212,8 +212,8 @@ namespace Phainon{
                     pnCD->summon();
                     if(ptr->Eidolon>=1) pnCD->resetATV(pn->getBaseSpeed()*0.66*7);
                     else pnCD->resetATV(pn->getBaseSpeed()*0.6*7);
-                    Action_forward(pnCD->Atv_stats.get(),1000);
-                    pnCD->Atv_stats->extraTurn = 1;
+                    Action_forward(pnCD,1000);
+                    pnCD->extraTurn = 1;
                     pn->setBuffCountdown("PN Extra Turn", 8);
 
                     for(auto &each :allyList){
@@ -234,7 +234,7 @@ namespace Phainon{
                             }
                         }
                         for(auto &each :c->countdownList){
-                            if(each->isSameUnit(pnCD))continue;
+                            if(each.get() == pnCD)continue;
                             if(each->status==UnitStatus::Alive){
                                 each->status = UnitStatus::AtvFreeze;
                             }
@@ -360,7 +360,7 @@ namespace Phainon{
                 pn->RestoreHP(pn,HealSrc(HealSrcType::TOTAL_HP,20));
             }
             if(ptr->Eidolon>=2&&act->actionName=="PN Foundation"){
-                Action_forward(pnCD->Atv_stats.get(),1000);
+                Action_forward(pnCD,1000);
                 pn->buffEnd["PN Extra Turn"]++;
 
             }

@@ -81,7 +81,7 @@ namespace FireFly{
             // A2: Weakness Break during Combustion delays the countdown by 10% (max 3 per Combustion)
             if (ptr->getStack("FireFly A2 delay") < 3) {
                 ptr->addStack("FireFly A2 delay",1);
-                Action_forward(ptr->countdownList[0]->Atv_stats.get(), -10);
+                Action_forward(ptr->countdownList[0].get(), -10);
             }
             }
         ));

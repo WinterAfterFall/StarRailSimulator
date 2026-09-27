@@ -54,25 +54,23 @@ void SetMemoStats(CharUnit *ptr,double fixHP,double Hp_ratio,double fixSpeed,dou
 void SetCountdownStats(CharUnit *ptr,double BaseSpeed,string Name){
         int num = ptr->countdownList.size();
         int Num = ptr->Atv_stats->num;
-        ptr->countdownList.push_back(make_unique<AllyUnit>());
-        atvList.push_back(ptr->countdownList[num]->Atv_stats.get());
-        ptr->countdownList[num]->Atv_stats->baseSpeed = BaseSpeed;
-        ptr->countdownList[num]->Atv_stats->num = Num;
-        ptr->countdownList[num]->Atv_stats->Name = Name;
-        ptr->countdownList[num]->Atv_stats->side = Side::Countdown;
-        ptr->countdownList[num]->Atv_stats->charptr = ptr->countdownList[num].get();
+        ptr->countdownList.push_back(make_unique<TimerATV>());
+        atvList.push_back(ptr->countdownList[num].get());
+        ptr->countdownList[num]->baseSpeed = BaseSpeed;
+        ptr->countdownList[num]->num = Num;
+        ptr->countdownList[num]->Name = Name;
+        ptr->countdownList[num]->side = Side::Countdown;
 }
 void SetSummonStats(CharUnit *ptr,double BaseSpeed,string Name){
         int num = ptr->summonList.size();
         int Num = ptr->Atv_stats->num;
 
-        ptr->summonList.push_back(make_unique<AllyUnit>());             
-        atvList.push_back(ptr->summonList[num]->Atv_stats.get());
-        ptr->summonList[num]->Atv_stats->baseSpeed = BaseSpeed;
-        ptr->summonList[num]->Atv_stats->num = Num;
-        ptr->summonList[num]->Atv_stats->Name = Name;
-        ptr->summonList[num]->Atv_stats->side = Side::Summon;
-        ptr->summonList[num]->Atv_stats->charptr = ptr->summonList[num].get();
+        ptr->summonList.push_back(make_unique<TimerATV>());             
+        atvList.push_back(ptr->summonList[num].get());
+        ptr->summonList[num]->baseSpeed = BaseSpeed;
+        ptr->summonList[num]->num = Num;
+        ptr->summonList[num]->Name = Name;
+        ptr->summonList[num]->side = Side::Summon;
 }
 
 #endif

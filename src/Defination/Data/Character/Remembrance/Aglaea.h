@@ -48,7 +48,7 @@ namespace Aglaea{
         };
         ptr->addUltCondition([ptr,AGptr]() -> bool {
             if (ptr->countdownList[0]->isDeath() && 
-                (ptr->countdownList[0]->Atv_stats->atv > ptr->Atv_stats->atv && 
+                (ptr->countdownList[0]->atv > ptr->Atv_stats->atv && 
                 (ptr->Atv_stats->atv != ptr->Atv_stats->Max_atv))) return false;
             if (ptr->memosprite->Atv_stats->atv == 0 || ptr->Atv_stats->atv == 0) return false;
             return true;

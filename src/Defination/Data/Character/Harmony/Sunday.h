@@ -283,8 +283,8 @@ namespace Sunday{
             }
             
             //Action Forward
-            for(std::unique_ptr<Unit> &e : chooseCharacterBuff(ptr)->summonList){
-                Action_forward(e->Atv_stats.get(),100);
+            for(std::unique_ptr<TimerATV> &e : chooseCharacterBuff(ptr)->summonList){
+                Action_forward(e.get(),100);
             }
             if(auto *each = chooseCharacterBuff(ptr)->memosprite.get()){
                 Action_forward(each->Atv_stats.get(),100);

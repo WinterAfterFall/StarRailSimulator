@@ -7,6 +7,15 @@ void ActionValueStats::speedBuff(double spd_percent ,double flat_spd){
     Update_Max_atv(this);
     this->atv=this->atv/x*this->Max_atv;
 }
+bool ActionValueStats::isAlive(){
+    return !charptr || charptr->isAlive();
+}
+bool ActionValueStats::isAtvChangeAble(){
+    return !charptr || charptr->isAtvChangeAble();
+}
+void ActionValueStats::runTurn(){
+    charptr->Turn_func();
+}
 bool compareActionValueStats(ActionValueStats* a, ActionValueStats* b) {
     return a->atv > b->atv; // Sort by `atv` in descending order
 }
@@ -40,7 +49,7 @@ void All_atv_reset() {
 }
 void Action_forward(ActionValueStats *ptr,double fwd) {
     if(ptr->baseSpeed<=0)return;
-    if(!ptr->charptr->isAlive())return;
+    if(!ptr->isAlive())return;
     if (ptr->atv <= ptr->Max_atv*fwd/100 ) {
         ptr->atv = 0;
         ptr->priority = ++nextForwardPriority;
@@ -67,7 +76,7 @@ void Find_turn(){
     mx.second = 0;
 
     for(auto &each : atvList){
-        if(each->charptr&&!each->charptr->isAtvChangeAble())continue;
+        if(!each->isAtvChangeAble())continue;
         if(mx.first > each->atv){
             mx.first = each->atv;
             mx.second = each->priority;
@@ -85,7 +94,7 @@ void Find_turn(){
 
 void Atv_fix(double Atv_reduce){
     for(auto &each : atvList){
-        if(each->charptr&&!each->charptr->isAtvChangeAble())continue;
+        if(!each->isAtvChangeAble())continue;
         each->atv -= Atv_reduce;
     }
     Current_atv+=Atv_reduce;

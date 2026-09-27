@@ -61,8 +61,8 @@ void printSummaryResult(){
             cout<<e->Atv_stats->Name + " Turn : "<<e->Atv_stats->turnCnt;
             cout<< "\033[0m"<<" | ";
         }
-        for(std::unique_ptr<Unit> &e : charUnit[i]->summonList){
-            cout<<e->Atv_stats->Name + " Turn : "<<e->Atv_stats->turnCnt;
+        for(std::unique_ptr<TimerATV> &e : charUnit[i]->summonList){
+            cout<<e->Name + " Turn : "<<e->turnCnt;
             cout<< "\033[0m"<<" | ";
         }
         cout<<endl;

@@ -114,9 +114,9 @@ public:
 
     Path path;//*
     //*
-    vector<unique_ptr<Unit>> summonList;  //
+    vector<unique_ptr<TimerATV>> summonList;  //
     unique_ptr<Memosprite> memosprite;  // 
-    vector<unique_ptr<Unit>> countdownList;  // 
+    vector<unique_ptr<TimerATV>> countdownList;  // 
 
     int Technique = 1;
     //Ult condition

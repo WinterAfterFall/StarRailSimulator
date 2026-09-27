@@ -2,7 +2,7 @@
 
 void Take_action(){
 
-    if(!turn->charptr){
+    if(turn == aha.get()){
         AhaTurn();
         return; 
     }
@@ -15,7 +15,7 @@ void Take_action(){
     Print();
     if(Turn_Skip==0){
         
-        turn->charptr->Turn_func();  
+        turn->runTurn();  
         
         Deal_damage();
     }

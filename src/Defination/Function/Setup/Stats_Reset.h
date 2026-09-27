@@ -271,11 +271,11 @@ void Summon_reset(){
         for(int j=0,sz = charUnit[i]->summonList.size();j<sz;j++){  
         
         //speed
-        charUnit[i]->summonList[j]->Atv_stats->speedPercent=0;
-        charUnit[i]->summonList[j]->Atv_stats->flatSpeed=0;
-        charUnit[i]->summonList[j]->Atv_stats->turnCnt = 0;
-        charUnit[i]->summonList[j]->Atv_stats->priority = 0;
-        charUnit[i]->summonList[j]->Atv_stats->extraTurn = 0;
+        charUnit[i]->summonList[j]->speedPercent=0;
+        charUnit[i]->summonList[j]->flatSpeed=0;
+        charUnit[i]->summonList[j]->turnCnt = 0;
+        charUnit[i]->summonList[j]->priority = 0;
+        charUnit[i]->summonList[j]->extraTurn = 0;
         charUnit[i]->summonList[j]->status = UnitStatus::Alive;
 
         }
@@ -286,11 +286,11 @@ void Countdown_reset(){
         for(int j=0,sz = charUnit[i]->countdownList.size();j<sz;j++){  
         
         //speed
-        charUnit[i]->countdownList[j]->Atv_stats->speedPercent=0;
-        charUnit[i]->countdownList[j]->Atv_stats->flatSpeed=0;
-        charUnit[i]->countdownList[j]->Atv_stats->turnCnt = 0;
-        charUnit[i]->countdownList[j]->Atv_stats->priority = 0;
-        charUnit[i]->countdownList[j]->Atv_stats->extraTurn = 0;
+        charUnit[i]->countdownList[j]->speedPercent=0;
+        charUnit[i]->countdownList[j]->flatSpeed=0;
+        charUnit[i]->countdownList[j]->turnCnt = 0;
+        charUnit[i]->countdownList[j]->priority = 0;
+        charUnit[i]->countdownList[j]->extraTurn = 0;
         charUnit[i]->countdownList[j]->status = UnitStatus::Death;
         }
     }
