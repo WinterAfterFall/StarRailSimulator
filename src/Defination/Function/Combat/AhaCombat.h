@@ -63,6 +63,9 @@ void AhaInstant(int PL){
     ++(aha->turnCnt);
     int oldPL = punchline;
     punchline = PL;
+
+    BeforeAhaInstant();
+
     CharCmd::printText("Aha Instant");
     for(TriggerByYourSelf_Func &e : ElationSkill_List){
         e.Call(e.owner);
@@ -75,6 +78,9 @@ void AhaInstant(int PL){
     CBcheck.push_back({"CB Buff " + to_string(aha->turnCnt),elationCount,PL});
 
     punchline = oldPL;
+
+    // after restoring punchline so Punchline gained in the hook (e.g. Hibana E1) is kept
+    AfterAhaInstant();
 }
 // Runs only the Elation Skills whose owner name is in names (fixed Punchline PL), no Certified Banger
 void ElationSkillTrigger(int PL, const vector<string> &names){

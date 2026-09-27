@@ -23,9 +23,9 @@
 | **เทิร์นปกติของ Aha** | `AhaTurn()` — `++turnCnt` → `BeforeAhaInstant()` → เรียก `ElationSkill_List` ทุกตัว (แต่ละตัว `addToAhaInstant()`) → `runAhaInstantBar()` → แจก Certified Banger → ล้าง Punchline แล้วเติม `elationCount` → `AfterAhaInstant()` → `resetTurn(aha)` | `:39-61` |
 | Certified Banger | Elation ทุกตัวได้ `CertifiedBanger` = Punchline ตอนนั้น ชื่อ `"CB Buff <turnCnt>"` อายุ `CB_duration` (ค่าเริ่ม 2 · Yao Guang A6 +1 ใน `YaoGuang.h` Setup) + บันทึกลง `CBcheck` | `:50-53` · `Setting.h:82` |
 | ล้าง/เติม Punchline | `genPunchLine(nullptr, -punchline)` แล้ว `genPunchLine(nullptr, elationCount)` | `:55-56` |
-| hook ก่อน/หลัง Aha Instant | `BeforeAhaInstant()` / `AfterAhaInstant()` วน `BeforeAhaInstant_List` / `AfterAhaInstant_List` · ผู้ใช้ตอนนี้: Hibana E1/E2 (`AfterAhaInstant_List`) | เรียก `:42`, `:58` · ตัวฟังก์ชัน `Event.h:245-254` |
-| **Aha Instant จาก Ult ของ Yao Guang** | `AhaInstant(PL)` — ใช้ Punchline คงที่ `PL` ชั่วคราวแล้วคืนค่าเดิม (ไม่กิน Punchline จริง) · เรียก Elation Skill ทุกตัว · แจก CB · `++turnCnt` แต่ **ไม่** `resetTurn(aha)` และ **ไม่** เรียก Before/AfterAhaInstant | `:62-78` · ผู้เรียก `YaoGuang.h:97-98` (PL 20 / E1 40) |
-| **เรียก Elation Skill เฉพาะบางคน** | `ElationSkillTrigger(PL, names)` — เหมือน `AhaInstant(PL)` แต่เรียกเฉพาะ trigger ที่ `owner->getName()` อยู่ใน `names` · **ไม่แจก CB · ไม่ `++turnCnt`** · log `trigger Elation Skill : ชื่อ1, ชื่อ2` | `:80-94` · ยังไม่มีผู้เรียก |
+| hook ก่อน/หลัง Aha Instant | `BeforeAhaInstant()` / `AfterAhaInstant()` วน `BeforeAhaInstant_List` / `AfterAhaInstant_List` · ผู้ใช้ตอนนี้: Hibana E1/E2 (`AfterAhaInstant_List`) · ยิงทั้งใน `AhaTurn` และ `AhaInstant(PL)` (ไม่ยิงใน `ElationSkillTrigger`) | เรียก `:42`, `:58` (AhaTurn) · `:67`, `:83` (AhaInstant) · ตัวฟังก์ชัน `Event.h:245-254` |
+| **Aha Instant จาก Ult ของ Yao Guang** | `AhaInstant(PL)` — ใช้ Punchline คงที่ `PL` ชั่วคราวแล้วคืนค่าเดิม (ไม่กิน Punchline จริง) · เรียก Elation Skill ทุกตัว · แจก CB · `++turnCnt` · เรียก `BeforeAhaInstant()` หลังตั้ง PL และ `AfterAhaInstant()` **หลังคืน Punchline เดิม** (Punchline ที่ hook ให้ เช่น Hibana E1 จึงไม่หาย) · **ไม่** `resetTurn(aha)` | `:62-84` · ผู้เรียก `YaoGuang.h:97-98` (PL 20 / E1 40) |
+| **เรียก Elation Skill เฉพาะบางคน** | `ElationSkillTrigger(PL, names)` — เหมือน `AhaInstant(PL)` แต่เรียกเฉพาะ trigger ที่ `owner->getName()` อยู่ใน `names` · **ไม่แจก CB · ไม่ `++turnCnt`** · log `trigger Elation Skill : ชื่อ1, ชื่อ2` | `:86-100` · ยังไม่มีผู้เรียก |
 | คิว Aha Instant | `AhaInstantBar` เป็น `queue<shared_ptr<AllyActionData>>` — ใส่ได้แค่ action ฝ่ายเรา · เข้าคิวผ่าน `AllyAttackAction::addToAhaInstant()` (ข้ามถ้าผู้โจมตีไม่อยู่ในสนาม) | `Setting.h:63` |
 
 ## ผลของการใช้ตัวแทนตัวแรก
@@ -40,6 +40,5 @@ trigger ระดับ action เห็นแค่ **action ของผู้
 ## จุดที่ควรระวัง
 
 - **ไม่มีการตรวจ Ultimate หลังแต่ละ action ในคิวนี้** — user ยืนยันว่าถูกต้อง (ต่างจาก `Action_bar` ใน `Deal_damage`)
-- `AhaInstant(PL)` ไม่เรียก `AfterAhaInstant()` → Hibana E1/E2 ไม่ทำงานใน Aha Instant ที่มาจาก Ult ของ Yao Guang
 - `CB_duration` บวกใน Setup และไม่ถูกรีเซ็ต → ถ้า Setup ทีมหลายรอบในการรันเดียวค่าจะสะสม (แบบเดียวกับ `elationCount`)
 - `SetCombat.h:113` ยังแจก `"CB Buff"` ตอนเริ่มเกมด้วยอายุ 2 ตายตัว ไม่ได้ใช้ `CB_duration`
