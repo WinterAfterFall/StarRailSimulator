@@ -133,6 +133,13 @@
 - **forced taunt (ดึง aggro บังคับ)** — `enemy->tauntList` เป็น field per-enemy · `enemy->addTaunt(ally)` (มี dedup) → enemy single-target attack เล็งแค่ตัวใน list ของ enemy ตัวนั้น (AoE ไม่สน) · lifecycle pattern Mydei = ผูกกับ debuff (`debuffApply(...,"Name",turns)` + `addTaunt`) แล้ว `afterTurnList` เช็ค `isDebuffEnd(e,...)` → `e->removeTaunt(ally)` (แยกอิสระต่อ enemy ไม่ต้องนับ) · ดู [`engine-reference/instructor/Class/ActionData/EnemyActionData.md`](engine-reference/instructor/Class/ActionData/EnemyActionData.md)
 - **taunt +X%** — `ptr->tauntIncreaseChange(X)` → `taunt = baseTaunt · (1 + X/100)` · `calHitChance(pool)` ใช้ `taunt` ตัวนี้อยู่แล้ว ไม่ต้องแตะอะไรเพิ่ม · ยังไม่มีตัวละครไหนใช้ · ⚠️ ถ้าเป็น memosprite ต้องเรียกใน `whenOnFieldList` (หลัง `memospriteReset`) ไม่ใช่ `resetList`
 
+## 7.1 Extra turn = แอคชันเสริม (user 2026-09-28)
+
+- extra turn **ไม่รบกวนค่า ATV ใด ๆ** — เปรียบเสมือนแอคชันเสริมที่แค่ให้ตัวละครเลือกท่าเหมือนได้เทิร์น
+- **ห้าม `+1 turnCnt`** → ไม่กินเวลาบัฟ (`buffEnd` ↔ `turnCnt`) · ไม่ยิง before/after turn
+- วิธีทำ: สร้าง action ของท่านั้นแล้ว **push เข้า action bar ตรง ๆ** + ตั้ง `act->turnReset = false` แล้ว `dealDamage()` · **ไม่ใช้ `actionForward`**
+- ตัวอย่าง: SW999 E2 (`Elation/SilverWolf999.h` · `extraEba`) · Phainon เป็นกรณีพิเศษ (ร่างแยกที่มี countdown ของตัวเอง)
+
 ## 8. Debug — buff drift
 
 รัน sim → ดู stat ที่ ATV **1000 / 2000 / 3000 / 4000 / 5000**

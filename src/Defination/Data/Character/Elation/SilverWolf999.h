@@ -37,13 +37,17 @@ namespace SilverWolf999{
         };
 
         // E2: every 120 MMR gained inside one Godmode (initial MMR included) -> extra turn + 1 Enhanced Basic ATK use
-        function<void(double)> e2Gain = [ptr](double gained) {
+        // extra turn = push an Enhanced BA straight to the action bar with turnReset off:
+        // no turnCnt +1, so buff durations are not consumed · the +1 use is spent by that Enhanced BA
+        shared_ptr<function<void(bool)>> extraEba = make_shared<function<void(bool)>>();
+        function<void(double)> e2Gain = [ptr,extraEba](double gained) {
             if(ptr->eidolon<2||!ptr->getBuffCheck(GODMODE))return;
             ptr->buffNote["SW999 E2 MMR"] += gained;
             while(ptr->getBuffNote("SW999 E2 MMR")>=120){
                 ptr->buffNote["SW999 E2 MMR"] -= 120;
                 ptr->buffNote["SW999 EBA Left"] += 1;
-                actionForward(ptr->atvStats.get(),100);
+                (*extraEba)(true);
+                dealDamage();
             }
         };
 
@@ -162,7 +166,7 @@ namespace SilverWolf999{
             CharCmd::printUltEnd("Silver Wolf 999");
         };
 
-        function<void()> eba = [ptr,fillEbaSegment,makeLootBox,exitGodmode]() {
+        function<void(bool)> eba = [ptr,fillEbaSegment,makeLootBox,exitGodmode](bool extraTurn) {
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::BOUNCE,"SW999 EBA",
             [ptr,fillEbaSegment,makeLootBox,exitGodmode](shared_ptr<AllyAttackAction> &act){
@@ -184,13 +188,15 @@ namespace SilverWolf999{
                 if(ptr->getBuffNote("SW999 EBA Left")<=0)exitGodmode();
             });
             fillEbaSegment(act,false);
+            if(extraTurn)act->turnReset = false;
             act->addToActionBar();
         };
+        *extraEba = eba;
 
         #pragma endregion
 
         ptr->turnFunc = [ptr,ba,skill,eba]() {
-            if(ptr->getBuffCheck(GODMODE))eba();
+            if(ptr->getBuffCheck(GODMODE))eba(false);
             else if(sp>spSafety)skill();
             else ba();
         };
