@@ -1,17 +1,17 @@
 #include "../include.h"
 
-void Basic_reset(){
+void basicReset(){
     
-    for(int i=1;i<=Total_ally;i++){
+    for(int i=1;i<=totalAlly;i++){
         
         //flat atk
-        for(auto &e1:charUnit[i]->Stats_type){
+        for(auto &e1:charUnit[i]->statsType){
             for(auto &e2:e1.second){
                 e2.second = 0;
             }
 
         }
-        for(auto &e1:charUnit[i]->Stats_each_element){
+        for(auto &e1:charUnit[i]->statsEachElement){
             for(auto &e2:e1.second){
                 for(auto &e3:e2.second){
                     e3.second = 0;
@@ -23,20 +23,20 @@ void Basic_reset(){
         
         
         //ally edit
-            charUnit[i]->Atv_stats->flatSpeed = 0;
-            charUnit[i]->Atv_stats->speedPercent = 0;
-            charUnit[i]->Atv_stats->turnCnt = 0;
-            charUnit[i]->Atv_stats->priority = 0;
-            charUnit[i]->Atv_stats->extraTurn = 0;
+            charUnit[i]->atvStats->flatSpeed = 0;
+            charUnit[i]->atvStats->speedPercent = 0;
+            charUnit[i]->atvStats->turnCnt = 0;
+            charUnit[i]->atvStats->priority = 0;
+            charUnit[i]->atvStats->extraTurn = 0;
 
-            charUnit[i]->Energy_recharge = 100;
-            charUnit[i]->Current_energy = charUnit[i]->Max_energy/2;
+            charUnit[i]->energyRecharge = 100;
+            charUnit[i]->currentEnergy = charUnit[i]->maxEnergy/2;
             charUnit[i]->currentCharNum = charUnit[i]->defaultCharNum;
             charUnit[i]->currentMemoNum = charUnit[i]->defaultMemoNum;
             charUnit[i]->tauntIncrease = 0;
             charUnit[i]->taunt = charUnit[i]->baseTaunt;
             charUnit[i]->currentSheild = 0;
-            charUnit[i]->status = UnitStatus::Alive;
+            charUnit[i]->status = UnitStatus::ALIVE;
 
             
             for(auto &e:charUnit[i]->stack){
@@ -59,7 +59,7 @@ void Basic_reset(){
             }
 
             charUnit[i]->currentTotalDmg = 0;
-            for(auto &each : charUnit[i]->AvgDmgRecord){
+            for(auto &each : charUnit[i]->avgDmgRecord){
                 each.avgDmgInstance.clear();
                 each.lastNote = 0;
                 each.currentDmgRecord = 0;
@@ -79,43 +79,43 @@ void Basic_reset(){
 
 
             
-            charUnit[i]->Stats_type[Stats::ATK_P][AType::None] += 3.888*2;
-            charUnit[i]->Stats_type[Stats::FLAT_ATK][AType::None] += 352.8+38;
-            charUnit[i]->Stats_type[Stats::HP_P][AType::None] += 3.888*2;
-            charUnit[i]->Stats_type[Stats::FLAT_HP][AType::None] += 76+705.6;
-            charUnit[i]->Stats_type[Stats::DEF_P][AType::None] += 4.86*2;
-            charUnit[i]->Stats_type[Stats::FLAT_DEF][AType::None] += 38;
-            charUnit[i]->Stats_type[Stats::CR][AType::None] += 5+2.9*2;
-            charUnit[i]->Stats_type[Stats::CD][AType::None] += 50+5.8*2;
-            charUnit[i]->Stats_type[Stats::BE][AType::None] += 5.8*2;
-            charUnit[i]->Stats_type[Stats::EHR][AType::None] += 3.888*2;
-            charUnit[i]->Stats_type[Stats::RES][AType::None] += 4.32*2;
-            charUnit[i]->Atv_stats->flatSpeed += 2.3*2;
+            charUnit[i]->statsType[Stats::ATK_P][AType::NONE] += 3.888*2;
+            charUnit[i]->statsType[Stats::FLAT_ATK][AType::NONE] += 352.8+38;
+            charUnit[i]->statsType[Stats::HP_P][AType::NONE] += 3.888*2;
+            charUnit[i]->statsType[Stats::FLAT_HP][AType::NONE] += 76+705.6;
+            charUnit[i]->statsType[Stats::DEF_P][AType::NONE] += 4.86*2;
+            charUnit[i]->statsType[Stats::FLAT_DEF][AType::NONE] += 38;
+            charUnit[i]->statsType[Stats::CR][AType::NONE] += 5+2.9*2;
+            charUnit[i]->statsType[Stats::CD][AType::NONE] += 50+5.8*2;
+            charUnit[i]->statsType[Stats::BE][AType::NONE] += 5.8*2;
+            charUnit[i]->statsType[Stats::EHR][AType::NONE] += 3.888*2;
+            charUnit[i]->statsType[Stats::RES][AType::NONE] += 4.32*2;
+            charUnit[i]->atvStats->flatSpeed += 2.3*2;
 
 
-            charUnit[i]->Body(charUnit[i].get());
-            charUnit[i]->Boot(charUnit[i].get());
-            charUnit[i]->Orb(charUnit[i].get());
-            charUnit[i]->Rope(charUnit[i].get());
-            charUnit[i]->Stats_type[Stats::EHR][AType::None] += charUnit[i]->ExtraEhr;
-            charUnit[i]->Atv_stats->flatSpeed += charUnit[i]->ExtraSpeed;
-            charUnit[i]->Stats_type[Stats::ATK_P][AType::None] += charUnit[i]->ExtraAtk;
-            charUnit[i]->Stats_type[Stats::HP_P][AType::None] += charUnit[i]->ExtraHp;
-            charUnit[i]->Stats_type[Stats::DEF_P][AType::None] += charUnit[i]->ExtraDef;
+            charUnit[i]->body(charUnit[i].get());
+            charUnit[i]->boot(charUnit[i].get());
+            charUnit[i]->orb(charUnit[i].get());
+            charUnit[i]->rope(charUnit[i].get());
+            charUnit[i]->statsType[Stats::EHR][AType::NONE] += charUnit[i]->extraEhr;
+            charUnit[i]->atvStats->flatSpeed += charUnit[i]->extraSpeed;
+            charUnit[i]->statsType[Stats::ATK_P][AType::NONE] += charUnit[i]->extraAtk;
+            charUnit[i]->statsType[Stats::HP_P][AType::NONE] += charUnit[i]->extraHp;
+            charUnit[i]->statsType[Stats::DEF_P][AType::NONE] += charUnit[i]->extraDef;
             
     }
 
 
 
         //enemy edit
-        for(int i=1;i<=Total_enemy;i++){
-            for(auto &e1:enemyUnit[i]->Stats_type){
+        for(int i=1;i<=totalEnemy;i++){
+            for(auto &e1:enemyUnit[i]->statsType){
                 for(auto &e2:e1.second){
                     e2.second = 0;
                 }
 
             }
-            for(auto &e1:enemyUnit[i]->Stats_each_element){
+            for(auto &e1:enemyUnit[i]->statsEachElement){
                 for(auto &e2:e1.second){
                     for(auto &e3:e2.second){
                         e3.second = 0;
@@ -124,29 +124,29 @@ void Basic_reset(){
                 }
 
         }
-            enemyUnit[i]->Atv_stats->flatSpeed = 0;
-            enemyUnit[i]->Atv_stats->speedPercent = 0;
-            enemyUnit[i]->Atv_stats->turnCnt = 0;
-            enemyUnit[i]->Atv_stats->priority = 0;
-            enemyUnit[i]->Atv_stats->extraTurn = 0;
-            enemyUnit[i]->Toughness_status=1;
+            enemyUnit[i]->atvStats->flatSpeed = 0;
+            enemyUnit[i]->atvStats->speedPercent = 0;
+            enemyUnit[i]->atvStats->turnCnt = 0;
+            enemyUnit[i]->atvStats->priority = 0;
+            enemyUnit[i]->atvStats->extraTurn = 0;
+            enemyUnit[i]->toughnessStatus=1;
             enemyUnit[i]->toughnessAvgMultiplier = 0;
 
-            enemyUnit[i]->Current_toughness=enemyUnit[i]->Max_toughness;
-            enemyUnit[i]->Total_debuff=0;
+            enemyUnit[i]->currentToughness=enemyUnit[i]->maxToughness;
+            enemyUnit[i]->totalDebuff=0;
             enemyUnit[i]->tauntList.clear();
             enemyUnit[i]->atkPercent = 0;
             enemyUnit[i]->dmgPercent = 0;
-            enemyUnit[i]->AoeCharge = 0;
-            enemyUnit[i]->status = UnitStatus::Alive;
+            enemyUnit[i]->aoeCharge = 0;
+            enemyUnit[i]->status = UnitStatus::ALIVE;
 
-            for(auto &e: enemyUnit[i]->AttackCoolDown){
+            for(auto &e: enemyUnit[i]->attackCoolDown){
                 e.second = 0;
             }
             
             
-            for(auto &e: enemyUnit[i]->Weakness_type){
-                e.second = enemyUnit[i]->Default_Weakness_type[e.first];
+            for(auto &e: enemyUnit[i]->weaknessType){
+                e.second = enemyUnit[i]->defaultWeaknessType[e.first];
             }
 
             for(auto &e: enemyUnit[i]->debuffCheck){
@@ -163,27 +163,27 @@ void Basic_reset(){
             }
             
             
-            enemyUnit[i]->Total_toughness_broken_time =0;
-            enemyUnit[i]->when_toughness_broken = 0;
+            enemyUnit[i]->totalToughnessBrokenTime =0;
+            enemyUnit[i]->whenToughnessBroken = 0;
             enemyUnit[i]->breakDotList.clear();
             enemyUnit[i]->breakEngList.clear();
             enemyUnit[i]->breakFrzList.clear();
             enemyUnit[i]->breakImsList.clear();
             
-            enemyUnit[i]->ShockCount = 0;
-            enemyUnit[i]->WindSheerCount = 0;
-            enemyUnit[i]->BleedCount = 0;
-            enemyUnit[i]->BurnCount = 0;
-            enemyUnit[i]->DotCount = 0;
+            enemyUnit[i]->shockCount = 0;
+            enemyUnit[i]->windSheerCount = 0;
+            enemyUnit[i]->bleedCount = 0;
+            enemyUnit[i]->burnCount = 0;
+            enemyUnit[i]->dotCount = 0;
             
-            enemyUnit[i]->Stats_each_element[Stats::RESPEN][ElementType::Fire][AType::None] = - enemyUnit[i]->DefaultElementRes[ElementType::Fire];
-            enemyUnit[i]->Stats_each_element[Stats::RESPEN][ElementType::Ice][AType::None] = -enemyUnit[i]->DefaultElementRes[ElementType::Ice];
-            enemyUnit[i]->Stats_each_element[Stats::RESPEN][ElementType::Quantum][AType::None] = -enemyUnit[i]->DefaultElementRes[ElementType::Quantum];
-            enemyUnit[i]->Stats_each_element[Stats::RESPEN][ElementType::Wind][AType::None] = -enemyUnit[i]->DefaultElementRes[ElementType::Wind];
-            enemyUnit[i]->Stats_each_element[Stats::RESPEN][ElementType::Lightning][AType::None] = -enemyUnit[i]->DefaultElementRes[ElementType::Lightning];
-            enemyUnit[i]->Stats_each_element[Stats::RESPEN][ElementType::Physical][AType::None] = -enemyUnit[i]->DefaultElementRes[ElementType::Physical];
-            enemyUnit[i]->Stats_each_element[Stats::RESPEN][ElementType::Imaginary][AType::None] = -enemyUnit[i]->DefaultElementRes[ElementType::Imaginary];
-            for(auto &e: enemyUnit[i]->Weakness_typeCountdown){
+            enemyUnit[i]->statsEachElement[Stats::RESPEN][ElementType::FIRE][AType::NONE] = - enemyUnit[i]->defaultElementRes[ElementType::FIRE];
+            enemyUnit[i]->statsEachElement[Stats::RESPEN][ElementType::ICE][AType::NONE] = -enemyUnit[i]->defaultElementRes[ElementType::ICE];
+            enemyUnit[i]->statsEachElement[Stats::RESPEN][ElementType::QUANTUM][AType::NONE] = -enemyUnit[i]->defaultElementRes[ElementType::QUANTUM];
+            enemyUnit[i]->statsEachElement[Stats::RESPEN][ElementType::WIND][AType::NONE] = -enemyUnit[i]->defaultElementRes[ElementType::WIND];
+            enemyUnit[i]->statsEachElement[Stats::RESPEN][ElementType::LIGHTNING][AType::NONE] = -enemyUnit[i]->defaultElementRes[ElementType::LIGHTNING];
+            enemyUnit[i]->statsEachElement[Stats::RESPEN][ElementType::PHYSICAL][AType::NONE] = -enemyUnit[i]->defaultElementRes[ElementType::PHYSICAL];
+            enemyUnit[i]->statsEachElement[Stats::RESPEN][ElementType::IMAGINARY][AType::NONE] = -enemyUnit[i]->defaultElementRes[ElementType::IMAGINARY];
+            for(auto &e: enemyUnit[i]->weaknessTypeCountdown){
                 e.second = 0;
             }
             enemyUnit[i]->currentWeaknessElementAmount = enemyUnit[i]->defaultWeaknessElementAmount;
@@ -192,16 +192,16 @@ void Basic_reset(){
     
 
 }
-void Memosprite_reset(){
+void memospriteReset(){
     for(auto &each : charList){
         if(auto *memo = each->memosprite.get()){
-            for(auto &e1:memo->Stats_type){
+            for(auto &e1:memo->statsType){
                 for(auto &e2:e1.second){
                     e2.second = 0;
                 }
 
             }
-            for(auto &e1:memo->Stats_each_element){
+            for(auto &e1:memo->statsEachElement){
                 for(auto &e2:e1.second){
                     for(auto &e3:e2.second){
                         e3.second = 0;
@@ -210,25 +210,25 @@ void Memosprite_reset(){
                 }
 
             }
-            for(auto &e1:each->Stats_type){
+            for(auto &e1:each->statsType){
                 for(auto &e2:e1.second){
-                    memo->Stats_type[e1.first][e2.first] = e2.second;
+                    memo->statsType[e1.first][e2.first] = e2.second;
                 }
 
             }
-            for(auto &e1:each->Stats_each_element){
+            for(auto &e1:each->statsEachElement){
                 for(auto &e2:e1.second){
                     for(auto &e3:e2.second){
-                        memo->Stats_each_element[e1.first][e2.first][e3.first] = e3.second;
+                        memo->statsEachElement[e1.first][e2.first][e3.first] = e3.second;
                     }
 
                 }
 
             }
-            for(auto &e :memo->Stats_type[Stats::FLAT_HP]){    
-                e.second *=(memo->Unit_Hp_Ratio/100);
+            for(auto &e :memo->statsType[Stats::FLAT_HP]){    
+                e.second *=(memo->unitHpRatio/100);
             }
-            memo->Stats_type[Stats::FLAT_HP][AType::None] += memo->fixHP;
+            memo->statsType[Stats::FLAT_HP][AType::NONE] += memo->fixHP;
         //speed
         
             for(auto &e:memo->stack){
@@ -247,18 +247,18 @@ void Memosprite_reset(){
                 e.second = nullptr;
             }
             
-        memo->Atv_stats->turnCnt = 0;
-        memo->Atv_stats->priority = 0;
-        memo->Atv_stats->extraTurn = 0;
-        memo->Atv_stats->baseSpeed = 
-        memo->fixSpeed + calculateSpeedOnStats(each)*memo->Unit_Speed_Ratio/100;
-        memo->Atv_stats->speedPercent = 0;
-        memo->Atv_stats->flatSpeed = 0;
+        memo->atvStats->turnCnt = 0;
+        memo->atvStats->priority = 0;
+        memo->atvStats->extraTurn = 0;
+        memo->atvStats->baseSpeed = 
+        memo->fixSpeed + calculateSpeedOnStats(each)*memo->unitSpeedRatio/100;
+        memo->atvStats->speedPercent = 0;
+        memo->atvStats->flatSpeed = 0;
         memo->currentCharNum = memo->defaultCharNum;
         memo->currentMemoNum = memo->defaultMemoNum;
         memo->currentSheild = 0;
         memo->currentHP = 0;
-        memo->status = UnitStatus::Death;
+        memo->status = UnitStatus::DEATH;
         memo->tauntIncrease = 0;
         memo->taunt = memo->baseTaunt;
 
@@ -266,8 +266,8 @@ void Memosprite_reset(){
         
     }
 }
-void Summon_reset(){
-    for(int i=1;i<=Total_ally;i++){
+void summonReset(){
+    for(int i=1;i<=totalAlly;i++){
         for(int j=0,sz = charUnit[i]->summonList.size();j<sz;j++){  
         
         //speed
@@ -276,13 +276,13 @@ void Summon_reset(){
         charUnit[i]->summonList[j]->turnCnt = 0;
         charUnit[i]->summonList[j]->priority = 0;
         charUnit[i]->summonList[j]->extraTurn = 0;
-        charUnit[i]->summonList[j]->status = UnitStatus::Alive;
+        charUnit[i]->summonList[j]->status = UnitStatus::ALIVE;
 
         }
     }
 }
-void Countdown_reset(){
-    for(int i=1;i<=Total_ally;i++){
+void countdownReset(){
+    for(int i=1;i<=totalAlly;i++){
         for(int j=0,sz = charUnit[i]->countdownList.size();j<sz;j++){  
         
         //speed
@@ -291,7 +291,7 @@ void Countdown_reset(){
         charUnit[i]->countdownList[j]->turnCnt = 0;
         charUnit[i]->countdownList[j]->priority = 0;
         charUnit[i]->countdownList[j]->extraTurn = 0;
-        charUnit[i]->countdownList[j]->status = UnitStatus::Death;
+        charUnit[i]->countdownList[j]->status = UnitStatus::DEATH;
         }
     }
 }

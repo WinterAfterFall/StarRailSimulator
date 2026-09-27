@@ -1,26 +1,26 @@
 #include "../include.h"
 namespace Planar{
     void TengokuLivestream(CharUnit *ptr){
-        ptr->Planar.Name="Tengoku@Livestream";
+        ptr->Planar.name="Tengoku@Livestream";
         
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_type[Stats::CD][AType::None] += 16;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsType[Stats::CD][AType::NONE] += 16;
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+        beforeTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->setStack("Tengoku sp count",0);
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+        afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             if(isBuffEnd(ptr,"Tengoku Buff"))
-            buffSingle(ptr,{{Stats::CD,AType::None,-32}});
+            buffSingle(ptr,{{Stats::CD,AType::NONE,-32}});
         }));
 
-        Skill_point_List.push_back(TriggerSkill_point_func(PRIORITY_IMMEDIATELY, [ptr](AllyUnit *SP_maker, int SP) {
-            if(SP<0)
-            ptr->addStack("Tengoku sp count",-1*SP);
+        skillPointList.push_back(TriggerSkillPointFunc(PRIORITY_IMMEDIATELY, [ptr](AllyUnit *spMaker, int spChange) {
+            if(spChange<0)
+            ptr->addStack("Tengoku sp count",-1*spChange);
             if(ptr->getStack("Tengoku sp count")>=3)
-            buffSingle(ptr,{{Stats::CD,AType::None,32}},"Tengoku Buff",3);  
+            buffSingle(ptr,{{Stats::CD,AType::NONE,32}},"Tengoku Buff",3);  
         })); 
     }
 }

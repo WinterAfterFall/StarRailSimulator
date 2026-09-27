@@ -4,9 +4,9 @@
 
 ## หลักการตรวจ attack กับ action อื่น
 
-`AllyAttackAction` อาจมีผู้โจมตีหลายคนใน action เดียว (`AttackSetList`) เช่น joint attack จึงวนตรวจทุก `Attacking` ใน list นั้น ส่วน `AllyBuffAction` และ action ฝั่ง ally ชนิดอื่นตรวจ `Attacker` และ `actionTypeList` ของ action โดยตรง
+`AllyAttackAction` อาจมีผู้โจมตีหลายคนใน action เดียว (`attackSetList`) เช่น joint attack จึงวนตรวจทุก `Attacking` ใน list นั้น ส่วน `AllyBuffAction` และ action ฝั่ง ally ชนิดอื่นตรวจ `attacker` และ `actionTypeList` ของ action โดยตรง
 
-ดังนั้น helper ที่ใช้กับ attack หมายถึง “มีผู้โจมตีอย่างน้อยหนึ่งคนใน action นี้ตรงเงื่อนไข” ไม่ได้หมายถึง `Attacker` ตัวหลักเท่านั้น
+ดังนั้น helper ที่ใช้กับ attack หมายถึง “มีผู้โจมตีอย่างน้อยหนึ่งคนใน action นี้ตรงเงื่อนไข” ไม่ได้หมายถึง `attacker` ตัวหลักเท่านั้น
 
 ## การตรวจชื่อและเจ้าของ
 
@@ -21,7 +21,7 @@
 - `isSameAction(AllyUnit*, AType)` และ `isSameAction(string, AType)` ต้องตรงทั้งผู้โจมตีและ action type
 - `isSameOwnerAction(CharUnit*, AType)` ต้องตรงทั้งเจ้าของ (รวม memosprite) และ action type
 
-รายการที่ตรวจคือ `actionTypeList` ของผู้โจมตีแต่ละคนใน `AttackSetList` สำหรับ attack หรือ `actionTypeList` ของ action โดยตรงสำหรับ non-attack. เนื่องจากหนึ่ง action มีได้หลาย type การตรวจจึงเป็นการค้นหาสมาชิกใน list ไม่ได้ยึด type ตัวแรกเป็น type หลัก
+รายการที่ตรวจคือ `actionTypeList` ของผู้โจมตีแต่ละคนใน `attackSetList` สำหรับ attack หรือ `actionTypeList` ของ action โดยตรงสำหรับ non-attack. เนื่องจากหนึ่ง action มีได้หลาย type การตรวจจึงเป็นการค้นหาสมาชิกใน list ไม่ได้ยึด type ตัวแรกเป็น type หลัก
 
 ## การตรวจประเภทดาเมจ (เฉพาะ attack)
 

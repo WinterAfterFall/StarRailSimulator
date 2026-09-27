@@ -2,17 +2,17 @@
 namespace Erudition_Lightcone{
     function<void(CharUnit *ptr)> Passkey(int superimpose){
         return [=](CharUnit *ptr) {
-            ptr->SetAllyBaseStats(741,370,265);
-            ptr->Light_cone.Name = "Passkey";
+            ptr->setAllyBaseStats(741,370,265);
+            ptr->lightCone.name = "Passkey";
             
 
-            Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
-                if(turn->isSameName(ptr->Atv_stats->Name))ptr->setBuffCheck("Passkey",0);
+            beforeTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+                if(turn->isSameName(ptr->atvStats->name))ptr->setBuffCheck("Passkey",0);
             }));
 
-            BeforeAllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
+            beforeAllyActionList.push_back(TriggerByAllyActionFunc(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
                 if (act->isSameAction(ptr,AType::SKILL)&&!ptr->getBuffCheck("Passkey")) {
-                    Increase_energy(ptr, 7 + superimpose);
+                    increaseEnergy(ptr, 7 + superimpose);
                     ptr->setBuffCheck("Passkey",1);
                 }
             }));

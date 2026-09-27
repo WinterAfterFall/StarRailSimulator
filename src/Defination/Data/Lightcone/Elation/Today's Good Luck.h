@@ -2,16 +2,16 @@
 namespace Elation_Lightcone{
     function<void(CharUnit *ptr)> TodayGoodLuck(int superimpose){
         return [=](CharUnit *ptr) {
-            ptr->SetAllyBaseStats(953,529,397);
-            ptr->Light_cone.Name = "Today's Good Luck";
+            ptr->setAllyBaseStats(953,529,397);
+            ptr->lightCone.name = "Today's Good Luck";
     
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
-                ptr->Stats_type[Stats::CR][AType::None] += 10.0 + superimpose *2;
+            resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+                ptr->statsType[Stats::CR][AType::NONE] += 10.0 + superimpose *2;
             }));
 
-            BeforeAllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &act) {
-                if(act->isSameAction(ptr,AType::ElationSkill)){
-                    buffStackSingle(ptr,{{Stats::Elation,AType::None,10.0 + superimpose *2}},1,2,"TDGL Stack");
+            beforeAllyActionList.push_back(TriggerByAllyActionFunc(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &act) {
+                if(act->isSameAction(ptr,AType::ELATION_SKILL)){
+                    buffStackSingle(ptr,{{Stats::ELATION,AType::NONE,10.0 + superimpose *2}},1,2,"TDGL Stack");
                 }
             }));
 

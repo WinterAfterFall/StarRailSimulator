@@ -1,18 +1,18 @@
 # `src/Defination/Function/Setup/Stats_Reset.h`
 
-## `Memosprite` (จาก `Memosprite_reset` — ยังไม่ไล่ทั้งไฟล์)
+## `Memosprite` (จาก `memospriteReset` — ยังไม่ไล่ทั้งไฟล์)
 
-`class Memosprite : public AllyUnit` (`Memosprite.h`) — field เพิ่ม: `Unit_Speed_Ratio` `Unit_Hp_Ratio` (% ของเจ้าของ) · `fixHP` `fixSpeed` (flat บวกเพิ่ม)
+`class Memosprite : public AllyUnit` (`Memosprite.h`) — field เพิ่ม: `unitSpeedRatio` `unitHpRatio` (% ของเจ้าของ) · `fixHP` `fixSpeed` (flat บวกเพิ่ม)
 
-**สร้างครั้งแรก** `SetMemoStats(ptr, fixHP, Hp_ratio, fixSpeed, Speed_ratio, element, name, type)` (`StatsSet.h:30`) — เซ็ต field, `owner = ptr`, `charptr` = ตัวเอง, `num` = ของเจ้าของ, `baseHp = owner.baseHp * Hp_ratio/100`, `baseAtk`/`baseDef` = ของเจ้าของดิบ ๆ
+**สร้างครั้งแรก** `setMemoStats(ptr, fixHP, hpRatio, fixSpeed, speedRatio, element, name, type)` (`StatsSet.h:30`) — เซ็ต field, `owner = ptr`, `charptr` = ตัวเอง, `num` = ของเจ้าของ, `baseHp = owner.baseHp * Hp_ratio/100`, `baseAtk`/`baseDef` = ของเจ้าของดิบ ๆ
 
-**`Memosprite_reset()` — รันใน `Reset()` = ต่อ run (ไม่ใช่ต่อ wave)** (`Stats_Reset.h:197-270`) — จุดที่กลไกจริงเกิด:
-1. ล้าง `Stats_type` / `Stats_each_element` ของ memo → **ก๊อป `Stats_type` + `Stats_each_element` ของเจ้าของทั้งก้อนมาใส่** (`:215-229`) ณ ต้น run ก่อน `Set_Stats()` ลง substats ที่เลือกใน run นี้; `Set_Stats()` เพิ่ม substats ให้เจ้าของและ memo ภายหลัง
-2. `Stats_type[FLAT_HP]` ทุก AType `*= Unit_Hp_Ratio/100` → แล้ว `[FLAT_HP][None] += fixHP` (`:230-233`) — **`fixHP` ถูกใช้ตรงนี้** (ไม่ใช่ที่ `SetMemoStats`)
-3. `baseSpeed = fixSpeed + calculateSpeedOnStats(owner) * Unit_Speed_Ratio/100` (`:255`) — **คำนวณ ณ ต้น run ก่อน `Set_Stats()`**; `Set_Stats()` เพิ่ม flat SPD ของ substats ให้ memo แยกต่างหากตาม `Unit_Speed_Ratio` บัฟสปีดที่เจ้าของได้กลางรบ (Ruan Mei ฯลฯ) จึงไม่คำนวณ `baseSpeed` ของ memo ใหม่ — ยกเว้นบัฟสปีดที่ยิงใส่ memo โดยตรง
-4. `status = Death` · `currentHP = 0` (`:262-263`) — **memo เริ่มต้น run ในสภาพตาย** (ถูกต้องตามดีไซน์) ต้องถูก summon ด้วยสกิลกลางรบ (ต่างจาก summon ที่ `Summon_reset` ตั้ง `Alive`). ภายใน run ที่มีหลาย wave: memo ที่ summon ใน wave 0 **อยู่ต่อ** wave 1+ (`Memosprite_reset` ไม่รันซ้ำระหว่าง wave)
+**`memospriteReset()` — รันใน `reset()` = ต่อ run (ไม่ใช่ต่อ wave)** (`Stats_Reset.h:197-270`) — จุดที่กลไกจริงเกิด:
+1. ล้าง `statsType` / `statsEachElement` ของ memo → **ก๊อป `statsType` + `statsEachElement` ของเจ้าของทั้งก้อนมาใส่** (`:215-229`) ณ ต้น run ก่อน `setStats()` ลง substats ที่เลือกใน run นี้; `setStats()` เพิ่ม substats ให้เจ้าของและ memo ภายหลัง
+2. `statsType[FLAT_HP]` ทุก AType `*= Unit_Hp_Ratio/100` → แล้ว `[FLAT_HP][NONE] += fixHP` (`:230-233`) — **`fixHP` ถูกใช้ตรงนี้** (ไม่ใช่ที่ `setMemoStats`)
+3. `baseSpeed = fixSpeed + calculateSpeedOnStats(owner) * Unit_Speed_Ratio/100` (`:255`) — **คำนวณ ณ ต้น run ก่อน `setStats()`**; `setStats()` เพิ่ม flat SPD ของ substats ให้ memo แยกต่างหากตาม `unitSpeedRatio` บัฟสปีดที่เจ้าของได้กลางรบ (Ruan Mei ฯลฯ) จึงไม่คำนวณ `baseSpeed` ของ memo ใหม่ — ยกเว้นบัฟสปีดที่ยิงใส่ memo โดยตรง
+4. `status = DEATH` · `currentHP = 0` (`:262-263`) — **memo เริ่มต้น run ในสภาพตาย** (ถูกต้องตามดีไซน์) ต้องถูก summon ด้วยสกิลกลางรบ (ต่างจาก summon ที่ `summonReset` ตั้ง `ALIVE`). ภายใน run ที่มีหลาย wave: memo ที่ summon ใน wave 0 **อยู่ต่อ** wave 1+ (`memospriteReset` ไม่รันซ้ำระหว่าง wave)
 
-memosprite 2 แบบ: **สปีดคงที่** (RMC "Mem" — `fixSpeed=130, Speed_ratio=0` → 130 ตายตัว) · **อิงสปีดเจ้าของ** (Aglaea "Garmentmaker" — `fixSpeed=0, Speed_ratio=35` → 35% ของสปีด Aglaea ณ ต้น run)
+memosprite 2 แบบ: **สปีดคงที่** (RMC "Mem" — `fixSpeed=130, speedRatio=0` → 130 ตายตัว) · **อิงสปีดเจ้าของ** (Aglaea "Garmentmaker" — `fixSpeed=0, speedRatio=35` → 35% ของสปีด Aglaea ณ ต้น run)
 
 ## Base stats จาก relic เริ่มต้น
 
@@ -24,11 +24,11 @@ User ยืนยัน 2026-09-18: ตั้งใจให้ตัวละ�
 
 ## Enemy elemental resistance
 
-User ยืนยัน 2026-09-18: ระบบตั้งใจเก็บ RES ธาตุพื้นฐานของศัตรูเป็นค่าลบใน `Stats_each_element[RESPEN]` ส่วน RES PEN และการลด RES เป็นค่าบวก สูตร `calRespenMultiplier()` เริ่มจาก 100 แล้วบวกค่าทั้งหมด เช่น RES ศัตรู 20% ถูกเก็บเป็น `-20` และให้ multiplier 0.8
+User ยืนยัน 2026-09-18: ระบบตั้งใจเก็บ RES ธาตุพื้นฐานของศัตรูเป็นค่าลบใน `statsEachElement[RESPEN]` ส่วน RES PEN และการลด RES เป็นค่าบวก สูตร `calRespenMultiplier()` เริ่มจาก 100 แล้วบวกค่าทั้งหมด เช่น RES ศัตรู 20% ถูกเก็บเป็น `-20` และให้ multiplier 0.8
 
 ## Summon และ countdown
 
-2026-09-18: แก้ `Summon_reset()` และ `Countdown_reset()` ให้ล้าง `Atv_stats->extraTurn` เหมือน unit ประเภทอื่น ป้องกัน state รั่วข้าม simulation run โดยมีกรณีใช้งานจริงคือ countdown ของ Phainon ถูกตั้ง `extraTurn = 1` เมื่อใช้ Ultimate
+2026-09-18: แก้ `summonReset()` และ `countdownReset()` ให้ล้าง `atvStats->extraTurn` เหมือน unit ประเภทอื่น ป้องกัน state รั่วข้าม simulation run โดยมีกรณีใช้งานจริงคือ countdown ของ Phainon ถูกตั้ง `extraTurn = 1` เมื่อใช้ Ultimate
 
 ## ฟังก์ชันทั้งไฟล์ — อยู่ที่ไหนบ้าง
 
@@ -36,7 +36,7 @@ User ยืนยัน 2026-09-18: ระบบตั้งใจเก็บ R
 
 | ฟังก์ชัน | บรรทัด | อธิบายไว้ที่ |
 |---|---|---|
-| `Basic_reset()` | 3 | ➡️ [SetCombat.md](SetCombat.md) — ล้าง `Stats_type` / `Stats_each_element` ทั้งกอง แล้วรีเซ็ต speed, `turnCnt`, `priority` ฯลฯ ของ ally ทุกตัว · มี regression test ที่ `test/basic_reset_stats_regression.cpp` |
-| `Memosprite_reset()` | 195 | ในไฟล์นี้ (หัวข้อแรก — ยังไล่ไม่ครบทั้งฟังก์ชัน) |
-| `Summon_reset()` | 269 | ในไฟล์นี้ (หัวข้อ "Summon และ countdown") |
-| `Countdown_reset()` | 284 | ในไฟล์นี้ (หัวข้อ "Summon และ countdown") |
+| `basicReset()` | 3 | ➡️ [SetCombat.md](SetCombat.md) — ล้าง `statsType` / `statsEachElement` ทั้งกอง แล้วรีเซ็ต speed, `turnCnt`, `priority` ฯลฯ ของ ally ทุกตัว · มี regression test ที่ `test/basic_reset_stats_regression.cpp` |
+| `memospriteReset()` | 195 | ในไฟล์นี้ (หัวข้อแรก — ยังไล่ไม่ครบทั้งฟังก์ชัน) |
+| `summonReset()` | 269 | ในไฟล์นี้ (หัวข้อ "Summon และ countdown") |
+| `countdownReset()` | 284 | ในไฟล์นี้ (หัวข้อ "Summon และ countdown") |

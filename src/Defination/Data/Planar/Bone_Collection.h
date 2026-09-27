@@ -1,14 +1,14 @@
 #include "../include.h"
 namespace Planar{
     void Bone_Collection(CharUnit *ptr){
-        ptr->Planar.Name="Bone_Collection";
+        ptr->Planar.name="Bone_Collection";
         
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_type[Stats::HP_P][AType::None] += 12;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsType[Stats::HP_P][AType::NONE] += 12;
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            buffSingleChar(ptr,{{Stats::CD, AType::None, 28.0}});
+        whenOnFieldList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            buffSingleChar(ptr,{{Stats::CD, AType::NONE, 28.0}});
         }));
     }
 }

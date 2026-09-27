@@ -1,19 +1,19 @@
 #include "../include.h"
 
-Enemy* createNewEnemy(double speed,double Toughness,EnemyType type){
-    Total_enemy++; 
-    int num = Total_enemy;
+Enemy* createNewEnemy(double speed,double toughness,EnemyType type){
+    totalEnemy++; 
+    int num = totalEnemy;
     enemyUnit.push_back(make_unique<Enemy>());
     enemyList.push_back(enemyUnit[num].get());
-    atvList.push_back(enemyUnit[num]->Atv_stats.get());
-    enemyUnit[num]->Atv_stats->baseSpeed = speed;
-    enemyUnit[num]->Max_toughness = Toughness;
-    enemyUnit[num]->Target_type = type;
-    enemyUnit[num]->Atv_stats->num = num;
-    enemyUnit[num]->Atv_stats->Name = "Enemy-";
-    enemyUnit[num]->Atv_stats->Name += std::to_string(num);
-    enemyUnit[num]->Atv_stats->side = Side::Enemy;
-    enemyUnit[num]->Atv_stats->charptr = enemyUnit[num].get();
+    atvList.push_back(enemyUnit[num]->atvStats.get());
+    enemyUnit[num]->atvStats->baseSpeed = speed;
+    enemyUnit[num]->maxToughness = toughness;
+    enemyUnit[num]->targetType = type;
+    enemyUnit[num]->atvStats->num = num;
+    enemyUnit[num]->atvStats->name = "Enemy-";
+    enemyUnit[num]->atvStats->name += std::to_string(num);
+    enemyUnit[num]->atvStats->side = Side::ENEMY;
+    enemyUnit[num]->atvStats->charptr = enemyUnit[num].get();
     if(num == 2){
         enemyUnit[2]->nextToLeft = enemyUnit[1].get();
         enemyUnit[1]->nextToRight = enemyUnit[2].get();
@@ -32,41 +32,41 @@ Enemy* createNewEnemy(double speed,double Toughness,EnemyType type){
     }
     return enemyUnit[num].get();
 }
-void SetupEnemy(double speed,double Toughness,pair<double,double> energy,pair<double,double> skillRatio,pair<int,int> attackCooldown,int action,EnemyType type){    
-    Enemy *enemyPtr = createNewEnemy(speed,Toughness,type);
-    // Define the lambda function for Turn_func
-    enemyPtr->Turn_func = [enemyPtr,AoeStart = attackCooldown.first,AoeCoolDown = attackCooldown.second
-        ,BAskillRatio = skillRatio.first,AOEskillRatio = skillRatio.second
-        ,BAenergy = energy.first,AOEenergy = energy.second,action]() {
+void setupEnemy(double speed,double toughness,pair<double,double> energy,pair<double,double> skillRatio,pair<int,int> attackCooldown,int action,EnemyType type){    
+    Enemy *enemyPtr = createNewEnemy(speed,toughness,type);
+    // Define the lambda function for turnFunc
+    enemyPtr->turnFunc = [enemyPtr,aoeStart = attackCooldown.first,aoeCoolDown = attackCooldown.second
+        ,baSkillRatio = skillRatio.first,aoeSkillRatio = skillRatio.second
+        ,baEnergy = energy.first,aoeEnergy = energy.second,action]() {
         
-        if (enemyPtr->Toughness_status == 0) {
-            enemyPtr->Toughness_status = 1;
-            enemyPtr->Current_toughness = enemyPtr->Max_toughness;
-            enemyPtr->Total_toughness_broken_time += (Current_atv - enemyPtr->when_toughness_broken);
+        if (enemyPtr->toughnessStatus == 0) {
+            enemyPtr->toughnessStatus = 1;
+            enemyPtr->currentToughness = enemyPtr->maxToughness;
+            enemyPtr->totalToughnessBrokenTime += (currentAtv - enemyPtr->whenToughnessBroken);
         }
 
         for(int i=1;i<=action;i++){
-            ++enemyPtr->AoeCharge;
-            if (AoeCoolDown != 0 && AOEskillRatio!=0&& enemyPtr->AoeCharge % AoeCoolDown == AoeStart) {
-                enemyPtr->AoeAttack(AOEskillRatio,AOEenergy);
+            ++enemyPtr->aoeCharge;
+            if (aoeCoolDown != 0 && aoeSkillRatio!=0&& enemyPtr->aoeCharge % aoeCoolDown == aoeStart) {
+                enemyPtr->aoeAttack(aoeSkillRatio,aoeEnergy);
             } else{
-                enemyPtr->BaAttack(BAskillRatio,BAenergy);
+                enemyPtr->baAttack(baSkillRatio,baEnergy);
             }
         }   
         
     };
 
-    for (auto& e : Enemy_weak) {
-        enemyPtr->Weakness_type[e.first] = e.second;
+    for (auto& e : enemyWeak) {
+        enemyPtr->weaknessType[e.first] = e.second;
     }
     int amountweakness = 0;
-    for (auto& e : Enemy_weak) {
-        enemyPtr->Default_Weakness_type[e.first] = e.second;
+    for (auto& e : enemyWeak) {
+        enemyPtr->defaultWeaknessType[e.first] = e.second;
         if(e.second==1)amountweakness++;
     }
     enemyPtr->defaultWeaknessElementAmount = amountweakness;
     
-    for (auto& e : Enemy_res) {
-        enemyPtr->DefaultElementRes[e.first] = e.second;
+    for (auto& e : enemyRes) {
+        enemyPtr->defaultElementRes[e.first] = e.second;
     }
 }

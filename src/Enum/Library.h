@@ -1,5 +1,5 @@
-#ifndef ENUM_Library_H
-#define ENUM_Library_H
+#ifndef ENUM_LIBRARY_H
+#define ENUM_LIBRARY_H
 
 #include "Enum.h"
 #include "RelicEnum.h"

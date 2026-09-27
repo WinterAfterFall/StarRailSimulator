@@ -11,10 +11,10 @@ class PointerWithValue{
 
     }
 
-    static bool Less_cmp(const PointerWithValue& l, const PointerWithValue& r) {
+    static bool lessCmp(const PointerWithValue& l, const PointerWithValue& r) {
         return l.value < r.value;  // Higher priority first
     }
-    static bool Greater_cmp(const PointerWithValue& l, const PointerWithValue& r) {
+    static bool greaterCmp(const PointerWithValue& l, const PointerWithValue& r) {
         return l.value > r.value;  // Higher priority first
     }
 };

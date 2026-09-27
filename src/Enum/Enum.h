@@ -2,54 +2,54 @@
 
 enum class AType {
     TEMP,
-    None,
-    Talent,
+    NONE,
+    TALENT,
     BA,
     SKILL,
-    Ult,
-    Fua,
-    Summon,
-    Dot,
-    Break,
+    ULT,
+    FUA,
+    SUMMON,
+    DOT,
+    BREAK,
     SPB,
-    ElationDMG,
-    ElationSkill,
-    Addtional,
-    Technique,
-    Entanglement,
-    Freeze,
-    Burn,
-    Shock,
-    Bleed,
-    WindShear,
+    ELATION_DMG,
+    ELATION_SKILL,
+    ADDTIONAL,
+    TECHNIQUE,
+    ENTANGLEMENT,
+    FREEZE,
+    BURN,
+    SHOCK,
+    BLEED,
+    WIND_SHEAR,
     ERROR,
 };
 enum class UnitStatus{
-    Alive,
-    Death,
-    AtvFreeze, // ใช้ตอนอัลติ Phainon : atv หยุดนิ่ง + ไม่ได้เทิร์นจาก Find_turn (act ได้ทาง extraTurn) · ยังอยู่ในสนาม เป็นเป้าได้
-    Retire     // ใช้ตอนอัลติ Phainon : ถูกลบจากสนาม (ไม่ targetable / ไม่ exist) + atv หยุดนิ่งเช่นกัน
+    ALIVE,
+    DEATH,
+    ATV_FREEZE, // ใช้ตอนอัลติ Phainon : atv หยุดนิ่ง + ไม่ได้เทิร์นจาก findTurn (act ได้ทาง extraTurn) · ยังอยู่ในสนาม เป็นเป้าได้
+    RETIRE     // ใช้ตอนอัลติ Phainon : ถูกลบจากสนาม (ไม่ targetable / ไม่ exist) + atv หยุดนิ่งเช่นกัน
 };
 
 #pragma region ElementType
 enum class ElementType {
-    Fire,
-    Ice,
-    Lightning,
-    Wind,
-    Quantum,
-    Imaginary,
-    Physical
+    FIRE,
+    ICE,
+    LIGHTNING,
+    WIND,
+    QUANTUM,
+    IMAGINARY,
+    PHYSICAL
 };
 #pragma endregion
 
 enum class Stats {
-    Test1,
-    Test2,
-    Test3,
-    Test4,
-    Test5,
-    Test6,
+    TEST_1,
+    TEST_2,
+    TEST_3,
+    TEST_4,
+    TEST_5,
+    TEST_6,
     HP_P,
     FLAT_HP,
     ATK_P,
@@ -73,19 +73,19 @@ enum class Stats {
     SPD_P,
     BREAK_EFF,
     TOUGH_REDUCE,
-    SPB_inc,
-    MtprInc,
-    Mitigration,
-    Elation,
-    CertifiedBanger,
-    Merrymake,
+    SPB_INC,
+    MTPR_INC,
+    MITIGRATION,
+    ELATION,
+    CERTIFIED_BANGER,
+    MERRYMAKE,
 };
 enum class DotType {
-    Shock,
-    Bleed,
-    Burn,
-    WindShear,
-    General
+    SHOCK,
+    BLEED,
+    BURN,
+    WIND_SHEAR,
+    GENERAL
 };
 
 #pragma region SrcType
@@ -94,7 +94,7 @@ enum class DmgSrcType {
     HP,
     DEF,
     CONST,
-    Elation,
+    ELATION,
 };
 enum class HealSrcType {
     ATK,
@@ -106,48 +106,48 @@ enum class HealSrcType {
 };
 #pragma endregion
 enum class BreakSEType{
-            Bleed,
-            Burn,
-            Shock,
-            WindShear,
-            Freeze,
-            Entanglement,
-            Imprisonment
+            BLEED,
+            BURN,
+            SHOCK,
+            WIND_SHEAR,
+            FREEZE,
+            ENTANGLEMENT,
+            IMPRISONMENT
 };
 
 enum class Path{
-    Destruction,
-    Hunt,
-    Erudition,
-    Harmony,
-    Nihility,
-    Preservation,
-    Abundance,
-    Remembrance,
-    Elation,
+    DESTRUCTION,
+    HUNT,
+    ERUDITION,
+    HARMONY,
+    NIHILITY,
+    PRESERVATION,
+    ABUNDANCE,
+    REMEMBRANCE,
+    ELATION,
 };
 enum class Side{
-    Ally,
-    Enemy,
-    Memosprite,
-    Summon,
-    Countdown,
+    ALLY,
+    ENEMY,
+    MEMOSPRITE,
+    SUMMON,
+    COUNTDOWN,
 };
 enum class UnitType{
-    Standard,
-    Backup,
-    OutofBounds
+    STANDARD,
+    BACKUP,
+    OUT_OF_BOUNDS
 };  
 enum class EnemyType{
-    Main,
-    Adjacent,
-    Other
+    MAIN,
+    ADJACENT,
+    OTHER
 };
 enum class TraceType{
-    Single,
-    Blast,
-    Aoe,
-    Bounce
+    SINGLE,
+    BLAST,
+    AOE,
+    BOUNCE
 };
 namespace std {
     template <>
@@ -177,6 +177,6 @@ namespace std {
         }
     };
 }
-typedef unordered_map<Stats,double> Common_stats;
-typedef unordered_map<Stats,unordered_map<AType,double>> Common_stats_type; 
-typedef unordered_map<Stats, unordered_map<ElementType,unordered_map<AType,double>>> Common_stats_each_element;
+typedef unordered_map<Stats,double> CommonStats;
+typedef unordered_map<Stats,unordered_map<AType,double>> CommonStatsType; 
+typedef unordered_map<Stats, unordered_map<ElementType,unordered_map<AType,double>>> CommonStatsEachElement;

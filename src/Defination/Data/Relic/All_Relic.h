@@ -1,5 +1,5 @@
-#ifndef All_Relic_H
-#define All_Relic_H
+#ifndef ALL_RELIC_H
+#define ALL_RELIC_H
 #include"PairSet.h"
 #include"Sacerdos_Relived_Ordeal.h"
 #include"Grand_Duke.h"

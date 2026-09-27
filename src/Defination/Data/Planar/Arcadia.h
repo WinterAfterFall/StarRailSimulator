@@ -1,9 +1,9 @@
 #include "../include.h"
 namespace Planar{
     void Arcadia(CharUnit *ptr){
-        ptr->Planar.Name="Arcadia";
+        ptr->Planar.name="Arcadia";
 
-        BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
+        beforeAttackActionList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
             int cnt = 0;
             for(auto &each : allyList){
                 if(each->isExisted())cnt++;
@@ -15,7 +15,7 @@ namespace Planar{
                 buff = (cnt - 4)* 9;
             }
 
-            buffSingleChar(ptr,{{Stats::DMG,AType::None,buff - ptr->getBuffNote("Arcadia")}});
+            buffSingleChar(ptr,{{Stats::DMG,AType::NONE,buff - ptr->getBuffNote("Arcadia")}});
             ptr->setBuffNote("Arcadia",buff);
         }));
     }

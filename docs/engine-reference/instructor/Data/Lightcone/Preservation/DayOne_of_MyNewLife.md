@@ -14,11 +14,11 @@
 
 ```cpp
 // namespace Preservation_Lightcone{
-//     void DayOne_of_MyNewLife(Ally *ptr){
-//         ptr->SetAllyBaseStats(953,370,463);
-//         ptr->Light_cone.Name = "DayOne_of_MyNewLife";
-//         ptr->Light_cone.Reset_func = [](Ally *ptr){
-//             ptr->Stats_type[Stats::DEF_P][AType::None]+=24;
+//     void DayOne_of_MyNewLife(ALLY *ptr){
+//         ptr->setAllyBaseStats(953,370,463);
+//         ptr->lightCone.name = "DayOne_of_MyNewLife";
+//         ptr->lightCone.Reset_func = [](ALLY *ptr){
+//             ptr->statsType[Stats::DEF_P][AType::NONE]+=24;
 //         };
 //     }
 // }
@@ -26,11 +26,11 @@
 
 | ของเก่า | ของปัจจุบัน |
 |---|---|
-| `void DayOne_of_MyNewLife(Ally *ptr)` | `function<void(CharUnit*)> ชื่อ(int superimpose)` — เป็น factory และรับ `superimpose` |
-| `Ally *ptr` | `CharUnit *ptr` |
-| `ptr->Light_cone.Reset_func = [](Ally *ptr){...}` | `Reset_List.push_back(TriggerByYourSelf_Func(...))` |
+| `void DayOne_of_MyNewLife(ALLY *ptr)` | `function<void(CharUnit*)> ชื่อ(int superimpose)` — เป็น factory และรับ `superimpose` |
+| `ALLY *ptr` | `CharUnit *ptr` |
+| `ptr->lightCone.Reset_func = [](ALLY *ptr){...}` | `resetList.push_back(TriggerByYourSelfFunc(...))` |
 
-**เก็บฟังก์ชันไว้ในช่องของตัวเอง (`Light_cone.Reset_func`) แทนการ push เข้า list กลาง** — หลักฐานของสถาปัตยกรรมรุ่นก่อน เหมือนที่เห็นใน `../../Character/Preservation/Aventurine.md`
+**เก็บฟังก์ชันไว้ในช่องของตัวเอง (`lightCone.Reset_func`) แทนการ push เข้า list กลาง** — หลักฐานของสถาปัตยกรรมรุ่นก่อน เหมือนที่เห็นใน `../../Character/Preservation/Aventurine.md`
 
 ## ถ้าจะรื้อฟื้น
 

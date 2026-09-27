@@ -10,13 +10,13 @@
 
 | ประเด็น | V1 (ไฟล์นี้) | ปัจจุบัน (`Black Swan.h`) |
 |---|---|---|
-| **ชนิด DoT ของ Arcana** | `{DotType::WindShear}` ชนิดเดียว | `{WindShear, Bleed, Burn, Shock}` ครบ 4 ชนิดตาม kit |
+| **ชนิด DoT ของ Arcana** | `{DotType::WIND_SHEAR}` ชนิดเดียว | `{WIND_SHEAR, BLEED, BURN, SHOCK}` ครบ 4 ชนิดตาม kit |
 | **cap ของ stack** | ส่งเป็นพารามิเตอร์ `50` ให้ `dotSingleStack` ทุกครั้ง | ส่ง `1e9` (ไม่ cap ที่ระดับ helper) แล้ว clamp เองด้วย `maxArcana` หลังยิงดาเมจ |
 | **จำนวน stack ที่ยัดต่อครั้ง** | `1` ต่อครั้ง เรียกซ้ำหลายรอบ | `5` ต่อครั้ง (ตรงกับ A2 ของ kit) |
 | **การลด stack หลัง tick** | `setStack("Arcana", 1)` ตรง ๆ | `arcanaStacksAfterTick()` = หารครึ่งแบบคงขั้นต่ำ 1 |
-| **เงื่อนไขลาม adjacent** | ต้องมี stack ≥ 3 และเป็น `DotBeforeTurn` | เป็น `DotBeforeTurn` อย่างเดียว |
+| **เงื่อนไขลาม adjacent** | ต้องมี stack ≥ 3 และเป็น `DOT_BEFORE_TURN` | เป็น `DOT_BEFORE_TURN` อย่างเดียว |
 | **เงื่อนไขพิเศษที่ stack ≥ 7** | มีหลายจุด (173, 197) | ไม่มี |
-| **`AType` ของ action DoT** | `AType::WindShear` | `AType::Shock` |
+| **`AType` ของ action DoT** | `AType::WIND_SHEAR` | `AType::SHOCK` |
 
 **หลักที่เหมือนกัน**: ทั้งสองเวอร์ชันคงขั้นต่ำ 1 stack หลัง tick (V1 ตั้งเป็น 1 ตรง ๆ, ปัจจุบันหารครึ่งแต่ไม่ต่ำกว่า 1) — บันทึกไว้แล้วใน `Black Swan.md`
 

@@ -98,7 +98,7 @@ Break Effect +37.3% · SPD +5 · Effect RES +18%
 - **A4 Super Break**: threshold BE 150% → 100%, BE 300% → 150%; ต้องตี broken enemy ขณะ Combustion
 - **Complete Combustion**: countdown unit SPD 70, มี A2 หน่วง 10%×3; SPD +60 ระหว่างสถานะ; Talent DMG-reduction locked max
 - **Skill self-damage** 40% Max HP (floor ที่ HP=1) + energy refund 60% Max Energy คงที่
-- **Technique** (`Start_wave_List`, `ptr->Technique == 1`) ทำต้นทุก wave: weakness + 200% AoE + self-flush `Deal_damage()`
+- **Technique** (`startWaveList`, `ptr->Technique == 1`) ทำต้นทุก wave: weakness + 200% AoE + self-flush `dealDamage()`
 - Talent energy top-up ถึง 50% ตอนเริ่มต่อสู้ + debuff cleanse ตอน energy เต็ม
 - E1: Enhanced Skill ไม่กิน SP (สำคัญต่อ SP economy sim)
 

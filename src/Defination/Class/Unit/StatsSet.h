@@ -2,75 +2,75 @@
 #define STATSSET_H
 #include "Enemy.h"
 
-void CharUnit::SetAllyBaseStats(double BaseHp,double BaseAtk,double BaseDef){
-        this->baseHp +=BaseHp;
-        this->baseAtk +=BaseAtk;
-        this->baseDef +=BaseDef;
+void CharUnit::setAllyBaseStats(double baseHp,double baseAtk,double baseDef){
+        this->baseHp +=baseHp;
+        this->baseAtk +=baseAtk;
+        this->baseDef +=baseDef;
 }
-CharUnit* SetCharBasicStats(double BaseSpeed,double Max_Energy,double Ult_cost,int Eidolon,ElementType Element_type,Path path,string Name,UnitType unitType){
+CharUnit* setCharBasicStats(double baseSpeed,double maxEnergy,double ultCost,int eidolon,ElementType elementType,Path path,string name,UnitType unitType){
         charUnit.push_back(make_unique<CharUnit>());
-        Total_ally++;
-        int num = Total_ally;
+        totalAlly++;
+        int num = totalAlly;
         allyList.push_back(charUnit[num].get());
         charList.push_back(charUnit[num].get());
-        atvList.push_back(charUnit[num]->Atv_stats.get());
-        charUnit[num]->Atv_stats->baseSpeed = BaseSpeed;
-        charUnit[num]->Max_energy = Max_Energy;
-        charUnit[num]->Ult_cost = Ult_cost;
-        charUnit[num]->Eidolon = Eidolon;
-        charUnit[num]->Element_type = Element_type;
+        atvList.push_back(charUnit[num]->atvStats.get());
+        charUnit[num]->atvStats->baseSpeed = baseSpeed;
+        charUnit[num]->maxEnergy = maxEnergy;
+        charUnit[num]->ultCost = ultCost;
+        charUnit[num]->eidolon = eidolon;
+        charUnit[num]->elementType = elementType;
         charUnit[num]->path = path;
-        charUnit[num]->Atv_stats->num = num;
-        charUnit[num]->Atv_stats->Name = Name;
-        charUnit[num]->Atv_stats->side = Side::Ally;
-        charUnit[num]->Atv_stats->Type = unitType;
+        charUnit[num]->atvStats->num = num;
+        charUnit[num]->atvStats->name = name;
+        charUnit[num]->atvStats->side = Side::ALLY;
+        charUnit[num]->atvStats->type = unitType;
         charUnit[num]->baseTaunt = tauntValueEachPath[charUnit[num]->path];
         return charUnit[num].get();
 }
-void SetMemoStats(CharUnit *ptr,double fixHP,double Hp_ratio,double fixSpeed,double Speed_ratio,ElementType Element_type,string Name,UnitType unitType){
-        int Num = ptr->Atv_stats->num;
+void setMemoStats(CharUnit *ptr,double fixHP,double hpRatio,double fixSpeed,double speedRatio,ElementType elementType,string name,UnitType unitType){
+        int ownerNum = ptr->atvStats->num;
         
         ptr->memosprite = make_unique<Memosprite>();
         allyList.push_back(ptr->memosprite.get());
-        atvList.push_back(ptr->memosprite->Atv_stats.get());
-        ptr->memosprite->Unit_Hp_Ratio = Hp_ratio;
-        ptr->memosprite->Unit_Speed_Ratio = Speed_ratio;
-        ptr->memosprite->Atv_stats->baseSpeed = fixSpeed + Speed_ratio/100 * ptr->Atv_stats->baseSpeed;
+        atvList.push_back(ptr->memosprite->atvStats.get());
+        ptr->memosprite->unitHpRatio = hpRatio;
+        ptr->memosprite->unitSpeedRatio = speedRatio;
+        ptr->memosprite->atvStats->baseSpeed = fixSpeed + speedRatio/100 * ptr->atvStats->baseSpeed;
         ptr->memosprite->fixHP =  fixHP;
         ptr->memosprite->fixSpeed =  fixSpeed;
         ptr->memosprite->baseAtk = ptr->baseAtk;
-        ptr->memosprite->baseHp = ptr->baseHp*(ptr->memosprite->Unit_Hp_Ratio/100);
+        ptr->memosprite->baseHp = ptr->baseHp*(ptr->memosprite->unitHpRatio/100);
         ptr->memosprite->baseDef = ptr->baseDef;
-        ptr->memosprite->Element_type = Element_type;
-        ptr->memosprite->Atv_stats->num = Num;
-        ptr->memosprite->Atv_stats->Name = Name;
-        ptr->memosprite->Atv_stats->side = Side::Memosprite;
-        ptr->memosprite->Atv_stats->Type = unitType;
-        ptr->memosprite->Atv_stats->charptr = ptr->memosprite.get();
+        ptr->memosprite->elementType = elementType;
+        ptr->memosprite->atvStats->num = ownerNum;
+        ptr->memosprite->atvStats->name = name;
+        ptr->memosprite->atvStats->side = Side::MEMOSPRITE;
+        ptr->memosprite->atvStats->type = unitType;
+        ptr->memosprite->atvStats->charptr = ptr->memosprite.get();
         ptr->memosprite->owner = ptr;
         ptr->memosprite->baseTaunt = tauntValueEachPath[ptr->path];
 
 }
-void SetCountdownStats(CharUnit *ptr,double BaseSpeed,string Name){
+void setCountdownStats(CharUnit *ptr,double baseSpeed,string name){
         int num = ptr->countdownList.size();
-        int Num = ptr->Atv_stats->num;
+        int ownerNum = ptr->atvStats->num;
         ptr->countdownList.push_back(make_unique<TimerATV>());
         atvList.push_back(ptr->countdownList[num].get());
-        ptr->countdownList[num]->baseSpeed = BaseSpeed;
-        ptr->countdownList[num]->num = Num;
-        ptr->countdownList[num]->Name = Name;
-        ptr->countdownList[num]->side = Side::Countdown;
+        ptr->countdownList[num]->baseSpeed = baseSpeed;
+        ptr->countdownList[num]->num = ownerNum;
+        ptr->countdownList[num]->name = name;
+        ptr->countdownList[num]->side = Side::COUNTDOWN;
 }
-void SetSummonStats(CharUnit *ptr,double BaseSpeed,string Name){
+void setSummonStats(CharUnit *ptr,double baseSpeed,string name){
         int num = ptr->summonList.size();
-        int Num = ptr->Atv_stats->num;
+        int ownerNum = ptr->atvStats->num;
 
         ptr->summonList.push_back(make_unique<TimerATV>());             
         atvList.push_back(ptr->summonList[num].get());
-        ptr->summonList[num]->baseSpeed = BaseSpeed;
-        ptr->summonList[num]->num = Num;
-        ptr->summonList[num]->Name = Name;
-        ptr->summonList[num]->side = Side::Summon;
+        ptr->summonList[num]->baseSpeed = baseSpeed;
+        ptr->summonList[num]->num = ownerNum;
+        ptr->summonList[num]->name = name;
+        ptr->summonList[num]->side = Side::SUMMON;
 }
 
 #endif

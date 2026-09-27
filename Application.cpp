@@ -2,18 +2,18 @@
 int main(){
     
     int tAlly;
-    SetValue();
+    setValue();
     cout<<"How many character in the team : "<<endl;
     cin>>tAlly;
     for(int i=1;i<=tAlly;i++){
-        BuildSelector();
+        buildSelector();
     }
-    for(auto &each : CharSelectList){
-        each.Char(each.eidolon,each.LC,each.Relic,each.Planar);
+    for(auto &each : charSelectList){
+        each.charSetup(each.eidolon,each.lc,each.Relic,each.Planar);
     }   
-    EnemySelector();
-    SetCharacterPtr();
-    Char1->enableCheckDamageFormula(DmgFormulaMode::Crit);   
+    enemySelector();
+    setCharacterPtr();
+    char1->enableCheckDamageFormula(DmgFormulaMode::CRIT);   
 
-    Main();
+    mainLoop();
 }

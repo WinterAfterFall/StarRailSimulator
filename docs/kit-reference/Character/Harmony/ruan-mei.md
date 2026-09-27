@@ -84,7 +84,7 @@ DEF +22.5% · SPD +5 · Break Effect +37.3%
 - **Ult field**: RES PEN +25%, Thanatoplum Rebloom (delay + break-dmg 50% ตอนศัตรูจะฟื้นจาก break)
 - **A2 BE +20% ทีม** / E4 BE +100% self
 - **Talent SPD +10%** ทีม (ยกเว้นตัวเอง)
-- โค้ด: `Start_game_List` priority `PRIORITY_ACTION` (`Ruan_Mei.h:66`) + มี addToActionBar + `Deal_damage()` (technique auto-skill self-flush)
+- โค้ด: `startGameList` priority `PRIORITY_ACTION` (`Ruan_Mei.h:66`) + มี addToActionBar + `dealDamage()` (technique auto-skill self-flush)
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/ruan-mei — kit tab (review patch 3.2, calc patch 3.4, profile 01/Jun/2026)

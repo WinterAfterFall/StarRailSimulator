@@ -1,5 +1,5 @@
-#ifndef Class_Define
-#define Class_Define
+#ifndef CLASS_DEFINE
+#define CLASS_DEFINE
 
 #include "Unit/Library.h"
 #include "ActionData/Library.h"

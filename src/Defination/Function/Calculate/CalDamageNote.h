@@ -2,10 +2,10 @@
 
 bool changeMaxDamage(CharUnit *ptr){
     
-    if(ptr->AvgDmgRecord[0].maxDmgRecord < ptr->AvgDmgRecord[0].currentDmgRecord){
+    if(ptr->avgDmgRecord[0].maxDmgRecord < ptr->avgDmgRecord[0].currentDmgRecord){
         ptr->maxTotalDmg = ptr->currentTotalDmg;
         
-        for(auto &each : ptr->AvgDmgRecord){
+        for(auto &each : ptr->avgDmgRecord){
             each.maxDmgRecord = each.currentDmgRecord;
         }
 
@@ -24,18 +24,18 @@ bool changeMaxDamage(CharUnit *ptr){
         }
 
         for(int i=0,sz = ptr->bestSubstats.size();i<sz;i++){
-            ptr->bestSubstats[i] = ptr->Substats[i].second;    
+            ptr->bestSubstats[i] = ptr->substats[i].second;    
         }
         
         return true;
     }
     return false;
 }
-void Cal_AverageDamage(CharUnit *ptr,vector<Enemy*> enemyList){
-    if(Current_atv<300)return;
+void calAverageDamage(CharUnit *ptr,vector<Enemy*> enemyList){
+    if(currentAtv<300)return;
     // refresh every enemy, not only this attack's targets: a note's src may not be hit now (True DMG can retarget)
-    for(int i = 1; i<=Total_enemy ; i++ ){
-        enemyUnit[i]->toughnessAvgMultiplier = Cal_AvgToughnessMultiplier(enemyUnit[i].get(),Current_atv);
+    for(int i = 1; i<=totalEnemy ; i++ ){
+        enemyUnit[i]->toughnessAvgMultiplier = calAvgToughnessMultiplier(enemyUnit[i].get(),currentAtv);
     }
     for(auto &enemy : enemyList){
         double rec = 0;
@@ -49,26 +49,26 @@ void Cal_AverageDamage(CharUnit *ptr,vector<Enemy*> enemyList){
             rec += each.second.total*each.first.src->toughnessAvgMultiplier;
         }
         
-        if(Current_atv < ptr->AvgDmgRecord[enemy->getNum()].lastNote +20){
-            ptr->AvgDmgRecord[enemy->getNum()].
-            avgDmgInstance[ptr->AvgDmgRecord[enemy->getNum()].avgDmgInstance.size()-1] = rec/Current_atv;
+        if(currentAtv < ptr->avgDmgRecord[enemy->getNum()].lastNote +20){
+            ptr->avgDmgRecord[enemy->getNum()].
+            avgDmgInstance[ptr->avgDmgRecord[enemy->getNum()].avgDmgInstance.size()-1] = rec/currentAtv;
         }else{
-            ptr->AvgDmgRecord[enemy->getNum()].lastNote = Current_atv;
-            ptr->AvgDmgRecord[enemy->getNum()].avgDmgInstance.push_back(rec/Current_atv);
+            ptr->avgDmgRecord[enemy->getNum()].lastNote = currentAtv;
+            ptr->avgDmgRecord[enemy->getNum()].avgDmgInstance.push_back(rec/currentAtv);
         }    
 
     }
 }
-double Cal_AvgToughnessMultiplier(Enemy *target,double Total_atv){
+double calAvgToughnessMultiplier(Enemy *target,double totalAtv){
     double temp=0;
-    if(target->Toughness_status==0)
-    temp = (1*(target->Total_toughness_broken_time+(Total_atv - target->when_toughness_broken)) + 0.9*(Total_atv-(target->Total_toughness_broken_time+(Total_atv - target->when_toughness_broken))))/Total_atv; 
+    if(target->toughnessStatus==0)
+    temp = (1*(target->totalToughnessBrokenTime+(totalAtv - target->whenToughnessBroken)) + 0.9*(totalAtv-(target->totalToughnessBrokenTime+(totalAtv - target->whenToughnessBroken))))/totalAtv; 
     else
-    temp = (1*(target->Total_toughness_broken_time) + 0.9*(Total_atv-target->Total_toughness_broken_time))/Total_atv; 
+    temp = (1*(target->totalToughnessBrokenTime) + 0.9*(totalAtv-target->totalToughnessBrokenTime))/totalAtv; 
     
     return temp;
 }
-void Cal_DamageNote(shared_ptr<AllyAttackAction> &act,Enemy *src,Enemy *recv,double damage,double ratio,string name){
+void calDamageNote(shared_ptr<AllyAttackAction> &act,Enemy *src,Enemy *recv,double damage,double ratio,string name){
     CharUnit *ptr = act->getChar();
     if(act->toughnessAvgCalculate){
         ptr->currentNonRealTimeDmg[{src,recv}].total += damage * ratio/100 ;
@@ -81,21 +81,21 @@ void Cal_DamageNote(shared_ptr<AllyAttackAction> &act,Enemy *src,Enemy *recv,dou
         cout<<name<<" Total Damage : "<<damage<<" with "<<ratio<<"%"<<endl;
     }
 }
-void Cal_DamageSummary(){
+void calDamageSummary(){
     double sum;
-    for(int i = 1; i<=Total_enemy ; i++ ){
-        enemyUnit[i]->toughnessAvgMultiplier = Cal_AvgToughnessMultiplier(enemyUnit[i].get(),Current_atv);
+    for(int i = 1; i<=totalEnemy ; i++ ){
+        enemyUnit[i]->toughnessAvgMultiplier = calAvgToughnessMultiplier(enemyUnit[i].get(),currentAtv);
     }
-    for(int i=1;i<=Total_ally;i++){
+    for(int i=1;i<=totalAlly;i++){
         // Manage Avg Damage Record
-        for(int j = 1; j<=Total_enemy;j++){
+        for(int j = 1; j<=totalEnemy;j++){
             sum = 0;
-            for(auto &each : charUnit[i]->AvgDmgRecord[j].avgDmgInstance){
+            for(auto &each : charUnit[i]->avgDmgRecord[j].avgDmgInstance){
                 sum += each;
             }
             if(sum == 0)continue;
-            charUnit[i]->AvgDmgRecord[j].currentDmgRecord = sum/charUnit[i]->AvgDmgRecord[j].avgDmgInstance.size();
-            charUnit[i]->AvgDmgRecord[0].currentDmgRecord += charUnit[i]->AvgDmgRecord[j].currentDmgRecord;
+            charUnit[i]->avgDmgRecord[j].currentDmgRecord = sum/charUnit[i]->avgDmgRecord[j].avgDmgInstance.size();
+            charUnit[i]->avgDmgRecord[0].currentDmgRecord += charUnit[i]->avgDmgRecord[j].currentDmgRecord;
         }
 
         for(auto &each : charUnit[i]->currentRealTimeDmg){

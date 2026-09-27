@@ -84,7 +84,7 @@ HP +28% · CRIT DMG +24% · Effect RES +10%
 - **Skill CRIT DMG buff**: 0.24 × (CD ของ Sparkle) + 45% (E6 +0.30×CD) — ผูกกับ CD ของ Sparkle
 - **Figment/Talent** vulnerability: +4%/stack (cap 3), Cipher → +6%/stack เพิ่ม, E2 → −10% DEF/stack
 - **Skill action advance 50%** (ไม่ทำงานตอน self-target)
-- โค้ด: `Start_game_List` (`Hanabi.h:141`) — น่าจะ technique SP/energy
+- โค้ด: `startGameList` (`Hanabi.h:141`) — น่าจะ technique SP/energy
 - ระวัง: `HanabiV1.h` เป็น implement เก่า อย่าอ้างอิง
 
 ### แหล่งอ้างอิง

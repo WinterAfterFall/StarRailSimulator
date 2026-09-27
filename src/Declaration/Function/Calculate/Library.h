@@ -1,5 +1,5 @@
-#ifndef Calculate_Declration_H
-#define Calculate_Declration_H
+#ifndef CALCULATE_DECLRATION_H
+#define CALCULATE_DECLRATION_H
 #include "CalStats.h"
 #include "CalDamage.h"
 #include "CalHeal.h"

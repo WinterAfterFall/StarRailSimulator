@@ -6,18 +6,18 @@
 
 | กลุ่ม (`#pragma region`) | field | อธิบายที่ |
 |---|---|---|
-| status | `Max_energy` `Current_energy` `Ult_cost` `Energy_recharge` `Eidolon` | [Energy.md](../../Function/Combat/Energy.md) · `Eidolon` อธิบายในไฟล์นี้ |
-| Build | `Char` `Light_cone` `Relic` `Planar` | ในไฟล์นี้ (หัวข้อ Build) · [Data/README.md](../../Data/README.md) |
-| DmgRecord | `maxTotalDmg` `currentTotalDmg` `currentRealTimeDmg` `currentNonRealTimeDmg` `maxRealTimeDmg` `maxNonRealTimeDmg` `AvgDmgRecord` | [CalDamageNote.md](../../Function/Calculate/CalDamageNote.md) |
+| status | `maxEnergy` `currentEnergy` `ultCost` `energyRecharge` `eidolon` | [Energy.md](../../Function/Combat/Energy.md) · `eidolon` อธิบายในไฟล์นี้ |
+| Build | `charSetup` `lightCone` `Relic` `Planar` | ในไฟล์นี้ (หัวข้อ Build) · [Data/README.md](../../Data/README.md) |
+| DmgRecord | `maxTotalDmg` `currentTotalDmg` `currentRealTimeDmg` `currentNonRealTimeDmg` `maxRealTimeDmg` `maxNonRealTimeDmg` `avgDmgRecord` | [CalDamageNote.md](../../Function/Calculate/CalDamageNote.md) |
 | CalCheck | `checkDamage` · `checkDmgFormula*` · `checkHeal*` · `checkHpChange*` | [FormulaCheck.md](../../Function/AdjustFunction/FormulaCheck.md) |
-| Substats Reroll | `Substats` `bestSubstats` `Total_substats` `rerollActive` `rerollTargetIndex` `rerollSourceIndex` `rerollImproved` `rerollSweepBase` | [Substats_Reset.md](../../Function/Setup/Substats_Reset.md) |
+| Substats Reroll | `substats` `bestSubstats` `totalSubstats` `rerollActive` `rerollTargetIndex` `rerollSourceIndex` `rerollImproved` `rerollSweepBase` | [Substats_Reset.md](../../Function/Setup/Substats_Reset.md) |
 | Ult condition | `ultCondition` · `addUltCondition()` | [Energy.md](../../Function/Combat/Energy.md) (`ultUseCheck`) |
 | Sub-unit lists | `summonList` `memosprite` `countdownList` | ในไฟล์นี้ (เจตนาการออกแบบ ยังไม่ได้ไล่การทำงานครบ) |
-| Technique | `Technique` | ในไฟล์นี้ (ความหมายขึ้นอยู่กับตัวละคร) |
-| Relic main stats | `Body` `Boot` `Orb` `Rope` | ในไฟล์นี้ (คงค่าระหว่าง reroll substats) |
-| Requirement stats | `SpeedRequire` … `ExtraEhr` · `ApplyBaseChance` | ในไฟล์นี้ (เจตนาการออกแบบ ยังไม่ได้ไล่สูตรครบ) |
-| Print | `Print` | ในไฟล์นี้ (เปิด/ปิดการแสดงผลตอนเริ่มและจบอัลติ) |
-| Adjust | `Adjust` | ในไฟล์นี้ (ค่าปรับเฉพาะตัวละคร) |
+| Technique | `TECHNIQUE` | ในไฟล์นี้ (ความหมายขึ้นอยู่กับตัวละคร) |
+| Relic main stats | `body` `boot` `orb` `rope` | ในไฟล์นี้ (คงค่าระหว่าง reroll substats) |
+| Requirement stats | `speedRequire` … `extraEhr` · `applyBaseChance` | ในไฟล์นี้ (เจตนาการออกแบบ ยังไม่ได้ไล่สูตรครบ) |
+| Print | `print` | ในไฟล์นี้ (เปิด/ปิดการแสดงผลตอนเริ่มและจบอัลติ) |
+| Adjust | `adjust` | ในไฟล์นี้ (ค่าปรับเฉพาะตัวละคร) |
 | Path | `path` | ในไฟล์นี้ (ค่าเดียว) |
 
 ## คลาสผู้ช่วย 4 ตัว + โมเดล True DMG
@@ -26,7 +26,7 @@
 
 | คลาส | หน้าที่ |
 |---|---|
-| `Func_class` (`:6`) | คู่ `Name` + `function<void(CharUnit*)>` — "โมดูล" ที่ผูกกับตัวละคร (`Char` / `Light_cone` / `Relic` / `Planar`) |
+| `FuncClass` (`:6`) | คู่ `name` + `function<void(CharUnit*)>` — "โมดูล" ที่ผูกกับตัวละคร (`charSetup` / `lightCone` / `Relic` / `Planar`) |
 | `DamageSrc` (`:11`) | key ของสมุดดาเมจ = คู่ `Enemy* src` + `Enemy* recv` · `operator<` เทียบด้วย `recv->getNum()` เท่านั้น |
 | `DamageRecord` (`:19`) | `total` + `type[ชื่อท่า] → ดาเมจ` |
 | `DamageAvgRecord` (`:24`) | `avgDmgInstance` = snapshot `ดาเมจสะสม/Current_atv` ทุก ๆ 20 atv (`CalDamageNote.h:49-54`) · เฉลี่ยเป็น `currentDmgRecord` · `maxDmgRecord` เก็บของ run ที่ดีที่สุด |
@@ -49,9 +49,9 @@
 
 → อธิบายที่ [CalDamageNote.md](../../Function/Calculate/CalDamageNote.md)
 
-## Build — `Func_class` 4 ช่อง (`Char` / `Light_cone` / `Relic` / `Planar`)
+## Build — `FuncClass` 4 ช่อง (`charSetup` / `lightCone` / `Relic` / `Planar`)
 
-field อยู่ที่ `CharUnit.h:43-46` · `class Func_class { string Name; function<void(CharUnit*)> Print_Func; }` (`CharUnit.h:6`)
+field อยู่ที่ `CharUnit.h:43-46` · `class FuncClass { string name; function<void(CharUnit*)> printFunc; }` (`CharUnit.h:6`)
 
 ### LC / Relic / Planar ต่อเข้าตัวละครยังไง
 
@@ -61,11 +61,11 @@ field อยู่ที่ `CharUnit.h:43-46` · `class Func_class { string Nam
 
 | ช่อง | ใครเขียน | ใครอ่าน |
 |---|---|---|
-| `Light_cone.Name` | ไฟล์ LC ครบทั้ง 62 ไฟล์ | **ไม่มีแล้ว** — เดิม Tribbie / Hanabi เช็ค `"DDD"` (ลบออกแล้ว ดู [Data/README.md](../../Data/README.md)) |
-| `Relic.Name` | ไฟล์ relic | ไม่มีใครอ่าน |
-| `Planar.Name` | ไฟล์ planar | ไม่มีใครอ่าน |
-| `Char.Name` | ไม่มีใครเขียน | ไม่มีใครอ่าน |
-| `Print_Func` | Tribbie ตั้งค่า (`Tribbie.h:40`) | ไม่มีใครเรียก |
+| `lightCone.name` | ไฟล์ LC ครบทั้ง 62 ไฟล์ | **ไม่มีแล้ว** — เดิม Tribbie / Hanabi เช็ค `"DDD"` (ลบออกแล้ว ดู [Data/README.md](../../Data/README.md)) |
+| `Relic.name` | ไฟล์ relic | ไม่มีใครอ่าน |
+| `Planar.name` | ไฟล์ planar | ไม่มีใครอ่าน |
+| `charSetup.name` | ไม่มีใครเขียน | ไม่มีใครอ่าน |
+| `printFunc` | Tribbie ตั้งค่า (`Tribbie.h:40`) | ไม่มีใครเรียก |
 
 **user: เก็บทุกช่องไว้ก่อน** ถึงตอนนี้จะไม่มีใครอ่าน
 
@@ -87,38 +87,38 @@ User ยืนยัน 2026-09-18: `isSameOwner()` ตั้งใจเที�
 
 ไล่เส้นทางหลักของทั้งสาม list ครบแล้ว 2026-09-18 รวมการสร้าง/reset, การเลือกเป้าหมาย buff, การตรวจว่ามีสิ่งอัญเชิญ และสถานะเริ่มต้นของแต่ละประเภท
 
-## Main stat ของ relic — `Body` / `Boot` / `Orb` / `Rope`
+## Main stat ของ relic — `body` / `boot` / `orb` / `rope`
 
 user ยืนยัน (2026-09-15): ทั้ง 4 ช่องใช้กำหนด main stat ที่เลือกให้แต่ละช่องของ relic และคง main stat เหล่านี้ไว้ระหว่าง reroll substats
 
-- `Body` — เสื้อ
-- `Boot` — รองเท้า
-- `Orb` — ลูกแก้ว
-- `Rope` — เชือก
+- `body` — เสื้อ
+- `boot` — รองเท้า
+- `orb` — ลูกแก้ว
+- `rope` — เชือก
 
-## Requirement stats — `SpeedRequire` / `ExtraSpeed`
+## Requirement stats — `speedRequire` / `extraSpeed`
 
 คำอธิบายเจตนาการออกแบบจาก user (2026-09-15):
 
-- `SpeedRequire` — รับค่า SPD รวมที่ต้องการให้ตัวละครมี
+- `speedRequire` — รับค่า SPD รวมที่ต้องการให้ตัวละครมี
 - นำค่าเป้าหมายนี้ไปคำนวณหักลบโดยคำนึงถึง base SPD, SPD ที่มีอยู่ และบัฟ เพื่อหาว่ายังขาด SPD อีกเท่าไร
-- `ExtraSpeed` — เก็บค่า SPD ที่ยังขาดจากการคำนวณดังกล่าว เพื่อใช้ในรอบ reroll ถัดไป
+- `extraSpeed` — เก็บค่า SPD ที่ยังขาดจากการคำนวณดังกล่าว เพื่อใช้ในรอบ reroll ถัดไป
 
-ตรวจสูตรแล้ว 2026-09-18: `SpeedRequirment()` หาความเร็วปัจจุบันจาก base SPD + SPD% + flat SPD, ปัดจำนวน rolls ที่ยังขาดขึ้นด้วยค่าเฉลี่ย 2.3 แล้วเก็บใน `ExtraSpeed`; memo รับ flat SPD เพิ่มตาม `Unit_Speed_Ratio`
+ตรวจสูตรแล้ว 2026-09-18: `speedRequirment()` หาความเร็วปัจจุบันจาก base SPD + SPD% + flat SPD, ปัดจำนวน rolls ที่ยังขาดขึ้นด้วยค่าเฉลี่ย 2.3 แล้วเก็บใน `extraSpeed`; memo รับ flat SPD เพิ่มตาม `unitSpeedRatio`
 
 ### ATK / HP / DEF requirements
 
 คู่ต่อไปนี้ใช้หลักการเดียวกับ SPD คือ `*Require` เก็บค่า stat รวมที่ต้องการ และ `Extra*` เก็บเปอร์เซ็นต์ stat ที่ได้จากการแลก substat rolls เพื่อให้ถึงเป้าหมาย:
 
-- `AtkRequire` / `ExtraAtk`
-- `HpRequire` / `ExtraHp`
-- `DefRequire` / `ExtraDef`
+- `atkRequire` / `extraAtk`
+- `hpRequire` / `extraHp`
+- `defRequire` / `extraDef`
 
 ตรวจโค้ดและยืนยันกับ user ใหม่ 2026-09-18:
 
-- `SetCombat()` เรียก `AtkRequirment()`, `HpRequirment()` และ `DefRequirment()` ให้ตัวละครทุกตัว จึงไม่ใช่ dead code
+- `SetCombat()` เรียก `atkRequirment()`, `hpRequirment()` และ `defRequirment()` ให้ตัวละครทุกตัว จึงไม่ใช่ dead code
 - ATK มี caller จริง: Hibana ตั้ง `setAtkRequire(3600)`
-- ยังไม่พบตัวละครตั้ง `HpRequire` หรือ `DefRequire` ในโค้ดปัจจุบัน จึงต่อระบบไว้แล้วแต่ยังไม่มีข้อมูลเข้า
+- ยังไม่พบตัวละครตั้ง `hpRequire` หรือ `defRequire` ในโค้ดปัจจุบัน จึงต่อระบบไว้แล้วแต่ยังไม่มีข้อมูลเข้า
 - ทั้งสามสูตรปัดจำนวน roll ขึ้น หัก roll ผ่าน `changeTotalSubStats()` แล้วเพิ่มค่า `Extra*` และ stat% ให้ตัวละครกับ memosprite
 
 ### ค่าเฉลี่ยต่อหนึ่ง substat roll
@@ -131,48 +131,48 @@ User ยืนยัน 2026-09-18 ว่าค่าคงที่ใน `CalR
 
 ระบบนำส่วนที่ยังขาดหารด้วยค่านี้และปัดขึ้น เพื่อหาจำนวน roll ที่ต้องกันไว้ก่อน reroll stats ส่วนที่เหลือ
 
-2026-09-18: แก้ `EhrRequirment()` ให้เพิ่ม `Stats_type[EHR]` ด้วย `x` ที่เพิ่งจัดสรรในรอบนั้น แทนการเพิ่ม `ExtraEhr` สะสมทั้งก้อน มิฉะนั้นกรณีมี `ExtraEhr` เดิมแล้วยังต้องเติมเพิ่มจะบวกค่าเดิมซ้ำ
+2026-09-18: แก้ `ehrRequirment()` ให้เพิ่ม `statsType[EHR]` ด้วย `x` ที่เพิ่งจัดสรรในรอบนั้น แทนการเพิ่ม `extraEhr` สะสมทั้งก้อน มิฉะนั้นกรณีมี `extraEhr` เดิมแล้วยังต้องเติมเพิ่มจะบวกค่าเดิมซ้ำ
 
-User ยืนยัน 2026-09-18: ลำดับเรียก requirement ใน `Reset()` คือ priority เมื่อ substat rolls ไม่พอ โดยกันให้ ATK → HP → DEF → SPD → EHR ตามลำดับ; `changeTotalSubStats()` clamp จำนวนที่จัดสรรตาม rolls ที่เหลือ จึงตั้งใจให้ requirement ช่วงท้ายถูกตัดก่อน
+User ยืนยัน 2026-09-18: ลำดับเรียก requirement ใน `reset()` คือ priority เมื่อ substat rolls ไม่พอ โดยกันให้ ATK → HP → DEF → SPD → EHR ตามลำดับ; `changeTotalSubStats()` clamp จำนวนที่จัดสรรตาม rolls ที่เหลือ จึงตั้งใจให้ requirement ช่วงท้ายถูกตัดก่อน
 
-2026-09-18: แก้ `HpRequirment()` ให้เพิ่ม HP% ที่จัดสรรใหม่แก่ memosprite เต็มค่า `x` เหมือน ATK%/DEF% เดิมโค้ดคูณ `Unit_Hp_Ratio` ซ้ำทั้งที่ `baseHp` ของ memo ถูกสเกลด้วย ratio แล้ว ทำให้ HP% ที่ได้รับต่ำเกินไป
+2026-09-18: แก้ `hpRequirment()` ให้เพิ่ม HP% ที่จัดสรรใหม่แก่ memosprite เต็มค่า `x` เหมือน ATK%/DEF% เดิมโค้ดคูณ `unitHpRatio` ซ้ำทั้งที่ `baseHp` ของ memo ถูกสเกลด้วย ratio แล้ว ทำให้ HP% ที่ได้รับต่ำเกินไป
 
-### EHR — `ApplyBaseChance` / `EhrRequire` / `ExtraEhr`
+### EHR — `applyBaseChance` / `ehrRequire` / `extraEhr`
 
 คำอธิบายเจตนาการออกแบบจาก user (2026-09-15):
 
-- `ApplyBaseChance` — อัตราสร้างสถานะที่นำมาใช้คำนวณว่าต้องการ EHR เท่าไร
-- `EhrRequire` — ค่า EHR ที่ต้องการจากการคำนวณดังกล่าว
-- `ExtraEhr` — ส่วนของ EHR ที่ยังขาดหลังคำนึงถึงค่าที่มีและบัฟ เพื่อใช้ในรอบ reroll ถัดไป ตามหลักเดียวกับ `SpeedRequire` / `ExtraSpeed`
+- `applyBaseChance` — อัตราสร้างสถานะที่นำมาใช้คำนวณว่าต้องการ EHR เท่าไร
+- `ehrRequire` — ค่า EHR ที่ต้องการจากการคำนวณดังกล่าว
+- `extraEhr` — ส่วนของ EHR ที่ยังขาดหลังคำนึงถึงค่าที่มีและบัฟ เพื่อใช้ในรอบ reroll ถัดไป ตามหลักเดียวกับ `speedRequire` / `extraSpeed`
 
 user ยืนยัน (2026-09-15): ส่วน EHR **ใช้งานจริงแล้ว**
 
-ตรวจสูตรแล้ว 2026-09-18: เมื่อมี `ApplyBaseChance` จะหา EHR ที่ต้องใช้ให้โอกาสติดหลังหัก `Enemy_effect_res` เท่ากับ 100%; เปรียบเทียบกับ `EhrRequire` แล้วเลือกเป้าหมายที่สูงกว่า จากนั้นปัดจำนวน rolls ที่ขาดขึ้นด้วยค่าเฉลี่ย 3.888
+ตรวจสูตรแล้ว 2026-09-18: เมื่อมี `applyBaseChance` จะหา EHR ที่ต้องใช้ให้โอกาสติดหลังหัก `enemyEffectRes` เท่ากับ 100%; เปรียบเทียบกับ `ehrRequire` แล้วเลือกเป้าหมายที่สูงกว่า จากนั้นปัดจำนวน rolls ที่ขาดขึ้นด้วยค่าเฉลี่ย 3.888
 
-## `Technique`
+## `TECHNIQUE`
 
-user ยืนยัน (2026-09-15): ความหมายของ `Technique` ขึ้นอยู่กับตัวละคร บางตัวใช้เป็นค่าเปิด/ปิดการใช้ Technique ส่วนบางตัวใช้กำหนดจำนวนครั้งที่ใช้ จึงต้องดูการตีความค่าในโค้ดของตัวละครนั้น
+user ยืนยัน (2026-09-15): ความหมายของ `TECHNIQUE` ขึ้นอยู่กับตัวละคร บางตัวใช้เป็นค่าเปิด/ปิดการใช้ Technique ส่วนบางตัวใช้กำหนดจำนวนครั้งที่ใช้ จึงต้องดูการตีความค่าในโค้ดของตัวละครนั้น
 
-## `Print`
+## `print`
 
-user ยืนยัน (2026-09-15): `Print` ใช้เปิด/ปิดการแสดงผลตอนเริ่มอัลติและจบอัลติ
+user ยืนยัน (2026-09-15): `print` ใช้เปิด/ปิดการแสดงผลตอนเริ่มอัลติและจบอัลติ
 
-## `Adjust` — ค่าปรับเฉพาะตัวละคร
+## `adjust` — ค่าปรับเฉพาะตัวละคร
 
-คำอธิบายเจตนาการออกแบบจาก user (2026-09-15): `Adjust` เก็บค่าที่เปิดให้ปรับสำหรับตัวละครบางตัว โดยความหมายของแต่ละค่าขึ้นอยู่กับตัวละครนั้น
+คำอธิบายเจตนาการออกแบบจาก user (2026-09-15): `adjust` เก็บค่าที่เปิดให้ปรับสำหรับตัวละครบางตัว โดยความหมายของแต่ละค่าขึ้นอยู่กับตัวละครนั้น
 
 ตัวอย่าง: อัลติของ Cipher สามารถกำหนดได้ว่า True DMG จะโฟกัสใส่กี่เป้าหมาย ตามคำอธิบายของ user ในเกมจำนวนเป้าหมายขึ้นอยู่กับศัตรูที่เหลือ 1–3 ตัว แต่ใน sim ศัตรูไม่ตาย จึงให้กำหนดค่านี้เองเพื่อจำลองสถานการณ์ดังกล่าว
 
 ## `path`
 
-`Path path` — ตัวละครมี Path เดียว ตั้งค่าใน `SetCharBasicStats` · เดิมเป็น `vector<Path>` เผื่อหลาย Path (user อธิบาย 2026-09-15) · refactor เป็นค่าเดียวแล้ว (2026-09-25)
+`Path path` — ตัวละครมี Path เดียว ตั้งค่าใน `setCharBasicStats` · เดิมเป็น `vector<Path>` เผื่อหลาย Path (user อธิบาย 2026-09-15) · refactor เป็นค่าเดียวแล้ว (2026-09-25)
 
 ## Field ที่ลบแล้ว
 
 - `Wait_Other_Buff` — user ลบแล้ว (2026-09-15); ตรวจ `CharUnit.h` แล้วไม่พบ field นี้ จึงนำออกจากรายการที่รอไล่
 - 2026-09-16: ลบ `Set_Other_buff` ทั้ง declaration, definition และคอมเมนต์เก่าที่อ้างถึง field นี้ครบแล้ว; ตรวจ syntax ของ `Application.cpp` ผ่าน
 
-## `Eidolon`
+## `eidolon`
 
 user ยืนยัน (2026-09-15): เก็บระดับ Eidolon ของตัวละครตั้งแต่ E0–E6 เพื่อเปิดความสามารถตามระดับของตัวละคร
 
@@ -188,7 +188,7 @@ user ยืนยัน (2026-09-15): เก็บระดับ Eidolon ขอ
 | `getBuffCheck(name)` | `setBuffCheck(name, v)` | `buffCheck` | `bool` |
 | `getBuffSubUnitTarget(name)` | `setBuffSubUnitTarget(name, p)` | `buffSubUnitTarget` | `AllyUnit*` |
 | `getBuffAllyTarget(name)` | `setBuffAllyTarget(name, p)` | `buffAllyTarget` | `CharUnit*` |
-| `getAdjust(name)` | `setAdjust(name, v)` | `Adjust` | `double` |
+| `getAdjust(name)` | `setAdjust(name, v)` | `adjust` | `double` |
 
 ⚠️ สามข้อที่ทำให้พลาดได้:
 

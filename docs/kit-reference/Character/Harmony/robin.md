@@ -82,11 +82,11 @@ ATK +28% · HP +18% · SPD +5
 
 ### กลไกสำคัญ (จุดที่ต้องเทียบกับโค้ด)
 - **Concerto** = countdown unit SPD 90; Robin ไม่มีเทิร์นระหว่างนั้น; เพื่อน action ทันทีตอนเข้า
-- **ATK buff (Concerto)**: 0.228 × (ATK ของ Robin) + 200 — flat ATK ผูกกับ ATK ของ Robin ต้อง re-eval (`Stats_Adjust_List` ในโค้ด: `Concerto_state` buff note)
+- **ATK buff (Concerto)**: 0.228 × (ATK ของ Robin) + 200 — flat ATK ผูกกับ ATK ของ Robin ต้อง re-eval (`statsAdjustList` ในโค้ด: `Concerto_state` buff note)
 - **Additional Physical DMG**: 120% ATK ต่อการโจมตีของเพื่อน, fixed crit 100%/150% (+E6 CD +450%, cap 8/Ult)
 - **Talent energy**: +2 (E2 +3) ต่อการโจมตีของเพื่อน — ป้อน energy Robin กลับ
-- โค้ด: `Start_game_List` (`Robin.h:113`) = action forward 25% (A2); `Start_wave_List` = technique energy 5; countdown ใช้ `SetCountdownStats(ptr,90,"Concerto_state")`
-- `Double_Turn` / `driverType` logic — Robin มี `addUltCondition` หลายชั้นในโค้ด
+- โค้ด: `startGameList` (`Robin.h:113`) = action forward 25% (A2); `startWaveList` = technique energy 5; countdown ใช้ `SetCountdownStats(ptr,90,"Concerto_state")`
+- `doubleTurn` / `driverType` logic — Robin มี `addUltCondition` หลายชั้นในโค้ด
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/robin — kit tab (review patch 2.6, calc patch 4.0, profile 01/Jun/2026)

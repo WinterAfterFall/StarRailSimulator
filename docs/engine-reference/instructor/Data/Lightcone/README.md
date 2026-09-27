@@ -10,9 +10,9 @@
 namespace <Path>_Lightcone{
     function<void(CharUnit *ptr)> ชื่อ(int superimpose){
         return [=](CharUnit *ptr) {
-            ptr->SetAllyBaseStats(HP, ATK, DEF);      // <- LC เขียนทับ base stats ของตัวละคร
-            ptr->Light_cone.Name = "ชื่อ";
-            Reset_List.push_back(...);                 // สแตตติดตัว
+            ptr->setAllyBaseStats(HP, ATK, DEF);      // <- LC เขียนทับ base stats ของตัวละคร
+            ptr->lightCone.name = "ชื่อ";
+            resetList.push_back(...);                 // สแตตติดตัว
             <list ที่ตรงกับเงื่อนไข>.push_back(...);    // เอฟเฟกต์
         };
     }
@@ -26,11 +26,11 @@ namespace <Path>_Lightcone{
 ## รากฐานที่สำคัญที่สุด: LC เขียนทับ base stats
 
 ```cpp
-ptr->SetAllyBaseStats(1164, 529, 463);
+ptr->setAllyBaseStats(1164, 529, 463);
 ```
-**ทุก LC เรียก `SetAllyBaseStats` ทับค่าที่ไฟล์ตัวละครตั้งไว้** — เพราะ base stats ของตัวละครในเกมรวม stat ของ Light Cone ที่สวมอยู่ · นี่คือเหตุผลที่ `LC(ptr)` ต้องถูกเรียก **หลัง** `SetAllyBaseStats` ของตัวละครใน `Setup` (ดู `../README.md`)
+**ทุก LC เรียก `setAllyBaseStats` ทับค่าที่ไฟล์ตัวละครตั้งไว้** — เพราะ base stats ของตัวละครในเกมรวม stat ของ Light Cone ที่สวมอยู่ · นี่คือเหตุผลที่ `lc(ptr)` ต้องถูกเรียก **หลัง** `setAllyBaseStats` ของตัวละครใน `setup` (ดู `../README.md`)
 
-> **ผลที่ตามมา**: ถ้าลืมใส่ `SetAllyBaseStats` ใน LC ใบใหม่ ตัวละครจะใช้ base stats ที่ไม่รวม LC ซึ่งต่ำกว่าจริงมาก
+> **ผลที่ตามมา**: ถ้าลืมใส่ `setAllyBaseStats` ใน LC ใบใหม่ ตัวละครจะใช้ base stats ที่ไม่รวม LC ซึ่งต่ำกว่าจริงมาก
 
 ## โฟลเดอร์และจำนวน
 
@@ -48,12 +48,12 @@ ptr->SetAllyBaseStats(1164, 529, 463);
 
 ## แบบแผนที่เห็นซ้ำทุกโฟลเดอร์
 
-**1. `WhenUseUlt_List` + `ally->isSameOwner(ptr)`** — เอฟเฟกต์ที่ทำงานตอนเจ้าของกด ult · เป็น trigger ที่ LC ใช้บ่อยที่สุด
+**1. `whenUseUltList` + `ally->isSameOwner(ptr)`** — เอฟเฟกต์ที่ทำงานตอนเจ้าของกด ult · เป็น trigger ที่ LC ใช้บ่อยที่สุด
 
-**2. บัฟที่ต้องถอนใช้ `After_turn_List` + `isBuffEnd`** เหมือนฝั่งตัวละครและ relic ทุกประการ
+**2. บัฟที่ต้องถอนใช้ `afterTurnList` + `isBuffEnd`** เหมือนฝั่งตัวละครและ relic ทุกประการ
 
 **3. LC ของซัพพอร์ตมักบัฟทั้งทีมด้วย `buffAllAlly`** แล้วคุมอายุด้วยบัฟชื่อเดียวบนตัวผู้สวม
 
 **4. ชื่อบัฟที่ลงให้คนอื่นต้อง prefix ด้วยชื่อเจ้าของ** — `Cerydra LC.h` และ `Sunday_LC.h` ทำถูก (`ptr->getName() + " ..."`), ใบอื่นหลายใบไม่ได้ทำ
 
-**5. `ptr->Light_cone.Name` เก็บแค่ชื่อ** — ตัวละครอ่านชื่อนี้เพื่อเช็คเงื่อนไขได้ (`Tingyun.h` เคยมีการเช็คแบบนี้)
+**5. `ptr->lightCone.name` เก็บแค่ชื่อ** — ตัวละครอ่านชื่อนี้เพื่อเช็คเงื่อนไขได้ (`Tingyun.h` เคยมีการเช็คแบบนี้)

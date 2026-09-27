@@ -1,13 +1,13 @@
 #include "../include.h"
 
 namespace Phainon{
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
-        CharUnit *ptr = SetCharBasicStats(94,0,0,E,ElementType::Physical,Path::Destruction,"Phainon",UnitType::Standard);
-        ptr->SetAllyBaseStats(1433,582,703);
-        LC(ptr);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = setCharBasicStats(94,0,0,eidolon,ElementType::PHYSICAL,Path::DESTRUCTION,"Phainon",UnitType::STANDARD);
+        ptr->setAllyBaseStats(1433,582,703);
+        lc(ptr);
         Relic(ptr);
         Planar(ptr);
-        SetCountdownStats(ptr,ptr->Atv_stats->baseSpeed*0.6*7,"Phainon Extra Turn");
+        setCountdownStats(ptr,ptr->atvStats->baseSpeed*0.6*7,"Phainon Extra Turn");
         CharUnit *pn = ptr;
         TimerATV *pnCD = ptr->countdownList[0].get();
         
@@ -22,15 +22,15 @@ namespace Phainon{
 
 
 
-        ptr->Adjust["choose Calamity"] = 0;
+        ptr->adjust["choose Calamity"] = 0;
 
         //function
         #pragma region extra
-        function<void(int value)> CoreFlame = [ptr,pn](int value){
+        function<void(int value)> coreFlame = [ptr,pn](int value){
             pn->buffNote["Core Flame"] += value;
         };
 
-        function<void(int value)> Scourge = [ptr,pn](int value){
+        function<void(int value)> scourge = [ptr,pn](int value){
             pn->buffNote["Scourge"] += value;
         };
 
@@ -38,12 +38,12 @@ namespace Phainon{
 
 
         #pragma region action
-        function<void()> BA = [ptr,pn]() {
+        function<void()> ba = [ptr,pn]() {
             genSkillPoint(pn,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"PN BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::SINGLE,"PN BA",
             [ptr,pn](shared_ptr<AllyAttackAction> &act){
-                Attack(act);
+                attack(act);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,100,10)
@@ -51,13 +51,13 @@ namespace Phainon{
             act->addToActionBar();
         };
 
-        function<void()> Skill = [ptr,pn,CoreFlame]() {
+        function<void()> skill = [ptr,pn,coreFlame]() {
             genSkillPoint(pn,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"PN Skill",
-            [ptr,pn,CoreFlame](shared_ptr<AllyAttackAction> &act){
-                CoreFlame(2);
-                Attack(act);
+            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::BLAST,"PN Skill",
+            [ptr,pn,coreFlame](shared_ptr<AllyAttackAction> &act){
+                coreFlame(2);
+                attack(act);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,300,20),
@@ -66,12 +66,12 @@ namespace Phainon{
             act->addToActionBar();
         };
         
-        function<void()> Creation = [ptr,pn,Scourge]() {
+        function<void()> creation = [ptr,pn,scourge]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Blast,"PN Creation",
-            [ptr,pn,Scourge](shared_ptr<AllyAttackAction> &act){
-                Scourge(2);
-                Attack(act);
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::BLAST,"PN Creation",
+            [ptr,pn,scourge](shared_ptr<AllyAttackAction> &act){
+                scourge(2);
+                attack(act);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,250,30),
@@ -80,16 +80,16 @@ namespace Phainon{
             act->addToActionBar();
         };
 
-        function<void()> Calamity = [ptr,pn,Scourge]() {
+        function<void()> calamity = [ptr,pn,scourge]() {
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"PN Calamity",
-            [ptr,pn,Scourge](shared_ptr<AllyBuffAction> &act){
+            make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::SINGLE,"PN Calamity",
+            [ptr,pn,scourge](shared_ptr<AllyBuffAction> &act){
                 pn->setBuffCheck("Soulscorch",1);
                 pn->setBuffNote("Soulscorch",1);
-                pn->setBuffCountdown("PN Counter",Total_enemy);
-                Scourge(Total_enemy);
-                for(int i=1;i<=Total_enemy;i++){
-                    Action_forward(enemyUnit[i]->getAtvStats(),1000);
+                pn->setBuffCountdown("PN Counter",totalEnemy);
+                scourge(totalEnemy);
+                for(int i=1;i<=totalEnemy;i++){
+                    actionForward(enemyUnit[i]->getAtvStats(),1000);
                     enemyUnit[i]->setDebuff("Soulscorch",1);
                     enemyUnit[i]->dmgPercent-=75;
                 }
@@ -98,13 +98,13 @@ namespace Phainon{
             act->addToActionBar();
         };
 
-        function<void()> Foundation = [ptr,pn,Scourge]() {
-            Scourge(-4);
+        function<void()> foundation = [ptr,pn,scourge]() {
+            scourge(-4);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Bounce,"PN Foundation",
-            [ptr,pn,Scourge](shared_ptr<AllyAttackAction> &act){
+            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::BOUNCE,"PN Foundation",
+            [ptr,pn,scourge](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printText("PN Foundation");
-                Attack(act);
+                attack(act);
             });
             act->addEnemyBounce(DmgSrc(DmgSrcType::ATK,45,10/3),16);
             act->addDamageIns(
@@ -113,44 +113,44 @@ namespace Phainon{
             act->addToActionBar();
         };
 
-        function<void()> FinalHit = [ptr,pn,Scourge,pnCD,CoreFlame]() {
+        function<void()> finalHit = [ptr,pn,scourge,pnCD,coreFlame]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"PN FinalHit",
-            [ptr,pn,pnCD,CoreFlame](shared_ptr<AllyAttackAction> &act){
-                Attack(act);
+            make_shared<AllyAttackAction>(AType::ULT,ptr,TraceType::AOE,"PN FinalHit",
+            [ptr,pn,pnCD,coreFlame](shared_ptr<AllyAttackAction> &act){
+                attack(act);
                 buffSingle(pn,{
-                    {Stats::ATK_P,AType::None,-80},
-                    {Stats::HP_P,AType::None,-270}
+                    {Stats::ATK_P,AType::NONE,-80},
+                    {Stats::HP_P,AType::NONE,-270}
                 });
-                pn->Atv_stats->extraTurn = 0;
+                pn->atvStats->extraTurn = 0;
                 pnCD->death();
                 for(auto &each : allyList){
                     if(each->isSameName(pn)){
-                        each->status = UnitStatus::Alive;
+                        each->status = UnitStatus::ALIVE;
                     }else if(pn->getBuffNote("PN Retire " + each->getName())==1){
-                        each->status = UnitStatus::Alive;
+                        each->status = UnitStatus::ALIVE;
                     }else if(pn->getBuffNote("PN Retire " + each->getName())==2){
-                        each->status = UnitStatus::AtvFreeze;
+                        each->status = UnitStatus::ATV_FREEZE;
                     }
                     pn->setBuffNote("PN Retire " + each->getName(),0);
                 }
                 for(auto &c : charList){
                     for(auto &each :c->summonList){
-                        if(each->status==UnitStatus::AtvFreeze){
-                            each->status = UnitStatus::Alive;
+                        if(each->status==UnitStatus::ATV_FREEZE){
+                            each->status = UnitStatus::ALIVE;
                         }
                     }
                     for(auto &each : c->countdownList){
-                        if(each->status==UnitStatus::AtvFreeze){
-                            each->status = UnitStatus::Alive;
+                        if(each->status==UnitStatus::ATV_FREEZE){
+                            each->status = UnitStatus::ALIVE;
                         }
                     }
                 }
                 buffAllAlly({
-                    {Stats::SPD_P,AType::None,15}
+                    {Stats::SPD_P,AType::NONE,15}
                 },"PN Spd Buff",1);
-                buffStackSingle(pn,{{Stats::ATK_P,AType::None,50}},1,2,"PN A6");
-                CoreFlame(3);
+                buffStackSingle(pn,{{Stats::ATK_P,AType::NONE,50}},1,2,"PN A6");
+                coreFlame(3);
                 CharCmd::printUltEnd("Phainon");    
 
             });
@@ -164,21 +164,21 @@ namespace Phainon{
 
         #pragma region Action Choice
 
-        ptr->Turn_func = [ptr,BA,Skill](){
-            if(sp>Sp_Safety) Skill();
-            else BA();
+        ptr->turnFunc = [ptr,ba,skill](){
+            if(sp>spSafety) skill();
+            else ba();
             // Skill();
              
         };
 
-        ptr->countdownList[0]->Turn_func = [ptr,pn,Creation,Calamity,Foundation,FinalHit](){
-            if(pn->getBuffCountdown("PN Extra Turn")==4||(ptr->Eidolon>=4&&ptr->getAdjust("choose Calamity")&&pn->getBuffNote("Scourge")<4&&Total_enemy>=2))
-                Calamity();
+        ptr->countdownList[0]->turnFunc = [ptr,pn,creation,calamity,foundation,finalHit](){
+            if(pn->getBuffCountdown("PN Extra Turn")==4||(ptr->eidolon>=4&&ptr->getAdjust("choose Calamity")&&pn->getBuffNote("Scourge")<4&&totalEnemy>=2))
+                calamity();
             else if(pn->getBuffCountdown("PN Extra Turn")==1)
-                FinalHit();
+                finalHit();
             else if(pn->getBuffNote("Scourge")>=4)
-                Foundation();
-            else Creation();
+                foundation();
+            else creation();
             pn->buffEnd["PN Extra Turn"] -= 1;
             resetTurn(turn);
         };
@@ -194,100 +194,100 @@ namespace Phainon{
             return false;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [pn,pnCD,Scourge,CoreFlame](CharUnit *ptr) {
-            CoreFlame(-12);
+        ultimateList.push_back(TriggerByYourSelfFunc(PRIORITY_BUFF, ptr, [pn,pnCD,scourge,coreFlame](CharUnit *ptr) {
+            coreFlame(-12);
             shared_ptr<AllyBuffAction> act =
-                make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Single,"PN Ult",
-                [ptr,pn,pnCD,Scourge,CoreFlame](shared_ptr<AllyBuffAction> &act){
+                make_shared<AllyBuffAction>(AType::ULT,ptr,TraceType::SINGLE,"PN Ult",
+                [ptr,pn,pnCD,scourge,coreFlame](shared_ptr<AllyBuffAction> &act){
                     CharCmd::printUltStart("Phainon");
                     buffSingle(pn,{
-                        {Stats::ATK_P,AType::None,80},
-                        {Stats::HP_P,AType::None,270}
+                        {Stats::ATK_P,AType::NONE,80},
+                        {Stats::HP_P,AType::NONE,270}
                     });
-                    Scourge(4);
-                    pn->Atv_stats->extraTurn = 1;
+                    scourge(4);
+                    pn->atvStats->extraTurn = 1;
                     if(turn->isSameName("Phainon")){
                         turn->turnCnt--;
                     }
                     pnCD->summon();
-                    if(ptr->Eidolon>=1) pnCD->resetATV(pn->getBaseSpeed()*0.66*7);
+                    if(ptr->eidolon>=1) pnCD->resetATV(pn->getBaseSpeed()*0.66*7);
                     else pnCD->resetATV(pn->getBaseSpeed()*0.6*7);
-                    Action_forward(pnCD,1000);
+                    actionForward(pnCD,1000);
                     pnCD->extraTurn = 1;
                     pn->setBuffCountdown("PN Extra Turn", 8);
 
                     for(auto &each :allyList){
                         if(each->isSameName(pn)){
-                                each->status = UnitStatus::AtvFreeze;
-                        }else if(each->status==UnitStatus::Alive){
+                                each->status = UnitStatus::ATV_FREEZE;
+                        }else if(each->status==UnitStatus::ALIVE){
                             pn->setBuffNote("PN Retire " + each->getName(),1);
-                            each->status = UnitStatus::Retire;
-                        }else if(each->status==UnitStatus::AtvFreeze){
+                            each->status = UnitStatus::RETIRE;
+                        }else if(each->status==UnitStatus::ATV_FREEZE){
                             pn->setBuffNote("PN Retire " + each->getName(),2);
-                            each->status = UnitStatus::Retire;
+                            each->status = UnitStatus::RETIRE;
                         }
                     }
                     for(auto &c : charList){
                         for(auto &each :c->summonList){
-                            if(each->status==UnitStatus::Alive){
-                                each->status = UnitStatus::AtvFreeze;
+                            if(each->status==UnitStatus::ALIVE){
+                                each->status = UnitStatus::ATV_FREEZE;
                             }
                         }
                         for(auto &each :c->countdownList){
                             if(each.get() == pnCD)continue;
-                            if(each->status==UnitStatus::Alive){
-                                each->status = UnitStatus::AtvFreeze;
+                            if(each->status==UnitStatus::ALIVE){
+                                each->status = UnitStatus::ATV_FREEZE;
                             }
                         }
                     }
 
-                    if(ptr->Eidolon>=1){
+                    if(ptr->eidolon>=1){
                         buffSingle(pn,{
-                            {Stats::CD,AType::None,50}
+                            {Stats::CD,AType::NONE,50}
                         },"PN E1",3);
                     }
                 });
             act->addBuffSingleTarget(pn);
             act->addToActionBar();
-            Deal_damage();
+            dealDamage();
         }));
 
         #pragma endregion
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_type[Stats::CD][AType::None] += 37.3;
-            ptr->Stats_type[Stats::CR][AType::None] += 12;
-            ptr->Atv_stats->flatSpeed += 5;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsType[Stats::CD][AType::NONE] += 37.3;
+            ptr->statsType[Stats::CR][AType::NONE] += 12;
+            ptr->atvStats->flatSpeed += 5;
 
             // relic
             // substats
             // eidolon
-            if(ptr->Eidolon>=2){
-                ptr->Stats_each_element[Stats::RESPEN][ElementType::Physical][AType::None] += 20;
+            if(ptr->eidolon>=2){
+                ptr->statsEachElement[Stats::RESPEN][ElementType::PHYSICAL][AType::NONE] += 20;
             }
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [pn,CoreFlame,Scourge](CharUnit *ptr) {
-            if(ptr->Technique){
+        startGameList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [pn,coreFlame,scourge](CharUnit *ptr) {
+            if(ptr->technique){
                 genSkillPoint(pn,1);
-                Scourge(2);
-                for(int i=1;i<=Total_ally;i++){
-                    Increase_energy(charUnit[i].get(),25);
+                scourge(2);
+                for(int i=1;i<=totalAlly;i++){
+                    increaseEnergy(charUnit[i].get(),25);
                 }
             }
-            buffStackSingle(pn,{{Stats::ATK_P,AType::None,50}},1,2,"PN A6");
-            CoreFlame(1);   // A2: +1 at battle start (+3 when transformation ends)
-            if(ptr->Eidolon>=6){
-                CoreFlame(6);
+            buffStackSingle(pn,{{Stats::ATK_P,AType::NONE,50}},1,2,"PN A6");
+            coreFlame(1);   // A2: +1 at battle start (+3 when transformation ends)
+            if(ptr->eidolon>=6){
+                coreFlame(6);
             }
         }));
 
-        Start_wave_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [pn](CharUnit *ptr) {
-            if(ptr->Technique){
+        startWaveList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [pn](CharUnit *ptr) {
+            if(ptr->technique){
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr,TraceType::Aoe,"PN Tech",
+                make_shared<AllyAttackAction>(AType::TECHNIQUE,ptr,TraceType::AOE,"PN Tech",
                 [ptr](shared_ptr<AllyAttackAction> &act){
-                    Attack(act);
+                    attack(act);
                 });
                 act->addDamageIns(
                     DmgSrc(DmgSrcType::ATK,200,0),
@@ -295,11 +295,11 @@ namespace Phainon{
                     DmgSrc(DmgSrcType::ATK,200,0)
                 );
                 act->addToActionBar();
-                Deal_damage();
+                dealDamage();
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [pn](CharUnit *ptr) {
+        afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [pn](CharUnit *ptr) {
             Enemy *enemy = turn->canCastToEnemy();
             AllyUnit *ally = turn->canCastToAllyUnit();
             if(enemy&&enemy->getDebuff("Soulscorch")){
@@ -310,9 +310,9 @@ namespace Phainon{
             
             if(!pn->getBuffCountdown("PN Counter")&&pn->getBuffCheck("Soulscorch")){
                 shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"PN Calamity",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::BLAST,"PN Calamity",
             [ptr,pn](shared_ptr<AllyAttackAction> &act){
-                Attack(act);
+                attack(act);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,40,5),
@@ -320,63 +320,63 @@ namespace Phainon{
                 DmgSrc(DmgSrcType::ATK,40,5)
             );
             act->addEnemyBounce(DmgSrc(DmgSrcType::ATK,30,10),4);
-            if(ptr->Eidolon>=4)pn->buffNote["Soulscorch"] +=4;
+            if(ptr->eidolon>=4)pn->buffNote["Soulscorch"] +=4;
             act->multiplyDmg(100 + pn->getBuffNote("Soulscorch") * 20);
             pn->setBuffNote("Soulscorch",0);
             pn->setBuffCheck("Soulscorch",0);
             act->addToActionBar();
-            Deal_damage();
+            dealDamage();
             }
 
             if(!ally)return;
             if(isBuffEnd(ally,"PN Spd Buff")){
                 buffSingle(ally,{
-                    {Stats::SPD_P,AType::None,-15}
+                    {Stats::SPD_P,AType::NONE,-15}
                 });
             }
             if(isBuffEnd(ally,"PN E1")){
                 buffSingle(pn,{
-                    {Stats::CD,AType::None,-50}
+                    {Stats::CD,AType::NONE,-50}
                 });
             }
             if(isBuffEnd(pn,"PN Talent")){
-                buffSingle(pn,{{Stats::CD,AType::None,-30}});
+                buffSingle(pn,{{Stats::CD,AType::NONE,-30}});
             }
             if(isBuffEnd(pn,"PN A4")){
-                buffSingle(pn,{{Stats::DMG,AType::None,-45}});
+                buffSingle(pn,{{Stats::DMG,AType::NONE,-45}});
             }
         }));
 
         
-        AfterAction_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,pn](shared_ptr<ActionData> &act) {
+        afterActionList.push_back(TriggerByActionFunc(PRIORITY_IMMEDIATELY, [ptr,pn](shared_ptr<ActionData> &act) {
             EnemyActionData *enemyact =  act->castToEnemyActionData();
             if(enemyact&&pn->getBuffCheck("Soulscorch")){
                 pn->buffNote["Soulscorch"] +=1;
             }
         }));
         
-        AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD](shared_ptr<AllyAttackAction> &act) {
-            if(act->isSameOwnerName(pn)&&pnCD->status==UnitStatus::Alive){
-                pn->RestoreHP(pn,HealSrc(HealSrcType::TOTAL_HP,20));
+        afterAttackActionList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD](shared_ptr<AllyAttackAction> &act) {
+            if(act->isSameOwnerName(pn)&&pnCD->status==UnitStatus::ALIVE){
+                pn->restoreHP(pn,HealSrc(HealSrcType::TOTAL_HP,20));
             }
-            if(ptr->Eidolon>=2&&act->actionName=="PN Foundation"){
-                Action_forward(pnCD,1000);
+            if(ptr->eidolon>=2&&act->actionName=="PN Foundation"){
+                actionForward(pnCD,1000);
                 pn->buffEnd["PN Extra Turn"]++;
 
             }
         }));
 
-        Buff_List.push_back(TriggerByAllyBuffAction_Func(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD,CoreFlame](shared_ptr<AllyBuffAction> &act) {
+        buffList.push_back(TriggerByAllyBuffActionFunc(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD,coreFlame](shared_ptr<AllyBuffAction> &act) {
             
             if(pnCD->isAlive())return;
             for(auto &each : act->buffTargetList){
                 if(each->isSameName(pn)){
-                    CoreFlame(1);
-                    buffSingle(pn,{{Stats::CD,AType::None,30}},"PN Talent",3);
+                    coreFlame(1);
+                    buffSingle(pn,{{Stats::CD,AType::NONE,30}},"PN Talent",3);
                     if(act->actionName=="TY Ult"
                     || act->actionName=="SD Ult"
-                    ||(act->actionName=="Crd Skill"&&act->Attacker->owner->Eidolon>=1)){
-                        CoreFlame(1);
+                    ||(act->actionName=="Crd Skill"&&act->attacker->owner->eidolon>=1)){
+                        coreFlame(1);
                     }
                     break;
                 }
@@ -384,45 +384,45 @@ namespace Phainon{
         }));
 
 
-        Enemy_hit_List.push_back(TriggerByEnemyHit(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD,CoreFlame](Enemy *Attacker, vector<AllyUnit*> target) {
+        enemyHitList.push_back(TriggerByEnemyHit(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD,coreFlame](Enemy *attacker, vector<AllyUnit*> target) {
             if(pnCD->isAlive())return;
             for(auto &each : target){
                 if(each->isSameName(pn)){
-                    CoreFlame(1);
+                    coreFlame(1);
                     break;
                 }
             }
         }));
 
-        Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD,CoreFlame](AllyUnit *Healer, AllyUnit *target, double Value) {
+        healingList.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD,coreFlame](AllyUnit *healer, AllyUnit *target, double value) {
             // A4: only heals from allies (Khaslana's self-heal after attacking does not count)
-            if(target->isSameName(pn)&&!Healer->isSameName(pn)){
-                buffSingle(pn,{{Stats::DMG,AType::None,45}},"PN A4",4);
+            if(target->isSameName(pn)&&!healer->isSameName(pn)){
+                buffSingle(pn,{{Stats::DMG,AType::NONE,45}},"PN A4",4);
             }
         }));
 
-        AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD](AllyUnit* target) {
+        allyDeathList.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD](AllyUnit* target) {
             if(isBuffGoneByDeath(target,"PN Spd Buff")){
                  buffSingle(target,{
-                    {Stats::SPD_P,AType::None,-15}
+                    {Stats::SPD_P,AType::NONE,-15}
                 });
             }
             if(isBuffGoneByDeath(target,"PN Talent")){
-                buffSingle(pn,{{Stats::CD,AType::None,-30}});
+                buffSingle(pn,{{Stats::CD,AType::NONE,-30}});
             }
             if(isBuffGoneByDeath(target,"PN A4")){
-                buffSingle(pn,{{Stats::DMG,AType::None,-45}});
+                buffSingle(pn,{{Stats::DMG,AType::NONE,-45}});
             }
         }));
 
-        if(ptr->Eidolon>=6)
-        AfterDealingDamage_List.push_back(TriggerAfterDealDamage(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD]
+        if(ptr->eidolon>=6)
+        afterDealingDamageList.push_back(TriggerAfterDealDamage(PRIORITY_IMMEDIATELY, [ptr,pn,pnCD]
             (shared_ptr<AllyAttackAction> &act,Enemy *target,double damage) {
                 if(act->actionName!="PN Foundation")return;
-                Cal_DamageNote(act,target,enemyUnit[Main_Enemy_num].get(),damage,36,"PN True Foundation");
+                calDamageNote(act,target,enemyUnit[mainEnemyNum].get(),damage,36,"PN True Foundation");
         }));
 
-        Setup_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [pn](CharUnit *ptr) {
+        setupList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [pn](CharUnit *ptr) {
         CharUnit *sd = CharCmd::findAllyName("Sunday");
         CharUnit *tb = CharCmd::findAllyName("Tribbie");
         CharUnit *rb = CharCmd::findAllyName("Robin");

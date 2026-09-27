@@ -1,6 +1,6 @@
 # `src/Defination/Data/Relic/GeniusBrilliant.h`
 
-เซ็ตจริง: **Genius of Brilliant Stars** · `Relic.Name` = `"GeniusBrilliant"`
+เซ็ตจริง: **Genius of Brilliant Stars** · `Relic.name` = `"GeniusBrilliant"`
 
 ## ความสามารถหลัก → โค้ดที่ทำงาน
 

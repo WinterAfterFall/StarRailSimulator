@@ -3,10 +3,10 @@
 #include <bits/stdc++.h>
 #include "Memosprite.h"
 
-class Func_class{
+class FuncClass{
     public:
-    string Name;
-    function<void(CharUnit *ptr)> Print_Func;
+    string name;
+    function<void(CharUnit *ptr)> printFunc;
 };
 class DamageSrc {
     public:
@@ -33,17 +33,17 @@ class CharUnit : public AllyUnit {
 public:
     #pragma region attribute
     #pragma region status
-    double Max_energy;
-    double Current_energy = 0; /**/
-    double Ult_cost;
-    double Energy_recharge = 100; /**/
-    int Eidolon;
+    double maxEnergy;
+    double currentEnergy = 0; /**/
+    double ultCost;
+    double energyRecharge = 100; /**/
+    int eidolon;
     #pragma endregion
     #pragma region Build
-    Func_class Char;
-    Func_class Light_cone;
-    Func_class Relic;
-    Func_class Planar;
+    FuncClass charSetup;
+    FuncClass lightCone;
+    FuncClass Relic;
+    FuncClass Planar;
     #pragma endregion
     
     #pragma region DmgRecord
@@ -58,7 +58,7 @@ public:
     map<DamageSrc,DamageRecord> maxNonRealTimeDmg;
 
     //record Average damage
-    vector<DamageAvgRecord> AvgDmgRecord; //ตามจำนวน Enemy
+    vector<DamageAvgRecord> avgDmgRecord; //ตามจำนวน Enemy
 
     #pragma endregion
     
@@ -97,15 +97,15 @@ public:
 
     #pragma endregion
     //Temp
-    unordered_map<string,double> Adjust;
+    unordered_map<string,double> adjust;
 
     #pragma region Substats Reroll
-    vector<pair<Stats,int>> Substats;//* จำนวน roll ที่ลงแต่ละ substat — Set_Stats แปลงเป็นค่าจริง
+    vector<pair<Stats,int>> substats;//* จำนวน roll ที่ลงแต่ละ substat — setStats แปลงเป็นค่าจริง
     vector<int> bestSubstats;          // ชุด roll ที่ดาเมจสูงสุดที่วัดได้ — changeMaxDamage เป็นคนเขียน
-    int Total_substats = 25;
+    int totalSubstats = 25;
 
-    // สถานะของ StandardReroll (Substats_Reset.h)
-    bool rerollActive = 1;             // 1 = ยังค้นหาอยู่ · 0 = จบแล้ว หรือถูกปิดด้วย CharCmd::Set_Reroll_check
+    // สถานะของ standardReroll (Substats_Reset.h)
+    bool rerollActive = 1;             // 1 = ยังค้นหาอยู่ · 0 = จบแล้ว หรือถูกปิดด้วย CharCmd::setRerollCheck
     int rerollTargetIndex = 1;         // ช่องที่กำลังเติม roll · เริ่ม 1 เพราะช่อง 0 คือคลังที่ถือ roll ทั้งหมดตอนเริ่ม
     int rerollSourceIndex = -1;        // ช่องที่กำลังดึง roll ออก ไล่ 0..target-1 · -1 = ยังไม่เริ่ม sweep
     bool rerollImproved = 0;           // sweep นี้มีชุดทดลองที่ทำลายสถิติดาเมจไหม
@@ -118,33 +118,33 @@ public:
     unique_ptr<Memosprite> memosprite;  // 
     vector<unique_ptr<TimerATV>> countdownList;  // 
 
-    int Technique = 1;
+    int technique = 1;
     //Ult condition
     vector<function<bool()>> ultCondition;
     
     
-    bool Print =1;
-    function<void(CharUnit *ptr)> Body;
-    function<void(CharUnit *ptr)> Boot;
-    function<void(CharUnit *ptr)> Orb;
-    function<void(CharUnit *ptr)> Rope;
+    bool print =1;
+    function<void(CharUnit *ptr)> body;
+    function<void(CharUnit *ptr)> boot;
+    function<void(CharUnit *ptr)> orb;
+    function<void(CharUnit *ptr)> rope;
 
-    double SpeedRequire = 0;
-    double ExtraSpeed = 0;
-    double AtkRequire = 0;
-    double ExtraAtk = 0;
-    double HpRequire = 0;
-    double ExtraHp = 0;
-    double DefRequire = 0;
-    double ExtraDef = 0;
+    double speedRequire = 0;
+    double extraSpeed = 0;
+    double atkRequire = 0;
+    double extraAtk = 0;
+    double hpRequire = 0;
+    double extraHp = 0;
+    double defRequire = 0;
+    double extraDef = 0;
 
-    double ApplyBaseChance = 0;
-    double EhrRequire = 0;
-    double ExtraEhr = 0;
+    double applyBaseChance = 0;
+    double ehrRequire = 0;
+    double extraEhr = 0;
     
     #pragma endregion
     #pragma region constructor
-    CharUnit() {  // Call Unit constructor to initialize Atv_stats and set owner
+    CharUnit() {  // Call Unit constructor to initialize atvStats and set owner
           // Using unique_ptr for stats
           owner = this;
     }
@@ -178,25 +178,25 @@ public:
         this->buffAllyTarget[buffName] = target;
     }
     void setAdjust(string adjustName, double value) {
-        this->Adjust[adjustName] = value;
+        this->adjust[adjustName] = value;
     }
     void setSpeedRequire(double value){
-        this->SpeedRequire = value;
+        this->speedRequire = value;
     }
     void setAtkRequire(double value){
-        this->AtkRequire = value;
+        this->atkRequire = value;
     }
     void setHpRequire(double value){
-        this->HpRequire = value;
+        this->hpRequire = value;
     }
     void setDefRequire(double value){
-        this->DefRequire = value;
+        this->defRequire = value;
     }
     void setApplyBaseChance(double value){
-        this->ApplyBaseChance = value;
+        this->applyBaseChance = value;
     }
     void setEhrRequire(double value){
-        this->EhrRequire = value;
+        this->ehrRequire = value;
     }
     void setTargetAlly(int num){
         this->setDefaultAllyTargetNum(num);
@@ -230,10 +230,10 @@ public:
         return this->buffAllyTarget[buffName];
     }
     double getAdjust(string adjustName) {
-        return this->Adjust[adjustName];
+        return this->adjust[adjustName];
     }
     int getNum(){
-        return this->Atv_stats->num;
+        return this->atvStats->num;
     }
     AllyUnit* getMemosprite(){
         return this->memosprite.get();
@@ -259,7 +259,7 @@ public:
     
 
     /*--------------------Declaration--------------------*/
-    void SetAllyBaseStats(double BaseHp,double BaseAtk,double BaseDef);
+    void setAllyBaseStats(double baseHp,double baseAtk,double baseDef);
     /*-----------------Combat-----------------*/
 
 
@@ -271,13 +271,13 @@ public:
 
     //Requirement Stats
     // Main Stats
-    void setRelicMainStats(Stats Body, Stats Boot, Stats Orb, Stats Rope);
+    void setRelicMainStats(Stats body, Stats boot, Stats orb, Stats rope);
     void setBody(Stats stats);
     void setBoot(Stats stats);
     void setOrb(Stats stats);
     void setRope(Stats stats);
-    function<void(CharUnit *ptr)> RelicPairSet(PairSetType stats);
-    function<void(CharUnit *ptr)> RelicMainStatsSet(Stats stats);
+    function<void(CharUnit *ptr)> relicPairSet(PairSetType stats);
+    function<void(CharUnit *ptr)> relicMainStatsSet(Stats stats);
 
     // Set Requirements
     void setSpeed(double speed);
@@ -287,14 +287,14 @@ public:
 
     // Set Substats
     #pragma region SetSubdstats
-    void setTotalSubstats(int Value);
-    void pushSubstats(Stats StatsType);
+    void setTotalSubstats(int value);
+    void pushSubstats(Stats statsType);
     int changeTotalSubStats(int amount);
-    void AtkRequirment();
-    void HpRequirment();
-    void DefRequirment();
-    void SpeedRequirment();
-    void EhrRequirment();
+    void atkRequirment();
+    void hpRequirment();
+    void defRequirment();
+    void speedRequirment();
+    void ehrRequirment();
     #pragma endregion
 
     #pragma region FormulaCheck

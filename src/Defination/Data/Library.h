@@ -1,5 +1,5 @@
-#ifndef Data_Library_H
-#define Data_Library_H
+#ifndef DATA_LIBRARY_H
+#define DATA_LIBRARY_H
 #include "Character/All_Character.h"
 #include "Lightcone/All_Lighcone.h"
 #include "Relic/All_Relic.h"

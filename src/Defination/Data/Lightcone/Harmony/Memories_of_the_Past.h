@@ -2,22 +2,22 @@
 namespace Harmony_Lightcone{
     function<void(CharUnit *ptr)> Memories_of_the_Past(int superimpose){
         return [=](CharUnit *ptr) {
-            ptr->SetAllyBaseStats( 953, 423, 397);
-            ptr->Light_cone.Name = "Memories_of_the_Past";
+            ptr->setAllyBaseStats( 953, 423, 397);
+            ptr->lightCone.name = "Memories_of_the_Past";
     
-            AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                if (act->Attacker->Atv_stats->Name != ptr->Atv_stats->Name) return;
+            afterAttackActionList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
+                if (act->attacker->atvStats->name != ptr->atvStats->name) return;
                 if (ptr->getBuffCheck("Memories_of_the_Past_Triggered")) return;
                 ptr->setBuffCheck("Memories_of_the_Past_Triggered",1);
-                Increase_energy(ptr, 3 + superimpose);
+                increaseEnergy(ptr, 3 + superimpose);
             }));
 
-            Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            beforeTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
                 ptr->setBuffCheck("Memories_of_the_Past_Triggered",0);
             }));
     
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
-                ptr->Stats_type[Stats::BE][AType::None] += 21 + 7 * superimpose;
+            resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+                ptr->statsType[Stats::BE][AType::NONE] += 21 + 7 * superimpose;
             }));
         };
     }

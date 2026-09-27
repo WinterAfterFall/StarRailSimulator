@@ -2,31 +2,31 @@
 namespace Erudition_Lightcone{
     function<void(CharUnit *ptr)> Anaxa_LC(int superimpose){
         return [=](CharUnit *ptr) {
-            ptr->SetAllyBaseStats(953,582,529);
-            ptr->Light_cone.Name = "Anaxa_LC";
+            ptr->setAllyBaseStats(953,582,529);
+            ptr->lightCone.name = "Anaxa_LC";
     
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
-                ptr->Stats_type[Stats::DMG][AType::None] += 50 + 10*superimpose;
+            resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+                ptr->statsType[Stats::DMG][AType::NONE] += 50 + 10*superimpose;
             }));
 
-            Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
-                if(!turn->isSameName(ptr->Atv_stats->Name))return;
-                Increase_energy(ptr,10);
+            beforeTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+                if(!turn->isSameName(ptr->atvStats->name))return;
+                increaseEnergy(ptr,10);
             }));
 
-            When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
+            whenAttackList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
                 if(!act->isSameName(ptr))return;
                 for(auto &each : act->targetList){
-                    debuffSingleApply(ptr,each,{{Stats::DEF_SHRED,AType::None,(9.0 + superimpose * 3.0)}},"AnaxaLC_Debuff",2);
+                    debuffSingleApply(ptr,each,{{Stats::DEF_SHRED,AType::NONE,(9.0 + superimpose * 3.0)}},"AnaxaLC_Debuff",2);
                 }
             }));
 
             
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+            afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 Enemy *enemy = turn->canCastToEnemy();
                 if(!enemy)return;
                 if(isDebuffEnd(enemy,"AnaxaLC_Debuff")){
-                    debuffSingle(enemy,{{Stats::DEF_SHRED,AType::None,-(9.0 + superimpose * 3.0)}});
+                    debuffSingle(enemy,{{Stats::DEF_SHRED,AType::NONE,-(9.0 + superimpose * 3.0)}});
                 }
             }));
         };

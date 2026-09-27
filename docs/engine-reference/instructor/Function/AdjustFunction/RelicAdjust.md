@@ -9,4 +9,4 @@
 
 ## Substat controls
 
-`setTotalSubstats()` กำหนดงบ roll รวมและเก็บไว้ที่ช่องแรกของ `Substats` พร้อมปรับขนาด `bestSubstats`; `pushSubstats()` เพิ่มชนิด stat ที่ optimizer แจก roll ได้; `changeTotalSubStats()` ปรับงบโดย clamp ไม่ให้ต่ำกว่าศูนย์ แล้วคืนค่าตรงข้ามกับจำนวนที่ปรับจริงเพื่อให้ผู้เรียกใช้ย้อนการเปลี่ยนแปลงได้
+`setTotalSubstats()` กำหนดงบ roll รวมและเก็บไว้ที่ช่องแรกของ `substats` พร้อมปรับขนาด `bestSubstats`; `pushSubstats()` เพิ่มชนิด stat ที่ optimizer แจก roll ได้; `changeTotalSubStats()` ปรับงบโดย clamp ไม่ให้ต่ำกว่าศูนย์ แล้วคืนค่าตรงข้ามกับจำนวนที่ปรับจริงเพื่อให้ผู้เรียกใช้ย้อนการเปลี่ยนแปลงได้

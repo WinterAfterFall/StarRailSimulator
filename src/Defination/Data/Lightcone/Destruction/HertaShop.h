@@ -2,23 +2,23 @@
 namespace Destruction_Lightcone{
     function<void(CharUnit *ptr)> Hertashop(int superimpose){
         return [=](CharUnit *ptr) {
-            ptr->SetAllyBaseStats(1058,529,397);
-            ptr->Light_cone.Name = "Fall of an Aeon";
+            ptr->setAllyBaseStats(1058,529,397);
+            ptr->lightCone.name = "Fall of an Aeon";
     
-            When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr,superimpose]
+            whenAttackList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_ACTTACK, [ptr,superimpose]
                 (shared_ptr<AllyAttackAction> &act) {
                 if(act->isSameOwnerName(ptr))
-                buffStackSingle(ptr,{{Stats::ATK_P,AType::None,6.0+superimpose*2.0}},1,4,"Aeon Atk");
+                buffStackSingle(ptr,{{Stats::ATK_P,AType::NONE,6.0+superimpose*2.0}},1,4,"Aeon Atk");
             }));
     
-            Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_ACTTACK, [ptr,superimpose](Enemy *target, AllyUnit *Trigger) {
-                if(!Trigger->isSameNum(ptr))return;
-                buffSingle(ptr,{{Stats::DMG,AType::None,9.0 + 3 * superimpose}},"Aeon Dmg%",2);
+            toughnessBreakList.push_back(TriggerBySomeAllyFunc(PRIORITY_ACTTACK, [ptr,superimpose](Enemy *target, AllyUnit *trigger) {
+                if(!trigger->isSameNum(ptr))return;
+                buffSingle(ptr,{{Stats::DMG,AType::NONE,9.0 + 3 * superimpose}},"Aeon Dmg%",2);
             }));
 
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [superimpose](CharUnit *ptr) {
+            afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_BUFF, ptr, [superimpose](CharUnit *ptr) {
                 if (isBuffEnd(ptr,"Aeon Dmg%")) {
-                buffSingle(ptr,{{Stats::DMG,AType::None,-(9.0 + 3 * superimpose)}});
+                buffSingle(ptr,{{Stats::DMG,AType::NONE,-(9.0 + 3 * superimpose)}});
                 }
             }));
     

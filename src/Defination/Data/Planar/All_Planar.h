@@ -1,5 +1,5 @@
-#ifndef All_Planer_H
-#define All_Planer_H
+#ifndef ALL_PLANER_H
+#define ALL_PLANER_H
 //Crit
 #include"SpaceSealing.h"
 #include"Rutilant.h"

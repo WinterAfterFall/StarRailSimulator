@@ -1,5 +1,5 @@
-#ifndef AllyAttackAction_H
-#define AllyAttackAction_H
+#ifndef ALLY_ATTACK_ACTION_H
+#define ALLY_ATTACK_ACTION_H
 #include "AllyActionData.h"
 
 
@@ -19,7 +19,7 @@ class SwitchAtk{
     public : 
     AllyUnit* source = nullptr; // ที่มาดาเมจ 
     int changeWhen = -1; // เลือกเวลาเปลี่ยน
-    int changeTo = -1; // เลือก AttackSetList
+    int changeTo = -1; // เลือก attackSetList
     SwitchAtk(int changeTo,int changeWhen)
         : changeTo(changeTo), changeWhen(changeWhen) {}
     SwitchAtk(int changeTo, AllyUnit* source,int changeWhen)
@@ -30,7 +30,7 @@ class  AllyAttackAction : public AllyActionData {
     public:
     bool toughnessAvgCalculate = 1;
     bool damageNote = 1;
-    double Dont_care_weakness = 0;
+    double dontCareWeakness = 0;
     bool critAble = 1;
     bool critGarantee = 0;
     function<void(shared_ptr<AllyAttackAction> &act)> actionFunction;
@@ -38,39 +38,39 @@ class  AllyAttackAction : public AllyActionData {
     DamageSplit damageSplit;
 
     vector<AType> damageTypeList;//Record Damage Type at the moment
-    vector<Attacking> AttackSetList;// All Attacker Data
+    vector<Attacking> attackSetList;// All Attacker Data
     vector<SwitchAtk> switchAttacker;// Recored Src Data and tell which attacker to change to
     vector<Enemy*> targetList;
 
-    ElementType Damage_element;//Physical Fire Ice Lightning Wind Quantum Imaginary
+    ElementType damageElement;//Physical Fire Ice Lightning Wind Quantum Imaginary
 
     #pragma region constructor
     AllyAttackAction(){}
     AllyAttackAction(AType actionType,AllyUnit* ptr,TraceType traceType,string name)
     {
-        Attacker = ptr;
+        attacker = ptr;
         source = ptr;
         this->actionName = name;
-        Damage_element = ptr->Element_type;
+        damageElement = ptr->elementType;
         this->traceType = traceType;
         setupActionType(actionType);
-        AttackSetList.emplace_back(Attacking(ptr,this->actionTypeList));
+        attackSetList.emplace_back(Attacking(ptr,this->actionTypeList));
     }
     AllyAttackAction(AType actionType,AllyUnit* ptr,TraceType traceType,string name,function<void(shared_ptr<AllyAttackAction> &act)> actionFunction)
     {
-        Attacker = ptr;
+        attacker = ptr;
         source = ptr;
         this->actionName = name;
         this->actionFunction = actionFunction;
-        Damage_element = ptr->Element_type;
+        damageElement = ptr->elementType;
         this->traceType = traceType;
         setupActionType(actionType);
-        AttackSetList.emplace_back(Attacking(ptr,this->actionTypeList));
+        attackSetList.emplace_back(Attacking(ptr,this->actionTypeList));
     }
 
     #pragma region SetMethod
     void setDamageElement(ElementType element) {
-        Damage_element = element;
+        damageElement = element;
     }
     #pragma endregion
 
@@ -80,97 +80,97 @@ class  AllyAttackAction : public AllyActionData {
             case AType::BA:
                 actionTypeList.push_back(AType::BA);
                 damageTypeList.push_back(AType::BA);
-                Turn_reset = true;
+                turnReset = true;
                 break;
             case AType::SKILL:
                 actionTypeList.push_back(AType::SKILL);
                 damageTypeList.push_back(AType::SKILL);
-                Turn_reset = true;
+                turnReset = true;
                 break;
-            case AType::Ult:
-                actionTypeList.push_back(AType::Ult);
-                damageTypeList.push_back(AType::Ult);
+            case AType::ULT:
+                actionTypeList.push_back(AType::ULT);
+                damageTypeList.push_back(AType::ULT);
                 break;
-            case AType::Fua:
-                actionTypeList.push_back(AType::Fua);
-                damageTypeList.push_back(AType::Fua);
+            case AType::FUA:
+                actionTypeList.push_back(AType::FUA);
+                damageTypeList.push_back(AType::FUA);
                 break;
-            case AType::Dot:
-                actionTypeList.push_back(AType::Dot);
-                damageTypeList.push_back(AType::Dot);
+            case AType::DOT:
+                actionTypeList.push_back(AType::DOT);
+                damageTypeList.push_back(AType::DOT);
                 critAble = 0;
                 break;
-            case AType::Break:
-                actionTypeList.push_back(AType::Break);
-                damageTypeList.push_back(AType::Break);
+            case AType::BREAK:
+                actionTypeList.push_back(AType::BREAK);
+                damageTypeList.push_back(AType::BREAK);
                 toughnessAvgCalculate = 0;
                 critAble = 0;
                 break;
             case AType::SPB:
-                actionTypeList.push_back(AType::Break);
+                actionTypeList.push_back(AType::BREAK);
                 actionTypeList.push_back(AType::SPB);
-                damageTypeList.push_back(AType::Break);
+                damageTypeList.push_back(AType::BREAK);
                 damageTypeList.push_back(AType::SPB);
                 toughnessAvgCalculate = 0;
                 critAble = 0;
                 break;
-            case AType::ElationSkill:
-                actionTypeList.push_back(AType::ElationSkill);
-                actionTypeList.push_back(AType::ElationDMG);
-                damageTypeList.push_back(AType::ElationSkill);
-                damageTypeList.push_back(AType::ElationDMG);
+            case AType::ELATION_SKILL:
+                actionTypeList.push_back(AType::ELATION_SKILL);
+                actionTypeList.push_back(AType::ELATION_DMG);
+                damageTypeList.push_back(AType::ELATION_SKILL);
+                damageTypeList.push_back(AType::ELATION_DMG);
                 break;
-            case AType::ElationDMG:
-                actionTypeList.push_back(AType::ElationDMG);
-                damageTypeList.push_back(AType::ElationDMG);
+            case AType::ELATION_DMG:
+                actionTypeList.push_back(AType::ELATION_DMG);
+                damageTypeList.push_back(AType::ELATION_DMG);
                 break;
-            case AType::Addtional:
-                actionTypeList.push_back(AType::Addtional);
-                damageTypeList.push_back(AType::Addtional);
+            case AType::ADDTIONAL:
+                actionTypeList.push_back(AType::ADDTIONAL);
+                damageTypeList.push_back(AType::ADDTIONAL);
                 break;
-            case AType::Technique:
-                actionTypeList.push_back(AType::Technique);
-                damageTypeList.push_back(AType::Technique);
+            case AType::TECHNIQUE:
+                actionTypeList.push_back(AType::TECHNIQUE);
+                damageTypeList.push_back(AType::TECHNIQUE);
                 toughnessAvgCalculate = 0;
                 break;
-            case AType::Freeze:
-                actionTypeList.push_back(AType::Freeze);
-                damageTypeList.push_back(AType::Freeze);
-                toughnessAvgCalculate = 0;
-                critAble = 0;
-                break;
-            case AType::Entanglement:
-                actionTypeList.push_back(AType::Entanglement);
-                damageTypeList.push_back(AType::Entanglement);
+            case AType::FREEZE:
+                actionTypeList.push_back(AType::FREEZE);
+                damageTypeList.push_back(AType::FREEZE);
                 toughnessAvgCalculate = 0;
                 critAble = 0;
                 break;
-            case AType::Shock:
-                actionTypeList.push_back(AType::Dot);
-                actionTypeList.push_back(AType::Shock);
-                damageTypeList.push_back(AType::Dot);
-                damageTypeList.push_back(AType::Shock);
+            case AType::ENTANGLEMENT:
+                actionTypeList.push_back(AType::ENTANGLEMENT);
+                damageTypeList.push_back(AType::ENTANGLEMENT);
+                toughnessAvgCalculate = 0;
                 critAble = 0;
                 break;
-            case AType::Bleed:
-                actionTypeList.push_back(AType::Dot);
-                actionTypeList.push_back(AType::Bleed);
-                damageTypeList.push_back(AType::Dot);
-                damageTypeList.push_back(AType::Bleed);
+            case AType::SHOCK:
+                actionTypeList.push_back(AType::DOT);
+                actionTypeList.push_back(AType::SHOCK);
+                damageTypeList.push_back(AType::DOT);
+                damageTypeList.push_back(AType::SHOCK);
                 critAble = 0;
                 break;
-            case AType::WindShear:
-                actionTypeList.push_back(AType::Dot);
-                actionTypeList.push_back(AType::WindShear);
-                damageTypeList.push_back(AType::Dot);
-                damageTypeList.push_back(AType::WindShear);
+            case AType::BLEED:
+                actionTypeList.push_back(AType::DOT);
+                actionTypeList.push_back(AType::BLEED);
+                damageTypeList.push_back(AType::DOT);
+                damageTypeList.push_back(AType::BLEED);
                 critAble = 0;
                 break;
-            case AType::Burn:
-                actionTypeList.push_back(AType::Dot);
-                actionTypeList.push_back(AType::Burn);
-                damageTypeList.push_back(AType::Dot);
-                damageTypeList.push_back(AType::Burn);
+            case AType::WIND_SHEAR:
+                actionTypeList.push_back(AType::DOT);
+                actionTypeList.push_back(AType::WIND_SHEAR);
+                damageTypeList.push_back(AType::DOT);
+                damageTypeList.push_back(AType::WIND_SHEAR);
+                critAble = 0;
+                break;
+            case AType::BURN:
+                actionTypeList.push_back(AType::DOT);
+                actionTypeList.push_back(AType::BURN);
+                damageTypeList.push_back(AType::DOT);
+                damageTypeList.push_back(AType::BURN);
                 critAble = 0;
                 break;    
             default:
@@ -192,23 +192,23 @@ class  AllyAttackAction : public AllyActionData {
     #pragma endregion
 
     void setJoint() {
-        AttackSetList.emplace_back(Attacking(Attacker->owner->getMemosprite(),this->actionTypeList));
-        AttackSetList[1].actionTypeList.push_back(AType::Summon);
-        AttackSetList[1].damageTypeList.push_back(AType::Summon);
+        attackSetList.emplace_back(Attacking(attacker->owner->getMemosprite(),this->actionTypeList));
+        attackSetList[1].actionTypeList.push_back(AType::SUMMON);
+        attackSetList[1].damageTypeList.push_back(AType::SUMMON);
     }
     virtual void addActionType(AType actionType) override {
         actionTypeList.push_back(actionType);
-        AttackSetList[0].actionTypeList.emplace_back(actionType);
+        attackSetList[0].actionTypeList.emplace_back(actionType);
     }
     void addDamageType(AType actionType){
         damageTypeList.push_back(actionType);
-        AttackSetList[0].damageTypeList.emplace_back(actionType);
+        attackSetList[0].damageTypeList.emplace_back(actionType);
     }
     void addAttackType(AType actionType){
         actionTypeList.push_back(actionType);
         damageTypeList.push_back(actionType);
-        AttackSetList[0].actionTypeList.emplace_back(actionType);
-        AttackSetList[0].damageTypeList.emplace_back(actionType);
+        attackSetList[0].actionTypeList.emplace_back(actionType);
+        attackSetList[0].damageTypeList.emplace_back(actionType);
     }
 
     
@@ -216,8 +216,8 @@ class  AllyAttackAction : public AllyActionData {
     //act->addDamageIns(DmgSrc(DmgSrcType::ATK,120,6));
     void addDamageIns(DmgSrc main){
             damageSplit.emplace_back();
-            for(int i = 1;i<= Total_enemy;i++){
-                if(enemyUnit[i]->Target_type == EnemyType::Main){
+            for(int i = 1;i<= totalEnemy;i++){
+                if(enemyUnit[i]->targetType == EnemyType::MAIN){
                     damageSplit.back().emplace_back(main, enemyUnit[i].get());
                     break;
                 }
@@ -236,10 +236,10 @@ class  AllyAttackAction : public AllyActionData {
      */
     void addDamageIns(DmgSrc main,DmgSrc adjacent){
             damageSplit.emplace_back();
-            for(int i = 1;i<= Total_enemy;i++){
-                if(enemyUnit[i]->Target_type == EnemyType::Main)
+            for(int i = 1;i<= totalEnemy;i++){
+                if(enemyUnit[i]->targetType == EnemyType::MAIN)
                     damageSplit.back().emplace_back(main, enemyUnit[i].get());
-                else if(enemyUnit[i]->Target_type == EnemyType::Adjacent)
+                else if(enemyUnit[i]->targetType == EnemyType::ADJACENT)
                     damageSplit.back().emplace_back(adjacent, enemyUnit[i].get());
             }
 
@@ -259,10 +259,10 @@ class  AllyAttackAction : public AllyActionData {
      */
     void addDamageIns(DmgSrc main,DmgSrc adjacent,DmgSrc other){
             damageSplit.emplace_back();
-            for(int i = 1;i<= Total_enemy;i++){
-                if(enemyUnit[i]->Target_type == EnemyType::Main)
+            for(int i = 1;i<= totalEnemy;i++){
+                if(enemyUnit[i]->targetType == EnemyType::MAIN)
                     damageSplit.back().emplace_back(main, enemyUnit[i].get());
-                else if(enemyUnit[i]->Target_type == EnemyType::Adjacent)
+                else if(enemyUnit[i]->targetType == EnemyType::ADJACENT)
                     damageSplit.back().emplace_back(adjacent, enemyUnit[i].get());
                 else
                     damageSplit.back().emplace_back(other, enemyUnit[i].get());
@@ -270,7 +270,7 @@ class  AllyAttackAction : public AllyActionData {
         }
         
     void addDamageInsByDebuff(DmgSrc dmgsrc,string debuffName){
-        for(int i = 1;i<= Total_enemy;i++){
+        for(int i = 1;i<= totalEnemy;i++){
             if(!enemyUnit[i]->getDebuff(debuffName)){
                 addDamageIns(dmgsrc,enemyUnit[i].get());
                 return;
@@ -280,7 +280,7 @@ class  AllyAttackAction : public AllyActionData {
     }
 
     void addDamageInsByDebuff(DmgSrc dmgsrc,string debuffName,int max){
-        for(int i = 1;i<= Total_enemy&&i<=max;i++){
+        for(int i = 1;i<= totalEnemy&&i<=max;i++){
             if(!enemyUnit[i]->getDebuff(debuffName)){
                 addDamageIns(dmgsrc,enemyUnit[i].get());
                 return;
@@ -324,11 +324,11 @@ class  AllyAttackAction : public AllyActionData {
         for(auto &each : damageSplit){
             for(auto &dmg : each){
                 if(type == DmgSrcType::ATK)
-                    dmg.dmgSrc.ATK += value;
+                    dmg.dmgSrc.atk += value;
                 else if(type == DmgSrcType::HP)
-                    dmg.dmgSrc.HP += value;
+                    dmg.dmgSrc.hp += value;
                 else if(type == DmgSrcType::DEF)
-                    dmg.dmgSrc.DEF += value;
+                    dmg.dmgSrc.def += value;
                 else if(type == DmgSrcType::CONST)
                     dmg.dmgSrc.constDmg += value;
             }
@@ -338,64 +338,64 @@ class  AllyAttackAction : public AllyActionData {
 
     #pragma region addEnemyTarget
     void addEnemyToTargetList(){
-        if(!Attacker->isExisted())return;
+        if(!attacker->isExisted())return;
         std::shared_ptr<AllyActionData> self = shared_from_this();
-        vector<bool> check(Total_enemy+1, false);
+        vector<bool> check(totalEnemy+1, false);
         for(auto &e : targetList){
-            check[e->Atv_stats->num] = true;
+            check[e->atvStats->num] = true;
         }
         for (size_t i = 0; i < damageSplit.size(); ++i) {
             for (size_t j = 0; j < damageSplit[i].size(); ++j) {
                 Damage& dmg = damageSplit[i][j];
                 if (dmg.target == nullptr)continue;
-                if(check[dmg.target->Atv_stats->num])continue; // สมมติว่า Enemy มี field index
-                check[dmg.target->Atv_stats->num] = true;
+                if(check[dmg.target->atvStats->num])continue; // สมมติว่า Enemy มี field index
+                check[dmg.target->atvStats->num] = true;
                 targetList.emplace_back(dmg.target);
                 
             }
         }
     }
     void addToActionBar(){
-        if(!Attacker->isExisted())return;
+        if(!attacker->isExisted())return;
         std::shared_ptr<AllyActionData> self = shared_from_this();
-        vector<bool> check(Total_enemy+1, false);
+        vector<bool> check(totalEnemy+1, false);
         for(auto &e : targetList){
-            check[e->Atv_stats->num] = true;
+            check[e->atvStats->num] = true;
         }
         for (size_t i = 0; i < damageSplit.size(); ++i) {
             for (size_t j = 0; j < damageSplit[i].size(); ++j) {
                 Damage& dmg = damageSplit[i][j];
                 if (dmg.target == nullptr)continue;
-                if(check[dmg.target->Atv_stats->num])continue; // สมมติว่า Enemy มี field index
-                check[dmg.target->Atv_stats->num] = true;
+                if(check[dmg.target->atvStats->num])continue; // สมมติว่า Enemy มี field index
+                check[dmg.target->atvStats->num] = true;
                 targetList.emplace_back(dmg.target);
                 
             }
         }
-        Action_bar.push(self);
+        actionBar.push(self);
     }
     void addToAhaInstant(){
-        if(!Attacker->isExisted())return;
+        if(!attacker->isExisted())return;
         std::shared_ptr<AllyActionData> self = shared_from_this();
-        vector<bool> check(Total_enemy+1, false);
+        vector<bool> check(totalEnemy+1, false);
         for(auto &e : targetList){
-            check[e->Atv_stats->num] = true;
+            check[e->atvStats->num] = true;
         }
         for (size_t i = 0; i < damageSplit.size(); ++i) {
             for (size_t j = 0; j < damageSplit[i].size(); ++j) {
                 Damage& dmg = damageSplit[i][j];
                 if (dmg.target == nullptr)continue;
-                if(check[dmg.target->Atv_stats->num])continue; // สมมติว่า Enemy มี field index
-                check[dmg.target->Atv_stats->num] = true;
+                if(check[dmg.target->atvStats->num])continue; // สมมติว่า Enemy มี field index
+                check[dmg.target->atvStats->num] = true;
                 targetList.emplace_back(dmg.target);
                 
             }
         }
-        AhaInstantBar.push(self);
+        ahaInstantBar.push(self);
     }
     void addEnemyBounce(DmgSrc ins,int amount){
-        for(int i = 1;i<= Total_enemy&&i<= amount;i++){
-                if(enemyUnit[i]->Target_type == EnemyType::Main||(enemyUnit[i]->Target_type == EnemyType::Adjacent&&!bestBounce))
+        for(int i = 1;i<= totalEnemy&&i<= amount;i++){
+                if(enemyUnit[i]->targetType == EnemyType::MAIN||(enemyUnit[i]->targetType == EnemyType::ADJACENT&&!bestBounce))
                     this->targetList.push_back(enemyUnit[i].get());
         }
         for(int i = 0;i< amount;i++){
@@ -404,7 +404,7 @@ class  AllyAttackAction : public AllyActionData {
         }
     }
     void addEnemyFairBounce(DmgSrc ins,int amount){
-        for(int i = 1;i<= Total_enemy&&i<= amount;i++){
+        for(int i = 1;i<= totalEnemy&&i<= amount;i++){
                     this->targetList.push_back(enemyUnit[i].get());
         }
         for(int i = 0;i< amount;i++){
@@ -419,9 +419,9 @@ class  AllyAttackAction : public AllyActionData {
         for (size_t i = 0; i < damageSplit.size(); ++i) {
             for (size_t j = 0; j < damageSplit[i].size(); ++j) {
                 Damage& dmg = damageSplit[i][j];
-                dmg.dmgSrc.ATK *=value/100;
-                dmg.dmgSrc.HP *=value/100;
-                dmg.dmgSrc.DEF *=value/100;
+                dmg.dmgSrc.atk *=value/100;
+                dmg.dmgSrc.hp *=value/100;
+                dmg.dmgSrc.def *=value/100;
                 dmg.dmgSrc.constDmg *=value/100;
             }
         }

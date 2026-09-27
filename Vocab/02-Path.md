@@ -11,17 +11,17 @@
 
 | # | ชื่อในเกม | โค้ด (`Path`) | Aeon | บทบาท | คำอธิบายไทย |
 |---|---|---|---|---|---|
-| 1 | **The Destruction** | `Destruction` | **Nanook** | DPS อึด | ตีแรงพร้อมความทน มักมี self-heal / HP-scaling |
-| 2 | **The Hunt** | `Hunt` | **Lan** | Single-target DPS | ดาเมจเป้าเดี่ยวสูงสุด เหมาะกับ Elite/Boss มักมี follow-up |
-| 3 | **The Erudition** | `Erudition` | **Nous** | AoE DPS | ตีหลายเป้า เหมาะกับศัตรูเป็นฝูง |
-| 4 | **The Harmony** | `Harmony` | **Xipe** | Buffer | บัฟพวกพ้อง (ATK/CD/SPD/DMG/action advance) |
-| 5 | **The Nihility** | `Nihility` | **IX** | Debuffer / DoT | ลง debuff ลดขีดความสามารถศัตรู + ดาเมจต่อเนื่อง |
-| 6 | **The Preservation** | `Preservation` | **Qlipoth** | Shielder | สร้างเกราะ ป้องกันทีม มักมี taunt |
-| 7 | **The Abundance** | `Abundance` | **Yaoshi** | Healer | ฮีลและฟื้น HP ปลดสถานะ |
-| 8 | **The Remembrance** | `Remembrance` | **Fuli** | Memosprite user | เรียก **Memosprite** ออกมาช่วยรบ (เพิ่ม 3.0) |
-| 9 | **The Elation** | `Elation` | **Aha** | Punchline / SP burner | กลไก Punchline → Aha Instant, ดาเมจชนิด Elation (เพิ่ม 4.0) |
+| 1 | **The Destruction** | `DESTRUCTION` | **Nanook** | DPS อึด | ตีแรงพร้อมความทน มักมี self-heal / HP-scaling |
+| 2 | **The Hunt** | `HUNT` | **Lan** | Single-target DPS | ดาเมจเป้าเดี่ยวสูงสุด เหมาะกับ Elite/Boss มักมี follow-up |
+| 3 | **The Erudition** | `ERUDITION` | **Nous** | AoE DPS | ตีหลายเป้า เหมาะกับศัตรูเป็นฝูง |
+| 4 | **The Harmony** | `HARMONY` | **Xipe** | Buffer | บัฟพวกพ้อง (ATK/CD/SPD/DMG/action advance) |
+| 5 | **The Nihility** | `NIHILITY` | **IX** | Debuffer / DoT | ลง debuff ลดขีดความสามารถศัตรู + ดาเมจต่อเนื่อง |
+| 6 | **The Preservation** | `PRESERVATION` | **Qlipoth** | Shielder | สร้างเกราะ ป้องกันทีม มักมี taunt |
+| 7 | **The Abundance** | `ABUNDANCE` | **Yaoshi** | Healer | ฮีลและฟื้น HP ปลดสถานะ |
+| 8 | **The Remembrance** | `REMEMBRANCE` | **Fuli** | Memosprite user | เรียก **Memosprite** ออกมาช่วยรบ (เพิ่ม 3.0) |
+| 9 | **The Elation** | `ELATION` | **Aha** | Punchline / SP burner | กลไก Punchline → Aha Instant, ดาเมจชนิด Elation (เพิ่ม 4.0) |
 
-> ⚠️ **ระวังชื่อ**: ในเกมเขียนว่า "The Hunt" แต่ใน enum ของโปรเจกต์นี้ใช้ `Hunt` (ไม่มี The)
+> ⚠️ **ระวังชื่อ**: ในเกมเขียนว่า "The Hunt" แต่ใน enum ของโปรเจกต์นี้ใช้ `HUNT` (ไม่มี The)
 > ส่วนโฟลเดอร์โค้ดใช้ชื่อ `src/Defination/Data/Character/The Hunt/` (มี The + มีเว้นวรรค)
 
 ---
@@ -68,7 +68,7 @@
 ## เรื่องที่มีผลกับโค้ด
 
 1. **`path[0]`** — โปรเจกต์นี้เก็บ path เป็น `vector` เพราะเผื่อกรณีตัวละครมีหลาย Path
-   โค้ดเช็ค Path of Elation ด้วย `each->path[0] == Path::Elation`
+   โค้ดเช็ค Path of Elation ด้วย `each->path[0] == Path::ELATION`
    (ดู [`SetCombat.h:117`](../src/Defination/Function/Setup/SetCombat.h) และ [`Combat.h:57`](../src/Defination/Function/Combat/Combat.h))
 2. **Path มีผลกับ Light Cone** — Light Cone ใส่ได้เฉพาะตัวละครที่ Path ตรงกันเท่านั้น
    ถ้า Path ไม่ตรง จะได้แค่ base stat ไม่ได้ passive

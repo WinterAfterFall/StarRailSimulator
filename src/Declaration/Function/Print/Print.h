@@ -1,6 +1,6 @@
 #include "../include.h"
 
 void printRoundResult();
-void Print();
+void print();
 void printRoundResult();
 void printSummaryResult();

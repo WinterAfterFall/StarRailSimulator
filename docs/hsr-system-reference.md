@@ -329,10 +329,10 @@ Toughness เป็นสแตตของศัตรูเท่านั้�
 Weakness Break Efficiency มีเพดานที่ 300% (เพิ่มมา patch 2.7, ธ.ค. 2024)
 
 หมายเหตุ sim:
-- Additive term ไม่ implement แยก — ผู้ใช้บวกเข้า Base ก่อนเรียก `Cal_Total_Toughness_Reduce`
-- `Cal_Total_Toughness_Reduce` (CalDamage.h): `Base x (1 + ΣTOUGH_REDUCE%) x (1 + ΣBREAK_EFF%)`
+- Additive term ไม่ implement แยก — ผู้ใช้บวกเข้า Base ก่อนเรียก `calTotalToughnessReduce`
+- `calTotalToughnessReduce` (CalDamage.h): `Base x (1 + ΣTOUGH_REDUCE%) x (1 + ΣBREAK_EFF%)`
   โดย BREAK_EFF bucket = Weakness Break Efficiency (คนละ stat กับ `Stats::BE` ที่เพิ่ม Break DMG)
-- cap 300%: cap ค่าโบนัส (`Weakness_Break_Efficiency_bonus`) ที่ 300 ก่อนบวก base 100% (2026-09-08)
+- cap 300%: cap ค่าโบนัส (`weaknessBreakEfficiencyBonus`) ที่ 300 ก่อนบวก base 100% (2026-09-08)
   — bucket `Stats::BREAK_EFF` เก็บโบนัสล้วน (baseline 0); base 100% มาจาก literal ในฟังก์ชันคำนวณ
 
 ### 8.5 Break DMG
@@ -571,7 +571,7 @@ DEF ของศัตรูคำนวณจาก DEF = 200 + 10 x Level
 
 > **หมายเหตุการอ่านค่า %:** ตัวเลขข้างบนเป็นค่าตาม[คอนเวนชันเลเวลของโปรเจกต์](character-implementation-notes.md) (5★ = talent Lv.10) — แหล่งนอกที่อ้างเลเวลสูงกว่าจะเห็นเลขต่างเล็กน้อย เช่น Game8 เขียน RMC = 30%
 
-> **ในเอนจินนี้:** True DMG ไม่มี `AType` ของตัวเอง — บันทึกตรงเข้าสมุดดาเมจผ่าน `Cal_DamageNote()` โดยไม่ผ่าน `Attack()`/`CalDamage` ซึ่งทำให้คุณสมบัติทุกข้อข้างบนเป็นจริงโดยอัตโนมัติ · รายละเอียด + เหตุผลที่ key ต้องเก็บทั้ง `src` และ `recv` อยู่ที่ `docs/engine-reference/instructor/Class/Unit/CharUnit.md` (เหตุผลที่ key มีทั้ง src และ recv) และ `docs/engine-reference/instructor/Function/Calculate/CalDamageNote.md` (วิธีบันทึก)
+> **ในเอนจินนี้:** True DMG ไม่มี `AType` ของตัวเอง — บันทึกตรงเข้าสมุดดาเมจผ่าน `calDamageNote()` โดยไม่ผ่าน `attack()`/`CalDamage` ซึ่งทำให้คุณสมบัติทุกข้อข้างบนเป็นจริงโดยอัตโนมัติ · รายละเอียด + เหตุผลที่ key ต้องเก็บทั้ง `src` และ `recv` อยู่ที่ `docs/engine-reference/instructor/Class/Unit/CharUnit.md` (เหตุผลที่ key มีทั้ง src และ recv) และ `docs/engine-reference/instructor/Function/Calculate/CalDamageNote.md` (วิธีบันทึก)
 
 ---
 
@@ -597,7 +597,7 @@ Elation กลายเป็น Path ที่เล่นได้ใน Versi
 - **Elation Level Multiplier มีตารางแยก** และ = ~2 เท่าของ Break DMG Level Multiplier พอดี
   (Lv.1 = 108.0, Lv.80 = 7535.107 = 3767.5533 x 2)
 - **ไม่รับ DMG Boost และ Weaken** (ต่างจากดาเมจปกติ) — เหมือน Break ตรงนี้ แต่ **คริได้** (ต่าง Break)
-- ในโค้ด sim: `calElationDamage()` base = `Level_multiplier x 2 x ratio/100` → ตรงกับ wiki
+- ในโค้ด sim: `calElationDamage()` base = `levelMultiplier x 2 x ratio/100` → ตรงกับ wiki
   (ยืนยันแล้ว 2026-09-08 — Punchline/Merrymake/Elation multiplier เป๊ะทุกพจน์)
 
 ### 11.1 Punchline
@@ -660,7 +660,7 @@ Memosprite คือ entity อิสระที่ตัวละคร Path o
 (ที่ทีมเกิน 4 ได้) memosprite จึงเป็นยูนิตตัวที่ 5, 6, 7, 8 ได้ engine ต้องไม่สมมติว่ามีได้ตัวเดียว
 หรือ hardcode ช่อง
 
-**Memosprite = summon เสมอ**: ทุกการโจมตีจาก memosprite มี AType::Summon ติดเพิ่มเสมอ
+**Memosprite = summon เสมอ**: ทุกการโจมตีจาก memosprite มี AType::SUMMON ติดเพิ่มเสมอ
 (ดู memory reference_atype_action_damage_rules ข้อ 5 — Joint Attack ก็ push Summon เฉพาะฝั่ง memosprite)
 
 เพราะนับเป็นตัวละครแยก memosprite จึงทริกเกอร์เอฟเฟกต์ที่ต้องการ "ตัวละคร" ได้

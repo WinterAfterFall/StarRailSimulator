@@ -2,21 +2,21 @@
 #include "../include.h"
 
 namespace Jade{
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
-    void Basic_Atk(CharUnit *ptr);
-    void Skill(CharUnit *ptr);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
+    void basicAtk(CharUnit *ptr);
+    void skill(CharUnit *ptr);
 
 
 //temp
-    void Jade_Fua(CharUnit *ptr);
-    void Jade_Talent(CharUnit *ptr,int amount);
-    void Fua(CharUnit *ptr);
-    void Fua_Enchance(CharUnit *ptr);
+    void jadeFua(CharUnit *ptr);
+    void jadeTalent(CharUnit *ptr,int amount);
+    void fua(CharUnit *ptr);
+    void fuaEnchance(CharUnit *ptr);
 
 
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
-        CharUnit *ptr = SetCharBasicStats(103,140,140,E,ElementType::Quantum,Path::Erudition,"Jade",UnitType::Standard);
-        ptr->SetAllyBaseStats(1087,660,509);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = setCharBasicStats(103,140,140,eidolon,ElementType::QUANTUM,Path::ERUDITION,"Jade",UnitType::STANDARD);
+        ptr->setAllyBaseStats(1087,660,509);
 
         //substats
         ptr->pushSubstats(Stats::CD);
@@ -30,24 +30,24 @@ namespace Jade{
 
 
         //func
-        LC(ptr);
+        lc(ptr);
         Relic(ptr);
         Planar(ptr);
-        ptr->Turn_func = [ptr, allyPtr = ptr]() {
+        ptr->turnFunc = [ptr, allyPtr = ptr]() {
             
             if (allyPtr->getBuffCheck("Jade_Skill")) {
-                Basic_Atk(ptr);
+                basicAtk(ptr);
             } else {
-                Skill(ptr);
+                skill(ptr);
             }
         };
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [](CharUnit *ptr) {
+        ultimateList.push_back(TriggerByYourSelfFunc(PRIORITY_ACTTACK, ptr, [](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
-            make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Jade Ult",
+            make_shared<AllyAttackAction>(AType::ULT,ptr,TraceType::AOE,"Jade Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 ptr->stack["Jade_Ultimate_stack"] = 2;
-                Attack(act);
+                attack(act);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,240,20),
@@ -55,27 +55,27 @@ namespace Jade{
                 DmgSrc(DmgSrcType::ATK,240,20)
             );
             act->addToActionBar();
-            Deal_damage();
+            dealDamage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_type[Stats::ATK_P][AType::None] += 18;
-            ptr->Stats_type[Stats::RES][AType::None] += 10;
-            ptr->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 22.4;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsType[Stats::ATK_P][AType::NONE] += 18;
+            ptr->statsType[Stats::RES][AType::NONE] += 10;
+            ptr->statsEachElement[Stats::DMG][ElementType::QUANTUM][AType::NONE] += 22.4;
 
             // relic
             // substats
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            Jade_Talent(ptr, Total_enemy);
-            Action_forward(ptr->Atv_stats.get(), 50);
-            if (ptr->Technique == 1) {
+        startGameList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            jadeTalent(ptr, totalEnemy);
+            actionForward(ptr->atvStats.get(), 50);
+            if (ptr->technique == 1) {
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr,TraceType::Aoe,"Jade Tech",
+                make_shared<AllyAttackAction>(AType::TECHNIQUE,ptr,TraceType::AOE,"Jade Tech",
                 [ptr](shared_ptr<AllyAttackAction> &act){
-                    Jade_Talent(ptr, 15);
-                    Attack(act);
+                    jadeTalent(ptr, 15);
+                    attack(act);
                 });
                 act->addDamageIns(
                     DmgSrc(DmgSrcType::ATK,50,0),
@@ -83,36 +83,36 @@ namespace Jade{
                     DmgSrc(DmgSrcType::ATK,50,0)
                 );
                 act->addToActionBar();
-                Deal_damage();
+                dealDamage();
             }
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            if (chooseAllyBuff(ptr)->Atv_stats->Name == turn->Name) {
-                Jade_Talent(ptr, 3);
+        beforeTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            if (chooseAllyBuff(ptr)->atvStats->name == turn->name) {
+                jadeTalent(ptr, 3);
             }
             
             if (isBuffEnd(ptr,"Jade_Skill")) {
-                buffSingle(chooseAllyBuff(ptr),{{Stats::SPD_P,AType::None,-30}});
+                buffSingle(chooseAllyBuff(ptr),{{Stats::SPD_P,AType::NONE,-30}});
             }
         }));
 
-        When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
-            if (act->isSameAction("Jade",AType::Fua)) {
-                Jade_Talent(ptr, 5);
+        whenAttackList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
+            if (act->isSameAction("Jade",AType::FUA)) {
+                jadeTalent(ptr, 5);
                 return;
             }
             if (ptr->buffCheck["Jade_Skill"] == 0) return;
-            if (act->Attacker->Atv_stats->Name != "Jade" && act->Attacker->Atv_stats->Name != chooseAllyBuff(ptr)->Atv_stats->Name) return;
+            if (act->attacker->atvStats->name != "Jade" && act->attacker->atvStats->name != chooseAllyBuff(ptr)->atvStats->name) return;
 
             int temp = act->targetList.size();
-            if (ptr->Eidolon >= 1 && temp < 3) temp = 3;
+            if (ptr->eidolon >= 1 && temp < 3) temp = 3;
             ptr->stack["Jade_Talent"] += temp;
-            Jade_Fua(ptr);
+            jadeFua(ptr);
         }));
 
-        Enemy_Death_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, AllyUnit *Killer){
-            Jade_Talent(ptr, 1);
+        enemyDeathList.push_back(TriggerBySomeAllyFunc(PRIORITY_IMMEDIATELY, [ptr](Enemy *target, AllyUnit *killer){
+            jadeTalent(ptr, 1);
         }));
         
 
@@ -123,14 +123,14 @@ namespace Jade{
 
 
 
-    void Basic_Atk(CharUnit *ptr){
+    void basicAtk(CharUnit *ptr){
         
         genSkillPoint(ptr,1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Blast,"Jade BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::BLAST,"Jade BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(charUnit[ptr->Atv_stats->num].get(),20);
-            Attack(act);
+            increaseEnergy(charUnit[ptr->atvStats->num].get(),20);
+            attack(act);
         });
         act->addDamageIns(
             DmgSrc(DmgSrcType::ATK,90,10),
@@ -138,15 +138,15 @@ namespace Jade{
         );
         act->addToActionBar();
     }
-    void Skill(CharUnit *ptr){
+    void skill(CharUnit *ptr){
         
         genSkillPoint(ptr,-1);
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"Jade Skill",
+        make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::SINGLE,"Jade Skill",
         [ptr](shared_ptr<AllyBuffAction> &act){
-            Increase_energy(charUnit[ptr->Atv_stats->num].get(),30);
+            increaseEnergy(charUnit[ptr->atvStats->num].get(),30);
             if(isHaveToAddBuff(ptr,"Jade_Skill",3)){
-                buffSingle(chooseAllyBuff(ptr),{{Stats::SPD_P,AType::None,30}});
+                buffSingle(chooseAllyBuff(ptr),{{Stats::SPD_P,AType::NONE,30}});
             }
         });
         act->addBuffSingleTarget(chooseAllyBuff(ptr));
@@ -158,27 +158,27 @@ namespace Jade{
             
         
 
-    void Jade_Fua(CharUnit *ptr){
+    void jadeFua(CharUnit *ptr){
 
         while(ptr->stack["Jade_Talent"]>8){
             ptr->stack["Jade_Talent"]-=8;
             if(ptr->stack["Jade_Ultimate_stack"]>0){
-                Fua_Enchance(ptr);
+                fuaEnchance(ptr);
                 ptr->stack["Jade_Ultimate_stack"]--;             
             }else{
-                Fua(ptr);
+                fua(ptr);
             }
         }
-        Deal_damage();
+        dealDamage();
     }
-    void Fua(CharUnit *ptr){
+    void fua(CharUnit *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::Fua,ptr,TraceType::Aoe,"Jade Fua",
+        make_shared<AllyAttackAction>(AType::FUA,ptr,TraceType::AOE,"Jade Fua",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(ptr,10);
-            if(ptr->Eidolon>=1)buffSingle(ptr,{{Stats::DMG,AType::None,32}});
-            Attack(act);
-            if(ptr->Eidolon>=1)buffSingle(ptr,{{Stats::DMG,AType::None,-32}});
+            increaseEnergy(ptr,10);
+            if(ptr->eidolon>=1)buffSingle(ptr,{{Stats::DMG,AType::NONE,32}});
+            attack(act);
+            if(ptr->eidolon>=1)buffSingle(ptr,{{Stats::DMG,AType::NONE,-32}});
         });
         act->addDamageIns(
             DmgSrc(DmgSrcType::ATK,18,1.5),
@@ -207,14 +207,14 @@ namespace Jade{
         );
         act->addToActionBar();
     }
-    void Fua_Enchance(CharUnit *ptr){
+    void fuaEnchance(CharUnit *ptr){
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::Fua,ptr,TraceType::Aoe,"Jade Fua",
+        make_shared<AllyAttackAction>(AType::FUA,ptr,TraceType::AOE,"Jade Fua",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(ptr,10);
-            if(ptr->Eidolon>=1)buffSingle(ptr,{{Stats::DMG,AType::None,32}});
-            Attack(act);
-            if(ptr->Eidolon>=1)buffSingle(ptr,{{Stats::DMG,AType::None,-32}});
+            increaseEnergy(ptr,10);
+            if(ptr->eidolon>=1)buffSingle(ptr,{{Stats::DMG,AType::NONE,32}});
+            attack(act);
+            if(ptr->eidolon>=1)buffSingle(ptr,{{Stats::DMG,AType::NONE,-32}});
         });
         act->addDamageIns(
             DmgSrc(DmgSrcType::ATK,20,1),
@@ -243,13 +243,13 @@ namespace Jade{
         );
         act->addToActionBar();
     }
-    void Jade_Talent(CharUnit *ptr,int amount){
+    void jadeTalent(CharUnit *ptr,int amount){
         buffStackSingle(ptr,
-            {{Stats::ATK_P,AType::None,0.5},
-            {Stats::CD,AType::None,2.4}},
+            {{Stats::ATK_P,AType::NONE,0.5},
+            {Stats::CD,AType::NONE,2.4}},
             amount,50,"Pawned_Asset");
-        if(ptr->Eidolon>=2&&ptr->stack["Pawned_Asset"]>=15&&isHaveToAddBuff(ptr,"Jade_E2")){
-            buffSingle(ptr,{{Stats::CR,AType::None,18}});
+        if(ptr->eidolon>=2&&ptr->stack["Pawned_Asset"]>=15&&isHaveToAddBuff(ptr,"Jade_E2")){
+            buffSingle(ptr,{{Stats::CR,AType::NONE,18}});
         }
 
     }

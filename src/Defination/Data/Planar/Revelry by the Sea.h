@@ -1,13 +1,13 @@
 #include "../include.h"
 namespace Planar{
     void Revelry(CharUnit *ptr){
-        ptr->Planar.Name="Revelry";
+        ptr->Planar.name="Revelry";
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_type[Stats::ATK_P][AType::None] += 12;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsType[Stats::ATK_P][AType::NONE] += 12;
         }));
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_type[Stats::DMG][AType::Dot] += 24;
+        whenOnFieldList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsType[Stats::DMG][AType::DOT] += 24;
         }));
     }
 }

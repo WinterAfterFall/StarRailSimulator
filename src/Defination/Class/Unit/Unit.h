@@ -1,5 +1,5 @@
-#ifndef Unit_H
-#define Unit_H
+#ifndef UNIT_H
+#define UNIT_H
 #include <bits/stdc++.h>
 #include "ActionValueStats.h"
 
@@ -9,151 +9,151 @@
 // Action value stats for a unit (atv)
 class Unit {
 public:
-    unique_ptr<ActionValueStats> Atv_stats;  // Moved Atv_stats here to be shared by both Ally and Enemy
-    function<void()> Turn_func ;
-    Common_stats_each_element Stats_each_element;//Ice Quantum
-    Common_stats_type Stats_type;// Atk% Flat_Atk Def% Dmg% Crit_rate Crit_dam Def_shred Respen Vul Break_effect Weakness_Break_Efficiency HealingBonus 
-    // Constructor to initialize Atv_stats and set owner to 'this'
+    unique_ptr<ActionValueStats> atvStats;  // Moved atvStats here to be shared by both Ally and Enemy
+    function<void()> turnFunc ;
+    CommonStatsEachElement statsEachElement;//Ice Quantum
+    CommonStatsType statsType;// Atk% Flat_Atk Def% Dmg% Crit_rate Crit_dam Def_shred Respen Vul Break_effect Weakness_Break_Efficiency HealingBonus 
+    // Constructor to initialize atvStats and set owner to 'this'
 
     UnitStatus status;
     Unit() {
-        Atv_stats = make_unique<ActionValueStats>();  // Create Atv_stats in Unit
-        Atv_stats->charptr = this;  // Set owner to this object (Unit, Ally, or Enemy)
+        atvStats = make_unique<ActionValueStats>();  // Create atvStats in Unit
+        atvStats->charptr = this;  // Set owner to this object (Unit, Ally, or Enemy)
     }
        
     void speedBuff(BuffClass buffSet){
-        if(buffSet.statsType==Stats::FLAT_SPD)this->Atv_stats->speedBuff(0,buffSet.value);
-        else this->Atv_stats->speedBuff(buffSet.value,0);
+        if(buffSet.statsType==Stats::FLAT_SPD)this->atvStats->speedBuff(0,buffSet.value);
+        else this->atvStats->speedBuff(buffSet.value,0);
     }
     void resetATV(){
-        this->Atv_stats->resetATV();
+        this->atvStats->resetATV();
     }
     void resetATV(double baseSpeed){
-        this->Atv_stats->resetATV(baseSpeed);
+        this->atvStats->resetATV(baseSpeed);
     }
     
 #pragma region Get Method
     ActionValueStats* getAtvStats() {
-        return Atv_stats.get();
+        return atvStats.get();
     }
 
-    Common_stats_each_element& getStatsEachElement() {
-        return Stats_each_element;
+    CommonStatsEachElement& getStatsEachElement() {
+        return statsEachElement;
     }
 
-    Common_stats_type& getStatsType() {
-        return Stats_type;
+    CommonStatsType& getStatsType() {
+        return statsType;
     }
-    // Getters for Atv_stats
+    // Getters for atvStats
     double getBaseSpeed()  {
-        return Atv_stats->baseSpeed;
+        return atvStats->baseSpeed;
     }
     double getFlatSpeed()  {
-        return Atv_stats->flatSpeed;
+        return atvStats->flatSpeed;
     }
     double getSpeedPercent()  {
-        return Atv_stats->speedPercent;
+        return atvStats->speedPercent;
     }
     double getATV(){
-        return Atv_stats->atv;
+        return atvStats->atv;
     }
     double getMaxATV(){
-        return Atv_stats->Max_atv;
+        return atvStats->maxAtv;
     }
     int getTurnCnt(){
-        return Atv_stats->turnCnt;
+        return atvStats->turnCnt;
     }
     int getNum(){
-        return Atv_stats->num;
+        return atvStats->num;
     }
     Side getSide(){
-        return Atv_stats->side;
+        return atvStats->side;
     }
     UnitType getType(){
-        return Atv_stats->Type;
+        return atvStats->type;
     }
     int getPriority(){
-        return Atv_stats->priority;
+        return atvStats->priority;
     }
     string getName(){
-        return Atv_stats->Name;
+        return atvStats->name;
     }
     
 #pragma endregion
 
 #pragma region Set Method
-    // Setters for Atv_stats
+    // Setters for atvStats
     void setBaseSpeed(double baseSpeed){
-        Atv_stats->baseSpeed = baseSpeed;
+        atvStats->baseSpeed = baseSpeed;
     }
     void setFlatSpeed(double flatSpeed) {
-        Atv_stats->flatSpeed = flatSpeed;
+        atvStats->flatSpeed = flatSpeed;
     }
     void setSpeedPercent(double speedPercent) {
-        Atv_stats->speedPercent = speedPercent;
+        atvStats->speedPercent = speedPercent;
     }
     void setATV(double atv) {
-        Atv_stats->atv = atv;
+        atvStats->atv = atv;
     }
-    void setMaxATV(double Max_atv) {
-        Atv_stats->Max_atv = Max_atv;
+    void setMaxATV(double maxAtv) {
+        atvStats->maxAtv = maxAtv;
     }
-    void setTurnCnt(int turn_cnt) {
-        Atv_stats->turnCnt = turn_cnt;
+    void setTurnCnt(int turnCnt) {
+        atvStats->turnCnt = turnCnt;
     }
-    void setUnitNum(int Unit_num) {
-        Atv_stats->num = Unit_num;
+    void setUnitNum(int unitNum) {
+        atvStats->num = unitNum;
     }
     void setSide(Side Side) {
-        Atv_stats->side = Side;
+        atvStats->side = Side;
     }
-    void setType(UnitType Type) {
-        Atv_stats->Type = Type;
+    void setType(UnitType type) {
+        atvStats->type = type;
     }
     void setPriority(int priority) {
-        Atv_stats->priority = priority;
+        atvStats->priority = priority;
     }
     void setName(string name) {
-        Atv_stats->Name = name;
+        atvStats->name = name;
     }
 #pragma endregion
 #pragma endregion
 
 #pragma region Check Method
     bool isSameUnit(Unit *ptr){
-        if(this->Atv_stats->Name == ptr->Atv_stats->Name)return true;
+        if(this->atvStats->name == ptr->atvStats->name)return true;
         return false;
     }
     bool isSameName(string name){
-        if(this->Atv_stats->Name == name)return true;
+        if(this->atvStats->name == name)return true;
         return false;
     }
     bool isSameNum(Unit *ptr){
-        if(this->Atv_stats->num == ptr->Atv_stats->num)return true;
+        if(this->atvStats->num == ptr->atvStats->num)return true;
         return false;
     }
     bool isSameNum(int num){
-        if(this->Atv_stats->num == num)return true;
+        if(this->atvStats->num == num)return true;
         return false;
     }
     bool isAlive(){
-        if(this->status == UnitStatus::Alive)return true;
+        if(this->status == UnitStatus::ALIVE)return true;
         return false;
     }
     bool isDeath(){
-        if(this->status == UnitStatus::Death)return true;
+        if(this->status == UnitStatus::DEATH)return true;
         return false;
     }
     bool isAtvChangeAble(){
-        if(this->status == UnitStatus::Death||this->status == UnitStatus::AtvFreeze||this->status == UnitStatus::Retire)return false;
+        if(this->status == UnitStatus::DEATH||this->status == UnitStatus::ATV_FREEZE||this->status == UnitStatus::RETIRE)return false;
         return true;
     }
     bool isExisted(){
-        if(this->status == UnitStatus::Death||this->status == UnitStatus::Retire)return false;
+        if(this->status == UnitStatus::DEATH||this->status == UnitStatus::RETIRE)return false;
         return true;
     }
     bool isTargetable(){
-        if(this->status == UnitStatus::Death||this->status == UnitStatus::Retire||this->getType()==UnitType::OutofBounds)return false;
+        if(this->status == UnitStatus::DEATH||this->status == UnitStatus::RETIRE||this->getType()==UnitType::OUT_OF_BOUNDS)return false;
         return true;
     }
 
@@ -162,21 +162,21 @@ public:
     Enemy* canCastToEnemy();
     
     void summon(){
-        this->status = UnitStatus::Alive;
+        this->status = UnitStatus::ALIVE;
         this->resetATV();
     }
     void death(){
-        this->status = UnitStatus::Death;
+        this->status = UnitStatus::DEATH;
     }
     
     virtual ~Unit() {}  // Virtual destructor to ensure proper cleanup of derived classes
 };
 #pragma region ATV get/set
     bool ActionValueStats::isSameUnit(Unit* ptr) {
-        return this->Name == ptr->Atv_stats->Name;
+        return this->name == ptr->atvStats->name;
     }
     bool ActionValueStats::isSameNum(Unit* ptr) {
-        return this->num == ptr->Atv_stats->num;
+        return this->num == ptr->atvStats->num;
     }
 #pragma endregion
 #endif

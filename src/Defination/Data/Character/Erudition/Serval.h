@@ -1,18 +1,18 @@
 #include "../include.h"
 
 namespace Serval{
-    void Basic_Atk(CharUnit *ptr);
-    void Skill(CharUnit *ptr);
+    void basicAtk(CharUnit *ptr);
+    void skill(CharUnit *ptr);
 
 
 
 
 
 //temp
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
-        CharUnit *ptr = SetCharBasicStats(104,100,100,E,ElementType::Lightning,Path::Erudition,"Serval",UnitType::Standard);
-        AllyUnit *Servalptr = ptr;
-        ptr->SetAllyBaseStats(917,653,375);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = setCharBasicStats(104,100,100,eidolon,ElementType::LIGHTNING,Path::ERUDITION,"Serval",UnitType::STANDARD);
+        AllyUnit *servalPtr = ptr;
+        ptr->setAllyBaseStats(917,653,375);
         //substats
         ptr->pushSubstats(Stats::CD);
         ptr->pushSubstats(Stats::CR);
@@ -24,33 +24,33 @@ namespace Serval{
 
 
         //func
-        LC(ptr);
+        lc(ptr);
         Relic(ptr);
         Planar(ptr);
-        ptr->Turn_func = [ptr, allyPtr = ptr]() {
-            if (allyPtr->Atv_stats->turnCnt % 3 != 1) {
-                Basic_Atk(ptr);
+        ptr->turnFunc = [ptr, allyPtr = ptr]() {
+            if (allyPtr->atvStats->turnCnt % 3 != 1) {
+                basicAtk(ptr);
             } else {
-                Skill(ptr);
+                skill(ptr);
             }
         };
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_type[Stats::EHR][AType::None] += 18;
-            ptr->Stats_type[Stats::CR][AType::None] += 18.7;
-            ptr->Stats_type[Stats::RES][AType::None] += 10;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsType[Stats::EHR][AType::NONE] += 18;
+            ptr->statsType[Stats::CR][AType::NONE] += 18.7;
+            ptr->statsType[Stats::RES][AType::NONE] += 10;
 
             // relic
 
             // substats
         }));
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [](CharUnit *ptr) {
+        ultimateList.push_back(TriggerByYourSelfFunc(PRIORITY_ACTTACK, ptr, [](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
-            make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Serval Ult",
+            make_shared<AllyAttackAction>(AType::ULT,ptr,TraceType::AOE,"Serval Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
-                Attack(act);
-                if (ptr->Eidolon >= 4){
+                attack(act);
+                if (ptr->eidolon >= 4){
                     for (auto &each : enemyList) {
                         if (debuffApply(ptr,each,"Serval_Shock")) {
                             each->changeShock(1);
@@ -65,16 +65,16 @@ namespace Serval{
                 DmgSrc(DmgSrcType::ATK,194,20)
             );
             act->addToActionBar();
-            Deal_damage();
+            dealDamage();
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [](CharUnit *ptr) {
-            if (turn->Name == "Serval") {
+        afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_BUFF, ptr, [](CharUnit *ptr) {
+            if (turn->name == "Serval") {
                 if (isBuffEnd(ptr,"Serval_A6")) {
-                    ptr->Stats_type[Stats::ATK_P][AType::None] -= 20;
+                    ptr->statsType[Stats::ATK_P][AType::NONE] -= 20;
                 }
             }
-            if (turn->side == Side::Enemy) {
+            if (turn->side == Side::ENEMY) {
                 Enemy *tempstats = dynamic_cast<Enemy*>(turn->charptr);
                 if (tempstats) {
                     if (isDebuffEnd(tempstats,"Serval_Shock")) {
@@ -84,28 +84,28 @@ namespace Serval{
             }
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [](CharUnit *ptr) {
-            Increase_energy(ptr, 15);
-            if (ptr->Eidolon >= 6) {
-                ptr->Stats_type[Stats::DMG][AType::None] += 30;
+        startGameList.push_back(TriggerByYourSelfFunc(PRIORITY_ACTTACK, ptr, [](CharUnit *ptr) {
+            increaseEnergy(ptr, 15);
+            if (ptr->eidolon >= 6) {
+                ptr->statsType[Stats::DMG][AType::NONE] += 30;
             }
         }));
 
-        Dot_List.push_back(TriggerDot_Func(PRIORITY_BUFF, [ptr,Servalptr](Enemy* target, double Dot_ratio, DotType Dot_type) {
+        dotList.push_back(TriggerDotFunc(PRIORITY_BUFF, [ptr,servalPtr](Enemy* target, double dotRatio, DotType dotType) {
             if (!target->getDebuff("Serval_Shock")) return;
-            if (Dot_type != DotType::General && Dot_type != DotType::Shock) return;
+            if (dotType != DotType::GENERAL && dotType != DotType::SHOCK) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Shock,ptr,TraceType::Single,"Serval Shock");
+            make_shared<AllyAttackAction>(AType::SHOCK,ptr,TraceType::SINGLE,"Serval Shock");
             act->addDamageIns(DmgSrc(DmgSrcType::ATK,114),target);
-            act->multiplyDmg(Dot_ratio);
-            Attack(act);
+            act->multiplyDmg(dotRatio);
+            attack(act);
         }));
 
-        When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act) {
-            if (act->Attacker->Atv_stats->Name != "Serval") return;
+        whenAttackList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act) {
+            if (act->attacker->atvStats->name != "Serval") return;
             // มีศัตรูติด Shock อยู่สักตัว -> additional DMG ใส่ศัตรูทุกตัว ยิงครั้งเดียว
             bool anyShocked = false;
-            for (int i = 1; i <= Total_enemy; i++) {
+            for (int i = 1; i <= totalEnemy; i++) {
                 if (enemyUnit[i]->getDebuff("Serval_Shock")) {
                     anyShocked = true;
                     break;
@@ -113,21 +113,21 @@ namespace Serval{
             }
             if (!anyShocked) return;
 
-            shared_ptr<AllyAttackAction> data_2 = 
-            make_shared<AllyAttackAction>(AType::Addtional,ptr,TraceType::Aoe,"Serval AddDmg");
-            data_2->addDamageIns(
+            shared_ptr<AllyAttackAction> data2 = 
+            make_shared<AllyAttackAction>(AType::ADDTIONAL,ptr,TraceType::AOE,"Serval AddDmg");
+            data2->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,79),
                 DmgSrc(DmgSrcType::ATK,79),
                 DmgSrc(DmgSrcType::ATK,79)
             );
-            Attack(data_2);
-            if (ptr->Eidolon >= 2) {
-                Increase_energy(ptr, 4);   // E2: 1 ครั้งต่อการ trigger talent
+            attack(data2);
+            if (ptr->eidolon >= 2) {
+                increaseEnergy(ptr, 4);   // E2: 1 ครั้งต่อการ trigger talent
             }
         }));
 
-        Enemy_Death_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,Servalptr](Enemy *target, AllyUnit *Killer) {
-            buffSingle(Servalptr,{{Stats::ATK_P,AType::None,20}},"Serval_A6",2);
+        enemyDeathList.push_back(TriggerBySomeAllyFunc(PRIORITY_IMMEDIATELY, [ptr,servalPtr](Enemy *target, AllyUnit *killer) {
+            buffSingle(servalPtr,{{Stats::ATK_P,AType::NONE,20}},"Serval_A6",2);
         }));
 
 
@@ -136,17 +136,17 @@ namespace Serval{
 
 
 
-    void Basic_Atk(CharUnit *ptr){
+    void basicAtk(CharUnit *ptr){
         genSkillPoint(ptr,1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Serval BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::SINGLE,"Serval BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(charUnit[ptr->Atv_stats->num].get(),20);
-            Attack(act);
+            increaseEnergy(charUnit[ptr->atvStats->num].get(),20);
+            attack(act);
         });
         act->addDamageIns(DmgSrc(DmgSrcType::ATK,110,10),chooseEnemyTarget(ptr));
-        if(Total_enemy>=2&&ptr->Eidolon>=1){
-            if(ptr->Enemy_target_num==1){
+        if(totalEnemy>=2&&ptr->eidolon>=1){
+            if(ptr->enemyTargetNum==1){
                 act->addDamageHit(DmgSrc(DmgSrcType::ATK,60,0),enemyUnit[2].get());
             }else{
                 act->addDamageHit(DmgSrc(DmgSrcType::ATK,60,0),enemyUnit[1].get());
@@ -154,19 +154,19 @@ namespace Serval{
         }
         act->addToActionBar();
     }
-    void Skill(CharUnit *ptr){
+    void skill(CharUnit *ptr){
         genSkillPoint(ptr,-1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"Serval Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::BLAST,"Serval Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(ptr,30);
+            increaseEnergy(ptr,30);
             for (auto &each : enemyList) {
                 if (debuffApply(ptr,each,"Serval_Shock")) {
                         each->changeShock(1);
                 }
             }
             extendDebuffAll("Serval_Shock", 2);
-            Attack(act);
+            attack(act);
         });
         act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,154,20),

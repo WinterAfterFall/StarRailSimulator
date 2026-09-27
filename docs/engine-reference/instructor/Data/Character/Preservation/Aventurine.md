@@ -17,13 +17,13 @@ kit อ้างอิง: `docs/kit-reference/Character/Preservation/aventurine
 
 | ของเก่าในไฟล์นี้ | ของปัจจุบัน |
 |---|---|
-| `Ally_unit[num] = make_unique<Ally>();` | `SetCharBasicStats(...)` คืน `CharUnit*` |
-| `Ally_unit[num]->stats->baseHp = 1203;` ทีละฟิลด์ | `ptr->SetAllyBaseStats(HP, ATK, DEF)` |
-| `Ally_unit[num]->stats->Char_func.After_turn_func = After_turn;` | `After_turn_List.push_back(TriggerByYourSelf_Func(...))` |
-| `ptr->Dmg_bonus_each_element[...]` | `ptr->Stats_each_element[Stats::DMG][...]` |
-| `ptr->Def_percent[AType::None]` | `ptr->Stats_type[Stats::DEF_P][AType::None]` |
-| `void Set_up(int num, int E, ...)` | `void Setup(int E, ...)` (ไม่มี `num`) |
-| `ptr->stats->Eidolon` | `ptr->Eidolon` |
+| `Ally_unit[num] = make_unique<ALLY>();` | `setCharBasicStats(...)` คืน `CharUnit*` |
+| `Ally_unit[num]->stats->baseHp = 1203;` ทีละฟิลด์ | `ptr->setAllyBaseStats(HP, ATK, DEF)` |
+| `Ally_unit[num]->stats->Char_func.After_turn_func = After_turn;` | `afterTurnList.push_back(TriggerByYourSelfFunc(...))` |
+| `ptr->Dmg_bonus_each_element[...]` | `ptr->statsEachElement[Stats::DMG][...]` |
+| `ptr->Def_percent[AType::NONE]` | `ptr->statsType[Stats::DEF_P][AType::NONE]` |
+| `void Set_up(int num, int E, ...)` | `void setup(int E, ...)` (ไม่มี `num`) |
+| `ptr->stats->eidolon` | `ptr->eidolon` |
 | `Combat_data &act` | `shared_ptr<AllyAttackAction> &act` |
 
 **เป็นหลักฐานว่า engine เคยเปลี่ยนสถาปัตยกรรมครั้งใหญ่** — จาก "ตัวละครเก็บฟังก์ชันไว้ในตัวเอง (`Char_func`)" มาเป็น "ตัวละคร push trigger เข้า list กลาง" (ดู `../../README.md`)

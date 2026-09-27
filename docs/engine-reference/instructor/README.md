@@ -21,13 +21,13 @@
 
 ## ทางเข้ารันและการเลือกชุดจำลอง
 
-`Application.cpp::main()` เรียก `SetValue()` ตั้งค่าตั้งต้น, รับจำนวนตัวละคร, เรียก `BuildSelector()` เก็บตัวเลือกตัวละคร/Light Cone/Relic/Planar เป็น callback ใน `CharSelectList`, แล้วจึงเรียก callback `Setup()` ของแต่ละตัวละครให้สร้างยูนิตจริง หลัง `EnemySelector()` จะผูก `Char1`–`Char4` กับ `charUnit[1..4]`, เปิดการตรวจสูตร Crit ให้ `Char1` และเข้า `Main()`
+`Application.cpp::main()` เรียก `setValue()` ตั้งค่าตั้งต้น, รับจำนวนตัวละคร, เรียก `buildSelector()` เก็บตัวเลือกตัวละคร/Light Cone/Relic/Planar เป็น callback ใน `charSelectList`, แล้วจึงเรียก callback `setup()` ของแต่ละตัวละครให้สร้างยูนิตจริง หลัง `enemySelector()` จะผูก `char1`–`char4` กับ `charUnit[1..4]`, เปิดการตรวจสูตร Crit ให้ `char1` และเข้า `mainLoop()`
 
-`SettingFunction.h` เป็นตัวแปลงชื่อที่ผู้ใช้พิมพ์เป็น callback ของแต่ละชุดอุปกรณ์; `askYesNo()` ถือ Enter เป็น yes ส่วน `askNoYes()` ถือ Enter เป็น no ทั้งคู่รับข้อความด้วย `getline()` `EnemySelector()` ปัจจุบันถามจำนวนศัตรูแต่ไม่ได้ใช้ตัวเลขนั้น: ต้องตอบ `yes` ที่คำถามกำหนดสถานะศัตรูเอง จึงจะสร้างศัตรูค่าคงที่ 2 ตัว (`Main` และ `Adjacent`); ตอบ `no` หรือ Enter จะไม่สร้างศัตรู เพราะสาขานั้นยังไม่ implement ชื่อคำถามยังชวนเข้าใจผิด ดูวิธีรันใน [build-run-and-test.md](../../build-run-and-test.md)
+`SettingFunction.h` เป็นตัวแปลงชื่อที่ผู้ใช้พิมพ์เป็น callback ของแต่ละชุดอุปกรณ์; `askYesNo()` ถือ Enter เป็น yes ส่วน `askNoYes()` ถือ Enter เป็น no ทั้งคู่รับข้อความด้วย `getline()` `enemySelector()` ปัจจุบันถามจำนวนศัตรูแต่ไม่ได้ใช้ตัวเลขนั้น: ต้องตอบ `yes` ที่คำถามกำหนดสถานะศัตรูเอง จึงจะสร้างศัตรูค่าคงที่ 2 ตัว (`MAIN` และ `ADJACENT`); ตอบ `no` หรือ Enter จะไม่สร้างศัตรู เพราะสาขานั้นยังไม่ implement ชื่อคำถามยังชวนเข้าใจผิด ดูวิธีรันใน [build-run-and-test.md](../../build-run-and-test.md)
 
-`Main.h::Main()` เรียก `Setup()` หนึ่งครั้ง แล้ววน run เพื่อรีเซ็ต/สุ่ม substats/จำลองทุก wave/รวมดาเมจ/พิมพ์ผล ก่อนให้ `Reroll_substats()` ตัดสินว่าจะวนอีกหรือจบ; ลำดับย่อยดูหัวข้อ run/wave ด้านล่าง `ManualBuilder.cpp` ใช้ชุดตัวละคร/อุปกรณ์และศัตรูที่เขียนไว้ในไฟล์ พร้อมเปิดตัวช่วยพิมพ์เวลาของตัวละครทั้งสี่ แล้วทำลูปจำลองแบบเดียวกันภายใน `main()` ของตัวเอง จึงเป็นทางเข้าแยกสำหรับ build คนละ executable
+`Main.h::mainLoop()` เรียก `setup()` หนึ่งครั้ง แล้ววน run เพื่อรีเซ็ต/สุ่ม substats/จำลองทุก wave/รวมดาเมจ/พิมพ์ผล ก่อนให้ `rerollSubstats()` ตัดสินว่าจะวนอีกหรือจบ; ลำดับย่อยดูหัวข้อ run/wave ด้านล่าง `ManualBuilder.cpp` ใช้ชุดตัวละคร/อุปกรณ์และศัตรูที่เขียนไว้ในไฟล์ พร้อมเปิดตัวช่วยพิมพ์เวลาของตัวละครทั้งสี่ แล้วทำลูปจำลองแบบเดียวกันภายใน `main()` ของตัวเอง จึงเป็นทางเข้าแยกสำหรับ build คนละ executable
 
-ค่าที่ทางเข้ารันแก้ เช่น `Wave`, `spMode`, `driverType`, `rerollSubstatsMode` อยู่ใน `src/Setting.h` พร้อม global state ของการจำลอง: จำนวนยูนิต, รายการตัวละคร/ศัตรู/ยูนิตในสนาม, คิว action, ตัวชี้เทิร์นและเวลา ATV, และ trigger lists `Setup()` เรียง trigger lists ก่อนเริ่ม run ส่วน `Reset()` ล้างค่าต่อ run ตามที่อธิบายใน [SetCombat.md](Function/Setup/SetCombat.md) `src/Enum/StatusEnum.h` นิยามโหมด Driver/SP/Phase/reroll ที่ค่าตั้งต้นเหล่านี้ใช้
+ค่าที่ทางเข้ารันแก้ เช่น `wave`, `spMode`, `driverType`, `rerollSubstatsMode` อยู่ใน `src/Setting.h` พร้อม global state ของการจำลอง: จำนวนยูนิต, รายการตัวละคร/ศัตรู/ยูนิตในสนาม, คิว action, ตัวชี้เทิร์นและเวลา ATV, และ trigger lists `setup()` เรียง trigger lists ก่อนเริ่ม run ส่วน `reset()` ล้างค่าต่อ run ตามที่อธิบายใน [SetCombat.md](Function/Setup/SetCombat.md) `src/Enum/StatusEnum.h` นิยามโหมด Driver/SP/Phase/reroll ที่ค่าตั้งต้นเหล่านี้ใช้
 
 ## ระบบ ATV / ลำดับเทิร์น (แนวคิด)
 
@@ -36,37 +36,37 @@
 | ตัวแปร | ความหมาย |
 |---|---|
 | `atv` (ต่อ unit) | **เวลาที่เหลือ**จนกว่า unit นี้จะได้เทิร์น (นับถอยหลังเข้าใกล้ 0) |
-| `Max_atv` (ต่อ unit) | เวลาโดยประมาณต่อ 1 รอบวิ่งของ unit นั้น ณ ความเร็วปัจจุบัน = `10000 / effectiveSpeed` |
-| `Current_atv` (global, `Setting.h`) | จำนวน "วินาที" ที่ผ่านไปตั้งแต่เริ่ม simulate (นาฬิกาเดินหน้าอย่างเดียว) |
+| `maxAtv` (ต่อ unit) | เวลาโดยประมาณต่อ 1 รอบวิ่งของ unit นั้น ณ ความเร็วปัจจุบัน = `10000 / effectiveSpeed` |
+| `currentAtv` (global, `Setting.h`) | จำนวน "วินาที" ที่ผ่านไปตั้งแต่เริ่ม simulate (นาฬิกาเดินหน้าอย่างเดียว) |
 | `turn` (global `ActionValueStats*`) | unit ที่กำลังเล่นเทิร์นอยู่ตอนนี้ |
 
-`K_const = 10000` (`Trigger_Function.h:10`)
+`K_CONST = 10000` (`Trigger_Function.h:10`)
 `effectiveSpeed = baseSpeed·(1 + speedPercent/100) + flatSpeed`
 
-> การ debug buff-drift ในหน่วยความจำ ("ดู stats ที่ ATV 1000/2000/…/5000") = ดูตามค่า `Current_atv`
+> การ debug buff-drift ในหน่วยความจำ ("ดู stats ที่ ATV 1000/2000/…/5000") = ดูตามค่า `currentAtv`
 
 ### คำศัพท์: run / wave / game (สำคัญ — โครงลูปใน `Main.h`)
 
 ```
-Setup()                          // ครั้งเดียว — สร้างตัวละคร + register lambda ทุกตัว
+setup()                          // ครั้งเดียว — สร้างตัวละคร + register lambda ทุกตัว
 while(1) {                        // ── REROLL LOOP: 1 รอบ = 1 "run" (substats ชุดหนึ่ง) ──
-    Reset()                      //   per-run: Basic_reset / Summon_reset / Countdown_reset / Reset_List / Memosprite_reset
-    Set_Stats(chars)             //   per-run: ใส่ substats ของ run นี้
-    Start_game()                 //   per-run: All_atv_reset + Start_game_List
-    for (i = 0; i < Total_wave; i++) {   // ── WAVE LOOP: หลาย wave ต่อ 1 run ──
-        Current_atv = 0          //     per-wave
-        Start_wave(i)            //     per-wave: (All_atv_reset ถ้า i!=0) + Start_wave_List
-        while(1) { Find_turn(); Atv_fix(); Take_action(); }   // turn loop จนกว่า Current_atv > Wave[i]
+    reset()                      //   per-run: basicReset / summonReset / countdownReset / resetList / memospriteReset
+    setStats(chars)             //   per-run: ใส่ substats ของ run นี้
+    startGame()                 //   per-run: allAtvReset + startGameList
+    for (i = 0; i < totalWave; i++) {   // ── wave LOOP: หลาย wave ต่อ 1 run ──
+        currentAtv = 0          //     per-wave
+        startWave(i)            //     per-wave: (allAtvReset ถ้า i!=0) + startWaveList
+        while(1) { findTurn(); atvFix(); takeAction(); }   // turn loop จนกว่า currentAtv > wave[i]
     }
-    Cal_DamageSummary(); printRoundResult();
-    if (Reroll_substats()) break;   // ลอง substats ชุดถัดไป หรือหยุด
+    calDamageSummary(); printRoundResult();
+    if (rerollSubstats()) break;   // ลอง substats ชุดถัดไป หรือหยุด
 }
 ```
 
 | คำ | หมายถึง | อะไร reset ตรงนี้ |
 |---|---|---|
-| **run** (รอบรัน / iteration ของ reroll loop) | รัน sim ครบ 1 จบ ด้วย substats ชุดหนึ่ง — โปรแกรมทำหลาย run เพื่อวนหา substats ที่ดีสุด | `Reset()` → `Basic_reset` `Memosprite_reset` `Summon_reset` `Countdown_reset` · `nextForwardPriority = 0` |
-| **wave** | 1 ยกของศัตรู — 1 run มีได้หลาย wave (`Total_wave`) | `Start_wave` → `All_atv_reset()` (เฉพาะ wave ที่ 2 เป็นต้นไป) + `Start_wave_List` · `Current_atv = 0` |
-| **game start** = ต้น run (ก่อน wave 0) | จุดที่ `Reset()` + `Start_game()` รัน | — |
+| **run** (รอบรัน / iteration ของ reroll loop) | รัน sim ครบ 1 จบ ด้วย substats ชุดหนึ่ง — โปรแกรมทำหลาย run เพื่อวนหา substats ที่ดีสุด | `reset()` → `basicReset` `memospriteReset` `summonReset` `countdownReset` · `nextForwardPriority = 0` |
+| **wave** | 1 ยกของศัตรู — 1 run มีได้หลาย wave (`totalWave`) | `startWave` → `allAtvReset()` (เฉพาะ wave ที่ 2 เป็นต้นไป) + `startWaveList` · `currentAtv = 0` |
+| **game start** = ต้น run (ก่อน wave 0) | จุดที่ `reset()` + `startGame()` รัน | — |
 
 ⚠️ **memosprite / summon / countdown reset "ต่อ run" ไม่ใช่ "ต่อ wave"** — ตัวที่ถูก summon ใน wave 0 จะยังอยู่ต่อไป wave 1, 2, … ใน run เดียวกัน

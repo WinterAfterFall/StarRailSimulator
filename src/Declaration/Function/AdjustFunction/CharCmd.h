@@ -7,9 +7,9 @@ namespace CharCmd {
 
     CharUnit* findAllyName(std::string name);
 
-    void Set_Technique(CharUnit* ptr, int tech);
-    void Set_Tune_Speed(CharUnit* ptr, double value);
-    void Set_Reroll_check(CharUnit* ptr, bool Bool);
-    void Timing_print(CharUnit* ptr);
-    bool Using_Skill(CharUnit* ptr);
+    void setTechnique(CharUnit* ptr, int tech);
+    void setTuneSpeed(CharUnit* ptr, double value);
+    void setRerollCheck(CharUnit* ptr, bool flag);
+    void timingPrint(CharUnit* ptr);
+    bool usingSkill(CharUnit* ptr);
 }

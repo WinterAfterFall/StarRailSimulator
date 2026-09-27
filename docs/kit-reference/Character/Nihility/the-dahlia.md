@@ -91,7 +91,7 @@ Break Effect +37.3% · SPD +5 · Effect RES +18%
 - **Ult "Wilt"**: DEF −18% + weakness implant ตาม Dance Partner types
 - **Zone (Skill)**: WBE +50% + Super Break conversion แม้ยังไม่ broken
 - **A2**: BE share 24%×BE + 50% ให้เพื่อน
-- โค้ด: `Start_game_List` (`Dahlia.h:203`)
+- โค้ด: `startGameList` (`Dahlia.h:203`)
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/the-dahlia — kit tab (review/calc patch 3.8, profile 01/Jun/2026)

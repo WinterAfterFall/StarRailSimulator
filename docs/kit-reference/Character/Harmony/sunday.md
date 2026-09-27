@@ -84,7 +84,7 @@ CRIT DMG +37.3% · Effect RES +18% · DEF +12.5%
 - **Talent CRIT Rate +20%** (E6: stack 3, +CD conversion เมื่อเกิน 100%)
 - **Energy support**: Ult 20% Max Energy (A2 floor 40), A4 +25 start, E4 +8/turn
 - summon-centric — ทำงานดีกับ Jing Yuan / Robin / remembrance
-- โค้ด: `Start_game_List` (`Sunday.h:179`, `SDptr`)
+- โค้ด: `startGameList` (`Sunday.h:179`, `SDptr`)
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/sunday — kit tab (review patch 2.7, calc patch 4.0, profile 01/Jun/2026)

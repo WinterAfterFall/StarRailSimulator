@@ -1,9 +1,9 @@
 #include "../include.h"
 
 namespace Saber{
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
-        CharUnit *ptr = SetCharBasicStats(101,360,360,E,ElementType::Wind,Path::Destruction,"Saber",UnitType::Standard);
-        ptr->SetAllyBaseStats(1242,602,655);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = setCharBasicStats(101,360,360,eidolon,ElementType::WIND,Path::DESTRUCTION,"Saber",UnitType::STANDARD);
+        ptr->setAllyBaseStats(1242,602,655);
 
         //substats
         ptr->pushSubstats(Stats::CD);
@@ -15,25 +15,25 @@ namespace Saber{
 
         
         //func
-        LC(ptr);
+        lc(ptr);
         Relic(ptr);
         Planar(ptr);
 
         AllyUnit *sb = ptr;
 
         #pragma region extra
-        function<void(int value)> CoreResonance = [ptr,sb](int value){
+        function<void(int value)> coreResonance = [ptr,sb](int value){
             sb->buffNote["Core Resonance"] += value;
-            buffStackSingle(sb,{{Stats::CD,AType::None,4}},value,8,"Saber A6");
-            if(ptr->Eidolon>=2)buffStackSingle(sb,{{Stats::DEF_SHRED,AType::None,1}},value,15,"Saber E2");
+            buffStackSingle(sb,{{Stats::CD,AType::NONE,4}},value,8,"Saber A6");
+            if(ptr->eidolon>=2)buffStackSingle(sb,{{Stats::DEF_SHRED,AType::NONE,1}},value,15,"Saber E2");
         };
 
         function<double()> resetCR = [ptr,sb](){
             double ans = sb->buffNote["Core Resonance"];
             sb->setBuffNote("Core Resonance",0);
             sb->setBuffCheck("Saber ESkill",0);
-            Increase_energy(sb,0,8.0*ans);
-            if(ptr->Eidolon>=2)return 21*ans;
+            increaseEnergy(sb,0,8.0*ans);
+            if(ptr->eidolon>=2)return 21*ans;
             else return 14*ans;
         };
 
@@ -41,14 +41,14 @@ namespace Saber{
 
         #pragma region Ability
 
-        function<void()> BA = [ptr,sb,CoreResonance]() {
+        function<void()> ba = [ptr,sb,coreResonance]() {
             genSkillPoint(sb,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Saber BA",
-            [ptr,sb,CoreResonance](shared_ptr<AllyAttackAction> &act){
-                Increase_energy(sb,20);
-                Attack(act);
-                if(ptr->Eidolon>=1)CoreResonance(1);
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::SINGLE,"Saber BA",
+            [ptr,sb,coreResonance](shared_ptr<AllyAttackAction> &act){
+                increaseEnergy(sb,20);
+                attack(act);
+                if(ptr->eidolon>=1)coreResonance(1);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,100,10)
@@ -57,17 +57,17 @@ namespace Saber{
             act->addToActionBar();
         };
 
-        function<void()> EBA = [ptr,sb,CoreResonance]() {
+        function<void()> eba = [ptr,sb,coreResonance]() {
             genSkillPoint(sb,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Aoe,"Saber EBA",
-            [ptr,sb,CoreResonance](shared_ptr<AllyAttackAction> &act){
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::AOE,"Saber EBA",
+            [ptr,sb,coreResonance](shared_ptr<AllyAttackAction> &act){
                 sb->setBuffCheck("Saber EBA",0);
-                Increase_energy(sb,30);
+                increaseEnergy(sb,30);
                 sb->setBuffCheck("Mana Flow",1);
-                CoreResonance(2);
-                Attack(act);
-                if(ptr->Eidolon>=1)CoreResonance(1);
+                coreResonance(2);
+                attack(act);
+                if(ptr->eidolon>=1)coreResonance(1);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,75,10),
@@ -80,23 +80,23 @@ namespace Saber{
                 DmgSrc(DmgSrcType::ATK,75,10)
             );
 
-            if(Total_enemy==1||(bestBounce&&Total_enemy==5))
+            if(totalEnemy==1||(bestBounce&&totalEnemy==5))
             act->multiplyDmg(370.0/150*100);
-            if(Total_enemy==2)
+            if(totalEnemy==2)
             act->multiplyDmg(200);
             act->addToActionBar();
         };
 
-        function<void()> Skill = [ptr,sb,CoreResonance]() {
+        function<void()> skill = [ptr,sb,coreResonance]() {
             genSkillPoint(sb,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"Saber Skill",
-            [ptr,sb,CoreResonance](shared_ptr<AllyAttackAction> &act){
-                Increase_energy(sb,30);
-                buffSingle(sb,{{Stats::CD,AType::None,50}},"Saber A6 Skill",2);
-                CoreResonance(3);
-                Attack(act);
-                if(ptr->Eidolon>=1)CoreResonance(1);
+            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::BLAST,"Saber Skill",
+            [ptr,sb,coreResonance](shared_ptr<AllyAttackAction> &act){
+                increaseEnergy(sb,30);
+                buffSingle(sb,{{Stats::CD,AType::NONE,50}},"Saber A6 Skill",2);
+                coreResonance(3);
+                attack(act);
+                if(ptr->eidolon>=1)coreResonance(1);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,150*0.1,2),
@@ -118,15 +118,15 @@ namespace Saber{
             act->addToActionBar();
         };
 
-        function<void()> ESkill = [ptr,sb,resetCR,CoreResonance]() {
+        function<void()> eSkill = [ptr,sb,resetCR,coreResonance]() {
             genSkillPoint(sb,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"Saber ESkill",
-            [ptr,sb,resetCR,CoreResonance](shared_ptr<AllyAttackAction> &act){
-                Increase_energy(sb,30);
-                buffSingle(sb,{{Stats::CD,AType::None,50}},"Saber A6 Skill",2);
-                Attack(act);
-                if(ptr->Eidolon>=1)CoreResonance(1);
+            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::BLAST,"Saber ESkill",
+            [ptr,sb,resetCR,coreResonance](shared_ptr<AllyAttackAction> &act){
+                increaseEnergy(sb,30);
+                buffSingle(sb,{{Stats::CD,AType::NONE,50}},"Saber A6 Skill",2);
+                attack(act);
+                if(ptr->eidolon>=1)coreResonance(1);
             });
 
             double mtpr = resetCR();
@@ -150,11 +150,11 @@ namespace Saber{
         };
 
         #pragma endregion
-        ptr->Turn_func = [ptr,sb,BA,EBA,Skill,ESkill]() {
-            if(sb->getBuffCheck("Saber EBA"))EBA();
-            else if(sb->getBuffCheck("Saber ESkill"))ESkill();
-            else if(sp>=1)Skill();
-            else BA();
+        ptr->turnFunc = [ptr,sb,ba,eba,skill,eSkill]() {
+            if(sb->getBuffCheck("Saber EBA"))eba();
+            else if(sb->getBuffCheck("Saber ESkill"))eSkill();
+            else if(sp>=1)skill();
+            else ba();
         };
         
 
@@ -163,24 +163,24 @@ namespace Saber{
             return false;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [sb](CharUnit *ptr) {
+        ultimateList.push_back(TriggerByYourSelfFunc(PRIORITY_BUFF, ptr, [sb](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
-            make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Saber Ult",
+            make_shared<AllyAttackAction>(AType::ULT,ptr,TraceType::AOE,"Saber Ult",
             [ptr,sb](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Saber");
                 sb->setBuffCheck("Saber EBA",1);
-                Increase_energy(sb,0,sb->getBuffNote("Saber A4"));
+                increaseEnergy(sb,0,sb->getBuffNote("Saber A4"));
                 sb->buffNote["Saber A4"] = 0;
-                if(ptr->Eidolon>=4)buffStackSingle(sb,{{Stats::RESPEN,ElementType::Wind,AType::None,4}},1,3,"Saber E4");
-                if(ptr->Eidolon>=6){
+                if(ptr->eidolon>=4)buffStackSingle(sb,{{Stats::RESPEN,ElementType::WIND,AType::NONE,4}},1,3,"Saber E4");
+                if(ptr->eidolon>=6){
                     if(sb->getBuffCountdown("Saber E6")==0){
                         sb->setBuffCountdown("Saber E6",2);
-                        Increase_energy(sb,0,300);
+                        increaseEnergy(sb,0,300);
                     }else{
                         sb->buffEnd["Saber E6"]--;
                     }
                 }
-                Attack(act);
+                attack(act);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,280,40),
@@ -189,76 +189,76 @@ namespace Saber{
             );
             act->addEnemyBounce(DmgSrc(DmgSrcType::ATK,110,2),10);
             act->addToActionBar();
-            Deal_damage();
+            dealDamage();
 
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_each_element[Stats::DMG][ElementType::Wind][AType::None] += 22.4;
-            ptr->Stats_type[Stats::CR][AType::None] += 12;
-            ptr->Stats_type[Stats::HP_P][AType::None] += 10;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsEachElement[Stats::DMG][ElementType::WIND][AType::NONE] += 22.4;
+            ptr->statsType[Stats::CR][AType::NONE] += 12;
+            ptr->statsType[Stats::HP_P][AType::NONE] += 10;
 
             //trace
-            ptr->Stats_type[Stats::CR][AType::None] += 20;
+            ptr->statsType[Stats::CR][AType::NONE] += 20;
 
-            if(ptr->Eidolon>=1)ptr->Stats_type[Stats::DMG][AType::Ult] += 60;
-            if(ptr->Eidolon>=4)ptr->Stats_each_element[Stats::RESPEN][ElementType::Wind][AType::None] += 8;
-            if(ptr->Eidolon>=6)ptr->Stats_each_element[Stats::RESPEN][ElementType::Wind][AType::Ult] += 20;
+            if(ptr->eidolon>=1)ptr->statsType[Stats::DMG][AType::ULT] += 60;
+            if(ptr->eidolon>=4)ptr->statsEachElement[Stats::RESPEN][ElementType::WIND][AType::NONE] += 8;
+            if(ptr->eidolon>=6)ptr->statsEachElement[Stats::RESPEN][ElementType::WIND][AType::ULT] += 20;
 
 
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [sb](CharUnit *ptr) {
+        afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [sb](CharUnit *ptr) {
             if(isBuffEnd(sb,"Saber Talent")){
-                buffSingle(sb,{{Stats::DMG,AType::None,-60}});
+                buffSingle(sb,{{Stats::DMG,AType::NONE,-60}});
             }
             if(isBuffEnd(sb,"Saber Tech")){
-                buffSingle(sb,{{Stats::ATK_P,AType::None,-35}});
+                buffSingle(sb,{{Stats::ATK_P,AType::NONE,-35}});
             }
             if(isBuffEnd(sb,"Saber A6 Skill")){
-                buffSingle(sb,{{Stats::CD,AType::None,-50}});
+                buffSingle(sb,{{Stats::CD,AType::NONE,-50}});
             }
             // Skill energy (30, via ER) + consumed Core Resonance (8 each, fixed) would fill Energy
-            if(ptr->Ult_cost<=ptr->Current_energy + 30*ptr->Energy_recharge/100 + 8 * sb->buffNote["Core Resonance"]){
+            if(ptr->ultCost<=ptr->currentEnergy + 30*ptr->energyRecharge/100 + 8 * sb->buffNote["Core Resonance"]){
                 sb->setBuffCheck("Saber ESkill",1);
                 if(sb->getBuffCheck("Mana Flow")){
-                    Action_forward(sb->Atv_stats.get(),1000);
+                    actionForward(sb->atvStats.get(),1000);
                     genSkillPoint(sb,1);
                     sb->setBuffCheck("Mana Flow",0);
                 }
             }else sb->setBuffCheck("Saber ESkill",0);
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [sb,CoreResonance](CharUnit *ptr) {
+        startGameList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [sb,coreResonance](CharUnit *ptr) {
             // A4: Energy below 60% at battle start -> set to 60%
-            if(ptr->Current_energy < ptr->Max_energy*0.6)ptr->Current_energy = ptr->Max_energy*0.6;
+            if(ptr->currentEnergy < ptr->maxEnergy*0.6)ptr->currentEnergy = ptr->maxEnergy*0.6;
             sb->setBuffCheck("Mana Flow",1);
-            CoreResonance(1);
-            if(ptr->Technique){
-                CoreResonance(2);
-                buffSingle(sb,{{Stats::ATK_P,AType::None,35}},"Saber Tech",2);
+            coreResonance(1);
+            if(ptr->technique){
+                coreResonance(2);
+                buffSingle(sb,{{Stats::ATK_P,AType::NONE,35}},"Saber Tech",2);
             }
         }));
 
-        WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY, [ptr,sb,CoreResonance](CharUnit *ally) {
-            buffSingle(sb,{{Stats::DMG,AType::None,60}},"Saber Talent",2);
-            CoreResonance(3);
+        whenUseUltList.push_back(TriggerByAllyFunc(PRIORITY_IMMEDIATELY, [ptr,sb,coreResonance](CharUnit *ally) {
+            buffSingle(sb,{{Stats::DMG,AType::NONE,60}},"Saber Talent",2);
+            coreResonance(3);
         }));
 
-        When_Energy_Increase_List.push_back(TriggerEnergy_Increase_Func(PRIORITY_IMMEDIATELY, [ptr,sb,CoreResonance](CharUnit *target, double Energy) {
+        whenEnergyIncreaseList.push_back(TriggerEnergyIncreaseFunc(PRIORITY_IMMEDIATELY, [ptr,sb,coreResonance](CharUnit *target, double energy) {
             if(!ptr->isSameOwner(target))return;
 
-            if(ptr->Current_energy + Energy >= ptr->Max_energy){
-                sb->buffNote["Saber A4"] += ptr->Current_energy + Energy - ptr->Max_energy ;
+            if(ptr->currentEnergy + energy >= ptr->maxEnergy){
+                sb->buffNote["Saber A4"] += ptr->currentEnergy + energy - ptr->maxEnergy ;
             }
 
         }));
     }
 
-    void UltInTurnOnly(){
+    void ultInTurnOnly(){
         CharUnit *ally = CharCmd::findAllyName("Saber");
         ally->addUltCondition([ally]() -> bool {
-            if(turn->isSameName("Saber")&&phaseStatus == PhaseStatus::BeforeTurn)return true;
+            if(turn->isSameName("Saber")&&phaseStatus == PhaseStatus::BEFORE_TURN)return true;
             return false;
         });
     }

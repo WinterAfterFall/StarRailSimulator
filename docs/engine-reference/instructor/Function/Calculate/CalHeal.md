@@ -1,6 +1,6 @@
 # `src/Defination/Function/Calculate/CalHeal.h`
 
-## `calculateHeal(healSrc, Healer, target)`
+## `calculateHeal(healSrc, healer, target)`
 
 นำองค์ประกอบทั้งหกใน `HealSrc` มารวมเป็นค่าฮีลก่อนนำไปใช้กับ HP:
 
@@ -13,7 +13,7 @@ ATK ของผู้ฮีล × ATK ratio / 100
 + ค่าฮีลคงที่
 ```
 
-ผลรวมทั้งหมดคูณด้วยโบนัสฮีลจาก `calHealBonusMultiplier(Healer, target)` แล้ว clamp ค่าติดลบเป็น `0` รายละเอียดค่าใน `HealSrc` ดู [HealData.md](../../Class/CombatData/HealData.md) และสูตร stat/โบนัสฮีลดู [CalHealStats.md](CalHealStats.md)
+ผลรวมทั้งหมดคูณด้วยโบนัสฮีลจาก `calHealBonusMultiplier(healer, target)` แล้ว clamp ค่าติดลบเป็น `0` รายละเอียดค่าใน `HealSrc` ดู [HealData.md](../../Class/CombatData/HealData.md) และสูตร stat/โบนัสฮีลดู [CalHealStats.md](CalHealStats.md)
 
 User ยืนยัน 2026-09-20 ว่า ratio ทั้งหกชนิดใน `HealSrc` ถูกออกแบบให้เป็น `0` หรือค่าบวก ไม่มีการใช้ ratio ติดลบเพื่อลดองค์ประกอบอื่นของสูตรฮีล
 
@@ -21,11 +21,11 @@ User ยืนยัน 2026-09-20 ว่า ratio ทั้งหกชนิ�
 
 User ยืนยัน 2026-09-20 ว่า flags ฝั่งผู้ฮีลกับผู้รับฮีลใช้เลือกตรวจเป็นคู่:
 
-- แสดงรายละเอียดสูตรเมื่อ `Healer->owner->checkHealFormula` และ `target->owner->checkHealReceiveFormula` เป็นจริงพร้อมกัน
-- แสดงผล `Total Heal` เมื่อ `Healer->owner->checkHeal` และ `target->owner->checkHealReceive` เป็นจริงพร้อมกัน
-- แสดงหัวข้อ `From <Healer> to <target>` เมื่อเงื่อนไขใดเงื่อนไขหนึ่งข้างต้นเป็นจริง
+- แสดงรายละเอียดสูตรเมื่อ `healer->owner->checkHealFormula` และ `target->owner->checkHealReceiveFormula` เป็นจริงพร้อมกัน
+- แสดงผล `total Heal` เมื่อ `healer->owner->checkHeal` และ `target->owner->checkHealReceive` เป็นจริงพร้อมกัน
+- แสดงหัวข้อ `From <healer> to <target>` เมื่อเงื่อนไขใดเงื่อนไขหนึ่งข้างต้นเป็นจริง
 
-แก้ข้อความ debug วันที่ 2026-09-20: แถว `Total Hp` เดิมแสดง `healFromLostHP` ทั้งที่ผลด้านขวาคำนวณด้วย `healFromTotalHP`; เปลี่ยนค่าที่แสดงให้ตรงกับสูตรแล้ว การแก้นี้ไม่เปลี่ยนผลฮีลจริง
+แก้ข้อความ debug วันที่ 2026-09-20: แถว `total Hp` เดิมแสดง `healFromLostHP` ทั้งที่ผลด้านขวาคำนวณด้วย `healFromTotalHP`; เปลี่ยนค่าที่แสดงให้ตรงกับสูตรแล้ว การแก้นี้ไม่เปลี่ยนผลฮีลจริง
 
 ## `calculateHealFromLostHP(target, percent)`
 

@@ -86,7 +86,7 @@ ATK +28% · Effect HIT Rate +18% · HP +10%
 - **A2**: ATK +100% ให้เพื่อนที่ EHR ≥ 75% (มักคู่ Black Swan)
 - **E2 DoT +33% ทีม** / E1 DoT vulnerability +30%
 - **energy**: A4 (+5 kill), E4 (+2 ต่อ Shock tick)
-- โค้ด: `Start_game_List` (`Kafka.h:136`, `kafka`) — technique Shock + self-flush
+- โค้ด: `startGameList` (`Kafka.h:136`, `kafka`) — technique Shock + self-flush
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/kafka — kit tab (review patch 4.0, calc patch 3.5, profile 01/Jun/2026)

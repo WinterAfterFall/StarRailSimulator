@@ -91,7 +91,7 @@ ATK +18% · Wind DMG +22.4% · HP +10%
 - **เปลี่ยนตัวถือ Military Merit ⇒ Charge = 0** (สำคัญมากสำหรับ single-target buff logic)
 - Talent ATK buff เป็น % ของ ATK **ของ Cerydra** (snapshot ต้องอัปเดตเมื่อ ATK Cerydra เปลี่ยน — โค้ดใช้ `calculateAtkForBuff` + `buffNote`)
 - Additional DMG counter รีเซ็ตที่ Ultimate ไม่ใช่ต่อเทิร์น
-- A2 CRIT DMG scaling ผูกกับ ATK จริง → ต้อง re-evaluate ผ่าน `Stats_Adjust_List`
+- A2 CRIT DMG scaling ผูกกับ ATK จริง → ต้อง re-evaluate ผ่าน `statsAdjustList`
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/cerydra — kit tab (review patch 3.5, calc patch 4.0, profile 04/Jun/2026)

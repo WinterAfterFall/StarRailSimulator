@@ -1,68 +1,68 @@
 #include "../include.h"
 
 //Main Stats
-void CharUnit::setRelicMainStats(Stats Body, Stats Boot, Stats Orb, Stats Rope) {
-    this->Body = RelicMainStatsSet(Body);
-    this->Boot = RelicMainStatsSet(Boot);
-    this->Orb = RelicMainStatsSet(Orb);
-    this->Rope = RelicMainStatsSet(Rope);
+void CharUnit::setRelicMainStats(Stats body, Stats boot, Stats orb, Stats rope) {
+    this->body = relicMainStatsSet(body);
+    this->boot = relicMainStatsSet(boot);
+    this->orb = relicMainStatsSet(orb);
+    this->rope = relicMainStatsSet(rope);
 }
 void CharUnit::setBody(Stats stats) {
-    this->Body = RelicMainStatsSet(stats);
+    this->body = relicMainStatsSet(stats);
 }
 void CharUnit::setBoot(Stats stats) {
-    this->Boot = RelicMainStatsSet(stats);
+    this->boot = relicMainStatsSet(stats);
 }
 void CharUnit::setOrb(Stats stats) {
-    this->Orb = RelicMainStatsSet(stats);
+    this->orb = relicMainStatsSet(stats);
 }
 void CharUnit::setRope(Stats stats) {
-    this->Rope = RelicMainStatsSet(stats);
+    this->rope = relicMainStatsSet(stats);
 }
-function<void(CharUnit *ptr)> CharUnit::RelicMainStatsSet(Stats stats){
+function<void(CharUnit *ptr)> CharUnit::relicMainStatsSet(Stats stats){
     if(stats == Stats::FLAT_SPD)
     return [=](CharUnit *ptr) {
-        ptr->Atv_stats->flatSpeed+=25;
+        ptr->atvStats->flatSpeed+=25;
     };
     if(stats == Stats::ATK_P)
     return [=](CharUnit *ptr) {
-        ptr->Stats_type[Stats::ATK_P][AType::None] += 43.2;
+        ptr->statsType[Stats::ATK_P][AType::NONE] += 43.2;
     };
     if(stats == Stats::HP_P)
     return [=](CharUnit *ptr) {
-        ptr->Stats_type[Stats::HP_P][AType::None] += 43.2;
+        ptr->statsType[Stats::HP_P][AType::NONE] += 43.2;
     };
     if(stats == Stats::DEF_P)
     return [=](CharUnit *ptr) {
-        ptr->Stats_type[Stats::DEF_P][AType::None] += 54;
+        ptr->statsType[Stats::DEF_P][AType::NONE] += 54;
     };
     if(stats == Stats::CR)
     return [=](CharUnit *ptr) {
-        ptr->Stats_type[Stats::CR][AType::None] += 32.4;
+        ptr->statsType[Stats::CR][AType::NONE] += 32.4;
     };
     if(stats == Stats::CD)
     return [=](CharUnit *ptr) {
-        ptr->Stats_type[Stats::CD][AType::None] += 64.8;
+        ptr->statsType[Stats::CD][AType::NONE] += 64.8;
     };
     if(stats == Stats::BE)
     return [=](CharUnit *ptr) {
-        ptr->Stats_type[Stats::BE][AType::None] += 64.8;
+        ptr->statsType[Stats::BE][AType::NONE] += 64.8;
     };
     if(stats == Stats::HEALING_OUT)
     return [=](CharUnit *ptr) {
-        ptr->Stats_type[Stats::HEALING_OUT][AType::None] += 34.57;
+        ptr->statsType[Stats::HEALING_OUT][AType::NONE] += 34.57;
     };
     if(stats == Stats::DMG)
     return [=](CharUnit *ptr) {
-        ptr->Stats_each_element[Stats::DMG][ptr->Element_type][AType::None] += 38.88;
+        ptr->statsEachElement[Stats::DMG][ptr->elementType][AType::NONE] += 38.88;
     };
     if(stats == Stats::EHR)
     return [=](CharUnit *ptr) {
-        ptr->Stats_type[Stats::EHR][AType::None] += 43.2;
+        ptr->statsType[Stats::EHR][AType::NONE] += 43.2;
     };
     if(stats == Stats::ER)
     return [=](CharUnit *ptr) {
-        ptr->Energy_recharge+=19.4;
+        ptr->energyRecharge+=19.4;
     };
 
     return [=](CharUnit *ptr) {

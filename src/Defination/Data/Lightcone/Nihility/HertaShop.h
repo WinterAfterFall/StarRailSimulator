@@ -2,21 +2,21 @@
 namespace Nihility_Lightcone{
     function<void(CharUnit *ptr)> HertaShop(int superimpose){
         return [=](CharUnit *ptr) {
-            ptr->SetAllyBaseStats(1058,529,397);
-            ptr->Light_cone.Name = "Solitary Healing";
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
-                ptr->Stats_type[Stats::BE][AType::None] += 15 + 5 * superimpose;
+            ptr->setAllyBaseStats(1058,529,397);
+            ptr->lightCone.name = "Solitary Healing";
+            resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+                ptr->statsType[Stats::BE][AType::NONE] += 15 + 5 * superimpose;
             }));
-            WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](CharUnit *ally) {
-                if(ally->isSameOwner(ptr))buffSingle(ptr,{{Stats::DMG,AType::Dot,18.0 + 6 * superimpose}},"Solitary Healing",2);
+            whenUseUltList.push_back(TriggerByAllyFunc(PRIORITY_IMMEDIATELY, [ptr,superimpose](CharUnit *ally) {
+                if(ally->isSameOwner(ptr))buffSingle(ptr,{{Stats::DMG,AType::DOT,18.0 + 6 * superimpose}},"Solitary Healing",2);
             }));
             
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+            afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 AllyUnit *ally = turn->canCastToAllyUnit();
                 if(!ally)return;
 
                 if(isBuffEnd(ally,"Solitary Healing")){
-                    buffSingle(ptr,{{Stats::DMG,AType::Dot,-(18.0 + 6 * superimpose)}});
+                    buffSingle(ptr,{{Stats::DMG,AType::DOT,-(18.0 + 6 * superimpose)}});
                 }
             }));
         };

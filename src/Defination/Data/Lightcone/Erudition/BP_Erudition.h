@@ -2,13 +2,13 @@
 namespace Erudition_Lightcone{
     function<void(CharUnit *ptr)> BP_Erudition(int superimpose){
     return [=](CharUnit *ptr) {
-        ptr->SetAllyBaseStats(847,529,331);
-        ptr->Light_cone.Name = "BP_Erudition";
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
-            if (ptr->Max_energy > 160) {
-                ptr->Stats_type[Stats::DMG][AType::None] += 24 + superimpose * 8;
+        ptr->setAllyBaseStats(847,529,331);
+        ptr->lightCone.name = "BP_Erudition";
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+            if (ptr->maxEnergy > 160) {
+                ptr->statsType[Stats::DMG][AType::NONE] += 24 + superimpose * 8;
             } else {
-                ptr->Stats_type[Stats::DMG][AType::None] += ptr->Max_energy * (0.15 + 0.05 * superimpose);
+                ptr->statsType[Stats::DMG][AType::NONE] += ptr->maxEnergy * (0.15 + 0.05 * superimpose);
             }
         }));
     };

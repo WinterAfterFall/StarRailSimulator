@@ -10,11 +10,11 @@
 //     void DayOne_of_MyNewLife(Ally *ptr);
 //     void DayOne_of_MyNewLife(Ally *ptr){
 
-//         ptr->SetAllyBaseStats(953,370,463);
-//         ptr->Light_cone.Name = "DayOne_of_MyNewLife";
+//         ptr->setAllyBaseStats(953,370,463);
+//         ptr->lightCone.Name = "DayOne_of_MyNewLife";
 
-//         ptr->Light_cone.Reset_func = [](Ally *ptr){
-//             ptr->Stats_type[Stats::DEF_P][AType::None]+=24;
+//         ptr->lightCone.Reset_func = [](Ally *ptr){
+//             ptr->statsType[Stats::DEF_P][AType::NONE]+=24;
 //         };
        
 //     }

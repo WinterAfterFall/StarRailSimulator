@@ -80,11 +80,11 @@ Effect HIT Rate +18% · CRIT Rate +18.7% · Effect RES +10%
 
 ### กลไกสำคัญ (จุดที่ต้องเทียบกับโค้ด)
 - **Shock** = DoT debuff: Skill 104% ATK/2t (E4 Ult ก็ติด), Technique 50% ATK/3t; Ult ยืด +2t
-- **Talent**: post-attack Additional 72% ATK ใส่ Shocked ทุกตัว — trigger บ่อย (`When_attack_List`)
+- **Talent**: post-attack Additional 72% ATK ใส่ Shocked ทุกตัว — trigger บ่อย (`whenAttackList`)
 - E1: BA splash 60% ของดาเมจ BA (ไม่ใช่ % ATK) ใส่ข้างเคียง
 - E2: energy +4 ต่อ Talent trigger
 - E6 / A6: DMG amp vs Shocked / on-kill ATK
-- โค้ด: `Start_game_List` priority `PRIORITY_ACTTACK` (`Serval.h:90`) — น่าจะ technique attack + self-flush
+- โค้ด: `startGameList` priority `PRIORITY_ACTTACK` (`Serval.h:90`) — น่าจะ technique attack + self-flush
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/serval — kit tab (review patch 2.6, calc patch 4.0, profile 01/Jun/2026)

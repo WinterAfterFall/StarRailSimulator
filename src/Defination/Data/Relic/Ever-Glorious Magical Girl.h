@@ -1,19 +1,19 @@
 #include "../include.h"
 namespace Relic{
     void MagicalGirl(CharUnit *ptr){
-        ptr->Relic.Name = "Ever-Glorious Magical Girl";
+        ptr->Relic.name = "Ever-Glorious Magical Girl";
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_type[Stats::CD][AType::None] += 16;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsType[Stats::CD][AType::NONE] += 16;
         }));
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            buffSingleChar(ptr,{{Stats::DEF_SHRED, AType::ElationDMG, 10.0}});
+        whenOnFieldList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            buffSingleChar(ptr,{{Stats::DEF_SHRED, AType::ELATION_DMG, 10.0}});
         }));
 
-        PunchLine_List.push_back(TriggerSkill_point_func(PRIORITY_IMMEDIATELY, [ptr](AllyUnit *SP_maker, int SP) {
+        punchLineList.push_back(TriggerSkillPointFunc(PRIORITY_IMMEDIATELY, [ptr](AllyUnit *spMaker, int spChange) {
             int buff = max(0,min(50,punchline)/5);
             buffSingleChar(ptr,{
-                {Stats::DEF_SHRED,AType::ElationDMG,buff - ptr->buffNote["MagicalGirl Buff"]}
+                {Stats::DEF_SHRED,AType::ELATION_DMG,buff - ptr->buffNote["MagicalGirl Buff"]}
             });
             ptr->setBuffNote("MagicalGirl Buff",buff);
         }));

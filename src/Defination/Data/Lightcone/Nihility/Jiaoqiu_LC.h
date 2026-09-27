@@ -2,35 +2,35 @@
 namespace Nihility_Lightcone{
     function<void(CharUnit *ptr)> Jiaoqiu_LC(int superimpose,bool isDot){
         return [=](CharUnit *ptr) {
-            ptr->SetAllyBaseStats(953,582,529);
-            ptr->Light_cone.Name = "Jiaoqiu_LC";
-            string Cornered = ptr->getName() + " Cornered";
-            string Unarmored = ptr->getName() + " Unarmored";
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
-                ptr->Stats_type[Stats::EHR][AType::None] += 50 + 10 * superimpose;
+            ptr->setAllyBaseStats(953,582,529);
+            ptr->lightCone.name = "Jiaoqiu_LC";
+            string cornered = ptr->getName() + " Cornered";
+            string unarmored = ptr->getName() + " Unarmored";
+            resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+                ptr->statsType[Stats::EHR][AType::NONE] += 50 + 10 * superimpose;
             }));
             
-            BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,isDot,Unarmored,Cornered](shared_ptr<AllyAttackAction> &act) {
+            beforeAttackActionList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr,superimpose,isDot,unarmored,cornered](shared_ptr<AllyAttackAction> &act) {
                 if((act->isSameAction(AType::BA)||
                     act->isSameAction(AType::SKILL)||
-                    act->isSameAction(AType::Ult))&&act->isSameOwnerName(ptr)){
+                    act->isSameAction(AType::ULT))&&act->isSameOwnerName(ptr)){
                         for(auto &each : act->targetList){
-                            if(isDot) debuffSingleApply(ptr,each,{{Stats::VUL,AType::None,20.0 + superimpose*4}},Cornered,2);
-                            else debuffSingleApply(ptr,each,{{Stats::VUL,AType::None,8.0 + superimpose*2}},Unarmored,2);
+                            if(isDot) debuffSingleApply(ptr,each,{{Stats::VUL,AType::NONE,20.0 + superimpose*4}},cornered,2);
+                            else debuffSingleApply(ptr,each,{{Stats::VUL,AType::NONE,8.0 + superimpose*2}},unarmored,2);
                             
                         }
                     }
             }));
 
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose,Unarmored,Cornered](CharUnit *ptr) {
+            afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose,unarmored,cornered](CharUnit *ptr) {
                 Enemy *enemy = turn->canCastToEnemy();
                 if(!enemy)return;
 
-                if(isDebuffEnd(enemy,Cornered)){
-                    debuffSingle(enemy,{{Stats::VUL,AType::None,-(20.0 + superimpose*4)}});
+                if(isDebuffEnd(enemy,cornered)){
+                    debuffSingle(enemy,{{Stats::VUL,AType::NONE,-(20.0 + superimpose*4)}});
                 }
-                if(isDebuffEnd(enemy,Unarmored)){
-                    debuffSingle(enemy,{{Stats::VUL,AType::None,-(8.0 + superimpose*2)}});
+                if(isDebuffEnd(enemy,unarmored)){
+                    debuffSingle(enemy,{{Stats::VUL,AType::NONE,-(8.0 + superimpose*2)}});
                 }
             }));
     

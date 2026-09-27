@@ -1,11 +1,11 @@
-#ifndef AllyActionData_H
-#define AllyActionData_H
+#ifndef ALLY_ACTION_DATA_H
+#define ALLY_ACTION_DATA_H
 #include "ActionData.h"
 
 class AllyActionData : public ActionData, public std::enable_shared_from_this<AllyActionData> {
     public:
-    bool Turn_reset = 0;
-    AllyUnit* Attacker = nullptr;
+    bool turnReset = 0;
+    AllyUnit* attacker = nullptr;
     AllyUnit* source = nullptr; 
     vector<AType> actionTypeList;//  None Basic_Attack Skill Ultimate  Dot  Fua  Summon  Break_dmg  Super_break Additional
     TraceType traceType;
@@ -16,15 +16,15 @@ class AllyActionData : public ActionData, public std::enable_shared_from_this<Al
     #pragma region getMethod
 
     CharUnit* getChar(){
-        Memosprite* memo = dynamic_cast<Memosprite*>(Attacker);
-        CharUnit* owner = dynamic_cast<CharUnit*>(Attacker);
+        Memosprite* memo = dynamic_cast<Memosprite*>(attacker);
+        CharUnit* owner = dynamic_cast<CharUnit*>(attacker);
         if(memo){
             return memo->owner;
         }
         return owner;
     }
     AllyUnit* getAttacker(){
-        return Attacker;
+        return attacker;
     }
 
     AType getActionType(){
@@ -43,7 +43,7 @@ class AllyActionData : public ActionData, public std::enable_shared_from_this<Al
     #pragma region setMethod
 
     void setTurnReset(bool arg){
-        Turn_reset = arg;
+        turnReset = arg;
     }
     
     #pragma endregion
@@ -64,10 +64,10 @@ class AllyActionData : public ActionData, public std::enable_shared_from_this<Al
     #pragma endregion
 
 
-    void AllyAction();
-    void ElationSkillAction();
+    void allyAction();
+    void elationSkillAction();
     void turnResetTrue(){
-        this->Turn_reset = true;
+        this->turnReset = true;
     }
     virtual void addActionType(AType actionType){
             actionTypeList.push_back(actionType);

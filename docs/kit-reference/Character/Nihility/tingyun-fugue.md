@@ -91,7 +91,7 @@ Break Effect +24% · SPD +14 · HP +10%
 - **Foxian Prayer (Skill)**: BE +30% + ignore-weakness toughness 50% ให้เพื่อน 1 ตัว (E6 → ทั้งทีมขณะ Torrid Scorch)
 - **Ult**: ignore-weakness toughness reduction + Fire weakness break
 - **BE breakpoint 220%** (A6) — Fugue เป็น BE-scaling support
-- โค้ด: `Fugue.h` — ตรวจ `Start_game_List` / weakness apply
+- โค้ด: `Fugue.h` — ตรวจ `startGameList` / weakness apply
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/tingyun-fugue — kit tab (review patch 3.2, calc patch 4.0, profile 01/Jun/2026)

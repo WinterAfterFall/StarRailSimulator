@@ -1,9 +1,9 @@
 #include "../include.h"
 
 namespace Guinaifen{
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
-        CharUnit *ptr = SetCharBasicStats(106,120,120,E,ElementType::Fire,Path::Nihility,"Guinaifen",UnitType::Standard);
-        ptr->SetAllyBaseStats(882,582,441);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = setCharBasicStats(106,120,120,eidolon,ElementType::FIRE,Path::NIHILITY,"Guinaifen",UnitType::STANDARD);
+        ptr->setAllyBaseStats(882,582,441);
 
         //substats
         ptr->pushSubstats(Stats::ATK_P);
@@ -14,25 +14,25 @@ namespace Guinaifen{
 
         
         //func
-        LC(ptr);
+        lc(ptr);
         Relic(ptr);
         Planar(ptr);
 
         AllyUnit *gui = ptr;
         #pragma region Ability
 
-        if(ptr->Eidolon>=1)Enemy_effect_res-=10;
+        if(ptr->eidolon>=1)enemyEffectRes-=10;
 
-        function<void()> BA = [ptr,gui]() {
+        function<void()> ba = [ptr,gui]() {
             genSkillPoint(gui,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Gui BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::SINGLE,"Gui BA",
             [ptr,gui](shared_ptr<AllyAttackAction> &act){
-                Increase_energy(ptr,20);
+                increaseEnergy(ptr,20);
                 for(auto &each : act->targetList){
-                    dotSingleApply(gui,each,{DotType::Burn},"Gui Burn",2);
+                    dotSingleApply(gui,each,{DotType::BURN},"Gui Burn",2);
                 }
-                Attack(act);
+                attack(act);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,110,10)
@@ -40,16 +40,16 @@ namespace Guinaifen{
             act->addToActionBar();
         };
 
-        function<void()> Skill = [ptr,gui]() {
+        function<void()> skill = [ptr,gui]() {
             genSkillPoint(gui,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Gui Skill",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::SINGLE,"Gui Skill",
             [ptr,gui](shared_ptr<AllyAttackAction> &act){
-                Increase_energy(ptr,30);
+                increaseEnergy(ptr,30);
                 for(auto &each : act->targetList){
-                    dotSingleApply(gui,each,{DotType::Burn},"Gui Burn",2);
+                    dotSingleApply(gui,each,{DotType::BURN},"Gui Burn",2);
                 }
-                Attack(act);
+                attack(act);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,132,20),
@@ -59,24 +59,24 @@ namespace Guinaifen{
         };
 
         #pragma endregion
-        ptr->Turn_func = [ptr,gui,BA,Skill]() {
-            if(sp>Sp_Safety)Skill();
-            else BA();
+        ptr->turnFunc = [ptr,gui,ba,skill]() {
+            if(sp>spSafety)skill();
+            else ba();
         };
         
         ptr->addUltCondition([ptr]() -> bool {
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [gui](CharUnit *ptr) {
+        ultimateList.push_back(TriggerByYourSelfFunc(PRIORITY_BUFF, ptr, [gui](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
-            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Gui Skill",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::SINGLE,"Gui Skill",
             [ptr,gui](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Guinaifen");
                 for(auto &each : act->targetList){
-                    Dot_trigger(96,each,DotType::Burn);
+                    dotTrigger(96,each,DotType::BURN);
                 }
-                Attack(act);
+                attack(act);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,129.6,20),
@@ -84,27 +84,27 @@ namespace Guinaifen{
                 DmgSrc(DmgSrcType::ATK,129.6,20)
             );
             act->addToActionBar();
-            Deal_damage();
+            dealDamage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [gui](CharUnit *ptr) {
-            ptr->Stats_each_element[Stats::DMG][ElementType::Fire][AType::None] += 22.4;
-            ptr->Stats_type[Stats::BE][AType::None] += 24;
-            ptr->Stats_type[Stats::EHR][AType::None] += 10;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [gui](CharUnit *ptr) {
+            ptr->statsEachElement[Stats::DMG][ElementType::FIRE][AType::NONE] += 22.4;
+            ptr->statsType[Stats::BE][AType::NONE] += 24;
+            ptr->statsType[Stats::EHR][AType::NONE] += 10;
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [gui](CharUnit *ptr) {
-            ptr->Stats_type[Stats::DMG][AType::None] += 20;
+        whenOnFieldList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [gui](CharUnit *ptr) {
+            ptr->statsType[Stats::DMG][AType::NONE] += 20;
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [gui](CharUnit *ptr) {
-            if(ptr->Technique){
+        startGameList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [gui](CharUnit *ptr) {
+            if(ptr->technique){
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr,TraceType::Aoe,"Gui Tech",
+                make_shared<AllyAttackAction>(AType::TECHNIQUE,ptr,TraceType::AOE,"Gui Tech",
                 [ptr,gui](shared_ptr<AllyAttackAction> &act){
-                    Attack(act);
+                    attack(act);
                     for(auto &each : act->targetList){
-                        dotSingleApply(gui,each,{DotType::Burn},"Gui Burn",2);
+                        dotSingleApply(gui,each,{DotType::BURN},"Gui Burn",2);
                     }
                 });
                 act->addDamageIns(
@@ -113,39 +113,39 @@ namespace Guinaifen{
                     DmgSrc(DmgSrcType::ATK,50,20)
                 );
                 act->addToActionBar();
-                Deal_damage();
+                dealDamage();
             }
-            Action_forward(gui->Atv_stats.get(),25);          
+            actionForward(gui->atvStats.get(),25);          
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [gui](CharUnit *ptr) {
+        afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [gui](CharUnit *ptr) {
             Enemy *enemy = turn->canCastToEnemy();
             if(!enemy)return;
             if(isDebuffEnd(enemy,"Gui Burn")){
-                dotRemove(enemy,{DotType::Burn});
+                dotRemove(enemy,{DotType::BURN});
             }       
         }));
 
-        BeforeAttack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,gui](shared_ptr<AllyAttackAction> &act) {
-            if(act->isSameDamageType(AType::Burn)){
-                if(ptr->Eidolon>=6){
-                    debuffStackEnemyTargets(gui,act->targetList,{{Stats::VUL,AType::None,7.6}},1,4,"Firekiss");
+        beforeAttackList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr,gui](shared_ptr<AllyAttackAction> &act) {
+            if(act->isSameDamageType(AType::BURN)){
+                if(ptr->eidolon>=6){
+                    debuffStackEnemyTargets(gui,act->targetList,{{Stats::VUL,AType::NONE,7.6}},1,4,"Firekiss");
                 }else{
-                    debuffStackEnemyTargets(gui,act->targetList,{{Stats::VUL,AType::None,7.6}},1,3,"Firekiss");
+                    debuffStackEnemyTargets(gui,act->targetList,{{Stats::VUL,AType::NONE,7.6}},1,3,"Firekiss");
                 }
             }      
         }));
 
-        Dot_List.push_back(TriggerDot_Func(PRIORITY_ACTTACK, [ptr,gui](Enemy* target, double Dot_ratio, DotType Dot_type) {
+        dotList.push_back(TriggerDotFunc(PRIORITY_ACTTACK, [ptr,gui](Enemy* target, double dotRatio, DotType dotType) {
             if (!target->getDebuff("Gui Burn")) return;
-            if (Dot_type != DotType::General && Dot_type != DotType::Burn) return;
+            if (dotType != DotType::GENERAL && dotType != DotType::BURN) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Burn,ptr,TraceType::Single,"Gui Burn");
-            if(ptr->Eidolon>=2)act->addDamageIns(DmgSrc(DmgSrcType::ATK,280),target);
+            make_shared<AllyAttackAction>(AType::BURN,ptr,TraceType::SINGLE,"Gui Burn");
+            if(ptr->eidolon>=2)act->addDamageIns(DmgSrc(DmgSrcType::ATK,280),target);
             else act->addDamageIns(DmgSrc(DmgSrcType::ATK,240),target);
-            act->multiplyDmg(Dot_ratio);
-            if(ptr->Eidolon>=4)Increase_energy(ptr,2);
-            Attack(act);
+            act->multiplyDmg(dotRatio);
+            if(ptr->eidolon>=4)increaseEnergy(ptr,2);
+            attack(act);
         }));
     }
 }

@@ -1,6 +1,6 @@
 # `src/Defination/Data/Lightcone/Harmony/Bronya_LC.h`
 
-`namespace Harmony_Lightcone` · `Light_cone.Name` = `"Bronya_LC"` · base stats `SetAllyBaseStats(1164, 529, 463)`
+`namespace Harmony_Lightcone` · `lightCone.name` = `"Bronya_LC"` · base stats `setAllyBaseStats(1164, 529, 463)`
 
 **signature ของ Bronya** (ดู `../../Character/Harmony/Bronya.md`)
 
@@ -8,17 +8,17 @@
 
 | ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| base stats | `SetAllyBaseStats(1164, 529, 463)` | `Bronya_LC.h:5` |
-| ER `8 + 2S` | บวก `Energy_recharge` ถาวร | `:10` |
-| กด Ult → SP +1 (ทุก 2 ครั้ง) | `WhenUseUlt_List` + `isSameOwner` · flag `"Battle_Isnt_Over_cnt"` สลับ 0/1 ให้ SP ครั้งเว้นครั้ง | `:20-29` |
+| base stats | `setAllyBaseStats(1164, 529, 463)` | `Bronya_LC.h:5` |
+| ER `8 + 2S` | บวก `energyRecharge` ถาวร | `:10` |
+| กด Ult → SP +1 (ทุก 2 ครั้ง) | `whenUseUltList` + `isSameOwner` · flag `"Battle_Isnt_Over_cnt"` สลับ 0/1 ให้ SP ครั้งเว้นครั้ง | `:20-29` |
 | ใช้ Skill → เพื่อนคนถัดไปที่ได้เทิร์น (ไม่ใช่ผู้สวม) DMG `25 + 5S` ถึงจบเทิร์นนั้น | ตั้ง flag ตอนใช้ Skill · ต้นเทิร์นของ ally ตัวถัดไปลงบัฟชื่อผูกเจ้าของ (`:7`) อายุ 0 แล้วล้าง flag | flag `:13-19` · ลง `:31-39` |
 | ถอนเมื่อจบเทิร์นนั้น | ท้ายเทิร์น `isBuffEnd` บนเจ้าของเทิร์น | `:41-47` |
 
 ## รากฐาน: บัฟ duration = 0
 
 ```cpp
-string BattleBuff = ptr->getName() + " Battle_Isnt_Over_buff_check";
-buffSingle(tempstats, {{DMG, 25.0 + 5*S}}, BattleBuff, 0);
+string battleBuff = ptr->getName() + " Battle_Isnt_Over_buff_check";
+buffSingle(tempstats, {{DMG, 25.0 + 5*S}}, battleBuff, 0);
 ```
 `extend = 0` → `buffEnd = turnCnt + 0` = เทิร์นปัจจุบัน → `isBuffEnd` เป็นจริงตอนจบเทิร์นนั้นพอดี · **เป็นวิธีทำบัฟที่อยู่แค่เทิร์นเดียวโดยไม่ต้องจัดการเอง** มีที่เดียวในโปรเจกต์
 

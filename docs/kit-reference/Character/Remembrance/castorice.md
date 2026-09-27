@@ -115,7 +115,7 @@ CRIT Rate +18.7% · CRIT DMG +13.3% · Quantum DMG +14.4%
 - **HP consumption**: Skill 30%, Boneclaw 40%, Technique 40% — ทีมต้องรอด (Mooncocoon / floor HP 1)
 - **DMG Boost (Talent)**: +20%/stack เมื่อเพื่อนเสีย HP (cap 3)
 - **A2 heal→Newbud/Netherwing HP conversion** 100% (cap 12% max ต่อ ally)
-- โค้ด: `Start_game_List` (`Castorice.h:174`, `Casptr`, `Polluxptr`) — "Pollux" = ชื่อภายในของ Netherwing?
+- โค้ด: `startGameList` (`Castorice.h:174`, `Casptr`, `Polluxptr`) — "Pollux" = ชื่อภายในของ Netherwing?
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/castorice — kit tab (review patch 3.2, calc patch 3.6, profile 01/Jun/2026)

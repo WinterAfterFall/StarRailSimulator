@@ -10,10 +10,10 @@
 # 1. Relic
 
 ### ✅ R1. `Hero_Wreath.h:24` — CD +30% trigger ผิดเงื่อนไข
-> **แก้แล้ว 2026-09-25**: เช็ค `side == Memosprite` + เจ้าของตรงกัน · เพิ่ม `After_turn_List` ถอน CD (เดิมไม่มีโค้ดถอน → ค้างถาวร)
+> **แก้แล้ว 2026-09-25**: เช็ค `side == Memosprite` + เจ้าของตรงกัน · เพิ่ม `afterTurnList` ถอน CD (เดิมไม่มีโค้ดถอน → ค้างถาวร)
 
 ```cpp
-if (act->Attacker->Atv_stats->side == Side::Ally && ptr->memospriteList.size() > 0)
+if (act->attacker->atvStats->side == Side::ALLY && ptr->memospriteList.size() > 0)
 ```
 kit บอก "เมื่อ **memosprite** โจมตี" แต่โค้ดเช็คแค่ว่าผู้โจมตีอยู่ฝ่ายเรา → **ใครในทีมตีก็ติด** รวม DoT/additional · บัฟถูกต่ออายุแทบทุก action
 
@@ -25,7 +25,7 @@ kit บอก "เมื่อ **memosprite** โจมตี" แต่โค�
 ```cpp
 for(auto &each : allyList){
     if(isHaveToAddBuff(each,"DoD Buff"))
-    buffSingle(ptr,{{Stats::Elation,AType::None,10}});   // <- ptr ไม่ใช่ each
+    buffSingle(ptr,{{Stats::ELATION,AType::NONE,10}});   // <- ptr ไม่ใช่ each
 }
 ```
 เจ้าของได้ Elation **+10 × จำนวนเพื่อน** (ทีม 4 คน = +40)
@@ -33,11 +33,11 @@ for(auto &each : allyList){
 **ถาม**: เจตนาคือ (ก) แจกเพื่อนคนละ 10 → แก้เป็น `buffSingle(each, ...)` หรือ (ข) เจ้าของได้ 10 ครั้งเดียว → เอาลูปออก?
 
 ### ✅ R3. `Goddess of Sun and Thunder.h` — บัฟ CD ทีมค้างถ้าเจ้าของตาย
-> **แก้แล้ว 2026-09-25**: เพิ่ม `AllyDeath_List` ถอน SPD เจ้าของ + CD ทั้งทีมเมื่อเจ้าของตาย
+> **แก้แล้ว 2026-09-25**: เพิ่ม `allyDeathList` ถอน SPD เจ้าของ + CD ทั้งทีมเมื่อเจ้าของตาย
 
-บัฟ CD +15% ลงทั้งทีมด้วย `buffAllAlly` แต่ถอนด้วย `isBuffEnd(ptr, ...)` ที่ผูกกับเทิร์นของ**เจ้าของ relic** และไม่มี `AllyDeath_List`
+บัฟ CD +15% ลงทั้งทีมด้วย `buffAllAlly` แต่ถอนด้วย `isBuffEnd(ptr, ...)` ที่ผูกกับเทิร์นของ**เจ้าของ relic** และไม่มี `allyDeathList`
 
-**ถาม**: เพิ่ม `AllyDeath_List` แบบ `Wavestrider Captain.h` ไหม หรือถือว่าเคสเจ้าของตายไม่เกิดในซิมนี้?
+**ถาม**: เพิ่ม `allyDeathList` แบบ `Wavestrider Captain.h` ไหม หรือถือว่าเคสเจ้าของตายไม่เกิดในซิมนี้?
 
 ### ✅ R4. `Diviner of Distant Reach.h` — สองสาขา copy ทั้งก้อน
 > **2026-09-25**: ยังไม่แก้ — บันทึกเป็นหัวข้อรวมใน `future-improvements.md` ข้อ 10 (เงื่อนไข SPD แบบ realtime) พร้อม GiantTree / FirmanentFrontline
@@ -46,8 +46,8 @@ for(auto &each : allyList){
 
 **ถาม**: ให้รีแฟกเตอร์เลยไหม? (มีแบบเดียวกันที่ `Planar/GiantTree.h` และ `Planar/FirmanentFrontline.h`)
 
-### ✅ R5. `PairSet.h` — `Relic.Name` เป็น `"PairSet"` เสมอ
-> **2026-09-25 ไม่ต้องแก้**: PairSet คือ relic ยำ 2+2 — แต่ละ `PairSetType` ให้ค่า 2 ชิ้นแบบคงที่ (CD, DMG, ATK, HP, DEF ฯลฯ) ผ่าน `RelicPairSet` · ไม่มีโค้ดไหนเช็คชื่อ `"PairSet"`
+### ✅ R5. `PairSet.h` — `Relic.name` เป็น `"PairSet"` เสมอ
+> **2026-09-25 ไม่ต้องแก้**: PairSet คือ relic ยำ 2+2 — แต่ละ `PairSetType` ให้ค่า 2 ชิ้นแบบคงที่ (CD, DMG, ATK, HP, DEF ฯลฯ) ผ่าน `relicPairSet` · ไม่มีโค้ดไหนเช็คชื่อ `"PairSet"`
 
 ไม่บอกว่าใส่คู่ไหน → ตัวละคร/relic ที่เช็คชื่อแยกไม่ออก
 
@@ -78,16 +78,16 @@ for(auto &each : allyList){
 
 ### 🔴 P1. `The_Wondrous_BananAmusement_Park.h:10-14` — เช็ค memosprite ผิดจังหวะ
 ```cpp
-WhenOnField_List: if (ptr->summonList.size() != 0 || ptr->memospriteList.size() > 0) CD += 32;
+whenOnFieldList: if (ptr->summonList.size() != 0 || ptr->memospriteList.size() > 0) CD += 32;
 ```
 เช็คครั้งเดียวตอนเข้าสนาม · **memosprite ส่วนใหญ่ถูกเรียกออกมาภายหลัง** (ผ่าน Skill) → เงื่อนไขเป็นเท็จตอนเช็คแล้วไม่ได้บัฟเลย
 
-**ถาม**: ย้ายไป `Before_turn_List` แบบ `Relic/Hero_Wreath.h` ไหม?
-> หมายเหตุ: `memospriteList` ถูกสร้างตอน `SetMemoStats` ใน `Setup` (ไม่ใช่ตอน summon) ดังนั้น `.size() > 0` อาจเป็นจริงอยู่แล้วแม้ memosprite ยังไม่ออกมา — **ต้องยืนยันว่า `.size()` หมายถึงอะไรกันแน่**
+**ถาม**: ย้ายไป `beforeTurnList` แบบ `Relic/Hero_Wreath.h` ไหม?
+> หมายเหตุ: `memospriteList` ถูกสร้างตอน `setMemoStats` ใน `setup` (ไม่ใช่ตอน summon) ดังนั้น `.size() > 0` อาจเป็นจริงอยู่แล้วแม้ memosprite ยังไม่ออกมา — **ต้องยืนยันว่า `.size()` หมายถึงอะไรกันแน่**
 
 ### P2. `Tengoku@Livestream.h:10-12` — รีเซ็ตตัวนับทุกต้นเทิร์นของทุก unit
 ```cpp
-Before_turn_List: ptr->setStack("Tengoku sp count", 0);   // ไม่ guard ว่าเป็นเทิร์นใคร
+beforeTurnList: ptr->setStack("Tengoku sp count", 0);   // ไม่ guard ว่าเป็นเทิร์นใคร
 ```
 หน้าต่างการนับ "ใช้ SP 3 แต้มในเทิร์นเดียว" จึงสั้นกว่าที่ kit ตั้งใจ (รวมเทิร์นศัตรูด้วย)
 
@@ -107,8 +107,8 @@ if(cnt > 4) buff = (cnt - 4) * 12;
 
 **ถาม**: ยืนยันว่าเป็นแบบแผนเดียวกับ Pela A2 (ใส่ค่าเต็มเพราะ build เข้าเงื่อนไขอยู่แล้ว) ใช่ไหม · **`Kalpagni_Lantern` ต่างจากตัวอื่นตรงที่เงื่อนไขอยู่ที่ตัวศัตรู ไม่ใช่ build ของเรา** — อันนี้ยังโอเคไหม?
 
-### P5. `Lushaka.h:12-13` — บัฟ `charUnit[1]` เขียน `Stats_type` ตรง ๆ
-ไม่ผ่าน `buffSingle` → ไม่ยิง `StatsAdjust` · ถ้าเพื่อนช่องแรกมี trace ที่คำนวณจาก ATK แบบ live (เช่น Cerydra A2) ค่าจะไม่ตามไปด้วย
+### P5. `Lushaka.h:12-13` — บัฟ `charUnit[1]` เขียน `statsType` ตรง ๆ
+ไม่ผ่าน `buffSingle` → ไม่ยิง `statsAdjust` · ถ้าเพื่อนช่องแรกมี trace ที่คำนวณจาก ATK แบบ live (เช่น Cerydra A2) ค่าจะไม่ตามไปด้วย
 
 **ถาม**: เปลี่ยนเป็น `buffSingle` ไหม?
 
@@ -127,21 +127,21 @@ if(cnt > 4) buff = (cnt - 4) * 12;
 
 **ถาม**: แก้เป็น `"For_Tomorrow_Journey_Buff"` เลยใช่ไหม? (คิดว่าใช่ แต่ขอยืนยันเพราะกระทบตัวเลข)
 
-### LH2. `Robin_LC.h:8` — `When_attack_List` ไม่ guard ผู้โจมตี
+### LH2. `Robin_LC.h:8` — `whenAttackList` ไม่ guard ผู้โจมตี
 ได้ Cantillation stack จากการโจมตีของ **ทุกคน** รวม DoT/additional
 
 **ถาม**: kit ระบุเฉพาะเจ้าของหรือทั้งทีม?
 
-### LH3. `Sunday_LC.h:17-19` — `AllyDeath_List` ไม่เช็ค `isBuffGoneByDeath`
+### LH3. `Sunday_LC.h:17-19` — `allyDeathList` ไม่เช็ค `isBuffGoneByDeath`
 ถอน stack กับทุกคนที่ตายแม้ไม่เคยมีบัฟ
 
 **ถาม**: ใส่ guard ไหม? (อาการเดียวกับ `Character/Harmony/Sunday.h` E6)
 
 ## 3.2 Nihility
 
-### 🔴 LN1. `Cipher_LC.h:7-10` — `BeforeAttackAction_List` ไม่ guard ผู้โจมตี
+### 🔴 LN1. `Cipher_LC.h:7-10` — `beforeAttackActionList` ไม่ guard ผู้โจมตี
 ```cpp
-BeforeAttackAction_List: debuffAllEnemyApply(ptr, {...}, "Bamboozle", 2);   // ไม่เช็คว่าใครตี
+beforeAttackActionList: debuffAllEnemyApply(ptr, {...}, "Bamboozle", 2);   // ไม่เช็คว่าใครตี
 ```
 DEF_SHRED ถูกลง/ต่ออายุ **ทุกครั้งที่ใครก็ตามโจมตี** รวม DoT
 
@@ -160,7 +160,7 @@ DEF_SHRED ถูกลง/ต่ออายุ **ทุกครั้งที
 ### LN4. `Kafka_LC.h` — ถอน Shock ด้วย `changeShock(-1)` แทน `dotRemove`
 ลงด้วย `dotSingleApply` (ซึ่งเรียก `changeDotType` ข้างใน) แต่ถอนด้วย `changeShock` ตรง ๆ
 
-**ถาม**: เปลี่ยนเป็น `dotRemove(enemy, {DotType::Shock})` ให้ตรงแบบแผนไหม?
+**ถาม**: เปลี่ยนเป็น `dotRemove(enemy, {DotType::SHOCK})` ให้ตรงแบบแผนไหม?
 
 ### LN5. `ShowTime.h` / `HertaShop.h` — เช็ค `isBuffEnd(ally, ...)` แต่ถอนจาก `ptr`
 ถ้า ally คนอื่นมีบัฟชื่อเดียวกันจะถอนผิดจังหวะ
@@ -168,7 +168,7 @@ DEF_SHRED ถูกลง/ต่ออายุ **ทุกครั้งที
 **ถาม**: แก้เป็นเช็คและถอนที่ `ptr` ตรง ๆ ไหม?
 
 ### LN6. `Resolution.h` — จัดการ debuff ด้วยมือทั้งหมด
-เขียน `Stats_type` / `debuffEnd` / `debuffCheck` / `Total_debuff` เอง แทน `debuffSingleApply` + `isDebuffEnd`
+เขียน `statsType` / `debuffEnd` / `debuffCheck` / `totalDebuff` เอง แทน `debuffSingleApply` + `isDebuffEnd`
 
 **ถาม**: ให้รีแฟกเตอร์ไหม? (โค้ดเก่าแบบเดียวกับ `Pela.h` ที่บันทึกไว้แล้ว)
 
@@ -181,17 +181,17 @@ DEF_SHRED ถูกลง/ต่ออายุ **ทุกครั้งที
 
 ### 🔴 LD1. `FireFly_LC.h:11` — guard ผู้โจมตีเขียนกลับด้าน
 ```cpp
-if (act->Attacker->Atv_stats->num != ptr->Atv_stats->num && act->Attacker->Atv_stats->side != Side::Ally) return;
+if (act->attacker->atvStats->num != ptr->atvStats->num && act->attacker->atvStats->side != Side::ALLY) return;
 ```
-`side != Side::Ally` เป็นเท็จสำหรับ ally ทุกคน → **เงื่อนไขไม่มีวันเป็นจริงสำหรับ ally** → debuff ลงทุกครั้งที่ใครในทีมโจมตี
+`side != Side::ALLY` เป็นเท็จสำหรับ ally ทุกคน → **เงื่อนไขไม่มีวันเป็นจริงสำหรับ ally** → debuff ลงทุกครั้งที่ใครในทีมโจมตี
 
 **ถาม**: เจตนาคือเฉพาะผู้สวม (`isSameOwnerName(ptr)`) หรือทั้งทีม?
 
-### 🔴 LD2. `Jingliu_LC.h:11-13` — `Enemy_hit_List` ไม่เช็คว่าใครโดน
+### 🔴 LD2. `Jingliu_LC.h:11-13` — `enemyHitList` ไม่เช็คว่าใครโดน
 ```cpp
 for(AllyUnit* e : target){ buffStackSingle(ptr, {...}, 1, 3, "Jingliu_LC"); }   // e ไม่ได้ถูกใช้
 ```
-ศัตรูตีโดน 3 คน = ผู้สวมได้ 3 stack ในครั้งเดียว แม้ไม่ได้โดนเอง · `HPDecrease_List` ก็ไม่ guard เช่นกัน
+ศัตรูตีโดน 3 คน = ผู้สวมได้ 3 stack ในครั้งเดียว แม้ไม่ได้โดนเอง · `hpDecreaseList` ก็ไม่ guard เช่นกัน
 
 **ถาม**: แก้ให้เช็ค `e->isSameName(ptr)` แบบ `Blade_LC.h` ใช่ไหม?
 
@@ -205,35 +205,35 @@ for(AllyUnit* e : target){ buffStackSingle(ptr, {...}, 1, 3, "Jingliu_LC"); }   
 
 **ถาม**: kit ระบุเป็นเปอร์เซ็นต์ของ Max HP หรือค่าคงที่?
 
-### LD5. `Secret_Vow.h` / `Secret_Vow_Nobuff.h` — `Light_cone.Name` เหมือนกัน
+### LD5. `Secret_Vow.h` / `Secret_Vow_Nobuff.h` — `lightCone.name` เหมือนกัน
 ทั้งสองไฟล์ตั้งเป็น `"Secret_Vow"` → ตัวละครที่เช็คชื่อแยกไม่ออกว่าใช้เวอร์ชันไหน
 
 **ถาม**: ต้องการให้แยกชื่อไหม หรือไม่มีใครเช็คอยู่แล้ว?
 
 ### LD6. `HertaShop.h` — ATK stack ไม่มีวันถอน
-`buffStackSingle` ไม่มี duration และไม่มี `After_turn_List` รองรับ
+`buffStackSingle` ไม่มี duration และไม่มี `afterTurnList` รองรับ
 
 **ถาม**: kit ให้เป็นบัฟถาวรที่สะสมจนเต็มใช่ไหม?
 
 ## 3.4 Erudition
 
-### 🔴 LE1. `Calculus.h:14-18` — `BeforeAttackAction_List` ไม่ guard ผู้โจมตี
+### 🔴 LE1. `Calculus.h:14-18` — `beforeAttackActionList` ไม่ guard ผู้โจมตี
 ATK ของผู้สวมถูกเขียนทับตามจำนวนเป้าของ action ของ **ทุกคนในทีม** รวม DoT/additional
 
 **ถาม**: แก้ให้ guard `isSameOwnerName(ptr)` ใช่ไหม?
 
-### LE2. `Anaxa_LC.h:10-12` — `Before_turn_List` ไม่ guard เทิร์น
+### LE2. `Anaxa_LC.h:10-12` — `beforeTurnList` ไม่ guard เทิร์น
 ได้ energy 10 **ทุกต้นเทิร์นของทุก unit รวมศัตรู**
 
 **ถาม**: kit ระบุเฉพาะเทิร์นตัวเองใช่ไหม?
 
-### LE3. `Anaxa_LC.h` — `When_attack_List` ไม่ guard ผู้โจมตี
+### LE3. `Anaxa_LC.h` — `whenAttackList` ไม่ guard ผู้โจมตี
 ลง DEF_SHRED ทุกครั้งที่ใครโจมตี
 
 **ถาม**: เฉพาะผู้สวมหรือทั้งทีม?
 
-### LE4. `Himeko_LC.h` — `Toughness_break_List` ไม่ guard ว่าใคร break + ATK คำนวณครั้งเดียว
-ATK% คูณ `Total_enemy` ตอนเข้าสนาม ถ้าจำนวนศัตรูเปลี่ยนค่าไม่ตาม
+### LE4. `Himeko_LC.h` — `toughnessBreakList` ไม่ guard ว่าใคร break + ATK คำนวณครั้งเดียว
+ATK% คูณ `totalEnemy` ตอนเข้าสนาม ถ้าจำนวนศัตรูเปลี่ยนค่าไม่ตาม
 
 **ถาม**: จำนวนศัตรูเปลี่ยนระหว่างการต่อสู้ได้ไหมในซิมนี้?
 
@@ -243,7 +243,7 @@ ATK% คูณ `Total_enemy` ตอนเข้าสนาม ถ้าจำ�
 ## 3.5 Elation
 
 ### 🔴 LEL1. `Mushy Shroomy's Adventures.h` — `debuffAllEnemyApply` ไม่ส่ง duration
-`After_turn_List` เรียก `isDebuffEnd` ที่เทียบ `debuffEnd` ซึ่งไม่เคยถูกตั้ง (default 0) → **VUL ค้างถาวรและซ้อนทับทุกครั้งที่ใช้ Elation Skill**
+`afterTurnList` เรียก `isDebuffEnd` ที่เทียบ `debuffEnd` ซึ่งไม่เคยถูกตั้ง (default 0) → **VUL ค้างถาวรและซ้อนทับทุกครั้งที่ใช้ Elation Skill**
 
 **ถาม**: ใส่ duration เท่าไร? (kit น่าจะระบุไว้)
 
@@ -253,7 +253,7 @@ ATK% คูณ `Total_enemy` ตอนเข้าสนาม ถ้าจำ�
 ### LEL3. `Today's Good Luck.h` — Elation stack ไม่มีอายุ
 **ถาม**: เหมือนกัน — ถาวรใช่ไหม?
 
-### LEL4. `Max_sp` ถูกแก้โดย 3 ที่
+### LEL4. `maxSp` ถูกแก้โดย 3 ที่
 `Character/Harmony/Hanabi.h`, `Character/The Hunt/Archer.h`, `Lightcone/Elation/Hibana_LC.h`
 
 **ถาม**: ถ้าอยู่ในทีมเดียวกันจะบวกสะสม — ถูกต้องตาม kit ไหม?
@@ -262,9 +262,9 @@ ATK% คูณ `Total_enemy` ตอนเข้าสนาม ถ้าจำ�
 
 ### 🔴 LR1. `Hyacnine_LC.h` — ใส่ดาเมจผิด action
 ```cpp
-shared_ptr<AllyAttackAction> addtionaldmg = make_shared<...>(AType::Addtional, ...);
+shared_ptr<AllyAttackAction> addtionaldmg = make_shared<...>(AType::ADDTIONAL, ...);
 act->addDamageIns(...);        // <- ใส่เข้า act ที่ยิงจบไปแล้ว
-Attack(addtionaldmg);          // <- ยิง action ที่ไม่มีก้อนดาเมจ
+attack(addtionaldmg);          // <- ยิง action ที่ไม่มีก้อนดาเมจ
 ```
 **Additional DMG ของ LC ใบนี้ไม่ออกดาเมจเลย**
 
@@ -280,20 +280,20 @@ Attack(addtionaldmg);          // <- ยิง action ที่ไม่มี�
 
 **ถาม**: ใส่ guard ไหม หรือถือว่าใบนี้ใส่ได้เฉพาะ Remembrance อยู่แล้ว?
 
-### LR4. `Hyacnine_LC.h` — `DecreaseHP(ptr, 0, 0, ...)` ส่ง `0` เป็น arg ที่ 2
+### LR4. `Hyacnine_LC.h` — `decreaseHP(ptr, 0, 0, ...)` ส่ง `0` เป็น arg ที่ 2
 arg นั้นควรเป็น `Unit*`
 
 **ถาม**: overload นี้รับแบบนี้ได้จริงไหม?
 
-### LR5. `Victory_In_Blink.h` — ถอนบัฟด้วยการเขียน `Stats_type` ตรง ๆ
+### LR5. `Victory_In_Blink.h` — ถอนบัฟด้วยการเขียน `statsType` ตรง ๆ
 **ถาม**: เปลี่ยนเป็น `buffSingle` ค่าติดลบไหม?
 
 ## 3.7 Abundance / Preservation / The_Hunt
 
-### LA1. `Multiplication.h` — `Action_forward(turn, ...)` ส่ง `turn` ไม่ใช่ unit
+### LA1. `Multiplication.h` — `actionForward(turn, ...)` ส่ง `turn` ไม่ใช่ unit
 advance ตกที่ unit ที่กำลังเล่นอยู่ ซึ่งปกติคือผู้สวม แต่ถ้ามี action ซ้อนจะไปถูกคนผิด
 
-**ถาม**: เปลี่ยนเป็น `ptr->Atv_stats.get()` ไหม?
+**ถาม**: เปลี่ยนเป็น `ptr->atvStats.get()` ไหม?
 
 ### LP1. `DayOne_of_MyNewLife.h` — คอมเมนต์ทิ้งทั้งไฟล์
 สแตตเดียวที่ให้คือ DEF% ซึ่ง**ไม่ต้องรอระบบโล่**
@@ -310,13 +310,13 @@ advance ตกที่ unit ที่กำลังเล่นอยู่ �
 ## 4.1 Harmony
 
 ### 🔴 CH1. `Robin.h:44-65` — `addUltCondition` ก้อน 2 กับ 3 ขัดกันเอง
-ก้อน 2 (สาขา `AlwaysPull`): `if (driver->getATV() > dps->getATV()) return false;`
-ก้อน 3 (สาขา `AlwaysPull`): `if (driver->getATV() < dps->getATV()) return false;`
-→ **ถ้า atv ต่างกัน จะมีก้อนหนึ่งเป็นเท็จเสมอ → กด ult ไม่ได้เลยในโหมด `AlwaysPull`**
+ก้อน 2 (สาขา `ALWAYS_PULL`): `if (driver->getATV() > dps->getATV()) return false;`
+ก้อน 3 (สาขา `ALWAYS_PULL`): `if (driver->getATV() < dps->getATV()) return false;`
+→ **ถ้า atv ต่างกัน จะมีก้อนหนึ่งเป็นเท็จเสมอ → กด ult ไม่ได้เลยในโหมด `ALWAYS_PULL`**
 
 **ถาม**: ก้อนไหนถูก? หรือเจตนาคืออะไรกันแน่?
 
-### 🔴 CH2. `Bronya.h:62` — `Stats_type[CR][AType::BA] = 100` ใช้ `=` ไม่ใช่ `+=`
+### 🔴 CH2. `Bronya.h:62` — `statsType[CR][AType::BA] = 100` ใช้ `=` ไม่ใช่ `+=`
 เขียนทับค่าที่ relic/LC อาจใส่ไว้ในช่องเดียวกัน
 
 **ถาม**: ตั้งใจเขียนทับ (เพราะ kit บอกว่า BA คริเสมอ) หรือควรเป็น `+=`?
@@ -326,8 +326,8 @@ advance ตกที่ unit ที่กำลังเล่นอยู่ �
 
 **ถาม**: ให้แก้เป็น `buffAllyTarget` แบบ `Sunday.h` หรือ `buffSubUnitTarget` แบบ `Tingyun.h` ไหม?
 
-### CH4. `Cerydra.h:245` — สูตร A4 ใน `Stats_Adjust_List` ใช้ตัวแปรคนละตัวกับใน `Start_game_List`
-`Start_game_List` ใช้ `calculateAtkForBuff(crd,100)` (ATK เต็ม) แต่ `Stats_Adjust_List` ใช้ `temp` (24% ของ ATK) → **A4 เพี้ยนทันทีที่ ATK เปลี่ยนระหว่างเกม**
+### CH4. `Cerydra.h:245` — สูตร A4 ใน `statsAdjustList` ใช้ตัวแปรคนละตัวกับใน `startGameList`
+`startGameList` ใช้ `calculateAtkForBuff(crd,100)` (ATK เต็ม) แต่ `statsAdjustList` ใช้ `temp` (24% ของ ATK) → **A4 เพี้ยนทันทีที่ ATK เปลี่ยนระหว่างเกม**
 
 **ถาม**: อันไหนถูก?
 
@@ -341,7 +341,7 @@ advance ตกที่ unit ที่กำลังเล่นอยู่ �
 
 **ถาม**: เจตนาคือสะสมภายในเทิร์นใช่ไหม?
 
-### CH7. `Hanabi.h:247-249` — เพิ่ม `Total_debuff` ของศัตรูตรง ๆ ไม่ผ่าน `debuffApply`
+### CH7. `Hanabi.h:247-249` — เพิ่ม `totalDebuff` ของศัตรูตรง ๆ ไม่ผ่าน `debuffApply`
 ตัวนับนี้จะไม่มีวันถูกลด
 
 **ถาม**: ตั้งใจให้ Cipher นับเป็น debuff ถาวรใช่ไหม?
@@ -351,7 +351,7 @@ advance ตกที่ unit ที่กำลังเล่นอยู่ �
 
 **ถาม**: kit ให้ค่าไหนกับใคร?
 
-### CH9. `Tribbie.h:103` — `DMG[AType::Fua] += 729` (E6)
+### CH9. `Tribbie.h:103` — `DMG[AType::FUA] += 729` (E6)
 ตัวเลขแปลกและไม่มีคอมเมนต์
 
 **ถาม**: มาจากไหน?
@@ -361,7 +361,7 @@ advance ตกที่ unit ที่กำลังเล่นอยู่ �
 
 **ถาม**: ตรงกับ kit ไหม?
 
-### CH11. `Ruan_Mei.h:115-116` — `After_turn_List` push lambda ว่างเปล่า
+### CH11. `Ruan_Mei.h:115-116` — `afterTurnList` push lambda ว่างเปล่า
 **ถาม**: ลบทิ้งได้ไหม?
 
 ### CH12. `Harmony_MC.h:76-82` — ถอนบัฟด้วยเลขเทิร์นตายตัว (`turnCnt == 2` / `== 3`)
@@ -374,8 +374,8 @@ copy จาก RMC แล้วลืมเปลี่ยน → ชนกั�
 
 **ถาม**: แก้เป็น `"HMC Skill"` ใช่ไหม?
 
-### CH14. `Driver_num` ถูกเขียนโดย 3 ตัว (Bronya / Sunday / Hanabi)
-ตัวที่ `Setup` ทีหลังชนะ
+### CH14. `driverNum` ถูกเขียนโดย 3 ตัว (Bronya / Sunday / Hanabi)
+ตัวที่ `setup` ทีหลังชนะ
 
 **ถาม**: ถ้ามีสองตัวในทีมเดียวกัน อยากให้ใครเป็น driver?
 
@@ -386,10 +386,10 @@ copy จาก RMC แล้วลืมเปลี่ยน → ชนกั�
 
 **ถาม**: แก้เป็น `+= 15` ใช่ไหม? (คิดว่าใช่แน่ แต่ขอยืนยัน)
 
-### 🔴 CN2. `Hysilens.h:255-274` — `Attack(Newact)` ในลูปทำให้ดาเมจทบต้น
-`Newact` สะสม `addDamageIns` ไปเรื่อย ๆ แล้ว `Attack` ทุกรอบ — อาการเดียวกับ Serval Talent ที่แก้ไปแล้ว
+### 🔴 CN2. `Hysilens.h:255-274` — `attack(newact)` ในลูปทำให้ดาเมจทบต้น
+`newact` สะสม `addDamageIns` ไปเรื่อย ๆ แล้ว `attack` ทุกรอบ — อาการเดียวกับ Serval Talent ที่แก้ไปแล้ว
 
-**ถาม**: แก้แบบเดียวกับ Serval ไหม (สะสมให้ครบแล้ว `Attack` ครั้งเดียว)?
+**ถาม**: แก้แบบเดียวกับ Serval ไหม (สะสมให้ครบแล้ว `attack` ครั้งเดียว)?
 
 ### 🔴 CN3. `Dahlia.h:128` — `isBuffEnd(ally, ...)` โดยไม่เช็ค null
 `turn->canCastToAllyUnit()` คืน `nullptr` ได้ → **เสี่ยง null dereference**
@@ -401,7 +401,7 @@ E1 ให้ toughness reduce กับศัตรูแต่ละตัว�
 
 **ถาม**: ตั้งใจหรือลืม?
 
-### CN5. `Dahlia.h:179-183` — `AfterAction_List` วน `allyList` แต่ตั้ง flag ของ `ptr` เสมอ
+### CN5. `Dahlia.h:179-183` — `afterActionList` วน `allyList` แต่ตั้ง flag ของ `ptr` เสมอ
 ตัวแปรลูปไม่ได้ถูกใช้ · ตั้งค่าเดิมซ้ำ N ครั้ง
 
 **ถาม**: เจตนาคือล้าง flag ของทุกคนใช่ไหม?
@@ -413,27 +413,27 @@ E1 ให้ toughness reduce กับศัตรูแต่ละตัว�
 
 **ถาม**: แก้ทั้ง 3 ไฟล์เลยไหม? (แบบเดียวกับที่แก้ `Black Swan.h` / `Luka.h` ไปแล้ว — **กระทบตัวเลขเพราะบัฟที่ผูกกับ `AType` จะเข้า/ไม่เข้าต่างจากเดิม**)
 
-### CN7. `Fugue.h:142-146` — `AllyDeath_List` ใช้ `isBuffEnd` แทน `isBuffGoneByDeath`
+### CN7. `Fugue.h:142-146` — `allyDeathList` ใช้ `isBuffEnd` แทน `isBuffGoneByDeath`
 `isBuffEnd` เช็คว่าเป็นเทิร์นของ unit นั้นด้วย ซึ่งคนที่เพิ่งตายไม่ได้อยู่ในเทิร์นตัวเอง → **บล็อกนี้แทบไม่มีวันทำงาน**
 
 **ถาม**: แก้เป็น `isBuffGoneByDeath` ใช่ไหม?
 
-### CN8. `Fugue.h:160` — `Superbreak_trigger` ทุก action ของทุกคนโดยไม่มีเงื่อนไข
+### CN8. `Fugue.h:160` — `superbreakTrigger` ทุก action ของทุกคนโดยไม่มีเงื่อนไข
 ต่างจาก `Harmony_MC.h` (ต้องมีบัฟ ult) และ `FireFly.h` (ต้องมี BE ถึงเกณฑ์)
 
 **ถาม**: kit ของ Fugue ให้ Super Break ตลอดเวลาใช่ไหม?
 
-### CN9. `Cipher.h:207` — เขียน `act->Attacker` ทับกลางลูปแล้วไม่คืนค่า
-`act` เป็น action ที่เพิ่งยิงจบ ถ้ามี trigger อื่นอ่าน `Attacker` ต่อจะได้คนผิด
+### CN9. `Cipher.h:207` — เขียน `act->attacker` ทับกลางลูปแล้วไม่คืนค่า
+`act` เป็น action ที่เพิ่งยิงจบ ถ้ามี trigger อื่นอ่าน `attacker` ต่อจะได้คนผิด
 
 **ถาม**: ให้ copy action หรือเก็บค่าเดิมไว้คืนไหม?
 
-### CN10. `Cipher.h:132-145` — Technique ไม่เช็ค `ptr->Technique`
+### CN10. `Cipher.h:132-145` — Technique ไม่เช็ค `ptr->technique`
 ยิง AoE ต้นเกมเสมอ ทุกตัวละครอื่นเช็ค
 
-**ถาม**: ใส่ `if (ptr->Technique)` ใช่ไหม?
+**ถาม**: ใส่ `if (ptr->technique)` ใช่ไหม?
 
-### CN11. `Cipher.h:31` — `Adjust["Cipher Use Only BA"] = 1` ตายตัว
+### CN11. `Cipher.h:31` — `adjust["Cipher Use Only BA"] = 1` ตายตัว
 Cipher ไม่เคยใช้ Skill เลย → `Patron` ติดได้เฉพาะจาก Ult
 
 **ถาม**: ตั้งใจให้เป็นค่าเริ่มต้นแล้วแก้จากข้างนอกใช่ไหม?
@@ -454,14 +454,14 @@ Cipher ไม่เคยใช้ Skill เลย → `Patron` ติดได�
 **ถาม**: เคสศัตรูหลายตัวที่มี weakness ต่างกันเกิดจริงไหม?
 
 ### CN15. `Pela.h:74-87` — ถอน debuff ด้วยมือ + turn counter ไม่ตรงกัน 2 บล็อก
-`Zone_Suppression` ใช้ `Atv_stats->turnCnt` ส่วน `Pela_Technique` ใช้ `turn->turnCnt`
+`Zone_Suppression` ใช้ `atvStats->turnCnt` ส่วน `Pela_Technique` ใช้ `turn->turnCnt`
 
 **ถาม**: ให้รีแฟกเตอร์ไปใช้ `isDebuffEnd` + `canCastToEnemy` ไหม?
 
 ## 4.3 Erudition
 
 ### 🔴 CE1. `Anaxa.h:169-180` — Talent เรียก Skill ซ้ำ เสี่ยง recursion ไม่จบ
-`Skill(ptr)` ข้างในสร้าง action ชื่อ `"Anaxa Skill"` ซึ่งเมื่อจบก็เข้า `AfterAttackActionList` ตัวเดิมอีก · ตัวหยุดมีทางเดียวคือธาตุครบ 5 · **ถ้าแปะธาตุไม่ถึง 5 จะวนไม่จบ**
+`skill(ptr)` ข้างในสร้าง action ชื่อ `"Anaxa Skill"` ซึ่งเมื่อจบก็เข้า `afterAttackActionList` ตัวเดิมอีก · ตัวหยุดมีทางเดียวคือธาตุครบ 5 · **ถ้าแปะธาตุไม่ถึง 5 จะวนไม่จบ**
 
 **ถาม**: ใส่ตัวนับรอบสูงสุดแบบ `Archer.h` ไหม?
 
@@ -482,10 +482,10 @@ Cipher ไม่เคยใช้ Skill เลย → `Patron` ติดได�
 ### CE6. `Jade.h:96` — ถอน SPD ด้วย `chooseAllyBuff(ptr)` สด → ถอนผิดคนถ้าเป้าเปลี่ยน
 **ถาม**: แก้เป็น `buffSubUnitTarget` แบบ Tingyun ไหม?
 
-### CE7. `Jade.h:176,212` — `Fua` และ `Fua_Enchance` ชื่อ action เหมือนกัน (`"Jade Fua"`)
+### CE7. `Jade.h:176,212` — `FUA` และ `fuaEnchance` ชื่อ action เหมือนกัน (`"Jade Fua"`)
 **ถาม**: แยกชื่อไหม?
 
-### CE8. `Jingyuan.h:207-212` — `Temp_Turn_Condition` / `Temp_ult_Condition` คืนค่าคงที่ ไม่มีใครเรียก
+### CE8. `Jingyuan.h:207-212` — `tempTurnCondition` / `tempUltCondition` คืนค่าคงที่ ไม่มีใครเรียก
 **ถาม**: ลบทิ้งได้ไหม?
 
 ### CE9. `Jingyuan.h` — ไม่มี `addUltCondition` ทั้งที่จังหวะ ult สัมพันธ์กับ stack ของ LL
@@ -499,7 +499,7 @@ A2 หายได้เพราะระบบความน่าจะเ�
 
 **ถาม**: ทำ Technique เพิ่มไหม?
 
-### CE12. `The_Herta.h:140-145` — `AfterAttackActionList` ไม่ guard ผู้โจมตี
+### CE12. `The_Herta.h:140-145` — `afterAttackActionList` ไม่ guard ผู้โจมตี
 รวม additional/DoT ทุกก้อน → stack และ energy น่าจะสูงกว่าจริง
 
 **ถาม**: ควรกรองเฉพาะ BA/Skill/Ult/FuA ไหม?
@@ -512,8 +512,8 @@ target->debuffNote["Withered_Leaf"] = target->debuffNote["Withered_Leaf"];
 
 **ถาม**: แก้เป็น `= temp;` ใช่ไหม?
 
-### CE14. `Rappa.h:128-132` — `data_2` ถูกสร้างแล้วไม่ได้ใช้
-`Cal_Break_damage(act, ...)` ส่ง `act` ไม่ใช่ `data_2`
+### CE14. `Rappa.h:128-132` — `data2` ถูกสร้างแล้วไม่ได้ใช้
+`calBreakDamage(act, ...)` ส่ง `act` ไม่ใช่ `data2`
 
 **ถาม**: ตั้งใจใช้ `act` ใช่ไหม?
 
@@ -527,16 +527,16 @@ target->debuffNote["Withered_Leaf"] = target->debuffNote["Withered_Leaf"];
 ### 🔴 CD2. `Phainon.h:109` — `10/3` หารจำนวนเต็ม ได้ `3` ไม่ใช่ `3.33`
 **ถาม**: แก้เป็น `10.0/3` ใช่ไหม?
 
-### CD3. `Saber.h:241-244` — `WhenUseUlt_List` ไม่ guard ว่าใครกด ult
+### CD3. `Saber.h:241-244` — `whenUseUltList` ไม่ guard ว่าใครกด ult
 Saber ได้ DMG +60% และ Core Resonance +3 ทุกครั้งที่ใครกด ult รวมตัวเอง
 
 **ถาม**: kit ระบุเฉพาะเพื่อนหรือรวมตัวเอง?
 
-### CD4. `Saber.h` — E4 บวก Wind RESPEN สองทาง (`Reset_List` +8 ถาวร + `buffStackSingle` +4×3 ตอน ult)
+### CD4. `Saber.h` — E4 บวก Wind RESPEN สองทาง (`resetList` +8 ถาวร + `buffStackSingle` +4×3 ตอน ult)
 **ถาม**: ซ้อนกันถูกไหม?
 
-### CD5. `Mydei.h:202-209` — `Basic_Atk` ยังไม่ implement (`//none complete`)
-`Turn_func` ไม่เคยเรียกจึงยังไม่เห็นอาการ
+### CD5. `Mydei.h:202-209` — `basicAtk` ยังไม่ implement (`//none complete`)
+`turnFunc` ไม่เคยเรียกจึงยังไม่เห็นอาการ
 
 **ถาม**: ต้องทำไหม?
 
@@ -565,7 +565,7 @@ if (ptr->buffNote["FireFly_ModuleY"] <= 0) temp = 0;   // เช็คค่า�
 **ถาม**: แก้เป็น `if (temp <= 0) temp = 0;` ใช่ไหม?
 
 ### 🔴 CD11. `FireFly.h:51-62` — Ult ไม่ผ่าน action bar
-ไม่มี `addToActionBar()` / `Deal_damage()` → **ไม่ยิง `WhenUseUlt_List` ของใครเลย** กระทบ `Relic/Scholar.h`, `Relic/Eagle_Beaked_Helmet.h`, Talent ของ `Saber.h` และ LC หลายใบ
+ไม่มี `addToActionBar()` / `dealDamage()` → **ไม่ยิง `whenUseUltList` ของใครเลย** กระทบ `Relic/Scholar.h`, `Relic/Eagle_Beaked_Helmet.h`, Talent ของ `Saber.h` และ LC หลายใบ
 
 **ถาม**: ตั้งใจเพราะ ult ไม่มีดาเมจ หรือควรสร้าง `AllyBuffAction`?
 
@@ -576,7 +576,7 @@ if (ptr->buffNote["FireFly_ModuleY"] <= 0) temp = 0;   // เช็คค่า�
 
 ## 4.5 Remembrance
 
-### CR1. `RMC.h:133-135` — `Before_turn_List` ตั้ง `RMC_E2` = 1 ทุกต้นเทิร์นของทุก unit
+### CR1. `RMC.h:133-135` — `beforeTurnList` ตั้ง `RMC_E2` = 1 ทุกต้นเทิร์นของทุก unit
 โควตา E2 รีเซ็ตถี่กว่าที่ kit ตั้งใจ
 
 **ถาม**: guard `turn->isSameName("RMC")` ไหม?
@@ -590,12 +590,12 @@ if (ptr->buffNote["FireFly_ModuleY"] <= 0) temp = 0;   // เช็คค่า�
 ### CR4. `Aglaea.h:29` — `setSpeedRequire` ถูกคอมเมนต์ทิ้ง ทั้งที่ A2 และ Talent สเกลกับ SPD
 **ถาม**: ควรตั้งเท่าไร?
 
-### CR5. `Aglaea.h:124` — Additional DMG guard ด้วย `Atv_stats->num`
+### CR5. `Aglaea.h:124` — Additional DMG guard ด้วย `atvStats->num`
 ถ้า memosprite ใช้เลขช่องเดียวกับเจ้าของ จะยิงตอน Garmentmaker โจมตีด้วย
 
 **ถาม**: ตรงกับ kit ไหม?
 
-### CR6. `Castorice.h:181` — เขียน global `turn` โดยตรงใน `Start_game_List`
+### CR6. `Castorice.h:181` — เขียน global `turn` โดยตรงใน `startGameList`
 เป็นการแตะตัวแปรลำดับเทิร์นของ engine จากไฟล์ตัวละคร
 
 **ถาม**: จำเป็นจริงไหม?
@@ -608,13 +608,13 @@ if (ptr->buffNote["FireFly_ModuleY"] <= 0) temp = 0;   // เช็คค่า�
 
 ### CR9. 🔴 `Hyacine.h:216` — เงื่อนไขที่เป็นเท็จเสมอ
 ```
-if(StatsType!=Stats::SPD_P||StatsType!=Stats::FLAT_SPD)return;
+if(statsType!=Stats::SPD_P||statsType!=Stats::FLAT_SPD)return;
 ```
 ใช้ `||` แทน `&&` → `return` เสมอ → **A6 ไม่เคยถูกคำนวณใหม่เมื่อ SPD เปลี่ยนระหว่างเกม**
 
 **ถาม**: แก้เป็น `&&` ใช่ไหม?
 
-### CR10. `Hyacine.h:90` — `Reset_List` ใส่ `CR += 100` (ไม่อยู่ใน minor traces) · มีแบบเดียวกันที่ `Cerydra.h:102`
+### CR10. `Hyacine.h:90` — `resetList` ใส่ `CR += 100` (ไม่อยู่ใน minor traces) · มีแบบเดียวกันที่ `Cerydra.h:102`
 **ถาม**: ตั้งใจบังคับให้คริเสมอใช่ไหม?
 
 ### CR11. `Hyacine.h:254-256` — E2 ไม่ guard ว่าใครเสีย HP (ลงให้ Little Ica เองด้วย)
@@ -635,8 +635,8 @@ A2 (ลบ debuff), A6 (+70% CC res) ยังไม่มี · E4 รอระ
 
 **ถาม**: แก้เป็น `if (debuffApply(...)) { atkPercent -= 16; }` ใช่ไหม?
 
-### CA3. `Gallagher.h:30` — `Turn_func` กด Skill ทุก 8 เทิร์นตายตัว
-**ถาม**: เลข 8 มาจากการจูนแล้ว หรืออยากให้อิง `sp`/`Sp_Safety`?
+### CA3. `Gallagher.h:30` — `turnFunc` กด Skill ทุก 8 เทิร์นตายตัว
+**ถาม**: เลข 8 มาจากการจูนแล้ว หรืออยากให้อิง `sp`/`spSafety`?
 
 ### CA4. `Gallagher.h:200` — lambda รับ action by-value (ทุกไฟล์อื่นใช้ `&`)
 **ถาม**: แก้ไหม?
@@ -651,7 +651,7 @@ A2 (ลบ debuff), A6 (+70% CC res) ยังไม่มี · E4 รอระ
 
 ## 4.7 Elation
 
-### CEL1. `Hibana.h:129` / `YaoGuang.h:111` — `ElationSkill_List` ใช้ตัวเลข priority ดิบ (`144` / `114`)
+### CEL1. `Hibana.h:129` / `YaoGuang.h:111` — `elationSkillList` ใช้ตัวเลข priority ดิบ (`144` / `114`)
 **ถาม**: ควรตั้งเป็นค่าคงที่ `PRIORITY_*` ใหม่ไหม?
 
 ### CEL2. 🔴 `YaoGuang.h:222` — `act->source = ptr` ใส่ผิดตัว
@@ -659,12 +659,12 @@ A2 (ลบ debuff), A6 (+70% CC res) ยังไม่มี · E4 รอระ
 
 **ถาม**: แก้เป็น `newAct->source = ptr;` ใช่ไหม?
 
-### CEL3. `YaoGuang.h:235` — A2 ลงเฉพาะ `AType::None` ไม่มีคู่ `TEMP`
+### CEL3. `YaoGuang.h:235` — A2 ลงเฉพาะ `AType::NONE` ไม่มีคู่ `TEMP`
 Skill ของ Yao Guang เองอ่าน `calculateElationForBuff(ptr, 20)` → **A2 ป้อนกลับเข้า Skill ได้**
 
 **ถาม**: ใส่คู่ `TEMP` แบบ `RMC.h` ใช่ไหม?
 
-### CEL4. `Hibana.h:155` — `Reset_List` บวก `Stats::Elation` สองครั้ง (28 + 80)
+### CEL4. `Hibana.h:155` — `resetList` บวก `Stats::ELATION` สองครั้ง (28 + 80)
 **ถาม**: ก้อน 80 มาจาก trace ไหน?
 
 ### CEL5. `Hibana.h:44-60` — `while(sp)` ไม่มีตัวกันวนไม่จบ
@@ -683,7 +683,7 @@ Skill ของ Yao Guang เองอ่าน `calculateElationForBuff(ptr, 20
 ### CT2. `Archer.h:89` — เกณฑ์ `sp >= 6` สูงกว่าเพดาน SP มาตรฐาน (5)
 Archer กด Skill ได้เฉพาะตอน SP เกือบเต็ม
 
-**ถาม**: `Adjust["Archer Minimum"] = 3` ตั้งใจให้เป็นค่านี้ใช่ไหม?
+**ถาม**: `adjust["Archer Minimum"] = 3` ตั้งใจให้เป็นค่านี้ใช่ไหม?
 
 ## 4.9 Preservation
 
@@ -694,7 +694,7 @@ Archer กด Skill ได้เฉพาะตอน SP เกือบเต�
 
 # 5. คำถามข้ามหมวด
 
-### X1. 🔴 `Enemy_Death_List` — นิยาม "ศัตรูตาย"
+### X1. 🔴 `enemyDeathList` — นิยาม "ศัตรูตาย"
 `allEventWhenEnemyDeath()` มีแต่ไม่มีผู้เรียก และ **ศัตรูไม่มี HP เลย** (ดู `README.md`)
 
 ติดค้าง 6 ความสามารถ: Tingyun E2, Pela E1, Kafka A4, Serval A6, The Herta (stack ย้าย), Jade Talent
@@ -706,7 +706,7 @@ Archer กด Skill ได้เฉพาะตอน SP เกือบเต�
 
 **ถาม**: ลบทิ้งได้ไหม?
 
-### X3. `Reset_List` ที่มีค่าลอย ๆ ไม่มีคอมเมนต์
+### X3. `resetList` ที่มีค่าลอย ๆ ไม่มีคอมเมนต์
 `Saber.h` (CR +20), `Hibana.h` (Elation +80), `Silver Wolf.h` (ATK +50), `Anaxa.h` (DMG +30), `Guinaifen.h` (DMG +20), `Tribbie.h` (Fua DMG +729), `Hyacine.h` (CR +100), `Cerydra.h` (CR +100), `Huohuo.h` (Healing Out +40), `Fugue.h` (BE 24+30)
 
 **ถาม**: มาจาก relic/substats ที่สมมติไว้ หรือจาก trace ที่ยังไม่ได้แยก? ควรย้ายไปที่เดียวกันทั้งโปรเจกต์ไหม?
@@ -724,7 +724,7 @@ Archer กด Skill ได้เฉพาะตอน SP เกือบเต�
 ### X6. บัฟที่ลงถึง memosprite แต่ถอนไม่ถึง
 `Lightcone/Remembrance/Geniuses_Greetings.h` (ลง `buffSingleChar` ถอน `buffSingle`) และ `Lightcone/Destruction/Danheng_LC.h` (ลง `buffSingle` ถอน `buffCharResetStack`)
 
-**ถาม**: มีกฎง่าย ๆ ไหมว่าอะไรควรใช้ตระกูล `...Char`?
+**ถาม**: มีกฎง่าย ๆ ไหมว่าอะไรควรใช้ตระกูล `...charSetup`?
 
 ---
 

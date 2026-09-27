@@ -87,7 +87,7 @@ CRIT DMG +37.3% · CRIT Rate +12% · HP +10%
 - **Talent FUA**: trigger ต่อเพื่อน Ult (1/ตัว, reset เมื่อ Tribbie Ult), E6 → Tribbie Ult ก็ยิงเอง +729%
 - **Numinosity (Skill)**: RES PEN +24% ทีม (E4 DEF ignore 18%)
 - **A6 energy**: +30 start + 1.5/hit จากเพื่อน
-- โค้ด: `Start_game_List` (`Tribbie.h:142`, `TBptr`) + `Tribbie_LC.h` มี Start_game entry
+- โค้ด: `startGameList` (`Tribbie.h:142`, `TBptr`) + `Tribbie_LC.h` มี startGame entry
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/tribbie — kit tab (review/calc patch 3.1, profile 01/Jun/2026)

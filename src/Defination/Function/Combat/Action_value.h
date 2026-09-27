@@ -1,11 +1,11 @@
 #include "../include.h"
 
-void ActionValueStats::speedBuff(double spd_percent ,double flat_spd){
-    double x = this->Max_atv;
-    this->flatSpeed += flat_spd;
-    this->speedPercent += spd_percent;
-    Update_Max_atv(this);
-    this->atv=this->atv/x*this->Max_atv;
+void ActionValueStats::speedBuff(double spdPercent ,double flatSpd){
+    double x = this->maxAtv;
+    this->flatSpeed += flatSpd;
+    this->speedPercent += spdPercent;
+    updateMaxAtv(this);
+    this->atv=this->atv/x*this->maxAtv;
 }
 bool ActionValueStats::isAlive(){
     return !charptr || charptr->isAlive();
@@ -14,62 +14,62 @@ bool ActionValueStats::isAtvChangeAble(){
     return !charptr || charptr->isAtvChangeAble();
 }
 void ActionValueStats::runTurn(){
-    charptr->Turn_func();
+    charptr->turnFunc();
 }
 bool compareActionValueStats(ActionValueStats* a, ActionValueStats* b) {
     return a->atv > b->atv; // Sort by `atv` in descending order
 }
-void Update_Max_atv(ActionValueStats *ptr) {
+void updateMaxAtv(ActionValueStats *ptr) {
     if(ptr->baseSpeed<=0){
-        ptr->Max_atv = 1e6;
+        ptr->maxAtv = 1e6;
         return;
     }
-    ptr->Max_atv = K_const / (ptr->baseSpeed + ptr->baseSpeed * ptr->speedPercent/100 + ptr->flatSpeed);
+    ptr->maxAtv = K_CONST / (ptr->baseSpeed + ptr->baseSpeed * ptr->speedPercent/100 + ptr->flatSpeed);
     
 }
 void ActionValueStats::resetATV(){
-    Update_Max_atv(this);
+    updateMaxAtv(this);
     resetTurn(this);
 }
 void ActionValueStats::resetATV(double baseSpeed){
     this->baseSpeed = baseSpeed;
-    Update_Max_atv(this);
+    updateMaxAtv(this);
     resetTurn(this);
 }
 void resetTurn(ActionValueStats *ptr) {
 
-    ptr->atv = ptr->Max_atv;
+    ptr->atv = ptr->maxAtv;
     
 }
-void All_atv_reset() {
+void allAtvReset() {
     for(auto &each : atvList){
-        Update_Max_atv(each);
+        updateMaxAtv(each);
         resetTurn(each);
     }
 }
-void Action_forward(ActionValueStats *ptr,double fwd) {
+void actionForward(ActionValueStats *ptr,double fwd) {
     if(ptr->baseSpeed<=0)return;
     if(!ptr->isAlive())return;
-    if (ptr->atv <= ptr->Max_atv*fwd/100 ) {
+    if (ptr->atv <= ptr->maxAtv*fwd/100 ) {
         ptr->atv = 0;
         ptr->priority = ++nextForwardPriority;
         return ;
     } else {
-        ptr->atv = ptr->atv - ptr->Max_atv*fwd/100;
+        ptr->atv = ptr->atv - ptr->maxAtv*fwd/100;
         return ;
     }
 }
-void All_Action_forward(double fwd){
+void allActionForward(double fwd){
     vector<ActionValueStats*> vec;
     for(auto &each : allyList){
-        vec.push_back(each->Atv_stats.get());
+        vec.push_back(each->atvStats.get());
     }
     sort(vec.begin(),vec.end(),compareActionValueStats);
     for(int i=0;i<vec.size();i++){
-        Action_forward(vec[i],fwd);
+        actionForward(vec[i],fwd);
     }
 }
-void Find_turn(){
+void findTurn(){
     pair<double,int> mx;
     turn = nullptr;
     mx.first = 1e9;
@@ -92,24 +92,24 @@ void Find_turn(){
     }
 }
 
-void Atv_fix(double Atv_reduce){
+void atvFix(double atvReduce){
     for(auto &each : atvList){
         if(!each->isAtvChangeAble())continue;
-        each->atv -= Atv_reduce;
+        each->atv -= atvReduce;
     }
-    Current_atv+=Atv_reduce;
+    currentAtv+=atvReduce;
 }
 void ahaSpeedAdjust(Path &path){
-    if(path != Path::Elation)return;
+    if(path != Path::ELATION)return;
     double factor = 5;
     double newFlatSpeed = 0;
-    vector<double> ElationSpd;
+    vector<double> elationSpd;
     for(auto &each : charList){
-        if(each->path!=Path::Elation)continue;
-        ElationSpd.push_back(calculateSpeedOnStats(each));
+        if(each->path!=Path::ELATION)continue;
+        elationSpd.push_back(calculateSpeedOnStats(each));
     }
-    sort(ElationSpd.begin(), ElationSpd.end(), greater<double>());
-    for(auto &each : ElationSpd){
+    sort(elationSpd.begin(), elationSpd.end(), greater<double>());
+    for(auto &each : elationSpd){
         newFlatSpeed += each/factor;
         factor += 5;
     }

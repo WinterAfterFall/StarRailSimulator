@@ -2,22 +2,22 @@
 namespace Harmony_Lightcone{
     function<void(CharUnit *ptr)> Bronya_LC(int superimpose){
         return [=](CharUnit *ptr) {
-            ptr->SetAllyBaseStats(1164,529,463);
-            ptr->Light_cone.Name = "Bronya_LC";
-            string BattleBuff = ptr->getName() + " Battle_Isnt_Over_buff_check";
+            ptr->setAllyBaseStats(1164,529,463);
+            ptr->lightCone.name = "Bronya_LC";
+            string battleBuff = ptr->getName() + " Battle_Isnt_Over_buff_check";
     
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
-                ptr->Energy_recharge += 8 + 2 * superimpose;
+            resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+                ptr->energyRecharge += 8 + 2 * superimpose;
             }));
 
-            BeforeAllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
-                if (act->Attacker->Atv_stats->Name == ptr->Atv_stats->Name) {
+            beforeAllyActionList.push_back(TriggerByAllyActionFunc(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
+                if (act->attacker->atvStats->name == ptr->atvStats->name) {
                     if (act->isSameAction(AType::SKILL)) {
                         ptr->buffCheck["Battle_Isnt_Over_buff"] = 1;
                     }
                 }
             }));
-            WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](CharUnit *ally){
+            whenUseUltList.push_back(TriggerByAllyFunc(PRIORITY_IMMEDIATELY,[ptr,superimpose](CharUnit *ally){
                 if (ally->isSameOwner(ptr)) {
                     if (ptr->buffCheck["Battle_Isnt_Over_cnt"] == 0) {
                         ptr->buffCheck["Battle_Isnt_Over_cnt"] = true;
@@ -28,21 +28,21 @@ namespace Harmony_Lightcone{
                 }
             }));
     
-            Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose,BattleBuff](CharUnit *ptr) {
+            beforeTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose,battleBuff](CharUnit *ptr) {
                 AllyUnit *tempstats = turn->canCastToAllyUnit();
                 if (!tempstats) return;
                 if (tempstats->isSameName(ptr)) return; // kit: next ally except the wearer
                 if (ptr->buffCheck["Battle_Isnt_Over_buff"] == 1) {
-                    buffSingle(tempstats,{{Stats::DMG,AType::None,25.0+5*superimpose}},BattleBuff,0);
+                    buffSingle(tempstats,{{Stats::DMG,AType::NONE,25.0+5*superimpose}},battleBuff,0);
                     ptr->buffCheck["Battle_Isnt_Over_buff"] = 0;
                 }
             }));
     
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose,BattleBuff](CharUnit *ptr) {
+            afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose,battleBuff](CharUnit *ptr) {
                 AllyUnit *tempstats = turn->canCastToAllyUnit();
                 if (!tempstats) return;
-                if (isBuffEnd(tempstats,BattleBuff)) {
-                    buffSingle(tempstats,{{Stats::DMG,AType::None,-25.0-5*superimpose}});
+                if (isBuffEnd(tempstats,battleBuff)) {
+                    buffSingle(tempstats,{{Stats::DMG,AType::NONE,-25.0-5*superimpose}});
                 }
             }));
         };

@@ -3,32 +3,32 @@
 
 //SetReuqirements
 void CharUnit::setSpeed(double speed) {
-    this->SpeedRequire = speed;
+    this->speedRequire = speed;
 }
 void CharUnit::newSpeedRequire(double amount){
-    if(this->SpeedRequire<amount)this->SpeedRequire = amount;
+    if(this->speedRequire<amount)this->speedRequire = amount;
 }
 
 void CharUnit::newApplyBaseChanceRequire(double amount){
-    if(this->ApplyBaseChance == 0 || this->ApplyBaseChance > amount)this->ApplyBaseChance = amount;
+    if(this->applyBaseChance == 0 || this->applyBaseChance > amount)this->applyBaseChance = amount;
 }
 void CharUnit::newEhrRequire(double amount){
-    if(this->EhrRequire<amount)this->EhrRequire = amount;
+    if(this->ehrRequire<amount)this->ehrRequire = amount;
 }
 
 
 // Set Substats
-void CharUnit::setTotalSubstats(int Value) {
-    this->Total_substats = Value;
-    this->Substats[0].second = Value;
-    this->bestSubstats.resize(this->Substats.size());
+void CharUnit::setTotalSubstats(int value) {
+    this->totalSubstats = value;
+    this->substats[0].second = value;
+    this->bestSubstats.resize(this->substats.size());
 }
-void CharUnit::pushSubstats(Stats StatsType) {
-    this->Substats.push_back({StatsType, 0});
+void CharUnit::pushSubstats(Stats statsType) {
+    this->substats.push_back({statsType, 0});
 }
 int CharUnit::changeTotalSubStats(int amount) {
-    if(this->Total_substats + amount < 0)amount = -this->Total_substats;
-    this->Total_substats += amount;
-    this->Substats[0].second += amount;
+    if(this->totalSubstats + amount < 0)amount = -this->totalSubstats;
+    this->totalSubstats += amount;
+    this->substats[0].second += amount;
     return -1*amount;
 }

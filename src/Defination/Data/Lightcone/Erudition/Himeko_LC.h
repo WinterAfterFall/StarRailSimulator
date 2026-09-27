@@ -2,21 +2,21 @@
 namespace Erudition_Lightcone{
     function<void(CharUnit *ptr)> Himeko_LC(int superimpose){
         return [=](CharUnit *ptr) {
-            ptr->SetAllyBaseStats(1164,582,397);
-            ptr->Light_cone.Name = "Himeko_LC";
+            ptr->setAllyBaseStats(1164,582,397);
+            ptr->lightCone.name = "Himeko_LC";
     
-            WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
-                ptr->Stats_type[Stats::ATK_P][AType::None] += (7.5 + superimpose * 1.5) * Total_enemy;
+            whenOnFieldList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+                ptr->statsType[Stats::ATK_P][AType::NONE] += (7.5 + superimpose * 1.5) * totalEnemy;
             }));
     
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+            afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 if (isBuffEnd(ptr,"Himeko_LC_buff")) {
-                    ptr->Stats_type[Stats::DMG][AType::None] -= 25+superimpose*5;
+                    ptr->statsType[Stats::DMG][AType::NONE] -= 25+superimpose*5;
                 }
             }));
     
-            Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](Enemy *target, AllyUnit *Breaker) {
-                buffSingle(ptr,{{Stats::DMG,AType::None,(25.0 + superimpose*5)}},"Himeko_LC_buff",1);
+            toughnessBreakList.push_back(TriggerBySomeAllyFunc(PRIORITY_IMMEDIATELY, [ptr,superimpose](Enemy *target, AllyUnit *breaker) {
+                buffSingle(ptr,{{Stats::DMG,AType::NONE,(25.0 + superimpose*5)}},"Himeko_LC_buff",1);
             }));
         };
     }

@@ -1,5 +1,5 @@
-#ifndef Class_Declaration_H
-#define Class_Declaration_H
+#ifndef CLASS_DECLARATION_H
+#define CLASS_DECLARATION_H
 
 #include "Class.h"
 

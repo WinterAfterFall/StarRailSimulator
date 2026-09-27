@@ -1,97 +1,97 @@
 #include "../include.h"
 
-void Setup(){
-    if(Driver_num&&driverType==DriverType::None)driverType = DriverType::DoubleTurn;
+void setup(){
+    if(driverNum&&driverType==DriverType::NONE)driverType = DriverType::DOUBLE_TURN;
     
-    sort(Reset_List.begin(), Reset_List.end(), TriggerFunc::Trigger_cmp);
-    sort(WhenOnField_List.begin(), WhenOnField_List.end(), TriggerFunc::Trigger_cmp);
-    sort(Tune_stats_List.begin(), Tune_stats_List.end(), TriggerFunc::Trigger_cmp);
-    sort(Start_game_List.begin(), Start_game_List.end(), TriggerFunc::Trigger_cmp);
-    sort(Start_wave_List.begin(), Start_wave_List.end(), TriggerFunc::Trigger_cmp);
-    sort(Before_turn_List.begin(), Before_turn_List.end(), TriggerFunc::Trigger_cmp);
-    sort(After_turn_List.begin(), After_turn_List.end(), TriggerFunc::Trigger_cmp);
-    sort(Ultimate_List.begin(), Ultimate_List.end(), TriggerFunc::Trigger_cmp);
-    sort(ElationSkill_List.begin(), ElationSkill_List.end(), TriggerFunc::Trigger_cmp);
-    sort(BeforeAhaInstant_List.begin(), BeforeAhaInstant_List.end(), TriggerFunc::Trigger_cmp);
-    sort(AfterAhaInstant_List.begin(), AfterAhaInstant_List.end(), TriggerFunc::Trigger_cmp);
-    sort(WhenUseUlt_List.begin(), WhenUseUlt_List.end(), TriggerFunc::Trigger_cmp);
+    sort(resetList.begin(), resetList.end(), TriggerFunc::triggerCmp);
+    sort(whenOnFieldList.begin(), whenOnFieldList.end(), TriggerFunc::triggerCmp);
+    sort(tuneStatsList.begin(), tuneStatsList.end(), TriggerFunc::triggerCmp);
+    sort(startGameList.begin(), startGameList.end(), TriggerFunc::triggerCmp);
+    sort(startWaveList.begin(), startWaveList.end(), TriggerFunc::triggerCmp);
+    sort(beforeTurnList.begin(), beforeTurnList.end(), TriggerFunc::triggerCmp);
+    sort(afterTurnList.begin(), afterTurnList.end(), TriggerFunc::triggerCmp);
+    sort(ultimateList.begin(), ultimateList.end(), TriggerFunc::triggerCmp);
+    sort(elationSkillList.begin(), elationSkillList.end(), TriggerFunc::triggerCmp);
+    sort(beforeAhaInstantList.begin(), beforeAhaInstantList.end(), TriggerFunc::triggerCmp);
+    sort(afterAhaInstantList.begin(), afterAhaInstantList.end(), TriggerFunc::triggerCmp);
+    sort(whenUseUltList.begin(), whenUseUltList.end(), TriggerFunc::triggerCmp);
     
 
-    sort(BeforeAction_List.begin(), BeforeAction_List.end(), TriggerFunc::Trigger_cmp);
-    sort(AfterAction_List.begin(), AfterAction_List.end(), TriggerFunc::Trigger_cmp);
-    sort(BeforeAttackAction_List.begin(), BeforeAttackAction_List.end(), TriggerFunc::Trigger_cmp);
-    sort(AfterAttackActionList.begin(), AfterAttackActionList.end(), TriggerFunc::Trigger_cmp);
-    sort(BeforeAttack_List.begin(), BeforeAttack_List.end(), TriggerFunc::Trigger_cmp);
-    sort(AfterAttack_List.begin(), AfterAttack_List.end(), TriggerFunc::Trigger_cmp);
-    sort(BeforeAttackPerHit_List.begin(), BeforeAttackPerHit_List.end(), TriggerFunc::Trigger_cmp);
-    sort(AfterAttackPerHit_List.begin(), AfterAttackPerHit_List.end(), TriggerFunc::Trigger_cmp);
-    sort(When_attack_List.begin(), When_attack_List.end(), TriggerFunc::Trigger_cmp);
-    sort(Buff_List.begin(), Buff_List.end(), TriggerFunc::Trigger_cmp);
+    sort(beforeActionList.begin(), beforeActionList.end(), TriggerFunc::triggerCmp);
+    sort(afterActionList.begin(), afterActionList.end(), TriggerFunc::triggerCmp);
+    sort(beforeAttackActionList.begin(), beforeAttackActionList.end(), TriggerFunc::triggerCmp);
+    sort(afterAttackActionList.begin(), afterAttackActionList.end(), TriggerFunc::triggerCmp);
+    sort(beforeAttackList.begin(), beforeAttackList.end(), TriggerFunc::triggerCmp);
+    sort(afterAttackList.begin(), afterAttackList.end(), TriggerFunc::triggerCmp);
+    sort(beforeAttackPerHitList.begin(), beforeAttackPerHitList.end(), TriggerFunc::triggerCmp);
+    sort(afterAttackPerHitList.begin(), afterAttackPerHitList.end(), TriggerFunc::triggerCmp);
+    sort(whenAttackList.begin(), whenAttackList.end(), TriggerFunc::triggerCmp);
+    sort(buffList.begin(), buffList.end(), TriggerFunc::triggerCmp);
 
-    sort(Stats_Adjust_List.begin(), Stats_Adjust_List.end(), TriggerFunc::Trigger_cmp);
-    sort(Healing_List.begin(), Healing_List.end(), TriggerFunc::Trigger_cmp);
-    sort(HPDecrease_List.begin(), HPDecrease_List.end(), TriggerFunc::Trigger_cmp);
-    sort(AllyDeath_List.begin(), AllyDeath_List.end(), TriggerFunc::Trigger_cmp);
+    sort(statsAdjustList.begin(), statsAdjustList.end(), TriggerFunc::triggerCmp);
+    sort(healingList.begin(), healingList.end(), TriggerFunc::triggerCmp);
+    sort(hpDecreaseList.begin(), hpDecreaseList.end(), TriggerFunc::triggerCmp);
+    sort(allyDeathList.begin(), allyDeathList.end(), TriggerFunc::triggerCmp);
 
-    sort(Toughness_break_List.begin(), Toughness_break_List.end(), TriggerFunc::Trigger_cmp);
-    sort(BeforeApplyDebuff.begin(), BeforeApplyDebuff.end(), TriggerFunc::Trigger_cmp);
-    sort(AfterApplyDebuff.begin(), AfterApplyDebuff.end(), TriggerFunc::Trigger_cmp);
-    sort(Enemy_Death_List.begin(), Enemy_Death_List.end(), TriggerFunc::Trigger_cmp);
+    sort(toughnessBreakList.begin(), toughnessBreakList.end(), TriggerFunc::triggerCmp);
+    sort(beforeApplyDebuff.begin(), beforeApplyDebuff.end(), TriggerFunc::triggerCmp);
+    sort(afterApplyDebuff.begin(), afterApplyDebuff.end(), TriggerFunc::triggerCmp);
+    sort(enemyDeathList.begin(), enemyDeathList.end(), TriggerFunc::triggerCmp);
 
-    sort(Enemy_hit_List.begin(), Enemy_hit_List.end(), TriggerFunc::Trigger_cmp);
-    sort(Dot_List.begin(), Dot_List.end(), TriggerFunc::Trigger_cmp);
-    sort(When_Energy_Increase_List.begin(), When_Energy_Increase_List.end(), TriggerFunc::Trigger_cmp);
-    sort(Skill_point_List.begin(), Skill_point_List.end(), TriggerFunc::Trigger_cmp);
-    sort(PunchLine_List.begin(), PunchLine_List.end(), TriggerFunc::Trigger_cmp);
-    sort(AfterDealingDamage_List.begin(), AfterDealingDamage_List.end(), TriggerFunc::Trigger_cmp);
+    sort(enemyHitList.begin(), enemyHitList.end(), TriggerFunc::triggerCmp);
+    sort(dotList.begin(), dotList.end(), TriggerFunc::triggerCmp);
+    sort(whenEnergyIncreaseList.begin(), whenEnergyIncreaseList.end(), TriggerFunc::triggerCmp);
+    sort(skillPointList.begin(), skillPointList.end(), TriggerFunc::triggerCmp);
+    sort(punchLineList.begin(), punchLineList.end(), TriggerFunc::triggerCmp);
+    sort(afterDealingDamageList.begin(), afterDealingDamageList.end(), TriggerFunc::triggerCmp);
     
-    if(rerollSubstatsMode == SubstatsRerollMode::Standard)rerollFunction = StandardReroll;
+    if(rerollSubstatsMode == SubstatsRerollMode::STANDARD)rerollFunction = standardReroll;
     // ปิดไว้ก่อน — ใช้แค่ Standard (ดู Substats_Reset.h)
     // else
     // if(rerollSubstatsMode == SubstatsRerollMode::AllCombination)rerollFunction = AllCombinationReroll;
     // else
     // if(rerollSubstatsMode == SubstatsRerollMode::AllPossible)rerollFunction = AllPossibleReroll;
     
-    for(int i=1;i<=Total_ally;i++){
-        charUnit[i]->AvgDmgRecord.resize(Total_enemy+1);
+    for(int i=1;i<=totalAlly;i++){
+        charUnit[i]->avgDmgRecord.resize(totalEnemy+1);
     }
-    for(TriggerByYourSelf_Func &e : Setup_List){
-        e.Call(e.owner);
+    for(TriggerByYourSelfFunc &e : setupList){
+        e.call(e.owner);
     }
     if(elationCount){
         atvList.push_back(aha.get());
     }
 }
 
-void Reset(){
+void reset(){
     turn = nullptr;
     sp =3;
     punchline = elationCount;
-    Current_atv = 0;
+    currentAtv = 0;
     nextForwardPriority = 0;
     healCount = 0;
     decreaseHPCount = 0;
-    Basic_reset();
-    Summon_reset();
-    Countdown_reset();
+    basicReset();
+    summonReset();
+    countdownReset();
     
-    for(TriggerByYourSelf_Func &e : Reset_List){
-        e.Call(e.owner);
+    for(TriggerByYourSelfFunc &e : resetList){
+        e.call(e.owner);
     }
     
-    Memosprite_reset();
-    for(TriggerByYourSelf_Func &e : WhenOnField_List){
-        e.Call(e.owner);
+    memospriteReset();
+    for(TriggerByYourSelfFunc &e : whenOnFieldList){
+        e.call(e.owner);
     }
-    for(int i=1;i<=Total_ally;i++){
-        charUnit[i]->AtkRequirment();
-        charUnit[i]->HpRequirment();
-        charUnit[i]->DefRequirment();
-        charUnit[i]->SpeedRequirment();
-        charUnit[i]->EhrRequirment();
+    for(int i=1;i<=totalAlly;i++){
+        charUnit[i]->atkRequirment();
+        charUnit[i]->hpRequirment();
+        charUnit[i]->defRequirment();
+        charUnit[i]->speedRequirment();
+        charUnit[i]->ehrRequirment();
     }
-    for(TriggerByYourSelf_Func &e : Tune_stats_List){
-        e.Call(e.owner);
+    for(TriggerByYourSelfFunc &e : tuneStatsList){
+        e.call(e.owner);
     }
     for(auto &each : charList){
         each->totalATK = calculateAtkOnStats(each);
@@ -107,32 +107,32 @@ void Reset(){
 
 
     if(elationCount){
-        Path temp = Path::Elation;
+        Path temp = Path::ELATION;
         ahaSpeedAdjust(temp);
         for(auto &each : charList){
-            if(each->path == Path::Elation)buffSingle(each,{{Stats::CertifiedBanger,AType::None,20}},"CB Buff",2);
+            if(each->path == Path::ELATION)buffSingle(each,{{Stats::CERTIFIED_BANGER,AType::NONE,20}},"CB Buff",2);
         }
     }
 }
 
-void Start_game(){
-    All_atv_reset();
-    for(TriggerByYourSelf_Func &e : Start_game_List){
-        e.Call(e.owner);
+void startGame(){
+    allAtvReset();
+    for(TriggerByYourSelfFunc &e : startGameList){
+        e.call(e.owner);
     }
 }
-void EndWave(double Total_atv){
+void endWave(double totalAtv){
 }
-void Start_wave(int WAVE){
-    if(WAVE!=0)All_atv_reset();
-    for(int i =1;i<=Total_enemy;i++){
-        //Enemy_unit[i]->stats->Toughness_status=1;
-        //Enemy_unit[i]->stats->Current_toughness=Enemy_unit[i]->Max_toughness;
-        enemyUnit[i]->when_toughness_broken = 0;
-        enemyUnit[i]->Total_toughness_broken_time = 0;
+void startWave(int wave){
+    if(wave!=0)allAtvReset();
+    for(int i =1;i<=totalEnemy;i++){
+        //Enemy_unit[i]->stats->toughnessStatus=1;
+        //Enemy_unit[i]->stats->currentToughness=Enemy_unit[i]->maxToughness;
+        enemyUnit[i]->whenToughnessBroken = 0;
+        enemyUnit[i]->totalToughnessBrokenTime = 0;
     }
-    for(TriggerByYourSelf_Func &e : Start_wave_List){
-        e.Call(e.owner);
+    for(TriggerByYourSelfFunc &e : startWaveList){
+        e.call(e.owner);
     }
     
 }

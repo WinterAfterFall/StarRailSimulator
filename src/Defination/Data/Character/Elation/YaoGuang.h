@@ -1,9 +1,9 @@
 #include "../include.h"
 
 namespace YaoGuang{
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
-        CharUnit *ptr = SetCharBasicStats(101,180,180,E,ElementType::Physical,Path::Elation,"Yao Guang",UnitType::Standard);
-        ptr->SetAllyBaseStats(1242,465,654);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = setCharBasicStats(101,180,180,eidolon,ElementType::PHYSICAL,Path::ELATION,"Yao Guang",UnitType::STANDARD);
+        ptr->setAllyBaseStats(1242,465,654);
 
         //substats
         ptr->pushSubstats(Stats::CR);
@@ -13,23 +13,23 @@ namespace YaoGuang{
         ptr->setRelicMainStats(Stats::CR,Stats::FLAT_SPD,Stats::HP_P,Stats::ER);
 
         elationCount++;
-        CB_duration += 1; // A6: Certified Banger duration +1
+        cbDuration += 1; // A6: Certified Banger duration +1
         
         //func
-        LC(ptr);
+        lc(ptr);
         Relic(ptr);
         Planar(ptr);
 
         #pragma region Ability
 
-        function<void()> BA = [ptr]() {
+        function<void()> ba = [ptr]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Blast,"YG BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::BLAST,"YG BA",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 genSkillPoint(ptr,1);
                 genPunchLine(ptr,3);
-                Increase_energy(ptr,20);
-                Attack(act);
+                increaseEnergy(ptr,20);
+                attack(act);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,90,10),
@@ -38,24 +38,24 @@ namespace YaoGuang{
             act->addToActionBar();
         };
 
-        function<void()> Skill = [ptr]() {
+        function<void()> skill = [ptr]() {
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"YG Skill",
+            make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::SINGLE,"YG Skill",
             [ptr](shared_ptr<AllyBuffAction> &act){
                 genSkillPoint(ptr,-1);
                 genPunchLine(ptr,3);
-                Increase_energy(ptr,30);
+                increaseEnergy(ptr,30);
                 if(isHaveToAddBuff(ptr,"YG Skill",3)){
-                    if(ptr->Eidolon>=2)
+                    if(ptr->eidolon>=2)
                     buffAllAlly({
-                        {Stats::SPD_P,AType::None,12},
-                        {Stats::Elation,AType::None,16}
+                        {Stats::SPD_P,AType::NONE,12},
+                        {Stats::ELATION,AType::NONE,16}
                     });
 
                     double buff = calculateElationForBuff(ptr,20);
                     buffAllAlly({
-                        {Stats::Elation,AType::None,buff - ptr->getBuffNote("YG Skill")},
-                        {Stats::Elation,AType::TEMP,buff - ptr->getBuffNote("YG Skill")}
+                        {Stats::ELATION,AType::NONE,buff - ptr->getBuffNote("YG Skill")},
+                        {Stats::ELATION,AType::TEMP,buff - ptr->getBuffNote("YG Skill")}
                     });
 
                     
@@ -67,9 +67,9 @@ namespace YaoGuang{
             act->addToActionBar();
         };
         #pragma endregion
-        ptr->Turn_func = [ptr,BA,Skill]() {
-            if(ptr->getBuffCheck("YG Skill"))BA();
-            else Skill();
+        ptr->turnFunc = [ptr,ba,skill]() {
+            if(ptr->getBuffCheck("YG Skill"))ba();
+            else skill();
 
         };
         
@@ -77,124 +77,124 @@ namespace YaoGuang{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [](CharUnit *ptr) {
+        ultimateList.push_back(TriggerByYourSelfFunc(PRIORITY_BUFF, ptr, [](CharUnit *ptr) {
             shared_ptr<AllyBuffAction> act =
-            make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Aoe,"YG Ult",
+            make_shared<AllyBuffAction>(AType::ULT,ptr,TraceType::AOE,"YG Ult",
             [ptr](shared_ptr<AllyBuffAction> &act){
                 CharCmd::printUltStart(ptr->getName());
 
                 genPunchLine(ptr,5);
 
                 buffAllAlly({
-                    {Stats::RESPEN,AType::None,20}
+                    {Stats::RESPEN,AType::NONE,20}
                 },"YG Ult",3);
 
-                if(ptr->Eidolon>=4)
+                if(ptr->eidolon>=4)
                 buffAllAlly({
-                    {Stats::MtprInc,AType::ElationSkill,50}
+                    {Stats::MTPR_INC,AType::ELATION_SKILL,50}
                 });
 
-                if(ptr->Eidolon>=1)AhaInstant(40);
-                else AhaInstant(20);
+                if(ptr->eidolon>=1)ahaInstant(40);
+                else ahaInstant(20);
 
-                if(ptr->Eidolon>=4)
+                if(ptr->eidolon>=4)
                 buffAllAlly({
-                    {Stats::MtprInc,AType::ElationSkill,-50}
+                    {Stats::MTPR_INC,AType::ELATION_SKILL,-50}
                 });
 
 
             });
             act->addBuffAllAllies();
             act->addToActionBar();
-            Deal_damage();
+            dealDamage();
         }));
 
-        ElationSkill_List.push_back(TriggerByYourSelf_Func(114, ptr, [](CharUnit *ptr) {
+        elationSkillList.push_back(TriggerByYourSelfFunc(114, ptr, [](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::ElationSkill,ptr,TraceType::Aoe,"YG Elation",
+            make_shared<AllyAttackAction>(AType::ELATION_SKILL,ptr,TraceType::AOE,"YG Elation",
             [ptr](shared_ptr<AllyAttackAction> &act){
-                debuffAllEnemyApply(ptr,{{Stats::VUL,AType::None,16}},"Woe's Whisper",3);
-                Increase_energy(ptr,5);    
-                Attack(act);
+                debuffAllEnemyApply(ptr,{{Stats::VUL,AType::NONE,16}},"Woe's Whisper",3);
+                increaseEnergy(ptr,5);    
+                attack(act);
                 genSkillPoint(ptr,1);
             });
             act->addDamageIns(
-                DmgSrc(DmgSrcType::Elation,100,20),
-                DmgSrc(DmgSrcType::Elation,100,20),
-                DmgSrc(DmgSrcType::Elation,100,20)
+                DmgSrc(DmgSrcType::ELATION,100,20),
+                DmgSrc(DmgSrcType::ELATION,100,20),
+                DmgSrc(DmgSrcType::ELATION,100,20)
             );
             act->addEnemyBounce(
-                DmgSrc(DmgSrcType::Elation,20,5),5
+                DmgSrc(DmgSrcType::ELATION,20,5),5
             );
             act->addToAhaInstant();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_type[Stats::CR][AType::None] += 18.7;
-            ptr->Stats_type[Stats::CD][AType::None] += 60;
-            ptr->Stats_type[Stats::Elation][AType::None] += 10+30;
-            ptr->Atv_stats->flatSpeed += 9;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsType[Stats::CR][AType::NONE] += 18.7;
+            ptr->statsType[Stats::CD][AType::NONE] += 60;
+            ptr->statsType[Stats::ELATION][AType::NONE] += 10+30;
+            ptr->atvStats->flatSpeed += 9;
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            if(ptr->Eidolon>=1)buffAllAlly({{Stats::DEF_SHRED,AType::ElationDMG,20}});
-            if(ptr->Eidolon>=6){
-                buffAllAlly({{Stats::Merrymake,AType::ElationDMG,25}});
-                buffSingle(ptr,{{Stats::MtprInc,AType::ElationSkill,100}});
+        whenOnFieldList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            if(ptr->eidolon>=1)buffAllAlly({{Stats::DEF_SHRED,AType::ELATION_DMG,20}});
+            if(ptr->eidolon>=6){
+                buffAllAlly({{Stats::MERRYMAKE,AType::ELATION_DMG,25}});
+                buffSingle(ptr,{{Stats::MTPR_INC,AType::ELATION_SKILL,100}});
             }
-            StatsAdjust(ptr,Stats::SPD_P);
+            statsAdjust(ptr,Stats::SPD_P);
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+        beforeTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             if(isBuffEnd(ptr,"YG Skill")){
                 buffAllAlly({
-                        {Stats::Elation,AType::None,-ptr->getBuffNote("YG Skill")},
-                        {Stats::Elation,AType::TEMP,-ptr->getBuffNote("YG Skill")}
+                        {Stats::ELATION,AType::NONE,-ptr->getBuffNote("YG Skill")},
+                        {Stats::ELATION,AType::TEMP,-ptr->getBuffNote("YG Skill")}
                 });
                 ptr->setBuffNote("YG Skill",0);
-                if(ptr->Eidolon>=2)
+                if(ptr->eidolon>=2)
                 buffAllAlly({
-                    {Stats::SPD_P,AType::None,-12},
-                    {Stats::Elation,AType::None,-16}
+                    {Stats::SPD_P,AType::NONE,-12},
+                    {Stats::ELATION,AType::NONE,-16}
                 });
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+        afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             AllyUnit *ally = turn->canCastToAllyUnit();
             Enemy *enemy = turn->canCastToEnemy();
             if(ally){
                 if(isBuffEnd(ally,"YG Ult")){
-                    buffSingle(ally,{{Stats::RESPEN,AType::None,-20}});
+                    buffSingle(ally,{{Stats::RESPEN,AType::NONE,-20}});
                 }
             }
             if(!enemy)return;
             if(isDebuffEnd(enemy,"Woe's Whisper")){
-                debuffSingle(enemy,{{Stats::VUL,AType::None,-16}});
+                debuffSingle(enemy,{{Stats::VUL,AType::NONE,-16}});
             }
 
         }));
 
         
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            if(!ptr->Technique)return;
+        startGameList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            if(!ptr->technique)return;
             shared_ptr<AllyBuffAction> act = 
-            make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"YG Skill",
+            make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::SINGLE,"YG Skill",
             [ptr](shared_ptr<AllyBuffAction> &act){
                 genPunchLine(ptr,3);
-                Increase_energy(ptr,30);
+                increaseEnergy(ptr,30);
                 if(isHaveToAddBuff(ptr,"YG Skill",3)){
-                    if(ptr->Eidolon>=2)
+                    if(ptr->eidolon>=2)
                     buffAllAlly({
-                        {Stats::SPD_P,AType::None,12},
-                        {Stats::Elation,AType::None,16}
+                        {Stats::SPD_P,AType::NONE,12},
+                        {Stats::ELATION,AType::NONE,16}
                     });
 
                     double buff = calculateElationForBuff(ptr,20);
                     buffAllAlly({
-                        {Stats::Elation,AType::None,buff - ptr->getBuffNote("YG Skill")},
-                        {Stats::Elation,AType::TEMP,buff - ptr->getBuffNote("YG Skill")}
+                        {Stats::ELATION,AType::NONE,buff - ptr->getBuffNote("YG Skill")},
+                        {Stats::ELATION,AType::TEMP,buff - ptr->getBuffNote("YG Skill")}
                     });
                     
                     ptr->setBuffNote("YG Skill",buff);
@@ -203,36 +203,36 @@ namespace YaoGuang{
             });
             act->addBuffSingleTarget(ptr);
             act->addToActionBar();
-            act->Turn_reset= 0;
-            Deal_damage();
+            act->turnReset= 0;
+            dealDamage();
         }));
 
-        BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
+        beforeAttackActionList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
             ptr->setBuffCheck("YG Talent SP check",0);
         }));
 
-        Skill_point_List.push_back(TriggerSkill_point_func(PRIORITY_IMMEDIATELY, [ptr](AllyUnit *SP_maker, int SP) {
-            if(SP<0)ptr->setBuffCheck("YG Talent SP check",1);
+        skillPointList.push_back(TriggerSkillPointFunc(PRIORITY_IMMEDIATELY, [ptr](AllyUnit *spMaker, int spChange) {
+            if(spChange<0)ptr->setBuffCheck("YG Talent SP check",1);
         }));
 
-        When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
+        whenAttackList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
             
-            if(ptr->Stats_type[Stats::CertifiedBanger][AType::None]<=0)return;
-            shared_ptr<AllyAttackAction> newAct = make_shared<AllyAttackAction>(AType::ElationDMG,act->Attacker,TraceType::Single,"YG Talent");
-            newAct->addDamageIns(DmgSrc(DmgSrcType::Elation,20));
-            if(ptr->getBuffCheck("YG Talent SP check"))newAct->addDamageIns(DmgSrc(DmgSrcType::Elation,20));
-            if(calculateElationOnStats(ptr)>calculateElationOnStats(act->Attacker))act->source = ptr;
-            newAct->addAttackType(AType::Addtional);
-            Attack(newAct);
+            if(ptr->statsType[Stats::CERTIFIED_BANGER][AType::NONE]<=0)return;
+            shared_ptr<AllyAttackAction> newAct = make_shared<AllyAttackAction>(AType::ELATION_DMG,act->attacker,TraceType::SINGLE,"YG Talent");
+            newAct->addDamageIns(DmgSrc(DmgSrcType::ELATION,20));
+            if(ptr->getBuffCheck("YG Talent SP check"))newAct->addDamageIns(DmgSrc(DmgSrcType::ELATION,20));
+            if(calculateElationOnStats(ptr)>calculateElationOnStats(act->attacker))act->source = ptr;
+            newAct->addAttackType(AType::ADDTIONAL);
+            attack(newAct);
         }));
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](AllyUnit* Target, Stats StatsType) {
-            if(!Target->isSameName(ptr))return;
-            if (StatsType == Stats::FLAT_SPD||StatsType == Stats::SPD_P) {
-                double BuffValue = min(200.0,max(0.0,calculateSpeedOnStats(ptr) - 120));
+        statsAdjustList.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](AllyUnit* target, Stats statsType) {
+            if(!target->isSameName(ptr))return;
+            if (statsType == Stats::FLAT_SPD||statsType == Stats::SPD_P) {
+                double buffValue = min(200.0,max(0.0,calculateSpeedOnStats(ptr) - 120));
 
-                buffSingleChar(ptr,{{Stats::Elation, AType::None, BuffValue - ptr->buffNote["YG A2"]}});
-                ptr->buffNote["YG A2"] =  BuffValue;
+                buffSingleChar(ptr,{{Stats::ELATION, AType::NONE, buffValue - ptr->buffNote["YG A2"]}});
+                ptr->buffNote["YG A2"] =  buffValue;
             }
         }));
 

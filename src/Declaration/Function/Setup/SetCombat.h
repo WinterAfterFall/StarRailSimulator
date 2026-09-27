@@ -1,7 +1,7 @@
 #include "../include.h"
 
-void Setup();
-void Reset();
-void Start_game();
-void EndWave(double Total_atv);
-void Start_wave(int WAVE);
+void setup();
+void reset();
+void startGame();
+void endWave(double totalAtv);
+void startWave(int wave);

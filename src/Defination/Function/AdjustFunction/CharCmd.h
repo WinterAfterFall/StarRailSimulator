@@ -3,42 +3,42 @@
 namespace CharCmd{
 
     void printUltStart(string name){
-        cout<<"------------------------------------------------------- "<<name<<" Ult Start at "<<Current_atv<<endl;
+        cout<<"------------------------------------------------------- "<<name<<" Ult Start at "<<currentAtv<<endl;
     
     }
     void printUltEnd(string name){
-        cout<<"------------------------------------------------------- "<<name<<" Ult End at "<<Current_atv<<endl;
+        cout<<"------------------------------------------------------- "<<name<<" Ult End at "<<currentAtv<<endl;
     
     }
     void printText(string text){
-        cout<<"------------------------------------------------------- "<<text<<" at "<<Current_atv<<endl;
+        cout<<"------------------------------------------------------- "<<text<<" at "<<currentAtv<<endl;
     }
 
     CharUnit* findAllyName(string name){
-        for(int i = 1; i<= Total_ally;i++){
-            if(charUnit[i]->Atv_stats->Name == name)return charUnit[i].get();
+        for(int i = 1; i<= totalAlly;i++){
+            if(charUnit[i]->atvStats->name == name)return charUnit[i].get();
         }
         return nullptr;
     }
     
-    void Set_Technique(CharUnit *ptr,int tech){
-        ptr->Technique = tech;
+    void setTechnique(CharUnit *ptr,int tech){
+        ptr->technique = tech;
     }
     
     
-    void Set_Tune_Speed(CharUnit *ptr,double value){
+    void setTuneSpeed(CharUnit *ptr,double value){
         if(value==0)return;
-        ptr->SpeedRequire = value;
+        ptr->speedRequire = value;
     }
-    void Set_Reroll_check(CharUnit *ptr,bool Bool){
-        ptr->rerollActive = Bool;
+    void setRerollCheck(CharUnit *ptr,bool flag){
+        ptr->rerollActive = flag;
     }
-    void Timing_print(CharUnit *ptr){
-        ptr->Print = 1;
+    void timingPrint(CharUnit *ptr){
+        ptr->print = 1;
     }
-    bool Using_Skill(CharUnit *ptr){
-        if(spMode==SPMode::Positive)return true;
-        if(sp>Sp_Safety)return true;
+    bool usingSkill(CharUnit *ptr){
+        if(spMode==SPMode::POSITIVE)return true;
+        if(sp>spSafety)return true;
         return false;
     }
 }

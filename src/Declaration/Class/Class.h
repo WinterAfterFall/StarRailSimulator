@@ -1,7 +1,7 @@
 #include "include.h"
 
 class Damage;
-class Func_class;
+class FuncClass;
 class BuffClass;
 class BuffElementClass;
 class ActionValueStats;
@@ -27,20 +27,20 @@ class AllyBuffAction;
 class EnemyActionData;
 //Trigger_Function
 class TriggerFunc;
-class TriggerByYourSelf_Func;
-class TriggerByAlly_Func;
-class TriggerByAction_Func;
-class TriggerByAllyAction_Func;
-class TriggerByAllyAttackAction_Func;
-class TriggerByAllyBuffAction_Func;
+class TriggerByYourSelfFunc;
+class TriggerByAllyFunc;
+class TriggerByActionFunc;
+class TriggerByAllyActionFunc;
+class TriggerByAllyAttackActionFunc;
+class TriggerByAllyBuffActionFunc;
 class TriggerByStats;
 class TriggerAllyDeath;
-class TriggerBySomeAlly_Func;
-class TriggerByWeaknessApply_Func;
+class TriggerBySomeAllyFunc;
+class TriggerByWeaknessApplyFunc;
 class TriggerHealing;
 class TriggerDecreaseHP;
 class TriggerByEnemyHit;
-class TriggerDot_Func;
-class TriggerEnergy_Increase_Func;
-class TriggerSkill_point_func;
+class TriggerDotFunc;
+class TriggerEnergyIncreaseFunc;
+class TriggerSkillPointFunc;
 class TriggerAfterDealDamage;

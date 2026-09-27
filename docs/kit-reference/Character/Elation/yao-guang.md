@@ -91,8 +91,8 @@ CRIT Rate +18.7% · SPD +9 · Elation +10%
 - **Elation share**: Zone ให้เพื่อน +20% ของ Elation ของ Yao Guang (E2 +16% เพิ่ม); "Great Boon" ใช้ Elation ที่สูงกว่าคำนวณ
 - **A2**: Elation scaling จาก SPD (≥120 → +30%, +1%/SPD เกิน, cap 200)
 - **Punchline**: Skill BA/Skill +3, Ult +5; Aha extra turn นับ Punchline คงที่ 20/40
-- **Great Boon**: follow-up 20% Elation DMG ต่อการโจมตีของเพื่อน + ซ้ำถ้ากิน SP — เข้ากับ `When_attack_List` / `AfterAhaInstant_List` ในโค้ด
-- โค้ด `Start_game_List`: ถ้า `Technique` → สร้าง AllyBuffAction "YG Skill" (genPunchLine 3, energy 30, E2 buff SPD 12/Elation 16, Elation buff คำนวณ `calculateElationForBuff`), `addToActionBar` + `Deal_damage()` (self-flush)
+- **Great Boon**: follow-up 20% Elation DMG ต่อการโจมตีของเพื่อน + ซ้ำถ้ากิน SP — เข้ากับ `whenAttackList` / `afterAhaInstantList` ในโค้ด
+- โค้ด `startGameList`: ถ้า `Technique` → สร้าง AllyBuffAction "YG Skill" (genPunchLine 3, energy 30, E2 buff SPD 12/Elation 16, Elation buff คำนวณ `calculateElationForBuff`), `addToActionBar` + `dealDamage()` (self-flush)
 - Elation Skill: Woe's Whisper (+16% vul) + A4 คืน SP 1
 
 ### แหล่งอ้างอิง

@@ -2,13 +2,13 @@
 namespace Planar{
     void Talia(CharUnit *ptr){
         
-        ptr->Planar.Name = "Talia";
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_type[Stats::BE][AType::None] += 16;
+        ptr->Planar.name = "Talia";
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsType[Stats::BE][AType::NONE] += 16;
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_type[Stats::BE][AType::None] += 20;
+        whenOnFieldList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsType[Stats::BE][AType::NONE] += 20;
         }));
         
        

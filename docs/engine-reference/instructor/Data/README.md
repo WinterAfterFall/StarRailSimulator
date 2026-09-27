@@ -46,9 +46,9 @@
 | ไฟล์ | สอนอะไร |
 |---|---|
 | `Character/Harmony/Tingyun.md` | โครงพื้นฐาน · บัฟ ally · การถอน stat delta · บัฟ single-target ที่ต้องจำผู้ถือจริง |
-| `Character/Nihility/Pela.md` | debuff ฝั่งศัตรู · `AfterAttackActionList` · `WhenOnField_List` |
-| `Character/Nihility/Black Swan.md` | ระบบ DoT แบบ stack · `Dot_List` · การตัดความน่าจะเป็นทิ้งทั้งระบบ |
-| `Character/Nihility/Kafka.md` | DoT แบบมีอายุ · `Dot_trigger` (จุดระเบิด) · FuA ที่มี charge · `setAdjust` |
+| `Character/Nihility/Pela.md` | debuff ฝั่งศัตรู · `afterAttackActionList` · `whenOnFieldList` |
+| `Character/Nihility/Black Swan.md` | ระบบ DoT แบบ stack · `dotList` · การตัดความน่าจะเป็นทิ้งทั้งระบบ |
+| `Character/Nihility/Kafka.md` | DoT แบบมีอายุ · `dotTrigger` (จุดระเบิด) · FuA ที่มี charge · `setAdjust` |
 | `Character/Nihility/Luka.md` | ทรัพยากรของตัวละคร · Enhanced BA · การแปลงค่าสุ่มเป็น deterministic |
 | `Character/Erudition/The_Herta.md` | ทรัพยากรหลายชั้น · ดาเมจที่คำนวณใน callback · AI ที่ปรับตามรูปแบบทีม |
 
@@ -58,11 +58,11 @@
 
 เรื่องนี้เฉพาะ **stack ที่ตัวละครเก็บสะสม** (Fighting Will ของ Luka, charge ของ Talent Kafka, Inspiration ของ The Herta, Answer ของ The Herta) ไม่ใช่ cap ทุกชนิดในเกม
 
-**default คือไม่ clamp** เพราะถ้าใส่ cap แล้วต้องไปจูน rotation ให้ไม่ยิงทะลุ cap ด้วย ซึ่งเป็นงานเพิ่มที่มักไม่ได้อะไรกลับมา — ปล่อยให้ตัวนับวิ่งเกินแล้วให้ `Turn_func` ตัดสินใจจากเงื่อนไข "พอหรือยัง" (เช่น `getStack("Fighting Will") >= 2`) ง่ายกว่าและได้ผลเท่ากันเมื่อ rotation ไม่ได้ตั้งใจสะสมทิ้งไว้
+**default คือไม่ clamp** เพราะถ้าใส่ cap แล้วต้องไปจูน rotation ให้ไม่ยิงทะลุ cap ด้วย ซึ่งเป็นงานเพิ่มที่มักไม่ได้อะไรกลับมา — ปล่อยให้ตัวนับวิ่งเกินแล้วให้ `turnFunc` ตัดสินใจจากเงื่อนไข "พอหรือยัง" (เช่น `getStack("Fighting Will") >= 2`) ง่ายกว่าและได้ผลเท่ากันเมื่อ rotation ไม่ได้ตั้งใจสะสมทิ้งไว้
 
 **แต่ไม่ใช่กฎตายตัว — บางตัวก็ใส่ cap ตามความเป็นจริง** (user ยืนยัน 2026-09-23) ขึ้นกับว่า rotation ของตัวนั้นมีโอกาสสะสมเกินจริงจนผลเพี้ยนไหม · **ตอนจะทำตัวใหม่ให้ถาม user ก่อนเสมอ อย่าเดาเอง** และอย่าใส่หรือถอด clamp ของตัวที่มีอยู่แล้วโดยไม่ถาม
 
-**ข้อยกเว้นที่ใส่ได้เลย: cap ที่ engine จัดการให้** — `buffStackSingle(เป้า, {stat}, จำนวน, cap, ชื่อ)` รับ cap เป็นพารามิเตอร์ ใช้ได้ตามปกติ (เช่น E4 ของ Luka ที่ส่ง cap 4) เพราะไม่ต้องจูนอะไรเพิ่ม · `Apply_Herta_Stack()` ที่ clamp Interpretation ที่ 42 และ Answer ที่ 99 ก็อยู่ในกลุ่มนี้ เพราะ cap เป็นส่วนหนึ่งของกลไก (stack ล้นไหลไปศัตรูตัวอื่น) ไม่ใช่แค่เพดานเฉย ๆ
+**ข้อยกเว้นที่ใส่ได้เลย: cap ที่ engine จัดการให้** — `buffStackSingle(เป้า, {stat}, จำนวน, cap, ชื่อ)` รับ cap เป็นพารามิเตอร์ ใช้ได้ตามปกติ (เช่น E4 ของ Luka ที่ส่ง cap 4) เพราะไม่ต้องจูนอะไรเพิ่ม · `applyHertaStack()` ที่ clamp Interpretation ที่ 42 และ Answer ที่ 99 ก็อยู่ในกลุ่มนี้ เพราะ cap เป็นส่วนหนึ่งของกลไก (stack ล้นไหลไปศัตรูตัวอื่น) ไม่ใช่แค่เพดานเฉย ๆ
 
 > เวลาเขียนไฟล์ md: การไม่มี cap ไม่ใช่ "บั๊ก" หรือ "ต้องแก้" ให้บันทึกเป็นข้อตกลง และถ้าไม่เคยถาม user เรื่องตัวนั้น ให้เขียนว่ายังไม่ได้ตัดสินใจ
 
@@ -75,13 +75,13 @@
 ผลที่ตามมา 2 อย่างที่อธิบายเรื่องที่ดูเหมือนบั๊กหลายจุด:
 
 1. **ความสามารถที่สเกลกับ HP ของศัตรูเขียนตรง ๆ ไม่ได้** — `DmgSrcType::HP` มีอยู่ แต่ `calHpMultiplier()` (`Function/Calculate/CalStats.h:127`) อ่าน `act->source->baseHp` คือ **HP ของผู้โจมตี** ไม่ใช่ของเป้าหมาย · ท่าแบบ "X% ของ Max HP ศัตรู แต่ไม่เกิน Y% ATK" จึงต้องเขียนเฉพาะสาขาเพดาน (`Y% ATK`) ซึ่งกับบอสก็เป็นสาขาที่ผูกพันจริงอยู่แล้ว — ดู Bleed ของ `Luka.md`
-2. **ไม่มีจังหวะที่ศัตรู "ตาย"** — นี่คือรากของเรื่อง `Enemy_Death_List` ข้างล่าง ไม่ใช่แค่ยังไม่ได้ต่อสาย แต่ยังไม่มีสภาวะในเกมที่จะนิยามว่าตาย
+2. **ไม่มีจังหวะที่ศัตรู "ตาย"** — นี่คือรากของเรื่อง `enemyDeathList` ข้างล่าง ไม่ใช่แค่ยังไม่ได้ต่อสาย แต่ยังไม่มีสภาวะในเกมที่จะนิยามว่าตาย
 
 ---
 
-## `Enemy_Death_List` — ยังไม่มีทางเข้า
+## `enemyDeathList` — ยังไม่มีทางเข้า
 
-`allEventWhenEnemyDeath(Killer, target)` ถูกประกาศ (`Declaration/Function/Event/Event.h:27`) และนิยามไว้ (`Defination/Function/Event/Event.h:225`) ครบแล้ว และ `Enemy_Death_List` ก็ถูก sort ใน `Setup/SetCombat.h:39` ตามปกติ — **แต่ไม่มีจุดไหนในเกมเรียก `allEventWhenEnemyDeath` เลย** list จึงไม่เคยทำงาน
+`allEventWhenEnemyDeath(killer, target)` ถูกประกาศ (`Declaration/Function/Event/Event.h:27`) และนิยามไว้ (`Defination/Function/Event/Event.h:225`) ครบแล้ว และ `enemyDeathList` ก็ถูก sort ใน `Setup/SetCombat.h:39` ตามปกติ — **แต่ไม่มีจุดไหนในเกมเรียก `allEventWhenEnemyDeath` เลย** list จึงไม่เคยทำงาน
 
 **เหตุผล (user ยืนยัน 2026-09-22): ยังไม่รู้ว่าควร trigger ตรงไหน** — ไม่ใช่การลืมต่อสาย แต่เป็นคำถามออกแบบที่ยังไม่มีคำตอบ
 
@@ -104,30 +104,30 @@
 
 ## LC / Relic / Planar ต่อเข้าตัวละครยังไง
 
-`Setup` ของตัวละครรับ 3 อย่างนี้เป็น **ฟังก์ชัน** แล้วเรียกทันที (`Tingyun.h:20,32-34`):
+`setup` ของตัวละครรับ 3 อย่างนี้เป็น **ฟังก์ชัน** แล้วเรียกทันที (`Tingyun.h:20,32-34`):
 ```cpp
-void Setup(int E, function<void(CharUnit *ptr)> LC, function<void(CharUnit *ptr)> Relic, function<void(CharUnit *ptr)> Planar){
-    CharUnit *ptr = SetCharBasicStats(...);
+void setup(int E, function<void(CharUnit *ptr)> LC, function<void(CharUnit *ptr)> Relic, function<void(CharUnit *ptr)> Planar){
+    CharUnit *ptr = setCharBasicStats(...);
     ...
-    LC(ptr);
+    lc(ptr);
     Relic(ptr);
     Planar(ptr);
 ```
-ฟังก์ชันพวกนั้นทำ 2 อย่าง: **เขียนชื่อลงช่องของตัวเอง** (เช่น `ptr->Light_cone.Name = "DDD"`) และ **ลงทะเบียน trigger / บัฟ** (`Reset_List`, `WhenUseUlt_List`, `addUltCondition` ...) — ตัวฟังก์ชันไม่ได้ถูกเก็บในช่อง ช่องเก็บแค่ชื่อ
+ฟังก์ชันพวกนั้นทำ 2 อย่าง: **เขียนชื่อลงช่องของตัวเอง** (เช่น `ptr->lightCone.name = "DDD"`) และ **ลงทะเบียน trigger / บัฟ** (`resetList`, `whenUseUltList`, `addUltCondition` ...) — ตัวฟังก์ชันไม่ได้ถูกเก็บในช่อง ช่องเก็บแค่ชื่อ
 - LC เป็น factory รับ superimpose แล้วคืน lambda (`Harmony_Lightcone::DDD(int superimpose)` → `[=](CharUnit *ptr){...}`)
 - Relic / Planar ส่วนใหญ่เป็นฟังก์ชันตรง ๆ (`Relic::Eagle_Beaked_Helmet`) ยกเว้นตัวที่ต้องรับค่า เช่น `Planar::GiantTree(0)`
 
 ## เงื่อนไขกดอัลติที่ผูกกับของที่ใส่
 
 relic / LC บางตัวให้ผลตอนใช้อัลติ (advance) → ถ้ากดตอนที่ตัวนั้นใกล้ได้เล่นอยู่แล้ว advance จะเสียเปล่า
-- **Eagle of Twilight Line** (`Eagle_Beaked_Helmet.h` — ชื่อไฟล์เป็นชื่อชิ้นหัว): ใช้อัลติแล้ว advance ตัวเอง 25% → ไฟล์ relic **ใส่ `addUltCondition` ไว้เอง**: `atv <= Max_atv*0.25` → ยังไม่กด
+- **Eagle of Twilight Line** (`Eagle_Beaked_Helmet.h` — ชื่อไฟล์เป็นชื่อชิ้นหัว): ใช้อัลติแล้ว advance ตัวเอง 25% → ไฟล์ relic **ใส่ `addUltCondition` ไว้เอง**: `atv <= maxAtv*0.25` → ยังไม่กด
 - **Dance! Dance! Dance!** (`DDD.h`): ใช้อัลติแล้ว advance ทั้งทีม `14 + 2*S`% → **ไม่มีเงื่อนไขในตัว**
 
 ## แก้เมื่อ 2026-09-13 (user สั่ง)
 
 - **Tribbie** — ลบ `addUltCondition` ทั้งก้อน เหลือแต่ `return true` แล้ว:
   - 2 บรรทัดเช็ค DDD (เป้าที่บัฟ หรือ driver มี atv ≤ 0 → ไม่กด)
-  - บรรทัด `Light_cone.Name == "Eagle_Beaked_Helmet"` ที่ **ไม่มีวันจริง** เพราะ Eagle เป็น relic ชื่ออยู่ใน `Relic.Name` — และซ้ำกับเงื่อนไขที่ relic ใส่เองอยู่แล้ว
+  - บรรทัด `lightCone.name == "Eagle_Beaked_Helmet"` ที่ **ไม่มีวันจริง** เพราะ Eagle เป็น relic ชื่ออยู่ใน `Relic.name` — และซ้ำกับเงื่อนไขที่ relic ใส่เองอยู่แล้ว
 - **Hanabi / HanabiV1** — เดิม `LC != "DDD" && ต้นเทิร์นของเป้าที่บัฟ` → **ใส่ DDD แล้วเงื่อนไขเป็นเท็จเสมอ = ไม่มีวันกดอัลติ** · ลบส่วน `LC != "DDD"` ออก → กดอัลติตอนต้นเทิร์นของเป้าที่บัฟเสมอ ไม่ว่าใส่ LC อะไร
 - **ชื่อ planar** — `Rutilant.h` เดิม `"    "` → `"Rutilant"` · `Inert.h` เดิม `"SpaceSealing"` (copy มา) → `"Inert"`
 

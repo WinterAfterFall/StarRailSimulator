@@ -2,11 +2,11 @@
 namespace Nihility_Lightcone{
     function<void(CharUnit *ptr)> GNSW(int superimpose){
         return [=](CharUnit *ptr) {
-            ptr->SetAllyBaseStats(953,476,331);
-            ptr->Light_cone.Name = "GNSW";
+            ptr->setAllyBaseStats(953,476,331);
+            ptr->lightCone.name = "GNSW";
     
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
-                ptr->Stats_type[Stats::DMG][AType::None] += (9 + (3 * superimpose)) * 3;
+            resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+                ptr->statsType[Stats::DMG][AType::NONE] += (9 + (3 * superimpose)) * 3;
             }));
         };
     }

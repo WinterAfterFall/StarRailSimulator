@@ -1,14 +1,14 @@
 #include "../include.h"
 
-void Enemy::AoeAttack(double SkillRatio,double energy){
+void Enemy::aoeAttack(double skillRatio,double energy){
     shared_ptr<EnemyActionData> act = make_shared<EnemyActionData>();
-    act->setAoeAttack(this,SkillRatio,energy);
-    Action_bar.push(act);
+    act->setAoeAttack(this,skillRatio,energy);
+    actionBar.push(act);
 }
-void Enemy::BaAttack(double SkillRatio,double energy){
+void Enemy::baAttack(double skillRatio,double energy){
     shared_ptr<EnemyActionData> act = make_shared<EnemyActionData>();
-    act->setBaAttack(this,SkillRatio,energy);
-    Action_bar.push(act);
+    act->setBaAttack(this,skillRatio,energy);
+    actionBar.push(act);
 }
 void Enemy::addTaunt(AllyUnit* ptr){
     for (AllyUnit* e : this->tauntList) {
@@ -27,9 +27,9 @@ void Enemy::removeTaunt(AllyUnit *ptr){
 
 // void EnemyHit(Enemy *Attacker,double energy){
 //     vector<AllyUnit*> vec;
-//     for(int i=1;i<=Total_ally;i++){
+//     for(int i=1;i<=totalAlly;i++){
 //         for(int j=0;j<Ally_unit[i]->Sub_Unit_ptr.size();j++){
-//             if(Ally_unit[i]->Sub_Unit_ptr[j]->Atv_stats->Type == UnitType::Backup)continue;
+//             if(Ally_unit[i]->Sub_Unit_ptr[j]->atvStats->Type == UnitType::BACKUP)continue;
 //             if(Ally_unit[i]->Sub_Unit_ptr[j]->currentHP==0)continue;
 //             vec.push_back(Ally_unit[i]->Sub_Unit_ptr[j].get());
 //         }
@@ -40,7 +40,7 @@ void Enemy::removeTaunt(AllyUnit *ptr){
 //     double damageDeal;
 //     allEventWhenEnemyHit(Attacker,target);
 //     for(AllyUnit* e : target){
-//         Increase_energy(e->owner,energy);
+//         increaseEnergy(e->owner,energy);
 //     }
 //     DamageFormEnemy(Attacker,target);
 // }
@@ -49,7 +49,7 @@ void Enemy::removeTaunt(AllyUnit *ptr){
 //     for(AllyUnit* e : target){
 //         double damageDeal = calculateDmgReceive(Attacker,e,Attacker->skillRatio);
 //         if(e->currentHP<=0)return;
-//         DecreaseCurrentHP(e,damageDeal);
+//         decreaseCurrentHP(e,damageDeal);
 //         allEventChangeHP(Attacker,e,damageDeal);
 //     }
 // }

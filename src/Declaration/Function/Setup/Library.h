@@ -1,5 +1,5 @@
-#ifndef Setup_Declaration_H
-#define Setup_Declaration_H
+#ifndef SETUP_DECLARATION_H
+#define SETUP_DECLARATION_H
 #include "Stats_Reset.h"
 #include "SetCombat.h"
 #include "Substats_Reset.h"

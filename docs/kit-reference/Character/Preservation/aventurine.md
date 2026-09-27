@@ -91,7 +91,7 @@ DEF +35% · Imaginary DMG +14.4% · Effect RES +10%
 - **A2**: CRIT Rate จาก DEF เกิน 1600 (cap 48%)
 - **Unnerved (Ult)**: เพื่อนตี → CRIT DMG +15%
 - **E6**: DMG amp จากจำนวนเพื่อนที่มี shield (cap 150%)
-- โค้ด: `Aventurine.h` — ตรวจ shield model + `Start_game_List` (A4)
+- โค้ด: `Aventurine.h` — ตรวจ shield model + `startGameList` (A4)
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/aventurine — kit tab (review/calc patch 4.0, profile 01/Jun/2026)

@@ -84,7 +84,7 @@ CRIT Rate +12% · ATK +28% · DEF +12.5%
 - **HPA**: base 3 + Skill(+2) + Ult(+3) + Technique(+3 เทิร์นแรก) สำหรับ **เทิร์นถัดไปเท่านั้น** แล้ว reset — สะสมได้จนถึง cap 10
 - LL hit = FUA 66% ATK ต่อ hit ใส่ศัตรูสุ่ม + blast 25% ให้ข้างเคียง (E1: +25% ของ main multiplier)
 - **A2**: LL CRIT DMG +25% ถ้า HPA ≥ 6
-- โค้ด: `Start_game_List` (`Jingyuan.h:97`, `JYptr`) — summon LL + Technique HPA
+- โค้ด: `startGameList` (`Jingyuan.h:97`, `JYptr`) — summon LL + Technique HPA
 - ต้อง track "next turn HPA" แยกจาก current
 
 ### แหล่งอ้างอิง

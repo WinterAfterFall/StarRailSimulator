@@ -81,7 +81,7 @@ Ice DMG +22.4% · ATK +18% · Effect HIT Rate +10%
 - **A2 / E6**: DMG amp / Additional DMG vs debuffed enemy
 - **A4**: EHR +10% ทีม
 - Technique DEF −20% AoE
-- โค้ด: `Start_game_List` (`Pela.h:63`) — technique DEF shred
+- โค้ด: `startGameList` (`Pela.h:63`) — technique DEF shred
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/pela — kit tab (review patch 2.6, calc patch 3.3, profile 01/Jun/2026)

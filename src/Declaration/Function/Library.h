@@ -1,5 +1,5 @@
-#ifndef Function_Declaration_H
-#define Function_Declaration_H
+#ifndef FUNCTION_DECLARATION_H
+#define FUNCTION_DECLARATION_H
 
 #include "AdjustFunction/Library.h"
 #include "Calculate/Library.h"

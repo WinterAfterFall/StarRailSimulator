@@ -15,8 +15,8 @@
 | **ATK** | ATK | `ATK_P` / `FLAT_ATK` | `ATK%` / `Flat ATK` | พลังโจมตี |
 | **DEF** | DEF | `DEF_P` / `FLAT_DEF` | `DEF%` / `Flat DEF` | พลังป้องกัน |
 | **SPD** | SPD | `SPD_P` / `FLAT_SPD` | `Spd%` / `Flat Spd` | ความเร็ว → กำหนดว่าได้เทิร์นบ่อยแค่ไหน |
-| **CRIT Rate** | CR | `CR` | `Crit rate` | โอกาสคริติคอล (ฐาน 5%) |
-| **CRIT DMG** | CD | `CD` | `Crit dam` | ดาเมจคริติคอล (ฐาน 50%) |
+| **CRIT Rate** | CR | `CR` | `CRIT rate` | โอกาสคริติคอล (ฐาน 5%) |
+| **CRIT DMG** | CD | `CD` | `CRIT dam` | ดาเมจคริติคอล (ฐาน 50%) |
 
 **กฎการรวมค่า** (สำคัญมากตอน implement):
 ```
@@ -32,7 +32,7 @@ ATK สุดท้าย = (Base ATK ตัวละคร + Base ATK ของ
 
 | ชื่อในเกม | ย่อ | โค้ด (`Stats`) | ชื่อพิมพ์ | ไทย / ผลที่ได้ |
 |---|---|---|---|---|
-| **Break Effect** | BE | `BREAK_EFF` | `Break Effeciency` | เพิ่ม Break DMG + Super Break DMG (ฐาน 100%) |
+| **Break Effect** | BE | `BREAK_EFF` | `BREAK Effeciency` | เพิ่ม Break DMG + Super Break DMG (ฐาน 100%) |
 | **Effect Hit Rate** | EHR | `EHR` | `Ehr` | โอกาสลง debuff สำเร็จ |
 | **Effect RES** | RES | `RES` | `Res` | ต้านการโดน debuff |
 | **Energy Regeneration Rate** | ERR / ER | `ER` | `ER` | เพิ่มพลังงาน Ultimate ที่ได้รับ (ฐาน 100%) |
@@ -53,32 +53,32 @@ ATK สุดท้าย = (Base ATK ตัวละคร + Base ATK ของ
 | ชื่อในเกม | โค้ด (`Stats`) | ชื่อพิมพ์ | ไทย / กฎ |
 |---|---|---|---|
 | **DMG Boost** | `DMG` | `DMG%` | เพิ่มดาเมจ — แยกตามธาตุและตาม `AType` ได้ |
-| **Vulnerability** | `VUL` | `Vul` | ศัตรูรับดาเมจเพิ่ม (ติดที่ตัวศัตรู) |
+| **Vulnerability** | `VUL` | `VUL` | ศัตรูรับดาเมจเพิ่ม (ติดที่ตัวศัตรู) |
 | **DEF Reduction / DEF Ignore** | `DEF_SHRED` | `DEF Shred` | ลด/ข้าม DEF ศัตรู |
-| **RES PEN** | `RESPEN` | `Respen` | เจาะ Elemental RES ของศัตรู |
-| **DMG Mitigation / DMG Reduction** | `Mitigration` | — | ลดดาเมจที่ทีมเรารับ (คูณกันแบบ multiplicative) |
+| **RES PEN** | `RESPEN` | `RESPEN` | เจาะ Elemental RES ของศัตรู |
+| **DMG Mitigation / DMG Reduction** | `MITIGRATION` | — | ลดดาเมจที่ทีมเรารับ (คูณกันแบบ multiplicative) |
 | **Shield Effect** | `SHEILD` | `Sheild` | เพิ่มค่าเกราะที่สร้าง |
-| **Toughness Reduction Boost** | `TOUGH_REDUCE` | `Toughness Reduce` | เพิ่มการลด Toughness ต่อครั้ง (เช่น Fugue) |
-| **Super Break Multiplier** | `SPB_inc` | — | เพิ่ม Super Break DMG (SPB = Super BreaK) |
-| **Multiplier Increase** | `MtprInc` | — | เพิ่มตัวคูณสกิลตรงๆ (Mtpr = **M**ul**t**i**p**lie**r**) |
+| **Toughness Reduction Boost** | `TOUGH_REDUCE` | `toughness Reduce` | เพิ่มการลด Toughness ต่อครั้ง (เช่น Fugue) |
+| **Super Break Multiplier** | `SPB_INC` | — | เพิ่ม Super Break DMG (SPB = Super BreaK) |
+| **Multiplier Increase** | `MTPR_INC` | — | เพิ่มตัวคูณสกิลตรงๆ (Mtpr = **M**ul**t**i**p**lie**r**) |
 | **Aggro / Taunt** | (ระบบแยก) | — | โอกาสถูกศัตรูเลือกเป็นเป้า — โปรเจกต์นี้ใช้ "taunt increase %" |
 
-> 📌 `Mitigration` = พิมพ์ผิดของ *Mitigation* ในโค้ด — เขียนตามนี้เวลาเรียก enum
+> 📌 `MITIGRATION` = พิมพ์ผิดของ *Mitigation* ในโค้ด — เขียนตามนี้เวลาเรียก enum
 
-> 📌 `MtprInc` ต่างจาก `DMG` ตรงที่: `MtprInc` บวกเข้า **ตัวคูณสกิล** (เช่น 250% → 300%)
+> 📌 `MTPR_INC` ต่างจาก `DMG` ตรงที่: `MTPR_INC` บวกเข้า **ตัวคูณสกิล** (เช่น 250% → 300%)
 > ส่วน `DMG` บวกเข้า **DMG Boost bucket** ในสูตรดาเมจ ผลลัพธ์ต่างกัน
 
 ### สูตรดาเมจ (ย่อ) — ว่าแต่ละสแตตเข้าถังไหน
 
 ```
-DMG = BaseDMG                      ← ตัวคูณสกิล (MtprInc บวกตรงนี้) × สแตตต้นทาง (ATK/HP/DEF)
+DMG = BaseDMG                      ← ตัวคูณสกิล (MTPR_INC บวกตรงนี้) × สแตตต้นทาง (ATK/HP/DEF)
     × (1 + DMG Boost)              ← Stats::DMG  (แยกตามธาตุ / AType)
     × (1 + CRIT DMG)               ← Stats::CD   (ถ้าคริต)
     × DEF Multiplier               ← Stats::DEF_SHRED
     × RES Multiplier               ← Stats::RESPEN
     × (1 + Vulnerability)          ← Stats::VUL
-    × Broken Multiplier            ← 0.9 ถ้าศัตรูยังไม่ถูก Break
-    × (1 - DMG Mitigation)         ← Stats::Mitigration (ฝั่งรับ)
+    × Broken Multiplier            ← 0.9 ถ้าศัตรูยังไม่ถูก BREAK
+    × (1 - DMG Mitigation)         ← Stats::MITIGRATION (ฝั่งรับ)
 ```
 รายละเอียดเต็มดู [`docs/hsr-system-reference.md` §10](../docs/hsr-system-reference.md)
 
@@ -88,9 +88,9 @@ DMG = BaseDMG                      ← ตัวคูณสกิล (MtprInc �
 
 | ชื่อในเกม | โค้ด (`Stats`) | ไทย |
 |---|---|---|
-| **Elation** | `Elation` | สแตตหลักของ Path of Elation — คูณ Elation DMG โดยตรง |
-| **Certified Banger** | `CertifiedBanger` | แต้มสะสมจาก Punchline ที่ให้ Elation char ตอนเข้าสู้/หลัง Aha Instant |
-| **Merrymake** | `Merrymake` | บัฟที่ Yao Guang แจกให้ทีม (เพิ่ม Elation DMG) |
+| **Elation** | `ELATION` | สแตตหลักของ Path of Elation — คูณ Elation DMG โดยตรง |
+| **Certified Banger** | `CERTIFIED_BANGER` | แต้มสะสมจาก Punchline ที่ให้ Elation char ตอนเข้าสู้/หลัง Aha Instant |
+| **Merrymake** | `MERRYMAKE` | บัฟที่ Yao Guang แจกให้ทีม (เพิ่ม Elation DMG) |
 
 > โค้ดที่เกี่ยวข้อง: [`CalStats.h:339`](../src/Defination/Function/Calculate/CalStats.h) (คำนวณ elationMtpr),
 > [`Combat.h:57`](../src/Defination/Function/Combat/Combat.h) (แจก Certified Banger ตาม Punchline)
@@ -150,17 +150,17 @@ DMG = BaseDMG                      ← ตัวคูณสกิล (MtprInc �
 
 ## 8. หมายเหตุสำหรับโค้ดนี้โดยเฉพาะ
 
-- `Test1`–`Test6` ใน `enum class Stats` = ช่องทดสอบ ไม่ใช่สแตตจริงในเกม
+- `TEST_1`–`TEST_6` ใน `enum class Stats` = ช่องทดสอบ ไม่ใช่สแตตจริงในเกม
 - โครงสร้างที่ใช้เก็บสแตต 3 แบบ:
   ```cpp
-  typedef unordered_map<Stats,double>                                          Common_stats;
-  typedef unordered_map<Stats,unordered_map<AType,double>>                     Common_stats_type;
-  typedef unordered_map<Stats,map<ElementType,map<AType,double>>>              Common_stats_each_element;
+  typedef unordered_map<Stats,double>                                          CommonStats;
+  typedef unordered_map<Stats,unordered_map<AType,double>>                     CommonStatsType;
+  typedef unordered_map<Stats,map<ElementType,map<AType,double>>>              CommonStatsEachElement;
   ```
-  - `Common_stats` = สแตตเปล่าๆ
-  - `Common_stats_type` = สแตตที่แยกตาม **ชนิดการโจมตี** (เช่น "Ult DMG +30%")
-  - `Common_stats_each_element` = สแตตที่แยกทั้ง **ธาตุและชนิดการโจมตี**
-- `AType::None` ใน `Stats_type` = "ใช้กับทุกชนิดการโจมตี" (บัฟรวม)
+  - `CommonStats` = สแตตเปล่าๆ
+  - `CommonStatsType` = สแตตที่แยกตาม **ชนิดการโจมตี** (เช่น "Ult DMG +30%")
+  - `CommonStatsEachElement` = สแตตที่แยกทั้ง **ธาตุและชนิดการโจมตี**
+- `AType::NONE` ใน `statsType` = "ใช้กับทุกชนิดการโจมตี" (บัฟรวม)
 - `AType::TEMP` = ที่พักค่าชั่วคราว ใช้จำว่าบัฟนี้ให้ไปเท่าไรจะได้ถอนคืนตรงจำนวน
-  (ดู [`03`] pattern ใน `YaoGuang.h` ที่เก็บ `Stats::Elation` ทั้ง `None` และ `TEMP`)
+  (ดู [`03`] pattern ใน `YaoGuang.h` ที่เก็บ `Stats::ELATION` ทั้ง `NONE` และ `TEMP`)
 - โปรเจกต์นี้เก็บบัฟเป็น **raw +/- delta** ไม่ใช่ snapshot — ถ้าใส่กับถอนไม่เท่ากันจะเกิด **buff drift**

@@ -1,81 +1,81 @@
 #include "../include.h"
 
 namespace Sunday{
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
-    void Skill(CharUnit *ptr);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
+    void skill(CharUnit *ptr);
 
-    bool ult_condition(CharUnit *ptr);
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
-        CharUnit *ptr = SetCharBasicStats(96, 130, 130, E, ElementType::Imaginary, Path::Harmony, "Sunday",UnitType::Standard);
-        AllyUnit *SDptr = ptr;
-        ptr->SetAllyBaseStats(1242, 640, 533);
+    bool ultCondition(CharUnit *ptr);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = setCharBasicStats(96, 130, 130, eidolon, ElementType::IMAGINARY, Path::HARMONY, "Sunday",UnitType::STANDARD);
+        AllyUnit *sdPtr = ptr;
+        ptr->setAllyBaseStats(1242, 640, 533);
         ptr->pushSubstats(Stats::CD);
         ptr->setTotalSubstats(25);
         ptr->setSpeedRequire(134);
         ptr->setRelicMainStats(Stats::HP_P,Stats::FLAT_SPD,Stats::HP_P,Stats::ER);
 
-        Driver_num = SDptr->Atv_stats->num;
+        driverNum = sdPtr->atvStats->num;
         //func
-        LC(ptr);
+        lc(ptr);
         Relic(ptr);
         Planar(ptr);
-        ptr->Turn_func = [ptr, allyPtr = ptr]() {
-            Skill(ptr);
+        ptr->turnFunc = [ptr, allyPtr = ptr]() {
+            skill(ptr);
         };
 
-        ptr->addUltCondition([ptr,SDptr]() -> bool {
+        ptr->addUltCondition([ptr,sdPtr]() -> bool {
             if(chooseCharacterBuff(ptr)->isSameName("Saber"))return true;
-            if(chooseCharacterBuff(ptr)->Max_energy!=0){
-                if (chooseCharacterBuff(ptr)->Max_energy <= 200 &&
-                    chooseCharacterBuff(ptr)->Max_energy - 
-                    chooseCharacterBuff(ptr)->Current_energy < 30) return false;
-                if (chooseCharacterBuff(ptr)->Max_energy >= 200 &&
-                    chooseCharacterBuff(ptr)->Max_energy - 
-                    chooseCharacterBuff(ptr)->Current_energy 
-                    < chooseCharacterBuff(ptr)->Max_energy * 0.2) return false;
+            if(chooseCharacterBuff(ptr)->maxEnergy!=0){
+                if (chooseCharacterBuff(ptr)->maxEnergy <= 200 &&
+                    chooseCharacterBuff(ptr)->maxEnergy - 
+                    chooseCharacterBuff(ptr)->currentEnergy < 30) return false;
+                if (chooseCharacterBuff(ptr)->maxEnergy >= 200 &&
+                    chooseCharacterBuff(ptr)->maxEnergy - 
+                    chooseCharacterBuff(ptr)->currentEnergy 
+                    < chooseCharacterBuff(ptr)->maxEnergy * 0.2) return false;
             }
             return true;
         });
-        // ptr->addUltImmediatelyUseCondition([ptr,SDptr]() -> bool {
+        // ptr->addUltImmediatelyUseCondition([ptr,sdPtr]() -> bool {
         //     if(Buff_check(ptr, "Ode_to_Caress_and_Cicatrix"))return false;
         //     return true;
         // });
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [SDptr](CharUnit *ptr) {
+        ultimateList.push_back(TriggerByYourSelfFunc(PRIORITY_BUFF, ptr, [sdPtr](CharUnit *ptr) {
             shared_ptr<AllyBuffAction> act =
-            make_shared<AllyBuffAction>(AType::Ult,ptr,TraceType::Single,"SD Ult",
-            [ptr,SDptr](shared_ptr<AllyBuffAction> &act){
-                if (ptr->Print)CharCmd::printUltStart("Sunday");
-                if (ptr->Eidolon >= 2) {
+            make_shared<AllyBuffAction>(AType::ULT,ptr,TraceType::SINGLE,"SD Ult",
+            [ptr,sdPtr](shared_ptr<AllyBuffAction> &act){
+                if (ptr->print)CharCmd::printUltStart("Sunday");
+                if (ptr->eidolon >= 2) {
                     if (ptr->buffCheck["Ult_first_time"] == 0) {
                         ptr->buffCheck["Ult_first_time"] = 1;
                         genSkillPoint(ptr, 2);
                     }
                 }
 
-                if(ptr->Eidolon>=6)
-                buffStackChar(chooseCharacterBuff(ptr),{{Stats::CR,AType::None,20}},1,3,"The_Sorrowing_Body",4);
+                if(ptr->eidolon>=6)
+                buffStackChar(chooseCharacterBuff(ptr),{{Stats::CR,AType::NONE,20}},1,3,"The_Sorrowing_Body",4);
 
-                if (chooseCharacterBuff(ptr)->Max_energy > 200)
-                Increase_energy(chooseCharacterBuff(ptr), 20, 0);
+                if (chooseCharacterBuff(ptr)->maxEnergy > 200)
+                increaseEnergy(chooseCharacterBuff(ptr), 20, 0);
                 else
-                Increase_energy(chooseCharacterBuff(ptr), 0, 40);
+                increaseEnergy(chooseCharacterBuff(ptr), 0, 40);
 
-                if (!isHaveToAddBuff(SDptr,"Ode_to_Caress_and_Cicatrix",3))
+                if (!isHaveToAddBuff(sdPtr,"Ode_to_Caress_and_Cicatrix",3))
                 {
                     if(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")){
                         //ตัวหลัก
-                        buffSingle(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"),{{Stats::CD, AType::TEMP, -SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
-                        buffSingle(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"),{{Stats::CD, AType::None, -SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
-                        if (ptr->Eidolon >= 2)
-                        buffSingle(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"),{{Stats::DMG, AType::None, -30}});
+                        buffSingle(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"),{{Stats::CD, AType::TEMP, -sdPtr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+                        buffSingle(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"),{{Stats::CD, AType::NONE, -sdPtr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+                        if (ptr->eidolon >= 2)
+                        buffSingle(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"),{{Stats::DMG, AType::NONE, -30}});
                         ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->setBuffCheck("Ode_to_Caress_and_Cicatrix",false);
                         //Memopsrite
                         if(auto *each = ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->memosprite.get()){
                             if(each->getBuffCheck("Ode_to_Caress_and_Cicatrix")){
-                                buffSingle(each,{{Stats::CD, AType::TEMP, -SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
-                                buffSingle(each,{{Stats::CD, AType::None, -SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
-                                if (ptr->Eidolon >= 2)
-                                buffSingle(each,{{Stats::DMG, AType::None, -30}});
+                                buffSingle(each,{{Stats::CD, AType::TEMP, -sdPtr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+                                buffSingle(each,{{Stats::CD, AType::NONE, -sdPtr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+                                if (ptr->eidolon >= 2)
+                                buffSingle(each,{{Stats::DMG, AType::NONE, -30}});
                                 each->setBuffCheck("Ode_to_Caress_and_Cicatrix",false);
                             }
                         }
@@ -86,28 +86,28 @@ namespace Sunday{
                 ptr->setBuffNote("Ode_to_Caress_and_Cicatrix",calculateCritdamForBuff(ptr, 30) + 12);
                 if(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->isTargetable()){
                     ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->setBuffCheck("Ode_to_Caress_and_Cicatrix",true);
-                    buffSingle(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"),{{Stats::CD, AType::TEMP, SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
-                    buffSingle(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"),{{Stats::CD, AType::None, SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
-                    if (ptr->Eidolon >= 2)
-                    buffSingle(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"),{{Stats::DMG, AType::None, 30}});
+                    buffSingle(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"),{{Stats::CD, AType::TEMP, sdPtr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+                    buffSingle(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"),{{Stats::CD, AType::NONE, sdPtr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+                    if (ptr->eidolon >= 2)
+                    buffSingle(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"),{{Stats::DMG, AType::NONE, 30}});
                 }
                 if(auto *each = ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->memosprite.get(); each && each->isTargetable()){
                     each->setBuffCheck("Ode_to_Caress_and_Cicatrix",true);
-                    buffSingle(each,{{Stats::CD, AType::TEMP, SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
-                    buffSingle(each,{{Stats::CD, AType::None, SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
-                    if (ptr->Eidolon >= 2)
-                    buffSingle(each,{{Stats::DMG, AType::None, 30}});
+                    buffSingle(each,{{Stats::CD, AType::TEMP, sdPtr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+                    buffSingle(each,{{Stats::CD, AType::NONE, sdPtr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+                    if (ptr->eidolon >= 2)
+                    buffSingle(each,{{Stats::DMG, AType::NONE, 30}});
                 }
             });
             act->addBuffChar(chooseCharacterBuff(ptr));
             act->addToActionBar();
-            Deal_damage();
+            dealDamage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [SDptr](CharUnit *ptr) {
-            ptr->Stats_type[Stats::CD][AType::None] += 37.3;
-            ptr->Stats_type[Stats::DEF_P][AType::None] += 12.5;
-            ptr->Stats_type[Stats::RES][AType::None] += 18;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [sdPtr](CharUnit *ptr) {
+            ptr->statsType[Stats::CD][AType::NONE] += 37.3;
+            ptr->statsType[Stats::DEF_P][AType::NONE] += 12.5;
+            ptr->statsType[Stats::RES][AType::NONE] += 18;
 
 
             // relic
@@ -116,130 +116,130 @@ namespace Sunday{
         }));
 
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [SDptr](CharUnit *ptr) {
-            if(turn->isSameName("Sunday")&&ptr->Eidolon>=4){
-                Increase_energy(ptr,8);
+        beforeTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_BUFF, ptr, [sdPtr](CharUnit *ptr) {
+            if(turn->isSameName("Sunday")&&ptr->eidolon>=4){
+                increaseEnergy(ptr,8);
             }
-            if (isBuffEnd(SDptr,"Ode_to_Caress_and_Cicatrix")) {
+            if (isBuffEnd(sdPtr,"Ode_to_Caress_and_Cicatrix")) {
                 if(!ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"))return;
                 if(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->getBuffCheck("Ode_to_Caress_and_Cicatrix")){
-                    buffSingle(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"),{{Stats::CD, AType::TEMP, -SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
-                    buffSingle(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"),{{Stats::CD, AType::None, -SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
-                    if (ptr->Eidolon >= 2)
-                    buffSingle(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"),{{Stats::DMG, AType::None, -30}});
+                    buffSingle(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"),{{Stats::CD, AType::TEMP, -sdPtr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+                    buffSingle(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"),{{Stats::CD, AType::NONE, -sdPtr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+                    if (ptr->eidolon >= 2)
+                    buffSingle(ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix"),{{Stats::DMG, AType::NONE, -30}});
                     ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->setBuffCheck("Ode_to_Caress_and_Cicatrix",false);
                 }
                 if(auto *each = ptr->getBuffAllyTarget("Ode_to_Caress_and_Cicatrix")->memosprite.get()){
                     if(each->getBuffCheck("Ode_to_Caress_and_Cicatrix")){
-                        buffSingle(each,{{Stats::CD, AType::TEMP, -SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
-                        buffSingle(each,{{Stats::CD, AType::None, -SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
-                        if (ptr->Eidolon >= 2)
-                        buffSingle(each,{{Stats::DMG, AType::None, -30}});
+                        buffSingle(each,{{Stats::CD, AType::TEMP, -sdPtr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+                        buffSingle(each,{{Stats::CD, AType::NONE, -sdPtr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+                        if (ptr->eidolon >= 2)
+                        buffSingle(each,{{Stats::DMG, AType::NONE, -30}});
                         each->setBuffCheck("Ode_to_Caress_and_Cicatrix",false);
                     }
                 }
                 ptr->setBuffAllyTarget("Ode_to_Caress_and_Cicatrix",nullptr);
-                if (ptr->Print)CharCmd::printUltEnd("Sunday");
+                if (ptr->print)CharCmd::printUltEnd("Sunday");
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [SDptr](CharUnit *ptr) {
-            AllyUnit *Temp_stats = turn->canCastToAllyUnit();
-            if(!Temp_stats)return;
-            if (isBuffEnd(Temp_stats,"Benison_of_Paper_and_Rites")) {
-                if (Temp_stats->owner->isAllyHaveSummon()) {
-                    buffSingle(Temp_stats,{{Stats::DMG,AType::None,-80}});
+        afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_BUFF, ptr, [sdPtr](CharUnit *ptr) {
+            AllyUnit *tempStats = turn->canCastToAllyUnit();
+            if(!tempStats)return;
+            if (isBuffEnd(tempStats,"Benison_of_Paper_and_Rites")) {
+                if (tempStats->owner->isAllyHaveSummon()) {
+                    buffSingle(tempStats,{{Stats::DMG,AType::NONE,-80}});
                 } else {
-                    buffSingle(Temp_stats,{{Stats::DMG,AType::None,-30}});
+                    buffSingle(tempStats,{{Stats::DMG,AType::NONE,-30}});
                 }
-                if (ptr->Eidolon >= 1&&isBuffEnd(Temp_stats,"Sunday_E1")) {
-                    if (turn->side == Side::Memosprite) {
-                        buffSingle(Temp_stats,{{Stats::DEF_SHRED,AType::None,-40}});
+                if (ptr->eidolon >= 1&&isBuffEnd(tempStats,"Sunday_E1")) {
+                    if (turn->side == Side::MEMOSPRITE) {
+                        buffSingle(tempStats,{{Stats::DEF_SHRED,AType::NONE,-40}});
                     } else {
-                        buffSingle(Temp_stats,{{Stats::DEF_SHRED,AType::None,-16}});
-                        buffSingle(Temp_stats,{{Stats::DEF_SHRED,AType::Summon,-24}});
+                        buffSingle(tempStats,{{Stats::DEF_SHRED,AType::NONE,-16}});
+                        buffSingle(tempStats,{{Stats::DEF_SHRED,AType::SUMMON,-24}});
                     }
                 }
             }
-            if (isBuffEnd(Temp_stats,"The_Sorrowing_Body")) {
-                if(ptr->Eidolon>=6){
-                    buffResetStack(Temp_stats,{{Stats::CR,AType::None,20}},"The_Sorrowing_Body");
+            if (isBuffEnd(tempStats,"The_Sorrowing_Body")) {
+                if(ptr->eidolon>=6){
+                    buffResetStack(tempStats,{{Stats::CR,AType::NONE,20}},"The_Sorrowing_Body");
                 }else{
-                    buffSingle(Temp_stats,{{Stats::CR,AType::None,-20}});
+                    buffSingle(tempStats,{{Stats::CR,AType::NONE,-20}});
                 }
                 
             }
-            if (isBuffEnd(Temp_stats,"The_Glorious_Mysteries")){
-                buffSingle(Temp_stats,{{Stats::DMG,AType::None,-50}});
+            if (isBuffEnd(tempStats,"The_Glorious_Mysteries")){
+                buffSingle(tempStats,{{Stats::DMG,AType::NONE,-50}});
             }
             
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [SDptr](CharUnit *ptr) {
-            Increase_energy(ptr, 25);
+        startGameList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [sdPtr](CharUnit *ptr) {
+            increaseEnergy(ptr, 25);
         }));
 
-        Buff_List.push_back(TriggerByAllyBuffAction_Func(PRIORITY_IMMEDIATELY, [ptr,SDptr](shared_ptr<AllyBuffAction> &act) {
+        buffList.push_back(TriggerByAllyBuffActionFunc(PRIORITY_IMMEDIATELY, [ptr,sdPtr](shared_ptr<AllyBuffAction> &act) {
             if (chooseCharacterBuff(ptr)->getBuffCheck("Ode_to_Caress_and_Cicatrix") && act->actionName=="SD Skill") {
                 genSkillPoint(ptr, 1);
             }
         }));
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,SDptr](AllyUnit *target, Stats StatsType) {
-            if(ptr->Eidolon>=6&&target->getStack("The_Sorrowing_Body")>0&&StatsType == Stats::CR){
+        statsAdjustList.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,sdPtr](AllyUnit *target, Stats statsType) {
+            if(ptr->eidolon>=6&&target->getStack("The_Sorrowing_Body")>0&&statsType == Stats::CR){
                 double temp = (calculateCritrateForBuff(target,100) - 100)*2;
                 if(temp<0)temp=0;
                 buffSingle(target,{{Stats::CD, AType::TEMP, temp - target->getBuffNote("The_Sorrowing_Body")}});
-                buffSingle(target,{{Stats::CD, AType::None, temp - target->getBuffNote("The_Sorrowing_Body")}});
+                buffSingle(target,{{Stats::CD, AType::NONE, temp - target->getBuffNote("The_Sorrowing_Body")}});
                 target->buffNote["The_Sorrowing_Body"] = temp;
             }
-            if (target->Atv_stats->Name != "Sunday") return;
+            if (target->atvStats->name != "Sunday") return;
             if (!target->getBuffCheck("Ode_to_Caress_and_Cicatrix")) return;
-            if (StatsType != Stats::CD) return;   
+            if (statsType != Stats::CD) return;   
             double buffValue = calculateCritdamForBuff(ptr, 30) + 12;
             if(chooseCharacterBuff(ptr)->getBuffCheck("Ode_to_Caress_and_Cicatrix")){
                 buffSingle(chooseCharacterBuff(ptr),{{Stats::CD, AType::TEMP, buffValue - ptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
-                buffSingle(chooseCharacterBuff(ptr),{{Stats::CD, AType::None, buffValue - ptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+                buffSingle(chooseCharacterBuff(ptr),{{Stats::CD, AType::NONE, buffValue - ptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
             }
             if(auto *each = chooseCharacterBuff(ptr)->memosprite.get(); each && each->getBuffCheck("Ode_to_Caress_and_Cicatrix")){
                 buffSingle(each,{{Stats::CD, AType::TEMP, buffValue - ptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
-                buffSingle(each,{{Stats::CD, AType::None, buffValue - ptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+                buffSingle(each,{{Stats::CD, AType::NONE, buffValue - ptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
             }
             ptr->buffNote["Ode_to_Caress_and_Cicatrix"] =  buffValue;
             
         }));
 
-        AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY,[ptr,SDptr](AllyUnit* target){
+        allyDeathList.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY,[ptr,sdPtr](AllyUnit* target){
             if(isBuffGoneByDeath(target,"Ode_to_Caress_and_Cicatrix")){
-                buffSingle(target,{{Stats::CD, AType::TEMP, -SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
-                buffSingle(target,{{Stats::CD, AType::None, -SDptr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
-                if (ptr->Eidolon >= 2)
-                buffSingle(target,{{Stats::DMG, AType::None, -30}});
+                buffSingle(target,{{Stats::CD, AType::TEMP, -sdPtr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+                buffSingle(target,{{Stats::CD, AType::NONE, -sdPtr->getBuffNote("Ode_to_Caress_and_Cicatrix")}});
+                if (ptr->eidolon >= 2)
+                buffSingle(target,{{Stats::DMG, AType::NONE, -30}});
             }
             if (isBuffGoneByDeath(target,"Benison_of_Paper_and_Rites")){
                 if (target->owner->isAllyHaveSummon()) {
-                    buffSingle(target,{{Stats::DMG,AType::None,-80}});
+                    buffSingle(target,{{Stats::DMG,AType::NONE,-80}});
                 } else {
-                    buffSingle(target,{{Stats::DMG,AType::None,-30}});
+                    buffSingle(target,{{Stats::DMG,AType::NONE,-30}});
                 }
-                if (ptr->Eidolon >= 1&&isBuffGoneByDeath(target,"Sunday_E1")) {
-                    if (turn->side == Side::Memosprite) {
-                        buffSingle(target,{{Stats::DEF_SHRED,AType::None,-40}});
+                if (ptr->eidolon >= 1&&isBuffGoneByDeath(target,"Sunday_E1")) {
+                    if (turn->side == Side::MEMOSPRITE) {
+                        buffSingle(target,{{Stats::DEF_SHRED,AType::NONE,-40}});
                     } else {
-                        buffSingle(target,{{Stats::DEF_SHRED,AType::None,-16}});
-                        buffSingle(target,{{Stats::DEF_SHRED,AType::Summon,-24}});
+                        buffSingle(target,{{Stats::DEF_SHRED,AType::NONE,-16}});
+                        buffSingle(target,{{Stats::DEF_SHRED,AType::SUMMON,-24}});
                     }
                 }
             }
-            if(ptr->Eidolon>=6){
-                buffResetStack(target,{{Stats::CR,AType::None,20}},"The_Sorrowing_Body");
+            if(ptr->eidolon>=6){
+                buffResetStack(target,{{Stats::CR,AType::NONE,20}},"The_Sorrowing_Body");
             }
             else if(isBuffGoneByDeath(target,"The_Sorrowing_Body"))
             {
-                buffSingle(target,{{Stats::CR,AType::None,-20}});
+                buffSingle(target,{{Stats::CR,AType::NONE,-20}});
             }
             if (isBuffGoneByDeath(target,"The_Glorious_Mysteries")){
-                buffSingle(target,{{Stats::DMG,AType::None,-50}});
+                buffSingle(target,{{Stats::DMG,AType::NONE,-50}});
             }
         }));
 
@@ -250,53 +250,53 @@ namespace Sunday{
     }
 
     
-    void Skill(CharUnit *ptr){
+    void skill(CharUnit *ptr){
         genSkillPoint(ptr,-1);
         shared_ptr<AllyBuffAction> act = 
-        make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::Single,"SD Skill",
-        [ptr,SDptr=ptr](shared_ptr<AllyBuffAction> &act){
-            Increase_energy(ptr,30);
-            if(ptr->Eidolon>=6){
-                buffStackChar(chooseCharacterBuff(ptr),{{Stats::CR,AType::None,20}},1,3,"The_Sorrowing_Body",4);
+        make_shared<AllyBuffAction>(AType::SKILL,ptr,TraceType::SINGLE,"SD Skill",
+        [ptr,sdPtr=ptr](shared_ptr<AllyBuffAction> &act){
+            increaseEnergy(ptr,30);
+            if(ptr->eidolon>=6){
+                buffStackChar(chooseCharacterBuff(ptr),{{Stats::CR,AType::NONE,20}},1,3,"The_Sorrowing_Body",4);
             }
             else
             {
-                buffSingleChar(chooseCharacterBuff(ptr),{{Stats::CR,AType::None,20}},"The_Sorrowing_Body",3);
+                buffSingleChar(chooseCharacterBuff(ptr),{{Stats::CR,AType::NONE,20}},"The_Sorrowing_Body",3);
             }
 
             if(chooseCharacterBuff(ptr)->isAllyHaveSummon())
-            buffSingleChar(chooseCharacterBuff(ptr),{{Stats::DMG,AType::None,80}},"Benison_of_Paper_and_Rites",2);
+            buffSingleChar(chooseCharacterBuff(ptr),{{Stats::DMG,AType::NONE,80}},"Benison_of_Paper_and_Rites",2);
             else
-            buffSingleChar(chooseCharacterBuff(ptr),{{Stats::DMG,AType::None,30}},"Benison_of_Paper_and_Rites",2);
+            buffSingleChar(chooseCharacterBuff(ptr),{{Stats::DMG,AType::NONE,30}},"Benison_of_Paper_and_Rites",2);
 
-            if(ptr->Eidolon>=1){
+            if(ptr->eidolon>=1){
                 buffSingle(chooseCharacterBuff(ptr),{
-                    {Stats::DEF_SHRED,AType::None,16},
-                    {Stats::DEF_SHRED,AType::Summon,24},
+                    {Stats::DEF_SHRED,AType::NONE,16},
+                    {Stats::DEF_SHRED,AType::SUMMON,24},
                 },"Sunday_E1",2);
-                buffSingleChar(chooseCharacterBuff(ptr),{{Stats::DEF_SHRED,AType::None,40}},"Sunday_E1",2);
+                buffSingleChar(chooseCharacterBuff(ptr),{{Stats::DEF_SHRED,AType::NONE,40}},"Sunday_E1",2);
             }
             
-            if(ptr->Technique==1&&!SDptr->getBuffCheck("Technique_use")){
+            if(ptr->technique==1&&!sdPtr->getBuffCheck("Technique_use")){
                 ptr->setBuffCheck("Technique_use",1);
-                buffSingleChar(chooseCharacterBuff(ptr),{{Stats::DMG,AType::None,50}},"The_Glorious_Mysteries",2);
+                buffSingleChar(chooseCharacterBuff(ptr),{{Stats::DMG,AType::NONE,50}},"The_Glorious_Mysteries",2);
             }
             
             //Action Forward
             for(std::unique_ptr<TimerATV> &e : chooseCharacterBuff(ptr)->summonList){
-                Action_forward(e.get(),100);
+                actionForward(e.get(),100);
             }
             if(auto *each = chooseCharacterBuff(ptr)->memosprite.get()){
-                Action_forward(each->Atv_stats.get(),100);
+                actionForward(each->atvStats.get(),100);
             }
-            Action_forward(chooseCharacterBuff(ptr)->Atv_stats.get(),100);
+            actionForward(chooseCharacterBuff(ptr)->atvStats.get(),100);
         });
         act->addBuffChar(chooseCharacterBuff(ptr));
         act->addToActionBar();
     }
 
-    bool ult_condition(CharUnit *ptr){
-        //if(Current_atv<150&&(Ally_unit[Main_dps_num]->countdownList[0]->Atv_stats->Base_speed==-1))return true;
+    bool ultCondition(CharUnit *ptr){
+        //if(currentAtv<150&&(Ally_unit[mainDpsNum]->countdownList[0]->atvStats->Base_speed==-1))return true;
         return false;
     }
 

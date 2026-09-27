@@ -57,14 +57,14 @@ bool askNoYes() {
 }
 class CharSelect{
     public:
-    function<void(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar)> Char;
+    function<void(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar)> charSetup;
     int eidolon;
-    function<void(CharUnit *ptr)> LC;
+    function<void(CharUnit *ptr)> lc;
     function<void(CharUnit *ptr)> Relic;
     function<void(CharUnit *ptr)> Planar;
 };
 
-void CharSelector(function<void(int E, function<void(CharUnit *ptr)> LC, function<void(CharUnit *ptr)> Relic, function<void(CharUnit *ptr)> Planar)> &Char,int &eidolon) {
+void charSelector(function<void(int eidolon, function<void(CharUnit *ptr)> lc, function<void(CharUnit *ptr)> Relic, function<void(CharUnit *ptr)> Planar)> &charSetup,int &eidolon) {
     string name;
     bool found = false;
 
@@ -76,95 +76,95 @@ void CharSelector(function<void(int E, function<void(CharUnit *ptr)> LC, functio
 
         // --- Abundance ---
         if (name == "Gallagher") 
-            Char = Gallagher::Setup;
+            charSetup = Gallagher::setup;
         else if (name == "Huohuo") 
-            Char = Huohuo::Setup;
+            charSetup = Huohuo::setup;
         else if (name == "Luocha") 
-            Char = Luocha::Setup;
+            charSetup = Luocha::setup;
 
         // --- Destruction ---
         else if (name == "Firefly") 
-            Char = FireFly::Setup;
+            charSetup = FireFly::setup;
         else if (name == "Mydei") 
-            Char = Mydei::Setup;
+            charSetup = Mydei::setup;
         else if (name == "Phainon") 
-            Char = Phainon::Setup;
+            charSetup = Phainon::setup;
         else if (name == "Saber") 
-            Char = Saber::Setup;
+            charSetup = Saber::setup;
 
         // --- Elation ---
         else if (name == "Hibana") 
-            Char = Hibana::Setup;
+            charSetup = Hibana::setup;
         else if (name == "YaoGuang") 
-            Char = YaoGuang::Setup;
+            charSetup = YaoGuang::setup;
 
         // --- Erudition ---
         else if (name == "Anaxa") 
-            Char = Anaxa::Setup;
+            charSetup = Anaxa::setup;
         else if (name == "Jade") 
-            Char = Jade::Setup;
+            charSetup = Jade::setup;
         else if (name == "Jingyuan") 
-            Char = Jingyuan::Setup;
+            charSetup = Jingyuan::setup;
         else if (name == "Rappa") 
-            Char = Rappa::Setup;
+            charSetup = Rappa::setup;
         else if (name == "Serval") 
-            Char = Serval::Setup;
+            charSetup = Serval::setup;
         else if (name == "TheHerta") 
-            Char = TheHerta::Setup;
+            charSetup = TheHerta::setup;
 
         // --- Harmony ---
         else if (name == "Bronya") 
-            Char = Bronya::Setup;
+            charSetup = Bronya::setup;
         else if (name == "Cerydra") 
-            Char = Cerydra::Setup;
+            charSetup = Cerydra::setup;
         else if (name == "Hanabi") 
-            Char = Hanabi::Setup;
+            charSetup = Hanabi::setup;
         else if (name == "HanabiV1") 
-            Char = HanabiV1::Setup;
+            charSetup = HanabiV1::setup;
         else if (name == "HarmonyMC") 
-            Char = HarmonyMC::Setup;
+            charSetup = HarmonyMC::setup;
         else if (name == "Robin") 
-            Char = Robin::Setup;
+            charSetup = Robin::setup;
         else if (name == "RuanMei") 
-            Char = RuanMei::Setup;
+            charSetup = RuanMei::setup;
         else if (name == "Sunday") 
-            Char = Sunday::Setup;
+            charSetup = Sunday::setup;
         else if (name == "Tingyun") 
-            Char = Tingyun::Setup;
+            charSetup = Tingyun::setup;
         else if (name == "Tribbie") 
-            Char = Tribbie::Setup;
+            charSetup = Tribbie::setup;
 
         // --- Nihility ---
         else if (name == "BS") 
-            Char = BSV1::Setup;
+            charSetup = BSV1::setup;
         else if (name == "Cipher") 
-            Char = Cipher::Setup;
+            charSetup = Cipher::setup;
         else if (name == "Guinaifen") 
-            Char = Guinaifen::Setup;
+            charSetup = Guinaifen::setup;
         else if (name == "Hysilens") 
-            Char = Hysilens::Setup;
+            charSetup = Hysilens::setup;
         else if (name == "Kafka") 
-            Char = Kafka::Setup;
+            charSetup = Kafka::setup;
         else if (name == "Luka") 
-            Char = Luka::Setup;
+            charSetup = Luka::setup;
         else if (name == "Pela") 
-            Char = Pela::Setup;
+            charSetup = Pela::setup;
         else if (name == "SW") 
-            Char = SW::Setup;
+            charSetup = SW::setup;
 
         // --- Remembrance ---
         else if (name == "Aglaea") 
-            Char = Aglaea::Setup;
+            charSetup = Aglaea::setup;
         else if (name == "Castorice") 
-            Char = Castorice::Setup;
+            charSetup = Castorice::setup;
         else if (name == "Hyacine") 
-            Char = Hyacine::Setup;
+            charSetup = Hyacine::setup;
         else if (name == "RMC") 
-            Char = RMC::Setup;
+            charSetup = RMC::setup;
 
         // --- The Hunt ---
         else if (name == "Archer") 
-            Char = Archer::Setup;
+            charSetup = Archer::setup;
 
         // --- Not Found Case ---
         else {
@@ -176,7 +176,7 @@ void CharSelector(function<void(int E, function<void(CharUnit *ptr)> LC, functio
     cout<<"Choose Eidolon Value"<<endl;
     cin>>eidolon;
 }
-void LightConeSelector(function<void(CharUnit *ptr)> &LC){
+void lightConeSelector(function<void(CharUnit *ptr)> &lc){
     string name;
     int superimpose;
     bool found = false;
@@ -305,7 +305,7 @@ void LightConeSelector(function<void(CharUnit *ptr)> &LC){
             cout<<"Select superimpose value : "<<endl;
             cin>>superimpose;
             cout<<"Is Dot 100% Uptime : "<<endl;
-            LC = Nihility_Lightcone::Jiaoqiu_LC(superimpose,askYesNo());
+            lc = Nihility_Lightcone::Jiaoqiu_LC(superimpose,askYesNo());
             return;
         }
         else if(name == "Kafka LC")
@@ -342,9 +342,9 @@ void LightConeSelector(function<void(CharUnit *ptr)> &LC){
     cout<<"Select superimpose value : "<<endl;
     cin>>superimpose;
 
-    LC = lightConeFunction(superimpose);
+    lc = lightConeFunction(superimpose);
 }
-void RelicSelector(function<void(CharUnit *ptr)> &Relic){
+void relicSelector(function<void(CharUnit *ptr)> &Relic){
     string name;
     bool found = false;
     while (!found) {
@@ -380,7 +380,7 @@ void RelicSelector(function<void(CharUnit *ptr)> &Relic){
             cin>>firstStats;
             cout<<"choose your second set";
             cin>>secondStats;
-            Relic = Relic::PairSet(transString(firstStats),transString(secondStats));
+            Relic = Relic::pairSet(transString(firstStats),transString(secondStats));
         }
         else if (name == "Poet Dill") 
             Relic = Relic::Poet_Dill;
@@ -398,7 +398,7 @@ void RelicSelector(function<void(CharUnit *ptr)> &Relic){
         }
     }
 }
-void PlanarSelector(function<void(CharUnit *ptr)> &Planar){
+void planarSelector(function<void(CharUnit *ptr)> &Planar){
         string name;
     bool found = false;
     while (!found) {
@@ -448,22 +448,22 @@ void PlanarSelector(function<void(CharUnit *ptr)> &Planar){
         }
     }
 }
-void EnemySelector(){
-    int Tenemy;
+void enemySelector(){
+    int tenemy;
     cout<<"How much enemy do you want : "<<endl;
-    cin>>Tenemy;
+    cin>>tenemy;
     cout<<"Do you want to configure enemy status by yourself? : "<<endl;
     if(askNoYes()){
-        SetupEnemy(158,160,{10,15},{200,300},{4,6},2,EnemyType::Main);
-        SetupEnemy(158,160,{10,10},{200,300},{4,6},2,EnemyType::Adjacent);
+        setupEnemy(158,160,{10,15},{200,300},{4,6},2,EnemyType::MAIN);
+        setupEnemy(158,160,{10,10},{200,300},{4,6},2,EnemyType::ADJACENT);
     }
 }
-vector<CharSelect> CharSelectList;
-void BuildSelector(){
+vector<CharSelect> charSelectList;
+void buildSelector(){
     CharSelect nowSelect;
-    CharSelector(nowSelect.Char,nowSelect.eidolon);
-    LightConeSelector(nowSelect.LC);
-    RelicSelector(nowSelect.Relic);
-    PlanarSelector(nowSelect.Planar);
-    CharSelectList.push_back(nowSelect);
+    charSelector(nowSelect.charSetup,nowSelect.eidolon);
+    lightConeSelector(nowSelect.lc);
+    relicSelector(nowSelect.Relic);
+    planarSelector(nowSelect.Planar);
+    charSelectList.push_back(nowSelect);
 }

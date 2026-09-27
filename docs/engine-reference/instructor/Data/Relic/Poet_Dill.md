@@ -1,6 +1,6 @@
 # `src/Defination/Data/Relic/Poet_Dill.h`
 
-เซ็ตจริง: **Poet of Mourning Collapse** · `Relic.Name` = `"Poet_Dill"`
+เซ็ตจริง: **Poet of Mourning Collapse** · `Relic.name` = `"Poet_Dill"`
 
 ## ความสามารถหลัก → โค้ดที่ทำงาน
 
@@ -17,4 +17,4 @@
 - SPD เป็น stat ที่ตัวเองลดและเป็นเงื่อนไขของตัวเองด้วย → ถ้าวันหนึ่งจะทำเงื่อนไขจริง ต้องระวังว่าค่าที่เอามาเทียบคือ SPD **หลัง** หัก 8% แล้วหรือยัง
 
 ## แก้เมื่อ 2026-09-26
-- CR +32 เดิมเขียน `Stats_type` ของผู้สวมใน `Reset_List` → memosprite ไม่ได้ ทั้งที่ kit ระบุ "also applies to the wearer's memosprite" · ย้ายไป `WhenOnField_List` + `buffSingleChar`
+- CR +32 เดิมเขียน `statsType` ของผู้สวมใน `resetList` → memosprite ไม่ได้ ทั้งที่ kit ระบุ "also applies to the wearer's memosprite" · ย้ายไป `whenOnFieldList` + `buffSingleChar`

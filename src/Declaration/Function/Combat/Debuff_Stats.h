@@ -1,30 +1,30 @@
 #include "../include.h"
 
-void extendDebuffAll(string Debuff_name,int Turn_extend);
-void extendDebuffTargets(vector<Enemy*> targets,string Debuff_name,int Turn_extend);
+void extendDebuffAll(string debuffName,int turnExtend);
+void extendDebuffTargets(vector<Enemy*> targets,string debuffName,int turnExtend);
 
 void debuffAllEnemy(vector<BuffClass> debuffSet);
 void debuffAllEnemy(vector<BuffElementClass> debuffSet);
 void debuffEnemyTargets(vector<Enemy*> targets,vector<BuffClass> debuffSet);
 void debuffEnemyTargets(vector<Enemy*> targets,vector<BuffElementClass> debuffSet);
 
-void debuffAllEnemyApply(AllyUnit *ptr,vector<BuffClass> debuffSet, string Debuff_Name);
-void debuffAllEnemyApply(AllyUnit *ptr,vector<BuffElementClass> debuffSet, string Debuff_Name);
-void debuffAllEnemyApply(AllyUnit *ptr,vector<BuffClass> debuffSet, string Debuff_Name,int extend);
-void debuffAllEnemyApply(AllyUnit *ptr,vector<BuffElementClass> debuffSet, string Debuff_Name,int extend);
-void debuffEnemyTargetsApply(AllyUnit *ptr,vector<Enemy*> targets,vector<BuffClass> debuffSet, string Debuff_Name);
-void debuffEnemyTargetsApply(AllyUnit *ptr,vector<Enemy*> targets,vector<BuffElementClass> debuffSet, string Debuff_Name);
-void debuffEnemyTargetsApply(AllyUnit *ptr,vector<Enemy*> targets,vector<BuffClass> debuffSet, string Debuff_Name,int extend);
-void debuffEnemyTargetsApply(AllyUnit *ptr,vector<Enemy*> targets,vector<BuffElementClass> debuffSet, string Debuff_Name,int extend);
+void debuffAllEnemyApply(AllyUnit *ptr,vector<BuffClass> debuffSet, string debuffName);
+void debuffAllEnemyApply(AllyUnit *ptr,vector<BuffElementClass> debuffSet, string debuffName);
+void debuffAllEnemyApply(AllyUnit *ptr,vector<BuffClass> debuffSet, string debuffName,int extend);
+void debuffAllEnemyApply(AllyUnit *ptr,vector<BuffElementClass> debuffSet, string debuffName,int extend);
+void debuffEnemyTargetsApply(AllyUnit *ptr,vector<Enemy*> targets,vector<BuffClass> debuffSet, string debuffName);
+void debuffEnemyTargetsApply(AllyUnit *ptr,vector<Enemy*> targets,vector<BuffElementClass> debuffSet, string debuffName);
+void debuffEnemyTargetsApply(AllyUnit *ptr,vector<Enemy*> targets,vector<BuffClass> debuffSet, string debuffName,int extend);
+void debuffEnemyTargetsApply(AllyUnit *ptr,vector<Enemy*> targets,vector<BuffElementClass> debuffSet, string debuffName,int extend);
 
-void debuffAllEnemyMark(vector<BuffClass> debuffSet, AllyUnit* ptr, string Debuff_Name);
-void debuffAllEnemyMark(vector<BuffElementClass> debuffSet, AllyUnit* ptr, string Debuff_Name);
-void debuffAllEnemyMark(vector<BuffClass> debuffSet, AllyUnit* ptr, string Debuff_Name, int extend);
-void debuffAllEnemyMark(vector<BuffElementClass> debuffSet, AllyUnit* ptr, string Debuff_Name, int extend);
-void debuffEnemyTargetsyMark(vector<Enemy*> targets,vector<BuffClass> debuffSet,AllyUnit *ptr, string Debuff_Name);
-void debuffEnemyTargetsyMark(vector<Enemy*> targets,vector<BuffElementClass> debuffSet,AllyUnit *ptr, string Debuff_Name);
-void debuffEnemyTargetsyMark(vector<Enemy*> targets,vector<BuffClass> debuffSet,AllyUnit *ptr, string Debuff_Name,int extend);
-void debuffEnemyTargetsyMark(vector<Enemy*> targets,vector<BuffElementClass> debuffSet,AllyUnit *ptr, string Debuff_Name,int extend);
+void debuffAllEnemyMark(vector<BuffClass> debuffSet, AllyUnit* ptr, string debuffName);
+void debuffAllEnemyMark(vector<BuffElementClass> debuffSet, AllyUnit* ptr, string debuffName);
+void debuffAllEnemyMark(vector<BuffClass> debuffSet, AllyUnit* ptr, string debuffName, int extend);
+void debuffAllEnemyMark(vector<BuffElementClass> debuffSet, AllyUnit* ptr, string debuffName, int extend);
+void debuffEnemyTargetsyMark(vector<Enemy*> targets,vector<BuffClass> debuffSet,AllyUnit *ptr, string debuffName);
+void debuffEnemyTargetsyMark(vector<Enemy*> targets,vector<BuffElementClass> debuffSet,AllyUnit *ptr, string debuffName);
+void debuffEnemyTargetsyMark(vector<Enemy*> targets,vector<BuffClass> debuffSet,AllyUnit *ptr, string debuffName,int extend);
+void debuffEnemyTargetsyMark(vector<Enemy*> targets,vector<BuffElementClass> debuffSet,AllyUnit *ptr, string debuffName,int extend);
 
 
     //debuff.h
@@ -38,8 +38,8 @@ void debuffEnemyTargetsyMark(vector<Enemy*> targets,vector<BuffElementClass> deb
     void weaknessApply(AllyUnit *ptr,Enemy *enemy,vector<ElementType> elementList,int extend);
     void weaknessApply(AllyUnit *ptr,Enemy *enemy,vector<ElementType> elementList ,string debuffName,int extend);
     
-    bool isDebuffEnd(Enemy *enemy,string Debuff_name);
-    void extendDebuff(Enemy *enemy,string Debuff_name,int Turn_extend);
+    bool isDebuffEnd(Enemy *enemy,string debuffName);
+    void extendDebuff(Enemy *enemy,string debuffName,int turnExtend);
     
     //Single target
     void debuffSingle(Enemy *enemy,vector<BuffClass> debuffSet);

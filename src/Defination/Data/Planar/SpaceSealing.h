@@ -2,9 +2,9 @@
 namespace Planar{
     void SpaceSealing(CharUnit *ptr){
         
-        ptr->Planar.Name = "SpaceSealing";
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_type[Stats::ATK_P][AType::None] += 24;
+        ptr->Planar.name = "SpaceSealing";
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsType[Stats::ATK_P][AType::NONE] += 24;
         }));
         
        

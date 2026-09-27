@@ -2,44 +2,44 @@
 namespace Elation_Lightcone{
     function<void(CharUnit *ptr)> YaoGuang_LC(int superimpose){
         return [=](CharUnit *ptr) {
-            ptr->SetAllyBaseStats(1058,529,529);
-            ptr->Light_cone.Name = "YaoGuang_LC";
+            ptr->setAllyBaseStats(1058,529,529);
+            ptr->lightCone.name = "YaoGuang_LC";
     
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
-                ptr->Atv_stats->speedPercent += 15 + 3 * superimpose;
+            resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+                ptr->atvStats->speedPercent += 15 + 3 * superimpose;
             }));
 
-            Start_wave_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
-                Increase_energy(ptr,0,15);
+            startWaveList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+                increaseEnergy(ptr,0,15);
             }));
 
-            Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+            startGameList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 if(isHaveToAddBuff(ptr,"Great Fortune",3)){
-                    ptr->Energy_recharge += 10 + 2 * superimpose;
+                    ptr->energyRecharge += 10 + 2 * superimpose;
                     buffAllAlly({
-                        {Stats::CR, AType::None,9.0 + superimpose},
-                        {Stats::CD, AType::None,22.5 + 7.5 * superimpose}
+                        {Stats::CR, AType::NONE,9.0 + superimpose},
+                        {Stats::CD, AType::NONE,22.5 + 7.5 * superimpose}
                     });
                 }
             }));
 
-            Buff_List.push_back(TriggerByAllyBuffAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyBuffAction> &act) {
-                if(!act->isSameAction(ptr,AType::Ult))return;
+            buffList.push_back(TriggerByAllyBuffActionFunc(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyBuffAction> &act) {
+                if(!act->isSameAction(ptr,AType::ULT))return;
                 if(isHaveToAddBuff(ptr,"Great Fortune",3)){
-                    ptr->Energy_recharge += 10 + 2 * superimpose;
+                    ptr->energyRecharge += 10 + 2 * superimpose;
                     buffAllAlly({
-                        {Stats::CR, AType::None,9.0 + superimpose},
-                        {Stats::CD, AType::None,22.5 + 7.5 * superimpose}
+                        {Stats::CR, AType::NONE,9.0 + superimpose},
+                        {Stats::CD, AType::NONE,22.5 + 7.5 * superimpose}
                     });
                 }
             }));
 
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+            afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 if (isBuffEnd(ptr,"Great Fortune")) {
-                    ptr->Energy_recharge -= 10 + 2 * superimpose;
+                    ptr->energyRecharge -= 10 + 2 * superimpose;
                     buffAllAlly({
-                        {Stats::CR, AType::None,-(9.0 + superimpose)},
-                        {Stats::CD, AType::None,-(22.5 + 7.5 * superimpose)}
+                        {Stats::CR, AType::NONE,-(9.0 + superimpose)},
+                        {Stats::CD, AType::NONE,-(22.5 + 7.5 * superimpose)}
                     });
                 }
             }));

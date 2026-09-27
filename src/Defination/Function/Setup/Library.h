@@ -1,5 +1,5 @@
-#ifndef Setup_Define_H
-#define Setup_Define_H
+#ifndef SETUP_DEFINE_H
+#define SETUP_DEFINE_H
 
 #include "Stats_Reset.h"
 #include "SetCombat.h"

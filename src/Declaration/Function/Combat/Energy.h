@@ -1,8 +1,8 @@
 #include "../include.h"
 
-void Increase_energy(CharUnit *ptr,double Energy );
-void Increase_energy(AllyUnit *ptr,double Energy );
-void Increase_energy(CharUnit *ptr,double Energy_percent,double Flat_energy);
-void Increase_energy(AllyUnit *ptr,double Energy_percent,double Flat_energy);
+void increaseEnergy(CharUnit *ptr,double energy );
+void increaseEnergy(AllyUnit *ptr,double energy );
+void increaseEnergy(CharUnit *ptr,double energyPercent,double flatEnergy);
+void increaseEnergy(AllyUnit *ptr,double energyPercent,double flatEnergy);
 bool ultUseCheck(CharUnit *ptr);
 void allUltimateCheck();

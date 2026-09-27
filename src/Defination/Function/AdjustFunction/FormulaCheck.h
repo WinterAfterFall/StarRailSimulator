@@ -6,26 +6,26 @@ void CharUnit::enableCheckDamage() {
 void CharUnit::enableCheckDamageFormula(DmgFormulaMode mode) {
 
     checkDmgFormula =1;
-    if (mode == DmgFormulaMode::All) checkDmgFormulaAll = 1;
-    else if (mode == DmgFormulaMode::Src) checkDmgFormulaSrc = 1;
+    if (mode == DmgFormulaMode::ALL) checkDmgFormulaAll = 1;
+    else if (mode == DmgFormulaMode::SRC) checkDmgFormulaSrc = 1;
     else if (mode == DmgFormulaMode::HP) checkDmgFormulaHP = 1;
     else if (mode == DmgFormulaMode::ATK) checkDmgFormulaATK = 1;
     else if (mode == DmgFormulaMode::DEF) checkDmgFormulaDEF = 1;
-    else if (mode == DmgFormulaMode::Const) checkDmgFormulaConst = 1;
-    else if (mode == DmgFormulaMode::Dmg) checkDmgFormulaDmg = 1;
-    else if (mode == DmgFormulaMode::Crit) checkDmgFormulaCrit = 1;
-    else if (mode == DmgFormulaMode::CritRate) checkDmgFormulaCritRate = 1;
-    else if (mode == DmgFormulaMode::CritDam) checkDmgFormulaCritDam = 1;
-    else if (mode == DmgFormulaMode::DefShred) checkDmgFormulaDefShred = 1;
-    else if (mode == DmgFormulaMode::Respen) checkDmgFormulaRespen = 1;
-    else if (mode == DmgFormulaMode::Vul) checkDmgFormulaVul = 1;
-    else if (mode == DmgFormulaMode::Mtgt) checkDmgFormulaMtgt = 1;
-    else if (mode == DmgFormulaMode::MtprInc) checkDmgFormulaMtprInc = 1;
+    else if (mode == DmgFormulaMode::CONST) checkDmgFormulaConst = 1;
+    else if (mode == DmgFormulaMode::DMG) checkDmgFormulaDmg = 1;
+    else if (mode == DmgFormulaMode::CRIT) checkDmgFormulaCrit = 1;
+    else if (mode == DmgFormulaMode::CRIT_RATE) checkDmgFormulaCritRate = 1;
+    else if (mode == DmgFormulaMode::CRIT_DAM) checkDmgFormulaCritDam = 1;
+    else if (mode == DmgFormulaMode::DEF_SHRED) checkDmgFormulaDefShred = 1;
+    else if (mode == DmgFormulaMode::RESPEN) checkDmgFormulaRespen = 1;
+    else if (mode == DmgFormulaMode::VUL) checkDmgFormulaVul = 1;
+    else if (mode == DmgFormulaMode::MTGT) checkDmgFormulaMtgt = 1;
+    else if (mode == DmgFormulaMode::MTPR_INC) checkDmgFormulaMtprInc = 1;
     else if (mode == DmgFormulaMode::BE) checkDmgFormulaBE = 1;
-    else if (mode == DmgFormulaMode::SpbInc) checkDmgFormulaSpbInc = 1;
+    else if (mode == DmgFormulaMode::SPB_INC) checkDmgFormulaSpbInc = 1;
     else if (mode == DmgFormulaMode::CB) checkDmgFormulaPL = 1;
-    else if (mode == DmgFormulaMode::Elation) checkDmgFormulaElation = 1;
-    else if (mode == DmgFormulaMode::Merrymake) checkDmgFormulaMM = 1;
+    else if (mode == DmgFormulaMode::ELATION) checkDmgFormulaElation = 1;
+    else if (mode == DmgFormulaMode::MERRYMAKE) checkDmgFormulaMM = 1;
 }
 void CharUnit::enableCheckHeal() {
     checkHeal = 1;

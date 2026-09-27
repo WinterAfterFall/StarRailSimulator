@@ -2,46 +2,46 @@
 
 double calculateAtkOnStats(AllyUnit *ptr){
     double ans = ptr->baseAtk;
-    ans*= (100+ptr->Stats_type[Stats::ATK_P][AType::None])/100.0;
-    ans+= ptr->Stats_type[Stats::FLAT_ATK][AType::None];
+    ans*= (100+ptr->statsType[Stats::ATK_P][AType::NONE])/100.0;
+    ans+= ptr->statsType[Stats::FLAT_ATK][AType::NONE];
     return (ans < 0) ? 0 : ans;
 }
 double calculateHpOnStats(AllyUnit *ptr){
     double ans = ptr->baseHp;
-    ans*= (100+ptr->Stats_type[Stats::HP_P][AType::None])/100.0;
-    ans+= ptr->Stats_type[Stats::FLAT_HP][AType::None];
+    ans*= (100+ptr->statsType[Stats::HP_P][AType::NONE])/100.0;
+    ans+= ptr->statsType[Stats::FLAT_HP][AType::NONE];
     return (ans < 0) ? 0 : ans;
 }
 double calculateDefOnStats(AllyUnit *ptr){
     double ans = ptr->baseDef;
-    ans*= (100+ptr->Stats_type[Stats::DEF_P][AType::None])/100.0;
-    ans+= ptr->Stats_type[Stats::FLAT_DEF][AType::None];
+    ans*= (100+ptr->statsType[Stats::DEF_P][AType::NONE])/100.0;
+    ans+= ptr->statsType[Stats::FLAT_DEF][AType::NONE];
     return (ans < 0) ? 0 : ans;
 }
 double calculateSpeedOnStats(AllyUnit *ptr){
-    double ans = ptr->Atv_stats->baseSpeed;
-    ans*= (100 + ptr->Atv_stats->speedPercent)/100.0;
-    ans+= ptr->Atv_stats->flatSpeed;
+    double ans = ptr->atvStats->baseSpeed;
+    ans*= (100 + ptr->atvStats->speedPercent)/100.0;
+    ans+= ptr->atvStats->flatSpeed;
     return (ans < 0) ? 0 : ans;
 }
 double calculateCritrateOnStats(AllyUnit *ptr){
-    double ans = ptr->Stats_type[Stats::CR][AType::None];
+    double ans = ptr->statsType[Stats::CR][AType::NONE];
     return (ans < 0) ? 0 : ans;
 }
 double calculateCritdamOnStats(AllyUnit *ptr){
-    double ans = ptr->Stats_type[Stats::CD][AType::None];
+    double ans = ptr->statsType[Stats::CD][AType::NONE];
     return (ans < 0) ? 0 : ans;
 }
 double calculateBreakEffectOnStats(AllyUnit *ptr){
-    double ans = ptr->Stats_type[Stats::BE][AType::None];
+    double ans = ptr->statsType[Stats::BE][AType::NONE];
     return (ans < 0) ? 0 : ans;
 }
 double calculateElationOnStats(AllyUnit *ptr){
-    double ans = ptr->Stats_type[Stats::Elation][AType::None];
+    double ans = ptr->statsType[Stats::ELATION][AType::NONE];
     return (ans < 0) ? 0 : ans;
 }
 double calculateEhrOnStats(AllyUnit *ptr){
-    double ans = ptr->Stats_type[Stats::EHR][AType::None];
+    double ans = ptr->statsType[Stats::EHR][AType::NONE];
     return (ans < 0) ? 0 : ans;
 }
 double calculateHPLost(AllyUnit *ptr){
@@ -51,104 +51,104 @@ double calculateHPLost(AllyUnit *ptr){
 
 double calculateAtkForBuff(AllyUnit *ptr,double ratio){
     double ans = ptr->baseAtk;
-    ans*= (100+ptr->Stats_type[Stats::ATK_P][AType::None]-ptr->Stats_type[Stats::ATK_P][AType::TEMP])/100.0;
-    ans+= ptr->Stats_type[Stats::FLAT_ATK][AType::None]-ptr->Stats_type[Stats::FLAT_ATK][AType::TEMP];
+    ans*= (100+ptr->statsType[Stats::ATK_P][AType::NONE]-ptr->statsType[Stats::ATK_P][AType::TEMP])/100.0;
+    ans+= ptr->statsType[Stats::FLAT_ATK][AType::NONE]-ptr->statsType[Stats::FLAT_ATK][AType::TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 double calculateHpForBuff(AllyUnit *ptr,double ratio){
     double ans = ptr->baseHp;
-    ans*= (100+ptr->Stats_type[Stats::HP_P][AType::None]-ptr->Stats_type[Stats::HP_P][AType::TEMP])/100.0;
-    ans+= ptr->Stats_type[Stats::FLAT_HP][AType::None]-ptr->Stats_type[Stats::FLAT_HP][AType::TEMP];
+    ans*= (100+ptr->statsType[Stats::HP_P][AType::NONE]-ptr->statsType[Stats::HP_P][AType::TEMP])/100.0;
+    ans+= ptr->statsType[Stats::FLAT_HP][AType::NONE]-ptr->statsType[Stats::FLAT_HP][AType::TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 double calculateDefForBuff(AllyUnit *ptr,double ratio){
     double ans = ptr->baseDef;
-    ans*= (100+ptr->Stats_type[Stats::DEF_P][AType::None]-ptr->Stats_type[Stats::DEF_P][AType::TEMP])/100.0;
-    ans+= ptr->Stats_type[Stats::FLAT_DEF][AType::None]-ptr->Stats_type[Stats::FLAT_DEF][AType::TEMP];
+    ans*= (100+ptr->statsType[Stats::DEF_P][AType::NONE]-ptr->statsType[Stats::DEF_P][AType::TEMP])/100.0;
+    ans+= ptr->statsType[Stats::FLAT_DEF][AType::NONE]-ptr->statsType[Stats::FLAT_DEF][AType::TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 double calculateSpeedForBuff(AllyUnit *ptr,double ratio){
-    double ans = ptr->Atv_stats->baseSpeed;
-    ans*= (100 + ptr->Atv_stats->speedPercent - ptr->Stats_type[Stats::SPD_P][AType::TEMP])/100.0;
-    ans+= ptr->Atv_stats->flatSpeed - ptr->Stats_type[Stats::FLAT_SPD][AType::TEMP];
+    double ans = ptr->atvStats->baseSpeed;
+    ans*= (100 + ptr->atvStats->speedPercent - ptr->statsType[Stats::SPD_P][AType::TEMP])/100.0;
+    ans+= ptr->atvStats->flatSpeed - ptr->statsType[Stats::FLAT_SPD][AType::TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 
 }
 double calculateCritrateForBuff(AllyUnit *ptr,double ratio){
-    double ans = ptr->Stats_type[Stats::CR][AType::None]-ptr->Stats_type[Stats::CR][AType::TEMP];
+    double ans = ptr->statsType[Stats::CR][AType::NONE]-ptr->statsType[Stats::CR][AType::TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 double calculateCritdamForBuff(AllyUnit *ptr,double ratio){
-    double ans = ptr->Stats_type[Stats::CD][AType::None]-ptr->Stats_type[Stats::CD][AType::TEMP];
+    double ans = ptr->statsType[Stats::CD][AType::NONE]-ptr->statsType[Stats::CD][AType::TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 double calculateBreakEffectForBuff(AllyUnit *ptr,double ratio){
-    double ans = ptr->Stats_type[Stats::BE][AType::None]-ptr->Stats_type[Stats::BE][AType::TEMP];
+    double ans = ptr->statsType[Stats::BE][AType::NONE]-ptr->statsType[Stats::BE][AType::TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 double calculateEhrForBuff(AllyUnit *ptr,double ratio){
-    double ans = ptr->Stats_type[Stats::EHR][AType::None] - ptr->Stats_type[Stats::EHR][AType::TEMP];
+    double ans = ptr->statsType[Stats::EHR][AType::NONE] - ptr->statsType[Stats::EHR][AType::TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 double calculateElationForBuff(AllyUnit *ptr,double ratio){
-    double ans = ptr->Stats_type[Stats::Elation][AType::None] - ptr->Stats_type[Stats::Elation][AType::TEMP];
+    double ans = ptr->statsType[Stats::ELATION][AType::NONE] - ptr->statsType[Stats::ELATION][AType::TEMP];
     return (ans * ratio / 100.0 < 0) ? 0 : ans * ratio / 100.0;
 }
 
 double calAtkMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
     double ans = act->source->baseAtk;
-    double Atk_percent_mtpr = 100;
-    double Flat_atk_mtpr = 0;
+    double atkPercentMtpr = 100;
+    double flatAtkMtpr = 0;
     
-    Atk_percent_mtpr += act->source->Stats_type[Stats::ATK_P][AType::None] + target->Stats_type[Stats::ATK_P][AType::None];
-    Flat_atk_mtpr += act->source->Stats_type[Stats::FLAT_ATK][AType::None] + target->Stats_type[Stats::FLAT_ATK][AType::None];
+    atkPercentMtpr += act->source->statsType[Stats::ATK_P][AType::NONE] + target->statsType[Stats::ATK_P][AType::NONE];
+    flatAtkMtpr += act->source->statsType[Stats::FLAT_ATK][AType::NONE] + target->statsType[Stats::FLAT_ATK][AType::NONE];
 
     for(int i=0,sz=act->damageTypeList.size();i<sz;i++){
-            Atk_percent_mtpr+= act->source->Stats_type[Stats::ATK_P][act->damageTypeList[i]];
-            Atk_percent_mtpr+= target->Stats_type[Stats::ATK_P][act->damageTypeList[i]];
+            atkPercentMtpr+= act->source->statsType[Stats::ATK_P][act->damageTypeList[i]];
+            atkPercentMtpr+= target->statsType[Stats::ATK_P][act->damageTypeList[i]];
         
-            Flat_atk_mtpr += act->source->Stats_type[Stats::FLAT_ATK][act->damageTypeList[i]];
-            Flat_atk_mtpr += target->Stats_type[Stats::FLAT_ATK][act->damageTypeList[i]];
+            flatAtkMtpr += act->source->statsType[Stats::FLAT_ATK][act->damageTypeList[i]];
+            flatAtkMtpr += target->statsType[Stats::FLAT_ATK][act->damageTypeList[i]];
     }
     
-    ans = (ans * Atk_percent_mtpr/100) + Flat_atk_mtpr;
+    ans = (ans * atkPercentMtpr/100) + flatAtkMtpr;
 
     if(act->getChar()->canCheckDmgformulaATK()){
         cout<<"Base  Atk : "<<setw(7)<<fixed<<setprecision(2)<<act->source->baseAtk
-        <<" Base  Atk% : "<<setw(6)<<fixed<<setprecision(2)<<act->source->Stats_type[Stats::ATK_P][AType::None]
-        <<" Base  Flat Atk : "<<setw(7)<<fixed<<setprecision(2)<<act->source->Stats_type[Stats::FLAT_ATK][AType::None]<<endl;
+        <<" Base  Atk% : "<<setw(6)<<fixed<<setprecision(2)<<act->source->statsType[Stats::ATK_P][AType::NONE]
+        <<" Base  Flat Atk : "<<setw(7)<<fixed<<setprecision(2)<<act->source->statsType[Stats::FLAT_ATK][AType::NONE]<<endl;
         cout<<"Total Atk : "<<setw(7)<<fixed<<setprecision(2)<<ans
-        <<" Total Atk% : "<<setw(6)<<fixed<<setprecision(2)<<Atk_percent_mtpr - 100
-        <<" Total Flat Atk : "<<setw(7)<<fixed<<setprecision(2)<<Flat_atk_mtpr<<endl;
+        <<" Total Atk% : "<<setw(6)<<fixed<<setprecision(2)<<atkPercentMtpr - 100
+        <<" Total Flat Atk : "<<setw(7)<<fixed<<setprecision(2)<<flatAtkMtpr<<endl;
     }
 
     return (ans < 0) ? 0 : ans;
 }
 double calHpMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
     double ans = act->source->baseHp;
-    double Hp_percent_mtpr = 100;
-    double Flat_hp_mtpr = 0;
+    double hpPercentMtpr = 100;
+    double flatHpMtpr = 0;
 
-    Hp_percent_mtpr += act->source->Stats_type[Stats::HP_P][AType::None] + target->Stats_type[Stats::HP_P][AType::None];
-    Flat_hp_mtpr += act->source->Stats_type[Stats::FLAT_HP][AType::None] + target->Stats_type[Stats::FLAT_HP][AType::None];
+    hpPercentMtpr += act->source->statsType[Stats::HP_P][AType::NONE] + target->statsType[Stats::HP_P][AType::NONE];
+    flatHpMtpr += act->source->statsType[Stats::FLAT_HP][AType::NONE] + target->statsType[Stats::FLAT_HP][AType::NONE];
 
     for(int i=0,sz=act->damageTypeList.size();i<sz;i++){
-            Hp_percent_mtpr+= act->source->Stats_type[Stats::HP_P][act->damageTypeList[i]];
-            Hp_percent_mtpr+= target->Stats_type[Stats::HP_P][act->damageTypeList[i]];
+            hpPercentMtpr+= act->source->statsType[Stats::HP_P][act->damageTypeList[i]];
+            hpPercentMtpr+= target->statsType[Stats::HP_P][act->damageTypeList[i]];
 
-            Flat_hp_mtpr += act->source->Stats_type[Stats::FLAT_HP][act->damageTypeList[i]];
-            Flat_hp_mtpr += target->Stats_type[Stats::FLAT_HP][act->damageTypeList[i]];
+            flatHpMtpr += act->source->statsType[Stats::FLAT_HP][act->damageTypeList[i]];
+            flatHpMtpr += target->statsType[Stats::FLAT_HP][act->damageTypeList[i]];
     }
     
-    ans = (ans * Hp_percent_mtpr/100) + Flat_hp_mtpr;
+    ans = (ans * hpPercentMtpr/100) + flatHpMtpr;
 
     if(act->getChar()->canCheckDmgformulaHP()){
         cout<<"Base  Hp  : "<<setw(7)<<fixed<<setprecision(2)<<act->source->baseHp
-        <<" Base   Hp% : "<<setw(6)<<fixed<<setprecision(2)<<act->source->Stats_type[Stats::HP_P][AType::None]
-        <<" Base  Flat  Hp  : "<<setw(7)<<fixed<<setprecision(2)<<act->source->Stats_type[Stats::FLAT_HP][AType::None]<<endl;
+        <<" Base   Hp% : "<<setw(6)<<fixed<<setprecision(2)<<act->source->statsType[Stats::HP_P][AType::NONE]
+        <<" Base  Flat  Hp  : "<<setw(7)<<fixed<<setprecision(2)<<act->source->statsType[Stats::FLAT_HP][AType::NONE]<<endl;
         cout<<"Total Hp  : "<<setw(7)<<fixed<<setprecision(2)<<ans
-        <<" Total  Hp% : "<<setw(6)<<fixed<<setprecision(2)<<Hp_percent_mtpr - 100
-        <<" Total Flat  Hp : "<<setw(7)<<fixed<<setprecision(2)<<Flat_hp_mtpr<<endl;
+        <<" Total  Hp% : "<<setw(6)<<fixed<<setprecision(2)<<hpPercentMtpr - 100
+        <<" Total Flat  Hp : "<<setw(7)<<fixed<<setprecision(2)<<flatHpMtpr<<endl;
     }
 
 
@@ -157,203 +157,203 @@ double calHpMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
 
 double calDefMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
     double ans = act->source->baseDef;
-    double Def_percent_mtpr = 100;
-    double Flat_def_mtpr = 0;
+    double defPercentMtpr = 100;
+    double flatDefMtpr = 0;
 
-    Def_percent_mtpr += act->source->Stats_type[Stats::DEF_P][AType::None] + target->Stats_type[Stats::DEF_P][AType::None];
-    Flat_def_mtpr += act->source->Stats_type[Stats::FLAT_DEF][AType::None] + target->Stats_type[Stats::FLAT_DEF][AType::None];
+    defPercentMtpr += act->source->statsType[Stats::DEF_P][AType::NONE] + target->statsType[Stats::DEF_P][AType::NONE];
+    flatDefMtpr += act->source->statsType[Stats::FLAT_DEF][AType::NONE] + target->statsType[Stats::FLAT_DEF][AType::NONE];
 
     for(int i=0,sz=act->damageTypeList.size();i<sz;i++){
-            Def_percent_mtpr+= act->source->Stats_type[Stats::DEF_P][act->damageTypeList[i]];
-            Def_percent_mtpr+= target->Stats_type[Stats::DEF_P][act->damageTypeList[i]];
+            defPercentMtpr+= act->source->statsType[Stats::DEF_P][act->damageTypeList[i]];
+            defPercentMtpr+= target->statsType[Stats::DEF_P][act->damageTypeList[i]];
 
-            Flat_def_mtpr += act->source->Stats_type[Stats::FLAT_DEF][act->damageTypeList[i]];
-            Flat_def_mtpr += target->Stats_type[Stats::FLAT_DEF][act->damageTypeList[i]];
+            flatDefMtpr += act->source->statsType[Stats::FLAT_DEF][act->damageTypeList[i]];
+            flatDefMtpr += target->statsType[Stats::FLAT_DEF][act->damageTypeList[i]];
     }
     
-    ans = (ans * Def_percent_mtpr/100) + Flat_def_mtpr;
+    ans = (ans * defPercentMtpr/100) + flatDefMtpr;
 
     if(act->getChar()->canCheckDmgformulaDEF()){
         cout<<"Base  Def : "<<setw(7)<<fixed<<setprecision(2)<<act->source->baseDef
-        <<" Base  Def% : "<<setw(6)<<fixed<<setprecision(2)<<act->source->Stats_type[Stats::DEF_P][AType::None]
-        <<" Base  Flat Def : "<<setw(7)<<fixed<<setprecision(2)<<act->source->Stats_type[Stats::FLAT_DEF][AType::None]<<endl;
+        <<" Base  Def% : "<<setw(6)<<fixed<<setprecision(2)<<act->source->statsType[Stats::DEF_P][AType::NONE]
+        <<" Base  Flat Def : "<<setw(7)<<fixed<<setprecision(2)<<act->source->statsType[Stats::FLAT_DEF][AType::NONE]<<endl;
         cout<<"Total Def : "<<setw(7)<<fixed<<setprecision(2)<<ans
-        <<" Total Def% : "<<setw(6)<<fixed<<setprecision(2)<<Def_percent_mtpr - 100
-        <<" Total Flat Def : "<<setw(7)<<fixed<<setprecision(2)<<Flat_def_mtpr<<endl;
+        <<" Total Def% : "<<setw(6)<<fixed<<setprecision(2)<<defPercentMtpr - 100
+        <<" Total Flat Def : "<<setw(7)<<fixed<<setprecision(2)<<flatDefMtpr<<endl;
     }
 
     return (ans < 0) ? 0 : ans;
 }
 double calBonusDmgMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
-    double Bonus_dmg_mtpr = 100;
+    double bonusDmgMtpr = 100;
     
-    Bonus_dmg_mtpr += act->Attacker->Stats_type[Stats::DMG][AType::None] + target->Stats_type[Stats::DMG][AType::None] + act->Attacker->Stats_each_element[Stats::DMG][act->Damage_element][AType::None] + target->Stats_each_element[Stats::DMG][act->Damage_element][AType::None];
+    bonusDmgMtpr += act->attacker->statsType[Stats::DMG][AType::NONE] + target->statsType[Stats::DMG][AType::NONE] + act->attacker->statsEachElement[Stats::DMG][act->damageElement][AType::NONE] + target->statsEachElement[Stats::DMG][act->damageElement][AType::NONE];
     
     
 
     for(int i = 0, sz = act->damageTypeList.size(); i < sz; i++){
-        Bonus_dmg_mtpr += act->Attacker->Stats_type[Stats::DMG][act->damageTypeList[i]] + act->Attacker->Stats_each_element[Stats::DMG][act->Damage_element][act->damageTypeList[i]];
-        Bonus_dmg_mtpr += target->Stats_type[Stats::DMG][act->damageTypeList[i]] + target->Stats_each_element[Stats::DMG][act->Damage_element][act->damageTypeList[i]];
+        bonusDmgMtpr += act->attacker->statsType[Stats::DMG][act->damageTypeList[i]] + act->attacker->statsEachElement[Stats::DMG][act->damageElement][act->damageTypeList[i]];
+        bonusDmgMtpr += target->statsType[Stats::DMG][act->damageTypeList[i]] + target->statsEachElement[Stats::DMG][act->damageElement][act->damageTypeList[i]];
     }
 
     if(act->getChar()->canCheckDmgformulaDmg()){
-        cout<<"Base  Dmg%     : "<<setw(6)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::DMG][AType::None] + act->Attacker->Stats_each_element[Stats::DMG][act->Damage_element][AType::None]
-        <<" Enemy Dmg%     : "<<setw(6)<<fixed<<setprecision(2)<<target->Stats_type[Stats::DMG][AType::None] + target->Stats_each_element[Stats::DMG][act->Damage_element][AType::None]
-        <<" Total Dmg%     : "<<setw(6)<<fixed<<setprecision(2)<<Bonus_dmg_mtpr - 100<<endl;
+        cout<<"Base  Dmg%     : "<<setw(6)<<fixed<<setprecision(2)<<act->attacker->statsType[Stats::DMG][AType::NONE] + act->attacker->statsEachElement[Stats::DMG][act->damageElement][AType::NONE]
+        <<" Enemy Dmg%     : "<<setw(6)<<fixed<<setprecision(2)<<target->statsType[Stats::DMG][AType::NONE] + target->statsEachElement[Stats::DMG][act->damageElement][AType::NONE]
+        <<" Total Dmg%     : "<<setw(6)<<fixed<<setprecision(2)<<bonusDmgMtpr - 100<<endl;
     }
-    return (Bonus_dmg_mtpr / 100 < 0) ? 0 : Bonus_dmg_mtpr / 100;
+    return (bonusDmgMtpr / 100 < 0) ? 0 : bonusDmgMtpr / 100;
 }
-double Cal_Crit_rate_multiplier(shared_ptr<AllyAttackAction> &act,Enemy *target) {
-    double Crit_rate_mtpr;
+double calCritRateMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target) {
+    double critRateMtpr;
 
-    Crit_rate_mtpr = act->Attacker->Stats_type[Stats::CR][AType::None] + target->Stats_type[Stats::CR][AType::None];
+    critRateMtpr = act->attacker->statsType[Stats::CR][AType::NONE] + target->statsType[Stats::CR][AType::NONE];
     for (int i = 0, sz = act->damageTypeList.size(); i < sz; i++) {
-        Crit_rate_mtpr += act->Attacker->Stats_type[Stats::CR][act->damageTypeList[i]] + target->Stats_type[Stats::CR][act->damageTypeList[i]];
+        critRateMtpr += act->attacker->statsType[Stats::CR][act->damageTypeList[i]] + target->statsType[Stats::CR][act->damageTypeList[i]];
     }
 
     if(act->getChar()->canCheckDmgformulaCritRate()){
-        cout<<"Base  Crit rate : "<<setw(7)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::CR][AType::None]
-        <<" Total Crit rate : "<<setw(7)<<fixed<<setprecision(2)<<Crit_rate_mtpr<<endl;
+        cout<<"Base  Crit rate : "<<setw(7)<<fixed<<setprecision(2)<<act->attacker->statsType[Stats::CR][AType::NONE]
+        <<" Total Crit rate : "<<setw(7)<<fixed<<setprecision(2)<<critRateMtpr<<endl;
     }
 
-    return (Crit_rate_mtpr < 0) ? 0 : Crit_rate_mtpr;
+    return (critRateMtpr < 0) ? 0 : critRateMtpr;
 }
 
-double Cal_Crit_dam_multiplier(shared_ptr<AllyAttackAction> &act,Enemy *target) {
-    double Crit_dam_mtpr;
+double calCritDamMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target) {
+    double critDamMtpr;
 
-    Crit_dam_mtpr = act->Attacker->Stats_type[Stats::CD][AType::None] + target->Stats_type[Stats::CD][AType::None];
+    critDamMtpr = act->attacker->statsType[Stats::CD][AType::NONE] + target->statsType[Stats::CD][AType::NONE];
     for (int i = 0, sz = act->damageTypeList.size(); i < sz; i++) {
-        Crit_dam_mtpr += act->Attacker->Stats_type[Stats::CD][act->damageTypeList[i]] + target->Stats_type[Stats::CD][act->damageTypeList[i]];
+        critDamMtpr += act->attacker->statsType[Stats::CD][act->damageTypeList[i]] + target->statsType[Stats::CD][act->damageTypeList[i]];
     }
 
     if(act->getChar()->canCheckDmgformulaCritDam()){
-        cout<<"Base  Crit dam  : "<<setw(7)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::CD][AType::None]
-        <<" Total Crit dam  : "<<setw(7)<<fixed<<setprecision(2)<<Crit_dam_mtpr<<endl;
+        cout<<"Base  Crit dam  : "<<setw(7)<<fixed<<setprecision(2)<<act->attacker->statsType[Stats::CD][AType::NONE]
+        <<" Total Crit dam  : "<<setw(7)<<fixed<<setprecision(2)<<critDamMtpr<<endl;
     }
 
-    return (Crit_dam_mtpr < 0) ? 0 : Crit_dam_mtpr;
+    return (critDamMtpr < 0) ? 0 : critDamMtpr;
 }
 double calCritMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
     if(!act->critAble)return 1;
 
     // รวมสูตร CR/CD ไว้ที่ Cal_Crit_*_multiplier ที่เดียว (เดิมเขียนซ้ำในนี้)
-    double Crit_rate_mtpr = Cal_Crit_rate_multiplier(act,target);
-    double Crit_dam_mtpr  = Cal_Crit_dam_multiplier(act,target);
+    double critRateMtpr = calCritRateMultiplier(act,target);
+    double critDamMtpr  = calCritDamMultiplier(act,target);
 
-    if(Crit_rate_mtpr>=100){
-        Crit_rate_mtpr = 100;
+    if(critRateMtpr>=100){
+        critRateMtpr = 100;
     }
-    return max(1.0, 1+(Crit_rate_mtpr/100 * Crit_dam_mtpr/100));
+    return max(1.0, 1+(critRateMtpr/100 * critDamMtpr/100));
 
 }
 double calDefShredMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
-    double Def_shred_mtpr;
+    double defShredMtpr;
     
-    Def_shred_mtpr = act->Attacker->Stats_type[Stats::DEF_SHRED][AType::None] + target->Stats_type[Stats::DEF_SHRED][AType::None];
+    defShredMtpr = act->attacker->statsType[Stats::DEF_SHRED][AType::NONE] + target->statsType[Stats::DEF_SHRED][AType::NONE];
     for(int i=0,sz=act->damageTypeList.size();i<sz;i++){
-            Def_shred_mtpr += act->Attacker->Stats_type[Stats::DEF_SHRED][act->damageTypeList[i]] + target->Stats_type[Stats::DEF_SHRED][act->damageTypeList[i]];
+            defShredMtpr += act->attacker->statsType[Stats::DEF_SHRED][act->damageTypeList[i]] + target->statsType[Stats::DEF_SHRED][act->damageTypeList[i]];
     }
 
     if(act->getChar()->canCheckDmgformulaDefShred()){
-        cout<<"Base  DefShred : "<<setw(6)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::DEF_SHRED][AType::None]
-        <<" Enemy DefShred : "<<setw(6)<<fixed<<setprecision(2)<<target->Stats_type[Stats::DEF_SHRED][AType::None]
-        <<" Total DefShred : "<<setw(6)<<fixed<<setprecision(2)<<Def_shred_mtpr
-        <<" Final Mtpr : "<<100/(100 + 115*(1-1*Def_shred_mtpr/100))<<endl;
+        cout<<"Base  DefShred : "<<setw(6)<<fixed<<setprecision(2)<<act->attacker->statsType[Stats::DEF_SHRED][AType::NONE]
+        <<" Enemy DefShred : "<<setw(6)<<fixed<<setprecision(2)<<target->statsType[Stats::DEF_SHRED][AType::NONE]
+        <<" Total DefShred : "<<setw(6)<<fixed<<setprecision(2)<<defShredMtpr
+        <<" Final Mtpr : "<<100/(100 + 115*(1-1*defShredMtpr/100))<<endl;
     }
 
-    if(Def_shred_mtpr>=100){
-        Def_shred_mtpr = 100;
+    if(defShredMtpr>=100){
+        defShredMtpr = 100;
     }
 
-    return 100/(100 + 115*(1-1*Def_shred_mtpr/100));
+    return 100/(100 + 115*(1-1*defShredMtpr/100));
 }
 double calRespenMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
-    double Respen_mtpr = 100;
+    double respenMtpr = 100;
     
-    Respen_mtpr += act->Attacker->Stats_type[Stats::RESPEN][AType::None] + target->Stats_type[Stats::RESPEN][AType::None] + act->Attacker->Stats_each_element[Stats::RESPEN][act->Damage_element][AType::None] + target->Stats_each_element[Stats::RESPEN][act->Damage_element][AType::None];
+    respenMtpr += act->attacker->statsType[Stats::RESPEN][AType::NONE] + target->statsType[Stats::RESPEN][AType::NONE] + act->attacker->statsEachElement[Stats::RESPEN][act->damageElement][AType::NONE] + target->statsEachElement[Stats::RESPEN][act->damageElement][AType::NONE];
 
     for(int i = 0, sz = act->damageTypeList.size(); i < sz; i++){
-        Respen_mtpr += act->Attacker->Stats_type[Stats::RESPEN][act->damageTypeList[i]] + act->Attacker->Stats_each_element[Stats::RESPEN][act->Damage_element][act->damageTypeList[i]];
-        Respen_mtpr += target->Stats_type[Stats::RESPEN][act->damageTypeList[i]] + target->Stats_each_element[Stats::RESPEN][act->Damage_element][act->damageTypeList[i]];
+        respenMtpr += act->attacker->statsType[Stats::RESPEN][act->damageTypeList[i]] + act->attacker->statsEachElement[Stats::RESPEN][act->damageElement][act->damageTypeList[i]];
+        respenMtpr += target->statsType[Stats::RESPEN][act->damageTypeList[i]] + target->statsEachElement[Stats::RESPEN][act->damageElement][act->damageTypeList[i]];
     }
 
     if(act->getChar()->canCheckDmgformulaRespen()){
-        cout<<"Base  Respen   : "<<setw(6)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::RESPEN][AType::None] + act->Attacker->Stats_each_element[Stats::RESPEN][act->Damage_element][AType::None]
-        <<" Enemy Respen   : "<<setw(6)<<fixed<<setprecision(2)<<target->Stats_type[Stats::RESPEN][AType::None] + target->Stats_each_element[Stats::RESPEN][act->Damage_element][AType::None]
-        <<" Total Respen   : "<<setw(6)<<fixed<<setprecision(2)<<Respen_mtpr - 100<<endl;
+        cout<<"Base  Respen   : "<<setw(6)<<fixed<<setprecision(2)<<act->attacker->statsType[Stats::RESPEN][AType::NONE] + act->attacker->statsEachElement[Stats::RESPEN][act->damageElement][AType::NONE]
+        <<" Enemy Respen   : "<<setw(6)<<fixed<<setprecision(2)<<target->statsType[Stats::RESPEN][AType::NONE] + target->statsEachElement[Stats::RESPEN][act->damageElement][AType::NONE]
+        <<" Total Respen   : "<<setw(6)<<fixed<<setprecision(2)<<respenMtpr - 100<<endl;
     }
 
-    return (Respen_mtpr / 100 < 0) ? 0 : Respen_mtpr / 100;
+    return (respenMtpr / 100 < 0) ? 0 : respenMtpr / 100;
 }
 double calVulMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
-    double Vul_mtpr = 100;
+    double vulMtpr = 100;
     
-    Vul_mtpr += act->Attacker->Stats_type[Stats::VUL][AType::None] + target->Stats_type[Stats::VUL][AType::None];
+    vulMtpr += act->attacker->statsType[Stats::VUL][AType::NONE] + target->statsType[Stats::VUL][AType::NONE];
     for(int i = 0, sz = act->damageTypeList.size(); i < sz; i++){
-        Vul_mtpr += act->Attacker->Stats_type[Stats::VUL][act->damageTypeList[i]] + target->Stats_type[Stats::VUL][act->damageTypeList[i]];
+        vulMtpr += act->attacker->statsType[Stats::VUL][act->damageTypeList[i]] + target->statsType[Stats::VUL][act->damageTypeList[i]];
     }
 
     if(act->getChar()->canCheckDmgformulaVul()){
-        cout<<"Base  Vul      : "<<setw(6)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::VUL][AType::None]
-        <<" Enemy Vul      : "<<setw(6)<<fixed<<setprecision(2)<<target->Stats_type[Stats::VUL][AType::None]
-        <<" Total Vul      : "<<setw(6)<<fixed<<setprecision(2)<<Vul_mtpr - 100<<endl;
+        cout<<"Base  Vul      : "<<setw(6)<<fixed<<setprecision(2)<<act->attacker->statsType[Stats::VUL][AType::NONE]
+        <<" Enemy Vul      : "<<setw(6)<<fixed<<setprecision(2)<<target->statsType[Stats::VUL][AType::NONE]
+        <<" Total Vul      : "<<setw(6)<<fixed<<setprecision(2)<<vulMtpr - 100<<endl;
     }
 
-    return (Vul_mtpr / 100 < 0) ? 0 : Vul_mtpr / 100;
+    return (vulMtpr / 100 < 0) ? 0 : vulMtpr / 100;
 }
 double calBreakEffectMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
-    double BreakEffect_mtpr = 100;
+    double breakEffectMtpr = 100;
   
-    BreakEffect_mtpr += act->Attacker->Stats_type[Stats::BE][AType::None] + target->Stats_type[Stats::BE][AType::None];
+    breakEffectMtpr += act->attacker->statsType[Stats::BE][AType::NONE] + target->statsType[Stats::BE][AType::NONE];
     for(int i = 0, sz = act->damageTypeList.size(); i < sz; i++){
-        BreakEffect_mtpr += act->Attacker->Stats_type[Stats::BE][act->damageTypeList[i]] + target->Stats_type[Stats::BE][act->damageTypeList[i]];
+        breakEffectMtpr += act->attacker->statsType[Stats::BE][act->damageTypeList[i]] + target->statsType[Stats::BE][act->damageTypeList[i]];
     }
     
     if(act->getChar()->canCheckDmgformulaBE()){
-        cout<<"Base  BE       : "<<setw(6)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::BE][AType::None]
-        <<" Enemy BE       : "<<setw(6)<<fixed<<setprecision(2)<<target->Stats_type[Stats::BE][AType::None]
-        <<" Total BE       : "<<setw(6)<<fixed<<setprecision(2)<<BreakEffect_mtpr - 100<<endl;
+        cout<<"Base  BE       : "<<setw(6)<<fixed<<setprecision(2)<<act->attacker->statsType[Stats::BE][AType::NONE]
+        <<" Enemy BE       : "<<setw(6)<<fixed<<setprecision(2)<<target->statsType[Stats::BE][AType::NONE]
+        <<" Total BE       : "<<setw(6)<<fixed<<setprecision(2)<<breakEffectMtpr - 100<<endl;
     }
 
-    return (BreakEffect_mtpr / 100 < 0) ? 0 : BreakEffect_mtpr / 100;
+    return (breakEffectMtpr / 100 < 0) ? 0 : breakEffectMtpr / 100;
 }
 double calElationMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
     double elationMtpr = 100;
   
-    elationMtpr += act->source->Stats_type[Stats::Elation][AType::None] + target->Stats_type[Stats::Elation][AType::None];
+    elationMtpr += act->source->statsType[Stats::ELATION][AType::NONE] + target->statsType[Stats::ELATION][AType::NONE];
     for(int i = 0, sz = act->damageTypeList.size(); i < sz; i++){
-        elationMtpr += act->source->Stats_type[Stats::Elation][act->damageTypeList[i]] + target->Stats_type[Stats::Elation][act->damageTypeList[i]];
+        elationMtpr += act->source->statsType[Stats::ELATION][act->damageTypeList[i]] + target->statsType[Stats::ELATION][act->damageTypeList[i]];
     }
     
     if(act->getChar()->canCheckDmgformulaElation()){
-        cout<<"Base  Elation  : "<<setw(6)<<fixed<<setprecision(2)<<act->source->Stats_type[Stats::Elation][AType::None]
-        <<" Enemy Elation  : "<<setw(6)<<fixed<<setprecision(2)<<target->Stats_type[Stats::Elation][AType::None]
+        cout<<"Base  Elation  : "<<setw(6)<<fixed<<setprecision(2)<<act->source->statsType[Stats::ELATION][AType::NONE]
+        <<" Enemy Elation  : "<<setw(6)<<fixed<<setprecision(2)<<target->statsType[Stats::ELATION][AType::NONE]
         <<" Total Elation  : "<<setw(6)<<fixed<<setprecision(2)<<elationMtpr - 100<<endl;
     }
 
     return (elationMtpr / 100 < 0) ? 0 : elationMtpr / 100;
 }
 double calMerryMakeMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
-    double MerrymakeMtpr = 100;
+    double merrymakeMtpr = 100;
   
-    MerrymakeMtpr += act->Attacker->Stats_type[Stats::Merrymake][AType::None] + target->Stats_type[Stats::Merrymake][AType::None];
+    merrymakeMtpr += act->attacker->statsType[Stats::MERRYMAKE][AType::NONE] + target->statsType[Stats::MERRYMAKE][AType::NONE];
     for(int i = 0, sz = act->damageTypeList.size(); i < sz; i++){
-        MerrymakeMtpr += act->Attacker->Stats_type[Stats::Merrymake][act->damageTypeList[i]] + target->Stats_type[Stats::Merrymake][act->damageTypeList[i]];
+        merrymakeMtpr += act->attacker->statsType[Stats::MERRYMAKE][act->damageTypeList[i]] + target->statsType[Stats::MERRYMAKE][act->damageTypeList[i]];
     }
     
     if(act->getChar()->canCheckDmgformulaMM()){
-        cout<<"Base  MM       : "<<setw(6)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::Merrymake][AType::None]
-        <<" Enemy MM       : "<<setw(6)<<fixed<<setprecision(2)<<target->Stats_type[Stats::Merrymake][AType::None]
-        <<" Total MM       : "<<setw(6)<<fixed<<setprecision(2)<<MerrymakeMtpr - 100<<endl;
+        cout<<"Base  MM       : "<<setw(6)<<fixed<<setprecision(2)<<act->attacker->statsType[Stats::MERRYMAKE][AType::NONE]
+        <<" Enemy MM       : "<<setw(6)<<fixed<<setprecision(2)<<target->statsType[Stats::MERRYMAKE][AType::NONE]
+        <<" Total MM       : "<<setw(6)<<fixed<<setprecision(2)<<merrymakeMtpr - 100<<endl;
     }
 
-    return (MerrymakeMtpr / 100 < 0) ? 0 : MerrymakeMtpr / 100;
+    return (merrymakeMtpr / 100 < 0) ? 0 : merrymakeMtpr / 100;
 }
 double calPunchLineMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
-    double PunchlineCnt = 0;
+    double punchlineCnt = 0;
     for(auto &each : act->damageTypeList){
-        if(each == AType::ElationSkill){
+        if(each == AType::ELATION_SKILL){
             if(act->getChar()->canCheckDmgformulaPL()){
                 cout<<"Total PL        : "<<setw(6)<<fixed<<setprecision(2)<<punchline<<endl;
             }
@@ -361,65 +361,65 @@ double calPunchLineMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
         }
     }
 
-    PunchlineCnt += act->Attacker->Stats_type[Stats::CertifiedBanger][AType::None] + target->Stats_type[Stats::CertifiedBanger][AType::None];
+    punchlineCnt += act->attacker->statsType[Stats::CERTIFIED_BANGER][AType::NONE] + target->statsType[Stats::CERTIFIED_BANGER][AType::NONE];
     for(int i = 0, sz = act->damageTypeList.size(); i < sz; i++){
-        PunchlineCnt += act->Attacker->Stats_type[Stats::CertifiedBanger][act->damageTypeList[i]] + target->Stats_type[Stats::CertifiedBanger][act->damageTypeList[i]];
+        punchlineCnt += act->attacker->statsType[Stats::CERTIFIED_BANGER][act->damageTypeList[i]] + target->statsType[Stats::CERTIFIED_BANGER][act->damageTypeList[i]];
     }
     
     if(act->getChar()->canCheckDmgformulaPL()){
-        cout<<"Base  CB       : "<<setw(6)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::CertifiedBanger][AType::None]
-        <<" Enemy CB       : "<<setw(6)<<fixed<<setprecision(2)<<target->Stats_type[Stats::CertifiedBanger][AType::None]
-        <<" Total CB       : "<<setw(6)<<fixed<<setprecision(2)<<PunchlineCnt<<endl;
+        cout<<"Base  CB       : "<<setw(6)<<fixed<<setprecision(2)<<act->attacker->statsType[Stats::CERTIFIED_BANGER][AType::NONE]
+        <<" Enemy CB       : "<<setw(6)<<fixed<<setprecision(2)<<target->statsType[Stats::CERTIFIED_BANGER][AType::NONE]
+        <<" Total CB       : "<<setw(6)<<fixed<<setprecision(2)<<punchlineCnt<<endl;
     }
 
-    return (PunchlineCnt < 0) ? 1 : (1+(PunchlineCnt*5)/(240+PunchlineCnt));
+    return (punchlineCnt < 0) ? 1 : (1+(punchlineCnt*5)/(240+punchlineCnt));
 }
 double calToughnessMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
-    if(act->toughnessAvgCalculate||target->Toughness_status==0){
+    if(act->toughnessAvgCalculate||target->toughnessStatus==0){
         return 1;
     }else{
         return 0.9;
     }
 }
-double Cal_Superbreak_DamageIncrease_multiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
-    double Spb_dmg_mtpr = 100;
-    Spb_dmg_mtpr += act->Attacker->Stats_type[Stats::SPB_inc][AType::None] + target->Stats_type[Stats::SPB_inc][AType::None];
+double calSuperbreakDamageIncreaseMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
+    double spbDmgMtpr = 100;
+    spbDmgMtpr += act->attacker->statsType[Stats::SPB_INC][AType::NONE] + target->statsType[Stats::SPB_INC][AType::NONE];
     
     if(act->getChar()->canCheckDmgformulaSpbInc()){
-        cout<<"Base  Spb Inc. : "<<setw(6)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::SPB_inc][AType::None]
-        <<" Enemy Spb Inc. : "<<setw(6)<<fixed<<setprecision(2)<<target->Stats_type[Stats::SPB_inc][AType::None]
-        <<" Total Spb Inc. : "<<setw(6)<<fixed<<setprecision(2)<<Spb_dmg_mtpr - 100<<endl;
+        cout<<"Base  Spb Inc. : "<<setw(6)<<fixed<<setprecision(2)<<act->attacker->statsType[Stats::SPB_INC][AType::NONE]
+        <<" Enemy Spb Inc. : "<<setw(6)<<fixed<<setprecision(2)<<target->statsType[Stats::SPB_INC][AType::NONE]
+        <<" Total Spb Inc. : "<<setw(6)<<fixed<<setprecision(2)<<spbDmgMtpr - 100<<endl;
     }
 
-    return (Spb_dmg_mtpr / 100 < 0) ? 0 : Spb_dmg_mtpr / 100;
+    return (spbDmgMtpr / 100 < 0) ? 0 : spbDmgMtpr / 100;
 }
 double calMitigationMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
-    double Mitigation_mtpr = 100;
+    double mitigationMtpr = 100;
 
-    Mitigation_mtpr += act->Attacker->Stats_type[Stats::Mitigration][AType::None] + target->Stats_type[Stats::Mitigration][AType::None];
+    mitigationMtpr += act->attacker->statsType[Stats::MITIGRATION][AType::NONE] + target->statsType[Stats::MITIGRATION][AType::NONE];
     for(int i = 0, sz = act->damageTypeList.size(); i < sz; i++){
-        Mitigation_mtpr += act->Attacker->Stats_type[Stats::Mitigration][act->damageTypeList[i]] + target->Stats_type[Stats::Mitigration][act->damageTypeList[i]];
+        mitigationMtpr += act->attacker->statsType[Stats::MITIGRATION][act->damageTypeList[i]] + target->statsType[Stats::MITIGRATION][act->damageTypeList[i]];
     }
 
     if(act->getChar()->canCheckDmgformulaMtgt()){
-        cout<<"Base  Mtgt     : "<<setw(6)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::Mitigration][AType::None]
-        <<" Enemy Mtgt     : "<<setw(6)<<fixed<<setprecision(2)<<target->Stats_type[Stats::Mitigration][AType::None]
-        <<" Total Mtgt     : "<<setw(6)<<fixed<<setprecision(2)<<Mitigation_mtpr - 100<<endl;
+        cout<<"Base  Mtgt     : "<<setw(6)<<fixed<<setprecision(2)<<act->attacker->statsType[Stats::MITIGRATION][AType::NONE]
+        <<" Enemy Mtgt     : "<<setw(6)<<fixed<<setprecision(2)<<target->statsType[Stats::MITIGRATION][AType::NONE]
+        <<" Total Mtgt     : "<<setw(6)<<fixed<<setprecision(2)<<mitigationMtpr - 100<<endl;
     }
 
-    return (Mitigation_mtpr / 100 < 0) ? 0 : Mitigation_mtpr / 100;
+    return (mitigationMtpr / 100 < 0) ? 0 : mitigationMtpr / 100;
 }
 double calMultiplierIncrease(shared_ptr<AllyAttackAction> &act,Enemy *target){
     double mtpr = 100;
 
-    mtpr += act->Attacker->Stats_type[Stats::MtprInc][AType::None] + target->Stats_type[Stats::MtprInc][AType::None];
+    mtpr += act->attacker->statsType[Stats::MTPR_INC][AType::NONE] + target->statsType[Stats::MTPR_INC][AType::NONE];
     for(int i = 0, sz = act->damageTypeList.size(); i < sz; i++){
-        mtpr += act->Attacker->Stats_type[Stats::MtprInc][act->damageTypeList[i]] + target->Stats_type[Stats::MtprInc][act->damageTypeList[i]];
+        mtpr += act->attacker->statsType[Stats::MTPR_INC][act->damageTypeList[i]] + target->statsType[Stats::MTPR_INC][act->damageTypeList[i]];
     }
 
     if(act->getChar()->canCheckDmgformulaMtprInc()){
-        cout<<"Base  Mtpr     : "<<setw(6)<<fixed<<setprecision(2)<<act->Attacker->Stats_type[Stats::MtprInc][AType::None]
-        <<" Enemy Mtpr     : "<<setw(6)<<fixed<<setprecision(2)<<target->Stats_type[Stats::MtprInc][AType::None]
+        cout<<"Base  Mtpr     : "<<setw(6)<<fixed<<setprecision(2)<<act->attacker->statsType[Stats::MTPR_INC][AType::NONE]
+        <<" Enemy Mtpr     : "<<setw(6)<<fixed<<setprecision(2)<<target->statsType[Stats::MTPR_INC][AType::NONE]
         <<" Total Mtpr     : "<<setw(6)<<fixed<<setprecision(2)<<mtpr - 100<<endl;
     }
 

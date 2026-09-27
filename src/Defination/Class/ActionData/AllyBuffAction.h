@@ -1,5 +1,5 @@
-#ifndef AllySupportAction_H
-#define AllySupportAction_H
+#ifndef ALLY_SUPPORT_ACTION_H
+#define ALLY_SUPPORT_ACTION_H
 #include "AllyActionData.h"
 
 class AllyBuffAction : public AllyActionData {
@@ -13,46 +13,46 @@ class AllyBuffAction : public AllyActionData {
         switch(actionType) {
             case AType::BA:
                 actionTypeList.push_back(AType::BA);
-                Turn_reset = true;
+                turnReset = true;
                 break;
             case AType::SKILL:
                 actionTypeList.push_back(AType::SKILL);
-                Turn_reset = true;
+                turnReset = true;
                 break;
-            case AType::Ult:
-                actionTypeList.push_back(AType::Ult);
+            case AType::ULT:
+                actionTypeList.push_back(AType::ULT);
                 break;
-            case AType::Fua:
-                actionTypeList.push_back(AType::Fua);
+            case AType::FUA:
+                actionTypeList.push_back(AType::FUA);
                 break;
-            case AType::Dot:
-                actionTypeList.push_back(AType::Dot);
+            case AType::DOT:
+                actionTypeList.push_back(AType::DOT);
                 break;
-            case AType::Break:
-                actionTypeList.push_back(AType::Break);
+            case AType::BREAK:
+                actionTypeList.push_back(AType::BREAK);
                 break;
             case AType::SPB:
-                actionTypeList.push_back(AType::Break);
+                actionTypeList.push_back(AType::BREAK);
                 actionTypeList.push_back(AType::SPB);
                 break;
-            case AType::ElationSkill:
-                actionTypeList.push_back(AType::ElationSkill);
-                actionTypeList.push_back(AType::ElationDMG);
+            case AType::ELATION_SKILL:
+                actionTypeList.push_back(AType::ELATION_SKILL);
+                actionTypeList.push_back(AType::ELATION_DMG);
                 break;
-            case AType::ElationDMG:
-                actionTypeList.push_back(AType::ElationDMG);
+            case AType::ELATION_DMG:
+                actionTypeList.push_back(AType::ELATION_DMG);
                 break;
-            case AType::Addtional:
-                actionTypeList.push_back(AType::Addtional);
+            case AType::ADDTIONAL:
+                actionTypeList.push_back(AType::ADDTIONAL);
                 break;
-            case AType::Technique:
-                actionTypeList.push_back(AType::Technique);
+            case AType::TECHNIQUE:
+                actionTypeList.push_back(AType::TECHNIQUE);
                 break;
-            case AType::Freeze:
-                actionTypeList.push_back(AType::Freeze);
+            case AType::FREEZE:
+                actionTypeList.push_back(AType::FREEZE);
                 break;
-            case AType::Entanglement:
-                actionTypeList.push_back(AType::Entanglement);
+            case AType::ENTANGLEMENT:
+                actionTypeList.push_back(AType::ENTANGLEMENT);
                 break;
             default:
                 break;
@@ -61,38 +61,38 @@ class AllyBuffAction : public AllyActionData {
     public :
 
     void addBuffSingleTarget(){
-        buffTargetList.push_back(chooseAllyBuff(Attacker));
+        buffTargetList.push_back(chooseAllyBuff(attacker));
     }
 
     void addBuffSingleTarget(AllyUnit* ptr){
         buffTargetList.push_back(ptr);
     }
     void addBuffChar(CharUnit* ptr){
-        if(ptr->getType() != UnitType::OutofBounds)buffTargetList.push_back(ptr);
+        if(ptr->getType() != UnitType::OUT_OF_BOUNDS)buffTargetList.push_back(ptr);
         if(auto *e = ptr->memosprite.get()){
-            if(e->getType() != UnitType::OutofBounds)buffTargetList.push_back(e);
+            if(e->getType() != UnitType::OUT_OF_BOUNDS)buffTargetList.push_back(e);
         }
     }
     void addBuffAllAllies(){
-        for(int i=1;i<=Total_ally;i++){
-            if(charUnit[i]->getType() != UnitType::OutofBounds)
+        for(int i=1;i<=totalAlly;i++){
+            if(charUnit[i]->getType() != UnitType::OUT_OF_BOUNDS)
                 buffTargetList.push_back(charUnit[i].get());\
 
             if(auto *e = charUnit[i]->memosprite.get()){
-                if(e->getType() != UnitType::OutofBounds)
+                if(e->getType() != UnitType::OUT_OF_BOUNDS)
                     buffTargetList.push_back(e);
             }
         }
     }
     void addToActionBar(){
-        if(!Attacker->isExisted())return;
+        if(!attacker->isExisted())return;
         std::shared_ptr<AllyActionData> self = shared_from_this();
-        Action_bar.push(self);
+        actionBar.push(self);
     }
     AllyBuffAction(){}
     AllyBuffAction(AType actionType,AllyUnit* ptr,TraceType traceType, string name)
     {
-        Attacker = ptr;
+        attacker = ptr;
         source = ptr;
         this->actionName = name;
         this->traceType = traceType;
@@ -100,7 +100,7 @@ class AllyBuffAction : public AllyActionData {
     }
     AllyBuffAction(AType actionType,AllyUnit* ptr,TraceType traceType, string name,function<void(shared_ptr<AllyBuffAction> &act)> actionFunction)
     {
-        Attacker = ptr;
+        attacker = ptr;
         source = ptr;
         this->actionName = name;
         this->actionFunction = actionFunction;

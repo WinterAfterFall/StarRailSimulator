@@ -97,7 +97,7 @@ HP +10% · SPD +14 · Effect RES +18%
 - **After Rain (Ult)**: Max HP +30%+600 ทีม (E1 +50%) + Little Ica extra turn loop
 - **SPD scaling** (A6 > 200 → HP + heal%; E4 → CD) — Hyacine เป็น SPD-stacking healer
 - **A2 CRIT Rate +100%** ให้ Hyacine + Little Ica
-- โค้ด: `Start_game_List` (`Hyacine.h:97`, `Hycptr`, `Icaptr`) — Ica = Little Ica
+- โค้ด: `startGameList` (`Hyacine.h:97`, `Hycptr`, `Icaptr`) — Ica = Little Ica
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/hyacine — kit tab (review patch 3.2, calc patch 3.4, profile 01/Jun/2026)

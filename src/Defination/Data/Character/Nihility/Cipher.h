@@ -1,11 +1,11 @@
 #include "../include.h"
 
 namespace Cipher{
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
 
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
-        CharUnit *ptr = SetCharBasicStats(105,130,130,E,ElementType::Quantum,Path::Nihility,"Cipher",UnitType::Standard);
-        ptr->SetAllyBaseStats(1087,660,509);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = setCharBasicStats(105,130,130,eidolon,ElementType::QUANTUM,Path::NIHILITY,"Cipher",UnitType::STANDARD);
+        ptr->setAllyBaseStats(1087,660,509);
 
         //func
 
@@ -16,47 +16,47 @@ namespace Cipher{
         ptr->pushSubstats(Stats::ATK_P);
         ptr->setTotalSubstats(25);
         ptr->setSpeedRequire(170);
-        if(ptr->Eidolon>=2)
+        if(ptr->eidolon>=2)
             ptr->setApplyBaseChance(120);
         ptr->setRelicMainStats(Stats::CD,Stats::FLAT_SPD,Stats::DMG,Stats::ATK_P);
-        LC(ptr);
+        lc(ptr);
         Relic(ptr);
         Planar(ptr);
         
 
         AllyUnit *cph = ptr; 
         
-        ptr->Adjust["Cipher A2"] = 2;
-        ptr->Adjust["Cipher Ult Share"] = 1;
-        ptr->Adjust["Cipher Use Only BA"] = 1;
+        ptr->adjust["Cipher A2"] = 2;
+        ptr->adjust["Cipher Ult Share"] = 1;
+        ptr->adjust["Cipher Use Only BA"] = 1;
 
         
-        function<void()> BA = [ptr,cph]() {
+        function<void()> ba = [ptr,cph]() {
             genSkillPoint(cph,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Cipher BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::SINGLE,"Cipher BA",
             [ptr,cph](shared_ptr<AllyAttackAction> &act){
-                Increase_energy(ptr,20);
-                Attack(act);
+                increaseEnergy(ptr,20);
+                attack(act);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,100,10)
             );
             act->addToActionBar();
         };
-        function<void()> Skill = [ptr,cph]() {
+        function<void()> skill = [ptr,cph]() {
             genSkillPoint(cph,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"Cipher Skill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::BLAST,"Cipher Skill",
             [ptr,cph](shared_ptr<AllyAttackAction> &act){
-                Increase_energy(ptr,30);
+                increaseEnergy(ptr,30);
                 for(auto &each : act->targetList){
                     if(debuffApply(cph,each,"Cipher Weaken",2)){
                         each->dmgPercent -= 10;
                     }
                 }
-                buffSingle(cph,{{Stats::ATK_P,AType::None,30}},"Cipher Skill",2);
-                Attack(act);
+                buffSingle(cph,{{Stats::ATK_P,AType::NONE,30}},"Cipher Skill",2);
+                attack(act);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,200,20),
@@ -66,16 +66,16 @@ namespace Cipher{
         };
         
         
-        ptr->Turn_func = [ptr,cph,BA,Skill]() {
-            if(CharCmd::Using_Skill(ptr)&&!ptr->Adjust["Cipher Use Only BA"])Skill();
-            else BA();
+        ptr->turnFunc = [ptr,cph,ba,skill]() {
+            if(CharCmd::usingSkill(ptr)&&!ptr->adjust["Cipher Use Only BA"])skill();
+            else ba();
         };
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [cph](CharUnit *ptr) {
+        ultimateList.push_back(TriggerByYourSelfFunc(PRIORITY_BUFF, ptr, [cph](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
-            make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Cipher Ult",
+            make_shared<AllyAttackAction>(AType::ULT,ptr,TraceType::AOE,"Cipher Ult",
             [ptr,cph](shared_ptr<AllyAttackAction> &act){
-                Attack(act);
+                attack(act);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,120,10)
@@ -86,54 +86,54 @@ namespace Cipher{
                 DmgSrc(DmgSrcType::ATK,40,20)
             );
             act->addToActionBar();
-            Deal_damage();
+            dealDamage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Atv_stats->flatSpeed += 14;
-            ptr->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 14.4;
-            ptr->Stats_type[Stats::EHR][AType::None] += 10;
-            ptr->Stats_type[Stats::CR][AType::None] += 25 * ptr->getAdjust("Cipher A2");
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->atvStats->flatSpeed += 14;
+            ptr->statsEachElement[Stats::DMG][ElementType::QUANTUM][AType::NONE] += 14.4;
+            ptr->statsType[Stats::EHR][AType::NONE] += 10;
+            ptr->statsType[Stats::CR][AType::NONE] += 25 * ptr->getAdjust("Cipher A2");
 
-            // ptr->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 12;
-            // ptr->Stats_type[Stats::CR][AType::None] += 4;
-            // ptr->Stats_type[Stats::CD][AType::None] += 24;
+            // ptr->statsEachElement[Stats::DMG][ElementType::QUANTUM][AType::NONE] += 12;
+            // ptr->statsType[Stats::CR][AType::NONE] += 4;
+            // ptr->statsType[Stats::CD][AType::NONE] += 24;
 
-            debuffAllEnemyMark({{Stats::VUL,AType::None,40}},ptr,"Cipher A6");
+            debuffAllEnemyMark({{Stats::VUL,AType::NONE,40}},ptr,"Cipher A6");
             // relic
 
             // substats
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_Last, ptr, [cph](CharUnit *ptr){
+        beforeTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_LAST, ptr, [cph](CharUnit *ptr){
             if(turn->isSameName("Cipher"))cph->setBuffCheck("Cipher Fua",0);
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_Last, ptr, [cph](CharUnit *ptr){
+        afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_LAST, ptr, [cph](CharUnit *ptr){
             auto enemy =  turn->canCastToEnemy();
             auto ally =  turn->canCastToAllyUnit();
             if(ally){
                 if(isBuffEnd(ally,"Cipher Skill")){
-                    buffSingle(ally,{{Stats::ATK_P,AType::None,-30}});
+                    buffSingle(ally,{{Stats::ATK_P,AType::NONE,-30}});
                 }
-                if(ptr->Eidolon>=1&&isBuffEnd(ally,"Cipher E1"))
-                    buffSingle(ally,{{Stats::ATK_P,AType::None,-80}});
+                if(ptr->eidolon>=1&&isBuffEnd(ally,"Cipher E1"))
+                    buffSingle(ally,{{Stats::ATK_P,AType::NONE,-80}});
             }
             if(enemy){
                 if(isDebuffEnd(enemy,"Cipher Weaken")){
                     enemy->dmgPercent +=10;
                 }
-                if(ptr->Eidolon>=2&&isDebuffEnd(enemy,"Cipher E2")){
-                    debuffSingle(enemy,{{Stats::VUL,AType::None,-30}});
+                if(ptr->eidolon>=2&&isDebuffEnd(enemy,"Cipher E2")){
+                    debuffSingle(enemy,{{Stats::VUL,AType::NONE,-30}});
                 }
             }
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_Last, ptr, [cph](CharUnit *ptr){
+        startGameList.push_back(TriggerByYourSelfFunc(PRIORITY_LAST, ptr, [cph](CharUnit *ptr){
                 shared_ptr<AllyAttackAction> newAct = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr,TraceType::Aoe,"Cipher Tech",
+                make_shared<AllyAttackAction>(AType::TECHNIQUE,ptr,TraceType::AOE,"Cipher Tech",
                 [ptr,cph](shared_ptr<AllyAttackAction> &act){
-                    Attack(act);
+                    attack(act);
                 });
                 newAct->addDamageIns(
                     DmgSrc(DmgSrcType::ATK,100),
@@ -141,90 +141,90 @@ namespace Cipher{
                     DmgSrc(DmgSrcType::ATK,100)
                 );
                 newAct->addToActionBar();
-                Deal_damage();
+                dealDamage();
         }));
 
-        BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK,[ptr,cph](
+        beforeAttackActionList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_ACTTACK,[ptr,cph](
             shared_ptr<AllyAttackAction> &act){
-                if(ptr->Eidolon>=2&&act->isSameName(cph)){
+                if(ptr->eidolon>=2&&act->isSameName(cph)){
                     for(auto &each : act->targetList){
-                        debuffSingleApply(cph,each,{{Stats::VUL,AType::None,30}},"Cipher E2",2);
+                        debuffSingleApply(cph,each,{{Stats::VUL,AType::NONE,30}},"Cipher E2",2);
                     }
                 }
-                if(act->isSameAction("Cipher",AType::SKILL)||act->isSameAction("Cipher",AType::Ult))
-                    debuffApply(cph,enemyUnit[Main_Enemy_num].get(),"Patron");
+                if(act->isSameAction("Cipher",AType::SKILL)||act->isSameAction("Cipher",AType::ULT))
+                    debuffApply(cph,enemyUnit[mainEnemyNum].get(),"Patron");
 
                 if(!act->isSameName("Cipher")&&!cph->getBuffCheck("Cipher Fua")){
                     cph->setBuffCheck("Cipher Fua",1);
                     shared_ptr<AllyAttackAction> newAct = 
-                    make_shared<AllyAttackAction>(AType::Fua,ptr,TraceType::Single,"Cipher Fua",
+                    make_shared<AllyAttackAction>(AType::FUA,ptr,TraceType::SINGLE,"Cipher Fua",
                     [ptr,cph](shared_ptr<AllyAttackAction> &act){
-                        Increase_energy(ptr,5);
+                        increaseEnergy(ptr,5);
 
-                        if(ptr->Eidolon>=1)
-                            buffSingle(cph,{{Stats::ATK_P,AType::None,80}},"Cipher E1",2);
+                        if(ptr->eidolon>=1)
+                            buffSingle(cph,{{Stats::ATK_P,AType::NONE,80}},"Cipher E1",2);
 
-                        buffSingle(cph,{{Stats::CD,AType::None,100}});
-                        if(ptr->Eidolon>=6)buffSingle(cph,{{Stats::DMG,AType::None,350}});
-                        Attack(act);
-                        buffSingle(cph,{{Stats::CD,AType::None,-100}});
-                        if(ptr->Eidolon>=6)buffSingle(cph,{{Stats::DMG,AType::None,-350}});
+                        buffSingle(cph,{{Stats::CD,AType::NONE,100}});
+                        if(ptr->eidolon>=6)buffSingle(cph,{{Stats::DMG,AType::NONE,350}});
+                        attack(act);
+                        buffSingle(cph,{{Stats::CD,AType::NONE,-100}});
+                        if(ptr->eidolon>=6)buffSingle(cph,{{Stats::DMG,AType::NONE,-350}});
                     });
                     newAct->addDamageIns(
                         DmgSrc(DmgSrcType::ATK,150,20)
                     );
                     newAct->addToActionBar();
-                    Deal_damage();
+                    dealDamage();
                 }
             }));
 
             
-            AfterDealingDamage_List.push_back(TriggerAfterDealDamage(PRIORITY_ACTTACK,[ptr,cph](
+            afterDealingDamageList.push_back(TriggerAfterDealDamage(PRIORITY_ACTTACK,[ptr,cph](
                 shared_ptr<AllyAttackAction> &act, Enemy *target, double damage){
-                    double percent = (target->Target_type == EnemyType::Main)
-                    ? (12 * (1 + 0.5 * ptr->Adjust["Cipher A2"]))
-                    : (8 * (1 + 0.5 * ptr->Adjust["Cipher A2"]));
+                    double percent = (target->targetType == EnemyType::MAIN)
+                    ? (12 * (1 + 0.5 * ptr->adjust["Cipher A2"]))
+                    : (8 * (1 + 0.5 * ptr->adjust["Cipher A2"]));
                     
-                    if(ptr->Eidolon>=6&&act->actionName=="Cipher Fua"){
-                        percent += (16 * (1 + 0.5 * ptr->Adjust["Cipher A2"]));
+                    if(ptr->eidolon>=6&&act->actionName=="Cipher Fua"){
+                        percent += (16 * (1 + 0.5 * ptr->adjust["Cipher A2"]));
                     }
-                    if(ptr->Eidolon>=1)percent *= 1.5;
+                    if(ptr->eidolon>=1)percent *= 1.5;
                     if(act->actionName=="Cipher Tech")percent *= 2;
 
-                    for(int i=1;i<=ptr->getAdjust("Cipher Ult Share")&&i<=Total_enemy;i++){
-                        Cal_DamageNote(act,target,enemyUnit[i].get(),damage*percent/100,75.0/ptr->getAdjust("Cipher Ult Share"),"Cph True " + act->actionName);
+                    for(int i=1;i<=ptr->getAdjust("Cipher Ult Share")&&i<=totalEnemy;i++){
+                        calDamageNote(act,target,enemyUnit[i].get(),damage*percent/100,75.0/ptr->getAdjust("Cipher Ult Share"),"Cph True " + act->actionName);
                     }
-                    Cal_DamageNote(act,target,enemyUnit[Main_Enemy_num].get(),damage*percent/100,25,"Cph True " + act->actionName);
+                    calDamageNote(act,target,enemyUnit[mainEnemyNum].get(),damage*percent/100,25,"Cph True " + act->actionName);
                             
 
-                    if(ptr->Eidolon<6)return;
-                    act->Attacker->owner
+                    if(ptr->eidolon<6)return;
+                    act->attacker->owner
                     ->buffNote["CipherNote" + target->getName()] += damage * percent/100 * 0.2;
                     if(act->actionName!="Cipher Ult")return;
                     
                     double totaldmg = 0;
-                    for(int i=1;i<=Total_ally;i++){
-                        for(int j=1;j<=Total_enemy;j++){
+                    for(int i=1;i<=totalAlly;i++){
+                        for(int j=1;j<=totalEnemy;j++){
                             totaldmg = charUnit[i]->getBuffNote("CipherNote" + enemyUnit[j]->getName());
-                            for(int k=1;k<=ptr->getAdjust("Cipher Ult Share")&&k<=Total_enemy;k++){
-                                act->Attacker = charUnit[i].get();
-                                Cal_DamageNote(act,enemyUnit[j].get(),enemyUnit[k].get(),totaldmg*0.75/ptr->getAdjust("Cipher Ult Share"),100,"Cph E6 " + act->Attacker->getName());
+                            for(int k=1;k<=ptr->getAdjust("Cipher Ult Share")&&k<=totalEnemy;k++){
+                                act->attacker = charUnit[i].get();
+                                calDamageNote(act,enemyUnit[j].get(),enemyUnit[k].get(),totaldmg*0.75/ptr->getAdjust("Cipher Ult Share"),100,"Cph E6 " + act->attacker->getName());
                             }
-                            Cal_DamageNote(act,enemyUnit[j].get(),enemyUnit[Main_Enemy_num].get(),totaldmg*0.25,100,"Cph E6 " + act->Attacker->getName());
+                            calDamageNote(act,enemyUnit[j].get(),enemyUnit[mainEnemyNum].get(),totaldmg*0.25,100,"Cph E6 " + act->attacker->getName());
                             charUnit[i]->buffNote["CipherNote" + enemyUnit[j]->getName()] *= 0.2;
                         }  
                     }
                 }));
 
-            if(ptr->Eidolon>=4)    
-                When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK,[ptr,cph](
+            if(ptr->eidolon>=4)    
+                whenAttackList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_ACTTACK,[ptr,cph](
                 shared_ptr<AllyAttackAction> &act){
                     for(auto &each : act->targetList){
                         if(each->getDebuff("Patron")){
                             shared_ptr<AllyAttackAction> newAct = make_shared<AllyAttackAction>(
-                                AType::Addtional,cph,TraceType::Single,"Cipher E4");
+                                AType::ADDTIONAL,cph,TraceType::SINGLE,"Cipher E4");
                             newAct->addDamageIns(DmgSrc(DmgSrcType::ATK,50));
-                            Attack(newAct);
+                            attack(newAct);
                             break;
                         }
                     }

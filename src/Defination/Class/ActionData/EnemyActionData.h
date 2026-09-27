@@ -1,5 +1,5 @@
-#ifndef EnemyAction_H
-#define EnemyAction_H
+#ifndef ENEMY_ACTION_H
+#define ENEMY_ACTION_H
 
 #include "ActionData.h"
 
@@ -7,76 +7,76 @@ class EnemyActionData : public ActionData{
     public:
     Enemy *enemy;
     function<void()> actionFunction;
-    void EnemyAction();
-    void setAoeAttack(Enemy* enemy,double SkillRatio,double energy){
+    void enemyAction();
+    void setAoeAttack(Enemy* enemy,double skillRatio,double energy){
         this->enemy = enemy;
-        this->actionFunction = [enemy,SkillRatio,energy](){
+        this->actionFunction = [enemy,skillRatio,energy](){
         vector<AllyUnit*> vec;
         for(auto &each : allyList){
-            if(each->getType()== UnitType::Backup)continue;
+            if(each->getType()== UnitType::BACKUP)continue;
             if(!each->isTargetable())continue;
             vec.push_back(each);
-            Increase_energy(each,energy);
+            increaseEnergy(each,energy);
         }
         allEventWhenEnemyHit(enemy,vec);
         decreaseHPCount++;
         for(AllyUnit* e : vec){
-            double damageDeal = calculateDmgReceive(enemy,e,SkillRatio);
+            double damageDeal = calculateDmgReceive(enemy,e,skillRatio);
             double hpDecreased = decreaseSheild(e,damageDeal);
-            double actualDecrease = DecreaseCurrentHP(e,hpDecreased);
+            double actualDecrease = decreaseCurrentHP(e,hpDecreased);
             allEventChangeHP(enemy,e,actualDecrease);
         }
         };
     }
-    void setBaAttack(Enemy* enemy,double SkillRatio,double energy){
+    void setBaAttack(Enemy* enemy,double skillRatio,double energy){
         this->enemy = enemy;
         if(enemy->tauntList.size()>0)
-        this->actionFunction = [enemy,SkillRatio,energy](){
+        this->actionFunction = [enemy,skillRatio,energy](){
             vector<AllyUnit*> vec;
-            vector<AllyUnit*> UnitGotHit;
+            vector<AllyUnit*> unitGotHit;
             for(auto &e: enemy->tauntList){
-                if(e->Atv_stats->Type == UnitType::Backup)continue;
+                if(e->atvStats->type == UnitType::BACKUP)continue;
                 if(!e->isTargetable())continue;
                 vec.push_back(e);
             }
             for(AllyUnit* each : vec){
-                enemy->AttackCoolDown[each->Atv_stats->Name] += each->calHitChance(vec);
-                if(enemy->AttackCoolDown[each->Atv_stats->Name]>=100)enemy->AttackCoolDown[each->Atv_stats->Name]-=100;
+                enemy->attackCoolDown[each->atvStats->name] += each->calHitChance(vec);
+                if(enemy->attackCoolDown[each->atvStats->name]>=100)enemy->attackCoolDown[each->atvStats->name]-=100;
                 else continue;
-                Increase_energy(each,energy);
-                UnitGotHit.push_back(each);   // ผู้ที่โอกาสโดนตีครบ 100 -> โดนโจมตีจริง (damage loop ข้างล่างวน UnitGotHit)
+                increaseEnergy(each,energy);
+                unitGotHit.push_back(each);   // ผู้ที่โอกาสโดนตีครบ 100 -> โดนโจมตีจริง (damage loop ข้างล่างวน unitGotHit)
             }
-            allEventWhenEnemyHit(enemy,UnitGotHit);
+            allEventWhenEnemyHit(enemy,unitGotHit);
             decreaseHPCount++;
-            for(AllyUnit* e : UnitGotHit){
-                double damageDeal = calculateDmgReceive(enemy,e,SkillRatio);
+            for(AllyUnit* e : unitGotHit){
+                double damageDeal = calculateDmgReceive(enemy,e,skillRatio);
                 double hpDecreased = decreaseSheild(e,damageDeal);
-                double actualDecrease = DecreaseCurrentHP(e,hpDecreased);
+                double actualDecrease = decreaseCurrentHP(e,hpDecreased);
                 allEventChangeHP(enemy,e,actualDecrease);
             }
         };
         else
-        this->actionFunction = [enemy,SkillRatio,energy](){
+        this->actionFunction = [enemy,skillRatio,energy](){
             vector<AllyUnit*> vec;
-            vector<AllyUnit*> UnitGotHit;
+            vector<AllyUnit*> unitGotHit;
             for(auto &e:allyList){
-                if(e->Atv_stats->Type == UnitType::Backup)continue;
+                if(e->atvStats->type == UnitType::BACKUP)continue;
                 if(!e->isTargetable())continue;
                 vec.push_back(e);
             }
             for(AllyUnit* each : vec){
-                enemy->AttackCoolDown[each->Atv_stats->Name] += each->calHitChance(vec);
-                if(enemy->AttackCoolDown[each->Atv_stats->Name]>=100)enemy->AttackCoolDown[each->Atv_stats->Name]-=100;
+                enemy->attackCoolDown[each->atvStats->name] += each->calHitChance(vec);
+                if(enemy->attackCoolDown[each->atvStats->name]>=100)enemy->attackCoolDown[each->atvStats->name]-=100;
                 else continue;
-                Increase_energy(each,energy);
-                UnitGotHit.push_back(each);   // ผู้ที่โอกาสโดนตีครบ 100 -> โดนโจมตีจริง (damage loop ข้างล่างวน UnitGotHit)
+                increaseEnergy(each,energy);
+                unitGotHit.push_back(each);   // ผู้ที่โอกาสโดนตีครบ 100 -> โดนโจมตีจริง (damage loop ข้างล่างวน unitGotHit)
             }
-            allEventWhenEnemyHit(enemy,UnitGotHit);
+            allEventWhenEnemyHit(enemy,unitGotHit);
             decreaseHPCount++;
-            for(AllyUnit* e : UnitGotHit){
-                double damageDeal = calculateDmgReceive(enemy,e,SkillRatio);
+            for(AllyUnit* e : unitGotHit){
+                double damageDeal = calculateDmgReceive(enemy,e,skillRatio);
                 double hpDecreased = decreaseSheild(e,damageDeal);
-                double actualDecrease = DecreaseCurrentHP(e,hpDecreased);
+                double actualDecrease = decreaseCurrentHP(e,hpDecreased);
                 allEventChangeHP(enemy,e,actualDecrease);
             }
         };

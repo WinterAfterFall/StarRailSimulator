@@ -1,11 +1,11 @@
 #include "../include.h"
 
 namespace SW{
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
 
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
-        CharUnit *ptr = SetCharBasicStats(107,110,110,E,ElementType::Quantum,Path::Nihility,"SW",UnitType::Standard);
-        ptr->SetAllyBaseStats(1048,640,461);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = setCharBasicStats(107,110,110,eidolon,ElementType::QUANTUM,Path::NIHILITY,"SW",UnitType::STANDARD);
+        ptr->setAllyBaseStats(1048,640,461);
 
         //substats
         ptr->pushSubstats(Stats::CD);
@@ -18,22 +18,22 @@ namespace SW{
 
         
         //func
-        LC(ptr);
+        lc(ptr);
         Relic(ptr);
         Planar(ptr);
         
         #pragma region Ability
         AllyUnit *sw = ptr;
 
-        ptr->Adjust["SW Targets amount"] = 1;
+        ptr->adjust["SW Targets amount"] = 1;
         
-        function<void()> BA = [ptr,sw]() {
+        function<void()> ba = [ptr,sw]() {
             genSkillPoint(sw,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"SW BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::SINGLE,"SW BA",
             [sw](shared_ptr<AllyAttackAction> &act){
-                Increase_energy(sw,20);
-                Attack(act);
+                increaseEnergy(sw,20);
+                attack(act);
             });
             act->addDamageInsByDebuff(DmgSrc(DmgSrcType::ATK,25,2.5),"Bug 2");
             act->addDamageInsByDebuff(DmgSrc(DmgSrcType::ATK,25,2.5),"Bug 2");
@@ -41,23 +41,23 @@ namespace SW{
             act->addToActionBar();
         };
 
-        function<void()> Skill = [ptr,sw]() {
+        function<void()> skill = [ptr,sw]() {
             genSkillPoint(sw,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Single,"SW Skill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::SINGLE,"SW Skill",
             [sw](shared_ptr<AllyAttackAction> &act){
-                Increase_energy(sw,30);
+                increaseEnergy(sw,30);
                 for(auto &enemy : act->targetList){
-                    for(int i=1;i<=Total_ally;i++){
-                        if(enemy->Default_Weakness_type[charUnit[i]->Element_type])continue;
-                        weaknessApply(sw,enemy,{charUnit[i]->Element_type},3);
-                        debuffSingleApply(sw,enemy,{{Stats::RESPEN,charUnit[i]->Element_type,AType::None,20}},"SW Weakness",3);
+                    for(int i=1;i<=totalAlly;i++){
+                        if(enemy->defaultWeaknessType[charUnit[i]->elementType])continue;
+                        weaknessApply(sw,enemy,{charUnit[i]->elementType},3);
+                        debuffSingleApply(sw,enemy,{{Stats::RESPEN,charUnit[i]->elementType,AType::NONE,20}},"SW Weakness",3);
                         sw->setBuffNote("SW Weakness num",i);
                         break;
                     }
-                    debuffSingleApply(sw,enemy,{{Stats::RESPEN,AType::None,13}},"SW Res",2);
+                    debuffSingleApply(sw,enemy,{{Stats::RESPEN,AType::NONE,13}},"SW Res",2);
                 }
-                Attack(act);
+                attack(act);
             });
             act->addDamageInsByDebuff(DmgSrc(DmgSrcType::ATK,196,20),string("SW Res"),ptr->getAdjust("SW Targets amount"));
             act->addToActionBar();
@@ -65,41 +65,41 @@ namespace SW{
 
         #pragma endregion
 
-        ptr->Turn_func = [ptr, allyPtr = ptr,BA,Skill]() {
-            for(int i = 1;i<= Total_enemy&&i<=ptr->Adjust["SW Targets amount"];i++){
+        ptr->turnFunc = [ptr, allyPtr = ptr,ba,skill]() {
+            for(int i = 1;i<= totalEnemy&&i<=ptr->adjust["SW Targets amount"];i++){
                 if(!enemyUnit[i]->getDebuff("SW Res")){
-                    Skill();
+                    skill();
                     return;
                 }
             }
-            BA();
+            ba();
         };
         
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [sw](CharUnit *ptr) {
+        ultimateList.push_back(TriggerByYourSelfFunc(PRIORITY_BUFF, ptr, [sw](CharUnit *ptr) {
 
             shared_ptr<AllyAttackAction> act =
-            make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"SW Ult",
+            make_shared<AllyAttackAction>(AType::ULT,ptr,TraceType::AOE,"SW Ult",
             [ptr,sw](shared_ptr<AllyAttackAction> &act){
                 debuffAllEnemyApply(sw,{
-                    {Stats::DEF_SHRED,AType::None,45}
+                    {Stats::DEF_SHRED,AType::NONE,45}
                 },"SW Ult",3);
-                Attack(act);
-                if(ptr->Eidolon>=1){
+                attack(act);
+                if(ptr->eidolon>=1){
                     int debuffcnt = 0;
                     for(auto &enemy : act->targetList){
-                        debuffcnt += enemy->Total_debuff;
+                        debuffcnt += enemy->totalDebuff;
                     }
                     debuffcnt = (debuffcnt>=5) ? 5 : debuffcnt;
-                    Increase_energy(sw,7*debuffcnt);
+                    increaseEnergy(sw,7*debuffcnt);
                 }
-                if(ptr->Eidolon>=4){
+                if(ptr->eidolon>=4){
                     int debuffcnt = 0;
                     for(auto &enemy : act->targetList){
-                        debuffcnt = (enemy->Total_debuff>=5) ? 5 : enemy->Total_debuff;
+                        debuffcnt = (enemy->totalDebuff>=5) ? 5 : enemy->totalDebuff;
                         shared_ptr<AllyAttackAction> add = 
-                        make_shared<AllyAttackAction>(AType::Addtional,ptr,TraceType::Single,"SW AddDmg");
+                        make_shared<AllyAttackAction>(AType::ADDTIONAL,ptr,TraceType::SINGLE,"SW AddDmg");
                             add->addDamageIns(DmgSrc(DmgSrcType::ATK,20*debuffcnt),enemy);  
-                        Attack(add);
+                        attack(add);
                     }
                 }
             });
@@ -109,116 +109,116 @@ namespace SW{
                 DmgSrc(DmgSrcType::ATK,380,20)
             );
             act->addToActionBar();
-            Deal_damage();
+            dealDamage();
 
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 8;
-            ptr->Stats_type[Stats::ATK_P][AType::None] += 28;
-            ptr->Stats_type[Stats::EHR][AType::None] += 18;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsEachElement[Stats::DMG][ElementType::QUANTUM][AType::NONE] += 8;
+            ptr->statsType[Stats::ATK_P][AType::NONE] += 28;
+            ptr->statsType[Stats::EHR][AType::NONE] += 18;
 
             // relic
 
             // Trace
-            ptr->Stats_type[Stats::ATK_P][AType::None] += 50;
+            ptr->statsType[Stats::ATK_P][AType::NONE] += 50;
 
-            if(ptr->Eidolon>=6){
-            ptr->Stats_type[Stats::DMG][AType::None] += 100;
+            if(ptr->eidolon>=6){
+            ptr->statsType[Stats::DMG][AType::NONE] += 100;
             }
 
         }));
                
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [sw](CharUnit *ptr) {
+        beforeTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [sw](CharUnit *ptr) {
 
             if(turn->isSameUnit(sw)){
-                Increase_energy(sw,5);
+                increaseEnergy(sw,5);
             }
         }));
 
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [sw](CharUnit *ptr) {
+        afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [sw](CharUnit *ptr) {
             Enemy *enemy = turn->canCastToEnemy();
             if(enemy){
                 if(isDebuffEnd(enemy,"SW Weakness")){
-                    debuffSingle(enemy,{{Stats::RESPEN,charUnit[sw->getBuffNote("SW Weakness num")]->Element_type,AType::None,-20}});
+                    debuffSingle(enemy,{{Stats::RESPEN,charUnit[sw->getBuffNote("SW Weakness num")]->elementType,AType::NONE,-20}});
                 }
                 if(isDebuffEnd(enemy,"SW Res")){
-                    debuffSingle(enemy,{{Stats::RESPEN,AType::None,-13}});
+                    debuffSingle(enemy,{{Stats::RESPEN,AType::NONE,-13}});
                 }
                 if(isDebuffEnd(enemy,"SW Ult")){
-                    debuffSingle(enemy,{{Stats::DEF_SHRED,AType::None,-45}});
+                    debuffSingle(enemy,{{Stats::DEF_SHRED,AType::NONE,-45}});
                 }
                 isDebuffEnd(enemy,"Bug 1");
                 if(isDebuffEnd(enemy,"Bug 2")){
-                    debuffSingle(enemy,{{Stats::DEF_SHRED,AType::None,-12}});
+                    debuffSingle(enemy,{{Stats::DEF_SHRED,AType::NONE,-12}});
                 }
                 if(isDebuffEnd(enemy,"Bug 3")){
                     enemy->atkPercent+=10;
-                    debuffSingle(enemy,{{Stats::SPD_P,AType::None,6}});
+                    debuffSingle(enemy,{{Stats::SPD_P,AType::NONE,6}});
                 }
 
             }
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [sw](CharUnit *ptr) {
+        startGameList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [sw](CharUnit *ptr) {
             
-            if(ptr->Technique){
+            if(ptr->technique){
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr,TraceType::Aoe,"SW Technique",
+                make_shared<AllyAttackAction>(AType::TECHNIQUE,ptr,TraceType::AOE,"SW Technique",
                 [sw](shared_ptr<AllyAttackAction> &act){
-                    Attack(act);
+                    attack(act);
                 });
                 act->addDamageIns(
                     DmgSrc(DmgSrcType::ATK,80,20),
                     DmgSrc(DmgSrcType::ATK,80,20),
                     DmgSrc(DmgSrcType::ATK,80,20)
                 );
-                act->Dont_care_weakness = 100;
+                act->dontCareWeakness = 100;
                 act->addToActionBar();
-                Deal_damage();
+                dealDamage();
             }
-            Increase_energy(sw,20);
+            increaseEnergy(sw,20);
 
-            if(ptr->Eidolon>=2){
-                debuffAllEnemyMark({{Stats::VUL,AType::None,20}},sw,"SW E2");
+            if(ptr->eidolon>=2){
+                debuffAllEnemyMark({{Stats::VUL,AType::NONE,20}},sw,"SW E2");
             }
         }));
 
-        When_attack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,sw](shared_ptr<AllyAttackAction> &act) {
-            if(ptr->Eidolon>=2||act->isSameName(sw)){
+        whenAttackList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr,sw](shared_ptr<AllyAttackAction> &act) {
+            if(ptr->eidolon>=2||act->isSameName(sw)){
                 for(auto &enemy : act->targetList){
                     if(!enemy->getDebuff("Bug 1")){
                         debuffApply(sw,enemy,"Bug 1",4);
                     }
                     else if(!enemy->getDebuff("Bug 2")){
-                        debuffSingleApply(sw,enemy,{{Stats::DEF_SHRED,AType::None,12}},"Bug 2",4);
+                        debuffSingleApply(sw,enemy,{{Stats::DEF_SHRED,AType::NONE,12}},"Bug 2",4);
                     }
                     else {
                         debuffApply(sw,enemy,"Bug 1",4);
-                        debuffSingleApply(sw,enemy,{{Stats::DEF_SHRED,AType::None,12}},"Bug 2",4);
+                        debuffSingleApply(sw,enemy,{{Stats::DEF_SHRED,AType::NONE,12}},"Bug 2",4);
                         if(debuffApply(sw,enemy,"Bug 3",4)){
                             enemy->atkPercent-=10;
-                            debuffSingle(enemy,{{Stats::SPD_P,AType::None,-6}});
+                            debuffSingle(enemy,{{Stats::SPD_P,AType::NONE,-6}});
                         }
                     }
                 }
             }
         }));
 
-        Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr,sw](Enemy *target, AllyUnit *Trigger) {
+        toughnessBreakList.push_back(TriggerBySomeAllyFunc(PRIORITY_IMMEDIATELY, [ptr,sw](Enemy *target, AllyUnit *trigger) {
                 if(!target->getDebuff("Bug 1")){
                     debuffApply(sw,target,"Bug 1",4);
                 }
                 else if(!target->getDebuff("Bug 2")){
-                    debuffSingleApply(sw,target,{{Stats::DEF_SHRED,AType::None,12}},"Bug 2",4);
+                    debuffSingleApply(sw,target,{{Stats::DEF_SHRED,AType::NONE,12}},"Bug 2",4);
                 }
                 else {
                     debuffApply(sw,target,"Bug 1",4);
-                    debuffSingleApply(sw,target,{{Stats::DEF_SHRED,AType::None,12}},"Bug 2",4);
+                    debuffSingleApply(sw,target,{{Stats::DEF_SHRED,AType::NONE,12}},"Bug 2",4);
                     if(debuffApply(sw,target,"Bug 3",4)){
                         target->atkPercent-=10;
-                        debuffSingle(target,{{Stats::SPD_P,AType::None,-6}});
+                        debuffSingle(target,{{Stats::SPD_P,AType::NONE,-6}});
                     }
                 }
         }));

@@ -80,7 +80,7 @@ ATK +28% · DEF +22.5% · Lightning DMG +8%
 - **Additional Lightning DMG**: 40% ATK ของเพื่อน (Skill trigger, ต่อการโจมตี) + 60% ATK ของเพื่อน (Talent trigger เมื่อ Tingyun ตี) — สเกลกับ ATK ของ **เพื่อน** ไม่ใช่ Tingyun (E4 +20%)
 - single-target buffer — ผูกกับ target ล่าสุด, 3 เทิร์น
 - **Ult** = pure energy battery (50, E6 60) + DMG% 50%
-- โค้ด: `Start_game_List` (`Tingyun.h:95`, `TYptr`)
+- โค้ด: `startGameList` (`Tingyun.h:95`, `TYptr`)
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/tingyun — kit tab (review patch 2.6, calc patch 3.4, profile 01/Jun/2026)

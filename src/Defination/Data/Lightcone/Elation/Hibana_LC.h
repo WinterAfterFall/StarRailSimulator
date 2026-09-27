@@ -2,35 +2,35 @@
 namespace Elation_Lightcone{
     function<void(CharUnit *ptr)> Hibana_LC(int superimpose){
         return [=](CharUnit *ptr) {
-            ptr->SetAllyBaseStats(1058,582,463);
-            ptr->Light_cone.Name = "Hibana_LC";
+            ptr->setAllyBaseStats(1058,582,463);
+            ptr->lightCone.name = "Hibana_LC";
     
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
-                ptr->Stats_type[Stats::CD][AType::None] += 40 + superimpose * 8;
+            resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+                ptr->statsType[Stats::CD][AType::NONE] += 40 + superimpose * 8;
             }));
 
-            Setup_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+            setupList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 // effects of the same type cannot stack: only the first wearer adds SP limit
                 for(auto &each : charList){
-                    if(each->Light_cone.Name != "Hibana_LC")continue;
+                    if(each->lightCone.name != "Hibana_LC")continue;
                     if(each != ptr)return;
                     break;
                 }
-                Max_sp+=min(3,elationCount);
+                maxSp+=min(3,elationCount);
             }));
 
-            Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+            beforeTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 ptr->setStack("Hibana LC sp count",0);
             }));
 
-            Skill_point_List.push_back(TriggerSkill_point_func(PRIORITY_IMMEDIATELY, [ptr,superimpose](AllyUnit *SP_maker, int SP) {
-                if(ptr->isSameName(SP_maker)&&SP<0){
-                    ptr->addStack("Hibana LC sp count",-1*SP);
-                    buffStackSingle(ptr,{{Stats::DEF_SHRED,AType::ElationDMG,4.0 + superimpose}},-1.0*SP,4,"Hibana LC Defshred");
+            skillPointList.push_back(TriggerSkillPointFunc(PRIORITY_IMMEDIATELY, [ptr,superimpose](AllyUnit *spMaker, int spChange) {
+                if(ptr->isSameName(spMaker)&&spChange<0){
+                    ptr->addStack("Hibana LC sp count",-1*spChange);
+                    buffStackSingle(ptr,{{Stats::DEF_SHRED,AType::ELATION_DMG,4.0 + superimpose}},-1.0*spChange,4,"Hibana LC Defshred");
                     if(ptr->getStack("Hibana LC sp count")>=4){
                         for(auto &each : allyList){
                             if(isHaveToAddBuff(each,"Stream Promo"))
-                            buffSingle(each,{{Stats::Elation,AType::None,16.0 + 4 * superimpose}});
+                            buffSingle(each,{{Stats::ELATION,AType::NONE,16.0 + 4 * superimpose}});
                         }
                     }
                 }

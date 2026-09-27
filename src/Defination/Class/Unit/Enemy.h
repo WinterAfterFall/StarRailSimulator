@@ -33,22 +33,22 @@ public:
     unordered_map<string,double> dmgRecordEachType;
     #pragma endregion
    
-    int Total_debuff = 0;
+    int totalDebuff = 0;
     unordered_map<string,int> debuffCheck;
     unordered_map<string,double> debuffNote;
     unordered_map<string,int> stack;
     unordered_map<string,int> debuffEnd;
 
-    double ATK = 718;
+    double atk = 718;
     double atkPercent = 0;
     double dmgPercent = 0;
-    double Max_toughness; 
-    double Current_toughness;
-    bool Toughness_status = 1;
+    double maxToughness; 
+    double currentToughness;
+    bool toughnessStatus = 1;
     double toughnessAvgMultiplier = 0;
-    EnemyType Target_type;//*
-    unordered_map<string,double> AttackCoolDown;
-    int AoeCharge = 0;
+    EnemyType targetType;//*
+    unordered_map<string,double> attackCoolDown;
+    int aoeCharge = 0;
     vector<AllyUnit*> tauntList;
     double toughnessReduceNote = 0;
     int hitCount = 0;
@@ -61,37 +61,37 @@ public:
     std::vector<BreakSideEffect> breakEngList;
     std::vector<BreakSideEffect> breakFrzList;
 
-    int ShockCount = 0;
-    int WindSheerCount = 0;
-    int BleedCount = 0;
-    int BurnCount = 0;
-    int DotCount = 0;
+    int shockCount = 0;
+    int windSheerCount = 0;
+    int bleedCount = 0;
+    int burnCount = 0;
+    int dotCount = 0;
 
     void changeShock(int amount){
-        ShockCount += amount;
-        DotCount += amount;
+        shockCount += amount;
+        dotCount += amount;
     }
     void changeWindSheer(int amount){
-        WindSheerCount += amount;
-        DotCount += amount;
+        windSheerCount += amount;
+        dotCount += amount;
     }
     void changeBleed(int amount){
-        BleedCount += amount;
-        DotCount += amount;
+        bleedCount += amount;
+        dotCount += amount;
     }
     void changeBurn(int amount){
-        BurnCount += amount;
-        DotCount += amount;
+        burnCount += amount;
+        dotCount += amount;
     }
     void changeDotType(DotType dotType,int amount){
-        if(dotType == DotType::Shock) changeShock(amount);
-        else if(dotType == DotType::WindShear) changeWindSheer(amount);
-        else if(dotType == DotType::Bleed) changeBleed(amount);
-        else if(dotType == DotType::Burn) changeBurn(amount);
+        if(dotType == DotType::SHOCK) changeShock(amount);
+        else if(dotType == DotType::WIND_SHEAR) changeWindSheer(amount);
+        else if(dotType == DotType::BLEED) changeBleed(amount);
+        else if(dotType == DotType::BURN) changeBurn(amount);
     }
 
     bool addBreakSEList(BreakSideEffect input) {
-        if(input.type == BreakSEType::Freeze) {
+        if(input.type == BreakSEType::FREEZE) {
             for(auto itr = breakFrzList.begin(); itr != breakFrzList.end();) {
                 if(itr->ptr->isSameName(input.ptr)) {
                     itr->countdown = input.countdown;
@@ -101,7 +101,7 @@ public:
                 }
             }
             breakFrzList.push_back(input);
-        } else if(input.type == BreakSEType::Imprisonment) {
+        } else if(input.type == BreakSEType::IMPRISONMENT) {
             for(auto itr = breakImsList.begin(); itr != breakImsList.end();) {
                 if(itr->ptr->isSameName(input.ptr)) {
                     itr->countdown = input.countdown;
@@ -111,7 +111,7 @@ public:
                 }
             }
             breakImsList.push_back(input);
-        } else if(input.type == BreakSEType::Entanglement) {
+        } else if(input.type == BreakSEType::ENTANGLEMENT) {
             for(auto itr = breakEngList.begin(); itr != breakEngList.end();) {
                 if(itr->ptr->isSameName(input.ptr)) {
                     itr->countdown = input.countdown;
@@ -132,31 +132,31 @@ public:
                 }
             }
             breakDotList.push_back(input);
-            DotCount++;
-            if(input.type == BreakSEType::Burn){
-                BurnCount++;
-            } else if(input.type == BreakSEType::Shock){
-                ShockCount++;
-            } else if(input.type == BreakSEType::WindShear){
-                WindSheerCount++;
-            } else if(input.type == BreakSEType::Bleed){
-                BleedCount++;
+            dotCount++;
+            if(input.type == BreakSEType::BURN){
+                burnCount++;
+            } else if(input.type == BreakSEType::SHOCK){
+                shockCount++;
+            } else if(input.type == BreakSEType::WIND_SHEAR){
+                windSheerCount++;
+            } else if(input.type == BreakSEType::BLEED){
+                bleedCount++;
             }
         }
         return true;
     }
-    unordered_map<ElementType,bool> Default_Weakness_type;
-    unordered_map<ElementType,bool> Weakness_type;
-    unordered_map<ElementType,double> DefaultElementRes;
-    unordered_map<ElementType,int> Weakness_typeCountdown;
+    unordered_map<ElementType,bool> defaultWeaknessType;
+    unordered_map<ElementType,bool> weaknessType;
+    unordered_map<ElementType,double> defaultElementRes;
+    unordered_map<ElementType,int> weaknessTypeCountdown;
     int defaultWeaknessElementAmount;
     int currentWeaknessElementAmount;
     
-    double Total_toughness_broken_time =0;
-    double when_toughness_broken;
+    double totalToughnessBrokenTime =0;
+    double whenToughnessBroken;
  
-    //Constructor now calls the base class constructor to initialize Atv_stats and set owner
-    Enemy() : Unit() {  // Call Unit constructor to initialize Atv_stats and set owner
+    //Constructor now calls the base class constructor to initialize atvStats and set owner
+    Enemy() : Unit() {  // Call Unit constructor to initialize atvStats and set owner
     
     }
 
@@ -164,7 +164,7 @@ public:
     
     // Getters and Setters
     void setTotalDebuff(int value) {
-        this->Total_debuff = value;
+        this->totalDebuff = value;
     }
     void setDebuff(string debuffName, int value) {
         this->debuffCheck[debuffName] = value;
@@ -181,7 +181,7 @@ public:
 
     //getter
     int getTotalDebuff() {
-        return this->Total_debuff;
+        return this->totalDebuff;
     }
     int getDebuff(string debuffName) {
         return this->debuffCheck[debuffName];
@@ -198,7 +198,7 @@ public:
     
     //add
     void addTotalDebuff(int value) {
-        this->Total_debuff += value;
+        this->totalDebuff += value;
     }
     void addStack(string debuffName,int value) {
         this->stack[debuffName] += value;
@@ -209,8 +209,8 @@ public:
     //DeBuff
     
     //create
-    void BaAttack(double SkillRatio,double energy);
-    void AoeAttack(double SkillRatio,double energy);
+    void baAttack(double skillRatio,double energy);
+    void aoeAttack(double skillRatio,double energy);
     void addTaunt(AllyUnit* ptr);
     void removeTaunt(AllyUnit* ptr);
 

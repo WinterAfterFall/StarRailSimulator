@@ -1,5 +1,5 @@
-#ifndef Calculate_Define_H
-#define Calculate_Define_H
+#ifndef CALCULATE_DEFINE_H
+#define CALCULATE_DEFINE_H
 
 #include "CalStats.h"
 #include "CalDamage.h"

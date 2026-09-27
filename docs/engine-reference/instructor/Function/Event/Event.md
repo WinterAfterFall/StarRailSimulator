@@ -1,25 +1,25 @@
 # `src/Defination/Function/Event/Event.h`
 
-ไฟล์นี้เป็น dispatcher ของ trigger lists: ฟังก์ชัน `allEvent*` ส่วนใหญ่เพียงวนลิสต์ที่ตรงกับเหตุการณ์แล้วเรียก `Call()` พร้อมข้อมูลที่ trigger ต้องใช้ ชนิด callback และความหมายพารามิเตอร์บันทึกไว้ใน [Trigger_Function.md](../../Class/Trigger/Trigger_Function.md)
+ไฟล์นี้เป็น dispatcher ของ trigger lists: ฟังก์ชัน `allEvent*` ส่วนใหญ่เพียงวนลิสต์ที่ตรงกับเหตุการณ์แล้วเรียก `call()` พร้อมข้อมูลที่ trigger ต้องใช้ ชนิด callback และความหมายพารามิเตอร์บันทึกไว้ใน [Trigger_Function.md](../../Class/Trigger/Trigger_Function.md)
 
-`allEventBeforeTurn()` ตั้ง `phaseStatus = BeforeTurn`; ถ้าเป็นเทิร์นศัตรูจะ trigger DoT, ทำดาเมจ Entanglement และจัดการ Freeze ก่อนวน `Before_turn_List`
+`allEventBeforeTurn()` ตั้ง `phaseStatus = BEFORE_TURN`; ถ้าเป็นเทิร์นศัตรูจะ trigger DoT, ทำดาเมจ Entanglement และจัดการ Freeze ก่อนวน `beforeTurnList`
 
-`allEventAfterTurn()` จัดการหมดอายุของ Break DoT/Entanglement/Imprisonment และ weakness ที่เพิ่มชั่วคราวในเทิร์นศัตรู จากนั้นวน `After_turn_List`; ถ้าเป็นเทิร์นฝ่ายเรา ยังจัดการรายการ `CBcheck` หลัง event ด้วย
+`allEventAfterTurn()` จัดการหมดอายุของ Break DoT/Entanglement/Imprisonment และ weakness ที่เพิ่มชั่วคราวในเทิร์นศัตรู จากนั้นวน `afterTurnList`; ถ้าเป็นเทิร์นฝ่ายเรา ยังจัดการรายการ `cbCheck` หลัง event ด้วย
 
-`allEventWhenAttack()` เพิ่มสแต็ก Entanglement ของศัตรูใน `targetList` (สูงสุด 5) ก่อนวน `When_attack_List`; `allEventAdjustStats()` เปิด `AdjustCheck` ระหว่าง dispatch แล้วปิดเมื่อจบ
+`allEventWhenAttack()` เพิ่มสแต็ก Entanglement ของศัตรูใน `targetList` (สูงสุด 5) ก่อนวน `whenAttackList`; `allEventAdjustStats()` เปิด `adjustCheck` ระหว่าง dispatch แล้วปิดเมื่อจบ
 
 ## Before / After ของ ally action
 
-ใน 3 ลูปของ `Function/Combat/Combat.h` (Aha Instant, `Deal_damage`, คิวแอ็กชัน) แอ็กชันฝ่ายเราถูกครอบแบบนี้:
+ใน 3 ลูปของ `Function/Combat/Combat.h` (Aha Instant, `dealDamage`, คิวแอ็กชัน) แอ็กชันฝ่ายเราถูกครอบแบบนี้:
 
 ```cpp
-allEventBeforeAllyAction(allyActionData);   // BeforeAllyActionList
-allyActionData->AllyAction();               // Attack()/buff + resetTurn ถ้า Turn_reset
-allEventAfterAllyAction(allyActionData);    // AfterAllyActionList
+allEventBeforeAllyAction(allyActionData);   // beforeAllyActionList
+allyActionData->allyAction();               // attack()/buff + resetTurn ถ้า turnReset
+allEventAfterAllyAction(allyActionData);    // afterAllyActionList
 ```
 
-- **`BeforeAllyActionList`** — เดิมชื่อ `AllyActionList` / `allEventWhenAllyAction` · user สั่งเปลี่ยนชื่อ 2026-09-26 ผู้ใช้เดิมทั้งหมดย้ายมาเป็น Before (พฤติกรรมเท่าเดิม)
-- **`AfterAllyActionList`** — เพิ่ม 2026-09-26 · ยิงหลัง `AllyAction()` จบ คือหลัง `resetTurn` แล้ว · ใช้กับเอฟเฟกต์ประเภท "หลังใช้ X → advance action ถัดไป" ที่ถ้าสั่งก่อนจะถูก reset ลบ (ดู `../../Data/Lightcone/Abundance/Multiplication.md`)
+- **`beforeAllyActionList`** — เดิมชื่อ `AllyActionList` / `allEventWhenAllyAction` · user สั่งเปลี่ยนชื่อ 2026-09-26 ผู้ใช้เดิมทั้งหมดย้ายมาเป็น Before (พฤติกรรมเท่าเดิม)
+- **`afterAllyActionList`** — เพิ่ม 2026-09-26 · ยิงหลัง `allyAction()` จบ คือหลัง `resetTurn` แล้ว · ใช้กับเอฟเฟกต์ประเภท "หลังใช้ X → advance action ถัดไป" ที่ถ้าสั่งก่อนจะถูก reset ลบ (ดู `../../Data/Lightcone/Abundance/Multiplication.md`)
 
 ## Break DoT หมดอายุ
 

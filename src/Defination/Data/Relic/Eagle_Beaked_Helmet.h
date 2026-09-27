@@ -1,19 +1,19 @@
 #include "../include.h"
 namespace Relic{
     void Eagle_Beaked_Helmet(CharUnit *ptr){
-        ptr->Relic.Name = "Eagle_Beaked_Helmet";
+        ptr->Relic.name = "Eagle_Beaked_Helmet";
         ptr->addUltCondition([ptr]() -> bool {
-            if(ptr->Atv_stats->atv<=ptr->Atv_stats->Max_atv*0.25)return false;
+            if(ptr->atvStats->atv<=ptr->atvStats->maxAtv*0.25)return false;
             return true;
         });
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_each_element[Stats::DMG][ElementType::Wind][AType::None] += 10;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsEachElement[Stats::DMG][ElementType::WIND][AType::NONE] += 10;
         }));
 
-        WhenUseUlt_List.push_back(TriggerByAlly_Func(PRIORITY_IMMEDIATELY,[ptr](CharUnit *ally){
+        whenUseUltList.push_back(TriggerByAllyFunc(PRIORITY_IMMEDIATELY,[ptr](CharUnit *ally){
             if (ally->isSameOwner(ptr)) {
-                Action_forward(ptr->Atv_stats.get(), 25);
+                actionForward(ptr->atvStats.get(), 25);
             }
         }));
         

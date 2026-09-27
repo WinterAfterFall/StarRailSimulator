@@ -93,7 +93,7 @@ ATK +28% · Effect HIT Rate +18% · DEF +12.5%
 - **A6**: 50% chance extra Direct Punch hit ต่อ hit (variance สูง)
 - **Ult vulnerability +20%** (3t) — Luka มักเป็น trigger enabler ให้ Black Swan/Kafka
 - **A4 energy**: +3 ต่อ Fighting Will → energy generation สูง
-- โค้ด: `Start_game_List` (`Luka.h:140`, `lk`, `FW`) — start Fighting Will + technique
+- โค้ด: `startGameList` (`Luka.h:140`, `lk`, `FW`) — start Fighting Will + technique
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/luka — kit tab (review patch 2.5, calc patch 3.4, profile 01/Jun/2026)

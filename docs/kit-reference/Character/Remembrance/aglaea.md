@@ -103,7 +103,7 @@ CRIT Rate +12% · Lightning DMG +22.4% · DEF +12.5%
 - **Seam Stitch**: Additional DMG 30% ATK + E1 vuln 15%; single target ล่าสุด
 - **Supreme Stance (Ult 350)**: countdown SPD 100, Enhanced BA (Joint ATK 200%+200%), no Skill
 - **Joint ATK** = ดาเมจ 2 แหล่ง (Aglaea ATK + Garmentmaker ATK) — sim ต้องแยก ATK stat 2 ตัว
-- โค้ด: `Start_game_List` (`Aglaea.h:88`, `AGptr`) + memosprite handling
+- โค้ด: `startGameList` (`Aglaea.h:88`, `AGptr`) + memosprite handling
 - **หมายเหตุ**: `elationCount`-style — Remembrance ใช้ `memosprite`
 
 ### แหล่งอ้างอิง

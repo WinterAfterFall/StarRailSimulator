@@ -1,5 +1,5 @@
-#ifndef All_Character_H
-#define All_Character_H
+#ifndef ALL_CHARACTER_H
+#define ALL_CHARACTER_H
 
 #include".\Abundance\All_Abundance_char.h"
 #include".\Destruction\All_Destruction_char.h"

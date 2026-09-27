@@ -1,11 +1,11 @@
 #include "../include.h"
 
 namespace Hysilens{
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
 
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
-        CharUnit *ptr = SetCharBasicStats(102,110,110,E,ElementType::Physical,Path::Nihility,"Hysilens",UnitType::Standard);
-        ptr->SetAllyBaseStats(1203,602,485);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = setCharBasicStats(102,110,110,eidolon,ElementType::PHYSICAL,Path::NIHILITY,"Hysilens",UnitType::STANDARD);
+        ptr->setAllyBaseStats(1203,602,485);
 
         //substats
         ptr->pushSubstats(Stats::ATK_P);
@@ -17,7 +17,7 @@ namespace Hysilens{
 
         
         //func
-        LC(ptr);
+        lc(ptr);
         Relic(ptr);
         Planar(ptr);
 
@@ -26,66 +26,66 @@ namespace Hysilens{
 
 
         #pragma region Extra
-        function<void(Enemy* enemy)> Talent = [ptr,hys](Enemy* enemy) {
+        function<void(Enemy* enemy)> talent = [ptr,hys](Enemy* enemy) {
             string dotName = "Hys Bleed";
-            DotType dotType = DotType::Bleed;
+            DotType dotType = DotType::BLEED;
             if(!enemy->getDebuff("Hys Bleed")){
             }
             else if(!enemy->getDebuff("Hys Burn")){
                 dotName = "Hys Burn";
-                dotType = DotType::Burn;
+                dotType = DotType::BURN;
             }
             else if(!enemy->getDebuff("Hys Shock")){
                 dotName = "Hys Shock";
-                dotType = DotType::Shock;
+                dotType = DotType::SHOCK;
             }
             else if(!enemy->getDebuff("Hys WindShear")){
                 dotName = "Hys WindShear";
-                dotType = DotType::WindShear;
+                dotType = DotType::WIND_SHEAR;
             }else{
                 if(enemy->getDebuffTimeCount(dotName) > enemy->getDebuffTimeCount("Hys Burn")){
                     dotName = "Hys Burn";
-                    dotType = DotType::Burn;
+                    dotType = DotType::BURN;
                 }
                 if(enemy->getDebuffTimeCount(dotName) > enemy->getDebuffTimeCount("Hys Shock")){
                     dotName = "Hys Shock";
-                    dotType = DotType::Shock;
+                    dotType = DotType::SHOCK;
                 }
                 if(enemy->getDebuffTimeCount(dotName) > enemy->getDebuffTimeCount("Hys WindShear")){
                     dotName = "Hys WindShear";
-                    dotType = DotType::WindShear;
+                    dotType = DotType::WIND_SHEAR;
                 }
             }
             dotSingleApply(hys,enemy,{dotType},dotName,2);
         };
-        function<void(Enemy* enemy)> E1 = [ptr,hys](Enemy* enemy) {
+        function<void(Enemy* enemy)> e1 = [ptr,hys](Enemy* enemy) {
             string dotName = "Hys E1 Bleed";
-            DotType dotType = DotType::Bleed;
+            DotType dotType = DotType::BLEED;
             if(!enemy->getDebuff("Hys E1 Bleed")){
             }
             else if(!enemy->getDebuff("Hys E1 Shock")){
                 dotName = "Hys E1 Shock";
-                dotType = DotType::Shock;
+                dotType = DotType::SHOCK;
             }
             else if(!enemy->getDebuff("Hys E1 Burn")){
                 dotName = "Hys E1 Burn";
-                dotType = DotType::Burn;
+                dotType = DotType::BURN;
             }
             else if(!enemy->getDebuff("Hys E1 WindShear")){
                 dotName = "Hys E1 WindShear";
-                dotType = DotType::WindShear;
+                dotType = DotType::WIND_SHEAR;
             }else{
                 if(enemy->getDebuffTimeCount(dotName) > enemy->getDebuffTimeCount("Hys E1 Shock")){
                     dotName = "Hys E1 Shock";
-                    dotType = DotType::Shock;
+                    dotType = DotType::SHOCK;
                 }
                 if(enemy->getDebuffTimeCount(dotName) > enemy->getDebuffTimeCount("Hys E1 Burn")){
                     dotName = "Hys E1 Burn";
-                    dotType = DotType::Burn;
+                    dotType = DotType::BURN;
                 }
                 if(enemy->getDebuffTimeCount(dotName) > enemy->getDebuffTimeCount("Hys E1 WindShear")){
                     dotName = "Hys E1 WindShear";
-                    dotType = DotType::WindShear;
+                    dotType = DotType::WIND_SHEAR;
                 }
             }
             dotSingleApply(hys,enemy,{dotType},dotName,2);
@@ -96,13 +96,13 @@ namespace Hysilens{
 
         #pragma region Ability
 
-        function<void()> BA = [ptr,hys]() {
+        function<void()> ba = [ptr,hys]() {
             genSkillPoint(hys,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Hys BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::SINGLE,"Hys BA",
             [ptr,hys](shared_ptr<AllyAttackAction> &act){
-                Increase_energy(ptr,20);
-                Attack(act);
+                increaseEnergy(ptr,20);
+                attack(act);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,100,10)
@@ -110,14 +110,14 @@ namespace Hysilens{
             act->addToActionBar();
         };
 
-        function<void()> Skill = [ptr,hys]() {
+        function<void()> skill = [ptr,hys]() {
             genSkillPoint(hys,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Aoe,"Hys Skill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::AOE,"Hys Skill",
             [ptr,hys](shared_ptr<AllyAttackAction> &act){
-                Increase_energy(ptr,30);
-                debuffAllEnemyApply(hys,{{Stats::VUL,AType::None,20}},"Hys Vul",3);
-                Attack(act);
+                increaseEnergy(ptr,30);
+                debuffAllEnemyApply(hys,{{Stats::VUL,AType::NONE,20}},"Hys Vul",3);
+                attack(act);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,140,10),
@@ -128,38 +128,38 @@ namespace Hysilens{
         };
 
         #pragma endregion
-        ptr->Turn_func = [ptr,hys,Skill,BA]() {
-            for(int i = 1;i<= Total_enemy;i++){
+        ptr->turnFunc = [ptr,hys,skill,ba]() {
+            for(int i = 1;i<= totalEnemy;i++){
                 if(!enemyUnit[i]->getDebuff("Hys Vul")){
-                    Skill();
+                    skill();
                     return;
                 }
             }
             // if(hys->getTurnCnt()%3==1)Skill();
-            BA();
+            ba();
         };
         
         ptr->addUltCondition([ptr]() -> bool {
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [hys](CharUnit *ptr) {
+        ultimateList.push_back(TriggerByYourSelfFunc(PRIORITY_BUFF, ptr, [hys](CharUnit *ptr) {
             genSkillPoint(hys,1);
             shared_ptr<AllyAttackAction> act =
-            make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Hys Ult",
+            make_shared<AllyAttackAction>(AType::ULT,ptr,TraceType::AOE,"Hys Ult",
             [ptr,hys](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Hysilens");
                 for(auto &each : act->targetList){
                     if(debuffMark(hys,each,"Hys Ult")){
                         each->atkPercent-=15;
-                        debuffSingle(each,{{Stats::DEF_SHRED,AType::None,25}});
-                        if(ptr->Eidolon>=4)debuffSingle(each,{{Stats::RESPEN,AType::None,20}});
+                        debuffSingle(each,{{Stats::DEF_SHRED,AType::NONE,25}});
+                        if(ptr->eidolon>=4)debuffSingle(each,{{Stats::RESPEN,AType::NONE,20}});
 
                     }
-                    Dot_trigger(150,each,DotType::General);
+                    dotTrigger(150,each,DotType::GENERAL);
                 }
                 isHaveToAddBuff(hys,"Hys Ult",3);
-                Attack(act);
+                attack(act);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,200,20),
@@ -167,67 +167,67 @@ namespace Hysilens{
                 DmgSrc(DmgSrcType::ATK,200,20)
             );
             act->addToActionBar();
-            Deal_damage();
+            dealDamage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_type[Stats::ATK_P][AType::None] += 18;
-            ptr->Stats_type[Stats::EHR][AType::None] += 10;
-            ptr->Atv_stats->flatSpeed += 14;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsType[Stats::ATK_P][AType::NONE] += 18;
+            ptr->statsType[Stats::EHR][AType::NONE] += 10;
+            ptr->atvStats->flatSpeed += 14;
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+        whenOnFieldList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             //A6
-            if(ptr->Eidolon>=2)buffAllAlly({{Stats::DMG,AType::None,90}});
-            else ptr->Stats_type[Stats::DMG][AType::None] += 90;
+            if(ptr->eidolon>=2)buffAllAlly({{Stats::DMG,AType::NONE,90}});
+            else ptr->statsType[Stats::DMG][AType::NONE] += 90;
 
             //Eidolon
-            if(ptr->Eidolon>=1){
-                buffAllAlly({{Stats::MtprInc,AType::Dot,16}});
+            if(ptr->eidolon>=1){
+                buffAllAlly({{Stats::MTPR_INC,AType::DOT,16}});
             }
 
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [hys,Talent,E1](CharUnit *ptr) {
+        startGameList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [hys,talent,e1](CharUnit *ptr) {
                 genSkillPoint(hys,1);
                 for(auto &each : enemyList){
                     if(debuffMark(hys,each,"Hys Ult")){
                         each->atkPercent-=15;
-                        debuffSingle(each,{{Stats::DEF_SHRED,AType::None,25}});
-                        if(ptr->Eidolon>=4)debuffSingle(each,{{Stats::RESPEN,AType::None,20}});
+                        debuffSingle(each,{{Stats::DEF_SHRED,AType::NONE,25}});
+                        if(ptr->eidolon>=4)debuffSingle(each,{{Stats::RESPEN,AType::NONE,20}});
                     }
                 }
                 isHaveToAddBuff(hys,"Hys Ult",3);
-                if(ptr->Technique){
-                    for(int i=1;i<=Total_enemy;i++){
-                    Talent(enemyUnit[i].get());
-                    Talent(enemyUnit[i].get());
-                    if(ptr->Eidolon>=1)E1(enemyUnit[i].get());
-                    if(ptr->Eidolon>=1)E1(enemyUnit[i].get());
+                if(ptr->technique){
+                    for(int i=1;i<=totalEnemy;i++){
+                    talent(enemyUnit[i].get());
+                    talent(enemyUnit[i].get());
+                    if(ptr->eidolon>=1)e1(enemyUnit[i].get());
+                    if(ptr->eidolon>=1)e1(enemyUnit[i].get());
                 }
                 }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+        afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             Enemy *enemy = turn->canCastToEnemy();
             if(!enemy)return;
 
             if(isDebuffEnd(enemy,"Hys Vul")){
-                debuffSingle(enemy,{{Stats::VUL,AType::None,-20}});
+                debuffSingle(enemy,{{Stats::VUL,AType::NONE,-20}});
             }
-            if(isDebuffEnd(enemy,"Hys Bleed"))dotRemove(enemy,{DotType::Bleed});
-            if(isDebuffEnd(enemy,"Hys WindShear"))dotRemove(enemy,{DotType::WindShear});
-            if(isDebuffEnd(enemy,"Hys Burn"))dotRemove(enemy,{DotType::Burn});
-            if(isDebuffEnd(enemy,"Hys Shock"))dotRemove(enemy,{DotType::Shock});
-            if(isDebuffEnd(enemy,"Hys E1 Bleed"))dotRemove(enemy,{DotType::Bleed});
-            if(isDebuffEnd(enemy,"Hys E1 WindShear"))dotRemove(enemy,{DotType::WindShear});
-            if(isDebuffEnd(enemy,"Hys E1 Burn"))dotRemove(enemy,{DotType::Burn});
-            if(isDebuffEnd(enemy,"Hys E1 Shock"))dotRemove(enemy,{DotType::Shock});
+            if(isDebuffEnd(enemy,"Hys Bleed"))dotRemove(enemy,{DotType::BLEED});
+            if(isDebuffEnd(enemy,"Hys WindShear"))dotRemove(enemy,{DotType::WIND_SHEAR});
+            if(isDebuffEnd(enemy,"Hys Burn"))dotRemove(enemy,{DotType::BURN});
+            if(isDebuffEnd(enemy,"Hys Shock"))dotRemove(enemy,{DotType::SHOCK});
+            if(isDebuffEnd(enemy,"Hys E1 Bleed"))dotRemove(enemy,{DotType::BLEED});
+            if(isDebuffEnd(enemy,"Hys E1 WindShear"))dotRemove(enemy,{DotType::WIND_SHEAR});
+            if(isDebuffEnd(enemy,"Hys E1 Burn"))dotRemove(enemy,{DotType::BURN});
+            if(isDebuffEnd(enemy,"Hys E1 Shock"))dotRemove(enemy,{DotType::SHOCK});
             
         }));
         
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [hys](CharUnit *ptr) {
-            for(int i=1;i<=Total_enemy;i++){
+        beforeTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [hys](CharUnit *ptr) {
+            for(int i=1;i<=totalEnemy;i++){
                 enemyUnit[i]->setStack("Hys Dot Limit",0);
             }
             AllyUnit *ally = turn->canCastToAllyUnit();
@@ -236,116 +236,116 @@ namespace Hysilens{
             if(isBuffEnd(ally,"Hys Ult")){
                 CharCmd::printUltEnd("Hysilens");
                 for(auto &each : enemyList){
-                    debuffSingle(each,{{Stats::DEF_SHRED,AType::None,-25}});
-                    if(ptr->Eidolon>=4)debuffSingle(each,{{Stats::RESPEN,AType::None,-20}});
+                    debuffSingle(each,{{Stats::DEF_SHRED,AType::NONE,-25}});
+                    if(ptr->eidolon>=4)debuffSingle(each,{{Stats::RESPEN,AType::NONE,-20}});
                     each->atkPercent -=15;
                     debuffRemove(each,"Hys Ult");
                 }
             }
         }));
 
-        BeforeAction_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,hys](shared_ptr<ActionData> &act) {
-            for(int i=1;i<=Total_enemy;i++){
+        beforeActionList.push_back(TriggerByActionFunc(PRIORITY_IMMEDIATELY, [ptr,hys](shared_ptr<ActionData> &act) {
+            for(int i=1;i<=totalEnemy;i++){
                 enemyUnit[i]->setStack("Hys Dot Limit",0);
             }
         }));
 
 
-        BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,hys,Talent,E1](shared_ptr<AllyAttackAction> &act) {
+        beforeAttackActionList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr,hys,talent,e1](shared_ptr<AllyAttackAction> &act) {
             for(auto &each : act->targetList){
-                Talent(each);
-                if(ptr->Eidolon>=1)E1(each);
+                talent(each);
+                if(ptr->eidolon>=1)e1(each);
             }
         }));
 
-        AfterAttack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,hys](shared_ptr<AllyAttackAction> &act) {
-            if(act->isSameDamageType(AType::Dot)&&act->actionName!="Hys Ult Dot"){
-                shared_ptr<AllyAttackAction> Newact = 
-            make_shared<AllyAttackAction>(AType::Dot,ptr,TraceType::Single,"Hys Ult Dot");
+        afterAttackList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr,hys](shared_ptr<AllyAttackAction> &act) {
+            if(act->isSameDamageType(AType::DOT)&&act->actionName!="Hys Ult Dot"){
+                shared_ptr<AllyAttackAction> newact = 
+            make_shared<AllyAttackAction>(AType::DOT,ptr,TraceType::SINGLE,"Hys Ult Dot");
                 for (auto &each : act->targetList) {
-                    if(ptr->Eidolon>=6){
+                    if(ptr->eidolon>=6){
                         if(each->getStack("Hys Dot Limit")>=12)break;
                     }else{
                         if(each->getStack("Hys Dot Limit")>=8)break;
                     }
                     each->addStack("Hys Dot Limit",1);
-                    if(ptr->Eidolon>=6)Newact->addDamageIns(DmgSrc(DmgSrcType::ATK,100));
-                    else Newact->addDamageIns(DmgSrc(DmgSrcType::ATK,80));
-                    Newact->addDamageType(AType::Ult);
-                    Attack(Newact);
+                    if(ptr->eidolon>=6)newact->addDamageIns(DmgSrc(DmgSrcType::ATK,100));
+                    else newact->addDamageIns(DmgSrc(DmgSrcType::ATK,80));
+                    newact->addDamageType(AType::ULT);
+                    attack(newact);
                 }
             }
         }));
 
-        Dot_List.push_back(TriggerDot_Func(PRIORITY_IMMEDIATELY, [ptr,hys,Talent](Enemy* target, double Dot_ratio,DotType Dot_type) {
-            if (Dot_type != DotType::General && Dot_type != DotType::Bleed) return;
+        dotList.push_back(TriggerDotFunc(PRIORITY_IMMEDIATELY, [ptr,hys,talent](Enemy* target, double dotRatio,DotType dotType) {
+            if (dotType != DotType::GENERAL && dotType != DotType::BLEED) return;
             if (target->getDebuff("Hys Bleed")){
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Bleed,ptr,TraceType::Single,"Hys Bleed");
+                make_shared<AllyAttackAction>(AType::BLEED,ptr,TraceType::SINGLE,"Hys Bleed");
                 act->addDamageIns(DmgSrc(DmgSrcType::ATK,25),target);
-                act->multiplyDmg(Dot_ratio);
-                Attack(act);
+                act->multiplyDmg(dotRatio);
+                attack(act);
             }
             if (target->getDebuff("Hys E1 Bleed")){
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Bleed,ptr,TraceType::Single,"Hys E1 Bleed");
+                make_shared<AllyAttackAction>(AType::BLEED,ptr,TraceType::SINGLE,"Hys E1 Bleed");
                 act->addDamageIns(DmgSrc(DmgSrcType::ATK,25),target);
-                act->multiplyDmg(Dot_ratio);
-                Attack(act);
+                act->multiplyDmg(dotRatio);
+                attack(act);
             }
         }));
 
-        Dot_List.push_back(TriggerDot_Func(PRIORITY_IMMEDIATELY, [ptr,hys,Talent](Enemy* target, double Dot_ratio,DotType Dot_type) {
-            if (Dot_type != DotType::General && Dot_type != DotType::WindShear) return;
+        dotList.push_back(TriggerDotFunc(PRIORITY_IMMEDIATELY, [ptr,hys,talent](Enemy* target, double dotRatio,DotType dotType) {
+            if (dotType != DotType::GENERAL && dotType != DotType::WIND_SHEAR) return;
             if (target->getDebuff("Hys WindShear")){
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::WindShear,ptr,TraceType::Single,"Hys WindShear");
+                make_shared<AllyAttackAction>(AType::WIND_SHEAR,ptr,TraceType::SINGLE,"Hys WindShear");
                 act->addDamageIns(DmgSrc(DmgSrcType::ATK,25),target);
-                act->multiplyDmg(Dot_ratio);
-                Attack(act);
+                act->multiplyDmg(dotRatio);
+                attack(act);
             }
             if (target->getDebuff("Hys E1 WindShear")){
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::WindShear,ptr,TraceType::Single,"Hys E1 WindShear");
+                make_shared<AllyAttackAction>(AType::WIND_SHEAR,ptr,TraceType::SINGLE,"Hys E1 WindShear");
                 act->addDamageIns(DmgSrc(DmgSrcType::ATK,25),target);
-                act->multiplyDmg(Dot_ratio);
-                Attack(act);
+                act->multiplyDmg(dotRatio);
+                attack(act);
             }
         }));
 
-        Dot_List.push_back(TriggerDot_Func(PRIORITY_IMMEDIATELY, [ptr,hys,Talent](Enemy* target, double Dot_ratio,DotType Dot_type) {
-            if (Dot_type != DotType::General && Dot_type != DotType::Burn) return;
+        dotList.push_back(TriggerDotFunc(PRIORITY_IMMEDIATELY, [ptr,hys,talent](Enemy* target, double dotRatio,DotType dotType) {
+            if (dotType != DotType::GENERAL && dotType != DotType::BURN) return;
             if (target->getDebuff("Hys Burn")){
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Burn,ptr,TraceType::Single,"Hys Burn");
+                make_shared<AllyAttackAction>(AType::BURN,ptr,TraceType::SINGLE,"Hys Burn");
                 act->addDamageIns(DmgSrc(DmgSrcType::ATK,25),target);
-                act->multiplyDmg(Dot_ratio);
-                Attack(act);
+                act->multiplyDmg(dotRatio);
+                attack(act);
             }
             if (target->getDebuff("Hys E1 Burn")){
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Burn,ptr,TraceType::Single,"Hys E1 Burn");
+                make_shared<AllyAttackAction>(AType::BURN,ptr,TraceType::SINGLE,"Hys E1 Burn");
                 act->addDamageIns(DmgSrc(DmgSrcType::ATK,25),target);
-                act->multiplyDmg(Dot_ratio);
-                Attack(act);
+                act->multiplyDmg(dotRatio);
+                attack(act);
             }
         }));
 
-        Dot_List.push_back(TriggerDot_Func(PRIORITY_IMMEDIATELY, [ptr,hys,Talent](Enemy* target, double Dot_ratio,DotType Dot_type) {
-            if (Dot_type != DotType::General && Dot_type != DotType::Shock) return;
+        dotList.push_back(TriggerDotFunc(PRIORITY_IMMEDIATELY, [ptr,hys,talent](Enemy* target, double dotRatio,DotType dotType) {
+            if (dotType != DotType::GENERAL && dotType != DotType::SHOCK) return;
             if (target->getDebuff("Hys Shock")){
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Shock,ptr,TraceType::Single,"Hys Shock");
+                make_shared<AllyAttackAction>(AType::SHOCK,ptr,TraceType::SINGLE,"Hys Shock");
                 act->addDamageIns(DmgSrc(DmgSrcType::ATK,25),target);
-                act->multiplyDmg(Dot_ratio);
-                Attack(act);
+                act->multiplyDmg(dotRatio);
+                attack(act);
             }
             if (target->getDebuff("Hys E1 Shock")){
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Shock,ptr,TraceType::Single,"Hys E1 Shock");
+                make_shared<AllyAttackAction>(AType::SHOCK,ptr,TraceType::SINGLE,"Hys E1 Shock");
                 act->addDamageIns(DmgSrc(DmgSrcType::ATK,25),target);
-                act->multiplyDmg(Dot_ratio);
-                Attack(act);
+                act->multiplyDmg(dotRatio);
+                attack(act);
             }
         }));
     }

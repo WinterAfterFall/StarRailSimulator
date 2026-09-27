@@ -1,14 +1,14 @@
 # `src/Defination/Data/Lightcone/Remembrance/Geniuses_Greetings.h`
 
-`namespace Remembrance_Lightcone` · `Light_cone.Name` = `"Geniuses_Greetings"` · base stats `SetAllyBaseStats(953, 476, 331)`
+`namespace Remembrance_Lightcone` · `lightCone.name` = `"Geniuses_Greetings"` · base stats `setAllyBaseStats(953, 476, 331)`
 
 ## ความสามารถหลัก → โค้ดที่ทำงาน
 
 | ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| base stats | `SetAllyBaseStats(953, 476, 331)` | `Geniuses_Greetings.h:5` |
+| base stats | `setAllyBaseStats(953, 476, 331)` | `Geniuses_Greetings.h:5` |
 | ATK% `12 + 4S` | บวกถาวร | `:9` |
-| ผู้สวมกด Ult → Basic ATK DMG `15 + 5S` นาน 3 เทิร์น (ผู้สวม + memosprite) | `WhenUseUlt_List` + `isSameOwner` → `buffSingleChar(…, "Geniuses_Greetings", 3)` | `:12-16` |
+| ผู้สวมกด Ult → Basic ATK DMG `15 + 5S` นาน 3 เทิร์น (ผู้สวม + memosprite) | `whenUseUltList` + `isSameOwner` → `buffSingleChar(…, "Geniuses_Greetings", 3)` | `:12-16` |
 | ถอนเมื่อหมดอายุ | ท้ายเทิร์นของแต่ละตัว `isBuffEnd` | `:18-24` |
 
 ## รากฐาน: ถอนผ่านเจ้าของเทิร์น

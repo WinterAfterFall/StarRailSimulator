@@ -1,5 +1,5 @@
-#ifndef Print_Declaration_H
-#define Print_Declaration_H
+#ifndef PRINT_DECLARATION_H
+#define PRINT_DECLARATION_H
 #include "Print.h"
 
 #endif

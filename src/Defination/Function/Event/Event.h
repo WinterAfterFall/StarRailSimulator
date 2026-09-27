@@ -1,33 +1,33 @@
 #include "../include.h"
 void allEventBeforeTurn(){
-    phaseStatus = PhaseStatus::BeforeTurn;
-    if(turn->side==Side::Enemy){
+    phaseStatus = PhaseStatus::BEFORE_TURN;
+    if(turn->side==Side::ENEMY){
         shared_ptr<AllyAttackAction> act;
         Enemy *target = turn->canCastToEnemy();
-        Dot_trigger(100, target, DotType::General);
+        dotTrigger(100, target, DotType::GENERAL);
         for(auto &each : target->breakEngList){
-            act = make_shared<AllyAttackAction>(AType::Entanglement, each.ptr, TraceType::Single, "Entanglement");
-            double Const = 0.6 * each.stack;
-            Cal_Break_damage(act, target, Const);
+            act = make_shared<AllyAttackAction>(AType::ENTANGLEMENT, each.ptr, TraceType::SINGLE, "Entanglement");
+            double constValue = 0.6 * each.stack;
+            calBreakDamage(act, target, constValue);
         }
-        if(!Turn_Skip)
+        if(!turnSkip)
         for(auto itr = target->breakFrzList.begin(); itr != target->breakFrzList.end();){
-            act = make_shared<AllyAttackAction>(AType::Freeze, itr->ptr, TraceType::Single, "Freeze");
-            Cal_Freeze_damage(act, target);
-            Action_forward(target->Atv_stats.get(), -50);
-            --target->Total_debuff;
-            Turn_Skip = 1;
+            act = make_shared<AllyAttackAction>(AType::FREEZE, itr->ptr, TraceType::SINGLE, "Freeze");
+            calFreezeDamage(act, target);
+            actionForward(target->atvStats.get(), -50);
+            --target->totalDebuff;
+            turnSkip = 1;
             itr = target->breakFrzList.erase(itr);
             break;
         }
     }
 
-    for(TriggerByYourSelf_Func &e : Before_turn_List){
-        e.Call(e.owner);
+    for(TriggerByYourSelfFunc &e : beforeTurnList){
+        e.call(e.owner);
     }
 }
 void allEventAfterTurn(){
-    if(turn->side==Side::Enemy){
+    if(turn->side==Side::ENEMY){
         shared_ptr<AllyAttackAction> act;
         Enemy *target = turn->canCastToEnemy();
         
@@ -38,16 +38,16 @@ void allEventAfterTurn(){
             }
             BreakSEType expiredType = itr->type;
             itr = target->breakDotList.erase(itr);
-            --target->Total_debuff;
-            --target->DotCount;
-            if(expiredType == BreakSEType::Burn){
-                --target->BurnCount;
-            } else if(expiredType == BreakSEType::Shock){
-                --target->ShockCount;
-            } else if(expiredType == BreakSEType::WindShear){
-                --target->WindSheerCount;
-            } else if(expiredType == BreakSEType::Bleed){
-                --target->BleedCount;
+            --target->totalDebuff;
+            --target->dotCount;
+            if(expiredType == BreakSEType::BURN){
+                --target->burnCount;
+            } else if(expiredType == BreakSEType::SHOCK){
+                --target->shockCount;
+            } else if(expiredType == BreakSEType::WIND_SHEAR){
+                --target->windSheerCount;
+            } else if(expiredType == BreakSEType::BLEED){
+                --target->bleedCount;
             }
             
         }
@@ -57,7 +57,7 @@ void allEventAfterTurn(){
                 continue;
             }
             itr = target->breakEngList.erase(itr);
-            --target->Total_debuff;
+            --target->totalDebuff;
             
         }
         for (auto itr = target->breakImsList.begin(); itr != target->breakImsList.end(); ) {
@@ -66,91 +66,91 @@ void allEventAfterTurn(){
                 continue;
             }
             itr = target->breakImsList.erase(itr);
-            debuffSingle(target,{{Stats::SPD_P,AType::None,10}});
-            --target->Total_debuff;
+            debuffSingle(target,{{Stats::SPD_P,AType::NONE,10}});
+            --target->totalDebuff;
             
         }
-        for(auto &e : target->Weakness_typeCountdown){
-            if(e.second==turn->turnCnt&&target->Default_Weakness_type[e.first]==0){
-                target->Weakness_type[e.first] = 0;
+        for(auto &e : target->weaknessTypeCountdown){
+            if(e.second==turn->turnCnt&&target->defaultWeaknessType[e.first]==0){
+                target->weaknessType[e.first] = 0;
                 target->currentWeaknessElementAmount--;
             }
         }
     }
-    for(TriggerByYourSelf_Func &e : After_turn_List){
-        e.Call(e.owner);
+    for(TriggerByYourSelfFunc &e : afterTurnList){
+        e.call(e.owner);
     }
 
-    if (turn->side == Side::Ally) {
+    if (turn->side == Side::ALLY) {
         AllyUnit *ally = turn->canCastToAllyUnit();
 
-        for (auto &each : CBcheck) {
+        for (auto &each : cbCheck) {
             if (isBuffEnd(ally, std::get<0>(each))) {
                 std::get<1>(each)--;
-                buffSingle(ally, {{Stats::CertifiedBanger, AType::None, -1.0 * std::get<2>(each)}});
+                buffSingle(ally, {{Stats::CERTIFIED_BANGER, AType::NONE, -1.0 * std::get<2>(each)}});
             }
         }
 
-        while (!CBcheck.empty() && std::get<1>(CBcheck.front()) <= 0) {
-            CBcheck.pop_front();
+        while (!cbCheck.empty() && std::get<1>(cbCheck.front()) <= 0) {
+            cbCheck.pop_front();
         }
     }
 
     
 }
 void allEventBeforeAction(shared_ptr<ActionData> &act){
-    for(TriggerByAction_Func &e : BeforeAction_List){
-        e.Call(act);
+    for(TriggerByActionFunc &e : beforeActionList){
+        e.call(act);
     }
 }
 void allEventBeforeAllyAction(shared_ptr<AllyActionData> &act){
-    for(TriggerByAllyAction_Func &e : BeforeAllyActionList){
-        e.Call(act);
+    for(TriggerByAllyActionFunc &e : beforeAllyActionList){
+        e.call(act);
     }
 }
 void allEventAfterAllyAction(shared_ptr<AllyActionData> &act){
-    for(TriggerByAllyAction_Func &e : AfterAllyActionList){
-        e.Call(act);
+    for(TriggerByAllyActionFunc &e : afterAllyActionList){
+        e.call(act);
     }
 }
 void allEventAfterAction(shared_ptr<ActionData> &act){
-    for(TriggerByAction_Func &e : AfterAction_List){
-        e.Call(act);
+    for(TriggerByActionFunc &e : afterActionList){
+        e.call(act);
     }
 }
 void allEventBuff(shared_ptr<AllyBuffAction> &act){
-    for(TriggerByAllyBuffAction_Func &e : Buff_List){
-        e.Call(act);
+    for(TriggerByAllyBuffActionFunc &e : buffList){
+        e.call(act);
     }
 }
 void allEventBeforeAttackAction(shared_ptr<AllyAttackAction> &act){
-    for(TriggerByAllyAttackAction_Func &e : BeforeAttackAction_List){
-        e.Call(act);
+    for(TriggerByAllyAttackActionFunc &e : beforeAttackActionList){
+        e.call(act);
     }
 }
 void allEventAfterAttackAction(shared_ptr<AllyAttackAction> &act){
-    for(TriggerByAllyAttackAction_Func &e : AfterAttackActionList){
-        e.Call(act);
+    for(TriggerByAllyAttackActionFunc &e : afterAttackActionList){
+        e.call(act);
     }
 }
 void allEventBeforeAttack(shared_ptr<AllyAttackAction> &act){
-    for(TriggerByAllyAttackAction_Func &e : BeforeAttack_List){
-        e.Call(act);
+    for(TriggerByAllyAttackActionFunc &e : beforeAttackList){
+        e.call(act);
     }
 }
 void allEventAfterAttack(shared_ptr<AllyAttackAction> &act){
-    for(TriggerByAllyAttackAction_Func &e : AfterAttack_List){
-        e.Call(act);
+    for(TriggerByAllyAttackActionFunc &e : afterAttackList){
+        e.call(act);
     }
 }
 void allEventBeforeAttackPerHit(shared_ptr<AllyAttackAction> &act){
-    for(TriggerByAllyAttackAction_Func &e : BeforeAttackPerHit_List){
-        e.Call(act);
+    for(TriggerByAllyAttackActionFunc &e : beforeAttackPerHitList){
+        e.call(act);
     }
 }
 void allEventAfterAttackPerHit(shared_ptr<AllyAttackAction> &act){
-    for(TriggerByAllyAttackAction_Func &e : AfterAttackPerHit_List){
-        e.Call(act);
+    for(TriggerByAllyAttackActionFunc &e : afterAttackPerHitList){
+        e.call(act);
     }
 }
 void allEventWhenAttack(shared_ptr<AllyAttackAction> &act){
@@ -161,94 +161,94 @@ void allEventWhenAttack(shared_ptr<AllyAttackAction> &act){
         }
     }
     
-    for(TriggerByAllyAttackAction_Func &e : When_attack_List){
-        e.Call(act);
+    for(TriggerByAllyAttackActionFunc &e : whenAttackList){
+        e.call(act);
     }
 }
-void allEventHeal(AllyUnit *Healer,AllyUnit *target,double Value){
-    for(TriggerHealing &e : Healing_List){
-        e.Call(Healer,target,Value);
+void allEventHeal(AllyUnit *healer,AllyUnit *target,double value){
+    for(TriggerHealing &e : healingList){
+        e.call(healer,target,value);
     }
 }
-void allEventChangeHP(Unit *Trigger,AllyUnit *target,double Value){
-    for(TriggerDecreaseHP &e : HPDecrease_List){
-        e.Call(Trigger,target,Value);
+void allEventChangeHP(Unit *trigger,AllyUnit *target,double value){
+    for(TriggerDecreaseHP &e : hpDecreaseList){
+        e.call(trigger,target,value);
     }
 }
 void allEventWhenToughnessBreak(shared_ptr<AllyAttackAction> &act,Enemy *target){
-    for(TriggerBySomeAlly_Func &e : Toughness_break_List){
-        e.Call(target,act->Attacker);
+    for(TriggerBySomeAllyFunc &e : toughnessBreakList){
+        e.call(target,act->attacker);
     }
 }
-void allEventWhenEnemyHit(Enemy* Attacker,vector<AllyUnit*> vec){
+void allEventWhenEnemyHit(Enemy* attacker,vector<AllyUnit*> vec){
     
-    for(TriggerByEnemyHit &e : Enemy_hit_List){
-        e.Call(Attacker,vec);
+    for(TriggerByEnemyHit &e : enemyHitList){
+        e.call(attacker,vec);
     }
     
     
 }
-void allEventWhenEnergyIncrease(CharUnit *target,double Energy){
-    for(TriggerEnergy_Increase_Func &e : When_Energy_Increase_List){
-        e.Call(target,Energy);
+void allEventWhenEnergyIncrease(CharUnit *target,double energy){
+    for(TriggerEnergyIncreaseFunc &e : whenEnergyIncreaseList){
+        e.call(target,energy);
     }
 }
 void allEventSkillPoint(AllyUnit *ptr,int p){
-    for(TriggerSkill_point_func &e : Skill_point_List){
-        e.Call(ptr,p);
+    for(TriggerSkillPointFunc &e : skillPointList){
+        e.call(ptr,p);
     }
     return;
 }
 void allEventPunchLine(AllyUnit *ptr,int p){
-    for(TriggerSkill_point_func &e : PunchLine_List){
-        e.Call(ptr,p);
+    for(TriggerSkillPointFunc &e : punchLineList){
+        e.call(ptr,p);
     }
     return;
 }
 void allEventAdjustStats(AllyUnit *ptr,Stats statsType){
-    AdjustCheck = 1;
-    for(TriggerByStats &e : Stats_Adjust_List){
-        e.Call(ptr,statsType);
+    adjustCheck = 1;
+    for(TriggerByStats &e : statsAdjustList){
+        e.call(ptr,statsType);
     }
-    AdjustCheck = 0;
+    adjustCheck = 0;
 }
 void allEventBeforeApplyDebuff(AllyUnit *ptr,Enemy* target){
-    for(TriggerBySomeAlly_Func &e : BeforeApplyDebuff){
-        e.Call(target,ptr);
+    for(TriggerBySomeAllyFunc &e : beforeApplyDebuff){
+        e.call(target,ptr);
     }
 }
 void allEventAfterApplyDebuff(AllyUnit *ptr,Enemy* target){
-    for(TriggerBySomeAlly_Func &e : AfterApplyDebuff){
-        e.Call(target,ptr);
+    for(TriggerBySomeAllyFunc &e : afterApplyDebuff){
+        e.call(target,ptr);
     }
 }
-void allEventApplyWeakness(AllyUnit *Trigger,Enemy *target,vector<ElementType> weaknessList){
-    for(TriggerByWeaknessApply_Func &e : WeaknessApply_List){
-        e.Call(Trigger,target,weaknessList);
+void allEventApplyWeakness(AllyUnit *trigger,Enemy *target,vector<ElementType> weaknessList){
+    for(TriggerByWeaknessApplyFunc &e : weaknessApplyList){
+        e.call(trigger,target,weaknessList);
     }
 }
-void allEventWhenEnemyDeath(AllyUnit *Killer,Enemy *target){
-    for(TriggerBySomeAlly_Func &e : Enemy_Death_List){
-        e.Call(target,Killer);
+void allEventWhenEnemyDeath(AllyUnit *killer,Enemy *target){
+    for(TriggerBySomeAllyFunc &e : enemyDeathList){
+        e.call(target,killer);
     }
 }
-void allEventWhenAllyDeath(AllyUnit *Target){
-    for(TriggerAllyDeath &e : AllyDeath_List){
-        e.Call(Target);
+void allEventWhenAllyDeath(AllyUnit *target){
+    for(TriggerAllyDeath &e : allyDeathList){
+        e.call(target);
     }
 }
 void allEventAfterDealingDamage(shared_ptr<AllyAttackAction> &act, Enemy *target, double damage) {
-    for (TriggerAfterDealDamage &e : AfterDealingDamage_List) {
-        e.Call(act, target, damage);
+    for (TriggerAfterDealDamage &e : afterDealingDamageList) {
+        e.call(act, target, damage);
     }
 }
-void BeforeAhaInstant(){
-    for(TriggerByYourSelf_Func &e : BeforeAhaInstant_List){
-        e.Call(e.owner);
+void beforeAhaInstant(){
+    for(TriggerByYourSelfFunc &e : beforeAhaInstantList){
+        e.call(e.owner);
     }
 }
-void AfterAhaInstant(){
-    for(TriggerByYourSelf_Func &e : AfterAhaInstant_List){
-        e.Call(e.owner);
+void afterAhaInstant(){
+    for(TriggerByYourSelfFunc &e : afterAhaInstantList){
+        e.call(e.owner);
     }
 }

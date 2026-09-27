@@ -2,31 +2,31 @@
 namespace Harmony_Lightcone{
     function<void(CharUnit *ptr)> Tribbie_LC(int superimpose){
         return [=](CharUnit *ptr) {
-            ptr->SetAllyBaseStats(1270,529,397);
-            ptr->Light_cone.Name = "Tribbie_LC";
+            ptr->setAllyBaseStats(1270,529,397);
+            ptr->lightCone.name = "Tribbie_LC";
     
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
-                ptr->Stats_type[Stats::CD][AType::None] += 30 + 6 * superimpose;
+            resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+                ptr->statsType[Stats::CD][AType::NONE] += 30 + 6 * superimpose;
             }));
     
-            Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
-                Increase_energy(ptr, 21);
+            startGameList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+                increaseEnergy(ptr, 21);
                 if(isHaveToAddBuff(ptr,"Presage",2)){
-                    buffAllAlly({{Stats::CD, AType::None, (36.0 + 12 * superimpose)}});
+                    buffAllAlly({{Stats::CD, AType::NONE, (36.0 + 12 * superimpose)}});
                 }
             }));
     
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+            afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 if (isBuffEnd(ptr,"Presage")) {
-                    buffAllAlly({{Stats::CD, AType::None, -(36.0 + 12 * superimpose)}});
+                    buffAllAlly({{Stats::CD, AType::NONE, -(36.0 + 12 * superimpose)}});
                 }
             }));
 
-            BeforeAllyActionList.push_back(TriggerByAllyAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
-                if (act->isSameAction(ptr,AType::Fua)) {
-                    Increase_energy(ptr, 12);
+            beforeAllyActionList.push_back(TriggerByAllyActionFunc(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyActionData> &act){
+                if (act->isSameAction(ptr,AType::FUA)) {
+                    increaseEnergy(ptr, 12);
                     if(isHaveToAddBuff(ptr,"Presage",2)){
-                        buffAllAlly({{Stats::CD, AType::None, (36.0 + 12 * superimpose)}});
+                        buffAllAlly({{Stats::CD, AType::NONE, (36.0 + 12 * superimpose)}});
                     }
                 }
             }));

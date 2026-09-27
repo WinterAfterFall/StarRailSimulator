@@ -1,53 +1,53 @@
 #include "../include.h"
-void Set_Stats(CharUnit *ptr){
-    for(int i=0,sz = ptr->Substats.size();i<sz;i++){
-        if(ptr->Substats[i].first==Stats::FLAT_SPD){
-            ptr->Atv_stats->flatSpeed+=2.3*ptr->Substats[i].second;
+void setStats(CharUnit *ptr){
+    for(int i=0,sz = ptr->substats.size();i<sz;i++){
+        if(ptr->substats[i].first==Stats::FLAT_SPD){
+            ptr->atvStats->flatSpeed+=2.3*ptr->substats[i].second;
             if(auto *memo = ptr->memosprite.get()){
-            memo->Atv_stats->flatSpeed+=(2.3*ptr->Substats[i].second)*(memo->Unit_Speed_Ratio/100);
+            memo->atvStats->flatSpeed+=(2.3*ptr->substats[i].second)*(memo->unitSpeedRatio/100);
             }
             
-        }else if(ptr->Substats[i].first==Stats::HP_P){ 
-            buffSingle(ptr,{{Stats::HP_P,AType::None,3.888*ptr->Substats[i].second}});
+        }else if(ptr->substats[i].first==Stats::HP_P){ 
+            buffSingle(ptr,{{Stats::HP_P,AType::NONE,3.888*ptr->substats[i].second}});
             if(auto *memo = ptr->memosprite.get()){ 
-            buffSingle(memo,{{Stats::HP_P,AType::None,3.888*ptr->Substats[i].second}});
+            buffSingle(memo,{{Stats::HP_P,AType::NONE,3.888*ptr->substats[i].second}});
             }
         }
-        if(ptr->Substats[i].first==Stats::CR){
-            buffSingle(ptr,{{Stats::CR,AType::None,2.9*ptr->Substats[i].second}});
+        if(ptr->substats[i].first==Stats::CR){
+            buffSingle(ptr,{{Stats::CR,AType::NONE,2.9*ptr->substats[i].second}});
             if(auto *memo = ptr->memosprite.get()){
-            buffSingle(memo,{{Stats::CR,AType::None,2.9*ptr->Substats[i].second}});
+            buffSingle(memo,{{Stats::CR,AType::NONE,2.9*ptr->substats[i].second}});
             }
 
-        }else if(ptr->Substats[i].first==Stats::CD){
-            buffSingle(ptr,{{Stats::CD,AType::None,5.8*ptr->Substats[i].second}});
+        }else if(ptr->substats[i].first==Stats::CD){
+            buffSingle(ptr,{{Stats::CD,AType::NONE,5.8*ptr->substats[i].second}});
             if(auto *memo = ptr->memosprite.get()){
-            buffSingle(memo,{{Stats::CD,AType::None,5.8*ptr->Substats[i].second}});
+            buffSingle(memo,{{Stats::CD,AType::NONE,5.8*ptr->substats[i].second}});
             }
             
-        }else if(ptr->Substats[i].first==Stats::ATK_P){
-            buffSingle(ptr,{{Stats::ATK_P,AType::None,3.888*ptr->Substats[i].second}});
+        }else if(ptr->substats[i].first==Stats::ATK_P){
+            buffSingle(ptr,{{Stats::ATK_P,AType::NONE,3.888*ptr->substats[i].second}});
             if(auto *memo = ptr->memosprite.get()){
-            buffSingle(memo,{{Stats::ATK_P,AType::None,3.888*ptr->Substats[i].second}});
+            buffSingle(memo,{{Stats::ATK_P,AType::NONE,3.888*ptr->substats[i].second}});
             }
             
-        }else if(ptr->Substats[i].first==Stats::DEF_P){
-            buffSingle(ptr,{{Stats::DEF_P,AType::None,4.86*ptr->Substats[i].second}});
+        }else if(ptr->substats[i].first==Stats::DEF_P){
+            buffSingle(ptr,{{Stats::DEF_P,AType::NONE,4.86*ptr->substats[i].second}});
             if(auto *memo = ptr->memosprite.get()){
-            buffSingle(memo,{{Stats::DEF_P,AType::None,4.86*ptr->Substats[i].second}});
+            buffSingle(memo,{{Stats::DEF_P,AType::NONE,4.86*ptr->substats[i].second}});
             }
             
-        }else if(ptr->Substats[i].first==Stats::BE){
-            buffSingle(ptr,{{Stats::BE,AType::None,5.8*ptr->Substats[i].second}});
+        }else if(ptr->substats[i].first==Stats::BE){
+            buffSingle(ptr,{{Stats::BE,AType::NONE,5.8*ptr->substats[i].second}});
             if(auto *memo = ptr->memosprite.get()){
-            buffSingle(memo,{{Stats::BE,AType::None,5.8*ptr->Substats[i].second}});
+            buffSingle(memo,{{Stats::BE,AType::NONE,5.8*ptr->substats[i].second}});
             }
         }
     }
 }
-bool Reroll_substats(){
+bool rerollSubstats(){
     bool allDone = true;
-    for(int i=1; i<= Total_ally; i++){
+    for(int i=1; i<= totalAlly; i++){
         if(rerollFunction(charUnit[i].get())) allDone = false;
     }
     return allDone;
@@ -69,7 +69,7 @@ bool Reroll_substats(){
 //   มีชุดที่ดาเมจดีขึ้น → sweep target เดิมซ้ำ เริ่มจาก best ใหม่
 //   ไม่มีเลย          → target +1 แล้ว source กลับไปเริ่มที่ 0
 // target เลยช่องสุดท้าย → คืน Substats เป็น bestSubstats แล้วจบ
-bool StandardReroll(CharUnit *ptr){
+bool standardReroll(CharUnit *ptr){
     if(!ptr->rerollActive) return false;
 
     // วัดผลรอบ sim ที่เพิ่งจบ — นับ improvement เฉพาะชุดทดลอง (รอบแรกสุดคือ baseline ไม่นับ)
@@ -103,26 +103,26 @@ bool trySwapSubstat(CharUnit *ptr, int sourceIndex){
     if(ptr->rerollSweepBase[sourceIndex] <= 0) return false;
 
     for(int i=0, sz = ptr->rerollSweepBase.size(); i<sz; i++){
-        ptr->Substats[i].second = ptr->rerollSweepBase[i];
+        ptr->substats[i].second = ptr->rerollSweepBase[i];
     }
-    ptr->Substats[sourceIndex].second--;
-    ptr->Substats[ptr->rerollTargetIndex].second++;
+    ptr->substats[sourceIndex].second--;
+    ptr->substats[ptr->rerollTargetIndex].second++;
     return true;
 }
 void restoreBestSubstats(CharUnit *ptr){
     for(int i=0, sz = ptr->bestSubstats.size(); i<sz; i++){
-        ptr->Substats[i].second = ptr->bestSubstats[i];
+        ptr->substats[i].second = ptr->bestSubstats[i];
     }
 }
 
-/* ------------------------ ปิดไว้ก่อน (2026-09-13) — ใช้แค่ StandardReroll ------------------------
+/* ------------------------ ปิดไว้ก่อน (2026-09-13) — ใช้แค่ standardReroll ------------------------
  * โค้ดข้างล่างคงไว้ตามเดิมก่อน refactor ยังอ้างชื่อเก่า: Reroll_check -> rerollActive,
  * Max_damage_Substats -> bestSubstats และ Damage_data / currentTotalSubstats (ลบ field ไปแล้ว)
- * เดิมพึ่ง goto again ใน Reroll_substats() ข้ามชุดที่ติดลบ ซึ่งเอาออกไปแล้ว
+ * เดิมพึ่ง goto again ใน rerollSubstats() ข้ามชุดที่ติดลบ ซึ่งเอาออกไปแล้ว
  * จะเปิดกลับ: แก้ชื่อ + ใส่ Damage_data คืน + กันค่าติดลบเอง + เปิด enum (StatusEnum.h) และ SetCombat.h
 
 bool AllCombinationReroll(CharUnit *ptr){
-    if(0 == ptr->Reroll_check&&ptr->AvgDmgRecord[0].maxDmgRecord>=0)return false;
+    if(0 == ptr->Reroll_check&&ptr->avgDmgRecord[0].maxDmgRecord>=0)return false;
     changeMaxDamage(ptr);
     if(ptr->Substats.size()<=1||ptr->Reroll_check==0){
         ptr->Reroll_check = 0;
@@ -131,9 +131,9 @@ bool AllCombinationReroll(CharUnit *ptr){
     int index = 0;
     
         for(int i=0;i<ptr->Substats.size();i++){
-            index+= ptr->Substats[i].second*pow(ptr->Total_substats+1,i);
+            index+= ptr->Substats[i].second*pow(ptr->totalSubstats+1,i);
         }
-        ptr->Damage_data[index] = ptr->AvgDmgRecord[0].currentDmgRecord;
+        ptr->Damage_data[index] = ptr->avgDmgRecord[0].currentDmgRecord;
          
         if(ptr->Substats[ptr->Substats.size()-1].second==ptr->currentTotalSubstats){
         ptr->Reroll_check = 0;
@@ -164,9 +164,9 @@ bool AllPossibleReroll(CharUnit *ptr){
     int index = 0;
     
         for(int i=ptr->Substats.size();i>=1;i--){
-            index+= ptr->Substats[i].second*pow(ptr->Total_substats+1,i);
+            index+= ptr->Substats[i].second*pow(ptr->totalSubstats+1,i);
         }
-        ptr->Damage_data[index] = ptr->AvgDmgRecord[0].currentDmgRecord;
+        ptr->Damage_data[index] = ptr->avgDmgRecord[0].currentDmgRecord;
     
     // When Reroll with all Combination it will decrease total substats
     if(ptr->Substats[ptr->Substats.size()-1].second==ptr->currentTotalSubstats){

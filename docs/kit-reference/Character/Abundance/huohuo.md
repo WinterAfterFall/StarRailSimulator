@@ -84,7 +84,7 @@ HP +28% · Effect RES +18% · SPD +5
 - **Divine Provision** = สถานะแกน: ให้ทั้ง passive heal (เริ่มเทิร์นเพื่อน / เพื่อนใช้ Ult), debuff cleanse, cap 6 ครั้ง, ลดเวลาตอนเริ่มเทิร์น Huohuo
 - **Ultimate** = energy regen เป็น % ของ Max Energy เพื่อน (ไม่ใช่ค่าคงที่) + ATK% buff
 - A4: ATK buff แยกเป็น 40% base + 24% conditional (Max Energy ≥ 160)
-- A2: pre-combat energy 30 + Divine Provision 2 เทิร์น (โค้ดใน `Start_game_List`)
+- A2: pre-combat energy 30 + Divine Provision 2 เทิร์น (โค้ดใน `startGameList`)
 - E1 SPD +12% ทีม + Huohuo outgoing heal +20% ผูกกับการถือ Divine Provision
 - E6 DMG buff 50% ติดตอนฮีล — apply กว้าง (ทุกครั้งที่ heal target)
 

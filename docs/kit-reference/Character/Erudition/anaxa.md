@@ -86,7 +86,7 @@ CRIT Rate +12% · HP +10% · Wind DMG +22.4%
 - **A6 DEF ignore**: 4% × weakness type count (cap 7)
 - **A2 energy**: BA +10, +30 conditional ต้นเทิร์น
 - **Ult Sublimation**: 7-type weakness + soft CC (ถ้าไม่มี Control RES)
-- **A4** ผูกกับ Erudition count → E6 unlock ทั้งคู่; โค้ด `Start_game_List` (`Anaxaptr`, allEventAdjustStats)
+- **A4** ผูกกับ Erudition count → E6 unlock ทั้งคู่; โค้ด `startGameList` (`Anaxaptr`, allEventAdjustStats)
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/anaxa — kit tab (review patch 3.2, calc patch 4.3, profile 01/Jun/2026)

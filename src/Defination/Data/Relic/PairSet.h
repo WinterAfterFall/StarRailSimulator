@@ -1,13 +1,13 @@
 #include "../include.h"
 namespace Relic{
-    function<void(CharUnit *ptr)> PairSet(PairSetType first,PairSetType second){
+    function<void(CharUnit *ptr)> pairSet(PairSetType first,PairSetType second){
         return [=](CharUnit *ptr) {
-            ptr->Relic.Name = "PairSet";
-            function<void(CharUnit *ptr)> Relic1 = ptr->RelicPairSet(first);
-            function<void(CharUnit *ptr)> Relic2 = ptr->RelicPairSet(second);
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Relic1,Relic2](CharUnit *ptr) {
-                Relic1(ptr);
-                Relic2(ptr);
+            ptr->Relic.name = "PairSet";
+            function<void(CharUnit *ptr)> relic1 = ptr->relicPairSet(first);
+            function<void(CharUnit *ptr)> relic2 = ptr->relicPairSet(second);
+            resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [relic1,relic2](CharUnit *ptr) {
+                relic1(ptr);
+                relic2(ptr);
             }));
         };
     }

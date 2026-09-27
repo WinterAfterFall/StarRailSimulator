@@ -17,4 +17,4 @@ User ยืนยัน 2026-09-17: ทำเป็นทางลัดเพ�
 
 ## `PointerWithValue`
 
-จากโค้ด: เก็บ `AllyUnit* ptr` คู่กับ `double value`; `Less_cmp` เปรียบเทียบด้วย `<` และ `Greater_cmp` ด้วย `>` การนำไปจัดลำดับเป้าหมายฮีลมีบันทึกแล้วใน [ChangeHP.md](../../Function/Combat/ChangeHP.md) ไม่ต้องเริ่มถามกลไกฮีลนี้ใหม่
+จากโค้ด: เก็บ `AllyUnit* ptr` คู่กับ `double value`; `lessCmp` เปรียบเทียบด้วย `<` และ `greaterCmp` ด้วย `>` การนำไปจัดลำดับเป้าหมายฮีลมีบันทึกแล้วใน [ChangeHP.md](../../Function/Combat/ChangeHP.md) ไม่ต้องเริ่มถามกลไกฮีลนี้ใหม่

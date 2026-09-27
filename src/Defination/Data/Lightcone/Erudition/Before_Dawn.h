@@ -2,42 +2,42 @@
 namespace Erudition_Lightcone{
     function<void(CharUnit *ptr)> Before_Dawn(int superimpose){
         return [=](CharUnit *ptr) {
-            ptr->SetAllyBaseStats(1058,582,463);
+            ptr->setAllyBaseStats(1058,582,463);
 
-            ptr->Light_cone.Name = "Before_Dawn";
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
-                ptr->Stats_type[Stats::CD][AType::None] += 30 + 6 * superimpose;
-                ptr->Stats_type[Stats::DMG][AType::SKILL] += 15 + 3 * superimpose;
-                ptr->Stats_type[Stats::DMG][AType::Ult] += 15 + 3 * superimpose;
+            ptr->lightCone.name = "Before_Dawn";
+            resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+                ptr->statsType[Stats::CD][AType::NONE] += 30 + 6 * superimpose;
+                ptr->statsType[Stats::DMG][AType::SKILL] += 15 + 3 * superimpose;
+                ptr->statsType[Stats::DMG][AType::ULT] += 15 + 3 * superimpose;
             }));
     
-            BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                if (act->Attacker->Atv_stats->Name == ptr->Atv_stats->Name &&
+            beforeAttackActionList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
+                if (act->attacker->atvStats->name == ptr->atvStats->name &&
                     ptr->stack["Somnus_Corpus"] == 1) {
                     for (auto e : act->actionTypeList) {
-                        if (e == AType::Fua) {
-                            ptr->Stats_type[Stats::DMG][AType::Fua] += 40 + 8 * superimpose;
+                        if (e == AType::FUA) {
+                            ptr->statsType[Stats::DMG][AType::FUA] += 40 + 8 * superimpose;
                             break;
                         }
                     }
                 }
             }));
     
-            AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
-                if (act->Attacker->Atv_stats->Name != ptr->Atv_stats->Name) return;
+            afterAttackActionList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
+                if (act->attacker->atvStats->name != ptr->atvStats->name) return;
     
                 for (auto e : act->actionTypeList) {
-                    if (e == AType::SKILL || e == AType::Ult) {
+                    if (e == AType::SKILL || e == AType::ULT) {
                         ptr->stack["Somnus_Corpus"] = 1;
                         break;
                     }
                 }
     
-                if (act->Attacker->Atv_stats->Name == ptr->Atv_stats->Name &&
+                if (act->attacker->atvStats->name == ptr->atvStats->name &&
                     ptr->stack["Somnus_Corpus"] == 1) {
                     for (auto e : act->actionTypeList) {
-                        if (e == AType::Fua) {
-                            ptr->Stats_type[Stats::DMG][AType::Fua] -= 40 + 8 * superimpose;
+                        if (e == AType::FUA) {
+                            ptr->statsType[Stats::DMG][AType::FUA] -= 40 + 8 * superimpose;
                             ptr->stack["Somnus_Corpus"] = 0;
                             break;
                         }

@@ -1,5 +1,5 @@
-#ifndef Combat_Declaration_H
-#define Combat_Declaration_H
+#ifndef COMBAT_DECLARATION_H
+#define COMBAT_DECLARATION_H
 
 #include "Action_value.h"
 #include "Buff_Stats.h"

@@ -1,6 +1,6 @@
 # `src/Defination/Data/Lightcone/Nihility/BlackSwan_LC.h`
 
-`namespace Nihility_Lightcone` · `Light_cone.Name` = `"BlackSwan_LC"` · base stats `SetAllyBaseStats(953, 635, 463)`
+`namespace Nihility_Lightcone` · `lightCone.name` = `"BlackSwan_LC"` · base stats `setAllyBaseStats(953, 635, 463)`
 
 **signature ของ Black Swan** (ดู `../../Character/Nihility/Black Swan.md`)
 
@@ -8,22 +8,22 @@
 
 | ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| base stats | `SetAllyBaseStats(953, 635, 463)` | `BlackSwan_LC.h:5` |
+| base stats | `setAllyBaseStats(953, 635, 463)` | `BlackSwan_LC.h:5` |
 | EHR `35 + 5S` | บวกถาวร | `:8` |
-| ผู้สวมโจมตีเป้าที่ติด DoT แต่ละชนิด (Shock / Wind Shear / Burn / Bleed) → ATK `4 + S`% และ DoT ignore DEF `6.5 + 0.7S`% ต่อชนิด (ครั้งเดียวต่อชนิด ถาวร) | `BeforeAttackAction_List` วนเป้า · เช็คตัวนับ DoT ของศัตรู · `isHaveToAddBuff` ชื่อแยกต่อชนิด | `:11-37` (Shock `:14` · Wind `:20` · Burn `:25` · Bleed `:31`) |
+| ผู้สวมโจมตีเป้าที่ติด DoT แต่ละชนิด (Shock / Wind Shear / Burn / Bleed) → ATK `4 + S`% และ DoT ignore DEF `6.5 + 0.7S`% ต่อชนิด (ครั้งเดียวต่อชนิด ถาวร) | `beforeAttackActionList` วนเป้า · เช็คตัวนับ DoT ของศัตรู · `isHaveToAddBuff` ชื่อแยกต่อชนิด | `:11-37` (Shock `:14` · Wind `:20` · Burn `:25` · Bleed `:31`) |
 
 ## รากฐาน: อ่านตัวนับชนิด DoT บนศัตรูตรง ๆ
 
 ```cpp
-if (target->ShockCount     > 0 && isHaveToAddBuff(ptr,"BS LC Shock"))     buffSingle(ptr, {...});
-if (target->WindSheerCount > 0 && isHaveToAddBuff(ptr,"BS LC WindShear")) buffSingle(ptr, {...});
-if (target->BurnCount      > 0 && isHaveToAddBuff(ptr,"BS LC Burn"))      buffSingle(ptr, {...});
-if (target->BleedCount     > 0 && isHaveToAddBuff(ptr,"BS LC Bleed"))     buffSingle(ptr, {...});
+if (target->shockCount     > 0 && isHaveToAddBuff(ptr,"BS LC Shock"))     buffSingle(ptr, {...});
+if (target->windSheerCount > 0 && isHaveToAddBuff(ptr,"BS LC WindShear")) buffSingle(ptr, {...});
+if (target->burnCount      > 0 && isHaveToAddBuff(ptr,"BS LC Burn"))      buffSingle(ptr, {...});
+if (target->bleedCount     > 0 && isHaveToAddBuff(ptr,"BS LC Bleed"))     buffSingle(ptr, {...});
 ```
-- **`ShockCount` / `WindSheerCount` / `BurnCount` / `BleedCount`** เป็นฟิลด์บน `Enemy` ที่ `changeDotType()` ขยับให้ (`Class/Unit/Enemy.h:86`) — **สะกด `WindSheer` ไม่ใช่ `WindShear`** เวลา grep ต้องระวัง
+- **`shockCount` / `windSheerCount` / `burnCount` / `bleedCount`** เป็นฟิลด์บน `Enemy` ที่ `changeDotType()` ขยับให้ (`Class/Unit/Enemy.h:86`) — **สะกด `WindSheer` ไม่ใช่ `WIND_SHEAR`** เวลา grep ต้องระวัง
 - **`isHaveToAddBuff` แบบ 2 args เป็นตัวกันลงซ้ำถาวร** — บัฟแต่ละชนิดลงได้ครั้งเดียวตลอดการต่อสู้ ไม่มีการถอน · ตรงกับ kit ที่ให้บัฟสะสมตามชนิด DoT ที่เคยเห็น
 
 ## จุดที่ควรระวัง
 
 - **บล็อก 4 ก้อนเหมือนกันทุกบรรทัดต่างแค่ชื่อฟิลด์และชื่อบัฟ** — ถ้าแก้ตัวเลขต้องแก้ 4 ที่
-- **แก้ 2026-09-26**: เดิมใช้ `AfterApplyDebuff` (ใครลง debuff ก็นับ) และ DEF_SHRED เป็น `AType::None` (ได้กับดาเมจทุกชนิด) · ตอนนี้นับเมื่อผู้สวมโจมตีเป้าที่มี DoT และ DEF ignore เฉพาะ `AType::Dot` ตาม kit
+- **แก้ 2026-09-26**: เดิมใช้ `afterApplyDebuff` (ใครลง debuff ก็นับ) และ DEF_SHRED เป็น `AType::NONE` (ได้กับดาเมจทุกชนิด) · ตอนนี้นับเมื่อผู้สวมโจมตีเป้าที่มี DoT และ DEF ignore เฉพาะ `AType::DOT` ตาม kit

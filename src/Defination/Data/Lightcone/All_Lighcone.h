@@ -1,5 +1,5 @@
-#ifndef All_Lightcone_H
-#define All_Lightcone_H
+#ifndef ALL_LIGHTCONE_H
+#define ALL_LIGHTCONE_H
 #include".\Abundance\All_Abundance_LC.h"
 #include".\Destruction\All_Destruction_LC.h"
 #include".\Erudition\All_Erudition_LC.h"
@@ -8,9 +8,9 @@
 #include".\Preservation\All_Preservation_LC.h"
 #include".\Remembrance\All_Remembrance_LC.h"
 #include".\Elation\All_Elation_LC.h"
-function<void(CharUnit *ptr)> LightCone_temp(double HP,double ATK,double DEF){
+function<void(CharUnit *ptr)> lightConeTemp(double hp,double atk,double def){
     return [=](CharUnit *ptr) {
-        ptr->SetAllyBaseStats( HP, ATK, DEF);
+        ptr->setAllyBaseStats( hp, atk, def);
     };
 }
 #endif

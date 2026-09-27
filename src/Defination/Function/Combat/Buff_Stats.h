@@ -1,82 +1,82 @@
 #include "../include.h"
 
 //Is have to buff
-    bool isHaveToAddBuff(AllyUnit *ptr,string Buff_name){
-        if(ptr->buffCheck[Buff_name]==1){
+    bool isHaveToAddBuff(AllyUnit *ptr,string buffName){
+        if(ptr->buffCheck[buffName]==1){
             return false;
         }
-        ptr->buffCheck[Buff_name] = 1;
+        ptr->buffCheck[buffName] = 1;
         return true;
     }
-    bool isHaveToAddBuff(AllyUnit *ptr,string Buff_name,int extend){
-        extendBuffTime(ptr,Buff_name,extend);
-        if(ptr->buffCheck[Buff_name]==1){
+    bool isHaveToAddBuff(AllyUnit *ptr,string buffName,int extend){
+        extendBuffTime(ptr,buffName,extend);
+        if(ptr->buffCheck[buffName]==1){
             return false;
         }
-        ptr->buffCheck[Buff_name] = 1;
+        ptr->buffCheck[buffName] = 1;
         return true;
     }
 
 //เช็คบัพว่าจบหรือยัง 
-    bool isBuffEnd(AllyUnit *ptr,string Buff_name){
-        if(ptr->Atv_stats->turnCnt==ptr->buffEnd[Buff_name]&&turn->Name==ptr->Atv_stats->Name){
-            ptr->buffCheck[Buff_name] = 0;
-            ptr->buffEnd[Buff_name] = 0;
+    bool isBuffEnd(AllyUnit *ptr,string buffName){
+        if(ptr->atvStats->turnCnt==ptr->buffEnd[buffName]&&turn->name==ptr->atvStats->name){
+            ptr->buffCheck[buffName] = 0;
+            ptr->buffEnd[buffName] = 0;
             return true;
         }
         return false;
     }
-    bool isBuffGoneByDeath(AllyUnit *ptr,string Buff_name){
-        if(ptr->getBuffCheck(Buff_name)){
-            ptr->buffCheck[Buff_name] = 0;
-            ptr->buffEnd[Buff_name] = 0;
+    bool isBuffGoneByDeath(AllyUnit *ptr,string buffName){
+        if(ptr->getBuffCheck(buffName)){
+            ptr->buffCheck[buffName] = 0;
+            ptr->buffEnd[buffName] = 0;
             return true;
         }
         return false;
     }
 
 //Extend
-    void extendBuffTime(AllyUnit *ptr,string Buff_name,int Turn_extend){
-        ptr->buffEnd[Buff_name] = ptr->Atv_stats->turnCnt+Turn_extend;
+    void extendBuffTime(AllyUnit *ptr,string buffName,int turnExtend){
+        ptr->buffEnd[buffName] = ptr->atvStats->turnCnt+turnExtend;
     }
-    void extendCharBuffTime(CharUnit *ptr,string Buff_name,int Turn_extend){
-        extendBuffTime(ptr,Buff_name,Turn_extend);
+    void extendCharBuffTime(CharUnit *ptr,string buffName,int turnExtend){
+        extendBuffTime(ptr,buffName,turnExtend);
         if(auto *each = ptr->memosprite.get()){
-            extendBuffTime(each,Buff_name,Turn_extend);
+            extendBuffTime(each,buffName,turnExtend);
         }
     }
-    void extendBuffTimeAllAlly(string Buff_name,int Turn_extend){
+    void extendBuffTimeAllAlly(string buffName,int turnExtend){
         for(auto &each : allyList){
-            extendBuffTime(each,Buff_name,Turn_extend);
+            extendBuffTime(each,buffName,turnExtend);
         }
     }
-    void extendBuffTimeTargets(vector<AllyUnit*> target,string Buff_name,int Turn_extend){
+    void extendBuffTimeTargets(vector<AllyUnit*> target,string buffName,int turnExtend){
         for(auto &each : target){
-            extendBuffTime(each,Buff_name,Turn_extend);
+            extendBuffTime(each,buffName,turnExtend);
         }
     }
-    void extendBuffTimeExcludingBuffer(string Buffer_name,string Buff_name,int Turn_extend){
+    void extendBuffTimeExcludingBuffer(string bufferName,string buffName,int turnExtend){
         for(auto &each : allyList){
-            if(each->isSameName(Buffer_name))continue;
-            extendBuffTime(each,Buff_name,Turn_extend);
+            if(each->isSameName(bufferName))continue;
+            extendBuffTime(each,buffName,turnExtend);
         }
     }
-    void extendBuffTimeExcludingBuffer(AllyUnit *Buffer,string Buff_name,int Turn_extend){
+    void extendBuffTimeExcludingBuffer(AllyUnit *buffer,string buffName,int turnExtend){
         for(auto &each : allyList){
-            if(each->isSameName(Buffer))continue;
-            extendBuffTime(each,Buff_name,Turn_extend);
+            if(each->isSameName(buffer))continue;
+            extendBuffTime(each,buffName,turnExtend);
         }
     }
-    void extendBuffTimeExcludingBuffer(string Buffer_name,vector<AllyUnit*> target,std::string Buff_name, int Turn_extend){    
+    void extendBuffTimeExcludingBuffer(string bufferName,vector<AllyUnit*> target,std::string buffName, int turnExtend){    
         for(auto &each : target){
-            if(each->isSameName(Buffer_name))continue;
-            extendBuffTime(each,Buff_name,Turn_extend);
+            if(each->isSameName(bufferName))continue;
+            extendBuffTime(each,buffName,turnExtend);
         }
     }
-    void extendBuffTimeExcludingBuffer(AllyUnit *Buffer,vector<AllyUnit*> target,std::string Buff_name, int Turn_extend){
+    void extendBuffTimeExcludingBuffer(AllyUnit *buffer,vector<AllyUnit*> target,std::string buffName, int turnExtend){
             for(auto &each : target){
-            if(each->isSameName(Buffer))continue;
-            extendBuffTime(each,Buff_name,Turn_extend);
+            if(each->isSameName(buffer))continue;
+            extendBuffTime(each,buffName,turnExtend);
         }
     }
 
@@ -87,8 +87,8 @@
                 ptr->speedBuff(buff);
                 ahaSpeedAdjust(ptr->owner->path);
             }
-            else ptr->Stats_type[buff.statsType][buff.actionType] += buff.value;
-            if(buff.actionType==AType::None)StatsAdjust(ptr,buff.statsType);
+            else ptr->statsType[buff.statsType][buff.actionType] += buff.value;
+            if(buff.actionType==AType::NONE)statsAdjust(ptr,buff.statsType);
         }
     }
     void buffSingle(AllyUnit *ptr,vector<BuffClass> buffSet,string buffName,int extend){
@@ -98,20 +98,20 @@
                     ptr->speedBuff(buff);
                     ahaSpeedAdjust(ptr->owner->path);
                 }
-                else ptr->Stats_type[buff.statsType][buff.actionType] += buff.value;
-                if(buff.actionType==AType::None)StatsAdjust(ptr,buff.statsType);
+                else ptr->statsType[buff.statsType][buff.actionType] += buff.value;
+                if(buff.actionType==AType::NONE)statsAdjust(ptr,buff.statsType);
             }
         }
     }
     void buffSingle(AllyUnit *ptr,vector<BuffElementClass> buffSet){
         for(BuffElementClass &buff : buffSet){
-            ptr->Stats_each_element[buff.statsType][buff.element][buff.actionType] += buff.value;
+            ptr->statsEachElement[buff.statsType][buff.element][buff.actionType] += buff.value;
         }
     }
     void buffSingle(AllyUnit *ptr,vector<BuffElementClass> buffSet,string buffName,int extend){
     if(isHaveToAddBuff(ptr,buffName,extend)){
         for(BuffElementClass &buff : buffSet){
-            ptr->Stats_each_element[buff.statsType][buff.element][buff.actionType] += buff.value;
+            ptr->statsEachElement[buff.statsType][buff.element][buff.actionType] += buff.value;
         }
     }
 }
@@ -129,45 +129,45 @@
             buffSingle(e,buffSet);
         }
     }
-    void buffSingleChar(CharUnit *ptr,vector<BuffClass> buffSet,string Buff_name,int extend){
-        buffSingle(ptr,buffSet,Buff_name,extend);
+    void buffSingleChar(CharUnit *ptr,vector<BuffClass> buffSet,string buffName,int extend){
+        buffSingle(ptr,buffSet,buffName,extend);
         if(auto *e = ptr->memosprite.get()){
-            buffSingle(e,buffSet,Buff_name,extend);
+            buffSingle(e,buffSet,buffName,extend);
         }
     }
-    void buffSingleChar(CharUnit *ptr,vector<BuffElementClass> buffSet,string Buff_name,int extend){
-        buffSingle(ptr,buffSet,Buff_name,extend);
+    void buffSingleChar(CharUnit *ptr,vector<BuffElementClass> buffSet,string buffName,int extend){
+        buffSingle(ptr,buffSet,buffName,extend);
         if(auto *e = ptr->memosprite.get()){
-            buffSingle(e,buffSet,Buff_name,extend);
+            buffSingle(e,buffSet,buffName,extend);
         }
     }   
 
 //buff เฉพาะ Memosprite
     void buffAllMemosprite(vector<BuffClass> buffSet) {
-        for (int i=1;i<=Total_ally;i++) {
+        for (int i=1;i<=totalAlly;i++) {
             if(auto *memo = charUnit[i]->memosprite.get()){
                 buffSingle(memo,buffSet);
             }
         }
     }
     void buffAllMemosprite(vector<BuffElementClass> buffSet) {
-        for (int i=1;i<=Total_ally;i++) {
+        for (int i=1;i<=totalAlly;i++) {
             if(auto *memo = charUnit[i]->memosprite.get()){
                 buffSingle(memo,buffSet);
             }
         }
     }
-    void buffAllMemosprite(vector<BuffClass> buffSet, string Buff_name,int extend) {
-        for (int i=1;i<=Total_ally;i++) {
+    void buffAllMemosprite(vector<BuffClass> buffSet, string buffName,int extend) {
+        for (int i=1;i<=totalAlly;i++) {
             if(auto *memo = charUnit[i]->memosprite.get()){
-                buffSingle(memo,buffSet,Buff_name,extend);
+                buffSingle(memo,buffSet,buffName,extend);
             }
         }
     }
-    void buffAllMemosprite(vector<BuffElementClass> buffSet, string Buff_name,int extend) {
-        for (int i=1;i<=Total_ally;i++) {
+    void buffAllMemosprite(vector<BuffElementClass> buffSet, string buffName,int extend) {
+        for (int i=1;i<=totalAlly;i++) {
             if(auto *memo = charUnit[i]->memosprite.get()){
-                buffSingle(memo,buffSet,Buff_name,extend);
+                buffSingle(memo,buffSet,buffName,extend);
             }
         }
     }
@@ -183,14 +183,14 @@
             buffSingle(e,buffSet);
         }
     }
-    void buffAllAlly(vector<BuffClass> buffSet, string Buff_name,int extend) {
+    void buffAllAlly(vector<BuffClass> buffSet, string buffName,int extend) {
         for (auto &e : allyList) {
-            buffSingle(e,buffSet,Buff_name,extend);
+            buffSingle(e,buffSet,buffName,extend);
         }
     }
-    void buffAllAlly(vector<BuffElementClass> buffSet, string Buff_name,int extend) {
+    void buffAllAlly(vector<BuffElementClass> buffSet, string buffName,int extend) {
         for (auto &e : allyList) {
-            buffSingle(e,buffSet,Buff_name,extend);
+            buffSingle(e,buffSet,buffName,extend);
         }
     }
     
@@ -205,14 +205,14 @@
             buffSingle(each,buffSet);
         }
     }
-    void buffTargets(vector<AllyUnit*> target,std::vector<BuffClass> buffSet, std::string Buff_name, int extend){
+    void buffTargets(vector<AllyUnit*> target,std::vector<BuffClass> buffSet, std::string buffName, int extend){
         for (auto &each : target) {
-            buffSingle(each,buffSet,Buff_name,extend);
+            buffSingle(each,buffSet,buffName,extend);
         }
     }
-    void buffTargets(vector<AllyUnit*> target,std::vector<BuffElementClass> buffSet, std::string Buff_name, int extend){
+    void buffTargets(vector<AllyUnit*> target,std::vector<BuffElementClass> buffSet, std::string buffName, int extend){
         for (auto &each : target) {
-            buffSingle(each,buffSet,Buff_name,extend);
+            buffSingle(each,buffSet,buffName,extend);
         }
     }
 
@@ -229,16 +229,16 @@
             buffSingle(each,buffSet);
         }
     }
-    void buffAllAllyExcludingBuffer(AllyUnit *ptr,vector<BuffClass> buffSet, string Buff_name,int extend) {
+    void buffAllAllyExcludingBuffer(AllyUnit *ptr,vector<BuffClass> buffSet, string buffName,int extend) {
         for (auto &each : allyList) {
             if (ptr->isSameName(each)) continue;
-            buffSingle(each,buffSet,Buff_name,extend);
+            buffSingle(each,buffSet,buffName,extend);
         }
     }
-    void buffAllAllyExcludingBuffer(AllyUnit *ptr,vector<BuffElementClass> buffSet, string Buff_name,int extend) {
+    void buffAllAllyExcludingBuffer(AllyUnit *ptr,vector<BuffElementClass> buffSet, string buffName,int extend) {
         for (auto &each : allyList) {
             if (ptr->isSameName(each)) continue;
-            buffSingle(each,buffSet,Buff_name,extend);
+            buffSingle(each,buffSet,buffName,extend);
         }
     }
 
@@ -255,15 +255,15 @@
             buffSingle(each,buffSet);
         }
     }
-    void buffTargetsExcludingBuffer(AllyUnit *ptr,vector<AllyUnit*> target,vector<BuffClass> buffSet,string Buff_name,int Turn_extend){
+    void buffTargetsExcludingBuffer(AllyUnit *ptr,vector<AllyUnit*> target,vector<BuffClass> buffSet,string buffName,int turnExtend){
         for (auto &each : target) {
             if (ptr->isSameName(each)) continue;
-            buffSingle(each,buffSet,Buff_name,Turn_extend);
+            buffSingle(each,buffSet,buffName,turnExtend);
         }
     }
-    void buffTargetsExcludingBuffer(AllyUnit *ptr,vector<AllyUnit*> target,vector<BuffElementClass> buffSet,string Buff_name,int Turn_extend){
+    void buffTargetsExcludingBuffer(AllyUnit *ptr,vector<AllyUnit*> target,vector<BuffElementClass> buffSet,string buffName,int turnExtend){
         for (auto &each : target) {
             if (ptr->isSameName(each)) continue;
-            buffSingle(each,buffSet,Buff_name,Turn_extend);
+            buffSingle(each,buffSet,buffName,turnExtend);
         }
     }

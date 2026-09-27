@@ -1,6 +1,6 @@
 # `src/Defination/Data/Lightcone/Destruction/Clara_LC.h`
 
-`namespace Destruction_Lightcone` · `Light_cone.Name` = `"Clara_LC"` · base stats `SetAllyBaseStats(1164, 582, 397)`
+`namespace Destruction_Lightcone` · `lightCone.name` = `"Clara_LC"` · base stats `setAllyBaseStats(1164, 582, 397)`
 
 **signature ของ Clara** (ตัวละครยังไม่มีในโปรเจกต์)
 
@@ -8,21 +8,21 @@
 
 | ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| base stats | `SetAllyBaseStats(1164, 582, 397)` | `Clara_LC.h:5` |
+| base stats | `setAllyBaseStats(1164, 582, 397)` | `Clara_LC.h:5` |
 | ATK% `20 + 4S` | บวกถาวร | `:8` |
-| ผู้สวมถูกตี → ฮีลตัวเอง `7 + S`% ATK และ DMG `20 + 4S` นาน 1 เทิร์น (ครั้งเดียวต่อเทิร์น) | `Enemy_hit_List` หาผู้สวมใน `target` · flag `"Clara_LC_Triggered"` กันติดซ้ำ · `RestoreHP` + `buffSingle(…, "Clara_LC", 1)` | `:10-20` (ฮีล `:15` · บัฟ `:16`) |
+| ผู้สวมถูกตี → ฮีลตัวเอง `7 + S`% ATK และ DMG `20 + 4S` นาน 1 เทิร์น (ครั้งเดียวต่อเทิร์น) | `enemyHitList` หาผู้สวมใน `target` · flag `"Clara_LC_Triggered"` กันติดซ้ำ · `restoreHP` + `buffSingle(…, "Clara_LC", 1)` | `:10-20` (ฮีล `:15` · บัฟ `:16`) |
 | ล้าง flag "ครั้งเดียวต่อเทิร์น" | ต้นเทิร์นของทุก unit | `:21-23` |
 | ถอน DMG เมื่อหมดอายุ | ท้ายเทิร์นผู้สวม `isBuffEnd` | `:24-28` |
 
 ## จุดที่น่าสังเกต
 
-**เป็น LC ใบเดียวในโฟลเดอร์ที่ฮีล** — `e->RestoreHP(e, HealSrc(HealSrcType::ATK, 7.0 + superimpose))` ใช้ overload `RestoreHP(target, HealSrc)` โดยให้ผู้สวมฮีลตัวเอง
+**เป็น LC ใบเดียวในโฟลเดอร์ที่ฮีล** — `e->restoreHP(e, HealSrc(HealSrcType::ATK, 7.0 + superimpose))` ใช้ overload `restoreHP(target, HealSrc)` โดยให้ผู้สวมฮีลตัวเอง
 
 guard ตัวเองด้วย `e->isSameName(ptr)` แล้ว `return` ถูกต้อง
 
 ## ครั้งเดียวต่อเทิร์น
 
-kit: "can only trigger 1 time per turn" → ตั้ง `buffCheck["Clara_LC_Triggered"] = 1` ตอนติด แล้วล้างเป็น 0 ใน `Before_turn_List` (ยิงทุกเทิร์นของทุกยูนิต รวมศัตรู) · ศัตรูหลายตัวตีในเทิร์นเดียวกันจึงติดได้ครั้งเดียว
+kit: "can only trigger 1 time per turn" → ตั้ง `buffCheck["Clara_LC_Triggered"] = 1` ตอนติด แล้วล้างเป็น 0 ใน `beforeTurnList` (ยิงทุกเทิร์นของทุกยูนิต รวมศัตรู) · ศัตรูหลายตัวตีในเทิร์นเดียวกันจึงติดได้ครั้งเดียว
 
 ## ส่วนที่ยังไม่มี
 

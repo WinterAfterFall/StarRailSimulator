@@ -7,8 +7,8 @@ int main() {
         EnemyType);
 
     CreateEnemySignature createEnemy = &createNewEnemy;
-    SetupEnemySignature setupEnemy = &SetupEnemy;
+    SetupEnemySignature setupEnemyFn = &setupEnemy;
     (void)createEnemy;
-    (void)setupEnemy;
+    (void)setupEnemyFn;
     return 0;
 }

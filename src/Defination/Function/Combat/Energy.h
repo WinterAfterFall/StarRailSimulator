@@ -1,51 +1,51 @@
 #include "../include.h"
 
-void Increase_energy(CharUnit *ptr,double Energy ){
-    allEventWhenEnergyIncrease(ptr,Energy*ptr->Energy_recharge/100);
-    ptr->Current_energy = max(0.0, min(ptr->Max_energy,
-        ptr->Current_energy + Energy*ptr->Energy_recharge/100));
+void increaseEnergy(CharUnit *ptr,double energy ){
+    allEventWhenEnergyIncrease(ptr,energy*ptr->energyRecharge/100);
+    ptr->currentEnergy = max(0.0, min(ptr->maxEnergy,
+        ptr->currentEnergy + energy*ptr->energyRecharge/100));
     
     return ;
 }
-void Increase_energy(AllyUnit *ptr,double Energy ){
-    allEventWhenEnergyIncrease(ptr->owner,Energy*ptr->owner->Energy_recharge/100);
-    ptr->owner->Current_energy = max(0.0, min(ptr->owner->Max_energy,
-        ptr->owner->Current_energy + Energy*ptr->owner->Energy_recharge/100));
+void increaseEnergy(AllyUnit *ptr,double energy ){
+    allEventWhenEnergyIncrease(ptr->owner,energy*ptr->owner->energyRecharge/100);
+    ptr->owner->currentEnergy = max(0.0, min(ptr->owner->maxEnergy,
+        ptr->owner->currentEnergy + energy*ptr->owner->energyRecharge/100));
     
     return ;
 }
-void Increase_energy(CharUnit *ptr,double Energy_percent,double Flat_energy){
-    allEventWhenEnergyIncrease(ptr,Energy_percent/100*ptr->Max_energy+Flat_energy);
-    ptr->Current_energy = max(0.0, min(ptr->Max_energy,
-        ptr->Current_energy + Flat_energy + Energy_percent/100*ptr->Max_energy));
+void increaseEnergy(CharUnit *ptr,double energyPercent,double flatEnergy){
+    allEventWhenEnergyIncrease(ptr,energyPercent/100*ptr->maxEnergy+flatEnergy);
+    ptr->currentEnergy = max(0.0, min(ptr->maxEnergy,
+        ptr->currentEnergy + flatEnergy + energyPercent/100*ptr->maxEnergy));
     
     return;
 }
-void Increase_energy(AllyUnit *ptr,double Energy_percent,double Flat_energy){
-    allEventWhenEnergyIncrease(ptr->owner,Energy_percent/100*ptr->owner->Max_energy+Flat_energy);
-    ptr->owner->Current_energy = max(0.0, min(ptr->owner->Max_energy,
-        ptr->owner->Current_energy + Flat_energy + Energy_percent/100*ptr->owner->Max_energy));
+void increaseEnergy(AllyUnit *ptr,double energyPercent,double flatEnergy){
+    allEventWhenEnergyIncrease(ptr->owner,energyPercent/100*ptr->owner->maxEnergy+flatEnergy);
+    ptr->owner->currentEnergy = max(0.0, min(ptr->owner->maxEnergy,
+        ptr->owner->currentEnergy + flatEnergy + energyPercent/100*ptr->owner->maxEnergy));
     
     return;
 }
 bool ultUseCheck(CharUnit *ptr){
     if(!ptr->isExisted())return false;
-    if(ptr->Ult_cost>ptr->Current_energy)return false;
+    if(ptr->ultCost>ptr->currentEnergy)return false;
     for(function<bool()> &e : ptr->ultCondition){
         if(!e()) return false;
     }
-    ptr->Current_energy = ptr->Current_energy - ptr->Ult_cost;
-    Increase_energy(ptr,5);
-    for(TriggerByAlly_Func &e : WhenUseUlt_List){
-        e.Call(ptr);
+    ptr->currentEnergy = ptr->currentEnergy - ptr->ultCost;
+    increaseEnergy(ptr,5);
+    for(TriggerByAllyFunc &e : whenUseUltList){
+        e.call(ptr);
     }
     return true;
 }
 void allUltimateCheck(){
-    for(TriggerByYourSelf_Func &e : Ultimate_List){
+    for(TriggerByYourSelfFunc &e : ultimateList){
         if(!ultUseCheck(e.owner)) continue;
-        e.Call(e.owner);
-        if(phaseStatus != PhaseStatus::WhileAction) Deal_damage();
+        e.call(e.owner);
+        if(phaseStatus != PhaseStatus::WHILE_ACTION) dealDamage();
     }
 }
 void CharUnit::addUltCondition(function<bool()> condition) {

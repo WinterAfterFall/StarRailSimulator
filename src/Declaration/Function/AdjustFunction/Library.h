@@ -1,5 +1,5 @@
-#ifndef Adjust_Declration_H
-#define Adjust_Declration_H
+#ifndef ADJUST_DECLRATION_H
+#define ADJUST_DECLRATION_H
 
 #include "CharCmd.h"
 #include "EnemyCmd.h"

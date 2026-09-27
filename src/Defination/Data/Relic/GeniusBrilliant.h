@@ -1,11 +1,11 @@
 #include "../include.h"
 namespace Relic{
     void GeniusBrilliant(CharUnit *ptr){
-        ptr->Relic.Name = "GeniusBrilliant";
+        ptr->Relic.name = "GeniusBrilliant";
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_each_element[Stats::DMG][ElementType::Quantum][AType::None] += 10;
-            ptr->Stats_type[Stats::DEF_SHRED][AType::None] += 20;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsEachElement[Stats::DMG][ElementType::QUANTUM][AType::NONE] += 10;
+            ptr->statsType[Stats::DEF_SHRED][AType::NONE] += 20;
         }));
         
         

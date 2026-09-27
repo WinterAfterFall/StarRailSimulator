@@ -1,12 +1,12 @@
 # `src/Defination/Data/Lightcone/Erudition/GreatCosmic.h`
 
-`namespace Erudition_Lightcone` · `Light_cone.Name` = `"GreatCosmic"` · base stats `SetAllyBaseStats(953, 476, 331)`
+`namespace Erudition_Lightcone` · `lightCone.name` = `"GreatCosmic"` · base stats `setAllyBaseStats(953, 476, 331)`
 
 ## ความสามารถหลัก → โค้ดที่ทำงาน
 
 | ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| base stats | `SetAllyBaseStats(953, 476, 331)` | `GreatCosmic.h:5` |
+| base stats | `setAllyBaseStats(953, 476, 331)` | `GreatCosmic.h:5` |
 | ATK% `6 + 2S` | บวกถาวร | `:9` |
 | DMG `(3 + S) × 7` | kit: DMG ตามจำนวน debuff บนเป้า · โค้ดใส่เต็มเพดาน 7 ชั้นถาวร | `:10` |
 

@@ -2,26 +2,26 @@
 namespace Nihility_Lightcone{
     function<void(CharUnit *ptr)> BP2(int superimpose){
         return [=](CharUnit *ptr) {
-            ptr->SetAllyBaseStats(1058,529,331);
-            ptr->Light_cone.Name = "Holiday";
+            ptr->setAllyBaseStats(1058,529,331);
+            ptr->lightCone.name = "Holiday";
             ptr->newApplyBaseChanceRequire(100);
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
-                ptr->Stats_type[Stats::DMG][AType::None] += 12 + 4 * superimpose;
+            resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+                ptr->statsType[Stats::DMG][AType::NONE] += 12 + 4 * superimpose;
             }));
             
-            AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
+            afterAttackActionList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyAttackAction> &act) {
                 if(act->isSameOwnerName(ptr)){
-                    debuffEnemyTargetsApply(ptr,act->targetList,{{Stats::VUL,AType::None,8.5+1.5*superimpose}},"Holiday Vul",2);
+                    debuffEnemyTargetsApply(ptr,act->targetList,{{Stats::VUL,AType::NONE,8.5+1.5*superimpose}},"Holiday Vul",2);
                 }
             }));
 
 
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+            afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
                 Enemy *enemy = turn->canCastToEnemy();
                 if(!enemy)return;
 
                 if(isDebuffEnd(enemy,"Holiday Vul")){
-                    debuffSingle(enemy,{{Stats::VUL,AType::None,-(8.5+1.5*superimpose)}});
+                    debuffSingle(enemy,{{Stats::VUL,AType::NONE,-(8.5+1.5*superimpose)}});
                 }
             }));
         };

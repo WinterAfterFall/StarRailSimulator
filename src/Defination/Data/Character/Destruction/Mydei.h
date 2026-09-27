@@ -1,22 +1,22 @@
 #include "../include.h"
 
 namespace Mydei{
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
-    void Print(CharUnit *ptr);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
+    void print(CharUnit *ptr);
     
 
     //
-    void Basic_Atk(CharUnit *ptr);      
-    void Skill(CharUnit *ptr);
-    void Enchance_Skill(CharUnit *ptr);
-    void GodSlayer(CharUnit *ptr);
-    void ChargePoint(CharUnit *ptr,double point);
-    double CalculateChargePoint(AllyUnit *ptr,double Value);
+    void basicAtk(CharUnit *ptr);      
+    void skill(CharUnit *ptr);
+    void enchanceSkill(CharUnit *ptr);
+    void godSlayer(CharUnit *ptr);
+    void chargePoint(CharUnit *ptr,double point);
+    double calculateChargePoint(AllyUnit *ptr,double value);
     
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
-        CharUnit *ptr = SetCharBasicStats(95,160,160,E,ElementType::Imaginary,Path::Destruction,"Mydei",UnitType::Standard);
-        AllyUnit *Mydeiptr = ptr;
-        ptr->SetAllyBaseStats(1552,426,194);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = setCharBasicStats(95,160,160,eidolon,ElementType::IMAGINARY,Path::DESTRUCTION,"Mydei",UnitType::STANDARD);
+        AllyUnit *mydeiPtr = ptr;
+        ptr->setAllyBaseStats(1552,426,194);
 
         //substats
         ptr->pushSubstats(Stats::CD);
@@ -30,21 +30,21 @@ namespace Mydei{
 
 
         //func
-        LC(ptr);
+        lc(ptr);
         Relic(ptr);
         Planar(ptr);
         
-        ptr->Turn_func = [ptr](){
+        ptr->turnFunc = [ptr](){
             if (ptr->buffCheck["Mydei_Vendetta"] == false) {
-            Skill(ptr);
+            skill(ptr);
             } else {
-            Enchance_Skill(ptr);
+            enchanceSkill(ptr);
             }
         };
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [](CharUnit *ptr) {
+        ultimateList.push_back(TriggerByYourSelfFunc(PRIORITY_BUFF, ptr, [](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
-            make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Blast,"Mydei Ult",
+            make_shared<AllyAttackAction>(AType::ULT,ptr,TraceType::BLAST,"Mydei Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 for (Enemy* e : act->targetList) {
                     // Taunt เป้าหมาย+ข้างเคียง 2 เทิร์น (kit)
@@ -52,26 +52,26 @@ namespace Mydei{
                     debuffApply(ptr,e,"Mydei_Taunt",2);
                     e->addTaunt(ptr);
                 }
-                ptr->RestoreHP(
+                ptr->restoreHP(
                     ptr,
                     HealSrc(HealSrcType::TOTAL_HP,20)
                 );
-                ChargePoint(ptr, 20);
-                Attack(act);
-                if(ptr->Print) CharCmd::printUltStart("Mydei");
+                chargePoint(ptr, 20);
+                attack(act);
+                if(ptr->print) CharCmd::printUltStart("Mydei");
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::HP,160,20),
                 DmgSrc(DmgSrcType::HP,100,20)
             );
             act->addToActionBar();
-            Deal_damage();
+            dealDamage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_type[Stats::CD][AType::None] += 37.3;
-            ptr->Stats_type[Stats::HP_P][AType::None] += 18;
-            ptr->Atv_stats->flatSpeed += 5;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsType[Stats::CD][AType::NONE] += 37.3;
+            ptr->statsType[Stats::HP_P][AType::NONE] += 18;
+            ptr->atvStats->flatSpeed += 5;
 
             // relic
 
@@ -80,36 +80,36 @@ namespace Mydei{
         }));
         
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Mydeiptr](CharUnit *ptr) {
+        startGameList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [mydeiPtr](CharUnit *ptr) {
             ptr->buffNote["Mydei_A6"] = (floor((ptr->totalHP - 4000) / 100) <= 40) ? floor((ptr->totalHP - 4000) / 100) : 40;
             if (ptr->buffNote["Mydei_A6"] < 0) ptr->buffNote["Mydei_A6"] = 0;
 
-            ptr->Stats_type[Stats::CR][AType::None] += ptr->buffNote["Mydei_A6"] * 1.2;
-            ptr->Stats_type[Stats::CR][AType::TEMP] += ptr->buffNote["Mydei_A6"] * 1.2;
+            ptr->statsType[Stats::CR][AType::NONE] += ptr->buffNote["Mydei_A6"] * 1.2;
+            ptr->statsType[Stats::CR][AType::TEMP] += ptr->buffNote["Mydei_A6"] * 1.2;
             // A6 Incoming Healing +0.75%: engine has no incoming-heal stat, Outgoing works the same for Mydei's self-heals
-            ptr->Stats_type[Stats::HEALING_OUT][AType::None] += ptr->buffNote["Mydei_A6"] * 0.75;
-            ptr->Stats_type[Stats::HEALING_OUT][AType::TEMP] += ptr->buffNote["Mydei_A6"] * 0.75;
-            if (ptr->Eidolon >= 6) {
+            ptr->statsType[Stats::HEALING_OUT][AType::NONE] += ptr->buffNote["Mydei_A6"] * 0.75;
+            ptr->statsType[Stats::HEALING_OUT][AType::TEMP] += ptr->buffNote["Mydei_A6"] * 0.75;
+            if (ptr->eidolon >= 6) {
             ptr->buffCheck["Mydei_Vendetta"] = true;
-            Action_forward(ptr->Atv_stats.get(), 100);
-            ptr->RestoreHP(
+            actionForward(ptr->atvStats.get(), 100);
+            ptr->restoreHP(
                 ptr,
                 HealSrc(HealSrcType::TOTAL_HP,25)
             );
-            ptr->Stats_type[Stats::FLAT_DEF][AType::None] -= 10000;
-            ptr->Stats_type[Stats::FLAT_DEF][AType::TEMP] -= 10000;
+            ptr->statsType[Stats::FLAT_DEF][AType::NONE] -= 10000;
+            ptr->statsType[Stats::FLAT_DEF][AType::TEMP] -= 10000;
             
-            if (ptr->Eidolon >= 2) buffSingle(Mydeiptr,{{Stats::DEF_SHRED,AType::None,15}});
-            if (ptr->Eidolon >= 4) buffSingle(Mydeiptr,{{Stats::CD,AType::None,30}});
+            if (ptr->eidolon >= 2) buffSingle(mydeiPtr,{{Stats::DEF_SHRED,AType::NONE,15}});
+            if (ptr->eidolon >= 4) buffSingle(mydeiPtr,{{Stats::CD,AType::NONE,30}});
             }
 
             allEventAdjustStats(ptr, Stats::HP_P);
-            if (ptr->Technique) {
+            if (ptr->technique) {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Technique,ptr,TraceType::Aoe,"Mydei Tech",
+            make_shared<AllyAttackAction>(AType::TECHNIQUE,ptr,TraceType::AOE,"Mydei Tech",
             [ptr](shared_ptr<AllyAttackAction> &act){
-                ChargePoint(ptr, 50);
-                Attack(act);
+                chargePoint(ptr, 50);
+                attack(act);
                 for (Enemy* e : act->targetList) {   // AoE -> Taunt ทุกตัว 1 เทิร์น (kit)
                     debuffApply(ptr, e, "Mydei_Taunt", 1);
                     e->addTaunt(ptr);
@@ -121,64 +121,64 @@ namespace Mydei{
                 DmgSrc(DmgSrcType::HP,80,20)
             );
             act->addToActionBar();
-            Deal_damage();
+            dealDamage();
             }
         }));
 
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_ACTTACK, [ptr,Mydeiptr](AllyUnit *target, Stats StatsType) {
-            if (target->Atv_stats->Name != "Mydei") return;
-            if (StatsType == Stats::FLAT_HP || StatsType == Stats::HP_P) {
+        statsAdjustList.push_back(TriggerByStats(PRIORITY_ACTTACK, [ptr,mydeiPtr](AllyUnit *target, Stats statsType) {
+            if (target->atvStats->name != "Mydei") return;
+            if (statsType == Stats::FLAT_HP || statsType == Stats::HP_P) {
                 
-            if (Mydeiptr->getBuffCheck("Mydei_Vendetta")) {
+            if (mydeiPtr->getBuffCheck("Mydei_Vendetta")) {
                 double temp = calculateHpForBuff(ptr, 50);
-                buffSingle(Mydeiptr,{{Stats::FLAT_HP,AType::TEMP,temp - ptr->buffNote["Mydei_Talent"]}});
-                buffSingle(Mydeiptr,{{Stats::FLAT_HP,AType::None,temp - ptr->buffNote["Mydei_Talent"]}});
+                buffSingle(mydeiPtr,{{Stats::FLAT_HP,AType::TEMP,temp - ptr->buffNote["Mydei_Talent"]}});
+                buffSingle(mydeiPtr,{{Stats::FLAT_HP,AType::NONE,temp - ptr->buffNote["Mydei_Talent"]}});
                 ptr->buffNote["Mydei_Talent"] = temp;
             }
             }
         }));
 
-        HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_ACTTACK, [ptr](Unit *Trigger, AllyUnit *target, double Value) {
+        hpDecreaseList.push_back(TriggerDecreaseHP(PRIORITY_ACTTACK, [ptr](Unit *trigger, AllyUnit *target, double value) {
             if (!target->isSameName("Mydei")) return;
-            if (Trigger->canCastToEnemy()) {
-            ChargePoint(ptr, ((ptr->buffNote["Mydei_A6"] * 2.5 + 100.0) / 100.0) * CalculateChargePoint(ptr, Value));
+            if (trigger->canCastToEnemy()) {
+            chargePoint(ptr, ((ptr->buffNote["Mydei_A6"] * 2.5 + 100.0) / 100.0) * calculateChargePoint(ptr, value));
             } else {
-            ChargePoint(ptr, CalculateChargePoint(ptr, Value));
+            chargePoint(ptr, calculateChargePoint(ptr, value));
             }
         }));
 
-        Healing_List.push_back(TriggerHealing(PRIORITY_ACTTACK, [ptr](AllyUnit *Healer, AllyUnit *target, double Value) {
+        healingList.push_back(TriggerHealing(PRIORITY_ACTTACK, [ptr](AllyUnit *healer, AllyUnit *target, double value) {
             if (!target->isSameName("Mydei")) return;
-            if (ptr->Eidolon < 2) return;
-            Value = (Value + ptr->buffNote["Mydei_E2"] <= target->totalHP) ? Value : target->totalHP - ptr->buffNote["Mydei_E2"];
-            ptr->buffNote["Mydei_E2"] += Value;
-            ChargePoint(ptr, CalculateChargePoint(ptr, Value * 0.4));
+            if (ptr->eidolon < 2) return;
+            value = (value + ptr->buffNote["Mydei_E2"] <= target->totalHP) ? value : target->totalHP - ptr->buffNote["Mydei_E2"];
+            ptr->buffNote["Mydei_E2"] += value;
+            chargePoint(ptr, calculateChargePoint(ptr, value * 0.4));
         }));
 
-        Enemy_hit_List.push_back(TriggerByEnemyHit(PRIORITY_ACTTACK, [ptr](Enemy *Attacker, vector<AllyUnit *> target) {
-            if (ptr->Eidolon < 4) return;
+        enemyHitList.push_back(TriggerByEnemyHit(PRIORITY_ACTTACK, [ptr](Enemy *attacker, vector<AllyUnit *> target) {
+            if (ptr->eidolon < 4) return;
             for (AllyUnit *e : target) {
             if (e->isSameName("Mydei")) goto jump;
             }
             return;
         jump:
-        ptr->RestoreHP(ptr,HealSrc(HealSrcType::TOTAL_HP,10));
+        ptr->restoreHP(ptr,HealSrc(HealSrcType::TOTAL_HP,10));
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [](CharUnit *ptr) {
+        beforeTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_ACTTACK, ptr, [](CharUnit *ptr) {
             ptr->buffNote["Mydei_E2"] = 0;
         }));
 
-        BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act) {
+        beforeAttackActionList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act) {
             if (act->actionName == "GodSlayer") {
             ptr->buffCheck["Mydei_cannot_charge"] = 1;
             }
         }));
 
-        AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act) {
+        afterAttackActionList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_ACTTACK, [ptr](shared_ptr<AllyAttackAction> &act) {
             if (ptr->buffCheck["Mydei_action"]) {
             ptr->buffCheck["Mydei_action"] = 0;
-            Action_forward(ptr->Atv_stats.get(), 100);
+            actionForward(ptr->atvStats.get(), 100);
             }
             if (ptr->buffCheck["Mydei_cannot_charge"] == 1) {
             ptr->buffCheck["Mydei_cannot_charge"] = 0;
@@ -186,39 +186,39 @@ namespace Mydei{
         }));
 
         // Mydei_Taunt หมดอายุบนศัตรูตัวไหน -> เอา Mydei ออกจาก tauntList ของตัวนั้น (แยกอิสระต่อ enemy)
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [](CharUnit *ptr) {
+        afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_ACTTACK, ptr, [](CharUnit *ptr) {
             Enemy *e = turn->canCastToEnemy();
             if (!e) return;
             if (isDebuffEnd(e, "Mydei_Taunt")) e->removeTaunt(ptr);
         }));
 
-        // SetMemoStats(ptr,66,35,ElementType::Lightning,"MemName",Side::AllyUnit);
-        // SetCountdownStats(ptr,"Name");
-        // ptr->memosprite->Turn_func = Mem_turn;
-        // ptr->countdownList[0]->Turn_func = CountDown_turn;
+        // setMemoStats(ptr,66,35,ElementType::LIGHTNING,"MemName",Side::AllyUnit);
+        // setCountdownStats(ptr,"Name");
+        // ptr->memosprite->turnFunc = Mem_turn;
+        // ptr->countdownList[0]->turnFunc = CountDown_turn;
 
     }
 
 
-    void Basic_Atk(CharUnit *ptr){
+    void basicAtk(CharUnit *ptr){
         genSkillPoint(ptr,1);
         shared_ptr<AllyAttackAction> act =
-        make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Mydei BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::SINGLE,"Mydei BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(ptr,20);
-            Attack(act);
+            increaseEnergy(ptr,20);
+            attack(act);
         });
         act->addDamageIns(DmgSrc(DmgSrcType::HP,50,10));
         act->addToActionBar();
     }
-    void Skill(CharUnit *ptr){
+    void skill(CharUnit *ptr){
         
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"Mydei Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::BLAST,"Mydei Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(ptr,30);
-            DecreaseHP(ptr,ptr,0,0,50);
-            Attack(act);
+            increaseEnergy(ptr,30);
+            decreaseHP(ptr,ptr,0,0,50);
+            attack(act);
         });
         act->addDamageIns(
             DmgSrc(DmgSrcType::HP,90,20),
@@ -226,14 +226,14 @@ namespace Mydei{
         );
         act->addToActionBar();
     }
-    void Enchance_Skill(CharUnit *ptr){
+    void enchanceSkill(CharUnit *ptr){
         
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"KingSlayer",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::BLAST,"KingSlayer",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(ptr,30);
-            DecreaseHP(ptr,ptr,0,0,35);
-            Attack(act);
+            increaseEnergy(ptr,30);
+            decreaseHP(ptr,ptr,0,0,35);
+            attack(act);
         });
         act->addDamageIns(
             DmgSrc(DmgSrcType::HP,110,20),
@@ -241,17 +241,17 @@ namespace Mydei{
         );
         act->addToActionBar();
     }
-    void GodSlayer(CharUnit *ptr){
+    void godSlayer(CharUnit *ptr){
         
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"GodSlayer",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::BLAST,"GodSlayer",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(ptr,10);
-            Attack(act);
+            increaseEnergy(ptr,10);
+            attack(act);
         });
 
-        if(ptr->Eidolon>=1){
-            act->traceType = TraceType::Aoe;
+        if(ptr->eidolon>=1){
+            act->traceType = TraceType::AOE;
             act->addDamageIns(
                 DmgSrc(DmgSrcType::HP,155,15),
                 DmgSrc(DmgSrcType::HP,155,10),
@@ -273,7 +273,7 @@ namespace Mydei{
             );
         }
         act->addToActionBar();
-        Deal_damage();
+        dealDamage();
     }
 
 
@@ -282,7 +282,7 @@ namespace Mydei{
     
     
     
-    void Print(CharUnit *ptr){
+    void print(CharUnit *ptr){
         cout<<"Talent :"<<ptr->buffCheck["Mydei_Vendetta"]<<" ";
         cout<<"A6 :"<<ptr->buffNote["Mydei_A6"]<<" ";
         cout<<"Talent hp :"<<ptr->buffNote["Mydei_Talent"]<<" ";
@@ -292,10 +292,10 @@ namespace Mydei{
     
     
     
-    double CalculateChargePoint(AllyUnit *ptr,double Value){
-        return (Value/ptr->totalHP*100.0);
+    double calculateChargePoint(AllyUnit *ptr,double value){
+        return (value/ptr->totalHP*100.0);
     }
-    void ChargePoint(CharUnit *ptr,double point){
+    void chargePoint(CharUnit *ptr,double point){
         if(ptr->buffCheck["Mydei_cannot_charge"])return;
         // Talent: Charge cap 200
         ptr->buffNote["Mydei_Charge_point"] = min(200.0, ptr->buffNote["Mydei_Charge_point"] + point);
@@ -304,27 +304,27 @@ namespace Mydei{
             ptr->buffNote["Mydei_Charge_point"]-=100;
             // advance 100%: during Mydei's own action wait until it ends (resetTurn), otherwise advance now
             if(turn->isSameUnit(ptr))ptr->buffCheck["Mydei_action"]=1;
-            else Action_forward(ptr->Atv_stats.get(), 100);
-            ptr->RestoreHP(
+            else actionForward(ptr->atvStats.get(), 100);
+            ptr->restoreHP(
                     ptr,
                     HealSrc(HealSrcType::TOTAL_HP,25)
                 );
-            ptr->Stats_type[Stats::FLAT_DEF][AType::None] -= 10000;
-            ptr->Stats_type[Stats::FLAT_DEF][AType::TEMP] -= 10000;    
-            if (ptr->Eidolon >= 2) buffSingle(ptr,{{Stats::DEF_SHRED,AType::None,15}});
-            if (ptr->Eidolon >= 4) buffSingle(ptr,{{Stats::CD,AType::None,30}});
+            ptr->statsType[Stats::FLAT_DEF][AType::NONE] -= 10000;
+            ptr->statsType[Stats::FLAT_DEF][AType::TEMP] -= 10000;    
+            if (ptr->eidolon >= 2) buffSingle(ptr,{{Stats::DEF_SHRED,AType::NONE,15}});
+            if (ptr->eidolon >= 4) buffSingle(ptr,{{Stats::CD,AType::NONE,30}});
             allEventAdjustStats(ptr,Stats::HP_P);
         }
         if(!ptr->buffCheck["Mydei_Vendetta"])return;
-        if(ptr->Eidolon>=6){
+        if(ptr->eidolon>=6){
             if(ptr->buffNote["Mydei_Charge_point"]>=100){
                 ptr->buffNote["Mydei_Charge_point"]-=100;
-                GodSlayer(ptr);
+                godSlayer(ptr);
             }
         }else{
             if(ptr->buffNote["Mydei_Charge_point"]>=150){
                 ptr->buffNote["Mydei_Charge_point"]-=150;
-                GodSlayer(ptr);
+                godSlayer(ptr);
             }
         }
         

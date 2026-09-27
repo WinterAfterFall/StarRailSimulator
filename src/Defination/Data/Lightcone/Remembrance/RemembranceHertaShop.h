@@ -2,38 +2,38 @@
 namespace Remembrance_Lightcone{
     function<void(CharUnit *ptr)> RemembranceHertaShop(int superimpose){
         return [=](CharUnit *ptr) {
-            ptr->SetAllyBaseStats(1058,529,397);
-            ptr->Light_cone.Name = "Memory's Curtain Never Falls";
-            string Curtain = ptr->getName() + " Curtain Never Falls";
+            ptr->setAllyBaseStats(1058,529,397);
+            ptr->lightCone.name = "Memory's Curtain Never Falls";
+            string curtain = ptr->getName() + " Curtain Never Falls";
 
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
-                ptr->Atv_stats->speedPercent += 4.5 + 1.5 * superimpose;
+            resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+                ptr->atvStats->speedPercent += 4.5 + 1.5 * superimpose;
             }));
 
-            AfterAction_List.push_back(TriggerByAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,Curtain](shared_ptr<ActionData> &act) {
-                AllyActionData *allyData_ = act->castToAllyActionData();
-                if(!allyData_)return;
-                if(allyData_->isSameAction(ptr,AType::SKILL)){
+            afterActionList.push_back(TriggerByActionFunc(PRIORITY_IMMEDIATELY, [ptr,superimpose,curtain](shared_ptr<ActionData> &act) {
+                AllyActionData *allyData = act->castToAllyActionData();
+                if(!allyData)return;
+                if(allyData->isSameAction(ptr,AType::SKILL)){
                     buffAllAlly({
-                        {Stats::DMG,AType::None,6.0 + 2* superimpose}
-                    },Curtain,3);
+                        {Stats::DMG,AType::NONE,6.0 + 2* superimpose}
+                    },curtain,3);
                 }
             }));
 
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose,Curtain](CharUnit *ptr) {
+            afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose,curtain](CharUnit *ptr) {
                 AllyUnit *allyptr = turn->canCastToAllyUnit();
                 if(!allyptr)return;
-                if(isBuffEnd(allyptr,Curtain)){
+                if(isBuffEnd(allyptr,curtain)){
                     buffSingle(allyptr,{
-                        {Stats::DMG,AType::None,-(6.0 + 2* superimpose)}
+                        {Stats::DMG,AType::NONE,-(6.0 + 2* superimpose)}
                     });
                 }
             }));
 
-            AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,superimpose,Curtain](AllyUnit* target) {
-                if(isBuffGoneByDeath(target,Curtain)){
+            allyDeathList.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr,superimpose,curtain](AllyUnit* target) {
+                if(isBuffGoneByDeath(target,curtain)){
                     buffSingle(target,{
-                        {Stats::DMG,AType::None,-(6.0 + 2* superimpose)}
+                        {Stats::DMG,AType::NONE,-(6.0 + 2* superimpose)}
                     });
                 }
             }));

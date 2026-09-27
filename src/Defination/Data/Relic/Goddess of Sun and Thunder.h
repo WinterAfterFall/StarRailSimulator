@@ -1,37 +1,37 @@
 #include "../include.h"
 namespace Relic{
     void Goddess_of_Sun_and_Thunder(CharUnit *ptr){
-        ptr->Relic.Name = "Goddess of Sun and Thunder";
+        ptr->Relic.name = "Goddess of Sun and Thunder";
         
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Atv_stats->speedPercent += 6;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->atvStats->speedPercent += 6;
         }));
 
-        Healing_List.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr](AllyUnit *Healer, AllyUnit *target, double Value) {
-            if(Healer->owner->isSameName(ptr)){
+        healingList.push_back(TriggerHealing(PRIORITY_IMMEDIATELY, [ptr](AllyUnit *healer, AllyUnit *target, double value) {
+            if(healer->owner->isSameName(ptr)){
                 if(isHaveToAddBuff(ptr,"Goddess of Sun and Thunder",2)){
-                    buffSingle(ptr,{{Stats::SPD_P,AType::None,6}});
+                    buffSingle(ptr,{{Stats::SPD_P,AType::NONE,6}});
                     buffAllAlly({
-                        {Stats::CD,AType::None,15}
+                        {Stats::CD,AType::NONE,15}
                     });
                 }
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+        afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             if(isBuffEnd(ptr,"Goddess of Sun and Thunder")){
-                    buffSingle(ptr,{{Stats::SPD_P,AType::None,-6}});
+                    buffSingle(ptr,{{Stats::SPD_P,AType::NONE,-6}});
                     buffAllAlly({
-                        {Stats::CD,AType::None,-15}
+                        {Stats::CD,AType::NONE,-15}
                     });
                 }
         }));
 
-        AllyDeath_List.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr](AllyUnit* target) {
+        allyDeathList.push_back(TriggerAllyDeath(PRIORITY_IMMEDIATELY, [ptr](AllyUnit* target) {
             if(target->isSameName(ptr) && isBuffGoneByDeath(ptr,"Goddess of Sun and Thunder")){
-                buffSingle(ptr,{{Stats::SPD_P,AType::None,-6}});
+                buffSingle(ptr,{{Stats::SPD_P,AType::NONE,-6}});
                 buffAllAlly({
-                    {Stats::CD,AType::None,-15}
+                    {Stats::CD,AType::NONE,-15}
                 });
             }
         }));

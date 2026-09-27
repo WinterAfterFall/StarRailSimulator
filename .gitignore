@@ -12,3 +12,6 @@
 
 # c++ file
 test/
+
+# local team setup (edit freely, not pushed)
+ManualBuilder.cpp

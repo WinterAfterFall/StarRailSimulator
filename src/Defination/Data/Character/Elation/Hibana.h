@@ -1,9 +1,9 @@
 #include "../include.h"
 
 namespace Hibana{
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
-        CharUnit *ptr = SetCharBasicStats(107,160,160,E,ElementType::Fire,Path::Elation,"Hibana",UnitType::Standard);
-        ptr->SetAllyBaseStats(1051,640,460);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = setCharBasicStats(107,160,160,eidolon,ElementType::FIRE,Path::ELATION,"Hibana",UnitType::STANDARD);
+        ptr->setAllyBaseStats(1051,640,460);
 
         //substats
         ptr->pushSubstats(Stats::CR);
@@ -16,19 +16,19 @@ namespace Hibana{
         elationCount++;
         
         //func
-        LC(ptr);
+        lc(ptr);
         Relic(ptr);
         Planar(ptr);
 
         #pragma region Ability
 
-        function<void()> BA = [ptr]() {
+        function<void()> ba = [ptr]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Hibana BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::SINGLE,"Hibana BA",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 genSkillPoint(ptr,1);
-                Increase_energy(ptr,20);
-                Attack(act);
+                increaseEnergy(ptr,20);
+                attack(act);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,100,10)
@@ -36,16 +36,16 @@ namespace Hibana{
             act->addToActionBar();
         };
 
-        function<void()> EBA = [ptr]() {
+        function<void()> eba = [ptr]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Blast,"Hibana EBA",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::BLAST,"Hibana EBA",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 int skillCharge = 0;
                 while(sp){
                     if(ptr->getStack("Hbn Thrill")){
                         ptr->addStack("Hbn Thrill",-1);
-                        if(ptr->Eidolon>=2){
-                            buffStackSingle(ptr,{{Stats::CD,AType::None,10}},1,4,"Hbn E2",2);
+                        if(ptr->eidolon>=2){
+                            buffStackSingle(ptr,{{Stats::CD,AType::NONE,10}},1,4,"Hbn E2",2);
                         }
                         allEventSkillPoint(ptr,-1);
                     }
@@ -61,15 +61,15 @@ namespace Hibana{
                 act->multiplyDmg(100 + 20*skillCharge);
                 
                 genSkillPoint(ptr,1);
-                Increase_energy(ptr,40);
-                Attack(act);
-                shared_ptr<AllyAttackAction> elDmg = make_shared<AllyAttackAction>(AType::ElationDMG,ptr,TraceType::Blast,"Hbn EBA Elation");
+                increaseEnergy(ptr,40);
+                attack(act);
+                shared_ptr<AllyAttackAction> elDmg = make_shared<AllyAttackAction>(AType::ELATION_DMG,ptr,TraceType::BLAST,"Hbn EBA Elation");
                 elDmg->addDamageIns(
-                    DmgSrc(DmgSrcType::Elation,40),
-                    DmgSrc(DmgSrcType::Elation,20)
+                    DmgSrc(DmgSrcType::ELATION,40),
+                    DmgSrc(DmgSrcType::ELATION,20)
                 );
-                elDmg->addEnemyBounce(DmgSrc(DmgSrcType::Elation,20),skillCharge);
-                Attack(elDmg);
+                elDmg->addEnemyBounce(DmgSrc(DmgSrcType::ELATION,20),skillCharge);
+                attack(elDmg);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,100,10),
@@ -79,19 +79,19 @@ namespace Hibana{
         };
 
         #pragma endregion
-        ptr->Turn_func = [ptr,BA,EBA]() {
-            if(sp + ptr->getStack("Hbn Thrill") >=3)EBA();
-            else BA();
+        ptr->turnFunc = [ptr,ba,eba]() {
+            if(sp + ptr->getStack("Hbn Thrill") >=3)eba();
+            else ba();
         };
         
         ptr->addUltCondition([ptr]() -> bool {
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [](CharUnit *ptr) {
+        ultimateList.push_back(TriggerByYourSelfFunc(PRIORITY_BUFF, ptr, [](CharUnit *ptr) {
             CharCmd::printUltStart("Hibana");
             shared_ptr<AllyAttackAction> act =
-            make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Hibana Ult",
+            make_shared<AllyAttackAction>(AType::ULT,ptr,TraceType::AOE,"Hibana Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
 
                 ptr->addStack("Hbn Thrill",1);
@@ -101,20 +101,20 @@ namespace Hibana{
                     genPunchLine(ptr,2+8);
                     ptr->addStack("Hbn Thrill",3);
                 }
-                if(ptr->Eidolon>=4){
+                if(ptr->eidolon>=4){
                     genPunchLine(ptr,5);
-                    buffSingle(ptr,{{Stats::Elation,AType::None,36}},"Hbn E4",3);
+                    buffSingle(ptr,{{Stats::ELATION,AType::NONE,36}},"Hbn E4",3);
                 }
 
 
-                Attack(act);
-                shared_ptr<AllyAttackAction> elDmg = make_shared<AllyAttackAction>(AType::ElationDMG,ptr,TraceType::Aoe,"Hbn Ult Elation");
+                attack(act);
+                shared_ptr<AllyAttackAction> elDmg = make_shared<AllyAttackAction>(AType::ELATION_DMG,ptr,TraceType::AOE,"Hbn Ult Elation");
                 elDmg->addDamageIns(
-                    DmgSrc(DmgSrcType::Elation,48),
-                    DmgSrc(DmgSrcType::Elation,48),
-                    DmgSrc(DmgSrcType::Elation,48)
+                    DmgSrc(DmgSrcType::ELATION,48),
+                    DmgSrc(DmgSrcType::ELATION,48),
+                    DmgSrc(DmgSrcType::ELATION,48)
                 );
-                Attack(elDmg);
+                attack(elDmg);
             });
             double mtpr = 0.6 * calculateElationOnStats(ptr) + 50;
             act->addDamageIns(
@@ -123,75 +123,75 @@ namespace Hibana{
                 DmgSrc(DmgSrcType::ATK,mtpr,20)
             );
             act->addToActionBar();
-            Deal_damage();
+            dealDamage();
         }));
 
-        ElationSkill_List.push_back(TriggerByYourSelf_Func(144, ptr, [](CharUnit *ptr) {
+        elationSkillList.push_back(TriggerByYourSelfFunc(144, ptr, [](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::ElationSkill,ptr,TraceType::Aoe,"Hbn Elation Skill",
+            make_shared<AllyAttackAction>(AType::ELATION_SKILL,ptr,TraceType::AOE,"Hbn Elation Skill",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 ptr->addStack("Hbn Thrill",2);
-                Increase_energy(ptr,5);    
-                Attack(act);
+                increaseEnergy(ptr,5);    
+                attack(act);
             });
             act->addDamageIns(
-                DmgSrc(DmgSrcType::Elation,50),
-                DmgSrc(DmgSrcType::Elation,50),
-                DmgSrc(DmgSrcType::Elation,50)
+                DmgSrc(DmgSrcType::ELATION,50),
+                DmgSrc(DmgSrcType::ELATION,50),
+                DmgSrc(DmgSrcType::ELATION,50)
             );
             act->addEnemyBounce(
-                DmgSrc(DmgSrcType::Elation,25),20
+                DmgSrc(DmgSrcType::ELATION,25),20
             );
 
-            if(ptr->Eidolon>=6)act->addEnemyBounce(DmgSrc(DmgSrcType::Elation,25),min(punchline,40));
+            if(ptr->eidolon>=6)act->addEnemyBounce(DmgSrc(DmgSrcType::ELATION,25),min(punchline,40));
             act->addToAhaInstant();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_type[Stats::Elation][AType::None] += 28;
-            ptr->Stats_type[Stats::CR][AType::None] += 12;
-            ptr->Stats_type[Stats::CD][AType::None] += 13.3;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsType[Stats::ELATION][AType::NONE] += 28;
+            ptr->statsType[Stats::CR][AType::NONE] += 12;
+            ptr->statsType[Stats::CD][AType::NONE] += 13.3;
 
-            ptr->Stats_type[Stats::Elation][AType::None] += 80;
+            ptr->statsType[Stats::ELATION][AType::NONE] += 80;
 
-            if(ptr->Eidolon>=6)ptr->Stats_type[Stats::RESPEN][AType::None] += 20;
+            if(ptr->eidolon>=6)ptr->statsType[Stats::RESPEN][AType::NONE] += 20;
 
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [BA,EBA](CharUnit *ptr) {
+        afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [ba,eba](CharUnit *ptr) {
             if(isBuffEnd(ptr,"Hbn E2")){
-            buffCharResetStack(ptr,{{Stats::CD,AType::None,10}},"Hbn E2");
+            buffCharResetStack(ptr,{{Stats::CD,AType::NONE,10}},"Hbn E2");
             }
             if(isBuffEnd(ptr,"Hbn E4")){
-            buffSingle(ptr,{{Stats::Elation,AType::None,-36}});
+            buffSingle(ptr,{{Stats::ELATION,AType::NONE,-36}});
             }
         }));
 
 
 
-        PunchLine_List.push_back(TriggerSkill_point_func(PRIORITY_IMMEDIATELY, [ptr](AllyUnit *SP_maker, int SP) {
+        punchLineList.push_back(TriggerSkillPointFunc(PRIORITY_IMMEDIATELY, [ptr](AllyUnit *spMaker, int spChange) {
             int buff = max(0,min(10,punchline));
             buffAllAlly({
                 {Stats::CD,AType::TEMP,buff*8 - ptr->buffNote["Hbn Buff"]},
-                {Stats::CD,AType::None,buff*8 - ptr->buffNote["Hbn Buff"]}
+                {Stats::CD,AType::NONE,buff*8 - ptr->buffNote["Hbn Buff"]}
             });
             ptr->setBuffNote("Hbn Buff",buff*8);
-            if(ptr->Eidolon<1)return;
+            if(ptr->eidolon<1)return;
             buffAllAlly({
                 {Stats::RESPEN,AType::TEMP,buff*1.5 - ptr->buffNote["Hbn E1"]},
-                {Stats::RESPEN,AType::None,buff*1.5 - ptr->buffNote["Hbn E1"]}
+                {Stats::RESPEN,AType::NONE,buff*1.5 - ptr->buffNote["Hbn E1"]}
             });
             ptr->setBuffNote("Hbn E1",buff*1.5);
         }));
 
         
-        AfterAhaInstant_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [BA,EBA](CharUnit *ptr) {
-            if(ptr->Eidolon>=1)genPunchLine(ptr,1);
+        afterAhaInstantList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [ba,eba](CharUnit *ptr) {
+            if(ptr->eidolon>=1)genPunchLine(ptr,1);
 
-            if(ptr->Eidolon>=2){
-                if(sp + ptr->getStack("Hbn Thrill") >=3)EBA();
-                else BA();
-                Deal_damage();
+            if(ptr->eidolon>=2){
+                if(sp + ptr->getStack("Hbn Thrill") >=3)eba();
+                else ba();
+                dealDamage();
             }
         }));
 

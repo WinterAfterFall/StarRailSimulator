@@ -29,7 +29,7 @@
 | ศัพท์ | ความหมาย |
 |---|---|
 | **Action Value (AV)** | "ระยะทางที่เหลือ" ก่อนได้เทิร์น — `AV = 10000 / SPD` |
-| **ATV** | ชื่อที่ใช้เรียก AV ในโปรเจกต์นี้ (`Atv_stats`, `atv`, `Max_atv`) |
+| **ATV** | ชื่อที่ใช้เรียก AV ในโปรเจกต์นี้ (`atvStats`, `atv`, `maxAtv`) |
 | **Advance Forward** | ดึงตัวเองเข้าใกล้เส้นชัย — `AV ใหม่ = AV × (1 − x%)` **ไม่ใช่การเพิ่ม SPD** |
 | **Delay / Action Delay** | ดันศัตรูถอยห่างเส้นชัย — `AV ใหม่ = AV × (1 + x%)` |
 | **Extra Turn** | ได้เทิร์นเพิ่มโดยไม่ต้องวิ่งครบรอบ (ไม่รีเซ็ต AV) |
@@ -87,7 +87,7 @@
 | **Summon** | คำกว้างกว่า memosprite — รวม Lightning-Lord (Jing Yuan), Numby (Topaz), Fuyuan (Lingsha) |
 | **Joint Attack** | หลายยูนิตยิงพร้อมกันเป็นดาเมจก้อนเดียว |
 
-> `enum class Side` ในโค้ด: `Ally, Enemy, Memosprite, Summon, Countdown`
+> `enum class Side` ในโค้ด: `ALLY, Enemy, Memosprite, SUMMON, COUNTDOWN`
 
 ---
 
@@ -146,18 +146,18 @@
 | ศัพท์ / โค้ด | ความหมาย |
 |---|---|
 | **ATV** | ชื่อที่โปรเจกต์นี้ใช้เรียก Action Value |
-| `UnitStatus::Alive / Death` | สถานะปกติ |
-| `UnitStatus::AtvFreeze` | ATV หยุดนิ่ง + ไม่ได้เทิร์นจาก `Find_turn` แต่ยังอยู่ในสนามและเป็นเป้าได้ (ใช้ตอน Ult ของ Phainon) |
-| `UnitStatus::Retire` | ถูกลบจากสนาม ไม่ targetable + ATV หยุดนิ่ง (Ult ของ Phainon) |
-| `UnitType::Standard / Backup / OutofBounds` | ประเภทยูนิตในทีม |
-| `EnemyType::Main / Adjacent / Other` | ตำแหน่งศัตรูเทียบกับเป้าหลัก |
-| `DriverType::DoubleTurn` | โหมดจำลอง: บังคับให้ได้ 2 เทิร์นติด |
-| `DriverType::AlwaysPull` | โหมดจำลอง: ดึงเทิร์นตลอด |
-| `DriverType::SwapPull` | โหมดจำลอง: สลับดึง |
-| `DriverType::DotTrigger` | โหมดจำลอง: บังคับจุด DoT |
-| `SPMode::Positive / Negative` | จำลองว่าทีมเป็น SP-positive หรือ SP-negative |
-| `PhaseStatus::BeforeTurn / AfterTurn / WhileAction / DotBeforeTurn` | เฟสของการจำลองในหนึ่งเทิร์น |
-| `SubstatsRerollMode::Standard` | โหมดหา substat ที่ดีที่สุด — ตอนนี้เหลือแค่ `Standard` (`AllCombination` / `AllPossible` ถูก comment ไว้ 2026-09-13) · อัลกอริทึมดู `docs/engine-reference/instructor/Function/Setup/Substats_Reset.md` |
+| `UnitStatus::ALIVE / DEATH` | สถานะปกติ |
+| `UnitStatus::ATV_FREEZE` | ATV หยุดนิ่ง + ไม่ได้เทิร์นจาก `findTurn` แต่ยังอยู่ในสนามและเป็นเป้าได้ (ใช้ตอน Ult ของ Phainon) |
+| `UnitStatus::RETIRE` | ถูกลบจากสนาม ไม่ targetable + ATV หยุดนิ่ง (Ult ของ Phainon) |
+| `UnitType::STANDARD / BACKUP / OUT_OF_BOUNDS` | ประเภทยูนิตในทีม |
+| `EnemyType::MAIN / ADJACENT / OTHER` | ตำแหน่งศัตรูเทียบกับเป้าหลัก |
+| `DriverType::DOUBLE_TURN` | โหมดจำลอง: บังคับให้ได้ 2 เทิร์นติด |
+| `DriverType::ALWAYS_PULL` | โหมดจำลอง: ดึงเทิร์นตลอด |
+| `DriverType::SWAP_PULL` | โหมดจำลอง: สลับดึง |
+| `DriverType::DOT_TRIGGER` | โหมดจำลอง: บังคับจุด DoT |
+| `SPMode::POSITIVE / NEGATIVE` | จำลองว่าทีมเป็น SP-positive หรือ SP-negative |
+| `PhaseStatus::BEFORE_TURN / AFTER_TURN / WHILE_ACTION / DOT_BEFORE_TURN` | เฟสของการจำลองในหนึ่งเทิร์น |
+| `SubstatsRerollMode::STANDARD` | โหมดหา substat ที่ดีที่สุด — ตอนนี้เหลือแค่ `STANDARD` (`AllCombination` / `AllPossible` ถูก comment ไว้ 2026-09-13) · อัลกอริทึมดู `docs/engine-reference/instructor/Function/Setup/Substats_Reset.md` |
 | **Buff drift** | บั๊กที่บัฟถูกใส่กับถอนไม่เท่ากัน ทำให้สแตตค่อยๆ เพี้ยนไปเรื่อยๆ |
 | **Taunt increase %** | ระบบ aggro ของโปรเจกต์นี้ — เก็บเป็น "เปอร์เซ็นต์ที่เพิ่ม" ไม่ใช่ตัวคูณ |
 | `buffNote` | ที่เก็บว่าบัฟนี้ให้ไปเท่าไร เพื่อถอนคืนตรงจำนวน |

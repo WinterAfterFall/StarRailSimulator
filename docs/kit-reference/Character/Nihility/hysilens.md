@@ -87,7 +87,7 @@ ATK +18% · SPD +14 · Effect HIT Rate +10%
 - **A4**: Ult → detonate DoT 150%
 - **Vulnerability**: Skill +20% DMG taken (3t) + Ult Zone ATK/DEF shred
 - **A6**: DMG scaling จาก EHR เกิน 60% (cap 90%, E2 → ทีม)
-- โค้ด: `Start_game_List` (`Hysilens.h:191`, `hys`, `Talent`, `E1`) — A2 Zone ต้นการต่อสู้ + SP
+- โค้ด: `startGameList` (`Hysilens.h:191`, `hys`, `Talent`, `E1`) — A2 Zone ต้นการต่อสู้ + SP
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/hysilens — kit tab (review/calc patch 3.5, profile 01/Jun/2026)

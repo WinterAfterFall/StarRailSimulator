@@ -19,7 +19,7 @@ ratio / 100
 
 ## `calEnemyATK(Enemy*)`
 
-เริ่มจาก `enemy->ATK` แล้วบวกเปอร์เซ็นต์จาก `enemy->atkPercent`:
+เริ่มจาก `enemy->atk` แล้วบวกเปอร์เซ็นต์จาก `enemy->atkPercent`:
 
 ```text
 ATK × (1 + atkPercent / 100)

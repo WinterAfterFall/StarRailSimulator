@@ -1,5 +1,5 @@
-#ifndef All_Unit_H
-#define All_Unit_H
+#ifndef ALL_UNIT_H
+#define ALL_UNIT_H
 
 #include "ActionValueStats.h"
 #include "Unit.h"

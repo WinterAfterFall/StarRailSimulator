@@ -85,7 +85,7 @@ Fire DMG +22.4% · Effect HIT Rate +10% · Break Effect +24%
 - **Ult**: บังคับ Burn สร้างความเสียหายทันที 92%
 - **A6**: DMG amp vs Burned +20% (self)
 - **E4 energy**: +2 ต่อ Burn tick
-- โค้ด: `Start_game_List` (`Guinaifen.h:100`, `gui`) — A4 advance + technique
+- โค้ด: `startGameList` (`Guinaifen.h:100`, `gui`) — A4 advance + technique
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/guinaifen — kit tab (review patch 3.0, calc patch 3.4, profile 01/Jun/2026)

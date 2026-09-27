@@ -2,9 +2,9 @@
 
 namespace BSV1{
 
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
-        CharUnit *ptr = SetCharBasicStats(102,120,120,E,ElementType::Wind,Path::Nihility,"Black Swan",UnitType::Standard);
-        ptr->SetAllyBaseStats(1087,660,485);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = setCharBasicStats(102,120,120,eidolon,ElementType::WIND,Path::NIHILITY,"Black Swan",UnitType::STANDARD);
+        ptr->setAllyBaseStats(1087,660,485);
 
         //substats
         ptr->pushSubstats(Stats::ATK_P);
@@ -14,26 +14,26 @@ namespace BSV1{
 
         
         //func
-        LC(ptr);
+        lc(ptr);
         Relic(ptr);
         Planar(ptr);
 
         AllyUnit *bs = ptr;
         #pragma region Ability
 
-        function<void()> BA = [ptr,bs]() {
+        function<void()> ba = [ptr,bs]() {
             genSkillPoint(bs,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"BS BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::SINGLE,"BS BA",
             [ptr,bs](shared_ptr<AllyAttackAction> &act){
-                Increase_energy(ptr,20);
+                increaseEnergy(ptr,20);
                 for(auto &each : act->targetList){
-                    dotSingleStack(bs,each,{DotType::WindShear},1,50,"Arcana");
+                    dotSingleStack(bs,each,{DotType::WIND_SHEAR},1,50,"Arcana");
                 }
                 for(auto &each : act->targetList){
-                    dotSingleStack(bs,each,{DotType::WindShear},1,50,"Arcana");
+                    dotSingleStack(bs,each,{DotType::WIND_SHEAR},1,50,"Arcana");
                 }
-                Attack(act);
+                attack(act);
             }); 
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,100,10)
@@ -41,22 +41,22 @@ namespace BSV1{
             act->addToActionBar();
         };
 
-        function<void()> Skill = [ptr,bs]() {
+        function<void()> skill = [ptr,bs]() {
             genSkillPoint(bs,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"BS Skill",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::SINGLE,"BS Skill",
             [ptr,bs](shared_ptr<AllyAttackAction> &act){
-                Increase_energy(ptr,30);
+                increaseEnergy(ptr,30);
                 for(auto &each : act->targetList){
-                    debuffSingleApply(bs,each,{{Stats::DEF_SHRED,AType::None,20.8}},"BS DefShred",3);
+                    debuffSingleApply(bs,each,{{Stats::DEF_SHRED,AType::NONE,20.8}},"BS DefShred",3);
                 }
                 for(auto &each : act->targetList){
-                    dotSingleStack(bs,each,{DotType::WindShear},1,50,"Arcana");
+                    dotSingleStack(bs,each,{DotType::WIND_SHEAR},1,50,"Arcana");
                 }
                 for(auto &each : act->targetList){
-                    dotSingleStack(bs,each,{DotType::WindShear},1,50,"Arcana");
+                    dotSingleStack(bs,each,{DotType::WIND_SHEAR},1,50,"Arcana");
                 }
-                Attack(act);
+                attack(act);
             }); 
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,90,20),
@@ -66,24 +66,24 @@ namespace BSV1{
         };
 
         #pragma endregion
-        ptr->Turn_func = [ptr,bs,BA,Skill]() {
-            for(int i = 1;i<= Total_enemy&&i<=3;i++){
+        ptr->turnFunc = [ptr,bs,ba,skill]() {
+            for(int i = 1;i<= totalEnemy&&i<=3;i++){
                 if(!enemyUnit[i]->getDebuff("BS DefShred")){
-                    Skill();
+                    skill();
                     return;
                 }
             }
             // if(bs->getTurnCnt()%3==1)Skill();
-            BA();
+            ba();
         };
         
         ptr->addUltCondition([ptr]() -> bool {
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [bs](CharUnit *ptr) {
+        ultimateList.push_back(TriggerByYourSelfFunc(PRIORITY_BUFF, ptr, [bs](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
-            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"BS Ult",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::SINGLE,"BS Ult",
             [ptr,bs](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Black Swan");
                 for(auto &each : act->targetList){
@@ -92,10 +92,10 @@ namespace BSV1{
                         each->changeBurn(1);
                         each->changeShock(1);
                         each->setDebuff("Arcana Ignore",1);
-                        if(turn->isSameUnit(each))debuffSingle(each,{{Stats::VUL,AType::None,25}});
+                        if(turn->isSameUnit(each))debuffSingle(each,{{Stats::VUL,AType::NONE,25}});
                     }
                 }
-                Attack(act);
+                attack(act);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,120,20),
@@ -103,42 +103,42 @@ namespace BSV1{
                 DmgSrc(DmgSrcType::ATK,120,20)
             );
             act->addToActionBar();
-            Deal_damage();
+            dealDamage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_type[Stats::ATK_P][AType::None] += 28;
-            ptr->Stats_each_element[Stats::DMG][ElementType::Wind][AType::None] += 14.4;
-            ptr->Stats_type[Stats::EHR][AType::None] += 10;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsType[Stats::ATK_P][AType::NONE] += 28;
+            ptr->statsEachElement[Stats::DMG][ElementType::WIND][AType::NONE] += 14.4;
+            ptr->statsType[Stats::EHR][AType::NONE] += 10;
 
-            ptr->Stats_type[Stats::DMG][AType::None] += 72;
+            ptr->statsType[Stats::DMG][AType::NONE] += 72;
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [bs](CharUnit *ptr) {
-            if(ptr->Technique)dotAllEnemyStack(bs,{DotType::WindShear},3,50,"Arcana");
-            dotAllEnemyStack(bs,{DotType::WindShear},1,50,"Arcana");
+        startGameList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [bs](CharUnit *ptr) {
+            if(ptr->technique)dotAllEnemyStack(bs,{DotType::WIND_SHEAR},3,50,"Arcana");
+            dotAllEnemyStack(bs,{DotType::WIND_SHEAR},1,50,"Arcana");
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [bs](CharUnit *ptr) {
+        beforeTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [bs](CharUnit *ptr) {
             Enemy* enemy = turn->canCastToEnemy();
             if(!enemy)return;
             
-            dotSingleStack(bs,enemy,{DotType::WindShear},1,50,"Arcana");
+            dotSingleStack(bs,enemy,{DotType::WIND_SHEAR},1,50,"Arcana");
             if(enemy->getDebuff("Epiphany")){
-                debuffSingle(enemy,{{Stats::VUL,AType::None,25}});
+                debuffSingle(enemy,{{Stats::VUL,AType::NONE,25}});
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+        afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             Enemy* enemy = turn->canCastToEnemy();
             if(!enemy)return;
             
             if(enemy->getDebuff("Epiphany")){
-                debuffSingle(enemy,{{Stats::VUL,AType::None,-25}});
+                debuffSingle(enemy,{{Stats::VUL,AType::NONE,-25}});
             }
 
             if(isDebuffEnd(enemy,"BS DefShred")){
-                debuffSingle(enemy,{{Stats::DEF_SHRED,AType::None,-20.8}});
+                debuffSingle(enemy,{{Stats::DEF_SHRED,AType::NONE,-20.8}});
             }
 
             if(isDebuffEnd(enemy,"Epiphany")){
@@ -149,54 +149,54 @@ namespace BSV1{
             }
         }));
 
-        BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,bs](shared_ptr<AllyAttackAction> &act) {
+        beforeAttackActionList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr,bs](shared_ptr<AllyAttackAction> &act) {
             bs->setBuffCheck("BS A4",1);
             bs->setStack("BS A4",0);
         }));
-        AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,bs](shared_ptr<AllyAttackAction> &act) {
+        afterAttackActionList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr,bs](shared_ptr<AllyAttackAction> &act) {
             bs->setBuffCheck("BS A4",0);
         }));
-        BeforeAttack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,bs](shared_ptr<AllyAttackAction> &act) {
-            if(!bs->getBuffCheck("BS A4")||!act->isSameDamageType(AType::Dot))return;
+        beforeAttackList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr,bs](shared_ptr<AllyAttackAction> &act) {
+            if(!bs->getBuffCheck("BS A4")||!act->isSameDamageType(AType::DOT))return;
             for(auto & each : act->targetList){
                 if(bs->getStack("BS A4")<=3){
-                dotSingleStack(bs,each,{DotType::WindShear},1,50,"Arcana");
+                dotSingleStack(bs,each,{DotType::WIND_SHEAR},1,50,"Arcana");
                 bs->addStack("BS A4",1);
                 }
             }
         }));
 
-        Dot_List.push_back(TriggerDot_Func(PRIORITY_Last, [ptr,bs](Enemy* target, double Dot_ratio,DotType Dot_type) {
-            if (Dot_type != DotType::General && Dot_type != DotType::WindShear) return;
+        dotList.push_back(TriggerDotFunc(PRIORITY_LAST, [ptr,bs](Enemy* target, double dotRatio,DotType dotType) {
+            if (dotType != DotType::GENERAL && dotType != DotType::WIND_SHEAR) return;
             if (target->getStack("Arcana")){
 
-                if(target->getStack("Arcana")>=7&&phaseStatus == PhaseStatus::DotBeforeTurn)
-                    buffSingle(bs,{{Stats::DEF_SHRED,AType::Dot,20}});
+                if(target->getStack("Arcana")>=7&&phaseStatus == PhaseStatus::DOT_BEFORE_TURN)
+                    buffSingle(bs,{{Stats::DEF_SHRED,AType::DOT,20}});
 
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::WindShear,ptr,TraceType::Single,"Arcana");
+                make_shared<AllyAttackAction>(AType::WIND_SHEAR,ptr,TraceType::SINGLE,"Arcana");
                 act->addDamageIns(DmgSrc(DmgSrcType::ATK,240 + target->getStack("Arcana") * 12.0),target);
 
-                if(target->getStack("Arcana")>=3&&phaseStatus == PhaseStatus::DotBeforeTurn){
-                    act->traceType = TraceType::Blast;
+                if(target->getStack("Arcana")>=3&&phaseStatus == PhaseStatus::DOT_BEFORE_TURN){
+                    act->traceType = TraceType::BLAST;
                     if(target->nextToLeft){
                         act->addDamageHit(DmgSrc(DmgSrcType::ATK,180),target->nextToLeft);
-                        dotSingleStack(bs,target->nextToLeft,{DotType::WindShear},1,50,"Arcana");
+                        dotSingleStack(bs,target->nextToLeft,{DotType::WIND_SHEAR},1,50,"Arcana");
                     }
                     if(target->nextToRight){
                         act->addDamageHit(DmgSrc(DmgSrcType::ATK,180),target->nextToRight);
-                        dotSingleStack(bs,target->nextToRight,{DotType::WindShear},1,50,"Arcana");
+                        dotSingleStack(bs,target->nextToRight,{DotType::WIND_SHEAR},1,50,"Arcana");
                     }
                 }
 
 
-                act->multiplyDmg(Dot_ratio);
+                act->multiplyDmg(dotRatio);
                 
-                Attack(act);
+                attack(act);
 
-                if(target->getStack("Arcana")>=7&&phaseStatus == PhaseStatus::DotBeforeTurn)
-                    buffSingle(bs,{{Stats::DEF_SHRED,AType::Dot,-20}});
-                if(phaseStatus == PhaseStatus::DotBeforeTurn){
+                if(target->getStack("Arcana")>=7&&phaseStatus == PhaseStatus::DOT_BEFORE_TURN)
+                    buffSingle(bs,{{Stats::DEF_SHRED,AType::DOT,-20}});
+                if(phaseStatus == PhaseStatus::DOT_BEFORE_TURN){
                     if(!target->getDebuff("Arcana Ignore")){
                         target->setStack("Arcana",1);
                     }else target->setDebuff("Arcana Ignore",0);

@@ -1,13 +1,13 @@
 enum class PairSetType {
-    Spd_P,
+    SPD_P,
     ATK,
     HP,
     DEF,
     DMG,
-    CritRate,
-    CritDam,
-    Fua,
+    CRIT_RATE,
+    CRIT_DAM,
+    FUA,
     BE,
-    HealOut,
+    HEAL_OUT,
     ERROR
 };

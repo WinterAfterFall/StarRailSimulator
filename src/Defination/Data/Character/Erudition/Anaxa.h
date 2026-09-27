@@ -2,19 +2,19 @@
 #include "../include.h"
 
 namespace  Anaxa{
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
-    void Basic_Atk(CharUnit *ptr);
-    void Skill(CharUnit *ptr);
-    void AnaxaDebuff(CharUnit *ptr, Enemy *enemy);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
+    void basicAtk(CharUnit *ptr);
+    void skill(CharUnit *ptr);
+    void anaxaDebuff(CharUnit *ptr, Enemy *enemy);
 
 
 //temp
 
 
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
-        CharUnit *ptr = SetCharBasicStats(97,140,140,E,ElementType::Wind,Path::Erudition,"Anaxa",UnitType::Standard);
-        ptr->SetAllyBaseStats(970,757,558);
-        AllyUnit *Anaxaptr = ptr;
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = setCharBasicStats(97,140,140,eidolon,ElementType::WIND,Path::ERUDITION,"Anaxa",UnitType::STANDARD);
+        ptr->setAllyBaseStats(970,757,558);
+        AllyUnit *anaxaPtr = ptr;
 
 
         //substats
@@ -28,47 +28,47 @@ namespace  Anaxa{
 
 
         //func
-        LC(ptr);
+        lc(ptr);
         Relic(ptr);
         Planar(ptr);
-        ptr->Turn_func = [ptr, allyPtr = ptr]() {
+        ptr->turnFunc = [ptr, allyPtr = ptr]() {
             allyPtr->setBuffCheck("AnaxaTalent",true);
-            if (sp>Sp_Safety||turn->turnCnt==1) {
-                Skill(ptr);
+            if (sp>spSafety||turn->turnCnt==1) {
+                skill(ptr);
             } else {
-                Basic_Atk(ptr);
+                basicAtk(ptr);
             }
         };
         // ptr->addUltCondition([ptr,Anaxaptr]() -> bool {
-        //     AllyUnit *Driverptr = Ally_unit[Driver_num].get();
-        //     if(Anaxaptr->Atv_stats->atv - Anaxaptr->Atv_stats->Max_atv*0.25 > Driverptr->Atv_stats->atv&&Anaxaptr->Atv_stats->atv!=0)
+        //     AllyUnit *Driverptr = Ally_unit[driverNum].get();
+        //     if(Anaxaptr->atvStats->atv - Anaxaptr->atvStats->maxAtv*0.25 > Driverptr->atvStats->atv&&Anaxaptr->atvStats->atv!=0)
         //     return false;
         //     return true;
         // });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [Anaxaptr](CharUnit *ptr) {
+        ultimateList.push_back(TriggerByYourSelfFunc(PRIORITY_ACTTACK, ptr, [anaxaPtr](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
-            make_shared<AllyAttackAction>(AType::Ult,Anaxaptr,TraceType::Aoe,"Anaxa Ult",
-            [ptr,Anaxaptr](shared_ptr<AllyAttackAction> &act){
-                if(ptr->Print)CharCmd::printUltStart("Anaxa");
+            make_shared<AllyAttackAction>(AType::ULT,anaxaPtr,TraceType::AOE,"Anaxa Ult",
+            [ptr,anaxaPtr](shared_ptr<AllyAttackAction> &act){
+                if(ptr->print)CharCmd::printUltStart("Anaxa");
                 for(auto &each : act->targetList){
-                    debuffApply(Anaxaptr,each,"Sublimation",1);
-                    weaknessApply(ptr,each,{ElementType::Fire,ElementType::Ice,ElementType::Lightning,ElementType::Wind,ElementType::Quantum,ElementType::Imaginary,ElementType::Physical},"Sublimation",1);
+                    debuffApply(anaxaPtr,each,"Sublimation",1);
+                    weaknessApply(ptr,each,{ElementType::FIRE,ElementType::ICE,ElementType::LIGHTNING,ElementType::WIND,ElementType::QUANTUM,ElementType::IMAGINARY,ElementType::PHYSICAL},"Sublimation",1);
                 }
                 for(auto &each : act->targetList){
                     each->debuffNote["AnaxaA6"] = each->currentWeaknessElementAmount*4;
-                    debuffSingle(each,{{Stats::DEF_SHRED,AType::None,each->debuffNote["AnaxaA6"]}});
+                    debuffSingle(each,{{Stats::DEF_SHRED,AType::NONE,each->debuffNote["AnaxaA6"]}});
                     if(each->currentWeaknessElementAmount>=5){
                         each->debuffNote["AnaxaDmgBonus"] = 30;
-                        debuffSingle(each,{{Stats::DMG,AType::None,30}});
+                        debuffSingle(each,{{Stats::DMG,AType::NONE,30}});
                     }
                 }
     
-                Attack(act);
+                attack(act);
     
                 for(auto &each : act->targetList){
-                    debuffSingle(each,{{Stats::DEF_SHRED,AType::None, -each->debuffNote["AnaxaA6"]}});
-                    debuffSingle(each,{{Stats::DMG,AType::None, -each->debuffNote["AnaxaDmgBonus"]}});
+                    debuffSingle(each,{{Stats::DEF_SHRED,AType::NONE, -each->debuffNote["AnaxaA6"]}});
+                    debuffSingle(each,{{Stats::DMG,AType::NONE, -each->debuffNote["AnaxaDmgBonus"]}});
                     each->debuffNote["AnaxaDmgBonus"] = 0;
                     each->debuffNote["AnaxaA6"] = 0;
                 }
@@ -79,85 +79,85 @@ namespace  Anaxa{
                 DmgSrc(DmgSrcType::ATK,160,20)
             );
             act->addToActionBar();
-            Deal_damage();
+            dealDamage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Anaxaptr](CharUnit *ptr) {
-            ptr->Stats_type[Stats::CR][AType::None] += 12;
-            ptr->Stats_type[Stats::HP_P][AType::None] += 10;
-            ptr->Stats_each_element[Stats::DMG][ElementType::Wind][AType::None] += 22.4;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [anaxaPtr](CharUnit *ptr) {
+            ptr->statsType[Stats::CR][AType::NONE] += 12;
+            ptr->statsType[Stats::HP_P][AType::NONE] += 10;
+            ptr->statsEachElement[Stats::DMG][ElementType::WIND][AType::NONE] += 22.4;
 
-            ptr->Stats_type[Stats::DMG][AType::None] += 30;
+            ptr->statsType[Stats::DMG][AType::NONE] += 30;
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Anaxaptr](CharUnit *ptr) {
-            if(!ptr->Adjust["AnaxaA4"]){
+        whenOnFieldList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [anaxaPtr](CharUnit *ptr) {
+            if(!ptr->adjust["AnaxaA4"]){
                 int cnt = 0;
-                for(int i=1; i<=Total_ally;i++){
-                    if(charUnit[i]->path==Path::Erudition)
+                for(int i=1; i<=totalAlly;i++){
+                    if(charUnit[i]->path==Path::ERUDITION)
                     cnt++;
                     
                 }
-                if(cnt>=2)ptr->Adjust["AnaxaA4"] = 2;
-                else ptr->Adjust["AnaxaA4"] = 1;
+                if(cnt>=2)ptr->adjust["AnaxaA4"] = 2;
+                else ptr->adjust["AnaxaA4"] = 1;
             }
-            if(ptr->Eidolon>=6){
-                buffAllAlly({{Stats::DMG,AType::None,50}});
-                ptr->Stats_type[Stats::CD][AType::None] += 140;
+            if(ptr->eidolon>=6){
+                buffAllAlly({{Stats::DMG,AType::NONE,50}});
+                ptr->statsType[Stats::CD][AType::NONE] += 140;
                 
-            }else if(ptr->Adjust["AnaxaA4"]==2){
-                buffAllAlly({{Stats::DMG,AType::None,50}});
-            }else if(ptr->Adjust["AnaxaA4"]==1){
-                ptr->Stats_type[Stats::CD][AType::None] += 140;
+            }else if(ptr->adjust["AnaxaA4"]==2){
+                buffAllAlly({{Stats::DMG,AType::NONE,50}});
+            }else if(ptr->adjust["AnaxaA4"]==1){
+                ptr->statsType[Stats::CD][AType::NONE] += 140;
             }
         }));
 
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Anaxaptr](CharUnit *ptr) {
-            buffStackSingle(ptr,{{Stats::DEF_SHRED,AType::None,4}},3,7,"Qualitative Shift");
+        startGameList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [anaxaPtr](CharUnit *ptr) {
+            buffStackSingle(ptr,{{Stats::DEF_SHRED,AType::NONE,4}},3,7,"Qualitative Shift");
             for(auto &each : enemyList){
-                AnaxaDebuff(ptr,each);
-                if(ptr->Eidolon>=2){
-                    AnaxaDebuff(ptr,each);
-                    debuffSingleMark(ptr,each,{{Stats::RESPEN,AType::None,20}},"AnaxaE2");
+                anaxaDebuff(ptr,each);
+                if(ptr->eidolon>=2){
+                    anaxaDebuff(ptr,each);
+                    debuffSingleMark(ptr,each,{{Stats::RESPEN,AType::NONE,20}},"AnaxaE2");
                 }
                 
             }
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Anaxaptr](CharUnit *ptr) {
+        beforeTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [anaxaPtr](CharUnit *ptr) {
             Enemy *enemy = turn->canCastToEnemy();
             if(enemy){
             isDebuffEnd(enemy,"Sublimation");
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Anaxaptr](CharUnit *ptr) {
+        afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [anaxaPtr](CharUnit *ptr) {
             Enemy *enemy = turn->canCastToEnemy();
             AllyUnit *ally = turn->canCastToAllyUnit();
             if(enemy){
-                for(auto &e : Enemy_weak){
+                for(auto &e : enemyWeak){
                     isDebuffEnd(enemy,"AnaxaTalent " + toString(e.first) );
                 }
                 if(isDebuffEnd(enemy,"AnaxaE1")){
-                    debuffSingle(enemy,{{Stats::DEF_SHRED,AType::None,-16}});
+                    debuffSingle(enemy,{{Stats::DEF_SHRED,AType::NONE,-16}});
                 }
             }
             if(ally){
                 if(isBuffEnd(ally,"AnaxaE4")){
-                    buffResetStack(ally,{{Stats::ATK_P,AType::None,30}},"AnaxaE4");
+                    buffResetStack(ally,{{Stats::ATK_P,AType::NONE,30}},"AnaxaE4");
                 }
             }
         }));
 
-        BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr](shared_ptr<AllyAttackAction> &act) {
-            if(act->Attacker->isSameName("Anaxa")){
-                if(ptr->Eidolon>=6){
+        beforeAttackActionList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr,anaxaPtr](shared_ptr<AllyAttackAction> &act) {
+            if(act->attacker->isSameName("Anaxa")){
+                if(ptr->eidolon>=6){
                     for(auto &each1 : act->damageSplit){
                         for(auto &each2 : each1){
-                            each2.dmgSrc.ATK *=1.3;
-                            each2.dmgSrc.HP *=1.3;
-                            each2.dmgSrc.DEF *=1.3;
+                            each2.dmgSrc.atk *=1.3;
+                            each2.dmgSrc.hp *=1.3;
+                            each2.dmgSrc.def *=1.3;
                             each2.dmgSrc.constDmg *=1.3;
                         }
                     }
@@ -166,18 +166,18 @@ namespace  Anaxa{
 
         }));
 
-        AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,Anaxaptr](shared_ptr<AllyAttackAction> &act) {
+        afterAttackActionList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr,anaxaPtr](shared_ptr<AllyAttackAction> &act) {
             if((act->actionName=="Anaxa BA"||act->actionName=="Anaxa Skill")){
-                if(Anaxaptr->getBuffCheck("AnaxaTalent"))
+                if(anaxaPtr->getBuffCheck("AnaxaTalent"))
                 for(auto &each : act->targetList){
-                    Skill(ptr);
+                    skill(ptr);
                     if(each->currentWeaknessElementAmount>=5){
-                        Deal_damage();
-                        Anaxaptr->setBuffCheck("AnaxaTalent",false);
+                        dealDamage();
+                        anaxaPtr->setBuffCheck("AnaxaTalent",false);
                         break;
                     }
                 }
-                else Anaxaptr->setBuffCheck("AnaxaTalent",true);
+                else anaxaPtr->setBuffCheck("AnaxaTalent",true);
             }
         }));
     }
@@ -185,31 +185,31 @@ namespace  Anaxa{
 
 
 
-    void Basic_Atk(CharUnit *ptr){
+    void basicAtk(CharUnit *ptr){
         
         genSkillPoint(ptr,1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Anaxa BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::SINGLE,"Anaxa BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(charUnit[ptr->Atv_stats->num].get(),30);
+            increaseEnergy(charUnit[ptr->atvStats->num].get(),30);
             for(auto &each : act->targetList){
-                AnaxaDebuff(ptr,each);
+                anaxaDebuff(ptr,each);
             }
 
             for(auto &each : act->targetList){
                 each->debuffNote["AnaxaA6"] = each->currentWeaknessElementAmount*4;
-                debuffSingle(each,{{Stats::DEF_SHRED,AType::None,each->debuffNote["AnaxaA6"]}});
+                debuffSingle(each,{{Stats::DEF_SHRED,AType::NONE,each->debuffNote["AnaxaA6"]}});
                 if(each->currentWeaknessElementAmount>=5){
                     each->debuffNote["AnaxaDmgBonus"] = 30;
-                    debuffSingle(each,{{Stats::DMG,AType::None,30}});
+                    debuffSingle(each,{{Stats::DMG,AType::NONE,30}});
                 }
             }
 
-            Attack(act);
+            attack(act);
 
             for(auto &each : act->targetList){
-                debuffSingle(each,{{Stats::DEF_SHRED,AType::None, -each->debuffNote["AnaxaA6"]}});
-                debuffSingle(each,{{Stats::DMG,AType::None, -each->debuffNote["AnaxaDmgBonus"]}});
+                debuffSingle(each,{{Stats::DEF_SHRED,AType::NONE, -each->debuffNote["AnaxaA6"]}});
+                debuffSingle(each,{{Stats::DMG,AType::NONE, -each->debuffNote["AnaxaDmgBonus"]}});
                 each->debuffNote["AnaxaDmgBonus"] = 0;
                 each->debuffNote["AnaxaA6"] = 0;
             }
@@ -219,29 +219,29 @@ namespace  Anaxa{
         );
         act->addToActionBar();
     }
-    void Skill(CharUnit *ptr){
+    void skill(CharUnit *ptr){
 
         genSkillPoint(ptr,-1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Bounce,"Anaxa Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::BOUNCE,"Anaxa Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(charUnit[ptr->Atv_stats->num].get(),30);
+            increaseEnergy(charUnit[ptr->atvStats->num].get(),30);
             if(!ptr->getBuffCheck("AnaxaFirstTurn")){
                 ptr->setBuffCheck("AnaxaFirstTurn",true);
-                Increase_energy(ptr,30);
-                if(ptr->Eidolon>=1){
+                increaseEnergy(ptr,30);
+                if(ptr->eidolon>=1){
                     genSkillPoint(ptr,1);
                 }
             }
 
-            buffSingle(act->Attacker,{{Stats::DMG,AType::None,20.0 * Total_enemy}});
-            if(ptr->Eidolon>=4)buffStackSingle(act->Attacker,{{Stats::ATK_P,AType::None,30}},1,2,"AnaxaE4",2);
+            buffSingle(act->attacker,{{Stats::DMG,AType::NONE,20.0 * totalEnemy}});
+            if(ptr->eidolon>=4)buffStackSingle(act->attacker,{{Stats::ATK_P,AType::NONE,30}},1,2,"AnaxaE4",2);
             int cnt = 5;
             while(1){
                 for(auto &each : act->targetList){
-                    AnaxaDebuff(ptr,each);
+                    anaxaDebuff(ptr,each);
                     --cnt;
-                    if(ptr->Eidolon>=1)debuffSingleApply(ptr,each,{{Stats::DEF_SHRED,AType::None,16}},"AnaxaE1",2);
+                    if(ptr->eidolon>=1)debuffSingleApply(ptr,each,{{Stats::DEF_SHRED,AType::NONE,16}},"AnaxaE1",2);
                     if(cnt==0)break;
                 }
                 if(cnt==0)break;    
@@ -249,27 +249,27 @@ namespace  Anaxa{
             
             for(auto &each : act->targetList){
                 each->debuffNote["AnaxaA6"] = each->currentWeaknessElementAmount*4;
-                debuffSingle(each,{{Stats::DEF_SHRED,AType::None,each->debuffNote["AnaxaA6"]}});
+                debuffSingle(each,{{Stats::DEF_SHRED,AType::NONE,each->debuffNote["AnaxaA6"]}});
                 if(each->currentWeaknessElementAmount>=5){
                     each->debuffNote["AnaxaDmgBonus"] = 30;
-                    debuffSingle(each,{{Stats::DMG,AType::None,30}});
+                    debuffSingle(each,{{Stats::DMG,AType::NONE,30}});
                 }
             }
             CharCmd::printText("Anaxa Skill");
-            Attack(act);
+            attack(act);
 
             for(auto &each : act->targetList){
-                debuffSingle(each,{{Stats::DEF_SHRED,AType::None, -each->debuffNote["AnaxaA6"]}});
-                debuffSingle(each,{{Stats::DMG,AType::None, -each->debuffNote["AnaxaDmgBonus"]}});
+                debuffSingle(each,{{Stats::DEF_SHRED,AType::NONE, -each->debuffNote["AnaxaA6"]}});
+                debuffSingle(each,{{Stats::DMG,AType::NONE, -each->debuffNote["AnaxaDmgBonus"]}});
                 each->debuffNote["AnaxaDmgBonus"] = 0;
                 each->debuffNote["AnaxaA6"] = 0;
             }
-            buffSingle(act->Attacker,{{Stats::DMG,AType::None,-20.0 * Total_enemy}});
+            buffSingle(act->attacker,{{Stats::DMG,AType::NONE,-20.0 * totalEnemy}});
         });
         act->addEnemyFairBounce(DmgSrc(DmgSrcType::ATK,70,10),5);
         act->addToActionBar();
     }
-    void AnaxaDebuff(CharUnit *ptr, Enemy *enemy) {
+    void anaxaDebuff(CharUnit *ptr, Enemy *enemy) {
         string element;
         weaknessApplyChoose(ptr,enemy,1,"AnaxaTalent",3);
     }

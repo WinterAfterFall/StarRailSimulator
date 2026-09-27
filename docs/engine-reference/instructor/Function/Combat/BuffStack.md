@@ -1,24 +1,24 @@
 # `src/Defination/Function/Combat/BuffStack.h`
 
-ไฟล์นี้คือ "ชั้น stack" ของระบบบัฟฝ่ายเรา — ทุกฟังก์ชันในไฟล์นี้ **ไม่ได้บวก stat เอง** แต่แปลง "จำนวน stack ที่เปลี่ยนจริง" ให้เป็นตัวคูณ แล้วโยนต่อให้ `buffSingle()` ใน [Buff_Stats.md](Buff_Stats.md) เป็นคนบวกลง `Stats_type` / `Stats_each_element`
+ไฟล์นี้คือ "ชั้น stack" ของระบบบัฟฝ่ายเรา — ทุกฟังก์ชันในไฟล์นี้ **ไม่ได้บวก stat เอง** แต่แปลง "จำนวน stack ที่เปลี่ยนจริง" ให้เป็นตัวคูณ แล้วโยนต่อให้ `buffSingle()` ใน [Buff_Stats.md](Buff_Stats.md) เป็นคนบวกลง `statsType` / `statsEachElement`
 
-โครงทั้งไฟล์มี 4 ชั้น: `calStack` (คิดเลข) → `buffStackSingle` (ยิงใส่ยูนิตเดียว) → wrapper กระจายเป้าหมาย (`Char` / `AllAlly` / `AllMemosprite` / `Targets` / `ExcludingBuffer`) → กลุ่มรีเซ็ต (`buffResetStack` …)
+โครงทั้งไฟล์มี 4 ชั้น: `calStack` (คิดเลข) → `buffStackSingle` (ยิงใส่ยูนิตเดียว) → wrapper กระจายเป้าหมาย (`charSetup` / `AllAlly` / `AllMemosprite` / `Targets` / `ExcludingBuffer`) → กลุ่มรีเซ็ต (`buffResetStack` …)
 
 ## แกนกลาง — `calStack()` (บรรทัด 4)
 
 ```cpp
 int current = ptr->getStack(buffName);
-int next    = min(StackLimit, max(0, current + Stack_increase));
+int next    = min(stackLimit, max(0, current + stackIncrease));
 int applied = next - current;
 ptr->addStack(buffName, applied);
 return {applied, next};
 ```
 
-- **clamp สองด้าน** — stack ใหม่อยู่ในช่วง `0 .. StackLimit` เสมอ
+- **clamp สองด้าน** — stack ใหม่อยู่ในช่วง `0 .. stackLimit` เสมอ
 - คืน `pair{applied, next}` — `applied` คือ **ส่วนต่างจริง** ไม่ใช่ค่าที่ร้องขอ ถ้ามี 4 stack เพดาน 5 แล้วสั่ง `+3` จะได้ `applied = 1` · ถ้ามี 1 stack แล้วสั่ง `-3` จะได้ `applied = -1`
 - ผู้เรียกทุกตัวใช้แค่ `.first` (`applied`) — `.second` ยังไม่มีใครใช้
-- `Stack_increase` **ติดลบได้** เป็นทางปกติของตัวละครที่กินบัฟตัวเองทีละ stack
-- ⚠️ ต่างจากฝั่งศัตรู: `calStack` **ไม่ปล่อย event** และ **ไม่นับจำนวนสถานะ** อะไรเลย ขณะที่ `calDebuffStack()` ([DebuffStack.md](DebuffStack.md)) ปล่อย `BeforeApplyDebuff`/`AfterApplyDebuff` และดูแล `Total_debuff` ด้วย — ฝั่ง ally ไม่มีตัวนับแบบ `Total_debuff` จึงไม่ต้องมี
+- `stackIncrease` **ติดลบได้** เป็นทางปกติของตัวละครที่กินบัฟตัวเองทีละ stack
+- ⚠️ ต่างจากฝั่งศัตรู: `calStack` **ไม่ปล่อย event** และ **ไม่นับจำนวนสถานะ** อะไรเลย ขณะที่ `calDebuffStack()` ([DebuffStack.md](DebuffStack.md)) ปล่อย `beforeApplyDebuff`/`afterApplyDebuff` และดูแล `totalDebuff` ด้วย — ฝั่ง ally ไม่มีตัวนับแบบ `totalDebuff` จึงไม่ต้องมี
 
 ## `buffStackSingle()` — 4 overload (บรรทัด 13–42)
 
@@ -26,7 +26,7 @@ return {applied, next};
 |---|---|---|
 | `vector<BuffClass>` | ไม่มี | `value *= applied` ทุกตัว → `buffSingle()` |
 | `vector<BuffClass>` | มี | `value *= applied` → **`extendBuffTime()` ก่อน** → `buffSingle()` |
-| `vector<BuffElementClass>` | ไม่มี | เหมือนข้างบน แต่ลง `Stats_each_element` |
+| `vector<BuffElementClass>` | ไม่มี | เหมือนข้างบน แต่ลง `statsEachElement` |
 | `vector<BuffElementClass>` | มี | เหมือนข้างบน + `extendBuffTime()` |
 
 `buffSet` รับมาแบบ **by value** จึงคูณทับได้โดยไม่กระทบตัวแปรของผู้เรียก — สำคัญมาก เพราะตัวละครส่วนใหญ่ประกาศ `vector<BuffClass>` ไว้เป็นค่าคงที่แล้วส่งซ้ำทุกครั้ง
@@ -52,11 +52,11 @@ return {applied, next};
 
 ## กลุ่มรีเซ็ต stack (บรรทัด 189–224)
 
-`buffResetStack(AllyUnit*, buffSet, Stack_Name)` — ถอนบัฟทั้งกองในครั้งเดียว:
+`buffResetStack(AllyUnit*, buffSet, stackName)` — ถอนบัฟทั้งกองในครั้งเดียว:
 
 ```cpp
-e.value *= -ptr->getStack(Stack_Name);   // คูณ -stack ปัจจุบัน = หักออกให้หมดพอดี
-ptr->setStack(Stack_Name, 0);            // แล้วเคลียร์ตัวนับ
+e.value *= -ptr->getStack(stackName);   // คูณ -stack ปัจจุบัน = หักออกให้หมดพอดี
+ptr->setStack(stackName, 0);            // แล้วเคลียร์ตัวนับ
 buffSingle(ptr, buffSet);
 ```
 

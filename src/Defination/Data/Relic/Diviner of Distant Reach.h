@@ -3,29 +3,29 @@ namespace Relic{
     function<void(CharUnit *ptr)> DivinerOfDistant(bool trigger){
         if(trigger)
         return [=](CharUnit *ptr) {
-        ptr->Relic.Name = "Diviner of Distant Reach";
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Atv_stats->speedPercent +=6;
-            ptr->Stats_type[Stats::CR][AType::None] += 18;
+        ptr->Relic.name = "Diviner of Distant Reach";
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->atvStats->speedPercent +=6;
+            ptr->statsType[Stats::CR][AType::NONE] += 18;
         }));
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+        startGameList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             for(auto &each : allyList){
                 if(isHaveToAddBuff(each,"DoD Buff"))
-                buffSingle(each,{{Stats::Elation,AType::None,10}});
+                buffSingle(each,{{Stats::ELATION,AType::NONE,10}});
         }
         }));
         };
         else 
         return [=](CharUnit *ptr) {
-        ptr->Relic.Name = "Diviner of Distant Reach";
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Atv_stats->speedPercent +=6;
-            ptr->Stats_type[Stats::CR][AType::None] += 10;
+        ptr->Relic.name = "Diviner of Distant Reach";
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->atvStats->speedPercent +=6;
+            ptr->statsType[Stats::CR][AType::NONE] += 10;
         }));
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+        startGameList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             for(auto &each : allyList){
                 if(isHaveToAddBuff(each,"DoD Buff"))
-                buffSingle(each,{{Stats::Elation,AType::None,10}});
+                buffSingle(each,{{Stats::ELATION,AType::NONE,10}});
         }
         }));
         };

@@ -18,7 +18,7 @@
 ## `DDD.h` — ใบที่กระทบ AI ของทั้งทีม
 
 ```cpp
-WhenUseUlt_List: if (ally->isSameOwner(ptr)) All_Action_forward(14 + 2 * superimpose);
+whenUseUltList: if (ally->isSameOwner(ptr)) allActionForward(14 + 2 * superimpose);
 ```
 **ไม่มีเงื่อนไขในตัว** → ถ้าผู้สวมกด ult ตอนที่ทีมใกล้ได้เล่นอยู่แล้ว advance จะเสียเปล่า · ต่างจาก `../../Relic/Eagle_Beaked_Helmet.md` ที่ใส่ `addUltCondition` ของตัวเอง
 
@@ -27,9 +27,9 @@ WhenUseUlt_List: if (ally->isSameOwner(ptr)) All_Action_forward(14 + 2 * superim
 ## จุดที่ควรระวัง
 
 - ~~`For_Tomorrow_Journey.h` ถอนบัฟด้วยชื่อ `"Himeko_LC_buff"`~~ · ~~`Cerydra LC.h` บัฟ DMG ทุกชนิด / ไม่มี SP จาก ult~~ · ~~`Sunday_LC.h` ถอน stack เฉพาะเป้าปัจจุบัน~~ — แก้แล้ว 2026-09-26
-- **`Bronya_LC.h` ใช้ `buffSingle(..., "ชื่อ", 0)` duration = 0** (บรรทัด 33) แล้วถอนใน `After_turn_List` — พึ่งพฤติกรรมของ `isBuffEnd` ที่ `turnCnt == buffEnd` ซึ่งกับ `extend = 0` หมายถึงหมดในเทิร์นเดียวกัน
+- **`Bronya_LC.h` ใช้ `buffSingle(..., "ชื่อ", 0)` duration = 0** (บรรทัด 33) แล้วถอนใน `afterTurnList` — พึ่งพฤติกรรมของ `isBuffEnd` ที่ `turnCnt == buffEnd` ซึ่งกับ `extend = 0` หมายถึงหมดในเทิร์นเดียวกัน
 - **`Bronya_LC.h` ใช้ `buffCheck["Battle_Isnt_Over_cnt"]` เป็น bool สลับ** (บรรทัด 22-27) → คืน SP ครั้งเว้นครั้ง · สำนวนเดียวกับ Luka A6 (ดู `../../Character/Nihility/Luka.md`)
-- `Sunday_LC.h` `AllyDeath_List` เรียก `buffResetStack` โดยไม่เช็คก่อน — ไม่เป็นปัญหา (ไม่มี stack = ลบ 0)
-- `Robin_LC.h` `When_attack_List` ไม่ guard ผู้โจมตี — **ตั้งใจ** ตาม kit ("any ally attacks")
+- `Sunday_LC.h` `allyDeathList` เรียก `buffResetStack` โดยไม่เช็คก่อน — ไม่เป็นปัญหา (ไม่มี stack = ลบ 0)
+- `Robin_LC.h` `whenAttackList` ไม่ guard ผู้โจมตี — **ตั้งใจ** ตาม kit ("any ally attacks")
 - ~~`Memories_of_the_Past.h` / `Meshing_Cogs.h` ไม่จำกัดครั้งต่อเทิร์น~~ · ~~`Bronya_LC.h` บัฟตกที่ผู้สวมเองได้~~ — แก้แล้ว 2026-09-26
 - ~~หลายใบใช้ `dynamic_cast<AllyUnit*>(turn->charptr)`~~ — `Bronya_LC.h` / `Sunday_LC.h` เปลี่ยนเป็น `canCastToAllyUnit()` แล้ว 2026-09-26

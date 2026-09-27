@@ -1,5 +1,5 @@
-#ifndef Trigger_H
-#define Trigger_H
+#ifndef TRIGGER_H
+#define TRIGGER_H
 
 #include"../ActionData/Library.h"
 
@@ -7,7 +7,7 @@
 #define F first
 #define S second
 #define DMG_CAL 12
-#define K_const 10000
+#define K_CONST 10000
 class TriggerFunc{
     public:
     int priority = 0;
@@ -16,120 +16,120 @@ class TriggerFunc{
     TriggerFunc(int priority) : priority(priority) {}
     TriggerFunc(int priority, CharUnit *owner) : priority(priority), owner(owner) {}
 
-    static bool Trigger_cmp(const TriggerFunc& l, const TriggerFunc& r) {
+    static bool triggerCmp(const TriggerFunc& l, const TriggerFunc& r) {
         return l.priority > r.priority;  // Higher priority first
     }
 };
 // owner is required: the engine passes it back to Call as ptr
-class TriggerByYourSelf_Func : public TriggerFunc{
+class TriggerByYourSelfFunc : public TriggerFunc{
     public:
-    function<void(CharUnit *ptr)> Call;
-    TriggerByYourSelf_Func(int priority, CharUnit *ptr, function<void(CharUnit *ptr)> Call)
-    : TriggerFunc(priority, ptr), Call(Call) {}
+    function<void(CharUnit *ptr)> call;
+    TriggerByYourSelfFunc(int priority, CharUnit *ptr, function<void(CharUnit *ptr)> call)
+    : TriggerFunc(priority, ptr), call(call) {}
 };
-class TriggerByAlly_Func : public TriggerFunc{
+class TriggerByAllyFunc : public TriggerFunc{
     public:
-    function<void(CharUnit *ally)> Call;
-    TriggerByAlly_Func(int priority, function<void(CharUnit *ally)> Call) 
-    : TriggerFunc(priority), Call(Call) {}
+    function<void(CharUnit *ally)> call;
+    TriggerByAllyFunc(int priority, function<void(CharUnit *ally)> call) 
+    : TriggerFunc(priority), call(call) {}
 };
-class TriggerByAction_Func : public TriggerFunc{
+class TriggerByActionFunc : public TriggerFunc{
     public:
-    function<void(shared_ptr<ActionData> &act)> Call;
-    TriggerByAction_Func(int priority, function<void(shared_ptr<ActionData> &act)> Call) 
-    : TriggerFunc(priority), Call(Call) {}
+    function<void(shared_ptr<ActionData> &act)> call;
+    TriggerByActionFunc(int priority, function<void(shared_ptr<ActionData> &act)> call) 
+    : TriggerFunc(priority), call(call) {}
 };
-class TriggerByAllyAction_Func : public TriggerFunc{
+class TriggerByAllyActionFunc : public TriggerFunc{
     public:
-    function<void(shared_ptr<AllyActionData> &act)> Call;
-    TriggerByAllyAction_Func(int priority, function<void(shared_ptr<AllyActionData> &act)> Call) 
-    : TriggerFunc(priority), Call(Call) {}
+    function<void(shared_ptr<AllyActionData> &act)> call;
+    TriggerByAllyActionFunc(int priority, function<void(shared_ptr<AllyActionData> &act)> call) 
+    : TriggerFunc(priority), call(call) {}
 };
-class TriggerByAllyAttackAction_Func : public TriggerFunc{
+class TriggerByAllyAttackActionFunc : public TriggerFunc{
     public:
-    function<void(shared_ptr<AllyAttackAction> &act)> Call;
-    TriggerByAllyAttackAction_Func(int priority, function<void(shared_ptr<AllyAttackAction> &act)> Call) 
-    : TriggerFunc(priority), Call(Call) {}
+    function<void(shared_ptr<AllyAttackAction> &act)> call;
+    TriggerByAllyAttackActionFunc(int priority, function<void(shared_ptr<AllyAttackAction> &act)> call) 
+    : TriggerFunc(priority), call(call) {}
 };
-class TriggerByAllyBuffAction_Func : public TriggerFunc{
+class TriggerByAllyBuffActionFunc : public TriggerFunc{
     public:
-    function<void(shared_ptr<AllyBuffAction> &act)> Call;
-    TriggerByAllyBuffAction_Func(int priority, function<void(shared_ptr<AllyBuffAction> &act)> Call) 
-    : TriggerFunc(priority), Call(Call) {}
+    function<void(shared_ptr<AllyBuffAction> &act)> call;
+    TriggerByAllyBuffActionFunc(int priority, function<void(shared_ptr<AllyBuffAction> &act)> call) 
+    : TriggerFunc(priority), call(call) {}
 };
 
 class TriggerByStats : public TriggerFunc{
     public:
-    function<void(AllyUnit* Target, Stats StatsType)> Call;
-    TriggerByStats(int priority, function<void(AllyUnit* Target, Stats StatsType)> Call) 
-    : TriggerFunc(priority), Call(Call) {}
+    function<void(AllyUnit* target, Stats statsType)> call;
+    TriggerByStats(int priority, function<void(AllyUnit* target, Stats statsType)> call) 
+    : TriggerFunc(priority), call(call) {}
 };
 
 class TriggerAllyDeath : public TriggerFunc{
     public:
-    function<void(AllyUnit* target)> Call;
-    TriggerAllyDeath(int priority, function<void(AllyUnit* target)> Call) 
-    : TriggerFunc(priority), Call(Call) {}
+    function<void(AllyUnit* target)> call;
+    TriggerAllyDeath(int priority, function<void(AllyUnit* target)> call) 
+    : TriggerFunc(priority), call(call) {}
 };
 
-class TriggerBySomeAlly_Func : public TriggerFunc{
+class TriggerBySomeAllyFunc : public TriggerFunc{
     public:
-    function<void(Enemy *target, AllyUnit *Trigger)> Call;
-    TriggerBySomeAlly_Func(int priority, function<void(Enemy *target, AllyUnit *Trigger)> Call) 
-    : TriggerFunc(priority), Call(Call) {}
+    function<void(Enemy *target, AllyUnit *trigger)> call;
+    TriggerBySomeAllyFunc(int priority, function<void(Enemy *target, AllyUnit *trigger)> call) 
+    : TriggerFunc(priority), call(call) {}
 };
 
-class TriggerByWeaknessApply_Func : public TriggerFunc{
+class TriggerByWeaknessApplyFunc : public TriggerFunc{
     public:
-    function<void(AllyUnit *Trigger,Enemy *target, vector<ElementType> elementList)> Call;
-    TriggerByWeaknessApply_Func(int priority, function<void(AllyUnit *Trigger,Enemy *target, vector<ElementType> elementList)> Call) 
-    : TriggerFunc(priority), Call(Call) {}
+    function<void(AllyUnit *trigger,Enemy *target, vector<ElementType> elementList)> call;
+    TriggerByWeaknessApplyFunc(int priority, function<void(AllyUnit *trigger,Enemy *target, vector<ElementType> elementList)> call) 
+    : TriggerFunc(priority), call(call) {}
 };
 
 class TriggerHealing : public TriggerFunc{
     public:
-    function<void(AllyUnit *Healer, AllyUnit *target, double Value)> Call;
-    TriggerHealing(int priority, function<void(AllyUnit *Healer, AllyUnit *target, double Value)> Call) 
-    : TriggerFunc(priority), Call(Call) {}
+    function<void(AllyUnit *healer, AllyUnit *target, double value)> call;
+    TriggerHealing(int priority, function<void(AllyUnit *healer, AllyUnit *target, double value)> call) 
+    : TriggerFunc(priority), call(call) {}
 };
 class TriggerDecreaseHP : public TriggerFunc{
     public:
-    function<void(Unit *Trigger, AllyUnit *target, double Value)> Call;
-    TriggerDecreaseHP(int priority, function<void(Unit *Trigger, AllyUnit *target, double Value)> Call) 
-    : TriggerFunc(priority), Call(Call) {}
+    function<void(Unit *trigger, AllyUnit *target, double value)> call;
+    TriggerDecreaseHP(int priority, function<void(Unit *trigger, AllyUnit *target, double value)> call) 
+    : TriggerFunc(priority), call(call) {}
 };
 class TriggerByEnemyHit : public TriggerFunc{
     public:
-    function<void(Enemy *Attacker, vector<AllyUnit*> target)> Call;
-    TriggerByEnemyHit(int priority, function<void(Enemy *Attacker, vector<AllyUnit*> target)> Call) 
-    : TriggerFunc(priority), Call(Call) {}
+    function<void(Enemy *attacker, vector<AllyUnit*> target)> call;
+    TriggerByEnemyHit(int priority, function<void(Enemy *attacker, vector<AllyUnit*> target)> call) 
+    : TriggerFunc(priority), call(call) {}
 };
 
-class TriggerDot_Func : public TriggerFunc{
+class TriggerDotFunc : public TriggerFunc{
     public:
-    function<void(Enemy* target,double Dot_ratio,DotType Dot_type)> Call;
-    TriggerDot_Func(int priority, function<void(Enemy* target, double Dot_ratio,DotType Dot_type)> Call) 
-    : TriggerFunc(priority), Call(Call) {}
+    function<void(Enemy* target,double dotRatio,DotType dotType)> call;
+    TriggerDotFunc(int priority, function<void(Enemy* target, double dotRatio,DotType dotType)> call) 
+    : TriggerFunc(priority), call(call) {}
 };
 
-class TriggerEnergy_Increase_Func : public TriggerFunc{
+class TriggerEnergyIncreaseFunc : public TriggerFunc{
     public:
-    function<void(CharUnit *target, double Energy)> Call;
-    TriggerEnergy_Increase_Func(int priority, function<void(CharUnit *target, double Energy)> Call) 
-    : TriggerFunc(priority), Call(Call) {}
+    function<void(CharUnit *target, double energy)> call;
+    TriggerEnergyIncreaseFunc(int priority, function<void(CharUnit *target, double energy)> call) 
+    : TriggerFunc(priority), call(call) {}
 };
 
-class TriggerSkill_point_func : public TriggerFunc{
+class TriggerSkillPointFunc : public TriggerFunc{
     public:
-    function<void(AllyUnit *SP_maker, int SP)> Call;
-    TriggerSkill_point_func(int priority, function<void(AllyUnit *SP_maker, int SP)> Call) 
-    : TriggerFunc(priority), Call(Call) {}
+    function<void(AllyUnit *spMaker, int spChange)> call;
+    TriggerSkillPointFunc(int priority, function<void(AllyUnit *spMaker, int spChange)> call) 
+    : TriggerFunc(priority), call(call) {}
 };
 
 class TriggerAfterDealDamage : public TriggerFunc{
     public:
-    function<void(shared_ptr<AllyAttackAction> &act,Enemy *target,double damage)> Call;
-    TriggerAfterDealDamage(int priority, function<void(shared_ptr<AllyAttackAction> &act,Enemy *target,double damage)> Call)
-    : TriggerFunc(priority), Call(Call) {}
+    function<void(shared_ptr<AllyAttackAction> &act,Enemy *target,double damage)> call;
+    TriggerAfterDealDamage(int priority, function<void(shared_ptr<AllyAttackAction> &act,Enemy *target,double damage)> call)
+    : TriggerFunc(priority), call(call) {}
 };
 #endif

@@ -2,16 +2,16 @@
 namespace Destruction_Lightcone{
     function<void(CharUnit *ptr)> The_Moles(int superimpose){
         return [=](CharUnit *ptr) {
-            ptr->SetAllyBaseStats(1058,476,265);
-            ptr->Light_cone.Name = "The Moles";
-            BeforeAttackAction_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK,[ptr,superimpose](shared_ptr<AllyAttackAction> &act){
+            ptr->setAllyBaseStats(1058,476,265);
+            ptr->lightCone.name = "The Moles";
+            beforeAttackActionList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_ACTTACK,[ptr,superimpose](shared_ptr<AllyAttackAction> &act){
                 if(!act->isSameOwnerName(ptr))return;
                 if(act->isSameAction(AType::BA)&&isHaveToAddBuff(ptr,"The Moles BA"))
-                buffSingle(ptr,{{Stats::ATK_P,AType::None,9.0 + 3 * superimpose}});
+                buffSingle(ptr,{{Stats::ATK_P,AType::NONE,9.0 + 3 * superimpose}});
                 if(act->isSameAction(AType::SKILL)&&isHaveToAddBuff(ptr,"The Moles Skill"))
-                buffSingle(ptr,{{Stats::ATK_P,AType::None,9.0 + 3 * superimpose}});
-                if(act->isSameAction(AType::Ult)&&isHaveToAddBuff(ptr,"The Moles Ult"))
-                buffSingle(ptr,{{Stats::ATK_P,AType::None,9.0 + 3 * superimpose}});
+                buffSingle(ptr,{{Stats::ATK_P,AType::NONE,9.0 + 3 * superimpose}});
+                if(act->isSameAction(AType::ULT)&&isHaveToAddBuff(ptr,"The Moles Ult"))
+                buffSingle(ptr,{{Stats::ATK_P,AType::NONE,9.0 + 3 * superimpose}});
             }));
             
         };

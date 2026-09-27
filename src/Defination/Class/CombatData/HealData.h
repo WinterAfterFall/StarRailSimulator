@@ -1,17 +1,17 @@
-#ifndef HealData_H
-#define HealData_H
+#ifndef HEAL_DATA_H
+#define HEAL_DATA_H
 #include "../Unit/Library.h"
 class HealSrc{
     public :
-    double ATK = 0;
-    double HP = 0;
-    double DEF = 0;
+    double atk = 0;
+    double hp = 0;
+    double def = 0;
     double constHeal = 0;
     double healFromTotalHP = 0;
     double healFromLostHP = 0;
 
-    HealSrc(double ATK = 0, double HP = 0, double DEF = 0, double constHeal = 0, double healFromTotalHP = 0, double healFromLostHP = 0)
-        : ATK(ATK), HP(HP), DEF(DEF), constHeal(constHeal), healFromTotalHP(healFromTotalHP), healFromLostHP(healFromLostHP) {}
+    HealSrc(double atk = 0, double hp = 0, double def = 0, double constHeal = 0, double healFromTotalHP = 0, double healFromLostHP = 0)
+        : atk(atk), hp(hp), def(def), constHeal(constHeal), healFromTotalHP(healFromTotalHP), healFromLostHP(healFromLostHP) {}
 
     // Variadic constructor: (HealSrcType1, value1, HealSrcType2, value2, ...)
     template<typename... Args>
@@ -32,13 +32,13 @@ class HealSrc{
     void setValue(HealSrcType type, double value) {
         switch (type) {
             case HealSrcType::ATK:
-                ATK = value;
+                atk = value;
                 break;
             case HealSrcType::HP:
-                HP = value;
+                hp = value;
                 break;
             case HealSrcType::DEF:
-                DEF = value;
+                def = value;
                 break;
             case HealSrcType::CONST:
                 constHeal = value;

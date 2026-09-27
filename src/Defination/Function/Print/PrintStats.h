@@ -1,16 +1,16 @@
 #include "include.h"
 void AllyUnit::printHpStats(){
-    cout<<this->Atv_stats->Name<<" ";
+    cout<<this->atvStats->name<<" ";
     cout << "Current HP: " << this->currentHP << " ";
     cout << "Total HP: " << this->totalHP << " ";
     cout << "Base HP: " << this->baseHp << " ";
-    cout << "HP Percent: " << this->Stats_type[Stats::HP_P][AType::None] << " ";
-    cout << "Flat HP: " << this->Stats_type[Stats::FLAT_HP][AType::None] << " ";
+    cout << "HP Percent: " << this->statsType[Stats::HP_P][AType::NONE] << " ";
+    cout << "Flat HP: " << this->statsType[Stats::FLAT_HP][AType::NONE] << " ";
     cout<<endl;
 }
 void AllyUnit::printCritStats(){
-    cout<<this->Atv_stats->Name<<" ";
-    cout << "Crit rate : " << this->Stats_type[Stats::CR][AType::None] << " ";
-    cout << "Crit dam : " << this->Stats_type[Stats::CD][AType::None] << " ";
+    cout<<this->atvStats->name<<" ";
+    cout << "Crit rate : " << this->statsType[Stats::CR][AType::NONE] << " ";
+    cout << "Crit dam : " << this->statsType[Stats::CD][AType::NONE] << " ";
     cout<<endl;
 }

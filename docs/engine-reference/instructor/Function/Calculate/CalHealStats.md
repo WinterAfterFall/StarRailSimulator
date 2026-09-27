@@ -2,7 +2,7 @@
 
 ไฟล์นี้คำนวณค่าสเตตัสของผู้ฮีลที่ใช้เป็นฐานของสูตรฮีล และคำนวณตัวคูณโบนัสฮีลระหว่างผู้ฮีลกับเป้าหมาย
 
-## `calAtkMultiplier(Healer)` / `calHpMultiplier(Healer)` / `calDefMultiplier(Healer)`
+## `calAtkMultiplier(healer)` / `calHpMultiplier(healer)` / `calDefMultiplier(healer)`
 
 ทั้งสามฟังก์ชันใช้รูปแบบเดียวกัน:
 
@@ -14,11 +14,11 @@
 - HP ใช้ `baseHp`, `HP_P` และ `FLAT_HP`
 - DEF ใช้ `baseDef`, `DEF_P` และ `FLAT_DEF`
 
-ทุกค่าอ่านจาก `Stats_type[...][AType::None]` ของผู้ฮีล และผลลัพธ์ติดลบถูก clamp เป็น `0` User ยืนยัน 2026-09-20 ว่าตั้งใจไม่รวมโบนัส ATK/HP/DEF ที่ผูกกับ action type เช่น Skill หรือ Ultimate เข้าสูตรฮีล
+ทุกค่าอ่านจาก `statsType[...][AType::NONE]` ของผู้ฮีล และผลลัพธ์ติดลบถูก clamp เป็น `0` User ยืนยัน 2026-09-20 ว่าตั้งใจไม่รวมโบนัส ATK/HP/DEF ที่ผูกกับ action type เช่น Skill หรือ Ultimate เข้าสูตรฮีล
 
-เดิมทั้งสามฟังก์ชันรับ `target` ด้วยแต่ไม่ได้ใช้งาน User ยืนยัน 2026-09-20 ว่าลบได้ จึงเหลือพารามิเตอร์ `Healer` เพียงตัวเดียว
+เดิมทั้งสามฟังก์ชันรับ `target` ด้วยแต่ไม่ได้ใช้งาน User ยืนยัน 2026-09-20 ว่าลบได้ จึงเหลือพารามิเตอร์ `healer` เพียงตัวเดียว
 
-## `calHealBonusMultiplier(Healer, target)`
+## `calHealBonusMultiplier(healer, target)`
 
 รวมโบนัสฮีลออกของผู้ฮีลกับโบนัสฮีลเข้าของเป้าหมาย:
 

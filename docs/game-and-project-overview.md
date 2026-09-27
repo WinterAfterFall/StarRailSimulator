@@ -16,7 +16,7 @@
 ดังนั้นเวลาออกแบบ/รีวิวโค้ด engine อย่ายึดค่าคงที่ "4 ตัวละคร" หรือ "5 ศัตรู" เป็น hard cap ทางเทคนิค
 เว้นแต่ผู้ใช้จะระบุไว้อย่างชัดเจนว่าต้องการจำกัดในกรณีนั้น ๆ
 
-ข้อนี้เป็น **เป้าหมายการออกแบบ** ของ engine: ทางเข้า `Application.cpp` และ `ManualBuilder.cpp` ปัจจุบันยังผูก `Char1`–`Char4` กับสี่ช่องแรกโดยตรง และ `Application.cpp` มีตัวเลือกศัตรูที่ยังไม่ implement ครบ ดูข้อจำกัดการรันจริงใน [build-run-and-test.md](build-run-and-test.md)
+ข้อนี้เป็น **เป้าหมายการออกแบบ** ของ engine: ทางเข้า `Application.cpp` และ `ManualBuilder.cpp` ปัจจุบันยังผูก `char1`–`char4` กับสี่ช่องแรกโดยตรง และ `Application.cpp` มีตัวเลือกศัตรูที่ยังไม่ implement ครบ ดูข้อจำกัดการรันจริงใน [build-run-and-test.md](build-run-and-test.md)
 
 ### 1.1 หลักการออกแบบ: Determinism > Realism เวลาเจอ RNG
 
@@ -41,19 +41,19 @@ random number generator ตรง ๆ ถ้าเจอจุดที่ยั
 
 ### 2.1 Action Value / ลำดับการเล่น (turn order)
 
-แต่ละยูนิตมี `atv` เป็นเวลาที่เหลือก่อนถึงเทิร์นและ `Max_atv = 10000 / effectiveSpeed` เป็นเวลาต่อรอบ โดย `effectiveSpeed = baseSpeed × (1 + speedPercent/100) + flatSpeed` `Find_turn()` เลือกยูนิตที่ `atv` ต่ำสุด; เมื่อเสมอกันใช้ `priority` ที่สูงกว่า `Atv_fix()` ลด `atv` ของยูนิตที่เดินเวลาได้ทุกตัวและเพิ่ม `Current_atv` แล้วจึงประมวลผลเทิร์น ถ้าเวลารวมเกิน `Wave[i]` จะจบ wave โดยไม่ให้ยูนิตนั้นออกท่า
+แต่ละยูนิตมี `atv` เป็นเวลาที่เหลือก่อนถึงเทิร์นและ `maxAtv = 10000 / effectiveSpeed` เป็นเวลาต่อรอบ โดย `effectiveSpeed = baseSpeed × (1 + speedPercent/100) + flatSpeed` `findTurn()` เลือกยูนิตที่ `atv` ต่ำสุด; เมื่อเสมอกันใช้ `priority` ที่สูงกว่า `atvFix()` ลด `atv` ของยูนิตที่เดินเวลาได้ทุกตัวและเพิ่ม `currentAtv` แล้วจึงประมวลผลเทิร์น ถ้าเวลารวมเกิน `wave[i]` จะจบ wave โดยไม่ให้ยูนิตนั้นออกท่า
 
-`Action_forward()` ลด `atv` ตามเปอร์เซ็นต์ของ `Max_atv`; ถ้าถึงศูนย์จะกำหนด priority ใหม่ แอ็กชันที่ตั้ง `Turn_reset` และการโจมตีของศัตรูเรียก `resetTurn()` เพื่อตั้ง `atv` กลับเป็น `Max_atv` รายละเอียดการเปลี่ยน speed, การแทรกเทิร์น และ Aha ดู [Action_value.md](engine-reference/instructor/Function/Combat/Action_value.md) และ [Combat.md](engine-reference/instructor/Function/Combat/Combat.md)
+`actionForward()` ลด `atv` ตามเปอร์เซ็นต์ของ `maxAtv`; ถ้าถึงศูนย์จะกำหนด priority ใหม่ แอ็กชันที่ตั้ง `turnReset` และการโจมตีของศัตรูเรียก `resetTurn()` เพื่อตั้ง `atv` กลับเป็น `maxAtv` รายละเอียดการเปลี่ยน speed, การแทรกเทิร์น และ Aha ดู [Action_value.md](engine-reference/instructor/Function/Combat/Action_value.md) และ [Combat.md](engine-reference/instructor/Function/Combat/Combat.md)
 
 ### 2.2 Energy / Ultimate
 
-พลังงานจากแอ็กชันใช้ `Increase_energy(ptr, E)` ซึ่งคูณ Energy Recharge; พลังงานคงที่หรือเปอร์เซ็นต์ของหลอดใช้ overload `(ptr, percent, flat)` ซึ่งไม่คูณ Energy Recharge ทั้งสองแบบ clamp ผลให้อยู่ในช่วง `0..Max_energy` และส่ง event ก่อนเปลี่ยนค่าหลอด
+พลังงานจากแอ็กชันใช้ `increaseEnergy(ptr, E)` ซึ่งคูณ Energy Recharge; พลังงานคงที่หรือเปอร์เซ็นต์ของหลอดใช้ overload `(ptr, percent, flat)` ซึ่งไม่คูณ Energy Recharge ทั้งสองแบบ clamp ผลให้อยู่ในช่วง `0..maxEnergy` และส่ง event ก่อนเปลี่ยนค่าหลอด
 
-`ultUseCheck()` ตรวจว่ายูนิตยังอยู่ มีพลังงานถึง `Ult_cost` และผ่าน `ultCondition` ทุกข้อ **ก่อน** หัก cost จากนั้นคืนพลังงาน 5 ผ่าน overload ที่คูณ Energy Recharge แล้วส่ง `WhenUseUlt_List` จุดที่ engine เรียกตรวจอัลติอยู่ใน [Combat.md](engine-reference/instructor/Function/Combat/Combat.md); ความหมายของสอง overload และลำดับเต็มอยู่ใน [Energy.md](engine-reference/instructor/Function/Combat/Energy.md)
+`ultUseCheck()` ตรวจว่ายูนิตยังอยู่ มีพลังงานถึง `ultCost` และผ่าน `ultCondition` ทุกข้อ **ก่อน** หัก cost จากนั้นคืนพลังงาน 5 ผ่าน overload ที่คูณ Energy Recharge แล้วส่ง `whenUseUltList` จุดที่ engine เรียกตรวจอัลติอยู่ใน [Combat.md](engine-reference/instructor/Function/Combat/Combat.md); ความหมายของสอง overload และลำดับเต็มอยู่ใน [Energy.md](engine-reference/instructor/Function/Combat/Energy.md)
 
 ### 2.3 Damage formula
 
-`Attack()` วน `damageSplit`: หนึ่งรายการมีเป้าหมาย, สเกล ATK/HP/DEF, ดาเมจฐานคงที่, สเกล Elation และค่าลด Toughness `calDamage()` รวมดาเมจฐานกับสเกล ATK/HP/DEF แล้วคูณ Crit, DMG%, DEF shred, RES PEN, Vulnerability, Mitigation, Multiplier increase และตัวคูณสถานะ Break ตามลำดับ ส่วน Elation, Break, DoT และ Super Break มีสูตรและ event ของตัวเอง ดู [CalDamage.md](engine-reference/instructor/Function/Calculate/CalDamage.md)
+`attack()` วน `damageSplit`: หนึ่งรายการมีเป้าหมาย, สเกล ATK/HP/DEF, ดาเมจฐานคงที่, สเกล Elation และค่าลด Toughness `calDamage()` รวมดาเมจฐานกับสเกล ATK/HP/DEF แล้วคูณ Crit, DMG%, DEF shred, RES PEN, Vulnerability, Mitigation, Multiplier increase และตัวคูณสถานะ Break ตามลำดับ ส่วน Elation, Break, DoT และ Super Break มีสูตรและ event ของตัวเอง ดู [CalDamage.md](engine-reference/instructor/Function/Calculate/CalDamage.md)
 
 ดาเมจที่คำนวณแล้วถูกบันทึกแยกเป็นแบบใช้สถานะ Break ณ ตอนโจมตี กับแบบคูณสัดส่วนเวลาที่ศัตรูอยู่ในสถานะ Break ตอนสรุปผล เพื่อให้ดาเมจที่ไวต่อจังหวะมีค่าประมาณที่ใช้เทียบบิลด์ได้ ดู [CalDamageNote.md](engine-reference/instructor/Function/Calculate/CalDamageNote.md)
 
@@ -66,7 +66,7 @@ random number generator ตรง ๆ ถ้าเจอจุดที่ยั
   จะได้ครบ duration พอดี (เทิร์นที่กำลังดำเนินอยู่ไม่ถูกนับ) — นี่คือกติกามาตรฐาน
 - สูตร: **`buffEnd = holder.turnCnt + duration`**
 - **ข้อยกเว้น 2 ตัว — Ultimate ของ Bronya / Tingyun**: ult ถูกกดใน**เทิร์นของเป้าหมาย** (holder)
-  ช่วง `PhaseStatus::BeforeTurn` — บัฟลงก่อน After_turn expiry ของเทิร์นนั้น ถ้าส่ง duration ตรง ๆ
+  ช่วง `PhaseStatus::BEFORE_TURN` — บัฟลงก่อน After_turn expiry ของเทิร์นนั้น ถ้าส่ง duration ตรง ๆ
   เทิร์นที่กำลังดำเนินอยู่จะถูกนับด้วย → over-count 1 เทิร์น
   fix: เมื่อ `onTargetTurn` ให้ส่ง `duration − 1` (Tingyun Rejoicing ส่ง 1 แทน 2)
   *เฉพาะการปรับ duration ตอนกดในเทิร์นเป้าหมายเท่านั้น — กฎ "ลด duration ทุกจบเทิร์น" ทำงานปกติ*
@@ -75,7 +75,7 @@ random number generator ตรง ๆ ถ้าเจอจุดที่ยั
   ใช้สูตรเดียวกัน `buffEnd = holder.turnCnt + duration` ต่างกันแค่ tick ตอน `Before_turn` แทน
   `After_turn` แต่ isBuffEnd เทียบ turnCnt เท่ากัน + ยิงเฉพาะเทิร์นเจ้าของ → หมดอายุเทิร์นเดียวกัน
   ตัวอย่าง: Ruan Mei Skill/Ult, Robin Skill, Tribbie Skill/Ult/A2
-  (ยืนยันในโค้ด Ruan_Mei.h: `isHaveToAddBuff(ptr,"Mei_Skill",3)` + `Before_turn_List` isBuffEnd)
+  (ยืนยันในโค้ด Ruan_Mei.h: `isHaveToAddBuff(ptr,"Mei_Skill",3)` + `beforeTurnList` isBuffEnd)
 - buff/debuff ทั้งหมดในเอนจินเก็บเป็น raw +/- stat delta (ดู memory: buff drift debugging)
 
 ### 2.5 SP & Energy — จุดที่ไม่ fix
@@ -97,7 +97,7 @@ random number generator ตรง ๆ ถ้าเจอจุดที่ยั
   ของตัวละคร ไม่ใช่ระบบ relic แยก
 - **Substats**: sim ไม่สุ่ม 4 substat แบบเกมจริง แต่ให้ **baseline อย่างละ 2 roll ทุกประเภท**
   แล้วมี **roll อิสระอีก x จำนวน** ที่ตัว reroll-optimizer เลือกกระจายลงประเภทไหนก็ได้เพื่อหา max damage
-  (โค้ด: `Substats` = vector ของ `pair<Stats,int>` โดย `.second` = จำนวน roll; `Substats_Reset.h` `Set_Stats()`)
+  (โค้ด: `substats` = vector ของ `pair<Stats,int>` โดย `.second` = จำนวน roll; `Substats_Reset.h` `setStats()`)
 - ค่าต่อ roll ที่ sim ใช้ = **ค่า mid roll** ของ 5★: CR 2.9, CD 5.8, ATK%/HP% 3.888, DEF% 4.86,
   Break Effect 5.8, SPD 2.3
 - deterministic: ผู้ใช้/optimizer กำหนดการกระจาย roll เอง ไม่มีการสุ่มจริง

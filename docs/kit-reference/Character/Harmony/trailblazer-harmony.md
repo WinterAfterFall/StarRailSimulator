@@ -81,7 +81,7 @@ Break Effect +37.3% · Imaginary DMG +14.4% · Effect RES +10%
 - **A4**: Skill instance แรก toughness reduction ×2
 - **Talent**: energy +10 ต่อ enemy break (ตัว Trailblazer เอง)
 - **E4**: BE share 15% ของ Trailblazer ให้เพื่อน — ผูกกับ BE stat ต้อง re-eval
-- โค้ด: `Start_game_List` (`Harmony_MC.h:62`) — technique BE buff
+- โค้ด: `startGameList` (`Harmony_MC.h:62`) — technique BE buff
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/trailblazer-harmony — kit tab (review patch 2.6, calc patch 3.4, profile 01/Jun/2026)

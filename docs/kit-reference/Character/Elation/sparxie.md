@@ -97,7 +97,7 @@ Elation +28% · CRIT Rate +12% · CRIT DMG +13.3%
 ---
 
 ### กลไกสำคัญ (จุดที่ต้องเทียบกับโค้ด)
-- **ระบบ Elation (Aha Instant)** — โค้ดมี `elationCount`, `genPunchLine`, `AfterAhaInstant_List` ฯลฯ
+- **ระบบ Elation (Aha Instant)** — โค้ดมี `elationCount`, `genPunchLine`, `afterAhaInstantList` ฯลฯ
 - **Punchline** (สะสม): จาก Engagement Farming, Ult(+2), A4, E1/E4 → ป้อน A6 (CRIT DMG ทีม), E1 (RES PEN), E6 (Elation Skill instances)
 - **Thrill**: จาก Elation Skill(+2), A4, E2 → ใช้หักล้าง Skill Point consumption
 - **Elation stat**: Ult/Talent DMG สเกลกับ Elation (`0.6×Elation + 0.5`); A2 แปลง ATK เกิน 2000 → Elation

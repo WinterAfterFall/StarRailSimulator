@@ -1,38 +1,38 @@
-#ifndef DamageData_H
-#define DamageData_H
+#ifndef DAMAGE_DATA_H
+#define DAMAGE_DATA_H
 #include "../Unit/Library.h"
 
 class DmgSrc{
     public:
-    double ATK = 0;
-    double HP = 0;
-    double DEF = 0;
+    double atk = 0;
+    double hp = 0;
+    double def = 0;
     double constDmg = 0;
-    double Elation = 0;
+    double elation = 0;
     double toughnessReduce = 0;
 
     DmgSrc(){}
     
-    DmgSrc(double ATK, double HP, double DEF, double constDmg,double Elation, double toughnessReduce)
-        : ATK(ATK), HP(HP), DEF(DEF), constDmg(constDmg),Elation(Elation), toughnessReduce(toughnessReduce)
+    DmgSrc(double atk, double hp, double def, double constDmg,double elation, double toughnessReduce)
+        : atk(atk), hp(hp), def(def), constDmg(constDmg),elation(elation), toughnessReduce(toughnessReduce)
     {}
     DmgSrc(DmgSrcType type,double value)
     {
         switch(type) {
             case DmgSrcType::ATK:
-                ATK = value;
+                atk = value;
                 break;
             case DmgSrcType::HP:
-                HP = value;
+                hp = value;
                 break;
             case DmgSrcType::DEF:
-                DEF = value;
+                def = value;
                 break;
             case DmgSrcType::CONST:
                 constDmg = value;
                 break;
-            case DmgSrcType::Elation:
-                Elation = value;
+            case DmgSrcType::ELATION:
+                elation = value;
                 break;    
         }
     }
@@ -41,19 +41,19 @@ class DmgSrc{
     {
         switch(type) {
             case DmgSrcType::ATK:
-                ATK = value;
+                atk = value;
                 break;
             case DmgSrcType::HP:
-                HP = value;
+                hp = value;
                 break;
             case DmgSrcType::DEF:
-                DEF = value;
+                def = value;
                 break;
             case DmgSrcType::CONST:
                 constDmg = value;
                 break;
-            case DmgSrcType::Elation:
-                Elation = value;
+            case DmgSrcType::ELATION:
+                elation = value;
                 break;  
         }
         
@@ -74,8 +74,8 @@ class Damage{
     : dmgSrc(dmgSrc), target(target) 
     {}
 
-    Damage(double ATK, double HP, double DEF, double constDmg,double Elation, double toughnessReduce,Enemy* target)
-        : dmgSrc(ATK, HP, DEF, constDmg,Elation, toughnessReduce), target(target)
+    Damage(double atk, double hp, double def, double constDmg,double elation, double toughnessReduce,Enemy* target)
+        : dmgSrc(atk, hp, def, constDmg,elation, toughnessReduce), target(target)
     {}
 };
 

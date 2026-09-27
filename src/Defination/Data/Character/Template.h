@@ -1,9 +1,9 @@
 #include "../include.h"
 
 namespace SomeChar{
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
-        CharUnit *ptr = SetCharBasicStats(speed,maxEnergy,UltCost,E,ElementType::,Path::,Name,UnitType::Standard);
-        ptr->SetAllyBaseStats(,,);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = setCharBasicStats(speed,maxEnergy,ultCost,eidolon,ElementType::,Path::,name,UnitType::STANDARD);
+        ptr->setAllyBaseStats(,,);
 
         //substats
         ptr->pushSubstats(Stats::);
@@ -16,19 +16,19 @@ namespace SomeChar{
 
         
         //func
-        LC(ptr);
+        lc(ptr);
         Relic(ptr);
         Planar(ptr);
 
         #pragma region Ability
 
-        function<void()> BA = [ptr]() {
+        function<void()> ba = [ptr]() {
             shared_ptr<AllyAttackAction> act = 
             make_shared<AllyAttackAction>(AType::,ptr,TraceType::,,
             [ptr](shared_ptr<AllyAttackAction> &act){
                 genSkillPoint(,1);
-                Increase_energy(,20);
-                Attack(act);
+                increaseEnergy(,20);
+                attack(act);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,100,10)
@@ -37,7 +37,7 @@ namespace SomeChar{
         };
 
         #pragma endregion
-        ptr->Turn_func = [ptr,BA,Skill]() {
+        ptr->turnFunc = [ptr,ba,skill]() {
 
         };
         
@@ -45,14 +45,14 @@ namespace SomeChar{
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [](CharUnit *ptr) {
+        ultimateList.push_back(TriggerByYourSelfFunc(PRIORITY_BUFF, ptr, [](CharUnit *ptr) {
 
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_each_element[Stats::DMG][ElementType::Ice][AType::None] += 22.4;
-            ptr->Stats_type[Stats::ATK_P][AType::None] += 18;
-            ptr->Stats_type[Stats::EHR][AType::None] += 10;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsEachElement[Stats::DMG][ElementType::ICE][AType::NONE] += 22.4;
+            ptr->statsType[Stats::ATK_P][AType::NONE] += 18;
+            ptr->statsType[Stats::EHR][AType::NONE] += 10;
 
             // relic
 

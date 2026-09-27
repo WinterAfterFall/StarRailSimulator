@@ -1,9 +1,9 @@
 #include "../include.h"
 
-pair<int,int> calDebuffStack(AllyUnit *ptr,Enemy *enemy,string debuffName,int Stack_increase,int StackLimit){
+pair<int,int> calDebuffStack(AllyUnit *ptr,Enemy *enemy,string debuffName,int stackIncrease,int stackLimit){
     allEventBeforeApplyDebuff(ptr, enemy);
     int current = enemy->getStack(debuffName);
-    int next = min(StackLimit, max(0, current + Stack_increase));
+    int next = min(stackLimit, max(0, current + stackIncrease));
     int applied = next - current;
     if (current == 0 && next > 0) enemy->addTotalDebuff(1);
     else if (current > 0 && next == 0) enemy->addTotalDebuff(-1);
@@ -31,80 +31,80 @@ void debuffStackRemove(Enemy *enemy,vector<BuffElementClass> debuffSet,string de
     }
     debuffSingle(enemy,debuffSet);
 }
-void debuffStackSingle(AllyUnit *ptr,Enemy *enemy,vector<BuffClass> debuffSet, int Stack_increase, int Stack_limit, string Stack_Name) {
-    int stack = calDebuffStack(ptr,enemy,Stack_Name,Stack_increase,Stack_limit).first;
+void debuffStackSingle(AllyUnit *ptr,Enemy *enemy,vector<BuffClass> debuffSet, int stackIncrease, int stackLimit, string stackName) {
+    int stack = calDebuffStack(ptr,enemy,stackName,stackIncrease,stackLimit).first;
     for(auto &e : debuffSet){
         e.value *= stack;
     }
     debuffSingle(enemy,debuffSet);
 }
-void debuffStackSingle(AllyUnit *ptr,Enemy *enemy,vector<BuffElementClass> debuffSet, int Stack_increase, int Stack_limit, string Stack_Name) {
-    int stack = calDebuffStack(ptr,enemy,Stack_Name,Stack_increase,Stack_limit).first;
+void debuffStackSingle(AllyUnit *ptr,Enemy *enemy,vector<BuffElementClass> debuffSet, int stackIncrease, int stackLimit, string stackName) {
+    int stack = calDebuffStack(ptr,enemy,stackName,stackIncrease,stackLimit).first;
     for(auto &e : debuffSet){
         e.value *= stack;
     }
     debuffSingle(enemy,debuffSet);
 }
-void debuffStackSingle(AllyUnit *ptr,Enemy *enemy,vector<BuffClass> debuffSet, int Stack_increase, int Stack_limit, string Stack_Name,int extend) {
-    int stack = calDebuffStack(ptr,enemy,Stack_Name,Stack_increase,Stack_limit).first;
+void debuffStackSingle(AllyUnit *ptr,Enemy *enemy,vector<BuffClass> debuffSet, int stackIncrease, int stackLimit, string stackName,int extend) {
+    int stack = calDebuffStack(ptr,enemy,stackName,stackIncrease,stackLimit).first;
     for(auto &e : debuffSet){
         e.value *= stack;
     }
     debuffSingle(enemy,debuffSet);
-    extendDebuff(enemy,Stack_Name,extend);
+    extendDebuff(enemy,stackName,extend);
 }
-void debuffStackSingle(AllyUnit *ptr,Enemy *enemy,vector<BuffElementClass> debuffSet, int Stack_increase, int Stack_limit, string Stack_Name,int extend) {
-    int stack = calDebuffStack(ptr,enemy,Stack_Name,Stack_increase,Stack_limit).first;
+void debuffStackSingle(AllyUnit *ptr,Enemy *enemy,vector<BuffElementClass> debuffSet, int stackIncrease, int stackLimit, string stackName,int extend) {
+    int stack = calDebuffStack(ptr,enemy,stackName,stackIncrease,stackLimit).first;
     for(auto &e : debuffSet){
         e.value *= stack;
     }
     debuffSingle(enemy,debuffSet);
-    extendDebuff(enemy,Stack_Name,extend);
+    extendDebuff(enemy,stackName,extend);
 }
-void debuffStackAll(AllyUnit* ptr,vector<BuffClass> debuffSet,  int Stack_increase, int Stack_limit, string Stack_Name) {
+void debuffStackAll(AllyUnit* ptr,vector<BuffClass> debuffSet,  int stackIncrease, int stackLimit, string stackName) {
     for (auto &each : enemyList) {
-        debuffStackSingle(ptr,each,debuffSet,Stack_increase, Stack_limit, Stack_Name);
+        debuffStackSingle(ptr,each,debuffSet,stackIncrease, stackLimit, stackName);
     }
 }
 
-void debuffStackAll(AllyUnit* ptr,vector<BuffElementClass> debuffSet,  int Stack_increase, int Stack_limit, string Stack_Name) {
+void debuffStackAll(AllyUnit* ptr,vector<BuffElementClass> debuffSet,  int stackIncrease, int stackLimit, string stackName) {
     for (auto &each : enemyList) {
-        debuffStackSingle(ptr,each,debuffSet,Stack_increase, Stack_limit, Stack_Name);
+        debuffStackSingle(ptr,each,debuffSet,stackIncrease, stackLimit, stackName);
     }
 }
 
-void debuffStackAll(AllyUnit* ptr,vector<BuffClass> debuffSet,  int Stack_increase, int Stack_limit, string Stack_Name, int extend) {
+void debuffStackAll(AllyUnit* ptr,vector<BuffClass> debuffSet,  int stackIncrease, int stackLimit, string stackName, int extend) {
     for (auto &each : enemyList) {
-        debuffStackSingle(ptr,each,debuffSet,Stack_increase, Stack_limit, Stack_Name,extend);
+        debuffStackSingle(ptr,each,debuffSet,stackIncrease, stackLimit, stackName,extend);
     }
 }
 
-void debuffStackAll(AllyUnit* ptr,vector<BuffElementClass> debuffSet,  int Stack_increase, int Stack_limit, string Stack_Name, int extend) {
+void debuffStackAll(AllyUnit* ptr,vector<BuffElementClass> debuffSet,  int stackIncrease, int stackLimit, string stackName, int extend) {
     for (auto &each : enemyList) {
-        debuffStackSingle(ptr,each,debuffSet,Stack_increase, Stack_limit, Stack_Name,extend);
+        debuffStackSingle(ptr,each,debuffSet,stackIncrease, stackLimit, stackName,extend);
     }
 }
 
-void debuffStackEnemyTargets(AllyUnit* ptr,vector<Enemy*> targets, vector<BuffClass> debuffSet,  int Stack_increase, int Stack_limit, string Stack_Name) {
+void debuffStackEnemyTargets(AllyUnit* ptr,vector<Enemy*> targets, vector<BuffClass> debuffSet,  int stackIncrease, int stackLimit, string stackName) {
     for (auto* enemy : targets) {
-        debuffStackSingle(ptr,enemy,debuffSet, Stack_increase, Stack_limit, Stack_Name);
+        debuffStackSingle(ptr,enemy,debuffSet, stackIncrease, stackLimit, stackName);
     }
 }
 
-void debuffStackEnemyTargets(AllyUnit* ptr,vector<Enemy*> targets, vector<BuffElementClass> debuffSet,int Stack_increase, int Stack_limit, string Stack_Name) {
+void debuffStackEnemyTargets(AllyUnit* ptr,vector<Enemy*> targets, vector<BuffElementClass> debuffSet,int stackIncrease, int stackLimit, string stackName) {
     for (auto* enemy : targets) {
-        debuffStackSingle(ptr,enemy,debuffSet, Stack_increase, Stack_limit, Stack_Name);
+        debuffStackSingle(ptr,enemy,debuffSet, stackIncrease, stackLimit, stackName);
     }
 }
 
-void debuffStackEnemyTargets(AllyUnit* ptr,vector<Enemy*> targets, vector<BuffClass> debuffSet,int Stack_increase, int Stack_limit, string Stack_Name, int extend) {
+void debuffStackEnemyTargets(AllyUnit* ptr,vector<Enemy*> targets, vector<BuffClass> debuffSet,int stackIncrease, int stackLimit, string stackName, int extend) {
     for (auto* enemy : targets) {
-        debuffStackSingle(ptr,enemy,debuffSet, Stack_increase, Stack_limit, Stack_Name,extend);
+        debuffStackSingle(ptr,enemy,debuffSet, stackIncrease, stackLimit, stackName,extend);
     }
 }
 
-void debuffStackEnemyTargets(AllyUnit* ptr,vector<Enemy*> targets, vector<BuffElementClass> debuffSet,int Stack_increase, int Stack_limit, string Stack_Name, int extend) {
+void debuffStackEnemyTargets(AllyUnit* ptr,vector<Enemy*> targets, vector<BuffElementClass> debuffSet,int stackIncrease, int stackLimit, string stackName, int extend) {
     for (auto* enemy : targets) {
-        debuffStackSingle(ptr,enemy,debuffSet, Stack_increase, Stack_limit, Stack_Name,extend);
+        debuffStackSingle(ptr,enemy,debuffSet, stackIncrease, stackLimit, stackName,extend);
     }
 }

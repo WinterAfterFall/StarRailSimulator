@@ -11,15 +11,15 @@
 
 | ชื่อในเกม | โค้ด (`ElementType`) | ไทย | Break DMG debuff ที่ได้ | สีธีม |
 |---|---|---|---|---|
-| **Physical** | `Physical` | กายภาพ | **Bleed** (เลือดไหล) — DoT ตาม Max HP ศัตรู | ขาว/เทา |
-| **Fire** | `Fire` | ไฟ | **Burn** (ไหม้) — DoT ตาม ATK ผู้ทำ Break | ส้ม/แดง |
-| **Ice** | `Ice` | น้ำแข็ง | **Freeze** (แช่แข็ง) — ข้ามเทิร์น + โดน DMG ตอนละลาย | ฟ้า |
-| **Lightning** | `Lightning` | สายฟ้า | **Shock** (ช็อต) — DoT ตาม ATK ผู้ทำ Break | ม่วง |
-| **Wind** | `Wind` | ลม | **Wind Shear** (ลมเฉือน) — DoT ซ้อนได้สูงสุด 5 ชั้น | เขียว |
-| **Quantum** | `Quantum` | ควอนตัม | **Entanglement** (พันธนาการ) — ดีเลย์ + DMG ตามจำนวนครั้งที่ถูกตี | น้ำเงินเข้ม |
-| **Imaginary** | `Imaginary` | จินตภาพ | **Imprisonment** (จองจำ) — ดีเลย์ + ลด SPD | เหลือง |
+| **Physical** | `PHYSICAL` | กายภาพ | **Bleed** (เลือดไหล) — DoT ตาม Max HP ศัตรู | ขาว/เทา |
+| **Fire** | `FIRE` | ไฟ | **Burn** (ไหม้) — DoT ตาม ATK ผู้ทำ Break | ส้ม/แดง |
+| **Ice** | `ICE` | น้ำแข็ง | **Freeze** (แช่แข็ง) — ข้ามเทิร์น + โดน DMG ตอนละลาย | ฟ้า |
+| **Lightning** | `LIGHTNING` | สายฟ้า | **Shock** (ช็อต) — DoT ตาม ATK ผู้ทำ Break | ม่วง |
+| **Wind** | `WIND` | ลม | **Wind Shear** (ลมเฉือน) — DoT ซ้อนได้สูงสุด 5 ชั้น | เขียว |
+| **Quantum** | `QUANTUM` | ควอนตัม | **Entanglement** (พันธนาการ) — ดีเลย์ + DMG ตามจำนวนครั้งที่ถูกตี | น้ำเงินเข้ม |
+| **Imaginary** | `IMAGINARY` | จินตภาพ | **Imprisonment** (จองจำ) — ดีเลย์ + ลด SPD | เหลือง |
 
-> โค้ด `enum class BreakSEType` เก็บ debuff 7 ตัวนี้ไว้ (`Bleed, Burn, Shock, WindShear, Freeze, Entanglement, Imprisonment`)
+> โค้ด `enum class BreakSEType` เก็บ debuff 7 ตัวนี้ไว้ (`BLEED, BURN, SHOCK, WIND_SHEAR, FREEZE, ENTANGLEMENT, IMPRISONMENT`)
 
 ---
 
@@ -32,7 +32,7 @@
 3. **เฉพาะธาตุที่ตรงจุดอ่อนเท่านั้นที่ลด Toughness ได้** — ธาตุที่ไม่ตรงยังลง DMG ได้ปกติ แต่ไม่กินเกจ
 4. **ตัวละครผู้เล่นไม่มี Toughness** และไม่ถูก Weakness Break แต่ยังติด debuff ธาตุจากศัตรูได้
 5. **DMG% แยกตามธาตุ** — เช่น "Fire DMG +10%" จะบวกเฉพาะดาเมจที่เป็นธาตุไฟ
-   ในโค้ดใช้ `Common_stats_each_element` = `map<Stats, map<ElementType, map<AType, double>>>`
+   ในโค้ดใช้ `CommonStatsEachElement` = `map<Stats, map<ElementType, map<AType, double>>>`
 
 ---
 
@@ -43,10 +43,10 @@
 | ประเด็น | รายละเอียด |
 |---|---|
 | ชื่อ | **Elation DMG** |
-| โค้ด | `AType::ElationDMG` (แกนดาเมจ) + `Stats::Elation` (แกนสแตต) |
+| โค้ด | `AType::ELATION_DMG` (แกนดาเมจ) + `Stats::ELATION` (แกนสแตต) |
 | คริติคอลได้ไหม | ✅ ได้ |
 | ลด Toughness ไหม | ❌ ไม่ลด (ไม่ผูกกับ Weakness) |
-| สเกลตามอะไร | สแตต **Elation** (สแตตเฉพาะทางใหม่) + `DmgSrcType::Elation` |
+| สเกลตามอะไร | สแตต **Elation** (สแตตเฉพาะทางใหม่) + `DmgSrcType::ELATION` |
 | ใครใช้ | ตัวละคร Path of Elation ทั้งหมด |
 
 > อ่านกลไก Punchline / Aha Instant / Certified Banger เต็มๆ ได้ที่

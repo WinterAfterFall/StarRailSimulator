@@ -2,10 +2,10 @@
 namespace Relic{
     void Knight(CharUnit *ptr);
     void Knight(CharUnit *ptr){
-        ptr->Relic.Name = "Knight";
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_type[Stats::DEF_P][AType::None]+=15;
-            ptr->Stats_type[Stats::SHEILD][AType::None]+=20;
+        ptr->Relic.name = "Knight";
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsType[Stats::DEF_P][AType::NONE]+=15;
+            ptr->statsType[Stats::SHEILD][AType::NONE]+=20;
         }));
         
     }

@@ -3,11 +3,11 @@
 // One Aha Instant = one action: action-level events fire once around all Elation Skills,
 // using the first attack action and/or the first buff action in the bar as representatives
 void runAhaInstantBar(){
-    if(AhaInstantBar.empty())return;
+    if(ahaInstantBar.empty())return;
 
     shared_ptr<AllyAttackAction> attackRep = nullptr;
     shared_ptr<AllyBuffAction> buffRep = nullptr;
-    queue<shared_ptr<AllyActionData>> scan = AhaInstantBar;
+    queue<shared_ptr<AllyActionData>> scan = ahaInstantBar;
     while(!scan.empty() && (!attackRep || !buffRep)){
         shared_ptr<AllyActionData> each = scan.front();
         scan.pop();
@@ -19,15 +19,15 @@ void runAhaInstantBar(){
     shared_ptr<ActionData> actionRep = allyRep;
 
     PhaseStatus beforeStatus = phaseStatus;
-    phaseStatus = PhaseStatus::WhileAction;
+    phaseStatus = PhaseStatus::WHILE_ACTION;
     allEventBeforeAction(actionRep);
     allEventBeforeAllyAction(allyRep);
     if(attackRep)allEventBeforeAttackAction(attackRep);
 
-    while(!AhaInstantBar.empty()){
-        shared_ptr<AllyActionData> allyActionData = AhaInstantBar.front();
-        allyActionData->ElationSkillAction();
-        AhaInstantBar.pop();
+    while(!ahaInstantBar.empty()){
+        shared_ptr<AllyActionData> allyActionData = ahaInstantBar.front();
+        allyActionData->elationSkillAction();
+        ahaInstantBar.pop();
     }
 
     if(attackRep)allEventAfterAttackAction(attackRep);
@@ -36,62 +36,62 @@ void runAhaInstantBar(){
     allEventAfterAction(actionRep);
     phaseStatus = beforeStatus;
 }
-void AhaTurn(){
+void ahaTurn(){
     ++(aha->turnCnt);
 
-    BeforeAhaInstant();
+    beforeAhaInstant();
     
     CharCmd::printText("Aha Instant");
-    for(TriggerByYourSelf_Func &e : ElationSkill_List){
-        e.Call(e.owner);
+    for(TriggerByYourSelfFunc &e : elationSkillList){
+        e.call(e.owner);
     }
     runAhaInstantBar();
 
     for(auto &each : charList){
-        if(each->path == Path::Elation)buffSingle(each,{{Stats::CertifiedBanger,AType::None,1.0*punchline}},"CB Buff " + to_string(aha->turnCnt),CB_duration);
+        if(each->path == Path::ELATION)buffSingle(each,{{Stats::CERTIFIED_BANGER,AType::NONE,1.0*punchline}},"CB Buff " + to_string(aha->turnCnt),cbDuration);
     }
-    CBcheck.push_back({"CB Buff " + to_string(aha->turnCnt),elationCount,punchline});
+    cbCheck.push_back({"CB Buff " + to_string(aha->turnCnt),elationCount,punchline});
 
     genPunchLine(nullptr,-punchline);
     genPunchLine(nullptr,elationCount);
     
-    AfterAhaInstant();
+    afterAhaInstant();
     
     resetTurn(aha.get());
 }
-void AhaInstant(int PL){
+void ahaInstant(int pl){
     ++(aha->turnCnt);
     int oldPL = punchline;
-    punchline = PL;
+    punchline = pl;
 
-    BeforeAhaInstant();
+    beforeAhaInstant();
 
     CharCmd::printText("Aha Instant");
-    for(TriggerByYourSelf_Func &e : ElationSkill_List){
-        e.Call(e.owner);
+    for(TriggerByYourSelfFunc &e : elationSkillList){
+        e.call(e.owner);
     }
     
     runAhaInstantBar();
     for(auto &each : charList){
-        if(each->path == Path::Elation)buffSingle(each,{{Stats::CertifiedBanger,AType::None,1.0*PL}},"CB Buff " + to_string(aha->turnCnt),CB_duration);
+        if(each->path == Path::ELATION)buffSingle(each,{{Stats::CERTIFIED_BANGER,AType::NONE,1.0*pl}},"CB Buff " + to_string(aha->turnCnt),cbDuration);
     }
-    CBcheck.push_back({"CB Buff " + to_string(aha->turnCnt),elationCount,PL});
+    cbCheck.push_back({"CB Buff " + to_string(aha->turnCnt),elationCount,pl});
 
     punchline = oldPL;
 
     // after restoring punchline so Punchline gained in the hook (e.g. Hibana E1) is kept
-    AfterAhaInstant();
+    afterAhaInstant();
 }
 // Runs only the Elation Skills whose owner name is in names (fixed Punchline PL), no Certified Banger
-void ElationSkillTrigger(int PL, const vector<string> &names){
+void elationSkillTrigger(int pl, const vector<string> &names){
     int oldPL = punchline;
-    punchline = PL;
+    punchline = pl;
     string text = "trigger Elation Skill :";
     for(size_t i = 0; i < names.size(); i++)text += (i ? ", " : " ") + names[i];
     CharCmd::printText(text);
-    for(TriggerByYourSelf_Func &e : ElationSkill_List){
+    for(TriggerByYourSelfFunc &e : elationSkillList){
         if(find(names.begin(), names.end(), e.owner->getName()) == names.end())continue;
-        e.Call(e.owner);
+        e.call(e.owner);
     }
     
     runAhaInstantBar();

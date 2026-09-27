@@ -13,23 +13,23 @@ public:
     double flatSpeed = 0;
     double speedPercent = 0;
     double atv = 1e6 ;
-    double Max_atv = 1e6;
+    double maxAtv = 1e6;
     int turnCnt = 0;
     int num = 0;
     Side side;//AllyUnit Ally Summon
-    UnitType Type;
+    UnitType type;
     int priority = 0;
     // string UnitName;
-    string Name;//ชื่อเจ้าของเทิร์น
+    string name;//ชื่อเจ้าของเทิร์น
     bool extraTurn = false;
     Unit* charptr = nullptr; //* // This will be set to point back to the unit (Ally or Enemy)
         ActionValueStats(){
         }
         ActionValueStats(const string& unitName){
-            Name = unitName;
+            name = unitName;
         }
         ActionValueStats(const string& unitName,double speed){
-            Name = unitName;
+            name = unitName;
             baseSpeed = speed;
         }
 
@@ -47,7 +47,7 @@ public:
         return atv;
     }
     double getMaxATV(){
-        return Max_atv;
+        return maxAtv;
     }
     int getTurnCnt(){
         return turnCnt;
@@ -59,13 +59,13 @@ public:
         return side;
     }
     UnitType getType(){
-        return Type;
+        return type;
     }
     int getPriority(){
         return priority;
     }
     string getUnitName(){
-        return Name;
+        return name;
     }
     Unit* getPtrToChar(){
         return charptr;
@@ -85,32 +85,32 @@ public:
     void setATV(double atv) {
         this->atv = atv;
     }
-    void setMaxATV(double Max_atv) {
-        this->Max_atv = Max_atv;
+    void setMaxATV(double maxAtv) {
+        this->maxAtv = maxAtv;
     }
-    void setTurnCnt(int turn_cnt) {
-        this->turnCnt = turn_cnt;
+    void setTurnCnt(int turnCnt) {
+        this->turnCnt = turnCnt;
     }
-    void setUnitNum(int Unit_num) {
-        this->num = Unit_num;
+    void setUnitNum(int unitNum) {
+        this->num = unitNum;
     }
     void setSide(Side side) {
         this->side = side;
     }
-    void setType(UnitType Type) {
-        this->Type = Type;
+    void setType(UnitType type) {
+        this->type = type;
     }
     void setPriority(int priority) {
         this->priority = priority;
     }
-    void setName(string Unit_Name) {
-        this->Name = Unit_Name;
+    void setName(string unitName) {
+        this->name = unitName;
     }
 #pragma endregion
 
 #pragma region Check Method
     bool isSameName(const string& name) {
-        return this->Name == name;
+        return this->name == name;
     }
     bool isSameNum(int num) {
         return this->num == num;
@@ -121,7 +121,7 @@ public:
     AllyUnit* canCastToAllyUnit();
     Enemy* canCastToEnemy();
 #pragma region SpeedCombat Function
-    void speedBuff(double spd_percent ,double flat_spd);
+    void speedBuff(double spdPercent ,double flatSpd);
     void resetATV();
     void resetATV(double baseSpeed);
 #pragma endregion
@@ -150,26 +150,26 @@ class BuffElementClass{
 // ATV-only turn owner (summon / countdown) : no stats, no buffs — only a timer with its own turn
 class TimerATV : public ActionValueStats {
 public:
-    function<void()> Turn_func;
-    UnitStatus status = UnitStatus::Alive;
+    function<void()> turnFunc;
+    UnitStatus status = UnitStatus::ALIVE;
 
     using ActionValueStats::speedBuff;
     void speedBuff(BuffClass buffSet){
         if(buffSet.statsType==Stats::FLAT_SPD)this->speedBuff(0,buffSet.value);
         else this->speedBuff(buffSet.value,0);
     }
-    bool isAlive() override { return status == UnitStatus::Alive; }
-    bool isDeath(){ return status == UnitStatus::Death; }
+    bool isAlive() override { return status == UnitStatus::ALIVE; }
+    bool isDeath(){ return status == UnitStatus::DEATH; }
     bool isAtvChangeAble() override {
-        return !(status == UnitStatus::Death||status == UnitStatus::AtvFreeze||status == UnitStatus::Retire);
+        return !(status == UnitStatus::DEATH||status == UnitStatus::ATV_FREEZE||status == UnitStatus::RETIRE);
     }
-    void runTurn() override { Turn_func(); }
+    void runTurn() override { turnFunc(); }
     void summon(){
-        this->status = UnitStatus::Alive;
+        this->status = UnitStatus::ALIVE;
         this->resetATV();
     }
     void death(){
-        this->status = UnitStatus::Death;
+        this->status = UnitStatus::DEATH;
     }
 };
 

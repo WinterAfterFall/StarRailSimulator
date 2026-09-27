@@ -12,15 +12,15 @@ class BuffElementClass  { Stats statsType; ElementType element; AType actionType
 
 **"delta" = `value`** — ปริมาณ stat ดิบ (เช่น `55` = ATK +55%). ปลาย ๆ ทาง:
 - speed (`FLAT_SPD`/`SPD_P`) → เรียก `ptr->speedBuff(buff)` + `ahaSpeedAdjust`
-- นอกนั้น → `ptr->Stats_type[statsType][actionType] += value`
-- element version → `ptr->Stats_each_element[statsType][element][actionType] += value`
-- ถ้า `actionType == None` → เรียก `StatsAdjust(ptr, statsType)` ต่อ (re-trigger `Stats_Adjust_List`)
+- นอกนั้น → `ptr->statsType[statsType][actionType] += value`
+- element version → `ptr->statsEachElement[statsType][element][actionType] += value`
+- ถ้า `actionType == NONE` → เรียก `statsAdjust(ptr, statsType)` ต่อ (re-trigger `statsAdjustList`)
 
 **apply / remove ใช้ค่าคงที่ตัวเดียวกัน กันเลื่อน** (แพตเทิร์น Tingyun):
 ```cpp
 constexpr double BENEDICTION_ATK = 55;
-buffSingle(target, {{Stats::ATK_P, AType::None,  BENEDICTION_ATK}}, "Tingyun Benediction", 3); // ลง
-buffSingle(target, {{Stats::ATK_P, AType::None, -BENEDICTION_ATK}});                           // ถอน
+buffSingle(target, {{Stats::ATK_P, AType::NONE,  BENEDICTION_ATK}}, "Tingyun Benediction", 3); // ลง
+buffSingle(target, {{Stats::ATK_P, AType::NONE, -BENEDICTION_ATK}});                           // ถอน
 ```
 
 **2 โหมดของ `buffSingle`:**
@@ -33,6 +33,6 @@ buffSingle(target, {{Stats::ATK_P, AType::None, -BENEDICTION_ATK}});            
 
 ## อายุบัฟและการกระจายเป้าหมาย
 
-`extendBuffTime()` ตั้ง `buffEnd` เป็นจำนวนเทิร์นของ `Atv_stats` ของเป้าหมายบวก `Turn_extend`; `isBuffEnd()` ล้าง flag และวันหมดอายุเมื่อถึงเทิร์นดังกล่าวและยูนิตนั้นกำลังเดิน ส่วน `isBuffGoneByDeath()` ล้างสองค่านี้ทันทีหากยังมี flag ฟังก์ชันตระกูล `extend*` ที่เหลือเพียงวนส่งอายุให้ตัวละครพร้อม memosprite, ทุกคนใน `allyList`, เป้าหมายที่กำหนด หรือทุกคนยกเว้นผู้บัฟ
+`extendBuffTime()` ตั้ง `buffEnd` เป็นจำนวนเทิร์นของ `atvStats` ของเป้าหมายบวก `turnExtend`; `isBuffEnd()` ล้าง flag และวันหมดอายุเมื่อถึงเทิร์นดังกล่าวและยูนิตนั้นกำลังเดิน ส่วน `isBuffGoneByDeath()` ล้างสองค่านี้ทันทีหากยังมี flag ฟังก์ชันตระกูล `extend*` ที่เหลือเพียงวนส่งอายุให้ตัวละครพร้อม memosprite, ทุกคนใน `allyList`, เป้าหมายที่กำหนด หรือทุกคนยกเว้นผู้บัฟ
 
-`buffSingleChar()` ใช้บัฟกับ `CharUnit` และ memosprite ของตัวนั้น; `buffAllMemosprite()` วน memosprite จาก `charUnit[1..Total_ally]`; `buffAllAlly()` วน `allyList`; `buffTargets()` วนรายการที่ส่งมา ชุด `*ExcludingBuffer()` ข้ามยูนิตที่ `isSameName()` กับผู้บัฟ ทั้งหมดส่งต่อไป `buffSingle()` จึงใช้กติกาค่าบัฟและการต่ออายุเดียวกัน
+`buffSingleChar()` ใช้บัฟกับ `CharUnit` และ memosprite ของตัวนั้น; `buffAllMemosprite()` วน memosprite จาก `charUnit[1..totalAlly]`; `buffAllAlly()` วน `allyList`; `buffTargets()` วนรายการที่ส่งมา ชุด `*ExcludingBuffer()` ข้ามยูนิตที่ `isSameName()` กับผู้บัฟ ทั้งหมดส่งต่อไป `buffSingle()` จึงใช้กติกาค่าบัฟและการต่ออายุเดียวกัน

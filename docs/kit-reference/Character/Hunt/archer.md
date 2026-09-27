@@ -84,7 +84,7 @@ Quantum DMG +22.4% · ATK +18% · CRIT Rate +6.7%
 - **Skill Point economy** = แกน: A2 Max SP +2, Talent FUA คืน 1, E1 (3 skills/turn → +2), E6 (+1/turn), A6 (CD +120% ถ้า SP ≥ 4)
 - **Charge** (0–4): Ult +2, Technique +1, A4 +1; Talent กิน 1 ต่อการโจมตีของเพื่อน → FUA 200% ATK
 - **Ult 1000% ATK** single target (E4 +150%, E2 RES −20%)
-- โค้ด: `Start_game_List` priority `PRIORITY_IMMEDIATELY` (`Archer.h:130`, `ac`, `Charge`) — `Charge(1)` + Technique attack + self-flush `Deal_damage()`
+- โค้ด: `startGameList` priority `PRIORITY_IMMEDIATELY` (`Archer.h:130`, `ac`, `Charge`) — `Charge(1)` + Technique attack + self-flush `dealDamage()`
 - **หมายเหตุ**: element/path ในโค้ด (Quantum/Hunt) ตรงกับเกมจริง
 
 ### แหล่งอ้างอิง

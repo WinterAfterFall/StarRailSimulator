@@ -1,6 +1,6 @@
 # `src/Defination/Data/Relic/Knight_of_Purity_Palace.h`
 
-เซ็ตจริง: **Knight of Purity Palace** · `Relic.Name` = `"Knight"` (ชื่อย่อ)
+เซ็ตจริง: **Knight of Purity Palace** · `Relic.name` = `"Knight"` (ชื่อย่อ)
 
 ## ความสามารถหลัก → โค้ดที่ทำงาน
 
@@ -9,7 +9,7 @@
 | 2-pc — DEF +15% | บวก DEF% ถาวร | `Knight_of_Purity_Palace.h:7` |
 | 4-pc — Shield +20% | บวก `Stats::SHEILD` ถาวร (ยังไม่มีผล — ดูด้านล่าง) | `:8` |
 
-ไฟล์สั้นที่สุดในกลุ่ม ไม่มี trigger ใด ๆ ทั้ง 2 อย่างอยู่ใน `Reset_List` ก้อนเดียว (`:6-9`)
+ไฟล์สั้นที่สุดในกลุ่ม ไม่มี trigger ใด ๆ ทั้ง 2 อย่างอยู่ใน `resetList` ก้อนเดียว (`:6-9`)
 
 ## จุดที่ควรรู้
 

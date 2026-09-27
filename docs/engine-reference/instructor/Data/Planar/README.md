@@ -8,8 +8,8 @@
 
 | ท่อน | list ที่ใช้ | ตัวอย่าง |
 |---|---|---|
-| สแตตพื้นฐาน | `Reset_List` | `Talia` BE +16 |
-| ส่วนมีเงื่อนไข | `WhenOnField_List` | `Talia` BE +20 เพิ่ม |
+| สแตตพื้นฐาน | `resetList` | `Talia` BE +16 |
+| ส่วนมีเงื่อนไข | `whenOnFieldList` | `Talia` BE +20 เพิ่ม |
 
 ทั้งสอง list ให้ผลถาวรเหมือนกัน การแยกจึงเป็นเรื่องของการอ่านโค้ด ไม่ใช่พฤติกรรม
 
@@ -25,7 +25,7 @@
 
 ## ตารางสรุปทั้งโฟลเดอร์
 
-| ไฟล์ | `Planar.Name` | สแตตพื้นฐาน | ส่วนมีเงื่อนไข (ในโค้ดมักไม่เช็คเงื่อนไข) |
+| ไฟล์ | `Planar.name` | สแตตพื้นฐาน | ส่วนมีเงื่อนไข (ในโค้ดมักไม่เช็คเงื่อนไข) |
 |---|---|---|---|
 | `Arcadia.h` | `Arcadia` | — | DMG ตามส่วนต่างจำนวนเพื่อน 4 คน: ขาด ×12 / เกิน ×9 |
 | `Bone_Collection.h` | `Bone_Collection` | HP +12 | CD +28 (ถึง memosprite ด้วย) |
@@ -47,5 +47,5 @@
 
 ## กับดักชื่อ
 
-- `Rutilant.h` เคยตั้ง `Planar.Name = "    "` และ `Inert.h` เคยตั้งเป็น `"SpaceSealing"` (copy มา) — แก้แล้ว ดู `../README.md` หัวข้อ "แก้เมื่อ 2026-09-13"
+- `Rutilant.h` เคยตั้ง `Planar.name = "    "` และ `Inert.h` เคยตั้งเป็น `"SpaceSealing"` (copy มา) — แก้แล้ว ดู `../README.md` หัวข้อ "แก้เมื่อ 2026-09-13"
 - ชื่อฟังก์ชันกับชื่อไฟล์ไม่ตรงกันบางตัว: `Revelry by the Sea.h` → `Planar::Revelry` · `Tengoku@Livestream.h` → `Planar::TengokuLivestream`

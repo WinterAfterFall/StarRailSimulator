@@ -93,7 +93,7 @@ ATK +28% · SPD +9 · Break Effect +13.3%
 - **Charge** (0–10, E6 15): +1 ต่อ enemy break + A2 (elite +1) + E6; ปลดที่ hit 3 → Break DMG 60% × (1 + 0.5×Charge) AoE + ignore-weakness toughness
 - **A4 Super Break** ตอน Sealform ตี broken target
 - Enhanced BA ไม่คืน SP, break weakness ได้แม้ไม่มี Imaginary weakness (50% toughness)
-- โค้ด: `Start_game_List` priority `PRIORITY_ACTTACK` (`Rappa.h:140`) + `Rappa_LC.h` มี Start_game entry ด้วย
+- โค้ด: `startGameList` priority `PRIORITY_ACTTACK` (`Rappa.h:140`) + `Rappa_LC.h` มี startGame entry ด้วย
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/rappa — kit tab (review patch 3.0, calc patch 3.8, profile 01/Jun/2026)

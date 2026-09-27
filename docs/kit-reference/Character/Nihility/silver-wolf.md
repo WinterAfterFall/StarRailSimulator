@@ -87,7 +87,7 @@ Effect HIT Rate +18% · ATK +28% · Quantum DMG +8%
 - **Ult DEF −45%** AoE (3t)
 - **debuff count scaling**: E6 (+20%/debuff DMG cap 100%), E4 (Additional DMG 20% ATK/debuff), E1 (energy 7/debuff)
 - **A6**: ATK scaling จาก EHR (cap 50%)
-- โค้ด: `Start_game_List` (`Silver Wolf.h:164`, `sw`) — technique + implant
+- โค้ด: `startGameList` (`Silver Wolf.h:164`, `sw`) — technique + implant
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/silver-wolf — kit tab (review/calc patch 3.4, profile 01/Jun/2026)

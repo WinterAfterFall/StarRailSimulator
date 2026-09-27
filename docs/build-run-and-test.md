@@ -17,9 +17,9 @@ g++ -std=c++17 -O0 ManualBuilder.cpp -o (Join-Path $buildDir 'ManualBuilder.exe'
 
 ## รันและอ่านผล
 
-`Application.exe` ถามจำนวนตัวละคร แล้วถามชื่อ, Eidolon, Light Cone, Relic และ Planar ทีละตัวก่อนสร้างศัตรู `SetCharacterPtr()` อ้าง `charUnit[1..4]` โดยตรง จึงต้องสร้างตัวละครให้ครบสี่ช่องเมื่อใช้ทางเข้านี้ `EnemySelector()` ถามจำนวนศัตรูแต่ยังไม่ใช้ค่านั้น; ที่คำถามตั้งค่าสถานะศัตรูเอง ต้องตอบ `yes` จึงจะสร้างศัตรูค่าคงที่สองตัว การตอบ `no` หรือกด Enter จะไม่สร้างศัตรู เพราะสาขานั้นยังไม่ implement
+`Application.exe` ถามจำนวนตัวละคร แล้วถามชื่อ, Eidolon, Light Cone, Relic และ Planar ทีละตัวก่อนสร้างศัตรู `setCharacterPtr()` อ้าง `charUnit[1..4]` โดยตรง จึงต้องสร้างตัวละครให้ครบสี่ช่องเมื่อใช้ทางเข้านี้ `enemySelector()` ถามจำนวนศัตรูแต่ยังไม่ใช้ค่านั้น; ที่คำถามตั้งค่าสถานะศัตรูเอง ต้องตอบ `yes` จึงจะสร้างศัตรูค่าคงที่สองตัว การตอบ `no` หรือกด Enter จะไม่สร้างศัตรู เพราะสาขานั้นยังไม่ implement
 
-`ManualBuilder.exe` ใช้ทีม FireFly, Ruan Mei, Fugue และ Gallagher ตามบรรทัด `Setup()` ที่เปิดใช้อยู่ใน source ณ วันที่เขียนคู่มือ สามารถเปลี่ยนทีมได้ใน `ManualBuilder.cpp` แล้วคอมไพล์ใหม่ คำสั่งนี้ส่ง Enter ให้บรรทัดรอก่อนปิดโปรแกรมและเก็บ output ไว้อ่าน:
+`ManualBuilder.exe` ใช้ทีม FireFly, Ruan Mei, Fugue และ Gallagher ตามบรรทัด `setup()` ที่เปิดใช้อยู่ใน source ณ วันที่เขียนคู่มือ สามารถเปลี่ยนทีมได้ใน `ManualBuilder.cpp` แล้วคอมไพล์ใหม่ คำสั่งนี้ส่ง Enter ให้บรรทัดรอก่อนปิดโปรแกรมและเก็บ output ไว้อ่าน:
 
 ```powershell
 $logFile = Join-Path $buildDir 'ManualBuilder-output.txt'
@@ -27,7 +27,7 @@ $logFile = Join-Path $buildDir 'ManualBuilder-output.txt'
 Get-Content -LiteralPath $logFile -Tail 40
 ```
 
-ทางเข้าทั้งสองเปิด `Print_Atv` ใน `SetValue()` จึงมี trace ของเทิร์นจำนวนมาก ผล `printRoundResult()` แสดง run ปัจจุบัน ส่วน `printSummaryResult()` แสดงชุด substats ที่ให้ค่าดีที่สุดและผลแยกตามศัตรู ความหมายของตัวเลขและสมุดดาเมจสองแบบอยู่ใน [Print.md](engine-reference/instructor/Function/Print/Print.md) และ [CalDamageNote.md](engine-reference/instructor/Function/Calculate/CalDamageNote.md) ก่อนเทียบผลหลังแก้สูตร ให้เก็บ output ของทีมและค่า setting เดิมไว้เป็น baseline แล้วเทียบยอดดาเมจและจำนวนเทิร์นหลังแก้
+ทางเข้าทั้งสองเปิด `printAtv` ใน `setValue()` จึงมี trace ของเทิร์นจำนวนมาก ผล `printRoundResult()` แสดง run ปัจจุบัน ส่วน `printSummaryResult()` แสดงชุด substats ที่ให้ค่าดีที่สุดและผลแยกตามศัตรู ความหมายของตัวเลขและสมุดดาเมจสองแบบอยู่ใน [Print.md](engine-reference/instructor/Function/Print/Print.md) และ [CalDamageNote.md](engine-reference/instructor/Function/Calculate/CalDamageNote.md) ก่อนเทียบผลหลังแก้สูตร ให้เก็บ output ของทีมและค่า setting เดิมไว้เป็น baseline แล้วเทียบยอดดาเมจและจำนวนเทิร์นหลังแก้
 
 ## ทดสอบ regression ที่มีอยู่ในเครื่อง
 

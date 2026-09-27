@@ -2,26 +2,26 @@
 #define SETTING_H
 #include"Declaration/Function/Library.h"
 
-int sp=3,Max_sp = 5,Total_wave=1;//1450
-double Wave[3]={1100,450,450}; //1368.01 1442.83
-bool Avg_damage_Mode = 1;
-bool SuperBreak__Mode = 0;
-int Main_dps_num = 1;
-int Driver_num = 0;
-int HealerNum = 0;
-SPMode spMode = SPMode::Positive; //Positive Negative       
-int Main_Enemy_num = 1;
-int Adjacent_Enemy_num[2] = {2,3};
-int Other_Enemy_num[2] = {4,5}; 
+int sp=3,maxSp = 5,totalWave=1;//1450
+double wave[3]={1100,450,450}; //1368.01 1442.83
+bool avgDamageMode = 1;
+bool superBreakMode = 0;
+int mainDpsNum = 1;
+int driverNum = 0;
+int healerNum = 0;
+SPMode spMode = SPMode::POSITIVE; //Positive Negative       
+int mainEnemyNum = 1;
+int adjacentEnemyNum[2] = {2,3};
+int otherEnemyNum[2] = {4,5}; 
 
-bool Print_Atv = 0;
+bool printAtv = 0;
 
-int Total_ally = 0;
-int Total_enemy = 0;
-int Force_break = 1;
-bool DahliaCheck = 0;
+int totalAlly = 0;
+int totalEnemy = 0;
+int forceBreak = 1;
+bool dahliaCheck = 0;
 
-DriverType driverType  = DriverType::None;
+DriverType driverType  = DriverType::NONE;
 vector<unique_ptr<CharUnit>> charUnit(1);
 vector<unique_ptr<Enemy>> enemyUnit(1);
 vector<CharUnit*> charList;
@@ -29,47 +29,47 @@ vector<AllyUnit*> allyList;
 vector<Enemy*> enemyList;
 vector<ActionValueStats*> atvList;
 
-unordered_map<ElementType, double> Enemy_res = {
-        {ElementType::Fire, 0.0},
-        {ElementType::Ice, 0.0},
-        {ElementType::Quantum, 0.0},
-        {ElementType::Wind, 0.0},
-        {ElementType::Lightning, 0.0},
-        {ElementType::Physical, 0.0},
-        {ElementType::Imaginary, 0.0}
+unordered_map<ElementType, double> enemyRes = {
+        {ElementType::FIRE, 0.0},
+        {ElementType::ICE, 0.0},
+        {ElementType::QUANTUM, 0.0},
+        {ElementType::WIND, 0.0},
+        {ElementType::LIGHTNING, 0.0},
+        {ElementType::PHYSICAL, 0.0},
+        {ElementType::IMAGINARY, 0.0}
 };
-unordered_map<ElementType, bool> Enemy_weak = {
-        {ElementType::Fire, 1},
-        {ElementType::Ice, 1},
-        {ElementType::Quantum, 1},
-        {ElementType::Wind, 1},
-        {ElementType::Lightning, 1},
-        {ElementType::Physical, 1},
-        {ElementType::Imaginary, 1}
+unordered_map<ElementType, bool> enemyWeak = {
+        {ElementType::FIRE, 1},
+        {ElementType::ICE, 1},
+        {ElementType::QUANTUM, 1},
+        {ElementType::WIND, 1},
+        {ElementType::LIGHTNING, 1},
+        {ElementType::PHYSICAL, 1},
+        {ElementType::IMAGINARY, 1}
 };
 unordered_map<Path, double> tauntValueEachPath = {
-    {Path::Abundance, 100},
-    {Path::Preservation, 150},
-    {Path::Hunt, 75},
-    {Path::Erudition, 75},
-    {Path::Destruction, 125},
-    {Path::Harmony, 100},
-    {Path::Nihility, 100},
-    {Path::Remembrance, 100},
-    {Path::Elation, 100}
+    {Path::ABUNDANCE, 100},
+    {Path::PRESERVATION, 150},
+    {Path::HUNT, 75},
+    {Path::ERUDITION, 75},
+    {Path::DESTRUCTION, 125},
+    {Path::HARMONY, 100},
+    {Path::NIHILITY, 100},
+    {Path::REMEMBRANCE, 100},
+    {Path::ELATION, 100}
 };
 ActionValueStats* turn = nullptr;
-queue<shared_ptr<ActionData>> Action_bar;
-queue<shared_ptr<AllyActionData>> AhaInstantBar;
+queue<shared_ptr<ActionData>> actionBar;
+queue<shared_ptr<AllyActionData>> ahaInstantBar;
 
-double Level_multiplier = 3767.5533;
-double Current_atv =0;
+double levelMultiplier = 3767.5533;
+double currentAtv =0;
 
-PhaseStatus phaseStatus = PhaseStatus::None;
+PhaseStatus phaseStatus = PhaseStatus::NONE;
 bool actionBarUse = 0;
-bool AdjustCheck = 0;
-bool Turn_Skip=0;
-string Territory = "None";
+bool adjustCheck = 0;
+bool turnSkip=0;
+string territory = "None";
 int healCount;
 int decreaseHPCount;
 
@@ -79,74 +79,74 @@ bool bestBounce = 0;
 unique_ptr<ActionValueStats> aha = make_unique<ActionValueStats>("Aha",80);
 int punchline = 0;
 int elationCount = 0;
-int CB_duration = 2; // Certified Banger duration (turns) · Yao Guang A6 +1
-deque<tuple<string,int, double>> CBcheck;
+int cbDuration = 2; // Certified Banger duration (turns) · Yao Guang A6 +1
+deque<tuple<string,int, double>> cbCheck;
 
 
-int Sp_Safety = 1;
-int nextForwardPriority = 0;  // ตัวนับที่แจกค่า priority ให้ unit ตัวถัดไปที่โดน Action_forward จน atv แตะ 0 (reset ต่อ run ใน Reset())
-double Enemy_effect_res =40;
+int spSafety = 1;
+int nextForwardPriority = 0;  // ตัวนับที่แจกค่า priority ให้ unit ตัวถัดไปที่โดน actionForward จน atv แตะ 0 (reset ต่อ run ใน Reset())
+double enemyEffectRes =40;
 
-SubstatsRerollMode rerollSubstatsMode = SubstatsRerollMode::Standard; 
+SubstatsRerollMode rerollSubstatsMode = SubstatsRerollMode::STANDARD; 
 function<bool(CharUnit *ptr)> rerollFunction;
 
 //-------- Trigger Function --------//
-vector<TriggerByYourSelf_Func> Setup_List;
-vector<TriggerByYourSelf_Func> Reset_List;
-vector<TriggerByYourSelf_Func> WhenOnField_List;
-vector<TriggerByYourSelf_Func> Tune_stats_List;
-vector<TriggerByYourSelf_Func> Start_game_List;
-vector<TriggerByYourSelf_Func> Start_wave_List;
-vector<TriggerByYourSelf_Func> Before_turn_List;
-vector<TriggerByYourSelf_Func> After_turn_List;
-vector<TriggerByYourSelf_Func> Ultimate_List;
-vector<TriggerByYourSelf_Func> ElationSkill_List;
-vector<TriggerByYourSelf_Func> BeforeAhaInstant_List;
-vector<TriggerByYourSelf_Func> AfterAhaInstant_List;
-vector<TriggerByAlly_Func> WhenUseUlt_List;
+vector<TriggerByYourSelfFunc> setupList;
+vector<TriggerByYourSelfFunc> resetList;
+vector<TriggerByYourSelfFunc> whenOnFieldList;
+vector<TriggerByYourSelfFunc> tuneStatsList;
+vector<TriggerByYourSelfFunc> startGameList;
+vector<TriggerByYourSelfFunc> startWaveList;
+vector<TriggerByYourSelfFunc> beforeTurnList;
+vector<TriggerByYourSelfFunc> afterTurnList;
+vector<TriggerByYourSelfFunc> ultimateList;
+vector<TriggerByYourSelfFunc> elationSkillList;
+vector<TriggerByYourSelfFunc> beforeAhaInstantList;
+vector<TriggerByYourSelfFunc> afterAhaInstantList;
+vector<TriggerByAllyFunc> whenUseUltList;
 
 
-vector<TriggerByAction_Func> BeforeAction_List;
-vector<TriggerByAction_Func> AfterAction_List;
-vector<TriggerByAllyAction_Func> BeforeAllyActionList;
-vector<TriggerByAllyAction_Func> AfterAllyActionList;
-vector<TriggerByAllyAttackAction_Func> BeforeAttackAction_List;
-vector<TriggerByAllyAttackAction_Func> AfterAttackActionList;
-vector<TriggerByAllyAttackAction_Func> BeforeAttack_List;
-vector<TriggerByAllyAttackAction_Func> AfterAttack_List;
-vector<TriggerByAllyAttackAction_Func> BeforeAttackPerHit_List;
-vector<TriggerByAllyAttackAction_Func> AfterAttackPerHit_List;
-vector<TriggerByAllyAttackAction_Func> When_attack_List;
-vector<TriggerByAllyBuffAction_Func> Buff_List;
+vector<TriggerByActionFunc> beforeActionList;
+vector<TriggerByActionFunc> afterActionList;
+vector<TriggerByAllyActionFunc> beforeAllyActionList;
+vector<TriggerByAllyActionFunc> afterAllyActionList;
+vector<TriggerByAllyAttackActionFunc> beforeAttackActionList;
+vector<TriggerByAllyAttackActionFunc> afterAttackActionList;
+vector<TriggerByAllyAttackActionFunc> beforeAttackList;
+vector<TriggerByAllyAttackActionFunc> afterAttackList;
+vector<TriggerByAllyAttackActionFunc> beforeAttackPerHitList;
+vector<TriggerByAllyAttackActionFunc> afterAttackPerHitList;
+vector<TriggerByAllyAttackActionFunc> whenAttackList;
+vector<TriggerByAllyBuffActionFunc> buffList;
 
-vector<TriggerByStats> Stats_Adjust_List;
-vector<TriggerHealing> Healing_List;
-vector<TriggerDecreaseHP> HPDecrease_List;
-vector<TriggerAllyDeath> AllyDeath_List;
+vector<TriggerByStats> statsAdjustList;
+vector<TriggerHealing> healingList;
+vector<TriggerDecreaseHP> hpDecreaseList;
+vector<TriggerAllyDeath> allyDeathList;
 
-vector<TriggerBySomeAlly_Func> Toughness_break_List;
-vector<TriggerBySomeAlly_Func> BeforeApplyDebuff;
-vector<TriggerBySomeAlly_Func> AfterApplyDebuff;
-vector<TriggerBySomeAlly_Func> Enemy_Death_List;
+vector<TriggerBySomeAllyFunc> toughnessBreakList;
+vector<TriggerBySomeAllyFunc> beforeApplyDebuff;
+vector<TriggerBySomeAllyFunc> afterApplyDebuff;
+vector<TriggerBySomeAllyFunc> enemyDeathList;
 
-vector<TriggerByWeaknessApply_Func> WeaknessApply_List;
-vector<TriggerByEnemyHit> Enemy_hit_List;
-vector<TriggerDot_Func> Dot_List;
-vector<TriggerEnergy_Increase_Func> When_Energy_Increase_List;
-vector<TriggerSkill_point_func> Skill_point_List;
-vector<TriggerSkill_point_func> PunchLine_List;
-vector<TriggerAfterDealDamage> AfterDealingDamage_List;
+vector<TriggerByWeaknessApplyFunc> weaknessApplyList;
+vector<TriggerByEnemyHit> enemyHitList;
+vector<TriggerDotFunc> dotList;
+vector<TriggerEnergyIncreaseFunc> whenEnergyIncreaseList;
+vector<TriggerSkillPointFunc> skillPointList;
+vector<TriggerSkillPointFunc> punchLineList;
+vector<TriggerAfterDealDamage> afterDealingDamageList;
 
 
 string toString(ElementType type){
         switch(type) {
-                case ElementType::Fire: return "Fire";
-                case ElementType::Ice: return "Ice";
-                case ElementType::Lightning: return "Lightning";
-                case ElementType::Wind: return "Wind";
-                case ElementType::Quantum: return "Quantum";
-                case ElementType::Imaginary: return "Imaginary";
-                case ElementType::Physical: return "Physical";
+                case ElementType::FIRE: return "Fire";
+                case ElementType::ICE: return "Ice";
+                case ElementType::LIGHTNING: return "Lightning";
+                case ElementType::WIND: return "Wind";
+                case ElementType::QUANTUM: return "Quantum";
+                case ElementType::IMAGINARY: return "Imaginary";
+                case ElementType::PHYSICAL: return "Physical";
                 default: return "";
         }
 }

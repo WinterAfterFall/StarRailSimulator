@@ -1,6 +1,6 @@
 # `src/Defination/Data/Planar/Bone_Collection.h`
 
-`Planar.Name` = `"Bone_Collection"` · เซ็ตจริง: **Bone Collection Serene Demesne** · เซ็ตสาย memosprite
+`Planar.name` = `"Bone_Collection"` · เซ็ตจริง: **Bone Collection Serene Demesne** · เซ็ตสาย memosprite
 
 ## ความสามารถหลัก → โค้ดที่ทำงาน
 

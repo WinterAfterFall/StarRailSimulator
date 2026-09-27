@@ -1,12 +1,12 @@
 #include "../include.h"
 
 namespace Pela{
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
-    void Basic_Atk(CharUnit *ptr);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
+    void basicAtk(CharUnit *ptr);
 
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
-        CharUnit *ptr = SetCharBasicStats(105,110,110,E,ElementType::Ice,Path::Nihility,"Pela",UnitType::Standard);
-        ptr->SetAllyBaseStats(1087,660,509);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = setCharBasicStats(105,110,110,eidolon,ElementType::ICE,Path::NIHILITY,"Pela",UnitType::STANDARD);
+        ptr->setAllyBaseStats(1087,660,509);
 
         //substats
         ptr->pushSubstats(Stats::CD);
@@ -19,26 +19,26 @@ namespace Pela{
 
         
         //func
-        LC(ptr);
+        lc(ptr);
         Relic(ptr);
         Planar(ptr);
-        ptr->Turn_func = [ptr, allyPtr = ptr]() {
-            Basic_Atk(ptr);
+        ptr->turnFunc = [ptr, allyPtr = ptr]() {
+            basicAtk(ptr);
         };
         
         ptr->addUltCondition([ptr]() -> bool {
-            for (int i = 1; i <= Total_enemy; i++) {
+            for (int i = 1; i <= totalEnemy; i++) {
                 if (enemyUnit[i]->debuffCheck["Zone_Suppression"] == 0) return true;
             }
             return false;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [](CharUnit *ptr) {
+        ultimateList.push_back(TriggerByYourSelfFunc(PRIORITY_BUFF, ptr, [](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
-            make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Pela Ult",
+            make_shared<AllyAttackAction>(AType::ULT,ptr,TraceType::AOE,"Pela Ult",
             [ptr](shared_ptr<AllyAttackAction> &act){
-                debuffAllEnemyApply(ptr,{{Stats::DEF_SHRED, AType::None, 42}}, "Zone_Suppression",2);
-                Attack(act);
+                debuffAllEnemyApply(ptr,{{Stats::DEF_SHRED, AType::NONE, 42}}, "Zone_Suppression",2);
+                attack(act);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,108,20),
@@ -46,17 +46,17 @@ namespace Pela{
                 DmgSrc(DmgSrcType::ATK,108,20)
             );
             act->addToActionBar();
-            Deal_damage();
+            dealDamage();
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_each_element[Stats::DMG][ElementType::Ice][AType::None] += 22.4;
-            ptr->Stats_type[Stats::ATK_P][AType::None] += 18;
-            ptr->Stats_type[Stats::EHR][AType::None] += 10;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsEachElement[Stats::DMG][ElementType::ICE][AType::NONE] += 22.4;
+            ptr->statsType[Stats::ATK_P][AType::NONE] += 18;
+            ptr->statsType[Stats::EHR][AType::NONE] += 10;
 
             // A2 Bash: kit = +20% DMG เฉพาะศัตรูที่ติด debuff → ใส่ตรง ๆ ไม่ผูกเงื่อนไข
             // (Pela ไม่ใช่ตัวดาเมจ และศัตรูติด debuff อยู่แล้วแทบตลอด)
-            ptr->Stats_type[Stats::DMG][AType::None] += 20;
+            ptr->statsType[Stats::DMG][AType::NONE] += 20;
 
             // relic
 
@@ -64,61 +64,61 @@ namespace Pela{
         }));
 
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            if (ptr->Technique == 1) {
-                debuffAllEnemyApply(ptr,{{Stats::DEF_SHRED, AType::None, 20}}, "Pela_Technique",2);
-                Increase_energy(ptr, 20);
+        startGameList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            if (ptr->technique == 1) {
+                debuffAllEnemyApply(ptr,{{Stats::DEF_SHRED, AType::NONE, 20}}, "Pela_Technique",2);
+                increaseEnergy(ptr, 20);
             }
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            buffAllAlly({{Stats::EHR, AType::None, 10}});
+        whenOnFieldList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            buffAllAlly({{Stats::EHR, AType::NONE, 10}});
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            if (turn->side == Side::Enemy) {
-                if (enemyUnit[turn->num]->debuffEnd["Zone_Suppression"] == enemyUnit[turn->num]->Atv_stats->turnCnt) {
+        afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            if (turn->side == Side::ENEMY) {
+                if (enemyUnit[turn->num]->debuffEnd["Zone_Suppression"] == enemyUnit[turn->num]->atvStats->turnCnt) {
                     enemyUnit[turn->num]->debuffCheck["Zone_Suppression"] = 0;
-                    enemyUnit[turn->num]->Stats_type[Stats::DEF_SHRED][AType::None] -= 42;
-                    --enemyUnit[turn->num]->Total_debuff;
+                    enemyUnit[turn->num]->statsType[Stats::DEF_SHRED][AType::NONE] -= 42;
+                    --enemyUnit[turn->num]->totalDebuff;
                 }
                 if (enemyUnit[turn->num]->debuffEnd["Pela_Technique"] == turn->turnCnt) {
-                    enemyUnit[turn->num]->Stats_type[Stats::DEF_SHRED][AType::None] -= 20;
+                    enemyUnit[turn->num]->statsType[Stats::DEF_SHRED][AType::NONE] -= 20;
                     enemyUnit[turn->num]->debuffCheck["Pela_Technique"] = 0;
-                    --enemyUnit[turn->num]->Total_debuff;
+                    --enemyUnit[turn->num]->totalDebuff;
                 }
             }
         }));
         
-        AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
-            if (act->Attacker->Atv_stats->Name != "Pela") return;
+        afterAttackActionList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr](shared_ptr<AllyAttackAction> &act) {
+            if (act->attacker->atvStats->name != "Pela") return;
 
             for (auto e : act->targetList) {
-                if (e->Total_debuff == 0) continue;
-                Increase_energy(ptr, 11);
+                if (e->totalDebuff == 0) continue;
+                increaseEnergy(ptr, 11);
                 break;
             }
 
-            if (ptr->Eidolon >= 6) {
+            if (ptr->eidolon >= 6) {
                 shared_ptr<AllyAttackAction> addDmg = 
-                make_shared<AllyAttackAction>(AType::Addtional,ptr,TraceType::Single,"Pela E6");
+                make_shared<AllyAttackAction>(AType::ADDTIONAL,ptr,TraceType::SINGLE,"Pela E6");
                 for (auto e : act->targetList) {
                     addDmg->addDamageIns(DmgSrc(DmgSrcType::ATK,40),e);
                 }
-                Attack(addDmg);
+                attack(addDmg);
             }
         }));
     }
 
 
 
-    void Basic_Atk(CharUnit *ptr){
+    void basicAtk(CharUnit *ptr){
         genSkillPoint(ptr,1);
         shared_ptr<AllyAttackAction> act = 
-        make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Pela BA",
+        make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::SINGLE,"Pela BA",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(charUnit[ptr->Atv_stats->num].get(),20);
-            Attack(act);
+            increaseEnergy(charUnit[ptr->atvStats->num].get(),20);
+            attack(act);
         });
         act->addDamageIns(
             DmgSrc(DmgSrcType::ATK,55,5)

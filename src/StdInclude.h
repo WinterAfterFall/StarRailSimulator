@@ -1,19 +1,19 @@
-#ifndef StdInclude_H
-#define StdInclude_H
+#ifndef STD_INCLUDE_H
+#define STD_INCLUDE_H
 #include<bits/stdc++.h>
 #include <conio.h>
 #define endl '\n'
 
 #pragma region priority
 
-#define PRIORITY_First 1000
+#define PRIORITY_FIRST 1000
 #define PRIORITY_HEAL 101
 #define PRIORITY_IMMEDIATELY 100
 #define PRIORITY_BUFF 3
 #define PRIORITY_DEBUFF 2
 #define PRIORITY_ACTTACK 0
 #define PRIORITY_ACTION -1
-#define PRIORITY_Last -1000
+#define PRIORITY_LAST -1000
 
 #pragma endregion
 

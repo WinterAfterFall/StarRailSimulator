@@ -2,13 +2,13 @@
 namespace Planar{
     void Broken_Keel(CharUnit *ptr);
     void Broken_Keel(CharUnit *ptr){
-        ptr->Planar.Name="Broken_Keel";
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_type[Stats::RES][AType::None] += 10;
+        ptr->Planar.name="Broken_Keel";
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsType[Stats::RES][AType::NONE] += 10;
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            buffAllAlly({{Stats::CD, AType::None, 10.0}});
+        whenOnFieldList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            buffAllAlly({{Stats::CD, AType::NONE, 10.0}});
         }));
     }
 }

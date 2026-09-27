@@ -28,6 +28,6 @@ CharUnit* chooseCharacterBuff(AllyUnit *ptr){
     return charUnit[ptr->currentCharNum].get();
 }
 Enemy* chooseEnemyTarget(AllyUnit *ptr){
-    if(!ptr || ptr->Enemy_target_num < 0 || ptr->Enemy_target_num >= static_cast<int>(enemyUnit.size())) return nullptr;
-    return enemyUnit[ptr->Enemy_target_num].get();
+    if(!ptr || ptr->enemyTargetNum < 0 || ptr->enemyTargetNum >= static_cast<int>(enemyUnit.size())) return nullptr;
+    return enemyUnit[ptr->enemyTargetNum].get();
 }

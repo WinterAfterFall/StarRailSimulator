@@ -2,27 +2,27 @@
 namespace Relic{
     void Sacerdos_Relived_Ordeal(CharUnit *ptr);
     void Sacerdos_Relived_Ordeal(CharUnit *ptr){
-        ptr->Relic.Name = "Sacerdos_Relived_Ordeal";
-        string Sacerdos = ptr->getName() + " Sacerdos";
+        ptr->Relic.name = "Sacerdos_Relived_Ordeal";
+        string sacerdos = ptr->getName() + " Sacerdos";
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Sacerdos](CharUnit *ptr) {
-            ptr->Atv_stats->speedPercent += 6;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [sacerdos](CharUnit *ptr) {
+            ptr->atvStats->speedPercent += 6;
         }));
 
-        Buff_List.push_back(TriggerByAllyBuffAction_Func(PRIORITY_IMMEDIATELY, [ptr,Sacerdos](shared_ptr<AllyBuffAction> &act) {
-            if (act->Attacker->Atv_stats->Name == ptr->Atv_stats->Name && act->traceType == TraceType::Single
-                && (act->isSameAction(AType::SKILL) || act->isSameAction(AType::Ult))) {
+        buffList.push_back(TriggerByAllyBuffActionFunc(PRIORITY_IMMEDIATELY, [ptr,sacerdos](shared_ptr<AllyBuffAction> &act) {
+            if (act->attacker->atvStats->name == ptr->atvStats->name && act->traceType == TraceType::SINGLE
+                && (act->isSameAction(AType::SKILL) || act->isSameAction(AType::ULT))) {
                 for (auto each : act->buffTargetList) {
-                    buffStackSingle(each,{{Stats::CD, AType::None, 18}}, 1, 2, Sacerdos,2);
+                    buffStackSingle(each,{{Stats::CD, AType::NONE, 18}}, 1, 2, sacerdos,2);
                 }
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [Sacerdos](CharUnit *ptr) {
+        afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [sacerdos](CharUnit *ptr) {
             AllyUnit *tempstats = dynamic_cast<AllyUnit *>(turn->charptr);
             if (!tempstats) return;
-            if (isBuffEnd(tempstats,Sacerdos)) {
-                buffResetStack(tempstats,{{Stats::CD, AType::None, 18}},Sacerdos);
+            if (isBuffEnd(tempstats,sacerdos)) {
+                buffResetStack(tempstats,{{Stats::CD, AType::NONE, 18}},sacerdos);
             }
         }));
     }

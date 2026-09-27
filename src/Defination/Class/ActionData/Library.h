@@ -1,5 +1,5 @@
-#ifndef ActionLibrary_H
-#define ActionLibrary_H
+#ifndef ACTION_LIBRARY_H
+#define ACTION_LIBRARY_H
 
 #include "ActionData.h"
 #include "AllyActionData.h"

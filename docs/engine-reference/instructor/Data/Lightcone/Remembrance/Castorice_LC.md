@@ -1,6 +1,6 @@
 # `src/Defination/Data/Lightcone/Remembrance/Castorice_LC.h`
 
-`namespace Remembrance_Lightcone` · `Light_cone.Name` = `"Castorice_LC"` · base stats `SetAllyBaseStats(1270, 529, 397)`
+`namespace Remembrance_Lightcone` · `lightCone.name` = `"Castorice_LC"` · base stats `setAllyBaseStats(1270, 529, 397)`
 
 **signature ของ Castorice** (ดู `../../Character/Remembrance/Castorice.md`)
 
@@ -8,21 +8,21 @@
 
 | ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| base stats | `SetAllyBaseStats(1270, 529, 397)` | `Castorice_LC.h:5` |
+| base stats | `setAllyBaseStats(1270, 529, 397)` | `Castorice_LC.h:5` |
 | HP% `22.5 + 7.5S` | บวกถาวร | `:9` |
-| memosprite ของผู้สวมตาย → ผู้สวม advance `9 + 3S`% (ครั้งเดียวต่อ Ult) | `AllyDeath_List` เช็ค `side == Memosprite` และ `num` ตรงกัน · flag `"Castorice_LC_check"` | `:12-19` |
-| กด Ult → รีเซ็ต flag ข้างบน | `WhenUseUlt_List` + `isSameOwner` | `:21-25` |
-| ในเทิร์นของผู้สวม/memosprite เขาเสีย HP → "Death Flower": ignore DEF `25 + 5S`% นาน 2 เทิร์น (ทั้งคู่) | `HPDecrease_List` เช็คเจ้าของเทิร์นและเป้าเป็นฝั่งผู้สวม · `isHaveToAddBuff(…, 2)` + `buffSingleChar` | `:27-35` |
+| memosprite ของผู้สวมตาย → ผู้สวม advance `9 + 3S`% (ครั้งเดียวต่อ Ult) | `allyDeathList` เช็ค `side == Memosprite` และ `num` ตรงกัน · flag `"Castorice_LC_check"` | `:12-19` |
+| กด Ult → รีเซ็ต flag ข้างบน | `whenUseUltList` + `isSameOwner` | `:21-25` |
+| ในเทิร์นของผู้สวม/memosprite เขาเสีย HP → "Death Flower": ignore DEF `25 + 5S`% นาน 2 เทิร์น (ทั้งคู่) | `hpDecreaseList` เช็คเจ้าของเทิร์นและเป้าเป็นฝั่งผู้สวม · `isHaveToAddBuff(…, 2)` + `buffSingleChar` | `:27-35` |
 | ถอน Death Flower | ท้ายเทิร์นผู้สวม `isBuffEnd` | `:38-42` |
 
 ## จุดที่ทำถูก
 
-**`HPDecrease_List` guard 3 ชั้น** (บรรทัด 24-27):
+**`hpDecreaseList` guard 3 ชั้น** (บรรทัด 24-27):
 ```cpp
 if (!turn) return;                                                    // กัน null
-if ((turn->side == Side::Memosprite || turn->side == Side::Ally)
-    && turn->num == ptr->Atv_stats->num                               // เทิร์นของผู้สวมหรือ memosprite
-    && target->Atv_stats->num == ptr->Atv_stats->num)                 // คนที่เสีย HP คือผู้สวม
+if ((turn->side == Side::MEMOSPRITE || turn->side == Side::ALLY)
+    && turn->num == ptr->atvStats->num                               // เทิร์นของผู้สวมหรือ memosprite
+    && target->atvStats->num == ptr->atvStats->num)                 // คนที่เสีย HP คือผู้สวม
 ```
 เป็นการ guard ที่รัดกุมที่สุดในกลุ่ม LC — เทียบกับ `../Destruction/Jingliu_LC.md` ที่ไม่ guard เลย
 

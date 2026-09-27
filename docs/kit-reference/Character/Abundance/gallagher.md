@@ -87,7 +87,7 @@ Effect RES +28% · Break Effect +13.3% · HP +18%
 - **Enhanced BA**: Ult set flag ให้ BA ถัดไปเป็น Nectar Blitz (250%, +Besotted-ATK-down 15%/2t, Toughness 30)
 - **A6**: heal-on-hit ของ Talent ครั้งที่ Nectar Blitz ตี Besotted → กระจายเป็น AoE heal (โค้ดเช็ค `buffCheck["Gallagher_enchance_basic_atk"]`)
 - **A4**: action advance 100% หลัง Ult
-- E1 (+20 energy, +50% RES) trigger ตอนเข้าสนาม — ในโค้ดอยู่ที่ `Start_game_List` (เฉพาะ E1) และ `WhenOnField_List` (Besotted tech + A2 buff)
+- E1 (+20 energy, +50% RES) trigger ตอนเข้าสนาม — ในโค้ดอยู่ที่ `startGameList` (เฉพาะ E1) และ `whenOnFieldList` (Besotted tech + A2 buff)
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/gallagher — kit tab (review patch 3.2, calc patch 3.4, profile 01/Jun/2026)

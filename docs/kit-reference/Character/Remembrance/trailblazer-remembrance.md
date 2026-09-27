@@ -100,7 +100,7 @@ CRIT DMG +37.3% · HP +14% · ATK +14%
 - **Mem's Support**: True DMG 28% ต่อ instance ของดาเมจเป้าหมาย (A6 +2%/10 energy เกิน 100, cap +20%; E4 +6%)
 - **CRIT DMG buff (Friends! Together!)**: 12% × CD ของ Mem + 24% — ผูกกับ CD ของ Mem
 - **ดาเมจ Mem สเกลกับ ATK ของ Mem** (แยก stat จาก Trailblazer)
-- โค้ด: `Start_game_List` (`RMC.h:98`, `RMCptr`, `Memptr`) มี addToActionBar + `Deal_damage()` + `Action_forward 30` (A2)
+- โค้ด: `startGameList` (`RMC.h:98`, `RMCptr`, `Memptr`) มี addToActionBar + `dealDamage()` + `actionForward 30` (A2)
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/trailblazer-remembrance — kit tab (review patch 3.0, calc patch 3.6, profile 01/Jun/2026)

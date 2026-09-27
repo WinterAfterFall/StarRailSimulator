@@ -1,58 +1,58 @@
 #include "../include.h"
 PairSetType transString(string s){
     transform(s.begin(), s.end(), s.begin(), ::tolower);
-    if(s == "speed" || s == "spd")return PairSetType::Spd_P;
-    else if(s == "fua")return PairSetType::Fua;
+    if(s == "speed" || s == "spd")return PairSetType::SPD_P;
+    else if(s == "fua")return PairSetType::FUA;
     else if(s == "dmg")return PairSetType::DMG;
     else if(s == "be")return PairSetType::BE;
     else if(s == "atk")return PairSetType::ATK;
     else if(s == "hp")return PairSetType::HP;
     else if(s == "def")return PairSetType::DEF;
-    else if(s == "crit rate" || s == "cr")return PairSetType::CritRate;
-    else if(s == "crit dam" || s == "cd")return PairSetType::CritDam;
-    else if(s == "heal")return PairSetType::HealOut;
+    else if(s == "crit rate" || s == "cr")return PairSetType::CRIT_RATE;
+    else if(s == "crit dam" || s == "cd")return PairSetType::CRIT_DAM;
+    else if(s == "heal")return PairSetType::HEAL_OUT;
     return PairSetType::ERROR;
 }
-function<void(CharUnit *ptr)> CharUnit::RelicPairSet(PairSetType Type){
-    if(Type == PairSetType::Spd_P)
+function<void(CharUnit *ptr)> CharUnit::relicPairSet(PairSetType type){
+    if(type == PairSetType::SPD_P)
     return [=](CharUnit *ptr) {
-        ptr->Atv_stats->speedPercent+=6;
+        ptr->atvStats->speedPercent+=6;
     };
-    if(Type == PairSetType::ATK)
+    if(type == PairSetType::ATK)
     return [=](CharUnit *ptr) {
-        ptr->Stats_type[Stats::ATK_P][AType::None] += 12;
+        ptr->statsType[Stats::ATK_P][AType::NONE] += 12;
     };
-    if(Type == PairSetType::HP)
+    if(type == PairSetType::HP)
     return [=](CharUnit *ptr) {
-        ptr->Stats_type[Stats::HP_P][AType::None] += 12;
+        ptr->statsType[Stats::HP_P][AType::NONE] += 12;
     };
-    if(Type == PairSetType::DEF)
+    if(type == PairSetType::DEF)
     return [=](CharUnit *ptr) {
-        ptr->Stats_type[Stats::DEF_P][AType::None] += 15;
+        ptr->statsType[Stats::DEF_P][AType::NONE] += 15;
     };
-    if(Type == PairSetType::CritRate)
+    if(type == PairSetType::CRIT_RATE)
     return [=](CharUnit *ptr) {
-        ptr->Stats_type[Stats::CR][AType::None] += 8;
+        ptr->statsType[Stats::CR][AType::NONE] += 8;
     };
-    if(Type == PairSetType::CritDam)
+    if(type == PairSetType::CRIT_DAM)
     return [=](CharUnit *ptr) {
-        ptr->Stats_type[Stats::CD][AType::None] += 16;
+        ptr->statsType[Stats::CD][AType::NONE] += 16;
     };
-    if(Type == PairSetType::BE)
+    if(type == PairSetType::BE)
     return [=](CharUnit *ptr) {
-        ptr->Stats_type[Stats::BE][AType::None] += 16;
+        ptr->statsType[Stats::BE][AType::NONE] += 16;
     };
-    if(Type == PairSetType::HealOut)
+    if(type == PairSetType::HEAL_OUT)
     return [=](CharUnit *ptr) {
-        ptr->Stats_type[Stats::HEALING_OUT][AType::None] += 10;
+        ptr->statsType[Stats::HEALING_OUT][AType::NONE] += 10;
     };
-    if(Type == PairSetType::Fua)
+    if(type == PairSetType::FUA)
     return [=](CharUnit *ptr) {
-        ptr->Stats_type[Stats::DMG][AType::Fua] += 20;
+        ptr->statsType[Stats::DMG][AType::FUA] += 20;
     };
-    if(Type == PairSetType::DMG)
+    if(type == PairSetType::DMG)
     return [=](CharUnit *ptr) {
-        ptr->Stats_each_element[Stats::DMG][ptr->Element_type][AType::None] += 10;
+        ptr->statsEachElement[Stats::DMG][ptr->elementType][AType::NONE] += 10;
     };
 
 

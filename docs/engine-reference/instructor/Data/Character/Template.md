@@ -6,34 +6,34 @@
 
 ```cpp
 namespace SomeChar{
-    void Setup(int E, function<void(CharUnit*)> LC, function<void(CharUnit*)> Relic, function<void(CharUnit*)> Planar){
-        CharUnit *ptr = SetCharBasicStats(speed, maxEnergy, UltCost, E, ElementType::, Path::, Name, UnitType::Standard);
-        ptr->SetAllyBaseStats(HP, ATK, DEF);
+    void setup(int E, function<void(CharUnit*)> LC, function<void(CharUnit*)> Relic, function<void(CharUnit*)> Planar){
+        CharUnit *ptr = setCharBasicStats(speed, maxEnergy, ultCost, E, ElementType::, Path::, name, UnitType::STANDARD);
+        ptr->setAllyBaseStats(HP, ATK, DEF);
 
         // substats + เกณฑ์ build
         ptr->pushSubstats(Stats::);  ptr->setTotalSubstats(25);
         ptr->setSpeedRequire();  ptr->setApplyBaseChance();
         ptr->setRelicMainStats(Stats::, Stats::, Stats::, Stats::);
 
-        LC(ptr);  Relic(ptr);  Planar(ptr);      // <- ต้องอยู่หลัง substats
+        lc(ptr);  Relic(ptr);  Planar(ptr);      // <- ต้องอยู่หลัง substats
 
         #pragma region Ability
         function<void()> BA = [ptr]() { ... };   // action เป็น lambda
         #pragma endregion
 
-        ptr->Turn_func = [ptr,BA,Skill]() { ... };
+        ptr->turnFunc = [ptr,BA,skill]() { ... };
         ptr->addUltCondition([ptr]() -> bool { return true; });
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [](CharUnit *ptr) { ... }));
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) { ... }));
+        ultimateList.push_back(TriggerByYourSelfFunc(PRIORITY_BUFF, ptr, [](CharUnit *ptr) { ... }));
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) { ... }));
     }
 }
 ```
 
 ## สิ่งที่ template สื่อ
 
-1. **ลำดับใน `Setup` มีความหมาย** — `SetCharBasicStats` → `SetAllyBaseStats` → substats/เกณฑ์ → `LC/Relic/Planar` → abilities → trigger lists · ไฟล์ที่ไม่ทำตามลำดับนี้ (`../Erudition/Jingyuan.h` เรียก `SetSummonStats` ท้ายสุด, `../Destruction/FireFly.h` เรียก `SetCountdownStats` ท้ายสุด) อ่านแล้วสับสน
+1. **ลำดับใน `setup` มีความหมาย** — `setCharBasicStats` → `setAllyBaseStats` → substats/เกณฑ์ → `LC/Relic/Planar` → abilities → trigger lists · ไฟล์ที่ไม่ทำตามลำดับนี้ (`../Erudition/Jingyuan.h` เรียก `setSummonStats` ท้ายสุด, `../Destruction/FireFly.h` เรียก `setCountdownStats` ท้ายสุด) อ่านแล้วสับสน
 2. **action เป็น lambda ใน `#pragma region Ability`** — แต่ไฟล์จริงหลายตัวใช้ฟังก์ชันระดับ namespace แทน (`../Nihility/Pela.h`, `../Erudition/Serval.h`) ทั้งสองแบบใช้ได้ (ดู `../Nihility/Pela.md` ตารางแรก)
-3. **`Reset_List` คือที่ของ minor traces** — ตัวอย่างในไฟล์ใส่ค่า Ice DMG 22.4 / ATK 18 / EHR 10 ไว้เป็นตัวอย่างรูปแบบ ไม่ใช่ค่าของตัวละครไหน
+3. **`resetList` คือที่ของ minor traces** — ตัวอย่างในไฟล์ใส่ค่า Ice DMG 22.4 / ATK 18 / EHR 10 ไว้เป็นตัวอย่างรูปแบบ ไม่ใช่ค่าของตัวละครไหน
 4. **`addUltCondition` ที่คืน `true` คือ default** — แปลว่า "กดทันทีที่ energy เต็ม"
 
 ## สิ่งที่ template **ไม่ได้** ครอบคลุม
@@ -49,7 +49,7 @@ namespace SomeChar{
 | ระบบฮีล | `Abundance/Luocha.md`, `Abundance/Gallagher.md` |
 | memosprite | `Remembrance/RMC.md` |
 | summon / countdown | `Erudition/Jingyuan.md`, `Remembrance/Aglaea.md` |
-| stat ที่คำนวณจาก stat อื่น (`Stats_Adjust_List`) | `Abundance/Gallagher.md` |
+| stat ที่คำนวณจาก stat อื่น (`statsAdjustList`) | `Abundance/Gallagher.md` |
 | Break / Super Break | `Destruction/FireFly.md`, `Erudition/Rappa.md` |
 | True DMG | `Harmony/Tribbie.md`, `Nihility/Cipher.md` |
 

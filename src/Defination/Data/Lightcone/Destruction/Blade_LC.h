@@ -2,36 +2,36 @@
 namespace Destruction_Lightcone{
     function<void(CharUnit *ptr)> Blade_LC(int superimpose){
         return [=](CharUnit *ptr) {
-            ptr->SetAllyBaseStats(1270,582,331);
-            ptr->Light_cone.Name = "Blade LC";
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr){
+            ptr->setAllyBaseStats(1270,582,331);
+            ptr->lightCone.name = "Blade LC";
+            resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr){
                         
-                ptr->Stats_type[Stats::CR][AType::None]+=15 + (3*superimpose);
-                ptr->Stats_type[Stats::HP_P][AType::None]+=15 + (3*superimpose);
+                ptr->statsType[Stats::CR][AType::NONE]+=15 + (3*superimpose);
+                ptr->statsType[Stats::HP_P][AType::NONE]+=15 + (3*superimpose);
                 
                 }
             ));
-            Enemy_hit_List.push_back(TriggerByEnemyHit(PRIORITY_ACTTACK,[ptr,superimpose](Enemy *Attacker,vector<AllyUnit*> target){
+            enemyHitList.push_back(TriggerByEnemyHit(PRIORITY_ACTTACK,[ptr,superimpose](Enemy *attacker,vector<AllyUnit*> target){
                 for(AllyUnit* e : target){
                     if(e->isSameName(ptr)){
                         if(isHaveToAddBuff(ptr,"Blade_LC_Mark")){
-                            buffSingle(ptr,{{Stats::DMG,AType::None,(20.0 + 4*superimpose)}});
+                            buffSingle(ptr,{{Stats::DMG,AType::NONE,(20.0 + 4*superimpose)}});
                         }
                         return;
                     }
                 }
             }));
-            HPDecrease_List.push_back(TriggerDecreaseHP(PRIORITY_ACTTACK,[ptr,superimpose](Unit *Trigger,AllyUnit *target,double Value){
+            hpDecreaseList.push_back(TriggerDecreaseHP(PRIORITY_ACTTACK,[ptr,superimpose](Unit *trigger,AllyUnit *target,double value){
                 if(!target->isSameName(ptr))return;
                 if(isHaveToAddBuff(ptr,"Blade_LC_Mark")){
-                            buffSingle(ptr,{{Stats::DMG,AType::None,(20.0 + 4*superimpose)}});
+                            buffSingle(ptr,{{Stats::DMG,AType::NONE,(20.0 + 4*superimpose)}});
                 }
                 
             }));
-            AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyAttackAction> &act){
-                if(!act->Attacker->isSameName(ptr))return;
+            afterAttackActionList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY,[ptr,superimpose](shared_ptr<AllyAttackAction> &act){
+                if(!act->attacker->isSameName(ptr))return;
                 if(ptr->getBuffCheck("Blade_LC_Mark")){
-                    buffSingle(ptr,{{Stats::DMG,AType::None,-(20.0 + 4*superimpose)}});
+                    buffSingle(ptr,{{Stats::DMG,AType::NONE,-(20.0 + 4*superimpose)}});
                     ptr->buffCheck["Blade_LC_Mark"] = 0;
                 }
             }));

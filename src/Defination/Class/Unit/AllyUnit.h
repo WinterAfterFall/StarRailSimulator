@@ -17,7 +17,7 @@ public:
     double baseHp;
     double baseDef;
     double baseTaunt = 0;
-    ElementType Element_type;
+    ElementType elementType;
     // * 
     double totalATK;    
     double totalHP;     
@@ -42,11 +42,11 @@ public:
     unordered_map<string,CharUnit*> buffAllyTarget;
 #pragma endregion
 
-    int defaultCharNum = Main_dps_num;
+    int defaultCharNum = mainDpsNum;
     int defaultMemoNum = 0;
-    int currentCharNum = Main_dps_num;
+    int currentCharNum = mainDpsNum;
     int currentMemoNum = 0;
-    int Enemy_target_num = Main_Enemy_num;
+    int enemyTargetNum = mainEnemyNum;
 
 
 #pragma endregion
@@ -74,19 +74,19 @@ public:
     
 
     bool isSameName(AllyUnit *ptr){
-        if(this->Atv_stats->Name == ptr->Atv_stats->Name)return true;
+        if(this->atvStats->name == ptr->atvStats->name)return true;
         return false;
     }
     bool isSameName(string name){
-        if(this->Atv_stats->Name == name)return true;
+        if(this->atvStats->name == name)return true;
         return false;
     }
     bool isSameNum(AllyUnit *ptr){
-        if(this->Atv_stats->num == ptr->Atv_stats->num)return true;
+        if(this->atvStats->num == ptr->atvStats->num)return true;
         return false;
     }
     bool isSameNum(int num){
-        if(this->Atv_stats->num == num)return true;
+        if(this->atvStats->num == num)return true;
         return false;
     }
 
@@ -163,7 +163,7 @@ public:
     #pragma region Declaration
     
     void summon(double percent){
-        this->status = UnitStatus::Alive;
+        this->status = UnitStatus::ALIVE;
         this->currentHP = percent/100*this->totalHP;
         this->resetATV();
     }
@@ -182,10 +182,10 @@ public:
     //TargetChoose.h
 
     //Healing
-    void RestoreHP(HealSrc main,HealSrc adjacent,HealSrc other);
-    void RestoreHP(AllyUnit *target,HealSrc Healptr);
-    void RestoreHP(HealSrc healSrc);
-    void RestoreHP(AllyUnit *target,HealSrc main,HealSrc other);
+    void restoreHP(HealSrc main,HealSrc adjacent,HealSrc other);
+    void restoreHP(AllyUnit *target,HealSrc healPtr);
+    void restoreHP(HealSrc healSrc);
+    void restoreHP(AllyUnit *target,HealSrc main,HealSrc other);
     /*-----------------Print-----------------*/
     //PrintStats.h
     void printAtkStats();

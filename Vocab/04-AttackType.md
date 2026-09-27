@@ -6,7 +6,7 @@
 > - **`actionTypeList`** = *แกน trigger* — ใช้ตอบว่า "action นี้นับเป็นอะไร" สำหรับ trigger/เงื่อนไข
 >   (เช่น "หลังใช้ Ultimate ให้..." จะดูจากลิสต์นี้)
 > - **`damageTypeList`** = *แกน buff lookup* — ใช้ตอบว่า "ก้อนดาเมจนี้กินบัฟตัวไหนได้บ้าง"
->   (เช่น `Stats_type[DMG][Ult]` จะบวกเมื่อ `Ult` อยู่ในลิสต์นี้)
+>   (เช่น `statsType[DMG][ULT]` จะบวกเมื่อ `ULT` อยู่ในลิสต์นี้)
 >
 > ปกติสองลิสต์นี้**เท่ากัน** มีแค่เคสพิเศษ (DoT, Joint Attack, Super Break, memo skill) ที่ต่างกัน
 
@@ -18,9 +18,9 @@
 |---|---|---|---|---|
 | **Basic ATK** | `BA` | โจมตีปกติ | **+1** | +20 (มาตรฐาน) |
 | **Skill** | `SKILL` | สกิล | **−1** | +30 (มาตรฐาน) |
-| **Ultimate** | `Ult` | อัลติเมท | 0 | +5 หลังใช้ |
-| **Technique** | `Technique` | เทคนิค (ใช้ก่อนเข้าสู้ นอกสนามรบ) | 0 | ใช้ Technique Point |
-| **Talent** | `Talent` | ทาเลนต์ (passive / ท่าที่ยิงเองอัตโนมัติ) | 0 | แล้วแต่ท่า |
+| **Ultimate** | `ULT` | อัลติเมท | 0 | +5 หลังใช้ |
+| **Technique** | `TECHNIQUE` | เทคนิค (ใช้ก่อนเข้าสู้ นอกสนามรบ) | 0 | ใช้ Technique Point |
+| **Talent** | `TALENT` | ทาเลนต์ (passive / ท่าที่ยิงเองอัตโนมัติ) | 0 | แล้วแต่ท่า |
 | **Enhanced Basic ATK** | `BA` (+ flag) | Basic ATK เวอร์ชันอัป (เช่น DHIL, RMC) | มักไม่ได้ SP | ต่างจากปกติ |
 | **Assist Skill** ❓ | ยังไม่มี | สกิลช่วยแบบใหม่ (v4.4 — Himeko • Nova) | ❓ | ❓ |
 
@@ -32,30 +32,30 @@
 
 | ชื่อในเกม | โค้ด (`AType`) | ไทย | คริตได้? | ลด Toughness? |
 |---|---|---|---|---|
-| **Follow-up ATK (FuA)** | `Fua` | โจมตีตาม — ยิงนอกเทิร์นตัวเอง | ✅ | ✅ |
-| **Additional DMG** | `Addtional` | ดาเมจเสริม — ไม่ใช่ "การโจมตี" | ✅ | ❌ |
-| **DoT (Damage over Time)** | `Dot` | ดาเมจต่อเนื่องตอนต้นเทิร์นศัตรู | ❌ | ❌ |
-| **Break DMG** | `Break` | ดาเมจตอนทำ Weakness Break | ❌ | — |
+| **Follow-up ATK (FuA)** | `FUA` | โจมตีตาม — ยิงนอกเทิร์นตัวเอง | ✅ | ✅ |
+| **Additional DMG** | `ADDTIONAL` | ดาเมจเสริม — ไม่ใช่ "การโจมตี" | ✅ | ❌ |
+| **DoT (Damage over Time)** | `DOT` | ดาเมจต่อเนื่องตอนต้นเทิร์นศัตรู | ❌ | ❌ |
+| **Break DMG** | `BREAK` | ดาเมจตอนทำ Weakness Break | ❌ | — |
 | **Super Break DMG** | `SPB` | Super Break — ดาเมจพิเศษตอนตีศัตรูที่ Broken แล้ว | ❌ | — |
-| **Memosprite DMG** | `Summon` | ดาเมจจาก memosprite | ✅ | ✅ |
-| **Elation DMG** | `ElationDMG` | ดาเมจชนิด Elation (v4.0) | ✅ | ❌ |
-| **Elation Skill** | `ElationSkill` | ท่าของสาย Elation ที่ยิงจาก Punchline | ✅ | ❌ |
-| **True DMG** | ไม่มี `AType` — ใช้ `Cal_DamageNote()` | ดาเมจแยก = % ของดาเมจก้อนแม่ ไม่ผ่านสูตรเลย | ❌ | ❌ |
+| **Memosprite DMG** | `SUMMON` | ดาเมจจาก memosprite | ✅ | ✅ |
+| **Elation DMG** | `ELATION_DMG` | ดาเมจชนิด Elation (v4.0) | ✅ | ❌ |
+| **Elation Skill** | `ELATION_SKILL` | ท่าของสาย Elation ที่ยิงจาก Punchline | ✅ | ❌ |
+| **True DMG** | ไม่มี `AType` — ใช้ `calDamageNote()` | ดาเมจแยก = % ของดาเมจก้อนแม่ ไม่ผ่านสูตรเลย | ❌ | ❌ |
 
-> ⚠️ **`Addtional` สะกดผิดในโค้ด** (ควรเป็น *Additional*) — เขียนตามนี้เวลาเรียก enum
+> ⚠️ **`ADDTIONAL` สะกดผิดในโค้ด** (ควรเป็น *Additional*) — เขียนตามนี้เวลาเรียก enum
 
-> **True DMG ไม่ใช่ `AType`** — มันคือ "ตัวคูณที่แยกยอดออกมาเป็นดาเมจก้อนใหม่" ไม่ใช่ชนิดการโจมตี wiki เรียกว่า *not considered an attack* → เอนจินจึงบันทึกตรงเข้าสมุดด้วย `Cal_DamageNote(act, src, recv, damage, ratio, name)` (`CalDamageNote.h:68`) ไม่ผ่าน `Attack()`/`CalDamage` เลย · งอกได้จากดาเมจทุกชนิด (crit / non-crit / DoT / Break / SPB) · ย้ายเป้าได้ (`src` ≠ `recv`) เช่น Tribbie E1 — รายละเอียดเต็มที่ `docs/engine-reference/instructor/Function/Calculate/CalDamageNote.md`
+> **True DMG ไม่ใช่ `AType`** — มันคือ "ตัวคูณที่แยกยอดออกมาเป็นดาเมจก้อนใหม่" ไม่ใช่ชนิดการโจมตี wiki เรียกว่า *not considered an attack* → เอนจินจึงบันทึกตรงเข้าสมุดด้วย `calDamageNote(act, src, recv, damage, ratio, name)` (`CalDamageNote.h:68`) ไม่ผ่าน `attack()`/`CalDamage` เลย · งอกได้จากดาเมจทุกชนิด (crit / non-crit / DoT / Break / SPB) · ย้ายเป้าได้ (`src` ≠ `recv`) เช่น Tribbie E1 — รายละเอียดเต็มที่ `docs/engine-reference/instructor/Function/Calculate/CalDamageNote.md`
 
 ### กฎเคสพิเศษ (สรุปจาก review ของโปรเจกต์นี้)
 
 | เคส | `actionTypeList` | `damageTypeList` | เหตุผล |
 |---|---|---|---|
-| **DoT** | `Dot` | `Dot` (+ธาตุ) | DoT ไม่นับเป็น "attack" → ไม่ trigger on-attack |
+| **DoT** | `DOT` | `DOT` (+ธาตุ) | DoT ไม่นับเป็น "attack" → ไม่ trigger on-attack |
 | **Joint Attack** | ของผู้ริเริ่ม | ของ**ทุกคน**ที่ร่วมโจมตี | บัฟของแต่ละคนต้องเข้าก้อนดาเมจของตัวเอง |
 | **Super Break** | `SPB` | `SPB` + type ของ hit ที่ทำให้เกิด | SPB เกาะบน hit ปกติ |
-| **Memosprite Skill** | `Summon` | `Summon` + `SKILL` ❓ | memo skill นับเป็นสกิลของ memo ไม่ใช่ของเจ้าของ |
+| **Memosprite Skill** | `SUMMON` | `SUMMON` + `SKILL` ❓ | memo skill นับเป็นสกิลของ memo ไม่ใช่ของเจ้าของ |
 | **Enhanced BA** | `BA` | `BA` | ยังนับเป็น Basic ATK ทุกประการ |
-| **Break DMG** | `Break` | `Break` (+ธาตุที่ทำ Break) | ไม่คริต ไม่กินบัฟ CD |
+| **Break DMG** | `BREAK` | `BREAK` (+ธาตุที่ทำ Break) | ไม่คริต ไม่กินบัฟ CD |
 
 ---
 
@@ -63,16 +63,16 @@
 
 | ชื่อในเกม | โค้ด (`AType` / `BreakSEType`) | ธาตุที่ทำให้เกิด | ผล |
 |---|---|---|---|
-| **Bleed** | `Bleed` | Physical | DoT ตาม **Max HP ศัตรู** (มีเพดาน) |
-| **Burn** | `Burn` | Fire | DoT ตาม ATK ผู้ทำ Break |
-| **Shock** | `Shock` | Lightning | DoT ตาม ATK ผู้ทำ Break |
-| **Wind Shear** | `WindShear` | Wind | DoT ซ้อนได้สูงสุด **5 ชั้น** |
-| **Freeze** | `Freeze` | Ice | ข้ามเทิร์น + โดนดาเมจตอนละลาย |
-| **Entanglement** | `Entanglement` | Quantum | ดีเลย์ + ดาเมจตามจำนวนครั้งที่ถูกตีตอนติดสถานะ |
-| **Imprisonment** | `BreakSEType::Imprisonment` | Imaginary | ดีเลย์ + **ลด SPD 10%** |
+| **Bleed** | `BLEED` | Physical | DoT ตาม **Max HP ศัตรู** (มีเพดาน) |
+| **Burn** | `BURN` | Fire | DoT ตาม ATK ผู้ทำ Break |
+| **Shock** | `SHOCK` | Lightning | DoT ตาม ATK ผู้ทำ Break |
+| **Wind Shear** | `WIND_SHEAR` | Wind | DoT ซ้อนได้สูงสุด **5 ชั้น** |
+| **Freeze** | `FREEZE` | Ice | ข้ามเทิร์น + โดนดาเมจตอนละลาย |
+| **Entanglement** | `ENTANGLEMENT` | Quantum | ดีเลย์ + ดาเมจตามจำนวนครั้งที่ถูกตีตอนติดสถานะ |
+| **Imprisonment** | `BreakSEType::IMPRISONMENT` | Imaginary | ดีเลย์ + **ลด SPD 10%** |
 
-> `enum class DotType` แยกอีกชุด: `Shock, Bleed, Burn, WindShear, General`
-> (`General` = DoT ที่ไม่ผูกธาตุ เช่นที่มาจาก Light Cone)
+> `enum class DotType` แยกอีกชุด: `SHOCK, BLEED, BURN, WIND_SHEAR, GENERAL`
+> (`GENERAL` = DoT ที่ไม่ผูกธาตุ เช่นที่มาจาก Light Cone)
 
 ---
 
@@ -82,12 +82,12 @@
 
 | ชื่อในเกม | โค้ด | ไทย |
 |---|---|---|
-| **Single Target** | `Single` | ตีเป้าเดียว |
-| **Blast** | `Blast` | ตีเป้าหลัก + ซ้าย/ขวาข้างละ 1 (3 ตัว) |
-| **AoE** | `Aoe` | ตีศัตรูทุกตัวในสนาม |
-| **Bounce** | `Bounce` | เด้งสุ่มหลายครั้ง (เช่น Serval, Sampo) |
+| **Single Target** | `SINGLE` | ตีเป้าเดียว |
+| **Blast** | `BLAST` | ตีเป้าหลัก + ซ้าย/ขวาข้างละ 1 (3 ตัว) |
+| **AoE** | `AOE` | ตีศัตรูทุกตัวในสนาม |
+| **Bounce** | `BOUNCE` | เด้งสุ่มหลายครั้ง (เช่น Serval, Sampo) |
 
-ตำแหน่งศัตรูที่เกี่ยว: `enum class EnemyType` → `Main` (เป้าหลัก), `Adjacent` (ข้างๆ), `Other` (ที่เหลือ)
+ตำแหน่งศัตรูที่เกี่ยว: `enum class EnemyType` → `MAIN` (เป้าหลัก), `ADJACENT` (ข้างๆ), `OTHER` (ที่เหลือ)
 
 ---
 
@@ -99,7 +99,7 @@
 | `HP` | สเกลตาม Max HP | Blade, Mydei, Castorice |
 | `DEF` | สเกลตาม DEF | Aventurine, Fu Xuan, March 7th |
 | `CONST` | ค่าคงที่ ไม่สเกล | ดาเมจ fix บางท่า |
-| `Elation` | สเกลตามสแตต Elation | สาย Elation |
+| `ELATION` | สเกลตามสแตต Elation | สาย Elation |
 
 | โค้ด (`HealSrcType`) | ความหมาย |
 |---|---|
@@ -115,7 +115,7 @@
 | โค้ด | ใช้ทำอะไร |
 |---|---|
 | `TEMP` | ที่พักค่าชั่วคราว — ใช้จำว่าบัฟนี้ให้ไปเท่าไร เพื่อถอนคืนตรงจำนวน |
-| `None` | "ทุกชนิดการโจมตี" — บัฟรวมที่ไม่แยกชนิด |
+| `NONE` | "ทุกชนิดการโจมตี" — บัฟรวมที่ไม่แยกชนิด |
 | `ERROR` | ค่าที่ไม่ควรมี ใช้ดัก bug |
 
 ---

@@ -81,7 +81,7 @@ Wind DMG +22.4% · CRIT DMG +24% · Effect RES +10%
 - **Ult CRIT DMG buff**: 0.16 × (CRIT DMG ของ Bronya) + 20% — ผูกกับ CD stat ของ Bronya ต้อง snapshot/re-eval
 - **Talent**: BA → self advance 30%
 - **A2**: BA CRIT Rate = 100% (มักใช้กับ Bronya-as-DPS niche / E4)
-- โค้ด: `Start_game_List` (`Bronya.h:65`, `Bronyaptr`) — A4 DEF buff + technique ATK buff
+- โค้ด: `startGameList` (`Bronya.h:65`, `Bronyaptr`) — A4 DEF buff + technique ATK buff
 - driver logic ในโค้ดมี `DriverType` — Bronya skill = pull target ให้ action
 
 ### แหล่งอ้างอิง

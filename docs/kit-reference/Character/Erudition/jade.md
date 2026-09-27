@@ -86,8 +86,8 @@ ATK +18% · Quantum DMG +22.4% · Effect RES +10%
 - **Pawned Asset** (0–50): +5/FUA, +15 Technique, A2 (+1 enter, +3 Debt Collector turn) → CRIT DMG 2.4%/stack, A6 ATK 0.5%/stack, E2 CRIT Rate
 - **Debt Collector**: SPD +30 buff (ไม่ได้ถ้าเป็น Jade), heal-tax 2% Max HP/attack, Jade Additional DMG 25% ต่อ hit
 - **Ult enhance**: next 2 FUA +80% multiplier
-- **A4**: action advance 50% ต้นการต่อสู้ (`Start_game_List`)
-- โค้ด: `Start_game_List` (`Jade.h:70`) มี addToActionBar + self-flush `Deal_damage()` — น่าจะเป็น technique DMG
+- **A4**: action advance 50% ต้นการต่อสู้ (`startGameList`)
+- โค้ด: `startGameList` (`Jade.h:70`) มี addToActionBar + self-flush `dealDamage()` — น่าจะเป็น technique DMG
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/jade — kit tab (review/calc patch 3.0, profile 01/Jun/2026)

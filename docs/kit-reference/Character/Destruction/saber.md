@@ -90,7 +90,7 @@ Wind DMG +22.4% · CRIT Rate +12% · HP +10%
 - **Skill conditional**: "ถ้ากิน Core Resonance หลัง Skill แล้ว energy เต็มพอดี" → Skill multiplier +14%/stack (+E2 7%/stack), กิน Core Resonance หมด; ไม่งั้น +3 Core Resonance — เงื่อนไข energy-math สำคัญมาก
 - **Ult** → next BA locked เป็น Enhanced (AoE)
 - **A6 CRIT DMG**: +4% ต่อ Core Resonance ที่เคยได้ (สะสมทั้งเกม stack 8)
-- โค้ด: `Start_game_List` (energy 10, `Mana Flow` buff check, `CoreResonance(1)`; Technique → `CoreResonance(2)` + ATK% 35 buff)
+- โค้ด: `startGameList` (energy 10, `Mana Flow` buff check, `CoreResonance(1)`; Technique → `CoreResonance(2)` + ATK% 35 buff)
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/saber — kit tab (review/calc patch 3.4, profile 01/Jun/2026)

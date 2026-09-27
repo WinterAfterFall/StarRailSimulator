@@ -2,13 +2,13 @@
 namespace Destruction_Lightcone{
     function<void(CharUnit *ptr)> BP2(int superimpose){
         return [=](CharUnit *ptr) {
-            ptr->SetAllyBaseStats(1058,529,331);
-            ptr->Light_cone.Name = "A Trail of Bygone Blood";
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr){
+            ptr->setAllyBaseStats(1058,529,331);
+            ptr->lightCone.name = "A Trail of Bygone Blood";
+            resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr){
                         
-                ptr->Stats_type[Stats::CR][AType::None]+=10 + (2*superimpose);
-                ptr->Stats_type[Stats::DMG][AType::SKILL]+=20 + (4*superimpose);
-                ptr->Stats_type[Stats::DMG][AType::Ult]+=20 + (4*superimpose);
+                ptr->statsType[Stats::CR][AType::NONE]+=10 + (2*superimpose);
+                ptr->statsType[Stats::DMG][AType::SKILL]+=20 + (4*superimpose);
+                ptr->statsType[Stats::DMG][AType::ULT]+=20 + (4*superimpose);
                 
                 }
             ));

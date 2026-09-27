@@ -140,6 +140,6 @@
 
 - ไฟล์ [`PairSet.h`](../src/Defination/Data/Relic/PairSet.h) ใช้เก็บ "เซ็ต 2 ชิ้น" แบบทั่วไป
   โดยเลือกผ่าน `enum class PairSetType` ใน [`RelicEnum.h`](../src/Enum/RelicEnum.h):
-  `Spd_P, ATK, HP, DEF, DMG, CritRate, CritDam, Fua, BE, HealOut, ERROR`
+  `SPD_P, ATK, HP, DEF, DMG, CRIT_RATE, CRIT_DAM, FUA, BE, HEAL_OUT, ERROR`
   → ใช้จำลอง 2-piece ของเซ็ตไหนก็ได้ที่ให้สแตตดิบ โดยไม่ต้องเขียนไฟล์แยกทุกเซ็ต
 - ชื่อไฟล์บางอันใช้ชื่อ **ชิ้นส่วนหัว** แทนชื่อเซ็ต (เช่น `Eagle_Beaked_Helmet.h` = Eagle of Twilight Line)

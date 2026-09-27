@@ -1,11 +1,11 @@
 #include "../include.h"
 
 namespace Kafka{
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
 
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
-        CharUnit *ptr = SetCharBasicStats(100,120,120,E,ElementType::Lightning,Path::Nihility,"Kafka",UnitType::Standard);
-        ptr->SetAllyBaseStats(1087,679,485);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = setCharBasicStats(100,120,120,eidolon,ElementType::LIGHTNING,Path::NIHILITY,"Kafka",UnitType::STANDARD);
+        ptr->setAllyBaseStats(1087,679,485);
 
         //substats
         ptr->pushSubstats(Stats::ATK_P);
@@ -16,7 +16,7 @@ namespace Kafka{
 
         
         //func
-        LC(ptr);
+        lc(ptr);
         Relic(ptr);
         Planar(ptr);
         
@@ -31,13 +31,13 @@ namespace Kafka{
         ptr->setAdjust("Kafka A2 Robin",1);
         #pragma region Ability
 
-        function<void()> BA = [ptr,kafka]() {
+        function<void()> ba = [ptr,kafka]() {
             genSkillPoint(kafka,1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::Single,"Kafka BA",
+            make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::SINGLE,"Kafka BA",
             [ptr,kafka](shared_ptr<AllyAttackAction> &act){
-                Increase_energy(ptr,20);
-                Attack(act);
+                increaseEnergy(ptr,20);
+                attack(act);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,100,10)
@@ -45,16 +45,16 @@ namespace Kafka{
             act->addToActionBar();
         };
 
-        function<void()> Skill = [ptr,kafka]() {
+        function<void()> skill = [ptr,kafka]() {
             genSkillPoint(kafka,-1);
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"Kafka Skill",
+            make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::BLAST,"Kafka Skill",
             [ptr,kafka](shared_ptr<AllyAttackAction> &act){
-                Increase_energy(ptr,30);
-                Attack(act);
+                increaseEnergy(ptr,30);
+                attack(act);
                 for(auto &each : act->targetList){
-                    if(each->Target_type == EnemyType::Main)Dot_trigger(75,each,DotType::General);
-                    else Dot_trigger(50,each,DotType::General);
+                    if(each->targetType == EnemyType::MAIN)dotTrigger(75,each,DotType::GENERAL);
+                    else dotTrigger(50,each,DotType::GENERAL);
                 }
             });
             act->addDamageIns(
@@ -64,44 +64,44 @@ namespace Kafka{
             act->addToActionBar();
         };
 
-        function<void()> Fua = [ptr,kafka]() {
+        function<void()> fua = [ptr,kafka]() {
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Fua,ptr,TraceType::Single,"Kafka Fua",
+            make_shared<AllyAttackAction>(AType::FUA,ptr,TraceType::SINGLE,"Kafka Fua",
             [ptr,kafka](shared_ptr<AllyAttackAction> &act){
-                Increase_energy(ptr,10);
-                Attack(act);
+                increaseEnergy(ptr,10);
+                attack(act);
                 for(auto &each : act->targetList){
-                    if(ptr->Eidolon>=6)dotSingleApply(kafka,each,{DotType::Shock},"Kafka Shock",3);
-                    dotSingleApply(kafka,each,{DotType::Shock},"Kafka Shock",2);
-                    Dot_trigger(80,each,DotType::General);
+                    if(ptr->eidolon>=6)dotSingleApply(kafka,each,{DotType::SHOCK},"Kafka Shock",3);
+                    dotSingleApply(kafka,each,{DotType::SHOCK},"Kafka Shock",2);
+                    dotTrigger(80,each,DotType::GENERAL);
                 }
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,140,10)
             );
             act->addToActionBar();
-            Deal_damage();
+            dealDamage();
         };
 
         #pragma endregion
-        ptr->Turn_func = [ptr,kafka,Skill]() {
-            Skill();
+        ptr->turnFunc = [ptr,kafka,skill]() {
+            skill();
         };
         
         ptr->addUltCondition([ptr]() -> bool {
             return true;
         });
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_BUFF, ptr, [kafka](CharUnit *ptr) {
+        ultimateList.push_back(TriggerByYourSelfFunc(PRIORITY_BUFF, ptr, [kafka](CharUnit *ptr) {
             shared_ptr<AllyAttackAction> act =
-            make_shared<AllyAttackAction>(AType::Ult,ptr,TraceType::Aoe,"Kafka Ult",
+            make_shared<AllyAttackAction>(AType::ULT,ptr,TraceType::AOE,"Kafka Ult",
             [ptr,kafka](shared_ptr<AllyAttackAction> &act){
                 CharCmd::printUltStart("Kafka");
-                Attack(act);
+                attack(act);
                 for(auto &each : act->targetList){
-                    if(ptr->Eidolon>=6)dotSingleApply(kafka,each,{DotType::Shock},"Kafka Shock",3);
-                    dotSingleApply(kafka,each,{DotType::Shock},"Kafka Shock",2);
-                    Dot_trigger(120,each,DotType::General);
+                    if(ptr->eidolon>=6)dotSingleApply(kafka,each,{DotType::SHOCK},"Kafka Shock",3);
+                    dotSingleApply(kafka,each,{DotType::SHOCK},"Kafka Shock",2);
+                    dotTrigger(120,each,DotType::GENERAL);
                 }
                 kafka->addStack("Kafka Talent",1);
             });
@@ -114,34 +114,34 @@ namespace Kafka{
 
         }));
 
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_type[Stats::ATK_P][AType::None] += 28;
-            ptr->Stats_type[Stats::EHR][AType::None] += 18;
-            ptr->Stats_type[Stats::HP_P][AType::None] += 10;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsType[Stats::ATK_P][AType::NONE] += 28;
+            ptr->statsType[Stats::EHR][AType::NONE] += 18;
+            ptr->statsType[Stats::HP_P][AType::NONE] += 10;
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+        whenOnFieldList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             for(auto &each : charList){
                 if(ptr->getAdjust("Kafka A2 " + each->getName())){
-                    buffSingleChar(each,{{Stats::ATK_P,AType::None,100}});
+                    buffSingleChar(each,{{Stats::ATK_P,AType::NONE,100}});
                     each->newEhrRequire(75);
                 }
             }
 
-            if(ptr->Eidolon>=2){
-                buffAllAlly({{Stats::DMG,AType::Dot,33}});
+            if(ptr->eidolon>=2){
+                buffAllAlly({{Stats::DMG,AType::DOT,33}});
             }
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [kafka](CharUnit *ptr) {
-            if(ptr->Technique){
+        startGameList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [kafka](CharUnit *ptr) {
+            if(ptr->technique){
                 shared_ptr<AllyAttackAction> act = 
-                make_shared<AllyAttackAction>(AType::Technique,ptr,TraceType::Aoe,"Kafka Tech",
+                make_shared<AllyAttackAction>(AType::TECHNIQUE,ptr,TraceType::AOE,"Kafka Tech",
                 [ptr,kafka](shared_ptr<AllyAttackAction> &act){
-                    Attack(act);
+                    attack(act);
                     for(auto &each : act->targetList){
-                    if(ptr->Eidolon>=6)dotSingleApply(kafka,each,{DotType::Shock},"Kafka Shock",3);
-                    dotSingleApply(kafka,each,{DotType::Shock},"Kafka Shock",2);
+                    if(ptr->eidolon>=6)dotSingleApply(kafka,each,{DotType::SHOCK},"Kafka Shock",3);
+                    dotSingleApply(kafka,each,{DotType::SHOCK},"Kafka Shock",2);
                     }
                 });
                 act->addDamageIns(
@@ -150,49 +150,49 @@ namespace Kafka{
                     DmgSrc(DmgSrcType::ATK,50,20)
                 );
                 act->addToActionBar();
-                Deal_damage();
+                dealDamage();
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [kafka](CharUnit *ptr) {
+        afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [kafka](CharUnit *ptr) {
             if(turn->isSameName("Kafka"))kafka->addStack("Kafka Talent",1);
             Enemy *enemy = turn->canCastToEnemy();
             if(enemy&&isDebuffEnd(enemy,"Kafka Shock")){
-                dotRemove(enemy,{DotType::Shock});
+                dotRemove(enemy,{DotType::SHOCK});
             }
         }));
 
-        AfterAttack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,Fua,kafka](shared_ptr<AllyAttackAction> &act) {
+        afterAttackList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr,fua,kafka](shared_ptr<AllyAttackAction> &act) {
             if(!act->isSameName("Kafka")&&kafka->getStack("Kafka Talent")>0){
                 kafka->addStack("Kafka Talent",-1);
-                Fua();
+                fua();
             }
         }));
         
-        Dot_List.push_back(TriggerDot_Func(PRIORITY_ACTTACK, [ptr,kafka](Enemy* target, double Dot_ratio, DotType Dot_type) {
+        dotList.push_back(TriggerDotFunc(PRIORITY_ACTTACK, [ptr,kafka](Enemy* target, double dotRatio, DotType dotType) {
             if (!target->getDebuff("Kafka Shock")) return;
-            if (Dot_type != DotType::General && Dot_type != DotType::Shock) return;
+            if (dotType != DotType::GENERAL && dotType != DotType::SHOCK) return;
             shared_ptr<AllyAttackAction> act = 
-            make_shared<AllyAttackAction>(AType::Shock,ptr,TraceType::Single,"Kafka Shock");
-            if(ptr->Eidolon>=6)act->addDamageIns(DmgSrc(DmgSrcType::ATK,290+156),target);
+            make_shared<AllyAttackAction>(AType::SHOCK,ptr,TraceType::SINGLE,"Kafka Shock");
+            if(ptr->eidolon>=6)act->addDamageIns(DmgSrc(DmgSrcType::ATK,290+156),target);
             else act->addDamageIns(DmgSrc(DmgSrcType::ATK,290),target);
-            act->multiplyDmg(Dot_ratio);
-            if(ptr->Eidolon>=4)Increase_energy(ptr,2);
-            Attack(act);
+            act->multiplyDmg(dotRatio);
+            if(ptr->eidolon>=4)increaseEnergy(ptr,2);
+            attack(act);
         }));
 
-        if(ptr->Eidolon>=1){
-        BeforeAttack_List.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,Fua,kafka](shared_ptr<AllyAttackAction> &act) {
+        if(ptr->eidolon>=1){
+        beforeAttackList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr,fua,kafka](shared_ptr<AllyAttackAction> &act) {
             if(act->isSameName("Kafka")){
                 for(auto &each : act->targetList){
-                    debuffSingleApply(kafka,each,{{Stats::VUL,AType::Dot,30}},"Kafka E1",2);
+                    debuffSingleApply(kafka,each,{{Stats::VUL,AType::DOT,30}},"Kafka E1",2);
                 }
             }
         }));
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [kafka](CharUnit *ptr) {
+        afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [kafka](CharUnit *ptr) {
             Enemy *enemy = turn->canCastToEnemy();
             if(enemy&&isDebuffEnd(enemy,"Kafka E1")){
-                debuffSingle(enemy,{{Stats::VUL,AType::Dot,-30}});
+                debuffSingle(enemy,{{Stats::VUL,AType::DOT,-30}});
             }
         }));
         }

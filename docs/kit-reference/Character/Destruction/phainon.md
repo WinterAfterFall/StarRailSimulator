@@ -119,7 +119,7 @@ CRIT Rate +12% · CRIT DMG +37.3% · SPD +5
 - **Final Hit** multiplier 960% base, ลด 12.5% ต่อ extra turn ที่เหลือ (ยิงเร็ว = แรงกว่า)
 - **Scourge** (0–4): ใช้กับ "Foundation" — 4 instance × 45% ต่อ stack + bonus 450% ถ้าครบ 4
 - **Khaslana transform buff**: ATK +80%, Max HP +270%, heal 20% หลัง attack
-- โค้ด: `Start_game_List` (E→genSkillPoint, Scourge(2), energy 25 ทีม, CoreFlame(3), E6 CoreFlame(6)) + `Start_wave_List` (Technique 200% AoE, self-flush)
+- โค้ด: `startGameList` (E→genSkillPoint, Scourge(2), energy 25 ทีม, CoreFlame(3), E6 CoreFlame(6)) + `startWaveList` (Technique 200% AoE, self-flush)
 - `CoreFlame`, `Scourge` เป็น callback ที่รับ int — sim ต้อง track resource เอง
 
 ### แหล่งอ้างอิง

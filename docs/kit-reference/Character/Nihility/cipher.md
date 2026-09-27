@@ -87,8 +87,8 @@ Quantum DMG +14.4% · SPD +14 · Effect HIT Rate +10%
 - **Ult burst**: True DMG 25% (single) + 75% (blast, กระจาย) ของ tally → ล้าง tally (E6 คืน 20%)
 - **Patron**: auto-assign HP สูงสุด, หรือ Skill/Ult target; FUA 150% ATK เมื่อเพื่อนตี Patron (1/เทิร์น)
 - **A6**: enemy DMG-taken +40% ทีม (huge global amp)
-- โค้ด: `Start_game_List` priority `PRIORITY_Last` (`Cipher.h:132`, `cph`) มี addToActionBar + `Deal_damage()` (technique attack self-flush) — **หมายเหตุ**: ตัวนี้เป็น `PRIORITY_Last` จงใจให้รันหลัง technique อื่น
-- `BeforeAttackAction_List` มี "Cipher Fua" trigger (E2 vuln, Patron debuff)
+- โค้ด: `startGameList` priority `PRIORITY_LAST` (`Cipher.h:132`, `cph`) มี addToActionBar + `dealDamage()` (technique attack self-flush) — **หมายเหตุ**: ตัวนี้เป็น `PRIORITY_LAST` จงใจให้รันหลัง technique อื่น
+- `beforeAttackActionList` มี "Cipher Fua" trigger (E2 vuln, Patron debuff)
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/cipher — kit tab (review/calc patch 3.3, profile 01/Jun/2026)

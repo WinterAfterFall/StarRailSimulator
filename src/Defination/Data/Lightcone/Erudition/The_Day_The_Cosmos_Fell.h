@@ -2,12 +2,12 @@
 namespace Erudition_Lightcone{
     function<void(CharUnit *ptr)> Cosmos_Fell(int superimpose){
         return [=](CharUnit *ptr) {
-            ptr->SetAllyBaseStats(953,476,331);
-            ptr->Light_cone.Name = "Cosmos_Fell";
+            ptr->setAllyBaseStats(953,476,331);
+            ptr->lightCone.name = "Cosmos_Fell";
     
-            WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
-                ptr->Stats_type[Stats::ATK_P][AType::None] += 14 + 2*superimpose;
-                ptr->Stats_type[Stats::CD][AType::None] += 15 + 5*superimpose;
+            whenOnFieldList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+                ptr->statsType[Stats::ATK_P][AType::NONE] += 14 + 2*superimpose;
+                ptr->statsType[Stats::CD][AType::NONE] += 15 + 5*superimpose;
             }));
         };
     }

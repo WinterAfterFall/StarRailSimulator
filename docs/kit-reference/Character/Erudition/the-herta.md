@@ -97,7 +97,7 @@ Ice DMG +22.4% · ATK +18% · SPD +5
 - **Inspiration** (0–4): +1/Ult; เปลี่ยน Skill → Hear Me Out; กิน 1/Enhanced Skill
 - **Answer** (0–99, A6): +1 ต่อ Interpretation ที่ยัด → Ult multiplier +1%/stack
 - **Ult**: rearrange stacks + ATK +80%/3t + instant action + Inspiration
-- โค้ด: `Start_game_List` (`The_Herta.h:97`, `Hertaptr`)
+- โค้ด: `startGameList` (`The_Herta.h:97`, `Hertaptr`)
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/the-herta — kit tab (review/calc patch 3.0, profile 01/Jun/2026)

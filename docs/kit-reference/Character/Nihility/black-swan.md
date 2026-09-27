@@ -86,7 +86,7 @@ ATK +28% · Wind DMG +14.4% · Effect HIT Rate +10%
 - **Epiphany (Ult)**: vulnerability +25% (E4 +20%) + Arcana ไม่หาร 2 + double-chance
 - **Talent adjacent**: 180% ATK DoT ให้ข้างเคียงตอน Arcana tick ต้นเทิร์นศัตรู
 - **A6**: DMG amp ทีมจาก EHR ของ BS (cap 72%) — EHR เป็น stat สำคัญ
-- โค้ด: `Start_game_List` (`Black Swan.h:147`, `bs`)
+- โค้ด: `startGameList` (`Black Swan.h:147`, `bs`)
 
 ### แหล่งอ้างอิง
 - https://www.prydwen.gg/star-rail/characters/black-swan — kit tab (review/calc patch 4.0, profile 01/Jun/2026)

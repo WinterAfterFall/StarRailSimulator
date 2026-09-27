@@ -1,4 +1,4 @@
 #include "../include.h"
 namespace EnemyCmd{
-    void setEnemyWeakness(bool Physical,bool Fire,bool Ice,bool Wind,bool Lightning,bool Quantum,bool Imaginary);
+    void setEnemyWeakness(bool physical,bool fire,bool ice,bool wind,bool lightning,bool quantum,bool imaginary);
 }

@@ -1,5 +1,5 @@
-#ifndef Adjust_Define_H
-#define Adjust_Define_H
+#ifndef ADJUST_DEFINE_H
+#define ADJUST_DEFINE_H
 
 #include "CharCmd.h"
 #include "FormulaCheck.h"

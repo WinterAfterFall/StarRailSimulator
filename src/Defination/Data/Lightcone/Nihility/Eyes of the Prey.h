@@ -2,12 +2,12 @@
 namespace Nihility_Lightcone{
     function<void(CharUnit *ptr)> EyesOfThePrey(int superimpose){
         return [=](CharUnit *ptr) {
-            ptr->SetAllyBaseStats(953,476,331);
-            ptr->Light_cone.Name = "Eyes of the Prey";
+            ptr->setAllyBaseStats(953,476,331);
+            ptr->lightCone.name = "Eyes of the Prey";
     
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
-                ptr->Stats_type[Stats::EHR][AType::None] += 15 + superimpose * 5;
-                ptr->Stats_type[Stats::DMG][AType::Dot] += 18 + superimpose * 6;
+            resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+                ptr->statsType[Stats::EHR][AType::NONE] += 15 + superimpose * 5;
+                ptr->statsType[Stats::DMG][AType::DOT] += 18 + superimpose * 6;
             }));
         };
     }

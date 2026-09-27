@@ -1,5 +1,5 @@
-#ifndef Event_Declaration_H
-#define Event_Declaration_H
+#ifndef EVENT_DECLARATION_H
+#define EVENT_DECLARATION_H
 #include "Event.h"
 
 #endif

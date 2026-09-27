@@ -2,40 +2,40 @@
 namespace Nihility_Lightcone{
     function<void(CharUnit *ptr)> Kafka_LC(int superimpose){
         return [=](CharUnit *ptr) {
-            ptr->SetAllyBaseStats(1058,582,463);
-            ptr->Light_cone.Name = "Kafka_LC";
-            string Erode = ptr->getName() + " Erode";
-            Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
-                ptr->Stats_type[Stats::DMG][AType::None] += 20 + 4 * superimpose;
+            ptr->setAllyBaseStats(1058,582,463);
+            ptr->lightCone.name = "Kafka_LC";
+            string erode = ptr->getName() + " Erode";
+            resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose](CharUnit *ptr) {
+                ptr->statsType[Stats::DMG][AType::NONE] += 20 + 4 * superimpose;
             }));
             
-            AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,Erode](shared_ptr<AllyAttackAction> &act) {
+            afterAttackActionList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr,superimpose,erode](shared_ptr<AllyAttackAction> &act) {
                 if(act->isSameOwnerName(ptr)){
-                    buffStackSingle(ptr,{{Stats::SPD_P,AType::None,4.0 + 0.8*superimpose}},1,3,"Kafka LC");
+                    buffStackSingle(ptr,{{Stats::SPD_P,AType::NONE,4.0 + 0.8*superimpose}},1,3,"Kafka LC");
                     for(auto &each : act->targetList ){
-                        if(!each->getDebuff(Erode))dotSingleApply(ptr,each,{DotType::Shock},Erode,1);
+                        if(!each->getDebuff(erode))dotSingleApply(ptr,each,{DotType::SHOCK},erode,1);
                     }
                 }
             }));
 
 
-            After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [superimpose,Erode](CharUnit *ptr) {
+            afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose,erode](CharUnit *ptr) {
                 Enemy *enemy = turn->canCastToEnemy();
                 if(!enemy)return;
 
-                if(isDebuffEnd(enemy,Erode)){
-                    dotRemove(enemy,{DotType::Shock});
+                if(isDebuffEnd(enemy,erode)){
+                    dotRemove(enemy,{DotType::SHOCK});
                 }
             }));
 
-            Dot_List.push_back(TriggerDot_Func(PRIORITY_IMMEDIATELY, [ptr,superimpose,Erode](Enemy* target, double Dot_ratio,DotType Dot_type) {
-                if (Dot_type != DotType::General && Dot_type != DotType::Shock) return;
-                if (target->getDebuff(Erode)){
+            dotList.push_back(TriggerDotFunc(PRIORITY_IMMEDIATELY, [ptr,superimpose,erode](Enemy* target, double dotRatio,DotType dotType) {
+                if (dotType != DotType::GENERAL && dotType != DotType::SHOCK) return;
+                if (target->getDebuff(erode)){
                     shared_ptr<AllyAttackAction> act = 
-                    make_shared<AllyAttackAction>(AType::Shock,ptr,TraceType::Single,Erode);
+                    make_shared<AllyAttackAction>(AType::SHOCK,ptr,TraceType::SINGLE,erode);
                     act->addDamageIns(DmgSrc(DmgSrcType::ATK,50 + 10.0 * superimpose),target);
-                    act->multiplyDmg(Dot_ratio);
-                    Attack(act);
+                    act->multiplyDmg(dotRatio);
+                    attack(act);
                 }
             }));
     

@@ -1,19 +1,19 @@
 #include "../include.h"
 
 namespace FireFly{
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
-    void Skill_func(CharUnit *ptr);
-    void Enchance_Skill_func(CharUnit *ptr);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar);
+    void skillFunc(CharUnit *ptr);
+    void enchanceSkillFunc(CharUnit *ptr);
     vector<BuffClass> combustionBuff(CharUnit *ptr, double sign);
 
 
-    void Setup(int E,function<void(CharUnit *ptr)> LC,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
-        CharUnit *ptr = SetCharBasicStats( 104, 240, 240, E, ElementType::Fire, Path::Destruction, "FireFly", UnitType::Standard);
-        AllyUnit *FFptr = ptr;
-        ptr->SetAllyBaseStats( 814, 523, 776);
+    void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
+        CharUnit *ptr = setCharBasicStats( 104, 240, 240, eidolon, ElementType::FIRE, Path::DESTRUCTION, "FireFly", UnitType::STANDARD);
+        AllyUnit *ffPtr = ptr;
+        ptr->setAllyBaseStats( 814, 523, 776);
 
         //func
-        LC(ptr);
+        lc(ptr);
         Relic(ptr);
         Planar(ptr);
 
@@ -24,17 +24,17 @@ namespace FireFly{
         ptr->setRelicMainStats(Stats::ATK_P,Stats::FLAT_SPD,Stats::ATK_P,Stats::BE);
 
 
-        ptr->Turn_func = [ptr] (){
+        ptr->turnFunc = [ptr] (){
             if(ptr->countdownList[0]->isDeath()){
-                Skill_func(ptr);
+                skillFunc(ptr);
             }else {
-                Enchance_Skill_func(ptr);
+                enchanceSkillFunc(ptr);
             }
         };
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_type[Stats::BE][AType::None] += 37.3;
-            ptr->Stats_type[Stats::RES][AType::None] += 18;
-            ptr->Atv_stats->flatSpeed += 5;
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsType[Stats::BE][AType::NONE] += 37.3;
+            ptr->statsType[Stats::RES][AType::NONE] += 18;
+            ptr->atvStats->flatSpeed += 5;
 
             // relic
 
@@ -42,17 +42,17 @@ namespace FireFly{
 
             // eidolon
             // E2: start with 2 free extra turns (assume 2 kills per fight)
-            if (ptr->Eidolon >= 2) {
+            if (ptr->eidolon >= 2) {
             ptr->stack["FireFly_E2"] = 2;
             }
         }));
 
-        Ultimate_List.push_back(TriggerByYourSelf_Func(PRIORITY_DEBUFF, ptr, [FFptr](CharUnit *ptr) {
-            buffSingle(FFptr,combustionBuff(ptr,1));
+        ultimateList.push_back(TriggerByYourSelfFunc(PRIORITY_DEBUFF, ptr, [ffPtr](CharUnit *ptr) {
+            buffSingle(ffPtr,combustionBuff(ptr,1));
             ptr->setStack("FireFly A2 delay",0);
-            Action_forward(FFptr->Atv_stats.get(), 100);
+            actionForward(ffPtr->atvStats.get(), 100);
             ptr->countdownList[0]->summon();
-            if (ptr->Print)CharCmd::printUltStart("FireFly");
+            if (ptr->print)CharCmd::printUltStart("FireFly");
             }
         ));
         // Ultimate: cannot be used while in Complete Combustion
@@ -61,44 +61,44 @@ namespace FireFly{
         });
 
         // A6: every 10 ATK above 1800 -> BE +0.8%
-        Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,FFptr](AllyUnit *target, Stats StatsType) {
-            if (target->Atv_stats->Name != "FireFly") return;
-            if (StatsType == Stats::ATK_P || StatsType == Stats::FLAT_ATK) {
+        statsAdjustList.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,ffPtr](AllyUnit *target, Stats statsType) {
+            if (target->atvStats->name != "FireFly") return;
+            if (statsType == Stats::ATK_P || statsType == Stats::FLAT_ATK) {
             double temp = 0;
-            temp = floor(((ptr->Stats_type[Stats::ATK_P][AType::None] / 100 * ptr->baseAtk + ptr->baseAtk) + ptr->Stats_type[Stats::FLAT_ATK][AType::None] - 1800) / 10) * 0.8;
+            temp = floor(((ptr->statsType[Stats::ATK_P][AType::NONE] / 100 * ptr->baseAtk + ptr->baseAtk) + ptr->statsType[Stats::FLAT_ATK][AType::NONE] - 1800) / 10) * 0.8;
             if (temp <= 0)temp = 0;
-            buffSingle(FFptr,
+            buffSingle(ffPtr,
                 {
-                    {Stats::BE,AType::TEMP,temp - FFptr->buffNote["FireFly_ModuleY"]},
-                    {Stats::BE,AType::None,temp - FFptr->buffNote["FireFly_ModuleY"]}
+                    {Stats::BE,AType::TEMP,temp - ffPtr->buffNote["FireFly_ModuleY"]},
+                    {Stats::BE,AType::NONE,temp - ffPtr->buffNote["FireFly_ModuleY"]}
                 });
             ptr->buffNote["FireFly_ModuleY"] = temp;
 
             }
         }));
 
-        Toughness_break_List.push_back(TriggerBySomeAlly_Func(PRIORITY_IMMEDIATELY, [ptr] (Enemy *target, AllyUnit *Breaker) {
-            if (ptr->Atv_stats->num != Breaker->Atv_stats->num || ptr->countdownList[0]->isDeath()) return;
-            if (ptr->Eidolon >= 2) {
+        toughnessBreakList.push_back(TriggerBySomeAllyFunc(PRIORITY_IMMEDIATELY, [ptr] (Enemy *target, AllyUnit *breaker) {
+            if (ptr->atvStats->num != breaker->atvStats->num || ptr->countdownList[0]->isDeath()) return;
+            if (ptr->eidolon >= 2) {
                 ptr->stack["FireFly_E2"]++;
             }
             // A2: Weakness Break during Combustion delays the countdown by 10% (max 3 per Combustion)
             if (ptr->getStack("FireFly A2 delay") < 3) {
                 ptr->addStack("FireFly A2 delay",1);
-                Action_forward(ptr->countdownList[0].get(), -10);
+                actionForward(ptr->countdownList[0].get(), -10);
             }
             }
         ));
 
-        Start_wave_List.push_back(TriggerByYourSelf_Func(PRIORITY_ACTTACK, ptr, [](CharUnit *ptr) {
-            if (ptr->Technique == 1) {
+        startWaveList.push_back(TriggerByYourSelfFunc(PRIORITY_ACTTACK, ptr, [](CharUnit *ptr) {
+            if (ptr->technique == 1) {
             shared_ptr<AllyAttackAction> act =
-            make_shared<AllyAttackAction>(AType::Technique,ptr,TraceType::Aoe,"FF Tech",
+            make_shared<AllyAttackAction>(AType::TECHNIQUE,ptr,TraceType::AOE,"FF Tech",
             [ptr](shared_ptr<AllyAttackAction> &act){
                 for(auto &each : act->targetList){
-                    weaknessApply(ptr,each,{ElementType::Fire},"FireFly Weakness",2);
+                    weaknessApply(ptr,each,{ElementType::FIRE},"FireFly Weakness",2);
                 }
-                Attack(act);
+                attack(act);
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,200,20),
@@ -106,38 +106,38 @@ namespace FireFly{
                 DmgSrc(DmgSrcType::ATK,200,20)
             );
             act->addToActionBar();
-            Deal_damage();
+            dealDamage();
             }
         }));
 
-        Start_game_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+        startGameList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             allEventAdjustStats(ptr, Stats::FLAT_ATK);
             // Talent: energy below 50% at battle start -> set to 50%
-            if (ptr->Current_energy < ptr->Max_energy / 2) ptr->Current_energy = ptr->Max_energy / 2;
+            if (ptr->currentEnergy < ptr->maxEnergy / 2) ptr->currentEnergy = ptr->maxEnergy / 2;
         }));
 
-        Before_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+        beforeTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             if (turn->isSameUnit(ptr)) ptr->setBuffCheck("FireFly_E2_used",0);
         }));
 
-        AfterAttackActionList.push_back(TriggerByAllyAttackAction_Func(PRIORITY_ACTTACK, [ptr]( shared_ptr<AllyAttackAction> &act ) {
+        afterAttackActionList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_ACTTACK, [ptr]( shared_ptr<AllyAttackAction> &act ) {
             if (!act->isSameAction(ptr,AType::SKILL)) return;
             if (ptr->countdownList[0]->isDeath()) return;
             // E2: extra turn after Enhanced Skill kills/breaks, once per turn
-            if (ptr->Eidolon >= 2 && ptr->stack["FireFly_E2"] > 0 && !ptr->getBuffCheck("FireFly_E2_used")) {
+            if (ptr->eidolon >= 2 && ptr->stack["FireFly_E2"] > 0 && !ptr->getBuffCheck("FireFly_E2_used")) {
             ptr->stack["FireFly_E2"]--;
             ptr->setBuffCheck("FireFly_E2_used",1);
-            Action_forward(ptr->Atv_stats.get(), 100);
+            actionForward(ptr->atvStats.get(), 100);
             }
             // A4: during Combustion, BE >= 150%/300% -> Super Break 100%/150%
-            if (ptr->Stats_type[Stats::BE][AType::None] >= 300) {
-                Superbreak_trigger(act, 150,"A4");
-            } else if (ptr->Stats_type[Stats::BE][AType::None] >= 150) {
-                Superbreak_trigger(act, 100,"A4");
+            if (ptr->statsType[Stats::BE][AType::NONE] >= 300) {
+                superbreakTrigger(act, 150,"A4");
+            } else if (ptr->statsType[Stats::BE][AType::NONE] >= 150) {
+                superbreakTrigger(act, 100,"A4");
             }
         }));
 
-        After_turn_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+        afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             Enemy *enemy = turn->canCastToEnemy();
             if(!enemy)return;
             isDebuffEnd(enemy,"FireFly Weakness");
@@ -146,12 +146,12 @@ namespace FireFly{
 
 
         //countdown
-        SetCountdownStats(ptr,70, "Combustion_state");
-        ptr->countdownList[0]->Turn_func = [ptr,FFptr](){
+        setCountdownStats(ptr,70, "Combustion_state");
+        ptr->countdownList[0]->turnFunc = [ptr,ffPtr](){
 
 
-            if(ptr->Print)CharCmd::printUltEnd("FireFly");
-            buffSingle(FFptr,combustionBuff(ptr,-1));
+            if(ptr->print)CharCmd::printUltEnd("FireFly");
+            buffSingle(ffPtr,combustionBuff(ptr,-1));
             ptr->countdownList[0]->death();
         };
     }
@@ -160,29 +160,29 @@ namespace FireFly{
     // E1 Enhanced Skill ignores 15% DEF · E6 RES PEN +20% + Break Efficiency +50%
     vector<BuffClass> combustionBuff(CharUnit *ptr, double sign){
         vector<BuffClass> buff = {
-            {Stats::FLAT_SPD,AType::None,60*sign},
-            {Stats::BREAK_EFF,AType::None,50*sign},
-            {Stats::VUL,AType::Break,20*sign},
-            {Stats::BE,AType::None,25*sign},
-            {Stats::RES,AType::None,30*sign},
+            {Stats::FLAT_SPD,AType::NONE,60*sign},
+            {Stats::BREAK_EFF,AType::NONE,50*sign},
+            {Stats::VUL,AType::BREAK,20*sign},
+            {Stats::BE,AType::NONE,25*sign},
+            {Stats::RES,AType::NONE,30*sign},
         };
-        if (ptr->Eidolon >= 1) buff.push_back({Stats::DEF_SHRED,AType::SKILL,15*sign});
-        if (ptr->Eidolon >= 4) buff.push_back({Stats::RES,AType::None,50*sign});
-        if (ptr->Eidolon >= 6) {
-            buff.push_back({Stats::RESPEN,AType::None,20*sign});
-            buff.push_back({Stats::BREAK_EFF,AType::None,50*sign});
+        if (ptr->eidolon >= 1) buff.push_back({Stats::DEF_SHRED,AType::SKILL,15*sign});
+        if (ptr->eidolon >= 4) buff.push_back({Stats::RES,AType::NONE,50*sign});
+        if (ptr->eidolon >= 6) {
+            buff.push_back({Stats::RESPEN,AType::NONE,20*sign});
+            buff.push_back({Stats::BREAK_EFF,AType::NONE,50*sign});
         }
         return buff;
     }
 
-    void Skill_func(CharUnit *ptr){
+    void skillFunc(CharUnit *ptr){
         genSkillPoint(ptr,-1);
         shared_ptr<AllyAttackAction> act =
-        make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Single,"FF Skill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::SINGLE,"FF Skill",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            Increase_energy(ptr,60,0);
-            Attack(act);
-            Action_forward(ptr->Atv_stats.get(), 25);
+            increaseEnergy(ptr,60,0);
+            attack(act);
+            actionForward(ptr->atvStats.get(), 25);
         });
         act->addDamageIns(DmgSrc(DmgSrcType::ATK,80,8));
         act->addDamageIns(DmgSrc(DmgSrcType::ATK,120,12));
@@ -190,29 +190,29 @@ namespace FireFly{
 
 
     }
-    void Enchance_Skill_func(CharUnit *ptr){
-        if(ptr->Eidolon<1)genSkillPoint(ptr,-1);
+    void enchanceSkillFunc(CharUnit *ptr){
+        if(ptr->eidolon<1)genSkillPoint(ptr,-1);
         shared_ptr<AllyAttackAction> act =
-        make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::Blast,"FF ESkill",
+        make_shared<AllyAttackAction>(AType::SKILL,ptr,TraceType::BLAST,"FF ESkill",
         [ptr](shared_ptr<AllyAttackAction> &act){
-            double skill_dmg = 0;
-            if(ptr->Stats_type[Stats::BE][AType::None]>=360){
-                skill_dmg = 272;
+            double skillDmg = 0;
+            if(ptr->statsType[Stats::BE][AType::NONE]>=360){
+                skillDmg = 272;
             }else{
-                skill_dmg = 200 + (ptr->Stats_type[Stats::BE][AType::None])*0.2;
+                skillDmg = 200 + (ptr->statsType[Stats::BE][AType::NONE])*0.2;
             }
 
             // hit split 15/15/15/15/40 · adjacent = half of main
-            act->addDamageIns(DmgSrc(DmgSrcType::ATK,0.15*skill_dmg,4.5),DmgSrc(DmgSrcType::ATK,0.15*0.5*skill_dmg,2.25));
-            act->addDamageIns(DmgSrc(DmgSrcType::ATK,0.15*skill_dmg,4.5),DmgSrc(DmgSrcType::ATK,0.15*0.5*skill_dmg,2.25));
-            act->addDamageIns(DmgSrc(DmgSrcType::ATK,0.15*skill_dmg,4.5),DmgSrc(DmgSrcType::ATK,0.15*0.5*skill_dmg,2.25));
-            act->addDamageIns(DmgSrc(DmgSrcType::ATK,0.15*skill_dmg,4.5),DmgSrc(DmgSrcType::ATK,0.15*0.5*skill_dmg,2.25));
-            act->addDamageIns(DmgSrc(DmgSrcType::ATK,0.4*skill_dmg,12),DmgSrc(DmgSrcType::ATK,0.4*0.5*skill_dmg,6));
+            act->addDamageIns(DmgSrc(DmgSrcType::ATK,0.15*skillDmg,4.5),DmgSrc(DmgSrcType::ATK,0.15*0.5*skillDmg,2.25));
+            act->addDamageIns(DmgSrc(DmgSrcType::ATK,0.15*skillDmg,4.5),DmgSrc(DmgSrcType::ATK,0.15*0.5*skillDmg,2.25));
+            act->addDamageIns(DmgSrc(DmgSrcType::ATK,0.15*skillDmg,4.5),DmgSrc(DmgSrcType::ATK,0.15*0.5*skillDmg,2.25));
+            act->addDamageIns(DmgSrc(DmgSrcType::ATK,0.15*skillDmg,4.5),DmgSrc(DmgSrcType::ATK,0.15*0.5*skillDmg,2.25));
+            act->addDamageIns(DmgSrc(DmgSrcType::ATK,0.4*skillDmg,12),DmgSrc(DmgSrcType::ATK,0.4*0.5*skillDmg,6));
 
             for(auto &each : act->targetList){
-                weaknessApply(ptr,each,{ElementType::Fire},"FireFly Weakness",2);
+                weaknessApply(ptr,each,{ElementType::FIRE},"FireFly Weakness",2);
             }
-            Attack(act);
+            attack(act);
         });
         act->addToActionBar();
     }

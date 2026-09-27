@@ -2,14 +2,14 @@
 namespace Relic{
     void Iron_Cavalry(CharUnit *ptr);
     void Iron_Cavalry(CharUnit *ptr){
-        ptr->Relic.Name = "Iron_Cavalry";
-        Reset_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_type[Stats::BE][AType::None] += 16;
+        ptr->Relic.name = "Iron_Cavalry";
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsType[Stats::BE][AType::NONE] += 16;
         }));
 
-        WhenOnField_List.push_back(TriggerByYourSelf_Func(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
-            ptr->Stats_type[Stats::DEF_SHRED][AType::Break] += 10;
-            ptr->Stats_type[Stats::DEF_SHRED][AType::SPB] += 15;
+        whenOnFieldList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            ptr->statsType[Stats::DEF_SHRED][AType::BREAK] += 10;
+            ptr->statsType[Stats::DEF_SHRED][AType::SPB] += 15;
         }));
 
         

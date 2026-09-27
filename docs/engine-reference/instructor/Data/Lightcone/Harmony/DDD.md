@@ -1,6 +1,6 @@
 # `src/Defination/Data/Lightcone/Harmony/DDD.h`
 
-`namespace Harmony_Lightcone` · `Light_cone.Name` = `"DDD"` · base stats `SetAllyBaseStats(953, 423, 397)`
+`namespace Harmony_Lightcone` · `lightCone.name` = `"DDD"` · base stats `setAllyBaseStats(953, 423, 397)`
 
 **4★ · ใบที่กระทบ AI ของทั้งทีม**
 
@@ -8,14 +8,14 @@
 
 | ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| base stats | `SetAllyBaseStats(953, 423, 397)` | `DDD.h:5` |
-| ผู้สวมกด Ult → ทั้งทีม advance `14 + 2S`% | `WhenUseUlt_List` + `isSameOwner` → `All_Action_forward` | `:8-12` |
+| base stats | `setAllyBaseStats(953, 423, 397)` | `DDD.h:5` |
+| ผู้สวมกด Ult → ทั้งทีม advance `14 + 2S`% | `whenUseUltList` + `isSameOwner` → `allActionForward` | `:8-12` |
 
 ไม่มีสแตตติดตัว มี trigger เดียว — ไฟล์สั้นที่สุดในโฟลเดอร์
 
 ## ทำไมใบนี้สำคัญกว่าที่ตาเห็น
 
-`All_Action_forward(n)` ดัน action bar ของ **ทุกคน** — เป็นฟังก์ชันที่มีผู้เรียก 2 ที่ในโปรเจกต์ (ใบนี้กับ `../../Character/Harmony/Robin.h`)
+`allActionForward(n)` ดัน action bar ของ **ทุกคน** — เป็นฟังก์ชันที่มีผู้เรียก 2 ที่ในโปรเจกต์ (ใบนี้กับ `../../Character/Harmony/Robin.h`)
 
 **ไม่มี `addUltCondition` ในตัว** → ถ้าผู้สวมกด ult ตอนที่ทีมใกล้ได้เล่นอยู่แล้ว advance เสียเปล่า · ต่างจาก `../../Relic/Eagle_Beaked_Helmet.md` ที่ใส่เงื่อนไขของตัวเอง
 
