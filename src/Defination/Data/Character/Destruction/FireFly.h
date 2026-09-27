@@ -55,6 +55,10 @@ namespace FireFly{
             if (ptr->Print)CharCmd::printUltStart("FireFly");
             }
         ));
+        // Ultimate: cannot be used while in Complete Combustion
+        ptr->addUltCondition([ptr]() -> bool {
+            return ptr->countdownList[0]->isDeath();
+        });
 
         // A6: every 10 ATK above 1800 -> BE +0.8%
         Stats_Adjust_List.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,FFptr](AllyUnit *target, Stats StatsType) {
@@ -127,9 +131,9 @@ namespace FireFly{
             }
             // A4: during Combustion, BE >= 150%/300% -> Super Break 100%/150%
             if (ptr->Stats_type[Stats::BE][AType::None] >= 300) {
-                Superbreak_trigger(act, 150,"");
+                Superbreak_trigger(act, 150,"A4");
             } else if (ptr->Stats_type[Stats::BE][AType::None] >= 150) {
-                Superbreak_trigger(act, 100,"");
+                Superbreak_trigger(act, 100,"A4");
             }
         }));
 
@@ -152,7 +156,7 @@ namespace FireFly{
         };
     }
 
-    // Complete Combustion: SPD +60 · Break Efficiency +50% · Break DMG +20% · A2 BE +25%
+    // Complete Combustion: SPD +60 · Break Efficiency +50% · Break DMG +20% · A2 BE +25% · Talent Effect RES +30%
     // E1 Enhanced Skill ignores 15% DEF · E6 RES PEN +20% + Break Efficiency +50%
     vector<BuffClass> combustionBuff(CharUnit *ptr, double sign){
         vector<BuffClass> buff = {
@@ -160,6 +164,7 @@ namespace FireFly{
             {Stats::BREAK_EFF,AType::None,50*sign},
             {Stats::VUL,AType::Break,20*sign},
             {Stats::BE,AType::None,25*sign},
+            {Stats::RES,AType::None,30*sign},
         };
         if (ptr->Eidolon >= 1) buff.push_back({Stats::DEF_SHRED,AType::SKILL,15*sign});
         if (ptr->Eidolon >= 4) buff.push_back({Stats::RES,AType::None,50*sign});
