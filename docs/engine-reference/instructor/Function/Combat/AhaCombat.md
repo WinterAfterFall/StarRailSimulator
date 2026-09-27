@@ -9,7 +9,7 @@
 - **วิ่งอยู่บนลู่ atv แย่งเทิร์นกับตัวละครจริง** — ถูก push เข้า `atvList` ที่ `SetCombat.h:62` **เฉพาะเมื่อมีสมาชิก Elation ในทีม**
 - **ไม่มีตัวตนในสนาม** — ไม่มี HP / ไม่โดนตี / ไม่โดนบัฟ
 - `takeAction` (`Combat.h:5`) จับเทิร์นของ Aha ด้วย `turn == aha.get()` (ไม่ใช่เช็ค `charptr` ว่าง เพราะ `TimerATV` ของ summon/countdown ก็มี `charptr` ว่าง) แล้วแตกไป `ahaTurn()`
-- speed ของ `aha` ปรับด้วย `ahaSpeedAdjust(path)` (`Action_value.h`) — `flatSpeed = spd₁/5 + spd₂/10 + spd₃/15 + …` จาก speed สมาชิก Elation เรียงมากไปน้อย
+- speed ของ `aha` ปรับด้วย `ahaSpeedAdjust(path)` (`Action_value.h`) — `flatSpeed = spd₁/5 + spd₂/10 + spd₃/15 + …` จาก speed สมาชิก Elation เรียงมากไปน้อย แล้วบวก `ahaExtraFlatSpeed` (บัฟ SPD ของ Aha จากตัวละคร — ไม่งั้นจะหายตอนคำนวณใหม่)
 
 ## ความสามารถหลัก → โค้ดที่ทำงาน
 

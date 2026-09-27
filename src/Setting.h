@@ -80,6 +80,7 @@ unique_ptr<ActionValueStats> aha = make_unique<ActionValueStats>("Aha",80);
 int punchline = 0;
 int elationCount = 0;
 int cbDuration = 2; // Certified Banger duration (turns) · Yao Guang A6 +1
+double ahaExtraFlatSpeed = 0; // flat SPD added to Aha on top of the Elation-SPD formula · Aventurine Waveflair A4 (solo)
 deque<tuple<string,int, double>> cbCheck;
 
 

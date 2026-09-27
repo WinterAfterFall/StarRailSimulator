@@ -26,7 +26,7 @@
 | `Destruction/` | Mydei, Phainon, Saber, FireFly | ทรัพยากรหนัก, สถานะพิเศษที่กินหลายเทิร์น |
 | `Remembrance/` | RMC, Aglaea, Castorice, Hyacine | memosprite ทั้งหมด |
 | `Abundance/` | Luocha, Gallagher, Huohuo | ระบบฮีล |
-| `Elation/` | Hibana, YaoGuang, SilverWolf999, Evanescia, EMC | path Elation — punchline, Aha Instant |
+| `Elation/` | Hibana, YaoGuang, SilverWolf999, Evanescia, EMC, AventurineWaveflair | path Elation — punchline, Aha Instant |
 | `The Hunt/` | Archer | ตัวเดียวของ path นี้ |
 | `Preservation/` | Aventurine (**คอมเมนต์ทิ้งทั้งไฟล์**) | ยังไม่มีตัวที่ใช้ได้ — รอระบบโล่ |
 

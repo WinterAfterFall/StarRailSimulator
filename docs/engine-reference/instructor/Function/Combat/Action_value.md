@@ -14,7 +14,7 @@
 | `atvFix(reduce)` | **นาฬิกาเดินหน้า**: ทุกตัวใน `atvList` (ที่ `isAtvChangeAble`) ลด `atv` ลง `reduce` · `currentAtv += reduce` |
 | `findTurn()` | หา unit ที่ `atv` ต่ำสุด (ข้าม `!isAtvChangeAble`) → เซ็ต global `turn`. เสมอ → `priority` สูงกว่าชนะ |
 | `compareActionValueStats(a,b)` | `a->atv > b->atv` (เรียงมาก→น้อย) |
-| `ahaSpeedAdjust(path)` | เฉพาะทีม Elation (Aha) — ปรับ flatSpeed ของ `aha` ตาม speed ของสมาชิก Elation |
+| `ahaSpeedAdjust(path)` | เฉพาะทีม Elation (Aha) — ปรับ flatSpeed ของ `aha` ตาม speed ของสมาชิก Elation · บวก global `ahaExtraFlatSpeed` (`Setting.h`, รีเซ็ตใน `reset()`) สำหรับบัฟ SPD ของ Aha จากตัวละคร เช่น Aventurine Waveflair A4 (2026-09-28) |
 
 **กติกา priority ที่ยืนยันแล้ว:**
 - forward จาก **สกิลเดียวกัน พร้อมกัน** → ตัวที่ใกล้ได้เทิร์นอยู่แล้วเล่นก่อน (มาจากการ sort ใน `allActionForward`)

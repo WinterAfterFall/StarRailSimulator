@@ -113,5 +113,6 @@ void ahaSpeedAdjust(Path &path){
         newFlatSpeed += each/factor;
         factor += 5;
     }
+    newFlatSpeed += ahaExtraFlatSpeed;
     aha->speedBuff(0,newFlatSpeed - aha->getFlatSpeed());
 }

@@ -103,6 +103,8 @@ void charSelector(function<void(int eidolon, function<void(CharUnit *ptr)> lc, f
             charSetup = Evanescia::setup;
         else if (name == "EMC") 
             charSetup = EMC::setup;
+        else if (name == "AventurineWaveflair") 
+            charSetup = AventurineWaveflair::setup;
 
         // --- Erudition ---
         else if (name == "Anaxa") 
