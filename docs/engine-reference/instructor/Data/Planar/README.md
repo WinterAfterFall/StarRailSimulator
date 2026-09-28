@@ -1,6 +1,6 @@
 # `src/Defination/Data/Planar/`
 
-15 ไฟล์ = 15 เซ็ต + `All_Planar.h` ที่ `#include` ทุกตัว · อยู่ใน `namespace Planar` · อ่าน `../README.md` (กฎกลางของ `Data/`) และ `../Relic/README.md` ก่อน เพราะโครงเหมือนกันเกือบทั้งหมด
+16 ไฟล์ = 16 เซ็ต + `All_Planar.h` ที่ `#include` ทุกตัว · อยู่ใน `namespace Planar` · อ่าน `../README.md` (กฎกลางของ `Data/`) และ `../Relic/README.md` ก่อน เพราะโครงเหมือนกันเกือบทั้งหมด
 
 ## ต่างจาก Relic ยังไง
 
@@ -42,8 +42,9 @@
 | `Talia.h` | `Talia` | BE +16 | BE +20 |
 | `Tengoku@Livestream.h` | `Tengoku@Livestream` | CD +16 | CD +32 เมื่อใช้ SP ครบ 3 ในเทิร์นเดียว (**เช็คจริง**) |
 | `The_Wondrous_BananAmusement_Park.h` | `The_Wondrous_BananAmusement_Park` | CD +16 | CD +32 ขณะมี summon หรือ memosprite อยู่ในสนาม (**เช็คจริง** ทุกต้นเทิร์น) |
+| `Punklorde Stage Zero.h` | `Punklorde Stage Zero` | Elation +8 | Elation ถึง 40 / 80 ครั้งแรก → CD 20 / 32 (ขั้นแทนกัน · **เช็คจริง** · ดู [Punklorde Stage Zero.md](Punklorde%20Stage%20Zero.md)) |
 
-> มี 4 เซ็ตเท่านั้นที่ยังเช็คเงื่อนไขจริง — `Izumo`, `Lushaka`, `Tengoku@Livestream`, `The_Wondrous_BananAmusement_Park`
+> มี 5 เซ็ตที่เช็คเงื่อนไขจริง — `Izumo`, `Lushaka`, `Tengoku@Livestream`, `The_Wondrous_BananAmusement_Park`, `Punklorde Stage Zero`
 
 ## กับดักชื่อ
 

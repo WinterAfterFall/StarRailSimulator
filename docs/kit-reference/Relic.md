@@ -111,6 +111,7 @@ Before entering combat, if the wearer's SPD is greater than or equal to 120/160,
 ## Dreamlit Actor
 
 - **ประเภท**: RELIC SET. ([Prydwen](https://www.prydwen.gg/star-rail/guides/relic-sets))
+- **ตรวจเทียบ game data 2026-09-28**: ข้อความและตัวเลข 2/4 ชิ้นตรงกับ ([hsr.nanoka.cc](https://hsr.nanoka.cc) game data 4.5.54, set ID 133) ทุกคำ · หน้า [honeyhunter](https://starrail.honeyhunterworld.com/dreamlit-actor-relic_set/?lang=EN) ติด Cloudflare verification จึงใช้ nanoka แทน · โค้ด `src/Defination/Data/Relic/Dreamlit Actor.h`
 
 ### โบนัส 2 ชิ้น (2-piece)
 

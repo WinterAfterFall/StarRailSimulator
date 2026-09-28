@@ -94,45 +94,47 @@
 | เซ็ต | 2-Piece | 4-Piece | โค้ด |
 |---|---|---|---|
 | **Ever-Glorious Magical Girl** | CRIT DMG +16% | **Elation DMG** ของผู้ใส่และ memo → ignore DEF 10% | `Ever-Glorious Magical Girl.h` ✅ |
+| **Dreamlit Actor** | SPD +6% | ใช้ Skill/Ult กับพวกอีกคน 1 คน → เป้า **Elation +16%** 3 เทิร์น; ถ้าผู้ใส่มี Certified Banger ≥10 → ทีม **CD +12%** 3 เทิร์น | `Dreamlit Actor.h` ✅ |
 
 ---
 
-## สรุปรวม 32 เซ็ต (เรียงตามตัวอักษร)
+## สรุปรวม 33 เซ็ต (เรียงตามตัวอักษร)
 
 1. As Navigator Isee Sees It
 2. Band of Sizzling Thunder
 3. Champion of Streetwise Boxing
 4. Divine-Querying Master Smith
 5. Diviner of Distant Reach ✅
-6. Eagle of Twilight Line ✅
-7. Ever-Glorious Magical Girl ✅
-8. Firesmith of Lava-Forging
-9. Genius of Brilliant Stars ✅
-10. Guard of Wuthering Snow
-11. Hero of Triumphant Song ✅
-12. Hunter of Glacial Forest
-13. Iron Cavalry Against the Scourge ✅
-14. Knight of Purity Palace ✅
-15. Longevous Disciple
-16. Messenger Traversing Hackerspace
-17. Musketeer of Wild Wheat
-18. Passerby of Wandering Cloud
-19. Pioneer Diver of Dead Waters
-20. Poet of Mourning Collapse ✅
-21. Prisoner in Deep Confinement ✅
-22. Sacerdos' Relived Ordeal ✅
-23. Scholar Lost in Erudition ✅
-24. Self-Enshrouded Recluse
-25. The Ashblazing Grand Duke ✅
-26. The Wind-Soaring Valorous
-27. Thief of Shooting Meteor
-28. Warrior Goddess of Sun and Thunder ✅
-29. Wastelander of Banditry Desert
-30. Watchmaker, Master of Dream Machinations
-31. Wavestrider Captain ✅
-32. World-Remaking Deliverer
+6. Dreamlit Actor ✅
+7. Eagle of Twilight Line ✅
+8. Ever-Glorious Magical Girl ✅
+9. Firesmith of Lava-Forging
+10. Genius of Brilliant Stars ✅
+11. Guard of Wuthering Snow
+12. Hero of Triumphant Song ✅
+13. Hunter of Glacial Forest
+14. Iron Cavalry Against the Scourge ✅
+15. Knight of Purity Palace ✅
+16. Longevous Disciple
+17. Messenger Traversing Hackerspace
+18. Musketeer of Wild Wheat
+19. Passerby of Wandering Cloud
+20. Pioneer Diver of Dead Waters
+21. Poet of Mourning Collapse ✅
+22. Prisoner in Deep Confinement ✅
+23. Sacerdos' Relived Ordeal ✅
+24. Scholar Lost in Erudition ✅
+25. Self-Enshrouded Recluse
+26. The Ashblazing Grand Duke ✅
+27. The Wind-Soaring Valorous
+28. Thief of Shooting Meteor
+29. Warrior Goddess of Sun and Thunder ✅
+30. Wastelander of Banditry Desert
+31. Watchmaker, Master of Dream Machinations
+32. Wavestrider Captain ✅
+33. World-Remaking Deliverer
 
-**implement แล้ว 13/32**
+**implement แล้ว 14/33**
 
 ---
 

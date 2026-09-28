@@ -71,7 +71,7 @@
 | **City of Converging Stars** | ใช้ **FuA** → ATK +24% 2 เทิร์น; ศัตรูตาย → **ทีม CD +12%** ตลอดการต่อสู้ที่เหลือ | |
 | **Forge of the Kalpagni Lantern** | SPD +6%; ตีศัตรูที่มี **Fire Weakness** → BE +40% 1 เทิร์น | `Kalpagni_Lantern.h` ✅ |
 | **Tengoku@Livestream** | CD +16%; ถ้าใช้ **SP ≥3 แต้มในเทิร์นเดียว** → CD เพิ่มอีก 32% เป็นเวลา 3 เทิร์น | `Tengoku@Livestream.h` ✅ |
-| **Punklorde Stage Zero** | **Elation +8%**; เมื่อ Elation แตะ 40% / 80% ครั้งแรกในสนาม → CD +20% / +32% | |
+| **Punklorde Stage Zero** | **Elation +8%**; เมื่อ Elation แตะ 40% / 80% ครั้งแรกในสนาม → CD +20% / +32% | `Punklorde Stage Zero.h` ✅ |
 
 ---
 
@@ -96,7 +96,7 @@
 17. Lushaka, the Sunken Seas ✅
 18. Pan-Cosmic Commercial Enterprise
 19. Penacony, Land of the Dreams
-20. Punklorde Stage Zero
+20. Punklorde Stage Zero ✅
 21. Revelry by the Sea ✅
 22. Rutilant Arena ✅
 23. Sigonia, the Unclaimed Desolation
@@ -106,7 +106,7 @@
 27. Tengoku@Livestream ✅
 28. The Wondrous BananAmusement Park ✅
 
-**implement แล้ว 15/28**
+**implement แล้ว 16/28**
 
 ---
 

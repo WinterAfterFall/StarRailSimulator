@@ -197,6 +197,7 @@ Increases wearer's Energy Regeneration Rate by 5%. ([Prydwen](https://www.prydwe
 ## Punklorde Stage Zero
 
 - **ประเภท**: PLANETARY ORNAMENT SET. ([Prydwen](https://www.prydwen.gg/star-rail/guides/relic-sets))
+- **ตรวจเทียบ game data 2026-09-28**: ข้อความและตัวเลขตรงกับ ([hsr.nanoka.cc](https://hsr.nanoka.cc) game data 4.5.54, set ID 325) ทุกคำ · หน้า [honeyhunter](https://starrail.honeyhunterworld.com/punklorde-stage-zero-relic_set/?lang=EN) ติด Cloudflare verification จึงใช้ nanoka แทน · โค้ด `src/Defination/Data/Planar/Punklorde Stage Zero.h`
 
 ### โบนัส 2 ชิ้น (2-piece)
 

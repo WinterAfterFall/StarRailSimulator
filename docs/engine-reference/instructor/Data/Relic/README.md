@@ -1,6 +1,6 @@
 # `src/Defination/Data/Relic/`
 
-15 ไฟล์ = 15 เซ็ต + `All_Relic.h` ที่ `#include` ทุกตัว · ทุกเซ็ตอยู่ใน `namespace Relic` ไฟล์เดียวต่อเซ็ต
+16 ไฟล์ = 16 เซ็ต + `All_Relic.h` ที่ `#include` ทุกตัว · ทุกเซ็ตอยู่ใน `namespace Relic` ไฟล์เดียวต่อเซ็ต
 เอกสารชุดนี้เขียนคู่กับ `../README.md` (กฎกลางของ `Data/`) — อ่านอันนั้นก่อน
 
 ## รูปทรงมาตรฐานของไฟล์ relic
@@ -39,6 +39,7 @@ namespace Relic{
 | `Sacerdos_Relived_Ordeal.h` | `Sacerdos_Relived_Ordeal` | `Sacerdos_Relived_Ordeal` | Sacerdos Relived Ordeal |
 | `Diviner of Distant Reach.h` | `DivinerOfDistant` | `Diviner of Distant Reach` | Diviner of Distant Reach |
 | `Goddess of Sun and Thunder.h` | `Goddess_of_Sun_and_Thunder` | `Goddess of Sun and Thunder` | Goddess of Sun and Thunder |
+| `Dreamlit Actor.h` | `DreamlitActor` | `Dreamlit Actor` | Dreamlit Actor (เพิ่ม 2026-09-28 · ดู [Dreamlit Actor.md](Dreamlit%20Actor.md)) |
 | `PairSet.h` | `pairSet` | `pairSet` | (ไม่ใช่เซ็ตจริง — ดูไฟล์ของมัน) |
 
 > **กับดัก**: `Tribbie.h` เคยมีบรรทัดเช็ค `lightCone.name == "Eagle_Beaked_Helmet"` ซึ่งไม่มีวันจริง เพราะ Eagle เป็น relic ชื่ออยู่ใน `Relic.name` (ลบไปแล้ว ดู `../README.md`)

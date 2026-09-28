@@ -15,6 +15,7 @@
 #include"Prisoner in Deep Confinement.h"
 #include"Diviner of Distant Reach.h"
 #include"Ever-Glorious Magical Girl.h"
+#include"Dreamlit Actor.h"
 
 
 #endif

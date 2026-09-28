@@ -400,6 +400,8 @@ void relicSelector(function<void(CharUnit *ptr)> &Relic){
             Relic = Relic::Knight;
         else if (name == "Magical Girl") 
             Relic = Relic::MagicalGirl;
+        else if (name == "Dreamlit Actor" || name == "Dreamlit")
+            Relic = Relic::DreamlitActor;
         else if (name == "Pair Set"){
             string firstStats,secondStats;
             cout<<"choose your first set";
@@ -464,6 +466,8 @@ void planarSelector(function<void(CharUnit *ptr)> &Planar){
             Planar = Planar::Talia;
         else if (name == "Tengoku Livestream")
             Planar = Planar::TengokuLivestream;
+        else if (name == "Punklorde Stage Zero" || name == "Punklorde")
+            Planar = Planar::PunklordeStageZero;
         else if (name == "BananAmusement Park")
             Planar = Planar::The_Wondrous_BananAmusement_Park;
             
