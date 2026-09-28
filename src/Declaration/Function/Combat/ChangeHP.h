@@ -2,6 +2,7 @@
 
 void increaseCurrentHP(AllyUnit *ptr,double value);
 void increaseHP(AllyUnit *healer,AllyUnit *target,double value);
+double decreaseBlock(AllyUnit *ptr,double value);
 double decreaseSheild(AllyUnit *ptr,double value);
 double decreaseCurrentHP(AllyUnit *ptr,double value);
 void decreaseHP(AllyUnit *target,Unit *trigger,double value,double percentFromTotalHP,double percentFromCurrentHP);

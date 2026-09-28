@@ -154,7 +154,7 @@ namespace SW{
                     debuffSingle(enemy,{{Stats::DEF_SHRED,AType::NONE,-12}});
                 }
                 if(isDebuffEnd(enemy,"Bug 3")){
-                    enemy->atkPercent+=10;
+                    enemy->statsType[Stats::ATK_REDUCE][AType::NONE] -= 10;
                     debuffSingle(enemy,{{Stats::SPD_P,AType::NONE,6}});
                 }
 
@@ -198,7 +198,7 @@ namespace SW{
                         debuffApply(sw,enemy,"Bug 1",4);
                         debuffSingleApply(sw,enemy,{{Stats::DEF_SHRED,AType::NONE,12}},"Bug 2",4);
                         if(debuffApply(sw,enemy,"Bug 3",4)){
-                            enemy->atkPercent-=10;
+                            enemy->statsType[Stats::ATK_REDUCE][AType::NONE] += 10;
                             debuffSingle(enemy,{{Stats::SPD_P,AType::NONE,-6}});
                         }
                     }
@@ -217,7 +217,7 @@ namespace SW{
                     debuffApply(sw,target,"Bug 1",4);
                     debuffSingleApply(sw,target,{{Stats::DEF_SHRED,AType::NONE,12}},"Bug 2",4);
                     if(debuffApply(sw,target,"Bug 3",4)){
-                        target->atkPercent-=10;
+                        target->statsType[Stats::ATK_REDUCE][AType::NONE] += 10;
                         debuffSingle(target,{{Stats::SPD_P,AType::NONE,-6}});
                     }
                 }

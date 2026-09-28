@@ -18,7 +18,7 @@ dataset_snapshot: "2026-09-28"
 
 > Source: hsr.nanoka.cc (game data 4.5.54). Mechanics below are paraphrased, not the in-game prose.
 > Values are shown at the sim's convention: **5★ = Basic Lv.6, Skill/Ult/Talent/Elation Skill Lv.10**.
-> Not implemented in code yet. Role "Sustain" is our label (nanoka has no role field). Scales on **DEF**, not ATK.
+> Code: `src/Defination/Data/Character/Elation/Pearl.h` · Elation Skill Participant ID = 104. Role "Sustain" is our label (nanoka has no role field). Scales on **DEF**, not ATK.
 
 ## Base stats (Lv.80)
 

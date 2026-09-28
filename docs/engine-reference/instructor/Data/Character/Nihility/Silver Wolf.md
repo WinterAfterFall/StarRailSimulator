@@ -32,7 +32,7 @@
 `if (E2 หรือ act->isSameName(sw))`    debuffApply(sw, enemy, "Bug 1", 4);                       // ต่ออายุทั้งสอง
 `if (E2 หรือ act->isSameName(sw))`    debuffSingleApply(sw, enemy, {{DEF_SHRED, 12}}, "Bug 2", 4);
 `if (E2 หรือ act->isSameName(sw))`    if (debuffApply(sw, enemy, "Bug 3", 4)) {                 // ชั้นที่ 3 ลงได้ครั้งเดียว
-`if (E2 หรือ act->isSameName(sw))`        enemy->atkPercent -= 10;
+`if (E2 หรือ act->isSameName(sw))`        enemy->statsType[ATK_REDUCE][NONE] += 10;
 `if (E2 หรือ act->isSameName(sw))`        debuffSingle(enemy, {{SPD_P, -6}});
 `if (E2 หรือ act->isSameName(sw))`    }
 `if (E2 หรือ act->isSameName(sw))`}

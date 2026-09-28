@@ -91,7 +91,7 @@ namespace Phainon{
                 for(int i=1;i<=totalEnemy;i++){
                     actionForward(enemyUnit[i]->getAtvStats(),1000);
                     enemyUnit[i]->setDebuff("Soulscorch",1);
-                    enemyUnit[i]->dmgPercent-=75;
+                    enemyUnit[i]->statsType[Stats::DMG_REDUCE][AType::NONE] += 75;
                 }
             });
             act->addBuffSingleTarget(ptr);
@@ -304,7 +304,7 @@ namespace Phainon{
             AllyUnit *ally = turn->canCastToAllyUnit();
             if(enemy&&enemy->getDebuff("Soulscorch")){
                 enemy->setDebuff("Soulscorch",0);
-                enemy->dmgPercent+=75;
+                enemy->statsType[Stats::DMG_REDUCE][AType::NONE] -= 75;
                 pn->buffEnd["PN Counter"]--;
             }
             

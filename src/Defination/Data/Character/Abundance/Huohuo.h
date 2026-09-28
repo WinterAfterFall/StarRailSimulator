@@ -129,7 +129,7 @@ namespace Huohuo{
             if(ptr->technique){
                 for(auto &each : enemyList){
                     if(!debuffApply(hh,each,"HH Technique",2))continue;
-                    each->atkPercent -= 25;
+                    each->statsType[Stats::ATK_REDUCE][AType::NONE] += 25;
                 }
             }
         }));
@@ -159,7 +159,7 @@ namespace Huohuo{
             }
             Enemy *enemy = turn->canCastToEnemy();
             if(enemy && isDebuffEnd(enemy,"HH Technique")){
-                enemy->atkPercent += 25;
+                enemy->statsType[Stats::ATK_REDUCE][AType::NONE] -= 25;
             }
         }));
 

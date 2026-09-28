@@ -27,10 +27,9 @@ user อธิบาย (2026-09-15): debuff บางอย่างต้อ�
 user ยืนยัน (2026-09-16):
 
 - `ATK` — พลังโจมตีตั้งต้น ค่าเริ่มต้น `718`
-- `atkPercent` — เปอร์เซ็นต์เพิ่ม/ลด ATK ค่าเริ่มต้น `0`; เช่น `-20` คือ ATK ลด 20%
-- `dmgPercent` — เปอร์เซ็นต์เพิ่ม/ลดดาเมจที่ศัตรูสร้าง แยกจาก ATK ค่าเริ่มต้น `0`
+- ~~`atkPercent`~~ / ~~`dmgPercent`~~ — **ลบแล้ว 2026-09-28** ย้ายไปเป็น `statsType[Stats::ATK_REDUCE][AType::NONE]` (ATK ศัตรูลด x%) และ `statsType[Stats::DMG_REDUCE][AType::NONE]` (ดาเมจที่ศัตรูสร้างลด x%) · ค่าบวก = ลด
 
-ตรวจ `Function/Calculate/CalDmgReceive.h`: `calEnemyATK` คำนวณ `ATK * (1 + atkPercent / 100)` และ `calEnemyDMG` คำนวณตัวคูณ `1 + dmgPercent / 100` โดยทั้งสองฟังก์ชันจำกัดผลลัพธ์ต่ำสุดไว้ที่ `0`
+ตรวจ `Function/Calculate/CalDmgReceive.h`: `calEnemyATK` คำนวณ `ATK * (1 − ATK_REDUCE / 100)` และ `calDmgReduceMultiplier` คำนวณตัวคูณ `1 − (DMG_REDUCE ศัตรู + DMG_REDUCE ผู้รับ) / 100` โดยทั้งสองฟังก์ชันจำกัดผลลัพธ์ต่ำสุดไว้ที่ `0`
 
 ## Toughness — ความทนทานของศัตรู
 

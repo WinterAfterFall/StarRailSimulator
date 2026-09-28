@@ -68,6 +68,7 @@ void reset(){
     sp =3;
     punchline = elationCount;
     ahaExtraFlatSpeed = 0;
+    repellency = 0;
     currentAtv = 0;
     nextForwardPriority = 0;
     healCount = 0;

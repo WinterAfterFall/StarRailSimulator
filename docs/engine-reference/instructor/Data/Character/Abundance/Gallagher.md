@@ -11,7 +11,7 @@ kit อ้างอิง: `docs/kit-reference/Character/Abundance/gallagher.md`
 | build — **substat เป็น `BE`** (Break Effect) | `pushSubstats(Stats::BE)` + main stat หมวก `HEALING_OUT` + `setSpeedRequire(150)` | 18-21 |
 | **Basic ATK** — Corkage Fee | `basicAtk(ptr)` — `addDamageIns` 2 ครั้ง (55/5) | 166-178 |
 | **Enhanced BA** — Nectar Blitz | `enchanceBasicAtk(ptr)` — 3 จังหวะ (68.75/7.5, 41.25/4.5, 165/18) = 275% (Lv7 ตาม E3 เหมือน BA ปกติ 110%) + ลด ATK เป้า | 179-197 |
-| Nectar Blitz ลด ATK เป้า 16% | `target->atkPercent -= 16` + `debuffApply` + `extendDebuff(..., "Nectar_Blitz", 2)` | 186-188 |
+| Nectar Blitz ลด ATK เป้า 16% | `target->statsType[ATK_REDUCE][NONE] += 16` + `debuffApply` + `extendDebuff(..., "Nectar_Blitz", 2)` | 186-188 |
 | **Skill** — Special Brew (ฮีลล้วน) | `skillFunc(ptr)` — **`AllyBuffAction`** ไม่ใช่ `AllyAttackAction` เพราะไม่มีดาเมจ | 198-209 |
 | **Ultimate** — Champagne Etiquette | `ultimateList` (`PRIORITY_DEBUFF`) — AoE 165%×3 args | 44-67 |
 | Ult → ติด Besotted | `debuffAllEnemyApply(charPtr, {{Stats::VUL, AType::BREAK, 13.2}}, "Besotted")` แล้ว `extendDebuffAll` แยก | 50-55 |
@@ -57,7 +57,7 @@ ptr->buffNote["Novel Concoction"] = temp;
 Skill ของ Gallagher เป็นการฮีลล้วน จึงไม่ใช้ `AllyAttackAction` · ประกอบด้วย `addBuffSingleTarget(chooseAllyBuff(ptr))` + `addToActionBar()` เหมือน Skill/Ult ของ Tingyun
 
 **6. debuff ที่ลดค่าของศัตรูโดยตรงเขียนที่ฟิลด์ของศัตรู ไม่ใช่ `statsType`**
-`target->atkPercent -= 16` (184) และคืนด้วย `focusUnit->atkPercent += 16` (90) — ใช้เมื่อผลไม่ได้เข้าสูตรดาเมจของฝ่ายเรา
+`target->statsType[ATK_REDUCE][NONE] += 16` (184) และคืนด้วย `focusUnit->statsType[ATK_REDUCE][NONE] -= 16` (90) — ใช้เมื่อผลไม่ได้เข้าสูตรดาเมจของฝ่ายเรา
 
 **7. `act->isSameAction(ชื่อ, AType)` = ตัวกรองมาตรฐานใน `whenAttackList`**
 (`Class/ActionData/AllyActionData.h:56-58`) มี 3 overload: ตาม `AType` อย่างเดียว, ตาม `AllyUnit*`, ตามชื่อ string

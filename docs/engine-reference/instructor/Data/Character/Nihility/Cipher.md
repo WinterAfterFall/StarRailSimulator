@@ -16,7 +16,7 @@ kit อ้างอิง: `docs/kit-reference/Character/Nihility/cipher.md` · 
 |---|---|---|
 | ธาตุ / path / energy ult | `setCharBasicStats(105, 130, 130, E, QUANTUM, NIHILITY, "Cipher", STANDARD)` | 7 |
 | **Basic ATK** | lambda `BA` — single 100%/10 | 34-46 |
-| **Skill** — Weaken + ATK ตัวเอง | lambda `skill` — blast 200/100 + `dmgPercent -= 10` + ATK +30% | 47-66 |
+| **Skill** — Weaken + ATK ตัวเอง | lambda `skill` — blast 200/100 + `DMG_REDUCE += 10` + ATK +30% | 47-66 |
 | **Ultimate** | `ultimateList` — 120% single + AoE 40%×3 | 74-90 |
 | **Talent** — เพื่อนโจมตี → Cipher ยิง FuA | `beforeAttackActionList` + flag `Cipher FUA` (รีเซ็ตต้นเทิร์นตัวเอง) | 155-177, 108-110 |
 | FuA — คริติคอลแรงขึ้นชั่วคราว | `buffSingle(CD +100)` ครอบ `attack` | 165-171 |

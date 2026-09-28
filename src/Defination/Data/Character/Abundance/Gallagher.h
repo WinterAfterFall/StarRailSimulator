@@ -90,7 +90,7 @@ namespace Gallagher{
                 debuffSingle(focusUnit,{{Stats::VUL, AType::BREAK, -13.2}});
             }
             if (isDebuffEnd(focusUnit,"Nectar_Blitz")) {
-                focusUnit->atkPercent += 16;
+                focusUnit->statsType[Stats::ATK_REDUCE][AType::NONE] -= 16;
             }
         }});
 
@@ -184,7 +184,7 @@ namespace Gallagher{
             increaseEnergy(ptr,20);
             for(Enemy* &target : act->targetList){
                 if(debuffApply(act->attacker,target,"Nectar_Blitz"))
-                    target->atkPercent -= 16;
+                    target->statsType[Stats::ATK_REDUCE][AType::NONE] += 16;
                 extendDebuff(target,"Nectar_Blitz",2);
             }
             attack(act);

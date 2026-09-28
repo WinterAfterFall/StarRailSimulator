@@ -29,7 +29,7 @@ Ult ของ Phainon ไม่ใช่ดาเมจ แต่เป็นก
 | **Basic ATK** | lambda `BA` — single 100%/10 | 41-52 |
 | **Skill** | lambda `skill` — blast 300/120 + Core Flame +2 | 54-67 |
 | **Creation** (ท่าในสถานะอัลติ) | lambda `creation` — blast 250/75 + Scourge +2 | 69-81 |
-| **Calamity** | lambda `calamity` — ดัน action ศัตรูทุกตัว 1000 + ติด `Soulscorch` (เริ่ม 1 stack) + `dmgPercent -= 75` · Counter เป็น `AType::SKILL` (302-348) | 83-99 |
+| **Calamity** | lambda `calamity` — ดัน action ศัตรูทุกตัว 1000 + ติด `Soulscorch` (เริ่ม 1 stack) + `DMG_REDUCE += 75` · Counter เป็น `AType::SKILL` (302-348) | 83-99 |
 | **Foundation** | lambda `foundation` — ใช้ Scourge 4 + bounce 45 ×16 + 450% | 101-114 |
 | **FinalHit** | lambda `finalHit` — AoE 960% แล้วคืนสถานะทุกคน | 116-161 |
 | **Ultimate** — เข้าสถานะ | `ultimateList` — `coreFlame(-12)` + ATK/HP +80/+270 + แช่ทีม | 197-253 |
@@ -92,9 +92,9 @@ setupList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [pn](CharUn
 
 **เป็นที่เดียวในโปรเจกต์ที่ตัวละครอ่านชื่อบัฟของตัวละครอื่นโดยตรง** → ชื่อบัฟของซัพพอร์ตกลายเป็น API ที่แก้ไม่ได้ ถ้าเปลี่ยนชื่อบัฟใน `Sunday.h` ต้องมาแก้ที่นี่ด้วย
 
-## รากฐาน: `dmgPercent` บนศัตรู
+## รากฐาน: `DMG_REDUCE` บนศัตรู (เดิม `dmgPercent`)
 
-`calamity` ลด `enemyUnit[i]->dmgPercent -= 75` แล้วคืน `+= 75` ตอน `Soulscorch` หมด (309-313) — ฟิลด์ตรงบนศัตรูเหมือน `atkPercent` ที่ `../../Relic/Gallagher` ใช้ (ดู `../Abundance/Gallagher.md`)
+`calamity` ลด `enemyUnit[i]->statsType[DMG_REDUCE][NONE] += 75` แล้วคืน `-= 75` ตอน `Soulscorch` หมด (309-313) — stat บนศัตรูเหมือน `ATK_REDUCE` ที่ `../../Relic/Gallagher` ใช้ (ดู `../Abundance/Gallagher.md`)
 
 ## จุดที่ควรระวัง
 

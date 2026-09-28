@@ -52,7 +52,7 @@ namespace Cipher{
                 increaseEnergy(ptr,30);
                 for(auto &each : act->targetList){
                     if(debuffApply(cph,each,"Cipher Weaken",2)){
-                        each->dmgPercent -= 10;
+                        each->statsType[Stats::DMG_REDUCE][AType::NONE] += 10;
                     }
                 }
                 buffSingle(cph,{{Stats::ATK_P,AType::NONE,30}},"Cipher Skill",2);
@@ -121,7 +121,7 @@ namespace Cipher{
             }
             if(enemy){
                 if(isDebuffEnd(enemy,"Cipher Weaken")){
-                    enemy->dmgPercent +=10;
+                    enemy->statsType[Stats::DMG_REDUCE][AType::NONE] -= 10;
                 }
                 if(ptr->eidolon>=2&&isDebuffEnd(enemy,"Cipher E2")){
                     debuffSingle(enemy,{{Stats::VUL,AType::NONE,-30}});

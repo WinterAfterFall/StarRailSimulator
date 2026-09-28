@@ -18,7 +18,7 @@ kit อ้างอิง: `docs/kit-reference/Character/Abundance/huohuo.md` ·
 | **A4** — Max Energy ≥ 160 → ATK +24% เพิ่ม | ใน Ult: `buffSingle(each, ..., "HH Ult A4", 2)` เช็ค `each->owner->maxEnergy` (memosprite อิงเจ้าของ) | 97-100 |
 | **Minor traces** | `resetList` (มี `HEALING_OUT += 40` ใต้ `// substats`) | 113-123 |
 | **A2** — เริ่มต่อสู้ energy 30 + Divine Provision 2 เทิร์น | `startGameList` → `increaseEnergy(hh, 0, 30)` + `gainDivineProvision(2)` | 126-135 |
-| **Technique** — ATK ศัตรูทุกตัว −25% 2 เทิร์น | `startGameList` → `debuffApply(..., "HH Technique", 2)` + `atkPercent -= 25` · คืนใน `afterTurnList` | 129-134, 161-164 |
+| **Technique** — ATK ศัตรูทุกตัว −25% 2 เทิร์น | `startGameList` → `debuffApply(..., "HH Technique", 2)` + `ATK_REDUCE += 25` · คืนใน `afterTurnList` | 129-134, 161-164 |
 | Talent trigger — ต้นเทิร์นเพื่อน / หมดอายุ | `beforeTurnList` → `isBuffEnd(hh, ...)` (นับลดตอนเริ่มเทิร์น Huohuo) แล้ว `divineProvisionHeal(ally)` | 137-145 |
 | Talent trigger — เพื่อนใช้ Ult | `whenUseUltList` → `divineProvisionHeal(ally)` | 178-180 |
 | **E6** — Huohuo ฮีลใคร → คนนั้น DMG +50% | `healingList` (ลงทะเบียนเฉพาะเมื่อ E6) | 182-187 |

@@ -40,8 +40,6 @@ public:
     unordered_map<string,int> debuffEnd;
 
     double atk = 718;
-    double atkPercent = 0;
-    double dmgPercent = 0;
     double maxToughness; 
     double currentToughness;
     bool toughnessStatus = 1;

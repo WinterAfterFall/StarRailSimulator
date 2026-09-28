@@ -151,7 +151,7 @@ namespace Hysilens{
                 CharCmd::printUltStart("Hysilens");
                 for(auto &each : act->targetList){
                     if(debuffMark(hys,each,"Hys Ult")){
-                        each->atkPercent-=15;
+                        each->statsType[Stats::ATK_REDUCE][AType::NONE] += 15;
                         debuffSingle(each,{{Stats::DEF_SHRED,AType::NONE,25}});
                         if(ptr->eidolon>=4)debuffSingle(each,{{Stats::RESPEN,AType::NONE,20}});
 
@@ -192,7 +192,7 @@ namespace Hysilens{
                 genSkillPoint(hys,1);
                 for(auto &each : enemyList){
                     if(debuffMark(hys,each,"Hys Ult")){
-                        each->atkPercent-=15;
+                        each->statsType[Stats::ATK_REDUCE][AType::NONE] += 15;
                         debuffSingle(each,{{Stats::DEF_SHRED,AType::NONE,25}});
                         if(ptr->eidolon>=4)debuffSingle(each,{{Stats::RESPEN,AType::NONE,20}});
                     }
@@ -238,7 +238,7 @@ namespace Hysilens{
                 for(auto &each : enemyList){
                     debuffSingle(each,{{Stats::DEF_SHRED,AType::NONE,-25}});
                     if(ptr->eidolon>=4)debuffSingle(each,{{Stats::RESPEN,AType::NONE,-20}});
-                    each->atkPercent -=15;
+                    each->statsType[Stats::ATK_REDUCE][AType::NONE] -= 15;
                     debuffRemove(each,"Hys Ult");
                 }
             }

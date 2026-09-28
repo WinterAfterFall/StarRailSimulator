@@ -135,8 +135,6 @@ void basicReset(){
             enemyUnit[i]->currentToughness=enemyUnit[i]->maxToughness;
             enemyUnit[i]->totalDebuff=0;
             enemyUnit[i]->tauntList.clear();
-            enemyUnit[i]->atkPercent = 0;
-            enemyUnit[i]->dmgPercent = 0;
             enemyUnit[i]->aoeCharge = 0;
             enemyUnit[i]->status = UnitStatus::ALIVE;
 

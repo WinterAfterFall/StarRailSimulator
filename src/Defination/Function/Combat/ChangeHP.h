@@ -174,6 +174,14 @@ void decreaseHP(Unit *trigger,string name,double value,double percentFromTotalHP
     }
 
 }
+// Repellency: block BLOCK% of the hit, paid from the team pool (whatever is left)
+double decreaseBlock(AllyUnit *ptr,double value){
+    double pct = ptr->statsType[Stats::BLOCK][AType::NONE];
+    if(pct<=0||repellency<=0)return value;
+    double blocked = min(value*pct/100.0,repellency);
+    repellency -= blocked;
+    return value - blocked;
+}
 double decreaseSheild(AllyUnit *ptr,double value){
     double absorbed = min(ptr->currentSheild,value);   // โล่กันได้เท่าที่มี
     ptr->currentSheild -= absorbed;

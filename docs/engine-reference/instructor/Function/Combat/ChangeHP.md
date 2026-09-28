@@ -29,7 +29,7 @@
 `decreaseSheild()` ถูกเรียกจาก `EnemyActionData` เท่านั้น (3 จุด: `setAoeAttack` · `setBaAttack` แบบมี taunt · แบบไม่มี taunt):
 ```cpp
 double damageDeal  = calculateDmgReceive(enemy, e, skillRatio); // ดาเมจหลังลด mitigation
-double hpDecreased = decreaseSheild(e, damageDeal);             // โล่ absorb → คืนส่วนที่ทะลุ
+double hpDecreased = decreaseSheild(e, decreaseBlock(e, damageDeal));             // โล่ absorb → คืนส่วนที่ทะลุ
 decreaseCurrentHP(e, hpDecreased);                              // ส่วนที่ทะลุเข้า HP
 ```
 - **เฉพาะการโจมตีตรงของ enemy** เท่านั้นที่ผ่านโล่
@@ -107,3 +107,10 @@ allEventHeal(healer, target, value);
 ### สวิตช์ debug ของฝั่งฮีล
 
 กรอบ `Heal Count : N` ที่ `restoreHP` ทั้ง 4 overload พิมพ์ออกมา คุมด้วย `checkHeal || checkHealFormula` ของ **ผู้ฮีล** เท่านั้น ส่วนบรรทัดตัวเลขข้างในคุมด้วยเงื่อนไข AND ระหว่างผู้ฮีลกับผู้รับ — รายละเอียดทั้งหมดอยู่ใน [FormulaCheck.md](../AdjustFunction/FormulaCheck.md) · ฝั่งลด HP **ไม่มี debug print ของตัวเอง** แม้จะมี flag `checkHpChange` ค้างอยู่
+
+## `decreaseBlock(AllyUnit*, value)` — Repellency (เพิ่ม 2026-09-28)
+
+เรียกก่อน `decreaseSheild` ในทั้ง 3 จุดของ `EnemyActionData` · กันดาเมจ `value × BLOCK% ของผู้รับ` แต่ไม่เกินที่เหลือในกองกลาง `repellency` (global ใน `Setting.h` รีเซ็ตเป็น 0 ใน `reset()`) แล้วหักกองเท่าที่กันไป คืนดาเมจส่วนที่เหลือ
+
+- `Stats::BLOCK` อยู่บนตัวผู้รับ (ช่อง `AType::NONE`) = เปอร์เซ็นต์ที่กันได้ต่อครั้ง
+- ผู้ใช้ตอนนี้: Pearl (CB 1 = 200 Repellency · ทุกคน `BLOCK` 60)

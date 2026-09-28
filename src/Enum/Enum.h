@@ -79,6 +79,9 @@ enum class Stats {
     ELATION,
     CERTIFIED_BANGER,
     MERRYMAKE,
+    DMG_REDUCE, // incoming-DMG formula: enemy = its outgoing DMG −x% · ally = DMG taken −x%
+    ATK_REDUCE, // incoming-DMG formula: enemy ATK −x%
+    BLOCK,      // ally: x% of each incoming hit can be blocked by the team Repellency pool (decreaseBlock)
 };
 enum class DotType {
     SHOCK,
