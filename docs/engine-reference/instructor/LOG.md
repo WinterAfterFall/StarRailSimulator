@@ -2,6 +2,14 @@
 
 หมายเหตุ ณ 2026-09-21: บันทึกเก่าด้านล่างเป็นผลการทำงาน ณ เวลานั้น ไฟล์ใน `test/` ถูก `.gitignore`; ใน workspace ปัจจุบันไม่พบ `basic_reset_stats_regression.cpp`, `hp_decrease_event_regression.cpp` หรือ `break_status_regression.cpp` จึงไม่ควรอ่านการอ้างชื่อเหล่านี้เป็นหลักฐานว่ารันซ้ำได้ตอนนี้ ดู [คู่มือ build/run/test](../../build-run-and-test.md)
 
+## อัปเดต 2026-09-29
+
+- **Aha SPD (user สั่ง)**: ตัวหารจาก 5, 10, 15, 20 (+5) → 5, 10, 20, 40 (×2) — `Action_value.h` `ahaSpeedAdjust` · SPD ของ Aha = 80 + spd₁/5 + spd₂/10 + spd₃/20 + spd₄/40 + … + `ahaExtraFlatSpeed` · อัปเดต `AhaCombat.md` / `Action_value.md`
+- **Dreamlit Actor ซ้อนไม่ได้ (user สั่ง)**: ชื่อบัฟร่วม ไม่มี prefix ผู้สวม → ใส่ 2 คนได้บัฟเดียว
+- **TEMP (user ทดสอบ)**: `Pearl.h` Ult เคยล็อกเป้า `charUnit[3]` ชั่วคราว · **แก้กลับเป็น `chooseCharacterBuff(ptr)` แล้ว** (user เทสเสร็จ 2026-09-29)
+- **Evanescia ultCost (user สั่ง)**: 480 → 240 · Max Energy ยัง 480 (`setCharBasicStats(104,480,240,...)`)
+- `g++ -fsyntax-only` ผ่าน **ยังไม่ได้รัน sim**
+
 ## อัปเดต 2026-09-28
 
 - **Relic / Planar ใหม่ (user สั่ง)**: `Relic/Dreamlit Actor.h` (2pc SPD +6% · 4pc Skill/Ult ใส่เพื่อนอีกคน 1 คน → Elation +16% 3 เทิร์น + ถ้าผู้สวม CB ≥ 10 ทีม CD +12% 3 เทิร์น) · `Planar/Punklorde Stage Zero.h` (Elation +8% · Elation ถึง 40/80 ครั้งแรก → CD 20/32 **ตีความเป็นขั้นแทนกัน** ได้แล้วไม่หาย) · ลงทะเบียน `All_Relic.h` / `All_Planar.h` / `SettingFunction.h` · kit ตรวจเทียบ nanoka (honeyhunter ติด Cloudflare) ข้อความตรงอยู่แล้ว · `g++ -fsyntax-only` ผ่าน **ยังไม่ได้รัน sim**

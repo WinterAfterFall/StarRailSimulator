@@ -10,7 +10,7 @@ namespace Evanescia{
     constexpr int PARTICIPANT_ID = 146;
 
     void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
-        CharUnit *ptr = setCharBasicStats(104,480,480,eidolon,ElementType::PHYSICAL,Path::ELATION,"Evanescia",UnitType::STANDARD);
+        CharUnit *ptr = setCharBasicStats(104,480,240,eidolon,ElementType::PHYSICAL,Path::ELATION,"Evanescia",UnitType::STANDARD);
         ptr->setAllyBaseStats(1048,737,461);
 
         //substats

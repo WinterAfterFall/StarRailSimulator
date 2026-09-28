@@ -18,7 +18,7 @@ Evanescia เป็น DPS สาย Physical ที่ **Energy กับ Certi
 
 | ส่วนของ kit | ทำอะไรในเกม | โค้ดทำยังไง | บรรทัด |
 |---|---|---|---|
-| ค่าพื้นฐาน | SPD 104, Physical, Elation · HP/ATK/DEF 1048/737/461 · Max Energy 480 | `setCharBasicStats(104,480,480,...)` — ultCost = Max Energy | 13-14 |
+| ค่าพื้นฐาน | SPD 104, Physical, Elation · HP/ATK/DEF 1048/737/461 · Max Energy 480 · Ult ใช้ 240 | `setCharBasicStats(104,480,240,...)` — maxEnergy 480, ultCost 240 (user สั่ง 2026-09-29) | 13-14 |
 | build | CR / SPD / ATK% / ERR ตาม nanoka | `setRelicMainStats(...)` | 17-20 |
 | นับเข้า Elation ในทีม | — | `elationCount++` | 22 |
 | **Basic ATK** | 100% ATK เดี่ยว · toughness 10 · SP +1 · Energy 20 | lambda `ba` | 60-72 |
@@ -26,7 +26,7 @@ Evanescia เป็น DPS สาย Physical ที่ **Energy กับ Certi
 | ↳ ถือ CB | Skill ตีเพิ่ม 16% Physical Elation ใส่เป้าที่โดน | action `ELATION_DMG` แยกก้อนหลังตี | 82-89 |
 | **Ultimate** | 160% ATK ทุกตัว (toughness 20) แล้ว bounce 5 ครั้ง × 120% (toughness 5) | `ultimateList` · `addEnemyBounce(...,bounce)` | 141-185 |
 | ↳ ถือ CB | Elation 24% ทุกตัว + 28% ใส่ศัตรูแต่ละตัวที่โดน bounce · นับ CB อย่างน้อยเท่า Max Energy | เก็บเป้าที่โดน bounce จากแถว `damageSplit` ตั้งแต่แถว 1 (แถว 0 = AoE) · ยกค่า CB ใต้ `AType::ELATION_DMG` ขึ้นชั่วคราวให้รวมได้ ≥ 480 แล้วคืนค่า | 146-153, 159-174 |
-| เงื่อนไขกด Ult | Energy ครบ 480 | ไม่มีเงื่อนไขเพิ่ม (`return true`) | 135-137 |
+| เงื่อนไขกด Ult | Energy ครบ 240 (ใช้ Ult หัก 240 · เก็บได้สูงสุด 480) | ไม่มีเงื่อนไขเพิ่ม (`return true`) | 135-137 |
 | AI เลือกท่า | — | `sp > spSafety` → Skill ไม่งั้น BA | 130-133 |
 | **Talent: Elation = 20% ของ CD** | — | `statsAdjustList` เมื่อ CD เปลี่ยน ใส่ส่วนต่างเทียบ `buffNote["Evanescia Talent"]` · `whenOnFieldList` ปลุกครั้งแรกด้วย `statsAdjust(ptr,CD)` | 308-313, 293-295 |
 | **Talent: Energy → CB** | ได้ Energy → ได้ CB เท่ากัน (≤ 100) | `whenEnergyIncreaseList` → `gainCB(min(100,energy), false)` — `false` = CB ก้อนนี้ไม่แปลงกลับเป็น Energy | 205-215 |
@@ -59,7 +59,7 @@ kit บอกสองทิศทาง ถ้าทำตรง ๆ จะว�
 
 ## จุดที่ตีความเอง
 
-- **ultCost = 480** (เท่า Max Energy) — kit ไม่ได้บอกค่าใช้ Ult ตรง ๆ
+- **ultCost = 240** (user สั่ง 2026-09-29 · เดิม 480 เท่า Max Energy) — kit ไม่ได้บอกค่าใช้ Ult ตรง ๆ · Max Energy ยังเป็น 480 → เก็บ Energy ได้เกินค่าใช้ 1 ครั้ง
 - **กติกา Energy (user 2026-09-28)**: Energy ที่ kit ไม่ได้เขียนว่า *fixed* ต้องคูณ ERR เสมอ (CB → Energy, Master Fox +10) · ที่เขียนว่า fixed ไม่คูณ (E6 +120) · Master Fox นับเฉพาะ Energy ที่เข้าหลอดจริง · ส่วน **Energy → CB ใช้ค่าเต็ม** แม้ Energy จะล้นหลอด (user ยืนยัน ไม่ต้องแก้)
 - **อายุของ CB ที่เธอได้เอง** (A2, A6, Elation Skill, Technique, Energy → CB) = เท่ากับ CB จาก Aha Instant (`cbDuration`, E6 +1) — user ยืนยัน 2026-09-28
 - **A2 "เพื่อนได้ CB"** นับเฉพาะ CB จาก Aha Instant (user ยืนยัน) (engine ให้ CB ทุกตัว Elation เท่ากัน = Punchline) · ทีมปัจจุบัน Hibana (144) กับ Yao Guang (114) ID ต่ำกว่า → นับ, SW999 (999) → ไม่นับ

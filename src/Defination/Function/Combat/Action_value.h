@@ -109,9 +109,10 @@ void ahaSpeedAdjust(Path &path){
         elationSpd.push_back(calculateSpeedOnStats(each));
     }
     sort(elationSpd.begin(), elationSpd.end(), greater<double>());
+    // Aha SPD = 80 + SPD1/5 + SPD2/10 + SPD3/20 + SPD4/40 + ... (Elation SPD high -> low, divisor doubles)
     for(auto &each : elationSpd){
         newFlatSpeed += each/factor;
-        factor += 5;
+        factor *= 2;
     }
     newFlatSpeed += ahaExtraFlatSpeed;
     aha->speedBuff(0,newFlatSpeed - aha->getFlatSpeed());
