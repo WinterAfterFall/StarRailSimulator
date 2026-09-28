@@ -28,4 +28,5 @@ void allEventApplyWeakness(AllyUnit *trigger,Enemy *target,vector<ElementType> w
 void allEventWhenEnemyDeath(AllyUnit *killer, Enemy *target);
 void allEventWhenAllyDeath(AllyUnit *target);
 void allEventAfterDealingDamage(shared_ptr<AllyAttackAction> &act, Enemy *target, double damage);
+void allEventWhenUseElationSkill(CharUnit *ptr);
 

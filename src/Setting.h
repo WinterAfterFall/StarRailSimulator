@@ -106,6 +106,7 @@ vector<TriggerByYourSelfFunc> elationSkillList;
 vector<TriggerByYourSelfFunc> beforeAhaInstantList;
 vector<TriggerByYourSelfFunc> afterAhaInstantList;
 vector<TriggerByAllyFunc> whenUseUltList;
+vector<TriggerByAllyFunc> whenUseElationSkillList;
 
 
 vector<TriggerByActionFunc> beforeActionList;

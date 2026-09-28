@@ -9,10 +9,10 @@ namespace Elation_Lightcone{
                 ptr->statsType[Stats::CR][AType::NONE] += 10.0 + superimpose *2;
             }));
 
-            beforeAllyActionList.push_back(TriggerByAllyActionFunc(PRIORITY_IMMEDIATELY, [ptr,superimpose](shared_ptr<AllyActionData> &act) {
-                if(act->isSameAction(ptr,AType::ELATION_SKILL)){
-                    buffStackSingle(ptr,{{Stats::ELATION,AType::NONE,10.0 + superimpose *2}},1,2,"TDGL Stack");
-                }
+            // fired once per character that uses an Elation Skill (not only the first one in the Aha queue)
+            whenUseElationSkillList.push_back(TriggerByAllyFunc(PRIORITY_IMMEDIATELY, [ptr,superimpose](CharUnit *ally) {
+                if(ally!=ptr)return;
+                buffStackSingle(ptr,{{Stats::ELATION,AType::NONE,10.0 + superimpose *2}},1,2,"TDGL Stack");
             }));
 
         };

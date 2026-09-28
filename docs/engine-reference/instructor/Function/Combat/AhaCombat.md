@@ -15,24 +15,25 @@
 
 | ความสามารถ | ทำงานยังไง | ไฟล์:บรรทัด |
 |---|---|---|
-| **1 Aha Instant = 1 action** | `runAhaInstantBar()` ยิง event ระดับ action **ครั้งเดียว** ครอบ Elation Skill ทุกตัวในคิว | `AhaCombat.h:5-38` |
-| เลือกตัวแทน action | ไล่สำเนาของ `ahaInstantBar` หา **attack action ตัวแรก** (`attackRep`) และ **buff action ตัวแรก** (`buffRep`) · ถ้ามีทั้งคู่ event ทั่วไปใช้ `attackRep` | `:8-19` |
-| event ก่อนลูป | `BeforeAction` → `BeforeAllyAction` → `BeforeAttackAction` (ถ้ามี `attackRep`) | `:23-25` |
-| รัน Elation Skill ทีละตัว | `elationSkillAction()` — เหมือน `allyAction()` แต่ **ไม่ยิง** Before/AfterAttackAction และ `buffList` | ลูป `:27-31` · ตัวฟังก์ชัน `Combat.h:81` |
-| event หลังลูป | `AfterAttackAction` (ถ้ามี `attackRep`) → `buffList` (ถ้ามี `buffRep`) → `AfterAllyAction` → `AfterAction` | `:33-36` |
-| **เทิร์นปกติของ Aha** | `ahaTurn()` — `++turnCnt` → `beforeAhaInstant()` → เรียก `elationSkillList` ทุกตัว (แต่ละตัว `addToAhaInstant()`) → `runAhaInstantBar()` → แจก Certified Banger → ล้าง Punchline แล้วเติม `elationCount` → `afterAhaInstant()` → `resetTurn(aha)` | `:39-61` |
-| Certified Banger | Elation ทุกตัวได้ `CERTIFIED_BANGER` = Punchline ตอนนั้น ชื่อ `"CB Buff <turnCnt>"` อายุ `cbDuration` (ค่าเริ่ม 2 · Yao Guang A6 +1 ใน `YaoGuang.h` Setup) + บันทึกลง `cbCheck` | `:50-53` · `Setting.h:82` |
-| ล้าง/เติม Punchline | `genPunchLine(nullptr, -punchline)` แล้ว `genPunchLine(nullptr, elationCount)` | `:55-56` |
-| hook ก่อน/หลัง Aha Instant | `beforeAhaInstant()` / `afterAhaInstant()` วน `beforeAhaInstantList` / `afterAhaInstantList` · ผู้ใช้ตอนนี้: Hibana E1/E2 (`afterAhaInstantList`) · ยิงทั้งใน `ahaTurn` และ `ahaInstant(PL)` (ไม่ยิงใน `elationSkillTrigger`) | เรียก `:42`, `:58` (AhaTurn) · `:67`, `:83` (AhaInstant) · ตัวฟังก์ชัน `Event.h:245-254` |
-| **Aha Instant จาก Ult ของ Yao Guang** | `ahaInstant(PL)` — ใช้ Punchline คงที่ `PL` ชั่วคราวแล้วคืนค่าเดิม (ไม่กิน Punchline จริง) · เรียก Elation Skill ทุกตัว · แจก CB · `++turnCnt` · เรียก `beforeAhaInstant()` หลังตั้ง PL และ `afterAhaInstant()` **หลังคืน Punchline เดิม** (Punchline ที่ hook ให้ เช่น Hibana E1 จึงไม่หาย) · **ไม่** `resetTurn(aha)` | `:62-84` · ผู้เรียก `YaoGuang.h:97-98` (PL 20 / E1 40) |
-| **เรียก Elation Skill เฉพาะบางคน** | `elationSkillTrigger(PL, names)` — เหมือน `ahaInstant(PL)` แต่เรียกเฉพาะ trigger ที่ `owner->getName()` อยู่ใน `names` · **ไม่แจก CB · ไม่ `++turnCnt`** · log `trigger ELATION skill : ชื่อ1, ชื่อ2` | `:86-100` · ยังไม่มีผู้เรียก |
+| **1 Aha Instant = 1 action** | `runAhaInstantBar()` ยิง event ระดับ action **ครั้งเดียว** ครอบ Elation Skill ทุกตัวในคิว | `AhaCombat.h:12-45` |
+| เลือกตัวแทน action | ไล่สำเนาของ `ahaInstantBar` หา **attack action ตัวแรก** (`attackRep`) และ **buff action ตัวแรก** (`buffRep`) · ถ้ามีทั้งคู่ event ทั่วไปใช้ `attackRep` | `:15-26` |
+| event ก่อนลูป | `BeforeAction` → `BeforeAllyAction` → `BeforeAttackAction` (ถ้ามี `attackRep`) | `:30-32` |
+| รัน Elation Skill ทีละตัว | `elationSkillAction()` — เหมือน `allyAction()` แต่ **ไม่ยิง** Before/AfterAttackAction และ `buffList` | ลูป `:34-38` · ตัวฟังก์ชัน `Combat.h:81` |
+| event หลังลูป | `AfterAttackAction` (ถ้ามี `attackRep`) → `buffList` (ถ้ามี `buffRep`) → `AfterAllyAction` → `AfterAction` | `:40-43` |
+| **เทิร์นปกติของ Aha** | `ahaTurn()` — `++turnCnt` → `beforeAhaInstant()` → เรียก `elationSkillList` ทุกตัว (แต่ละตัว `addToAhaInstant()`) → `runAhaInstantBar()` → แจก Certified Banger → ล้าง Punchline แล้วเติม `elationCount` → `afterAhaInstant()` → `resetTurn(aha)` | `:46-68` |
+| Certified Banger | Elation ทุกตัวได้ `CERTIFIED_BANGER` = Punchline ตอนนั้น ชื่อ `"CB Buff <turnCnt>"` อายุ `cbDuration` (ค่าเริ่ม 2 · Yao Guang A6 +1 ใน `YaoGuang.h` Setup) + บันทึกลง `cbCheck` | `:57-60` · `Setting.h:82` |
+| ล้าง/เติม Punchline | `genPunchLine(nullptr, -punchline)` แล้ว `genPunchLine(nullptr, elationCount)` | `:62-63` |
+| hook ก่อน/หลัง Aha Instant | `beforeAhaInstant()` / `afterAhaInstant()` วน `beforeAhaInstantList` / `afterAhaInstantList` · ผู้ใช้ตอนนี้: Hibana E1/E2 (`afterAhaInstantList`) · ยิงทั้งใน `ahaTurn` และ `ahaInstant(PL)` (ไม่ยิงใน `elationSkillTrigger`) | เรียก `:49`, `:65` (AhaTurn) · `:74`, `:90` (AhaInstant) · ตัวฟังก์ชัน `Event.h:252-261` |
+| **Aha Instant จาก Ult ของ Yao Guang** | `ahaInstant(PL)` — ใช้ Punchline คงที่ `PL` ชั่วคราวแล้วคืนค่าเดิม (ไม่กิน Punchline จริง) · เรียก Elation Skill ทุกตัว · แจก CB · `++turnCnt` · เรียก `beforeAhaInstant()` หลังตั้ง PL และ `afterAhaInstant()` **หลังคืน Punchline เดิม** (Punchline ที่ hook ให้ เช่น Hibana E1 จึงไม่หาย) · **ไม่** `resetTurn(aha)` | `:69-91` · ผู้เรียก `YaoGuang.h:97-98` (PL 20 / E1 40) |
+| **เรียก Elation Skill เฉพาะบางคน** | `elationSkillTrigger(PL, names)` — เหมือน `ahaInstant(PL)` แต่เรียกเฉพาะ trigger ที่ `owner->getName()` อยู่ใน `names` · **ไม่แจก CB · ไม่ `++turnCnt`** · log `trigger ELATION skill : ชื่อ1, ชื่อ2` | `:93-107` · ผู้เรียก: EMC Ult (`EMC.h:143`), Aventurine • Waveflair Cheers! ฟรี (`AventurineWaveflair.h:60`), Evanescia E1 (`Evanescia.h:116`) |
+| **event "ตัวละครใช้ Elation Skill"** (เพิ่ม 2026-09-28) | `callElationSkill(e)` — เรียก Elation Skill ของเจ้าของ แล้วยิง `allEventWhenUseElationSkill(owner)` → วน `whenUseElationSkillList` (`TriggerByAllyFunc`, ส่งเจ้าของ · ดู `../Event/Event.md`) · ทั้ง 3 จุดที่เรียก `elationSkillList` (`ahaTurn` / `ahaInstant` / `elationSkillTrigger`) ใช้ตัวนี้ · ยิง **แยกทุกตัวละคร** ต่างจาก event ระดับ action ที่ยิงครั้งเดียว · ผู้ใช้: `Pearl_LC.h`, `Evanescia_LC.h`, `AventurineWaveflair_LC.h`, `Today's Good Luck.h`, `Mushy Shroomy's Adventures.h` | `AhaCombat.h:5-8` · event `Event.h:246-250` · list `Setting.h:109` · sort `SetCombat.h:18` |
 | คิว Aha Instant | `ahaInstantBar` เป็น `queue<shared_ptr<AllyActionData>>` — ใส่ได้แค่ action ฝ่ายเรา · เข้าคิวผ่าน `AllyAttackAction::addToAhaInstant()` (ข้ามถ้าผู้โจมตีไม่อยู่ในสนาม) | `Setting.h:63` |
 
 ## ผลของการใช้ตัวแทนตัวแรก
 
 trigger ระดับ action เห็นแค่ **action ของผู้แสดงคนแรก** ตามลำดับ priority ใน `elationSkillList` (sort มากไปน้อยที่ `SetCombat.h:14`) ทั้ง `attacker`, `attackSetList`, `targetList`
 
-- LC / relic ที่เช็ค "ผู้สวมใช้ Elation Skill" ใน list ระดับ action (เช่น Mushy Shroomy, Today's Good Luck ใน `beforeAllyActionList`) จะติดเฉพาะเมื่อผู้สวมเป็นผู้แสดงคนแรก
+- LC / relic ที่เช็ค "ผู้สวมใช้ Elation Skill" ใน list ระดับ action จะติดเฉพาะเมื่อผู้สวมเป็นผู้แสดงคนแรก → ให้ใช้ `whenUseElationSkillList` แทน (Mushy Shroomy, Today's Good Luck ย้ายไปแล้ว 2026-09-28)
 - `When_attack` ยังยิงรายผู้โจมตีภายใน `elationSkillAction()` ของแต่ละคน
 - event ระดับการโจมตีใน `attack()` (`BeforeAttack` / `AfterAttack` / per-hit) ยังยิงรายคนตามปกติ
 - ก่อนหน้านี้ (ระหว่างวันเดียวกัน) เคยลองสร้าง action ตัวแทนใหม่ที่รวม `attackSetList` / `targetList` ของทุกคน แต่ user เปลี่ยนเป็นหยิบตัวแรก (user สั่ง 2026-09-28)

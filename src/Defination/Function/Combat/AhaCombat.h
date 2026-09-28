@@ -1,5 +1,12 @@
 #include "../include.h"
 
+// One Elation Skill use: run the owner's Elation Skill (queues its action into ahaInstantBar, if any),
+// then fire the "when use Elation Skill" event for that owner (e.g. Light Cones "when the wearer uses an Elation Skill")
+void callElationSkill(TriggerByYourSelfFunc &e){
+    e.call(e.owner);
+    allEventWhenUseElationSkill(e.owner);
+}
+
 // One Aha Instant = one action: action-level events fire once around all Elation Skills,
 // using the first attack action and/or the first buff action in the bar as representatives
 void runAhaInstantBar(){
@@ -43,7 +50,7 @@ void ahaTurn(){
     
     CharCmd::printText("Aha Instant");
     for(TriggerByYourSelfFunc &e : elationSkillList){
-        e.call(e.owner);
+        callElationSkill(e);
     }
     runAhaInstantBar();
 
@@ -68,7 +75,7 @@ void ahaInstant(int pl){
 
     CharCmd::printText("Aha Instant");
     for(TriggerByYourSelfFunc &e : elationSkillList){
-        e.call(e.owner);
+        callElationSkill(e);
     }
     
     runAhaInstantBar();
@@ -91,7 +98,7 @@ void elationSkillTrigger(int pl, const vector<string> &names){
     CharCmd::printText(text);
     for(TriggerByYourSelfFunc &e : elationSkillList){
         if(find(names.begin(), names.end(), e.owner->getName()) == names.end())continue;
-        e.call(e.owner);
+        callElationSkill(e);
     }
     
     runAhaInstantBar();

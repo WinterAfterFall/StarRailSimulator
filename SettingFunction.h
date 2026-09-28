@@ -247,6 +247,20 @@ void lightConeSelector(function<void(CharUnit *ptr)> &lc){
             lightConeFunction = Elation_Lightcone::TodayGoodLuck;
         else if(name == "YaoGuang LC")
             lightConeFunction = Elation_Lightcone::YaoGuang_LC;
+        else if(name == "Pearl LC" || name == "Colors for Tomorrow")
+            lightConeFunction = Elation_Lightcone::Pearl_LC;
+        else if(name == "Evanescia LC" || name == "Until the Flowers Bloom Again")
+            lightConeFunction = Elation_Lightcone::Evanescia_LC;
+        else if(name == "SW999 LC" || name == "Welcome to the Cosmic City")
+            lightConeFunction = Elation_Lightcone::SilverWolf999_LC;
+        else if(name == "AvWF LC" || name == "Summer Rides the Surf")
+            lightConeFunction = Elation_Lightcone::AventurineWaveflair_LC;
+        else if(name == "A Little Getaway")
+            lightConeFunction = Elation_Lightcone::ALittleGetaway;
+        else if(name == "Tomorrow Together")
+            lightConeFunction = Elation_Lightcone::TomorrowTogether;
+        else if(name == "Elation Herta Shop" || name == "Elation Brimming With Blessings")
+            lightConeFunction = Elation_Lightcone::ElationHertaShop;
 
         // --- Erudition ---
         else if(name == "Anaxa LC")

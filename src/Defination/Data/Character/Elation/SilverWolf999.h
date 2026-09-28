@@ -147,6 +147,8 @@ namespace SilverWolf999{
         function<void(shared_ptr<AllyAttackAction> &,bool)> fillEbaSegment = [ptr](shared_ptr<AllyAttackAction> &seg,bool finalHit) {
             double mult = 1 + 0.15*min(2.0,floor(ptr->getBuffNote("SW999 MMR")/60));
             DmgSrcType type = (ptr->statsType[Stats::CERTIFIED_BANGER][AType::NONE]>0) ? DmgSrcType::ELATION : DmgSrcType::ATK;
+            // Elation DMG -> also picks up Elation-DMG buffs (e.g. Welcome to the Cosmic City DEF ignore); still a BA for triggers
+            if(type==DmgSrcType::ELATION)seg->addDamageType(AType::ELATION_DMG);
             seg->addEnemyBounce(DmgSrc(type,2.4*mult,0.1),25);
             if(finalHit){
                 double each = 100.0*mult/max(1,totalEnemy);

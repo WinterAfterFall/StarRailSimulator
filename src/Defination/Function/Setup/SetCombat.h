@@ -15,6 +15,7 @@ void setup(){
     sort(beforeAhaInstantList.begin(), beforeAhaInstantList.end(), TriggerFunc::triggerCmp);
     sort(afterAhaInstantList.begin(), afterAhaInstantList.end(), TriggerFunc::triggerCmp);
     sort(whenUseUltList.begin(), whenUseUltList.end(), TriggerFunc::triggerCmp);
+    sort(whenUseElationSkillList.begin(), whenUseElationSkillList.end(), TriggerFunc::triggerCmp);
     
 
     sort(beforeActionList.begin(), beforeActionList.end(), TriggerFunc::triggerCmp);

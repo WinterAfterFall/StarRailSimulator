@@ -1,6 +1,6 @@
 # `src/Defination/Data/Lightcone/`
 
-73 ไฟล์ แยกโฟลเดอร์ตาม Path · ทุกใบอยู่ใน `namespace <Path>_Lightcone` · แต่ละโฟลเดอร์มี `All_<Path>_LC.h` และ `All_Lighcone.h` รวมทุก path อีกชั้น (สะกดตก `t`)
+80 ไฟล์ (LC 70 ใบ + `All_*` 10 ไฟล์) แยกโฟลเดอร์ตาม Path · ทุกใบอยู่ใน `namespace <Path>_Lightcone` · แต่ละโฟลเดอร์มี `All_<Path>_LC.h` และ `All_Lighcone.h` รวมทุก path อีกชั้น (สะกดตก `t`)
 
 อ่าน `../README.md` (กฎกลางของ `Data/`) และ `../Relic/README.md` ก่อน เพราะโครงคล้ายกัน
 
@@ -28,7 +28,7 @@ namespace <Path>_Lightcone{
 ```cpp
 ptr->setAllyBaseStats(1164, 529, 463);
 ```
-**ทุก LC เรียก `setAllyBaseStats` ทับค่าที่ไฟล์ตัวละครตั้งไว้** — เพราะ base stats ของตัวละครในเกมรวม stat ของ Light Cone ที่สวมอยู่ · นี่คือเหตุผลที่ `lc(ptr)` ต้องถูกเรียก **หลัง** `setAllyBaseStats` ของตัวละครใน `setup` (ดู `../README.md`)
+**ทุก LC เรียก `setAllyBaseStats` บวก stat ของ LC เพิ่มเข้าไปในค่าที่ไฟล์ตัวละครตั้งไว้** (ฟังก์ชันใช้ `+=` — `Class/Unit/StatsSet.h:5-9`) เพราะ base stats ในเกม = ของตัวละคร + ของ Light Cone ที่สวม · ตัวเลขใน LC จึงเป็น stat ของ LC ล้วน ๆ (Lv.80) · (แก้ 2026-09-28: เดิมเขียนว่า "ทับ" ซึ่งไม่ตรงโค้ด)
 
 > **ผลที่ตามมา**: ถ้าลืมใส่ `setAllyBaseStats` ใน LC ใบใหม่ ตัวละครจะใช้ base stats ที่ไม่รวม LC ซึ่งต่ำกว่าจริงมาก
 
@@ -41,7 +41,7 @@ ptr->setAllyBaseStats(1164, 529, 463);
 | `Erudition/` | 10 | |
 | `Harmony/` | 10 | มี `DDD.h` ที่มีผลต่อจังหวะ ult ของทั้งทีม |
 | `Remembrance/` | 8 | |
-| `Elation/` | 4 | |
+| `Elation/` | 11 | ใบที่ต้องรู้ "ผู้สวมใช้ Elation Skill" ใช้ `whenUseElationSkillList` (ดู `Elation/README.md` ข้อ 4) |
 | `Abundance/` | 1 | `Multiplication.h` |
 | `Preservation/` | 1 | `DayOne_of_MyNewLife.h` |
 | `The_Hunt/` | **0** | มีแต่โฟลเดอร์เปล่า |

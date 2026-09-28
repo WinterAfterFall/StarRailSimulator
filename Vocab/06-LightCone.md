@@ -310,8 +310,9 @@
 | ชื่อ | ความสามารถ (S1) |
 |---|---|
 | **Dazzled by a Flowery World** | CD +48%. ขณะผู้ใส่อยู่สนาม ทุกตัว Elation ในทีม → **เพดาน SP +1** (max +3). ทุก 1 SP ที่ผู้ใส่ใช้ → Elation DMG ignore DEF 5% max 4 ชั้น. ถ้าใช้ SP ≥4 ในเทิร์นเดียว → **Stream Promo**: ทีม Elation +20% (ไม่ stack) |
+| **Colors for Tomorrow** (Pearl) | DEF +48%. ใช้ Elation Skill ใส่พวกทุกคน → ศัตรูทุกตัวรับ DMG +22% 3 เทิร์น, ผู้ใส่ได้ Energy fixed 10, ฮีลทีม 10% ของ DEF ผู้ใส่ *(v4.5)* |
 | **Elation Brimming With Blessings** | ATK +20%. ใช้ Skill/Ult กับพวก 1 คน → เป้า **Elation +12%** 2 เทิร์น |
-| **Summer Rides the Surf** | CR +18%. ใช้ Elation Skill → **Updraft** (SPD +20%); ถ้า Elation Skill ต่างจากครั้งก่อน → **Uptrend** (Elation +36%). คืน 1 SP ตอนเริ่มเวฟ หรือหลังใช้ Elation Skill 3 ครั้ง *(v4.5)* |
+| **Summer Rides the Surf** | CR +18%. ใช้ Elation Skill → **Updraft** (SPD +24%); ถ้า Elation Skill ต่างจากครั้งก่อน → **Uptrend** (Elation +40%). คืน 1 SP ตอนเริ่มเวฟ หรือหลังใช้ Elation Skill 3 ครั้ง *(v4.5)* |
 | **Until the Flowers Bloom Again** | CD +60%, ERR +10%. ถ้า Max Energy >120 ทุก 10 แต้มที่เกิน → ERR +0.3% (นับสูงสุด 360 แต้ม). ใช้ Elation Skill → ศัตรูรับ DMG +15% 2 เทิร์น (ไม่ stack) |
 | **Welcome to the Cosmic City** | SPD +18%, Elation DMG ignore DEF 20%. ใช้ Ult ใส่ตัวเอง → **+20 Punchline** (1 ครั้ง รีเซ็ตหลังใช้ BA 3 ครั้ง) |
 | **When She Decided to See** | SPD +18%. เข้าสู้/ใช้ Ult กับพวก → **Great Fortune** 3 เทิร์น: ทีม CR +10%, CD +30%, ผู้ใส่ ERR +12%. เริ่มแต่ละเวฟคืน 15 Energy |
@@ -413,3 +414,11 @@
 | `Destruction/Secret_Vow.h` / `Secret_Vow_Nobuff.h` | A Secret Vow (มีเวอร์ชันปิดบัฟไว้เทียบ) |
 | `Nihility/ShowTime.h` | It's Showtime |
 | `Elation/Today's Good Luck.h` | Today's Good Luck |
+| `Elation/Hibana_LC.h` | Dazzled by a Flowery World (Sparxie) |
+| `Elation/YaoGuang_LC.h` | When She Decided to See (Yao Guang) |
+| `Elation/Pearl_LC.h` | Colors for Tomorrow (Pearl) |
+| `Elation/Evanescia_LC.h` | Until the Flowers Bloom Again (Evanescia) |
+| `Elation/SilverWolf999_LC.h` | Welcome to the Cosmic City (Silver Wolf LV.999) |
+| `Elation/AventurineWaveflair_LC.h` | Summer Rides the Surf (Aventurine • Waveflair) |
+| `Elation/ElationHertaShop.h` | Elation Brimming With Blessings (Herta Shop) |
+| `Elation/Tomorrow Together.h` | Tomorrow, Together |

@@ -11,10 +11,10 @@ namespace Elation_Lightcone{
             }));
 
 
-            beforeAllyActionList.push_back(TriggerByAllyActionFunc(PRIORITY_IMMEDIATELY, [ptr,superimpose,debuffName](shared_ptr<AllyActionData> &act) {
-                if(act->isSameAction(ptr,AType::ELATION_SKILL)){
-                    debuffAllEnemyApply(ptr,{{Stats::VUL,AType::ELATION_DMG,5.0 + superimpose}},debuffName,2);
-                }
+            // fired once per character that uses an Elation Skill (not only the first one in the Aha queue)
+            whenUseElationSkillList.push_back(TriggerByAllyFunc(PRIORITY_IMMEDIATELY, [ptr,superimpose,debuffName](CharUnit *ally) {
+                if(ally!=ptr)return;
+                debuffAllEnemyApply(ptr,{{Stats::VUL,AType::ELATION_DMG,5.0 + superimpose}},debuffName,2);
             }));
 
             afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [superimpose,debuffName](CharUnit *ptr) {

@@ -1,5 +1,6 @@
 #include "../include.h"
 
+void callElationSkill(TriggerByYourSelfFunc &e);
 void runAhaInstantBar();
 void ahaTurn();
 void beforeAhaInstant();

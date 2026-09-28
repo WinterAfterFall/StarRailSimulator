@@ -242,6 +242,12 @@ void allEventAfterDealingDamage(shared_ptr<AllyAttackAction> &act, Enemy *target
         e.call(act, target, damage);
     }
 }
+// ptr just used their Elation Skill (fired once per character, right after its action is queued into ahaInstantBar)
+void allEventWhenUseElationSkill(CharUnit *ptr){
+    for(TriggerByAllyFunc &e : whenUseElationSkillList){
+        e.call(ptr);
+    }
+}
 void beforeAhaInstant(){
     for(TriggerByYourSelfFunc &e : beforeAhaInstantList){
         e.call(e.owner);
