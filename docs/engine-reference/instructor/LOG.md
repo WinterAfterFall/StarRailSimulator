@@ -7,6 +7,8 @@
 - **Aha SPD (user สั่ง)**: ตัวหารจาก 5, 10, 15, 20 (+5) → 5, 10, 20, 40 (×2) — `Action_value.h` `ahaSpeedAdjust` · SPD ของ Aha = 80 + spd₁/5 + spd₂/10 + spd₃/20 + spd₄/40 + … + `ahaExtraFlatSpeed` · อัปเดต `AhaCombat.md` / `Action_value.md`
 - **Dreamlit Actor ซ้อนไม่ได้ (user สั่ง)**: ชื่อบัฟร่วม ไม่มี prefix ผู้สวม → ใส่ 2 คนได้บัฟเดียว
 - **TEMP (user ทดสอบ)**: `Pearl.h` Ult เคยล็อกเป้า `charUnit[3]` ชั่วคราว · **แก้กลับเป็น `chooseCharacterBuff(ptr)` แล้ว** (user เทสเสร็จ 2026-09-29)
+- **Elation Skill นับเป็น Skill (user สั่ง, เลือก "ทั้งสองลิสต์")**: `setupActionType(ELATION_SKILL)` ใน `AllyAttackAction.h` / `AllyBuffAction.h` เพิ่ม `AType::SKILL` ทั้ง trigger และ damage (ฝั่ง buff มีแค่ trigger) · ไม่ตั้ง `turnReset` · ผลต่อโค้ดอื่น: trigger "ใช้ Skill" (Scholar, Sacerdos, Dreamlit, Elation Herta Shop, Mydei LC, Bronya LC, Cerydra, Aventurine • Waveflair A6 ฯลฯ) ติดตอนใช้ Elation Skill ด้วย · engine ไม่มีจุดที่แยกตาม `SKILL` จึงไม่กระทบกลไกหลัก
+- **CB ที่คนอื่นให้ Pearl (user สั่ง)**: เพิ่ม `CharUnit::receiveCB` · Pearl ตั้งเป็น `gainCB` · `EMC.h` `grantCB` เช็คก่อน ถ้าผู้รับมี `receiveCB` ส่งค่าให้แทนบัฟ `"EMC CB <n>"` มีอายุ → Ult ของ EMC ใส่ Pearl ได้ CB ถาวร เพดาน 50 + Repellency · เลื่อนเลขบรรทัดใน `EMC.md` (+5 ตั้งแต่ 41) และ `Pearl.md` (+3 ตั้งแต่ 43)
 - **Evanescia ultCost (user สั่ง)**: 480 → 240 · Max Energy ยัง 480 (`setCharBasicStats(104,480,240,...)`)
 - `g++ -fsyntax-only` ผ่าน **ยังไม่ได้รัน sim**
 

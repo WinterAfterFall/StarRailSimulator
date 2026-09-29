@@ -33,7 +33,7 @@ overload ที่ไม่รับพารามิเตอร์เรี�
 
 ## การตั้งประเภทแอ็กชัน
 
-`setupActionType()` แปลงชนิดที่ส่งเข้า constructor เป็น `actionTypeList` แบบเดียวกับฝั่งโจมตีในส่วนที่เกี่ยวข้อง: BA/Skill ตั้ง `turnReset = true`; SPB เพิ่มทั้ง `BREAK` และ `SPB`; Elation Skill เพิ่มทั้ง `ELATION_SKILL` และ `ELATION_DMG`; ชนิดอื่นที่รองรับเพิ่มชนิดนั้นหนึ่งรายการ ไม่มี `damageTypeList` เพราะคลาสนี้ไม่ใช่แอ็กชันโจมตี
+`setupActionType()` แปลงชนิดที่ส่งเข้า constructor เป็น `actionTypeList` แบบเดียวกับฝั่งโจมตีในส่วนที่เกี่ยวข้อง: BA/Skill ตั้ง `turnReset = true`; SPB เพิ่มทั้ง `BREAK` และ `SPB`; Elation Skill เพิ่ม `ELATION_SKILL`, `ELATION_DMG` และ **`SKILL`** (นับเป็นการใช้ Skill ด้วย แต่ไม่ตั้ง `turnReset` · user สั่ง 2026-09-29); ชนิดอื่นที่รองรับเพิ่มชนิดนั้นหนึ่งรายการ ไม่มี `damageTypeList` เพราะคลาสนี้ไม่ใช่แอ็กชันโจมตี
 
 ## เมธอดตรวจผู้ให้บัฟ
 

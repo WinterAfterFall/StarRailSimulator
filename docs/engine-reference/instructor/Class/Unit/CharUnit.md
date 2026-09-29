@@ -7,6 +7,7 @@
 | กลุ่ม (`#pragma region`) | field | อธิบายที่ |
 |---|---|---|
 | status | `maxEnergy` `currentEnergy` `ultCost` `energyRecharge` `eidolon` | [Energy.md](../../Function/Combat/Energy.md) · `eidolon` อธิบายในไฟล์นี้ |
+| CB พิเศษ | `receiveCB` (`function<void(double)>`, ค่าเริ่ม `nullptr`) | ตัวละครที่เก็บ Certified Banger ตามกติกาของตัวเองตั้งไว้ (Pearl = กองถาวรเพดาน 50) · ตัวละครอื่นที่ให้ CB กับยูนิตนี้เรียกแทนการใส่บัฟ CB มีอายุ (ผู้เรียกตอนนี้: `EMC.h` `grantCB`) · เพิ่ม 2026-09-29 |
 | Build | `charSetup` `lightCone` `Relic` `Planar` | ในไฟล์นี้ (หัวข้อ Build) · [Data/README.md](../../Data/README.md) |
 | DmgRecord | `maxTotalDmg` `currentTotalDmg` `currentRealTimeDmg` `currentNonRealTimeDmg` `maxRealTimeDmg` `maxNonRealTimeDmg` `avgDmgRecord` | [CalDamageNote.md](../../Function/Calculate/CalDamageNote.md) |
 | CalCheck | `checkDamage` · `checkDmgFormula*` · `checkHeal*` · `checkHpChange*` | [FormulaCheck.md](../../Function/AdjustFunction/FormulaCheck.md) |

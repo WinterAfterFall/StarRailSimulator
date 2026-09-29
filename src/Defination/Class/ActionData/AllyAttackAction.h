@@ -115,10 +115,13 @@ class  AllyAttackAction : public AllyActionData {
                 critAble = 0;
                 break;
             case AType::ELATION_SKILL:
+                // an Elation Skill also counts as a Skill (triggers + Skill-DMG buffs) — no turnReset / SP change
                 actionTypeList.push_back(AType::ELATION_SKILL);
                 actionTypeList.push_back(AType::ELATION_DMG);
+                actionTypeList.push_back(AType::SKILL);
                 damageTypeList.push_back(AType::ELATION_SKILL);
                 damageTypeList.push_back(AType::ELATION_DMG);
+                damageTypeList.push_back(AType::SKILL);
                 break;
             case AType::ELATION_DMG:
                 actionTypeList.push_back(AType::ELATION_DMG);

@@ -38,6 +38,9 @@ public:
     double ultCost;
     double energyRecharge = 100; /**/
     int eidolon;
+    // set by a character whose Certified Banger follows its own rules (e.g. Pearl: permanent pool, cap 50);
+    // other characters that grant CB to this unit call it instead of adding a timed CB buff
+    function<void(double)> receiveCB = nullptr;
     #pragma endregion
     #pragma region Build
     FuncClass charSetup;

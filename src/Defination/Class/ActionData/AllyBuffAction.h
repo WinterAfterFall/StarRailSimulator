@@ -36,8 +36,10 @@ class AllyBuffAction : public AllyActionData {
                 actionTypeList.push_back(AType::SPB);
                 break;
             case AType::ELATION_SKILL:
+                // an Elation Skill also counts as a Skill — no turnReset
                 actionTypeList.push_back(AType::ELATION_SKILL);
                 actionTypeList.push_back(AType::ELATION_DMG);
+                actionTypeList.push_back(AType::SKILL);
                 break;
             case AType::ELATION_DMG:
                 actionTypeList.push_back(AType::ELATION_DMG);

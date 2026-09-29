@@ -23,30 +23,30 @@ Pearl เป็นซัพพอร์ต/ฮีลเลอร์สาย Ela
 | build | Body Outgoing Healing / SPD / DEF% / ERR · substat DEF% | `setRelicMainStats(...)` | 21-23 |
 | นับเข้า Elation ในทีม | — | `elationCount++` | 25 |
 | **Talent: CB ของ Pearl** | ไม่หมดอายุ · เพดาน 50 | กองเดียว `buffNote["Pearl CB"]` · `gainCB(x)` บวกไม่เกิน 50 | 35-41 |
-| ↳ CB จาก Aha | CB จาก Aha ก็เป็นของเธอ = ไม่หมดอายุ | `afterAhaInstantList`: ถอด CB ก้อนที่ engine ใส่ (ชื่อใน `cbCheck.back()`) ออกจากระบบหมดอายุ — หักค่าออก, ล้าง check/end, ลดตัวนับของ entry นั้น 1 — แล้ว `gainCB(PL)` เข้ากอง | 304-315 |
-| ↳ CB ตั้งต้น 20 | — | `startGameList` ย้าย `"CB Buff"` 20 ตอนเริ่ม (engine ใส่ให้ทุกตัว Elation) เข้ากองถาวร | 331-336 |
-| **Basic ATK** | 90% DEF เดี่ยว · toughness 10 · SP +1 · Energy 20 | lambda `ba` · `DmgSrcType::DEF` | 98-110 |
-| **Enhanced Basic** (Deep Learning) | 100% DEF ทุกตัว · toughness 10 (user) · SP +1 · Energy 30 · ฮีลทุกคน 8% DEF + 160 และคน HP% ต่ำสุดอีกเท่าเดิม | lambda `eba` · `teamHeal(8,160)` | 115-160 |
-| ↳ Starry Night | Archetype เป็นสาย Elation + Pearl ถือ CB → Elation 15% ทุกตัว (ของ Pearl) | action `ELATION_DMG` แยก | 125-134 |
-| ↳ Elation จาก Archetype | 60% Ice Elation ทุกตัว คิดด้วย stat ของ Archetype | action ที่ **attacker = Archetype** + `damageElement = ICE` (ดาเมจลงบัญชี Archetype) | 135-150 |
-| ↳ Charge | 3 Charge · Enhanced Basic ใช้ 1 · หมด → Deep Learning จบ | `buffNote["Pearl DL Charges"]` → `endDeepLearning()` | 151-152, 85-92 |
-| **Skill** | CB +15 · ฮีลทุกคน 12% DEF + 240 และคน HP% ต่ำสุดอีกเท่าเดิม · SP −1 · Energy 30 | lambda `skill` | 163-174 |
-| ฮีลทีม | — | `teamHeal`: หาคน HP% ต่ำสุดใน `allyList` → `restoreHP(lowest, ×2, ×1)` | 57-69 |
-| AI เลือกท่า | — | Deep Learning ยังมี Charge → Enhanced Basic · ไม่งั้น `sp > spSafety` → Skill · ไม่งั้น BA | 178-182 |
-| **Ultimate** | CB +20 · Deep Learning ให้เพื่อน 1 คน (ไม่ใช่ Pearl) · ดันแอคชัน 10 / 15 / 30% ตามจำนวน Elation 1 / 2 / 3+ | เป้า = `chooseCharacterBuff(ptr)` · `startDeepLearning(target,3)` · `actionForward` | 194-248 |
-| ↳ extra turn (Elation 4+) | Archetype ได้ extra turn · ต้นเทิร์นได้ CB 30 + Punchline 60 ถอนออกตอนจบ | ให้ CB/PL → เรียก `target->turnFunc()` ทันที → action ที่เพิ่งเข้าคิวตั้ง `turnReset = false` (ตามหลัก extra turn ไม่แตะ ATV / turnCnt) · จำ action สุดท้ายไว้ใน `extraLast` · `afterAllyActionList` เจอ action นั้น → ถอน CB/PL | 213-243, 251-257 |
-| **Talent: ลดดาเมจ** | เพื่อน HP ≤ 50% รับดาเมจ −30% | `updateLowHp` เช็คทุกครั้งที่ HP เพื่อนเปลี่ยน (`hpDecreaseList` / `healingList`) → ใส่/ถอด `Stats::DMG_REDUCE` +30 บนตัวเพื่อน (stat ใหม่ที่สูตรรับดาเมจอ่าน — ดู [CalDmgReceive.md](../../../Function/Calculate/CalDmgReceive.md)) | 260-273 |
-| **Talent: Repellency** | CB 1 = Repellency 200 · เพื่อนโดนตี → ใช้ Repellency กันดาเมจ 60% | engine ใหม่: กองกลาง `repellency` (`Setting.h`) + `Stats::BLOCK` · `gainCB` เติมกอง `CB × 200` · ทุกคนได้ `BLOCK` 60 (`whenOnFieldList`) · `decreaseBlock()` ใน engine หักดาเมจก่อนโล่ · `syncRepellency` (เรียกใน `hpDecreaseList`) ลด CB ของ Pearl ให้เท่า `repellency / 200` | 35-41, 44-50, 359, 267-270 |
-| **Elation Skill** | ทุกคนตีครั้งถัดไป → Elation DMG ธาตุตัวเอง 10 / 15 / 20 / 40% (ตาม Elation 1 / 2 / 3 / 4+) · Energy 5 | ตั้งธง `"Pearl Elation Bonus"` ให้ทุกคนใน `allyList` · `whenAttackList` เจอธง → ยิง Elation ใส่**เป้าหลัก** (`mainEnemyNum`, user) แล้วล้างธง · priority 104 | 285-289, 291-301 |
-| **Technique** | เริ่มต่อสู้: CB +20 · Deep Learning 2 Charge ให้ Archetype | `startGameList` | 337-340 |
-| **Minor traces** | DEF +22.5% · SPD +9 · Elation +10% (Effect RES +10% ไม่ได้ใช้) | `resetList` | 345-347 |
-| **A2** | DEF ≥ 2400 → Elation +32% แล้ว +3% ทุก 100 DEF ที่เกิน (นับเกินได้ 3600) · Outgoing Healing + 20% ของ Elation | `statsAdjustList` — DEF เปลี่ยน → คิด Elation · Elation เปลี่ยน → คิด Healing · ปลุกครั้งแรกใน `whenOnFieldList` | 364-377, 360 |
-| **A4** | ต้นเทิร์นเพื่อนทุกคน → CB +5 (ได้รวมไม่เกิน 50 ต่อรอบ รีเซ็ตตอนต้นเทิร์น Pearl) | `beforeTurnList` · ตัวนับ `"Pearl A4 Gained"` · (Effect RES +50% / ล้างดีบัฟ ไม่ได้ทำ) | 318-326 |
-| **A6** | หลัง Ult ถ้า Archetype เป็นสาย Elation → Ult ครั้งถัดไปของเขาให้ Pearl Energy fixed 90 (ไม่ซ้อน) | ธง `"Pearl A6"` · `whenUseUltList` | 203, 276-282 |
-| **E1** | Elation 2 / 3 / 4+ ตัว → ทั้งทีม Elation +10 / 20 / 60% · (กันตาย ไม่ได้ทำ) | `whenOnFieldList` | 353-356 |
-| **E2** | ทั้งทีม Elation DMG merrymake +15% · Ult ดันแอคชันตัว Elation อื่นด้วย · extra turn ได้ CB / PL ×2 | `whenOnFieldList` · ใน Ult | 357, 207-212, 216-217 |
-| **E4** | Elation Skill ×2 | `ratio *= 2` | 296 |
-| **E6** | ระหว่าง Deep Learning ทั้งทีม RES PEN +20% · Enhanced Basic Elation เพิ่ม 240% (stat ของ Archetype) | `startDeepLearning` / `endDeepLearning` · ก้อน 240 ใน action ของ Archetype | 81, 90, 143-147 |
+| ↳ CB จาก Aha | CB จาก Aha ก็เป็นของเธอ = ไม่หมดอายุ | `afterAhaInstantList`: ถอด CB ก้อนที่ engine ใส่ (ชื่อใน `cbCheck.back()`) ออกจากระบบหมดอายุ — หักค่าออก, ล้าง check/end, ลดตัวนับของ entry นั้น 1 — แล้ว `gainCB(PL)` เข้ากอง | 307-318 |
+| ↳ CB ตั้งต้น 20 | — | `startGameList` ย้าย `"CB Buff"` 20 ตอนเริ่ม (engine ใส่ให้ทุกตัว Elation) เข้ากองถาวร | 334-339 |
+| **Basic ATK** | 90% DEF เดี่ยว · toughness 10 · SP +1 · Energy 20 | lambda `ba` · `DmgSrcType::DEF` | 101-113 |
+| **Enhanced Basic** (Deep Learning) | 100% DEF ทุกตัว · toughness 10 (user) · SP +1 · Energy 30 · ฮีลทุกคน 8% DEF + 160 และคน HP% ต่ำสุดอีกเท่าเดิม | lambda `eba` · `teamHeal(8,160)` | 118-163 |
+| ↳ Starry Night | Archetype เป็นสาย Elation + Pearl ถือ CB → Elation 15% ทุกตัว (ของ Pearl) | action `ELATION_DMG` แยก | 128-137 |
+| ↳ Elation จาก Archetype | 60% Ice Elation ทุกตัว คิดด้วย stat ของ Archetype | action ที่ **attacker = Archetype** + `damageElement = ICE` (ดาเมจลงบัญชี Archetype) | 138-153 |
+| ↳ Charge | 3 Charge · Enhanced Basic ใช้ 1 · หมด → Deep Learning จบ | `buffNote["Pearl DL Charges"]` → `endDeepLearning()` | 154-155, 88-95 |
+| **Skill** | CB +15 · ฮีลทุกคน 12% DEF + 240 และคน HP% ต่ำสุดอีกเท่าเดิม · SP −1 · Energy 30 | lambda `skill` | 166-177 |
+| ฮีลทีม | — | `teamHeal`: หาคน HP% ต่ำสุดใน `allyList` → `restoreHP(lowest, ×2, ×1)` | 60-72 |
+| AI เลือกท่า | — | Deep Learning ยังมี Charge → Enhanced Basic · ไม่งั้น `sp > spSafety` → Skill · ไม่งั้น BA | 181-185 |
+| **Ultimate** | CB +20 · Deep Learning ให้เพื่อน 1 คน (ไม่ใช่ Pearl) · ดันแอคชัน 10 / 15 / 30% ตามจำนวน Elation 1 / 2 / 3+ | เป้า = `chooseCharacterBuff(ptr)` · `startDeepLearning(target,3)` · `actionForward` | 197-251 |
+| ↳ extra turn (Elation 4+) | Archetype ได้ extra turn · ต้นเทิร์นได้ CB 30 + Punchline 60 ถอนออกตอนจบ | ให้ CB/PL → เรียก `target->turnFunc()` ทันที → action ที่เพิ่งเข้าคิวตั้ง `turnReset = false` (ตามหลัก extra turn ไม่แตะ ATV / turnCnt) · จำ action สุดท้ายไว้ใน `extraLast` · `afterAllyActionList` เจอ action นั้น → ถอน CB/PL | 216-246, 254-260 |
+| **Talent: ลดดาเมจ** | เพื่อน HP ≤ 50% รับดาเมจ −30% | `updateLowHp` เช็คทุกครั้งที่ HP เพื่อนเปลี่ยน (`hpDecreaseList` / `healingList`) → ใส่/ถอด `Stats::DMG_REDUCE` +30 บนตัวเพื่อน (stat ใหม่ที่สูตรรับดาเมจอ่าน — ดู [CalDmgReceive.md](../../../Function/Calculate/CalDmgReceive.md)) | 263-276 |
+| **Talent: Repellency** | CB 1 = Repellency 200 · เพื่อนโดนตี → ใช้ Repellency กันดาเมจ 60% | engine ใหม่: กองกลาง `repellency` (`Setting.h`) + `Stats::BLOCK` · `gainCB` เติมกอง `CB × 200` · ทุกคนได้ `BLOCK` 60 (`whenOnFieldList`) · `decreaseBlock()` ใน engine หักดาเมจก่อนโล่ · `syncRepellency` (เรียกใน `hpDecreaseList`) ลด CB ของ Pearl ให้เท่า `repellency / 200` | 35-41, 47-53, 362, 270-273 |
+| **Elation Skill** | ทุกคนตีครั้งถัดไป → Elation DMG ธาตุตัวเอง 10 / 15 / 20 / 40% (ตาม Elation 1 / 2 / 3 / 4+) · Energy 5 | ตั้งธง `"Pearl Elation Bonus"` ให้ทุกคนใน `allyList` · `whenAttackList` เจอธง → ยิง Elation ใส่**เป้าหลัก** (`mainEnemyNum`, user) แล้วล้างธง · priority 104 | 288-292, 294-304 |
+| **Technique** | เริ่มต่อสู้: CB +20 · Deep Learning 2 Charge ให้ Archetype | `startGameList` | 340-343 |
+| **Minor traces** | DEF +22.5% · SPD +9 · Elation +10% (Effect RES +10% ไม่ได้ใช้) | `resetList` | 348-350 |
+| **A2** | DEF ≥ 2400 → Elation +32% แล้ว +3% ทุก 100 DEF ที่เกิน (นับเกินได้ 3600) · Outgoing Healing + 20% ของ Elation | `statsAdjustList` — DEF เปลี่ยน → คิด Elation · Elation เปลี่ยน → คิด Healing · ปลุกครั้งแรกใน `whenOnFieldList` | 367-380, 363 |
+| **A4** | ต้นเทิร์นเพื่อนทุกคน → CB +5 (ได้รวมไม่เกิน 50 ต่อรอบ รีเซ็ตตอนต้นเทิร์น Pearl) | `beforeTurnList` · ตัวนับ `"Pearl A4 Gained"` · (Effect RES +50% / ล้างดีบัฟ ไม่ได้ทำ) | 321-329 |
+| **A6** | หลัง Ult ถ้า Archetype เป็นสาย Elation → Ult ครั้งถัดไปของเขาให้ Pearl Energy fixed 90 (ไม่ซ้อน) | ธง `"Pearl A6"` · `whenUseUltList` | 206, 279-285 |
+| **E1** | Elation 2 / 3 / 4+ ตัว → ทั้งทีม Elation +10 / 20 / 60% · (กันตาย ไม่ได้ทำ) | `whenOnFieldList` | 356-359 |
+| **E2** | ทั้งทีม Elation DMG merrymake +15% · Ult ดันแอคชันตัว Elation อื่นด้วย · extra turn ได้ CB / PL ×2 | `whenOnFieldList` · ใน Ult | 360, 210-215, 219-220 |
+| **E4** | Elation Skill ×2 | `ratio *= 2` | 299 |
+| **E6** | ระหว่าง Deep Learning ทั้งทีม RES PEN +20% · Enhanced Basic Elation เพิ่ม 240% (stat ของ Archetype) | `startDeepLearning` / `endDeepLearning` · ก้อน 240 ใน action ของ Archetype | 84, 93, 146-150 |
 
 ## จุดที่ตีความเอง / ตัดทิ้ง
 
@@ -57,6 +57,8 @@ Pearl เป็นซัพพอร์ต/ฮีลเลอร์สาย Ela
 - **เป้า Ult/Technique = `chooseCharacterBuff(ptr)`** (ตัวละคร ไม่ใช่ memosprite) · ถ้าเป้าเป็น Pearl เอง → ได้แค่ CB ไม่มี Deep Learning
 
 ## จุดที่ควรระวัง
+
+- **CB ที่ตัวละครอื่นให้ Pearl** (เพิ่ม 2026-09-29 user สั่ง): Pearl ตั้ง `ptr->receiveCB = gainCB` (บรรทัด 43-44) → CB จาก Ult ของ EMC เข้ากองถาวรเพดาน 50 + นับเป็น Repellency เหมือน CB ของเธอเอง ไม่เป็นบัฟมีอายุ · ตัวละครที่ให้ CB คนอื่นในอนาคตต้องเช็ค `receiveCB` แบบ `EMC.h:41-45`
 
 - **Pearl ยุ่งกับ `cbCheck` ของ engine** — ลดตัวนับของ entry ล่าสุดเอง ถ้า engine เปลี่ยนรูปแบบ `cbCheck` (tuple ชื่อ / จำนวนตัว / ค่า) ต้องแก้ตาม
 - **พบบั๊ก engine ระหว่างทำ**: CB ตั้งต้น 20 (`"CB Buff"` ใน `SetCombat.h` `reset()`) ไม่มีใครถอด → ทุกตัว Elation ได้ CB +20 ถาวร · Pearl ย้ายของตัวเองเข้ากองถาวรอยู่แล้วจึงไม่กระทบ · แยกเป็นงานต่างหาก

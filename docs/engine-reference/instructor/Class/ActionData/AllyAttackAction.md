@@ -4,6 +4,8 @@
 
 User ยืนยัน 2026-09-17: constructor เปล่า `AllyAttackAction(){}` เผื่อสร้างแอ็กชันแล้วค่อยกำหนดข้อมูลเองภายหลัง ไม่เตรียมข้อมูลเหมือน overload ที่รับพารามิเตอร์
 
+**Elation Skill = Skill ด้วย** (user สั่ง 2026-09-29): `setupActionType(ELATION_SKILL)` ใส่ `ELATION_SKILL`, `ELATION_DMG` และ `SKILL` ลงทั้ง `actionTypeList` และ `damageTypeList` → trigger "ใช้ Skill" ทุกตัวติดตอนใช้ Elation Skill และได้บัฟที่ผูก `AType::SKILL` (DEF shred / RES PEN; DMG% ไม่มีผลกับ Elation DMG อยู่แล้ว) · ไม่ตั้ง `turnReset` และไม่ยุ่ง SP
+
 จากโค้ด: overload ที่รับพารามิเตอร์ตั้ง `attacker` และ `source` เป็นยูนิตที่ส่งมา ตั้งชื่อแอ็กชัน รูปแบบเป้าหมาย และธาตุจากผู้โจมตี เรียก `setupActionType()` แล้วเพิ่มผู้โจมตีคนแรกใน `attackSetList`; overload อีกแบบรับ `actionFunction` เพิ่มด้วย
 
 ## `addToActionBar()`

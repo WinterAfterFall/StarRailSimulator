@@ -38,6 +38,11 @@ namespace EMC{
 
         function<void(AllyUnit*,double)> grantCB = [ptr,grantedCB](AllyUnit *holder,double value) {
             if(value<=0)return;
+            // holder keeps CB by its own rules (Pearl: permanent pool, cap 50) -> hand it over, no timed buff
+            if(holder->owner&&holder->owner->receiveCB){
+                holder->owner->receiveCB(value);
+                return;
+            }
             ptr->buffNote["EMC CB Id"] += 1;
             string name = "EMC CB " + to_string((int)ptr->getBuffNote("EMC CB Id"));
             buffSingle(holder,{{Stats::CERTIFIED_BANGER,AType::NONE,value}},name,cbDuration);

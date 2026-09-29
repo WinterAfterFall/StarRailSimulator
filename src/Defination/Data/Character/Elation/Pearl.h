@@ -40,6 +40,9 @@ namespace Pearl{
             repellency += add*200;
         };
 
+        // CB granted by other characters (e.g. EMC Ult) goes into the same permanent pool
+        ptr->receiveCB = gainCB;
+
         // Repellency spent by decreaseBlock -> her CB follows the pool (pool / 200)
         function<void()> syncRepellency = [ptr]() {
             double cb = repellency/200;
