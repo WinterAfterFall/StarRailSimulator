@@ -8,7 +8,7 @@
 //   blocked DMG is spent from the pool and her CB drops to match (pool / 200)
 //   not modeled: A4 Effect RES / debuff dispel, E1 fatal-hit save
 //   Deep Learning Elation DMG is "calculated with the Archetype's stats" -> the Archetype is the attacker (DMG is credited to them)
-//   Elation Skill bonus hits the main target
+//   Elation Skill bonus hits every enemy the triggering attack hit (user 2026-09-29)
 namespace Pearl{
     constexpr int PARTICIPANT_ID = 104;
     const string ARCHETYPE = "Pearl Archetype";
@@ -297,8 +297,14 @@ namespace Pearl{
             act->attacker->setBuffCheck("Pearl Elation Bonus",0);
             double ratio = (elationCount>=4) ? 40 : (elationCount==3) ? 20 : (elationCount==2) ? 15 : 10;
             if(ptr->eidolon>=4)ratio *= 2;
-            shared_ptr<AllyAttackAction> bonus = make_shared<AllyAttackAction>(AType::ELATION_DMG,act->attacker,TraceType::SINGLE,"Pearl Elation Bonus");
-            bonus->addDamageIns(DmgSrc(DmgSrcType::ELATION,ratio),enemyUnit[mainEnemyNum].get());
+            // user 2026-09-29: the bonus hits every enemy that attack hit (its targetList), same value each, one hit
+            shared_ptr<AllyAttackAction> bonus = make_shared<AllyAttackAction>(AType::ELATION_DMG,act->attacker,TraceType::AOE,"Pearl Elation Bonus");
+            bonus->damageSplit.emplace_back();
+            for(Enemy *each : act->targetList){
+                if(!each||!each->isTargetable())continue;
+                bonus->addDamageHit(DmgSrc(DmgSrcType::ELATION,ratio),each);
+            }
+            if(bonus->damageSplit.back().empty())return;
             bonus->turnReset = 0;
             attack(bonus);
         }));
