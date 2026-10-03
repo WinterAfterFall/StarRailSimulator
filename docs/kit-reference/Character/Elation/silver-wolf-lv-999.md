@@ -38,7 +38,7 @@ Minor traces (total): **SPD +9 · CRIT Rate +18.7% · Elation +10%**
 | Ultimate | God Mode: ON! | Enhance | — | — | Enter "Godmode Player", advance 100% · Zone · Top Loot Box 90% Elation (split) |
 | Top Loot Box effects | Big Flipping Sword / Kaboom Eggsplosion / Funky Munch Bean | AoE | AoE 10 each | — | True DMG 20% of this box's total → highest-HP enemy / +2 SP / +3 Punchline |
 | Talent | I Carry, We Win | Enhance | — | — | Ult at 60 Hidden MMR (+240 overflow → 300) · CR +0.4%/MMR, past 100% CR → CD +0.8%/MMR · 40% Elation DMG on BA/Skill while holding Certified Banger |
-| Technique | This? Absolute Meta! | Summon | — | — | Each wave start: 1 Top Loot Box using fixed 99 Certified Banger |
+| Technique | This? Absolute Meta! | Summon | — | — | Each wave start: 1 Top Loot Box (always Funky Munch Bean) using fixed 99 Certified Banger |
 | Elation Skill | Pro-Gamer Move | Enhance | — | — | +15 Hidden MMR (normal state) |
 | Elation Skill (Enh.) | Honkai-DMG Demo | Bounce | ST 10 | — | 6 × 90% Elation DMG to random enemies · reset Top Loot Box chance to initial (Godmode only) |
 | Exclusive | McAwolfee 999 | Support | — | — | Once per wave: first enemy CC on an ally → all allies "Firewall" (CC immune) 1 turn |
@@ -94,7 +94,7 @@ Elation Skill (Enh.) — Honkai-DMG Demo (constant: 6 hits)
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | Elation% per hit | 45 | 49.5 | 54 | 58.5 | 63 | 67.5 | 73.125 | 78.75 | 84.375 | **90** | 94.5 | 99 | 103.5 | 108 | 112.5 |
 
-Technique: fixed 99 Certified Banger for the wave-start Top Loot Box.
+Technique: fixed 99 Certified Banger for the wave-start Top Loot Box; the box is always Funky Munch Bean (+3 Punchline) — per creator guides (Hero Ear / Proto / Slice), nanoka text does not name the effect.
 
 ## Major traces
 

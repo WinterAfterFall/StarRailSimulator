@@ -70,9 +70,13 @@ namespace SilverWolf999{
         #pragma region Top Loot Box
 
         // 90% Elation split among all enemies · each effect AoE 10 toughness
-        function<shared_ptr<AllyAttackAction>()> makeLootBox = [ptr]() {
-            int idx = (int)ptr->getBuffNote("SW999 Loot Idx") % 3;
-            ptr->buffNote["SW999 Loot Idx"] += 1;
+        // forceIdx -1 = next in the Sword -> Kaboom -> Bean rotation · 0/1/2 = that effect, rotation untouched
+        function<shared_ptr<AllyAttackAction>(int)> makeLootBox = [ptr](int forceIdx) {
+            int idx = forceIdx;
+            if(idx<0){
+                idx = (int)ptr->getBuffNote("SW999 Loot Idx") % 3;
+                ptr->buffNote["SW999 Loot Idx"] += 1;
+            }
             string name = (idx==0) ? "SW999 Loot Sword" : (idx==1) ? "SW999 Loot Kaboom" : "SW999 Loot Bean";
             shared_ptr<AllyAttackAction> box =
             make_shared<AllyAttackAction>(AType::ELATION_DMG,ptr,TraceType::AOE,name,
@@ -189,7 +193,7 @@ namespace SilverWolf999{
                 attackEbaSegment(act,firstInc);
                 for(int i=1;i<=3;i++){
                     // box from Enhanced BA does not count as an attack -> resolve inline, no action events
-                    shared_ptr<AllyAttackAction> box = makeLootBox();
+                    shared_ptr<AllyAttackAction> box = makeLootBox(-1);
                     box->actionFunction(box);
                     shared_ptr<AllyAttackAction> seg = make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::BOUNCE,"SW999 EBA");
                     fillEbaSegment(seg,i==3);
@@ -266,8 +270,8 @@ namespace SilverWolf999{
                 int oldPL = punchline;
                 if(ptr->eidolon>=4)punchline = oldPL*6; // E4: counts Punchline × 5 on top of the original
                 attack(act);
+                a4(); // A4 reads the counted Punchline -> E4 ×6 included (user 2026-10-03)
                 punchline = oldPL;
-                a4();
                 ptr->setBuffNote("SW999 Loot Chance",100);
                 ptr->setBuffNote("SW999 Loot Acc",0);
             });
@@ -284,14 +288,15 @@ namespace SilverWolf999{
                 if(ptr->getBuffNote("SW999 Loot Acc")<100-1e-9)continue;
                 ptr->buffNote["SW999 Loot Acc"] -= 100;
                 ptr->buffNote["SW999 Loot Chance"] *= 0.2;
-                makeLootBox()->addToActionBar();
+                makeLootBox(-1)->addToActionBar();
                 dealDamage();
             }
         }));
 
-        // Talent: gaining Punchline gives the same amount of Hidden MMR (Aha reset refill has no source -> ignored)
+        // Talent: gaining Punchline from any source gives the same amount of Hidden MMR
+        // (incl. the sourceless refill after an Aha turn — user 2026-10-03)
         punchLineList.push_back(TriggerSkillPointFunc(PRIORITY_IMMEDIATELY, [gainMMR](AllyUnit *spMaker, int spChange) {
-            if(spChange<=0||!spMaker)return;
+            if(spChange<=0)return;
             gainMMR(spChange);
         }));
 
@@ -325,9 +330,10 @@ namespace SilverWolf999{
         }));
 
         // Technique: Top Loot Box at each wave start with a fixed 99 Certified Banger
+        // always Funky Munch Bean (Pac-Man) — does not advance the effect rotation
         startWaveList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [makeLootBox](CharUnit *ptr) {
             if(!ptr->technique)return;
-            shared_ptr<AllyAttackAction> box = makeLootBox();
+            shared_ptr<AllyAttackAction> box = makeLootBox(2);
             auto boxFunc = box->actionFunction;
             box->actionFunction = [ptr,boxFunc](shared_ptr<AllyAttackAction> &act){
                 double diff = 99 - ptr->statsType[Stats::CERTIFIED_BANGER][AType::NONE];

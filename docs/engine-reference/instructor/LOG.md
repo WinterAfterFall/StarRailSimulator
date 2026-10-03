@@ -8,6 +8,12 @@
 - **SW999 Ult หัก MMR 60 (user สั่ง, kit ไม่ได้เขียน) + แก้ Ult ซ้อน**: หัก `gainMMR(-60)` ตอน Ult **เข้าคิว** (lambda ของ `ultimateList`) แบบเดียวกับ `ultUseCheck` หัก Energy · ตั้งธง `"SW999 Ult Queued"` ให้ `addUltCondition` ไม่ผ่านจนกว่า action ของ Ult จะทำงาน · **บั๊กเดิม**: Ult ไม่ใช้ Energy เงื่อนไข (MMR / Godmode) เปลี่ยนตอน action ทำงาน → `allUltimateCheck` รอบถัดไประหว่างรอคิวกด Ult ซ้ำ (เห็นใน log: Ult Start 2 ครั้ง ATV เดียวกัน · E1 VUL +20 ใส่ 2 รอบถอนรอบเดียว) · หักก่อน Godmode จึงไม่นับเข้า E2
 - **SW999 โบนัส EBA +15% ต่อ 60 MMR → `Stats::MTPR_INC` (user สั่ง)**: หลัก "เพิ่มตัวคูณเดิมของท่า ใช้ `MTPR_INC`" · `ebaMtprInc()` + `attackEbaSegment` ใส่ `MTPR_INC` ช่อง `AType::BA` เฉพาะตอนท่อนนั้นตี แล้วถอนค่าเดียวกัน · จังหวะอ่าน stack เท่าเดิม (ท่อนแรกตอนเข้าคิว ท่อน 2–4 ก่อนตี) · `fillEbaSegment` กลับเป็น 2.4% / 100% ตามคิท · อัปเดตเลขบรรทัดทั้งหมดใน `SilverWolf999.md`
 - **รัน sim แล้ว** (`test/run_sw999_compare.ps1` — SW999 E0/E2 × Pearl Ult ใส่ SW999 / Yao Guang, ศัตรู 2 ตัว): หลังแก้ Ult ซ้อนไม่มี Ult Start ซ้ำ · เปลี่ยนเป็น `MTPR_INC` แล้วดาเมจเท่าเดิมทุกหลัก (dmg/atv ทุกเป้า 85,320 / 83,479 / 156,300 / 141,146)
+- **SW999 กล่องจาก Technique = Funky Munch Bean เสมอ (user สั่ง หลังเทียบคลิปไกด์ 10 คลิป)**: เดิม `makeLootBox()` หมุนวน Sword → Kaboom → Bean ทำให้กล่องต้นเวฟแรกเป็น Sword และดันลำดับหมุนวนของกล่องอื่นเลื่อนไปหนึ่งช่อง · เปลี่ยนเป็น `makeLootBox(int forceIdx)` — `-1` = หมุนวนตามเดิม (Zone / EBA), `2` = Bean โดยไม่แตะลำดับ (Technique) · อัปเดต kit-reference + เลขบรรทัดใน `SilverWolf999.md` · ยังไม่ได้รัน sim
+- **SW999 E4 = ×6 (user ยืนยัน)**: Honkai-DMG Demo นับ Punchline เดิม + เพิ่มอีก 5 เท่า = รวม 6 เท่า · โค้ดเดิมถูกอยู่แล้ว ไม่แก้โค้ด · ตัดหมายเหตุ "ถ้าตั้งใจ 5 เท่าให้แก้" ใน `SilverWolf999.md`
+- **SW999 A4 นับ Punchline หลังคูณ E4 (user สั่ง)**: ใน Honkai-DMG Demo ย้าย `a4()` ไปก่อน `punchline = oldPL` → E4 นับ ×6 แล้ว A4 เห็นค่านั้น (เช่น PL 10 → 60 → MMR +40) · E0–E3 ผลเท่าเดิม · ยังไม่ได้รัน sim
+- **SW999 โบนัส EBA +15%/60 MMR ไม่รวมกล่องสุ่ม (user ยืนยัน)**: โค้ดเดิมถูกอยู่แล้ว (`MTPR_INC` ช่อง BA ใส่เฉพาะตอนท่อน EBA ตี) · ไม่แก้โค้ด · บันทึกใน `SilverWolf999.md`
+- **SW999 Punchline ทุกแหล่งให้ MMR (user สั่ง)**: ตัดเงื่อนไข `!spMaker` ใน `punchLineList` → Punchline ที่เติมคืนหลัง Aha เทิร์น (`genPunchLine(nullptr, elationCount)`) นับเป็น MMR ด้วย (ค่าลบยังข้ามเหมือนเดิม) · เลขบรรทัด ≥ 297 ใน `SilverWolf999.md` เลื่อน +1 · ยังไม่ได้รัน sim
+- **SW999 เอฟเฟกต์กล่อง**: user ให้คงการหมุนวน Sword → Kaboom → Bean ไว้ ไม่เปลี่ยนเป็นกติกาตาม SP / MMR
 
 ## อัปเดต 2026-09-29
 
