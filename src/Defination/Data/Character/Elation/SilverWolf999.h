@@ -144,14 +144,25 @@ namespace SilverWolf999{
         // Enhanced BA: 240% over 100 bounces in 4 segments of 25, a Top Loot Box between segments (3 total),
         // Final Hit 100% split among all enemies · with Certified Banger the ability DMG becomes Elation DMG
         // bounce toughness 10 total (0.1 each) · Final Hit AoE 10
+        // +15% per 60 MMR (max 2 stacks) raises the original multiplier -> Stats::MTPR_INC on the BA axis,
+        // put on only while that segment hits (boxes / Talent Elation are not BA -> not boosted)
+        // stacks are read when the segment is built: segment 1 when the EBA is queued, 2-4 right before they hit
+        function<double()> ebaMtprInc = [ptr]() {
+            return 15*min(2.0,floor(ptr->getBuffNote("SW999 MMR")/60));
+        };
+        function<void(shared_ptr<AllyAttackAction> &,double)> attackEbaSegment = [ptr](shared_ptr<AllyAttackAction> &seg,double inc) {
+            buffSingle(ptr,{{Stats::MTPR_INC,AType::BA,inc}});
+            attack(seg);
+            buffSingle(ptr,{{Stats::MTPR_INC,AType::BA,-inc}});
+        };
+
         function<void(shared_ptr<AllyAttackAction> &,bool)> fillEbaSegment = [ptr](shared_ptr<AllyAttackAction> &seg,bool finalHit) {
-            double mult = 1 + 0.15*min(2.0,floor(ptr->getBuffNote("SW999 MMR")/60));
             DmgSrcType type = (ptr->statsType[Stats::CERTIFIED_BANGER][AType::NONE]>0) ? DmgSrcType::ELATION : DmgSrcType::ATK;
             // Elation DMG -> also picks up Elation-DMG buffs (e.g. Welcome to the Cosmic City DEF ignore); still a BA for triggers
             if(type==DmgSrcType::ELATION)seg->addDamageType(AType::ELATION_DMG);
-            seg->addEnemyBounce(DmgSrc(type,2.4*mult,0.1),25);
+            seg->addEnemyBounce(DmgSrc(type,2.4,0.1),25);
             if(finalHit){
-                double each = 100.0*mult/max(1,totalEnemy);
+                double each = 100.0/max(1,totalEnemy);
                 seg->addDamageIns(
                     DmgSrc(type,each,10),
                     DmgSrc(type,each,10),
@@ -168,13 +179,14 @@ namespace SilverWolf999{
             CharCmd::printUltEnd("Silver Wolf 999");
         };
 
-        function<void(bool)> eba = [ptr,fillEbaSegment,makeLootBox,exitGodmode](bool extraTurn) {
+        function<void(bool)> eba = [ptr,fillEbaSegment,ebaMtprInc,attackEbaSegment,makeLootBox,exitGodmode](bool extraTurn) {
+            double firstInc = ebaMtprInc();
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::BOUNCE,"SW999 EBA",
-            [ptr,fillEbaSegment,makeLootBox,exitGodmode](shared_ptr<AllyAttackAction> &act){
+            [ptr,firstInc,fillEbaSegment,ebaMtprInc,attackEbaSegment,makeLootBox,exitGodmode](shared_ptr<AllyAttackAction> &act){
                 bool e6 = ptr->eidolon>=6&&ptr->statsType[Stats::CERTIFIED_BANGER][AType::NONE]>0;
                 if(e6)buffSingle(ptr,{{Stats::MERRYMAKE,AType::NONE,50}});
-                attack(act);
+                attackEbaSegment(act,firstInc);
                 for(int i=1;i<=3;i++){
                     // box from Enhanced BA does not count as an attack -> resolve inline, no action events
                     shared_ptr<AllyAttackAction> box = makeLootBox();
@@ -182,7 +194,7 @@ namespace SilverWolf999{
                     shared_ptr<AllyAttackAction> seg = make_shared<AllyAttackAction>(AType::BA,ptr,TraceType::BOUNCE,"SW999 EBA");
                     fillEbaSegment(seg,i==3);
                     seg->turnReset = 0;
-                    attack(seg);
+                    attackEbaSegment(seg,ebaMtprInc());
                 }
                 if(e6)buffSingle(ptr,{{Stats::MERRYMAKE,AType::NONE,-50}});
 
