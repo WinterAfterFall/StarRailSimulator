@@ -2,6 +2,10 @@
 
 หมายเหตุ ณ 2026-09-21: บันทึกเก่าด้านล่างเป็นผลการทำงาน ณ เวลานั้น ไฟล์ใน `test/` ถูก `.gitignore`; ใน workspace ปัจจุบันไม่พบ `basic_reset_stats_regression.cpp`, `hp_decrease_event_regression.cpp` หรือ `break_status_regression.cpp` จึงไม่ควรอ่านการอ้างชื่อเหล่านี้เป็นหลักฐานว่ารันซ้ำได้ตอนนี้ ดู [คู่มือ build/run/test](../../build-run-and-test.md)
 
+## อัปเดต 2026-10-03
+
+- **Dreamlit Actor ซ้อนได้อีกครั้ง (user สั่ง — ย้อน 5930642)**: ชื่อบัฟกลับเป็น `"<ผู้สวม> Dreamlit Elation"` / `"<ผู้สวม> Dreamlit CD"` → ใส่ 2 คนได้บัฟ 2 ก้อน
+
 ## อัปเดต 2026-09-29
 
 - **Aha SPD (user สั่ง)**: ตัวหารจาก 5, 10, 15, 20 (+5) → 5, 10, 20, 40 (×2) — `Action_value.h` `ahaSpeedAdjust` · SPD ของ Aha = 80 + spd₁/5 + spd₂/10 + spd₃/20 + spd₄/40 + … + `ahaExtraFlatSpeed` · อัปเดต `AhaCombat.md` / `Action_value.md`

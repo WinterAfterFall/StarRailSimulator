@@ -3,11 +3,10 @@ namespace Relic{
     // Dreamlit Actor — kit: docs/kit-reference/Relic.md (nanoka 4.5.54, set 133)
     // 2pc SPD +6% · 4pc: Skill / Ultimate on one other ally -> that ally Elation +16% for 3 turns;
     //   wearer holding >= 10 Certified Banger -> also all allies CRIT DMG +12% for 3 turns
-    // buffs do not stack: two wearers share one buff name (no wearer prefix) -> a second copy only refreshes the duration
     void DreamlitActor(CharUnit *ptr){
         ptr->Relic.name = "Dreamlit Actor";
-        const string elationName = "Dreamlit Actor Elation";
-        const string critName = "Dreamlit Actor CD";
+        string elationName = ptr->getName() + " Dreamlit Elation";
+        string critName = ptr->getName() + " Dreamlit CD";
 
         resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             ptr->atvStats->speedPercent += 6;
