@@ -5,6 +5,7 @@
 ## อัปเดต 2026-10-03
 
 - **Dreamlit Actor ซ้อนได้อีกครั้ง (user สั่ง — ย้อน 5930642)**: ชื่อบัฟกลับเป็น `"<ผู้สวม> Dreamlit Elation"` / `"<ผู้สวม> Dreamlit CD"` → ใส่ 2 คนได้บัฟ 2 ก้อน
+- **SW999 Ult หัก MMR 60 (user สั่ง, kit ไม่ได้เขียน) + แก้ Ult ซ้อน**: หัก `gainMMR(-60)` ตอน Ult **เข้าคิว** (lambda ของ `ultimateList`) แบบเดียวกับ `ultUseCheck` หัก Energy · ตั้งธง `"SW999 Ult Queued"` ให้ `addUltCondition` ไม่ผ่านจนกว่า action ของ Ult จะทำงาน · **บั๊กเดิม**: Ult ไม่ใช้ Energy เงื่อนไข (MMR / Godmode) เปลี่ยนตอน action ทำงาน → `allUltimateCheck` รอบถัดไประหว่างรอคิวกด Ult ซ้ำ (เห็นใน log: Ult Start 2 ครั้ง ATV เดียวกัน · E1 VUL +20 ใส่ 2 รอบถอนรอบเดียว) · หักก่อน Godmode จึงไม่นับเข้า E2
 
 ## อัปเดต 2026-09-29
 

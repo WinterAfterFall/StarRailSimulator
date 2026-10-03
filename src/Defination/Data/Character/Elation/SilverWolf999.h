@@ -204,14 +204,20 @@ namespace SilverWolf999{
         };
 
         ptr->addUltCondition([ptr]() -> bool {
-            return ptr->getBuffNote("SW999 MMR")>=60&&!ptr->getBuffCheck(GODMODE);
+            return ptr->getBuffNote("SW999 MMR")>=60&&!ptr->getBuffCheck(GODMODE)&&!ptr->getBuffCheck("SW999 Ult Queued");
         });
 
+        // Ult cost is paid when the Ult is queued (like Energy in ultUseCheck), not when it resolves:
+        // an Ult queued mid-action resolves later, and without the cost + "Ult Queued" lock the next
+        // allUltimateCheck would queue a second Ult in the same window
         ultimateList.push_back(TriggerByYourSelfFunc(PRIORITY_BUFF, ptr, [gainMMR,e2Gain](CharUnit *ptr) {
+            gainMMR(-60); // Ult cost (user) — before Godmode so it never feeds E2
+            ptr->setBuffCheck("SW999 Ult Queued",1);
             shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::ULT,ptr,TraceType::SINGLE,"SW999 Ult",
             [ptr,gainMMR,e2Gain](shared_ptr<AllyBuffAction> &act){
                 CharCmd::printUltStart("Silver Wolf 999");
+                ptr->setBuffCheck("SW999 Ult Queued",0);
                 ptr->setBuffCheck(GODMODE,1);
                 ptr->setBuffNote("SW999 EBA Left",3);
                 ptr->setBuffNote("SW999 Loot Chance",100);
