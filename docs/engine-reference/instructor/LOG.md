@@ -2,6 +2,10 @@
 
 หมายเหตุ ณ 2026-09-21: บันทึกเก่าด้านล่างเป็นผลการทำงาน ณ เวลานั้น ไฟล์ใน `test/` ถูก `.gitignore`; ใน workspace ปัจจุบันไม่พบ `basic_reset_stats_regression.cpp`, `hp_decrease_event_regression.cpp` หรือ `break_status_regression.cpp` จึงไม่ควรอ่านการอ้างชื่อเหล่านี้เป็นหลักฐานว่ารันซ้ำได้ตอนนี้ ดู [คู่มือ build/run/test](../../build-run-and-test.md)
 
+## อัปเดต 2026-10-09
+
+- **Warrior Goddess of Sun and Thunder (user สั่ง หลังเทียบ kit)**: ฮีลตัวเองไม่ทำให้ติด Gentle Rain (`target == healer` → ข้าม) · CD +15% ทั้งทีม "ซ้อนไม่ได้" → ตัวนับกลาง `sunThunderHolders` ใส่ตอน 0 → 1 ถอนตอน 1 → 0 (SPD +6% ยังรายผู้สวม) · รันเทียบผู้สวมคนเดียวดาเมจเท่าเดิม · ผู้สวม 2 คน CD ใส่ครั้งเดียว · คู่มือ `Data/Relic/Goddess of Sun and Thunder.md`
+
 ## อัปเดต 2026-10-03
 
 - **Dreamlit Actor ซ้อนได้อีกครั้ง (user สั่ง — ย้อน 5930642)**: ชื่อบัฟกลับเป็น `"<ผู้สวม> Dreamlit Elation"` / `"<ผู้สวม> Dreamlit CD"` → ใส่ 2 คนได้บัฟ 2 ก้อน
