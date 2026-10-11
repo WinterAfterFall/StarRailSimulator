@@ -25,7 +25,7 @@ overrides: "prydwen record (2026-05-30) — replaced by nanoka.cc data"
 
 | HP | ATK | DEF | SPD | Taunt | Max Energy |
 |---:|---:|---:|---:|---:|---:|
-| 1048 | 640 | 461 | 107 | 100 | 160 |
+| 1051 | 640 | 460 | 107 | 100 | 160 |
 
 Minor traces (total): **Elation +28% · CRIT Rate +12% · CRIT DMG +13.3%**
 
@@ -39,10 +39,12 @@ Minor traces (total): **Elation +28% · CRIT Rate +12% · CRIT DMG +13.3%**
 | Skill (Enh.) | Engagement Farming | Enhance | — | −1 | — | Enhanced Basic multiplier +20% main / +10% adjacent · random gift: Straight Fire (+2 Punchline, +2 SP) or Unreal Banger (+1 Punchline) · not counted as using a Skill |
 | Ultimate | Party's Wildin' and Camera's Rollin' | AoE | AoE 20 | — | 5 | +2 Punchline · (0.6 × Elation + 50%) ATK to all enemies |
 | Talent | Sleight of Sparx Hand | Enhance | ST 5 | — | — | While holding Certified Banger: Enh. Basic +40% / 20% Elation (main / adj) + 20% per Engagement Farming · Ult +48% Elation AoE |
-| Technique | Content Monetization | Impair | — | — | — | Block 10s · on engage: 50% ATK AoE + 2 SP |
-| Elation Skill | Signal Overflow: The Great Encore! | AoE | ST 1.67 / AoE 6.67 | — | 5 | 50% Elation AoE + 20 × 25% Elation bounces · +2 Thrill |
+| Technique | The Heart Makes the Finest Tomb | Impair | — | — | — | Block 10s · on engage: 50% ATK AoE + 2 SP |
+| Elation Skill | Signal Overflow: The Great Encore! | AoE | — (no Toughness DMG) | — | 5 | 50% Elation AoE + 20 × 25% Elation bounces · +2 Thrill |
 
 Toughness uses the game's raw stance ÷ 3 (raw 30 = 10 toughness), same as the Silver Wolf doc.
+
+> Updated 2026-10-10 from the in-game text the user pasted: Lv.80 HP 1051 / DEF 460 (was 1048 / 461), Elation Skill has no Toughness DMG (Break "-"), Technique name "The Heart Makes the Finest Tomb" (same effect). The other numbers already matched.
 
 ### Mechanics (paraphrased)
 
