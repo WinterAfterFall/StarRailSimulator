@@ -9,21 +9,21 @@ kit อ้างอิง: `docs/kit-reference/Character/Elation/yao-guang.md` �
 | ธาตุ / path / energy ult | `setCharBasicStats(101, 180, 180, E, PHYSICAL, ELATION, "Yao Guang", STANDARD)` | 5 |
 | build — **SPD เป็นแกน** | `setSpeedRequire(320)` (สูงที่สุดในโปรเจกต์) | 12 |
 | นับตัวเองเข้าจำนวน Elation ในทีม | `elationCount++` | 15 |
-| **Basic ATK** | lambda `BA` — blast 90/30 + `genPunchLine(ptr, 3)` | 24-38 |
-| **Skill** — บัฟ Elation ทีม | lambda `skill` — `AllyBuffAction` + `isHaveToAddBuff("YG Skill", 3)` | 40-67 |
-| Skill — Elation ทีม = 20% ของ Elation ตัวเอง | `calculateElationForBuff(ptr, 20)` + สำนวน delta `TEMP`/`NONE` | 54-61 |
-| **Ultimate** | `ultimateList` — `AllyBuffAction` · RESPEN ทีม +20 3 เทิร์น · `ahaInstant(20)` | 79-109 |
-| **Elation Skill** | `elationSkillList` — AoE 100 ×3 + bounce 20 ×5 + `Woe's Whisper` VUL +16 | 111-129 |
-| **A2** — Elation ตาม SPD ที่เกิน 120 (cap 200) | `statsAdjustList` → `min(200, max(0, SPD - 120))` | 229-238 |
-| **Talent** — เพื่อนโจมตี → Elation DMG แถม | `whenAttackList` + `Stats::CERTIFIED_BANGER` เป็นตัวปลด | 212-227 |
-| Talent — คูณสองถ้ามีการใช้ SP ใน action นั้น | `skillPointList` ตั้ง flag + `beforeAttackActionList` ล้าง flag | 204-217 |
-| **Technique** | `startGameList` — ทำ Skill ซ้ำทั้งก้อน + `act->turnReset = 0` | 179-203 |
-| **Minor traces** | `resetList` | 131-136 |
-| **E1** — ทีม ignore DEF สำหรับ Elation DMG · Aha แรงขึ้น | `whenOnFieldList` · `ahaInstant(40)` | 139, 96 |
-| **E2** — Skill ให้ SPD/Elation เพิ่ม | `if (ptr->eidolon >= 2)` ใน Skill และตอนถอน | 48-52, 154-158 |
-| **E4** — Elation Skill แรงขึ้นชั่วคราวตอน Ult | `buffAllAlly({{Stats::MTPR_INC, AType::ELATION_SKILL, 50}})` ครอบ `ahaInstant` | 91-102 |
-| **E6** — Merrymake + MtprInc ถาวร | `whenOnFieldList` | 140-143 |
-| AI: เทิร์นนี้กดอะไร | `turnFunc` — บัฟ `YG skill` ยังอยู่ → BA ไม่งั้น Skill | 69-73 |
+| **Basic ATK** | lambda `BA` — blast 90/30 + `genPunchLine(ptr, 3)` | 24-39 |
+| **Skill** — บัฟ Elation ทีม | lambda `skill` — `AllyBuffAction` + `isHaveToAddBuff("YG Skill", 3)` | 41-68 |
+| Skill — Elation ทีม = 20% ของ Elation ตัวเอง | `calculateElationForBuff(ptr, 20)` + สำนวน delta `TEMP`/`NONE` | 55-62 |
+| **Ultimate** | `ultimateList` — `AllyBuffAction` · RESPEN ทีม +20 3 เทิร์น · `ahaInstant(20)` | 80-110 |
+| **Elation Skill** | `elationSkillList` — AoE 100 ×3 + bounce 20 ×5 + `Woe's Whisper` VUL +16 | 112-130 |
+| **A2** — Elation ตาม SPD ที่เกิน 120 (cap 200) | `statsAdjustList` → `min(200, max(0, SPD - 120))` | 230-239 |
+| **Talent** — เพื่อนโจมตี → Elation DMG แถม | `whenAttackList` + `Stats::CERTIFIED_BANGER` เป็นตัวปลด | 213-228 |
+| Talent — คูณสองถ้ามีการใช้ SP ใน action นั้น | `skillPointList` ตั้ง flag + `beforeAttackActionList` ล้าง flag | 205-218 |
+| **Technique** | `startGameList` — ทำ Skill ซ้ำทั้งก้อน + `act->turnReset = 0` | 180-204 |
+| **Minor traces** | `resetList` | 132-137 |
+| **E1** — ทีม ignore DEF สำหรับ Elation DMG · Aha แรงขึ้น | `whenOnFieldList` · `ahaInstant(40)` | 140, 97 |
+| **E2** — Skill ให้ SPD/Elation เพิ่ม | `if (ptr->eidolon >= 2)` ใน Skill และตอนถอน | 49-53, 155-159 |
+| **E4** — Elation Skill แรงขึ้นชั่วคราวตอน Ult | `buffAllAlly({{Stats::MTPR_INC, AType::ELATION_SKILL, 50}})` ครอบ `ahaInstant` | 92-103 |
+| **E6** — Merrymake + MtprInc ถาวร | `whenOnFieldList` | 141-144 |
+| AI: เทิร์นนี้กดอะไร | `turnFunc` — บัฟ `YG skill` ยังอยู่ → BA ไม่งั้น Skill | 70-74 |
 
 ## รากฐาน: `ahaInstant(n)` — สั่งให้ Elation Skill ทำงานทันที
 
@@ -58,9 +58,14 @@ if (calculateElationOnStats(ptr) > calculateElationOnStats(act->attacker)) act->
 
 ## จุดที่ควรระวัง
 
-- **`act->source = ptr` ใส่ผิดตัว** (บรรทัด 222) — ตั้งให้ `act` (action ของเพื่อนที่กำลังโจมตี) แทนที่จะเป็น `newAct` (ดาเมจแถมที่เพิ่งสร้าง) → ผลคือ **ดาเมจของเพื่อนถูกคำนวณด้วย stat ของ Yao Guang** ส่วนดาเมจแถมยังใช้ stat ของเพื่อนเหมือนเดิม ซึ่งกลับด้านกับเจตนา
+- **`act->source = ptr` ใส่ผิดตัว** (บรรทัด 223) — ตั้งให้ `act` (action ของเพื่อนที่กำลังโจมตี) แทนที่จะเป็น `newAct` (ดาเมจแถมที่เพิ่งสร้าง) → ผลคือ **ดาเมจของเพื่อนถูกคำนวณด้วย stat ของ Yao Guang** ส่วนดาเมจแถมยังใช้ stat ของเพื่อนเหมือนเดิม ซึ่งกลับด้านกับเจตนา
 - **`elationSkillList` ใช้ตัวเลข priority ดิบ `114`** (111) เหมือน `Hibana.h` ที่ใช้ `144` — ไม่มีค่าคงที่รองรับ
 - **Technique copy โค้ด Skill ทั้งก้อน** (179-203) ต่างจาก Skill แค่ไม่มี `genSkillPoint(ptr,-1)` และมี `turnReset = 0` — ถ้าแก้สูตร Skill ต้องแก้สองที่
 - **`resetList` บวก `Stats::ELATION` เป็น `10+30`** (134) เขียนเป็นผลบวกไว้ให้เห็นว่ามาจากสองแหล่ง แต่ไม่มีคอมเมนต์ว่าแหล่งไหน
 - **`whenOnFieldList` เรียก `statsAdjust(ptr, Stats::SPD_P)` เอง** (144) เพื่อบังคับให้ A2 คำนวณรอบแรก — เป็นการยิง event ด้วยมือ ต่างจากตัวอื่นที่ตั้งค่าเริ่มต้นตรง ๆ ใน `whenOnFieldList`
-- **A2 ลงเฉพาะช่อง `AType::NONE` ไม่มีคู่ `TEMP`** (235) ต่างจาก Skill ของตัวเองและจาก `../Remembrance/RMC.md` — ถ้ามีสูตรไหนอ่าน Elation ด้วย `calculateElationForBuff` ค่าจาก A2 จะถูกนับซ้อนเข้าไปด้วย (Skill ของ Yao Guang เองอ่าน `calculateElationForBuff(ptr, 20)` ที่บรรทัด 54 → **A2 ป้อนกลับเข้า Skill ได้**)
+- **A2 ลงเฉพาะช่อง `AType::NONE` ไม่มีคู่ `TEMP`** (235) ต่างจาก Skill ของตัวเองและจาก `../Remembrance/RMC.md` — ถ้ามีสูตรไหนอ่าน Elation ด้วย `calculateElationForBuff` ค่าจาก A2 จะถูกนับซ้อนเข้าไปด้วย (Skill ของ Yao Guang เองอ่าน `calculateElationForBuff(ptr, 20)` ที่บรรทัด 55 → **A2 ป้อนกลับเข้า Skill ได้**)
+
+## จุดจดค่าเฉลี่ย DMG per ATV (damageNote · user 2026-10-12)
+
+- Basic (`YaoGuang.h:38`) ตั้ง `setDamageNote(0)` → จุดจดเหลือ Elation Skill (Skill / Ult เป็นบัฟ ไม่เคยจดอยู่แล้ว)
+- มีผลเฉพาะตอน `avgDmgSampleAllActions = 0` · ค่าเริ่มต้นตอนนี้เป็น `1` (จดหลังทุก action) จึงยังไม่มีผล — ดู [CalDamageNote.md](../../../Function/Calculate/CalDamageNote.md)

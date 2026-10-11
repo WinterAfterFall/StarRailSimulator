@@ -35,6 +35,7 @@ namespace YaoGuang{
                 DmgSrc(DmgSrcType::ATK,90,10),
                 DmgSrc(DmgSrcType::ATK,30,5)
             );
+            act->setDamageNote(0); // DMG-per-ATV sample points: Elation Skill only (user 2026-10-12)
             act->addToActionBar();
         };
 

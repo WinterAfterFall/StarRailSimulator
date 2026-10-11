@@ -125,6 +125,7 @@ namespace SilverWolf999{
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,100,10)
             );
+            act->setDamageNote(0); // DMG-per-ATV sample points: EBA and Top Loot Boxes only (user 2026-10-12)
             act->addToActionBar();
         };
 
@@ -142,6 +143,7 @@ namespace SilverWolf999{
                 DmgSrc(DmgSrcType::ATK,160,10),
                 DmgSrc(DmgSrcType::ATK,160,10)
             );
+            act->setDamageNote(0); // sample points: EBA / boxes only
             act->addToActionBar();
         };
 
@@ -276,6 +278,7 @@ namespace SilverWolf999{
                 ptr->setBuffNote("SW999 Loot Acc",0);
             });
             act->addEnemyBounce(DmgSrc(DmgSrcType::ELATION,90,10.0/6),6);
+            act->setDamageNote(0); // sample points: EBA / boxes only
             act->addToAhaInstant();
         }));
 

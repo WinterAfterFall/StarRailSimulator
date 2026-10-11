@@ -109,6 +109,7 @@ namespace Pearl{
             act->addDamageIns(
                 DmgSrc(DmgSrcType::DEF,90,10)
             );
+            act->setDamageNote(0); // DMG-per-ATV sample points: her own Elation Skill bonus hit only (user 2026-10-12)
             act->addToActionBar();
         };
 
@@ -159,6 +160,7 @@ namespace Pearl{
                 DmgSrc(DmgSrcType::DEF,100,10),
                 DmgSrc(DmgSrcType::DEF,100,10)
             );
+            act->setDamageNote(0); // DMG-per-ATV sample points: her own Elation Skill bonus hit only (user 2026-10-12)
             act->addToActionBar();
         };
 
@@ -307,6 +309,8 @@ namespace Pearl{
             if(bonus->damageSplit.back().empty())return;
             bonus->turnReset = 0;
             attack(bonus);
+            // Pearl's only DMG-per-ATV sample point: her own bonus hit (her BA / Enhanced BA have damageNote off)
+            if(act->attacker==ptr)calAverageDamage(ptr,act->targetList);
         }));
 
         // Aha Certified Banger -> into her permanent pool (take it out of the engine's expiring CB list)

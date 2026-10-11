@@ -33,6 +33,7 @@ namespace Hibana{
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ATK,100,10)
             );
+            act->setDamageNote(0); // DMG-per-ATV sample points: Elation Skill and EBA only (user 2026-10-12)
             act->addToActionBar();
         };
 
@@ -122,6 +123,7 @@ namespace Hibana{
                 DmgSrc(DmgSrcType::ATK,mtpr,20),
                 DmgSrc(DmgSrcType::ATK,mtpr,20)
             );
+            act->setDamageNote(0); // DMG-per-ATV sample points: Elation Skill and EBA only (user 2026-10-12)
             act->addToActionBar();
             dealDamage();
         }));

@@ -20,18 +20,18 @@ kit อ้างอิง: `docs/kit-reference/Character/Elation/sparxie.md` · 
 | ธาตุ / path / energy ult | `setCharBasicStats(107, 160, 160, E, FIRE, ELATION, "Hibana", STANDARD)` | 5 |
 | build — **เกณฑ์ ATK ไม่ใช่ SPD** | `setAtkRequire(3600)` · main stat 3 ช่องเป็น `ATK_P` | 13-14 |
 | นับตัวเองเข้าจำนวน Elation ในทีม | `elationCount++` | 16 |
-| **Basic ATK** | lambda `BA` — single 100%/10 | 25-37 |
-| **Enhanced BA** — เผา SP ทั้งหมด | lambda `EBA` — `while(sp)` กิน SP/Thrill ทุกแต้ม แล้วคูณดาเมจตามจำนวนที่กิน | 39-79 |
-| **Ultimate** | `ultimateList` — AoE ที่ multiplier คำนวณจาก `Stats::ELATION` | 91-127 |
-| Ult — punchline ตามจำนวน Elation ในทีม | `if (elationCount == 1) genPunchLine(ptr, 4)` … `else { genPunchLine(ptr, 10); addStack("Hbn Thrill", 3); }` | 98-103 |
-| **Elation Skill** | `elationSkillList` — AoE 50 ×3 + bounce 25 ×20 + `addToAhaInstant()` | 129-148 |
-| **Talent / Punchline buff ทีม** | `punchLineList` → CD ทีม = `min(10, punchline) * 8` | 172-185 |
-| **Minor traces** | `resetList` (มี `ELATION += 80` เพิ่มจาก 28) | 150-159 |
-| **E1** — RESPEN ทีมตาม punchline + punchline หลัง Aha | `punchLineList` ท่อนหลัง · `afterAhaInstantList` | 179-184, 189 |
-| **E2** — กิน Thrill → CD stack · Aha แล้วได้ action เพิ่ม | `buffStackSingle(..., 1, 4, "Hbn E2", 2)` · `afterAhaInstantList` | 47-49, 191-195 |
-| **E4** — Ult ให้ punchline + Elation +36 | `if (ptr->eidolon >= 4)` ใน Ult | 104-107 |
-| **E6** — RESPEN +20 · bounce เพิ่มตาม punchline | `resetList` · `addEnemyBounce(..., min(punchline, 40))` | 146, 157 |
-| AI: เทิร์นนี้กดอะไร | `turnFunc` — `sp + Thrill >= 3` → EBA ไม่งั้น BA | 82-85 |
+| **Basic ATK** | lambda `BA` — single 100%/10 | 25-38 |
+| **Enhanced BA** — เผา SP ทั้งหมด | lambda `EBA` — `while(sp)` กิน SP/Thrill ทุกแต้ม แล้วคูณดาเมจตามจำนวนที่กิน | 40-80 |
+| **Ultimate** | `ultimateList` — AoE ที่ multiplier คำนวณจาก `Stats::ELATION` | 92-129 |
+| Ult — punchline ตามจำนวน Elation ในทีม | `if (elationCount == 1) genPunchLine(ptr, 4)` … `else { genPunchLine(ptr, 10); addStack("Hbn Thrill", 3); }` | 99-104 |
+| **Elation Skill** | `elationSkillList` — AoE 50 ×3 + bounce 25 ×20 + `addToAhaInstant()` | 131-150 |
+| **Talent / Punchline buff ทีม** | `punchLineList` → CD ทีม = `min(10, punchline) * 8` | 174-187 |
+| **Minor traces** | `resetList` (มี `ELATION += 80` เพิ่มจาก 28) | 152-161 |
+| **E1** — RESPEN ทีมตาม punchline + punchline หลัง Aha | `punchLineList` ท่อนหลัง · `afterAhaInstantList` | 181-186, 191 |
+| **E2** — กิน Thrill → CD stack · Aha แล้วได้ action เพิ่ม | `buffStackSingle(..., 1, 4, "Hbn E2", 2)` · `afterAhaInstantList` | 48-50, 193-197 |
+| **E4** — Ult ให้ punchline + Elation +36 | `if (ptr->eidolon >= 4)` ใน Ult | 105-108 |
+| **E6** — RESPEN +20 · bounce เพิ่มตาม punchline | `resetList` · `addEnemyBounce(..., min(punchline, 40))` | 148, 159 |
+| AI: เทิร์นนี้กดอะไร | `turnFunc` — `sp + Thrill >= 3` → EBA ไม่งั้น BA | 83-86 |
 
 ## รากฐาน: ดาเมจ Elation เป็น action แยกก้อน
 
@@ -87,3 +87,8 @@ act->addDamageIns(DmgSrc(DmgSrcType::ATK, mtpr, 20), ...);
 - **`setSpeedRequire` ถูกคอมเมนต์ทิ้ง** (12)
 - **`while(sp)` ไม่มีตัวกันวนไม่จบ** ถ้ามี trigger ไหนคืน SP ระหว่างลูป (`% 6 == 3` คืน SP 2 แต้มอยู่แล้ว!) — ตอนนี้รอดเพราะ `genSkillPoint(ptr, 2)` เกิดหลังจากหักไปแล้วและลูปจะกินต่อจนหมดจริง แต่เป็นจุดที่เปราะ
 - **`printUltStart` ถูกเรียกนอก callback** (92) ต่างจากตัวอื่นที่เรียกข้างใน → ข้อความขึ้นตอนสั่ง ไม่ใช่ตอนถึงคิว
+
+## จุดจดค่าเฉลี่ย DMG per ATV (damageNote · user 2026-10-12)
+
+- Basic (`Hibana.h:36`) และ Ult (`:126`) ตั้ง `setDamageNote(0)` → จุดจดเหลือ EBA กับ Elation Skill
+- มีผลเฉพาะตอน `avgDmgSampleAllActions = 0` · ค่าเริ่มต้นตอนนี้เป็น `1` (จดหลังทุก action) จึงยังไม่มีผล — ดู [CalDamageNote.md](../../../Function/Calculate/CalDamageNote.md)
