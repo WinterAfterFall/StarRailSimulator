@@ -13,7 +13,7 @@ int main(){
     }   
     enemySelector();
     setCharacterPtr();
-    char1->enableCheckDamageFormula(DmgFormulaMode::CRIT);   
+    // char1->enableCheckDamageFormula(DmgFormulaMode::CRIT);   
 
     mainLoop();
 }
