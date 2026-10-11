@@ -4,6 +4,7 @@
 
 ## อัปเดต 2026-10-12
 
+- **BUGS #26 ตัวคูณ Punchline หารจำนวนเต็ม (user สั่งแก้)**: `CalStats.h:360` `punchline*5` → `punchline*5.0` · เดิมตัวคูณ Elation Skill เป็นขั้นบันได ×1/×2/×3 ที่ PL 60/160 · ผลทั้งหมดที่เกี่ยวกับ Elation Skill ก่อนหน้านี้เทียบตรงไม่ได้ · ทีม SW999/Hibana/Yao Guang/Pearl (550 ATV, 2 มอน) DMG per ATV หลังแก้: E0 Pearl→SW 92,592 · →YG 91,414 · →Hibana 98,691 · E2 →SW 155,710 · →YG 148,049 · →Hibana 154,907 · อัปเดต CalStats.md (+ เลขบรรทัด `calToughnessMultiplier` 392 → 378)
 - **ค่าเฉลี่ย DMG per ATV (user สั่ง)**: `Setting.h` เพิ่ม `avgDmgSampleLastAtv = 200` (จดเฉพาะ 200 ATV สุดท้ายของ wave · เดิมเริ่ม ATV 300 ตายตัว), `avgDmgSampleAllActions = 1` (จดหลังทุก action โจมตีไม่สน `damageNote`), `avgDmgSampleGapAtv = 9` (เดิม 20 ตายตัว · ภายในช่วงเก็บค่าสูงสุดแทนการเขียนทับ), `currentWaveIndex` (ตั้งใน `startWave`) · `calAverageDamage` กันการจดครั้งแรก (เดิมเขียนทับ index −1 ได้) และกันการจดที่ ATV 0 (หารด้วยศูนย์ — เจอตอนทดสอบเริ่มที่ 0 แล้ว substat เพี้ยน) · **ดาเมจรวมไม่เปลี่ยน · DMG per ATV ของทุกทีมเปลี่ยน** ผลเก่าเทียบตรงไม่ได้ · ทีม SW999/Hibana/Yao Guang/Pearl 550 ATV: ค่าเฉลี่ยอยู่ราว 95–99% ของ รวม ÷ 550
 - **damageNote ทีม Elation (user สั่ง)**: SW999 จดเฉพาะ EBA/กล่อง · Hibana เฉพาะ EBA/Elation Skill · Yao Guang เฉพาะ Elation Skill · Pearl เฉพาะหลังโบนัส Elation Skill ตอนตีเอง (เรียก `calAverageDamage` เอง) · ตอนนี้ไม่มีผลเพราะ `avgDmgSampleAllActions = 1` · อัปเดตเลขบรรทัดในคู่มือ 4 ตัว
 - **Application.cpp**: คอมเมนต์ปิด `enableCheckDamageFormula(CRIT)` ของ char1

@@ -96,6 +96,8 @@ DEF shred ถูก cap เฉพาะค่าสูงสุดที่ `100
 
 ค่าติดลบคืนตัวคูณกลาง `1` User ยืนยัน 2026-09-20 ว่าค่าคงที่ `5` และ `240` มาจากสูตรในเกมโดยตรง ไม่ใช่สูตรประมาณของ simulator
 
+⚠️ global `punchline` เป็น `int` — ทาง Elation Skill จึงต้องเขียน `punchline*5.0` ให้หารแบบทศนิยม (บรรทัด 360) · เดิมเขียน `punchline*5` แล้วหารจำนวนเต็ม ตัวคูณกลายเป็นขั้นบันได ×1 (PL 0–59) / ×2 (60–159) / ×3 (160+) แทนเส้นโค้ง — แก้ 2026-10-12 ดู [BUGS.md](../../BUGS.md) #26 · ทาง Certified Banger ใช้ `double punchlineCnt` อยู่แล้ว ไม่โดน
+
 ## ตัวคูณเชิงเส้นกลุ่มอื่น
 
 `calRespenMultiplier`, `calVulMultiplier`, `calBreakEffectMultiplier`, `calMerryMakeMultiplier`, `calMitigationMultiplier` และ `calMultiplierIncrease` เริ่มจากฐาน `100%` แล้วรวมค่าจาก `attacker` กับ `target` ใน `AType::NONE` และทุก type ใน `damageTypeList` ก่อนแปลงเป็นตัวคูณ โดย clamp ขั้นต่ำที่ `0`
@@ -104,7 +106,7 @@ DEF shred ถูก cap เฉพาะค่าสูงสุดที่ `100
 
 User ยืนยัน 2026-09-20 ว่า `Stats::MITIGRATION` ใช้ค่าติดลบเพื่อแสดงการลดดาเมจ เช่น `-20` → multiplier `0.8`; ค่าบวกเพิ่มดาเมจตามสูตร ปัจจุบันยังไม่มี caller กำหนด stat นี้
 
-## `calToughnessMultiplier()` (บรรทัด 392)
+## `calToughnessMultiplier()` (บรรทัด 378)
 
 คืน Broken Multiplier แบบคิดสด — `1.0` เมื่อศัตรู broken อยู่ · `0.9` เมื่อยังไม่ broken · และคืน `1` (ไม่ใส่ 0.9) เมื่อ action นั้นตั้ง `toughnessAvgCalculate` ไว้ เพราะตัวคูณจะถูกเฉลี่ยทีหลังแทน
 

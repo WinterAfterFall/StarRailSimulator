@@ -357,7 +357,8 @@ double calPunchLineMultiplier(shared_ptr<AllyAttackAction> &act,Enemy *target){
             if(act->getChar()->canCheckDmgformulaPL()){
                 cout<<"Total PL        : "<<setw(6)<<fixed<<setprecision(2)<<punchline<<endl;
             }
-            return (punchline < 0) ? 1 : (1+(punchline*5)/(240+punchline));
+            // punchline is int: 5.0 keeps the division in double (was a 1/2/3 step at PL 60/160)
+            return (punchline < 0) ? 1 : (1+(punchline*5.0)/(240+punchline));
         }
     }
 
