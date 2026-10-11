@@ -5,6 +5,16 @@
 int sp=3,maxSp = 5,totalWave=1;//1450
 double wave[3]={1100,450,450}; //1368.01 1442.83
 bool avgDamageMode = 1;
+// DMG per ATV average (calAverageDamage): only the last this-many ATV of each wave are sampled
+// (sampling starts at wave length - this · e.g. 200 on an 800-ATV wave = ATV 600 onward)
+double avgDmgSampleLastAtv = 200;
+int currentWaveIndex = 0; // wave being fought (set by startWave) · wave[currentWaveIndex] = its length
+// 1 = every attack action is a sample point, ignoring AllyAttackAction::damageNote
+//     (how often a unit deals damage then weighs into its average) · 0 = respect damageNote
+bool avgDmgSampleAllActions = 1;
+// a new sample opens only once this many ATV have passed since the last opened one;
+// a sample taken sooner only replaces the latest one if it is higher (each window keeps its highest value)
+double avgDmgSampleGapAtv = 9;
 bool superBreakMode = 0;
 int mainDpsNum = 1;
 int driverNum = 0;

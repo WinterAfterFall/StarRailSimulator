@@ -67,7 +67,7 @@ void AllyActionData::allyAction(){
         attackAction->actionTypeList = attackAction->attackSetList[0].actionTypeList;
         attackAction->damageTypeList = attackAction->attackSetList[0].damageTypeList;
         allEventAfterAttackAction(attackAction); 
-        if(attackAction->damageNote)calAverageDamage(attackAction->attacker->owner,attackAction->targetList); 
+        if(attackAction->damageNote||avgDmgSampleAllActions)calAverageDamage(attackAction->attacker->owner,attackAction->targetList); 
 
     }else{
         if(buffAction->actionFunction)buffAction->actionFunction(buffAction);
@@ -96,7 +96,7 @@ void AllyActionData::elationSkillAction(){
         attackAction->attacker = attackAction->attackSetList[0].attacker;
         attackAction->actionTypeList = attackAction->attackSetList[0].actionTypeList;
         attackAction->damageTypeList = attackAction->attackSetList[0].damageTypeList;
-        if(attackAction->damageNote)calAverageDamage(attackAction->attacker->owner,attackAction->targetList); 
+        if(attackAction->damageNote||avgDmgSampleAllActions)calAverageDamage(attackAction->attacker->owner,attackAction->targetList); 
 
     }else{
         if(buffAction->actionFunction)buffAction->actionFunction(buffAction);

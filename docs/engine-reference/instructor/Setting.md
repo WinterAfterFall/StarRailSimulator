@@ -7,6 +7,8 @@
 | ค่า | ค่าเริ่มต้นใน `Setting.h` | ผลและจุดที่เปลี่ยน |
 |---|---|---|
 | `totalWave`, `wave` | `1`, `{1100,450,450}` | จำนวน wave และขอบเวลา ATV ของแต่ละ wave; `wave` เป็น array ขนาด 3 จึงต้องขยาย array ก่อนใช้มากกว่า 3 wave ปัจจุบัน `setValue()` ของทางเข้าทั้งสองตั้ง `wave[0] = 800.01` |
+| `avgDmgSampleLastAtv`, `avgDmgSampleAllActions`, `avgDmgSampleGapAtv` | `200`, `1`, `9` | วิธีคิด "Average per ATV" ใน `calAverageDamage()` (`CalDamageNote.h`): จดเฉพาะ N ATV สุดท้ายของ wave · `1` = จดหลังทุก action โจมตีไม่สน `damageNote` · ช่วงห่างขั้นต่ำระหว่าง sample (ภายในช่วงเก็บค่าสูงสุด) — user ตั้ง 2026-10-12 |
+| `currentWaveIndex` | `0` | wave ที่กำลังสู้ — `startWave()` ตั้งให้ · ใช้หา `wave[currentWaveIndex]` เป็นความยาวของ wave นั้น |
 | `sp`, `maxSp`, `spMode`, `spSafety` | `3`, `5`, `POSITIVE`, `1` | `reset()` ตั้ง SP กลับเป็น 3 ทุก run; `genSkillPoint()` จำกัดเพดานที่ `maxSp`; `CharCmd::usingSkill()` ใช้โหมดและค่า safety ตัดสินการใช้สกิล `setValue()` ทั้งสองทางเข้าตั้ง `spMode = NEGATIVE` |
 | `driverType`, `driverNum` | `NONE`, `0` | กำหนดการเลือก driver; `setup()` อาจปรับเป็น `DOUBLE_TURN` เมื่อมี driver แต่ยังไม่เลือกชนิด |
 | `rerollSubstatsMode` | `STANDARD` | `setup()` ผูก `standardReroll`; ลูป run ประเมินผลและเลือกชุด substats ถัดไปตาม [Substats_Reset.md](Function/Setup/Substats_Reset.md) |

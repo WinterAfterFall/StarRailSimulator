@@ -4,6 +4,7 @@
 
 ## อัปเดต 2026-10-12
 
+- **ค่าเฉลี่ย DMG per ATV (user สั่ง)**: `Setting.h` เพิ่ม `avgDmgSampleLastAtv = 200` (จดเฉพาะ 200 ATV สุดท้ายของ wave · เดิมเริ่ม ATV 300 ตายตัว), `avgDmgSampleAllActions = 1` (จดหลังทุก action โจมตีไม่สน `damageNote`), `avgDmgSampleGapAtv = 9` (เดิม 20 ตายตัว · ภายในช่วงเก็บค่าสูงสุดแทนการเขียนทับ), `currentWaveIndex` (ตั้งใน `startWave`) · `calAverageDamage` กันการจดครั้งแรก (เดิมเขียนทับ index −1 ได้) และกันการจดที่ ATV 0 (หารด้วยศูนย์ — เจอตอนทดสอบเริ่มที่ 0 แล้ว substat เพี้ยน) · **ดาเมจรวมไม่เปลี่ยน · DMG per ATV ของทุกทีมเปลี่ยน** ผลเก่าเทียบตรงไม่ได้ · ทีม SW999/Hibana/Yao Guang/Pearl 550 ATV: ค่าเฉลี่ยอยู่ราว 95–99% ของ รวม ÷ 550
 - **kit Sparxie** (`docs/kit-reference/Character/Elation/sparxie.md`): HP 1051 / DEF 460, Elation Skill ไม่ลด Toughness, ชื่อ Technique ใหม่ — ตามข้อความในเกมที่ user แปะ
 
 ## อัปเดต 2026-10-09

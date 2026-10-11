@@ -82,22 +82,22 @@ data2->toughnessAvgCalculate = dahliaCheck ? 1 : 0;
 
 สามฟังก์ชันนี้คือวงจร "วัดผลบิลด์" ที่ทำงานไล่กันเป็นทอด ๆ โดย `calDamageNote()` เป็นคนลงสมุด ส่วนสามตัวนี้เป็นคนสรุปสมุด
 
-### `calAverageDamage(ptr, enemyList)` (บรรทัด 34–61) — เก็บ sample ระหว่างรัน
+### `calAverageDamage(ptr, enemyList)` (บรรทัด 34–65) — เก็บ sample ระหว่างรัน
 
 ถูกเรียกเป็นระยะระหว่างการต่อสู้เพื่อบันทึก "ดาเมจเฉลี่ยต่อ ATV ณ ขณะนี้" ของตัวละครหนึ่งตัวต่อศัตรูแต่ละตัว
 
-1. `if (currentAtv < 300) return;` — **ช่วงต้นรบไม่เก็บ sample** เพราะดาเมจต่อ ATV ช่วงแรกแกว่งจัด (ตัวหารยังน้อย)
+1. `if(currentAtv < wave[currentWaveIndex] - avgDmgSampleLastAtv||currentAtv<=0) return;` — **เก็บ sample เฉพาะ `avgDmgSampleLastAtv` ATV สุดท้ายของ wave** (ค่าเริ่มต้น 200 · เดิมเริ่มที่ ATV 300 ตายตัว — user สั่ง 2026-10-12) · กัน ATV 0 เพราะจะหารด้วยศูนย์ในข้อ 3
 2. รีเฟรช `toughnessAvgMultiplier` ของศัตรู **ทุกตัว** ไม่ใช่แค่เป้าที่เพิ่งโดนตี — คอมเมนต์ในโค้ดระบุเหตุผลไว้ว่า note ก้อนหนึ่งอาจมี `src` เป็นศัตรูที่ไม่ได้ถูกตีรอบนี้ (True DMG ย้ายเป้าได้)
 3. รวมดาเมจของศัตรูตัวนั้นจากสองสมุด: `currentRealTimeDmg` บวกดิบ · `currentNonRealTimeDmg` **คูณ `src->toughnessAvgMultiplier` ก่อน** แล้วหารด้วย `currentAtv` ได้ "ดาเมจต่อ ATV"
-4. เขียนลง `avgDmgRecord[enemyNum].avgDmgInstance` โดยมีกติกา **กันเก็บถี่เกิน 20 ATV**: ถ้าห่างจาก `lastNote` ไม่ถึง 20 ATV จะ **เขียนทับ sample ตัวสุดท้าย** แทนการ `push_back` ตัวใหม่
+4. เขียนลง `avgDmgRecord[enemyNum].avgDmgInstance` โดยมีกติกา **กันเก็บถี่**: ถ้าห่างจาก `lastNote` ไม่ถึง `avgDmgSampleGapAtv` (ค่าเริ่มต้น 9 · เดิม 20 ตายตัว) จะ **เก็บค่าที่สูงกว่า** ระหว่าง sample ตัวสุดท้ายกับค่าใหม่ (เดิมเขียนทับ) แทนการ `push_back` ตัวใหม่ · sample แรกของรันเปิดตัวใหม่เสมอ (เดิมไปเขียนทับ index −1 ได้ถ้าเริ่มจดเร็วกว่า 20 ATV)
 
 ⚠️ การหารด้วย `currentAtv` ทุกครั้งแปลว่าแต่ละ sample คือ "ค่าเฉลี่ยสะสมตั้งแต่ต้นรบถึงตอนนี้" ไม่ใช่ค่าเฉลี่ยของช่วงเวลานั้น ๆ
 
-### `calAvgToughnessMultiplier(target, totalAtv)` (บรรทัด 62–70)
+### `calAvgToughnessMultiplier(target, totalAtv)` (บรรทัด 66–74)
 
 คืนตัวคูณ Broken เฉลี่ยตามเวลา = `(เวลาที่ broken × 1.0 + เวลาที่ไม่ broken × 0.9) / เวลาทั้งหมด` โดยกรณีที่ศัตรู **กำลัง broken อยู่ ณ ตอนนี้** (`toughnessStatus == 0`) จะบวกช่วงที่ยัง break ค้างอยู่ (`totalAtv − whenToughnessBroken`) เข้าไปในเวลาที่ broken ด้วย
 
-### `calDamageSummary()` (บรรทัด 84–113) — ปิดบัญชีตอนจบรัน
+### `calDamageSummary()` (บรรทัด 88–117) — ปิดบัญชีตอนจบรัน
 
 วนทุกตัวละคร × ทุกศัตรู:
 
@@ -122,11 +122,11 @@ data2->toughnessAvgCalculate = dahliaCheck ? 1 : 0;
 
 ```text
 Take_action() … (ระหว่างรบ)
-    └─ Combat.h:149  Cal_AverageDamage()   ← เก็บ sample เมื่อ act->damageNote เปิด
+    └─ Combat.h:70, 99  calAverageDamage() ← เก็บ sample เมื่อ act->damageNote เปิด หรือ avgDmgSampleAllActions = 1
 Main.h:59   Cal_DamageSummary()            ← ปิดบัญชีรันนี้
 Main.h:60   printRoundResult()
 Main.h:61   Reroll_substats()
     └─ Substats_Reset.h:76,126,159  changeMaxDamage()  ← เทียบกับบิลด์ที่ดีที่สุด
 ```
 
-ผู้เรียก `calDamageSummary()` มีแค่ 2 จุดคือ `Main.h:59` (ลูปหลัก) กับ `ManualBuilder.cpp:168` · ส่วน `calAverageDamage()` ถูกเรียกจุดเดียวที่ `Combat.h:149` และยิงเฉพาะ action ที่ตั้ง `damageNote` ไว้
+ผู้เรียก `calDamageSummary()` มีแค่ 2 จุดคือ `Main.h:59` (ลูปหลัก) กับ `ManualBuilder.cpp:168` · ส่วน `calAverageDamage()` ถูกเรียกหลัง action โจมตีที่ `Combat.h:70` (allyAction) และ `:99` (Elation Skill ใน Aha) เมื่อ `damageNote` เปิด **หรือ** `avgDmgSampleAllActions = 1` (ค่าเริ่มต้น — จดหลังทุก action ไม่สน `damageNote` ความถี่ในการทำดาเมจจึงมีผลกับค่าเฉลี่ย) · และเรียกตรงจาก `Pearl.h` หลังโบนัส Elation Skill ตอน Pearl ตีเอง

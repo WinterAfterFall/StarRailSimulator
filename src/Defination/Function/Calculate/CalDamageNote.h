@@ -32,7 +32,8 @@ bool changeMaxDamage(CharUnit *ptr){
     return false;
 }
 void calAverageDamage(CharUnit *ptr,vector<Enemy*> enemyList){
-    if(currentAtv<300)return;
+    // sample only the last avgDmgSampleLastAtv ATV of the wave · ATV 0 would divide by zero below
+    if(currentAtv < wave[currentWaveIndex] - avgDmgSampleLastAtv||currentAtv<=0)return;
     // refresh every enemy, not only this attack's targets: a note's src may not be hit now (True DMG can retarget)
     for(int i = 1; i<=totalEnemy ; i++ ){
         enemyUnit[i]->toughnessAvgMultiplier = calAvgToughnessMultiplier(enemyUnit[i].get(),currentAtv);
@@ -49,9 +50,12 @@ void calAverageDamage(CharUnit *ptr,vector<Enemy*> enemyList){
             rec += each.second.total*each.first.src->toughnessAvgMultiplier;
         }
         
-        if(currentAtv < ptr->avgDmgRecord[enemy->getNum()].lastNote +20){
-            ptr->avgDmgRecord[enemy->getNum()].
-            avgDmgInstance[ptr->avgDmgRecord[enemy->getNum()].avgDmgInstance.size()-1] = rec/currentAtv;
+        // first sample of the run always opens a new one (nothing to overwrite yet)
+        if(!ptr->avgDmgRecord[enemy->getNum()].avgDmgInstance.empty()
+            &&currentAtv < ptr->avgDmgRecord[enemy->getNum()].lastNote + avgDmgSampleGapAtv){
+            // same window: keep the highest DMG/ATV seen in it, a lower reading is ignored (user 2026-10-12)
+            double &last = ptr->avgDmgRecord[enemy->getNum()].avgDmgInstance.back();
+            last = max(last, rec/currentAtv);
         }else{
             ptr->avgDmgRecord[enemy->getNum()].lastNote = currentAtv;
             ptr->avgDmgRecord[enemy->getNum()].avgDmgInstance.push_back(rec/currentAtv);

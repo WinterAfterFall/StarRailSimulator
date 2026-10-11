@@ -127,6 +127,7 @@ void startGame(){
 void endWave(double totalAtv){
 }
 void startWave(int wave){
+    currentWaveIndex = wave;
     if(wave!=0)allAtvReset();
     for(int i =1;i<=totalEnemy;i++){
         //Enemy_unit[i]->stats->toughnessStatus=1;
