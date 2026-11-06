@@ -11,7 +11,7 @@ void setValue(){
     spMode = SPMode::NEGATIVE;      
     //set unit
     
-    wave[0] = 800;
+    wave[0] = 700;
     wave[0]+=0.01;
     printAtv = 1;
     bestBounce = 1;
