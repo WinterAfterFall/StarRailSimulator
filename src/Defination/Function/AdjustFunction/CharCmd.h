@@ -24,6 +24,9 @@ namespace CharCmd{
     void setTechnique(CharUnit *ptr,int tech){
         ptr->technique = tech;
     }
+    void setExtraEidolon(CharUnit *ptr,int value){
+        ptr->extraEidolon = value;
+    }
     
     
     void setTuneSpeed(CharUnit *ptr,double value){

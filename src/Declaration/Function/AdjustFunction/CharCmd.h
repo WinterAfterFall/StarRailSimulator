@@ -8,6 +8,7 @@ namespace CharCmd {
     CharUnit* findAllyName(std::string name);
 
     void setTechnique(CharUnit* ptr, int tech);
+    void setExtraEidolon(CharUnit* ptr, int value);
     void setTuneSpeed(CharUnit* ptr, double value);
     void setRerollCheck(CharUnit* ptr, bool flag);
     void timingPrint(CharUnit* ptr);

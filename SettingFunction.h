@@ -85,8 +85,10 @@ void charSelector(function<void(int eidolon, function<void(CharUnit *ptr)> lc, f
         // --- Destruction ---
         else if (name == "Firefly") 
             charSetup = FireFly::setup;
-        else if (name == "Mydei") 
+        else if (name == "Mydei")
             charSetup = Mydei::setup;
+        else if (name == "DanHengIL" || name == "DHIL")
+            charSetup = DanHengIL::setup;
         else if (name == "Phainon") 
             charSetup = Phainon::setup;
         else if (name == "Saber") 
