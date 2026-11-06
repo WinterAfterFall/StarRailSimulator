@@ -151,17 +151,35 @@ namespace Evanescia{
                             bounceTargets.push_back(hit.target);
                     }
                 }
+                // Aeon Aha Innate Trace: a stored boost -> this Ult's multiplier (and its Talent Elation DMG) +75% of the original (E2 150%)
+                double boost = ptr->getBuffNote("Evanescia Innate Ult");
+                ptr->setBuffNote("Evanescia Innate Ult",0);
+                ptr->statsType[Stats::MTPR_INC][AType::ULT] += boost;
                 attack(act);
+                ptr->statsType[Stats::MTPR_INC][AType::ULT] -= boost;
 
                 ptr->buffNote["Evanescia Ult Count"] += 1;
                 if(ptr->eidolon>=6&&((int)ptr->getBuffNote("Evanescia Ult Count"))%4==1)increaseEnergy(ptr,0,120);
 
+                // Aeon Aha Innate Trace: stored overflow Energy comes back after the Ult (does not give CB from the Talent)
+                double stored = ptr->getBuffNote("Evanescia Innate Energy");
+                if(stored>0){
+                    ptr->setBuffNote("Evanescia Innate Energy",0);
+                    ptr->setBuffCheck("Evanescia Energy From CB",1);
+                    ptr->setBuffCheck("Evanescia Innate Release",1);
+                    increaseEnergy(ptr,0,stored);
+                    ptr->setBuffCheck("Evanescia Innate Release",0);
+                    ptr->setBuffCheck("Evanescia Energy From CB",0);
+                }
+
                 if(!holdCB())return;
                 shared_ptr<AllyAttackAction> elDmg = make_shared<AllyAttackAction>(AType::ELATION_DMG,ptr,TraceType::AOE,"Evn Ult Elation",
-                [ptr](shared_ptr<AllyAttackAction> &elDmg){
+                [ptr,boost](shared_ptr<AllyAttackAction> &elDmg){
                     double extra = max(0.0,ptr->maxEnergy - ptr->statsType[Stats::CERTIFIED_BANGER][AType::NONE]);
                     ptr->statsType[Stats::CERTIFIED_BANGER][AType::ELATION_DMG] += extra;
+                    ptr->statsType[Stats::MTPR_INC][AType::ELATION_DMG] += boost;
                     attack(elDmg);
+                    ptr->statsType[Stats::MTPR_INC][AType::ELATION_DMG] -= boost;
                     ptr->statsType[Stats::CERTIFIED_BANGER][AType::ELATION_DMG] -= extra;
                 });
                 elDmg->addDamageIns(
@@ -204,6 +222,12 @@ namespace Evanescia{
         // Talent: gaining Energy also gains the same CB (max 100) · every 240 Energy gained -> Master Fox (max 240 per gain)
         whenEnergyIncreaseList.push_back(TriggerEnergyIncreaseFunc(PRIORITY_IMMEDIATELY, [ptr,gainCB,masterFox](CharUnit *target, double energy) {
             if(!target->isSameName(ptr)||energy<=0)return;
+            // Aeon Aha Innate Trace (Faces of Elation on): Energy over Max Energy is stored, up to 60 (E2 240)
+            if(ahaAscension&&!ptr->getBuffCheck("Evanescia Innate Release")){
+                double over = max(0.0,energy - (ptr->maxEnergy - ptr->currentEnergy));
+                double cap = ahaAscensionE2 ? 240 : 60;
+                ptr->setBuffNote("Evanescia Innate Energy",min(cap,ptr->getBuffNote("Evanescia Innate Energy") + over));
+            }
             if(!ptr->getBuffCheck("Evanescia Energy From CB"))gainCB(min(100.0,energy),false);
             // event fires before Energy is added -> only the part that fits under Max Energy counts
             double gained = max(0.0,min(energy,ptr->maxEnergy - ptr->currentEnergy));
@@ -302,6 +326,32 @@ namespace Evanescia{
             double buffValue = 15 + 2*floor(cb/100);
             buffSingle(ptr,{{Stats::MERRYMAKE,AType::NONE,buffValue - ptr->getBuffNote("Evanescia E6")}});
             ptr->setBuffNote("Evanescia E6",buffValue);
+        }));
+
+        // Aeon Aha Innate Trace (Faces of Elation on): DEF ignore 10% (E2 24%)
+        //   every 480 Party Trick (CB) gained in total -> next Ult multiplier +75% of the original (E2 150%), does not stack
+        //   CB gained = rise of her CB stat between two CB stat events (last value kept in "Evanescia Innate CB Last")
+        ahaAscensionStartList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            double shred = ahaAscensionE2 ? 24 : 10;
+            buffSingle(ptr,{{Stats::DEF_SHRED,AType::NONE,shred}});
+            ptr->setBuffNote("Evanescia Innate Shred",shred);
+            ptr->setBuffNote("Evanescia Innate CB Last",ptr->statsType[Stats::CERTIFIED_BANGER][AType::NONE]);
+        }));
+        ahaAscensionEndList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            buffSingle(ptr,{{Stats::DEF_SHRED,AType::NONE,-ptr->getBuffNote("Evanescia Innate Shred")}});
+            ptr->setBuffNote("Evanescia Innate Shred",0);
+        }));
+        statsAdjustList.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](AllyUnit* target, Stats statsType) {
+            if(!target->isSameName(ptr)||statsType!=Stats::CERTIFIED_BANGER)return;
+            double now = ptr->statsType[Stats::CERTIFIED_BANGER][AType::NONE];
+            double gained = now - ptr->getBuffNote("Evanescia Innate CB Last");
+            ptr->setBuffNote("Evanescia Innate CB Last",now);
+            if(!ahaAscension||gained<=0)return;
+            ptr->buffNote["Evanescia Innate CB Acc"] += gained;
+            while(ptr->getBuffNote("Evanescia Innate CB Acc")>=480){
+                ptr->buffNote["Evanescia Innate CB Acc"] -= 480;
+                ptr->setBuffNote("Evanescia Innate Ult",ahaAscensionE2 ? 150 : 75);
+            }
         }));
 
         // Talent: Elation = 20% of CRIT DMG

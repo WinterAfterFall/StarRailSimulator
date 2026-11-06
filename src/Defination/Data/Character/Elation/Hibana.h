@@ -54,8 +54,15 @@ namespace Hibana{
                     skillCharge++;
                     ptr->addStack("Hibana Skill Count",1);
                     if(ptr->stack["Hibana Skill Count"]%6==3){
-                        genSkillPoint(ptr,2);   
+                        genSkillPoint(ptr,2);
                         genPunchLine(ptr,2);
+                        // Aeon Aha Innate Trace: Straight Fire -> +1 Bliss per 10 Party Trick held (max 8, E2 12)
+                        if(ahaAscension){
+                            double cap = ahaAscensionE2 ? 12 : 8;
+                            double cb = max(0.0,ptr->statsType[Stats::CERTIFIED_BANGER][AType::NONE]);
+                            int bliss = (int)min(cap,floor(cb/10));
+                            if(bliss>0)genPunchLine(ptr,bliss);
+                        }
                     }
                     else genPunchLine(ptr,1);
                 }
@@ -187,6 +194,23 @@ namespace Hibana{
         }));
 
         
+        // Aeon Aha Innate Trace (Faces of Elation on): Elation Skill multiplier +50% of the original (E2 +120%)
+        // · all allies DEF ignore 15% (E2 20%)
+        ahaAscensionStartList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            double inc = ahaAscensionE2 ? 120 : 50;
+            double shred = ahaAscensionE2 ? 20 : 15;
+            buffSingle(ptr,{{Stats::MTPR_INC,AType::ELATION_SKILL,inc}});
+            buffAllAlly({{Stats::DEF_SHRED,AType::NONE,shred}});
+            ptr->setBuffNote("Hibana Innate Inc",inc);
+            ptr->setBuffNote("Hibana Innate Shred",shred);
+        }));
+        ahaAscensionEndList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            buffSingle(ptr,{{Stats::MTPR_INC,AType::ELATION_SKILL,-ptr->getBuffNote("Hibana Innate Inc")}});
+            buffAllAlly({{Stats::DEF_SHRED,AType::NONE,-ptr->getBuffNote("Hibana Innate Shred")}});
+            ptr->setBuffNote("Hibana Innate Inc",0);
+            ptr->setBuffNote("Hibana Innate Shred",0);
+        }));
+
         afterAhaInstantList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [ba,eba](CharUnit *ptr) {
             if(ptr->eidolon>=1)genPunchLine(ptr,1);
 

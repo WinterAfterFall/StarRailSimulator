@@ -94,6 +94,14 @@ double repellency = 0; // team Repellency pool · decreaseBlock() spends it on h
 double ahaExtraFlatSpeed = 0; // flat SPD added to Aha on top of the Elation-SPD formula · Aventurine Waveflair A4 (solo)
 deque<tuple<string,int, double>> cbCheck;
 
+//Aeon Aha
+CharUnit *aeonAha = nullptr; // set by AeonAha::setup when she is in the team
+bool ahaAscension = false; // Aeon Aha "Faces of Elation" active -> Elation characters' Innate Traces on
+bool ahaAscensionE2 = false; // Aeon Aha E2: Innate Traces use the E2 values
+double ahaTrueDmgOverride = -1; // EMC Innate Trace: base DMG for Aeon Aha's next Elation Skill True DMG (-1 = off, use the Aha Instant tally)
+vector<TriggerByYourSelfFunc> ahaAscensionStartList; // called when Faces of Elation starts (not on refresh)
+vector<TriggerByYourSelfFunc> ahaAscensionEndList; // called when Faces of Elation ends
+
 
 int spSafety = 1;
 int nextForwardPriority = 0;  // ตัวนับที่แจกค่า priority ให้ unit ตัวถัดไปที่โดน actionForward จน atv แตะ 0 (reset ต่อ run ใน Reset())

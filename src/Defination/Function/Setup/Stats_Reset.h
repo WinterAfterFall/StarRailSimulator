@@ -136,6 +136,7 @@ void basicReset(){
             enemyUnit[i]->totalDebuff=0;
             enemyUnit[i]->tauntList.clear();
             enemyUnit[i]->aoeCharge = 0;
+            enemyUnit[i]->elationDebt = 0;
             enemyUnit[i]->status = UnitStatus::ALIVE;
 
             for(auto &e: enemyUnit[i]->attackCoolDown){

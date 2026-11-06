@@ -20,10 +20,16 @@ class SwitchAtk{
     AllyUnit* source = nullptr; // ที่มาดาเมจ 
     int changeWhen = -1; // เลือกเวลาเปลี่ยน
     int changeTo = -1; // เลือก attackSetList
+    bool changeElement = false; // เปลี่ยนธาตุดาเมจตอนสลับด้วยไหม
+    ElementType damageElement = ElementType::PHYSICAL; // ธาตุที่จะเปลี่ยนไป (ใช้เมื่อ changeElement)
     SwitchAtk(int changeTo,int changeWhen)
         : changeTo(changeTo), changeWhen(changeWhen) {}
     SwitchAtk(int changeTo, AllyUnit* source,int changeWhen)
         : changeTo(changeTo), source(source), changeWhen(changeWhen) {}
+    SwitchAtk(int changeTo,int changeWhen,ElementType element)
+        : changeTo(changeTo), changeWhen(changeWhen), changeElement(true), damageElement(element) {}
+    SwitchAtk(int changeTo, AllyUnit* source,int changeWhen,ElementType element)
+        : changeTo(changeTo), source(source), changeWhen(changeWhen), changeElement(true), damageElement(element) {}
 };
 
 class  AllyAttackAction : public AllyActionData {

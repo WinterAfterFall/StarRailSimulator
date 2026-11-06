@@ -72,8 +72,16 @@ double calAvgToughnessMultiplier(Enemy *target,double totalAtv){
     
     return temp;
 }
+// Elation Debt (Aeon Aha): the debt takes the top elationDebt% of the enemy's Max HP -> only (100 - debt)% is left to deal
+// -> every DMG to it is worth 100/(100 - debt) · applied once here, on the enemy whose HP takes the DMG (recv),
+// so True DMG gets it too · allEventAfterDealingDamage still gets the DMG without it (no compounding in tallies)
+double calElationDebtMultiplier(Enemy *target){
+    double debt = min(99.0,max(0.0,target->elationDebt));
+    return 100/(100 - debt);
+}
 void calDamageNote(shared_ptr<AllyAttackAction> &act,Enemy *src,Enemy *recv,double damage,double ratio,string name){
     CharUnit *ptr = act->getChar();
+    damage *= calElationDebtMultiplier(recv);
     if(act->toughnessAvgCalculate){
         ptr->currentNonRealTimeDmg[{src,recv}].total += damage * ratio/100 ;
         ptr->currentNonRealTimeDmg[{src,recv}].type[name] += damage * ratio/100;
@@ -82,6 +90,7 @@ void calDamageNote(shared_ptr<AllyAttackAction> &act,Enemy *src,Enemy *recv,doub
         ptr->currentRealTimeDmg[{src,recv}].type[name] += damage * ratio/100;
     }
     if(act->getChar()->checkDamage){
+        if(recv->elationDebt>0)cout<<"Elation Debt   : "<<recv->elationDebt<<"% Max HP -> x"<<calElationDebtMultiplier(recv)<<endl;
         cout<<name<<" Total Damage : "<<damage<<" with "<<ratio<<"%"<<endl;
     }
 }

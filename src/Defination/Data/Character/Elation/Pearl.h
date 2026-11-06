@@ -32,8 +32,10 @@ namespace Pearl{
         #pragma region Helper
 
         // Talent: her Certified Banger lasts indefinitely, cap 50 · every point is also 200 Repellency in the team pool
+        // Aeon Aha Innate Trace: cap 75 while Faces of Elation is on (back to 50 when it ends)
         function<void(double)> gainCB = [ptr](double value) {
-            double add = min(value,50 - ptr->getBuffNote("Pearl CB"));
+            double cap = ahaAscension ? 75 : 50;
+            double add = min(value,cap - ptr->getBuffNote("Pearl CB"));
             if(add<=0)return;
             ptr->buffNote["Pearl CB"] += add;
             buffSingle(ptr,{{Stats::CERTIFIED_BANGER,AType::NONE,add}});
@@ -196,11 +198,34 @@ namespace Pearl{
         // the Archetype's extra turn: its last queued action (the extra turn ends after it)
         shared_ptr<AllyActionData*> extraLast = make_shared<AllyActionData*>(nullptr);
 
-        ultimateList.push_back(TriggerByYourSelfFunc(PRIORITY_BUFF, ptr, [gainCB,startDeepLearning,extraLast](CharUnit *ptr) {
+        // the extra turn ends -> remove its CB / Punchline
+        // Aeon Aha Innate Trace (Faces of Elation on): 10% (E2 20%) of both is kept;
+        // the kept CB lasts like an Aha CB ("Pearl Innate CB", cbDuration)
+        function<void(AllyUnit*)> removeExtra = [ptr](AllyUnit *owner) {
+            double keep = ahaAscension ? (ahaAscensionE2 ? 0.2 : 0.1) : 0;
+            double cb = ptr->getBuffNote("Pearl Extra CB");
+            int pl = (int)ptr->getBuffNote("Pearl Extra PL");
+            if(owner){
+                buffSingle(owner,{{Stats::CERTIFIED_BANGER,AType::NONE,-cb}});
+                double kept = cb*keep;
+                if(kept>0){
+                    if(owner->getBuffCheck("Pearl Innate CB")){
+                        buffSingle(owner,{{Stats::CERTIFIED_BANGER,AType::NONE,-owner->getBuffNote("Pearl Innate CB")}});
+                        owner->buffCheck["Pearl Innate CB"] = 0;
+                    }
+                    buffSingle(owner,{{Stats::CERTIFIED_BANGER,AType::NONE,kept}},"Pearl Innate CB",cbDuration);
+                    owner->setBuffNote("Pearl Innate CB",kept);
+                }
+            }
+            int removePL = pl - (int)floor(pl*keep);
+            genPunchLine(nullptr,-min(removePL,punchline));
+        };
+
+        ultimateList.push_back(TriggerByYourSelfFunc(PRIORITY_BUFF, ptr, [gainCB,startDeepLearning,extraLast,removeExtra](CharUnit *ptr) {
             CharUnit *target = chooseCharacterBuff(ptr);
             shared_ptr<AllyBuffAction> act =
             make_shared<AllyBuffAction>(AType::ULT,ptr,TraceType::SINGLE,"Pearl Ult",
-            [ptr,target,gainCB,startDeepLearning,extraLast](shared_ptr<AllyBuffAction> &act){
+            [ptr,target,gainCB,startDeepLearning,extraLast,removeExtra](shared_ptr<AllyBuffAction> &act){
                 CharCmd::printUltStart("Pearl");
                 gainCB(20);
                 if(!target||target==ptr)return;
@@ -241,11 +266,7 @@ namespace Pearl{
                 }
                 ptr->setBuffSubUnitTarget("Pearl Extra Owner",target);
                 *extraLast = last.get();
-                if(!last){
-                    // nothing was queued -> remove at once
-                    buffSingle(target,{{Stats::CERTIFIED_BANGER,AType::NONE,-cb}});
-                    genPunchLine(nullptr,-min(pl,punchline));
-                }
+                if(!last)removeExtra(target);
             });
             act->addBuffSingleTarget(target);
             act->addToActionBar();
@@ -253,12 +274,28 @@ namespace Pearl{
         }));
 
         // extra turn ends after its last queued action -> remove the extra CB / Punchline
-        afterAllyActionList.push_back(TriggerByAllyActionFunc(PRIORITY_IMMEDIATELY, [ptr,extraLast](shared_ptr<AllyActionData> &act) {
+        afterAllyActionList.push_back(TriggerByAllyActionFunc(PRIORITY_IMMEDIATELY, [ptr,extraLast,removeExtra](shared_ptr<AllyActionData> &act) {
             if(!*extraLast||act.get()!=*extraLast)return;
             *extraLast = nullptr;
-            AllyUnit *owner = ptr->getBuffSubUnitTarget("Pearl Extra Owner");
-            if(owner)buffSingle(owner,{{Stats::CERTIFIED_BANGER,AType::NONE,-ptr->getBuffNote("Pearl Extra CB")}});
-            genPunchLine(nullptr,-min((int)ptr->getBuffNote("Pearl Extra PL"),punchline));
+            removeExtra(ptr->getBuffSubUnitTarget("Pearl Extra Owner"));
+        }));
+
+        // Aeon Aha Innate Trace: Faces of Elation ends -> her CB pool back under the normal cap 50 (Repellency follows, 200 per CB)
+        ahaAscensionEndList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            double over = ptr->getBuffNote("Pearl CB") - 50;
+            if(over<=0)return;
+            ptr->buffNote["Pearl CB"] -= over;
+            buffSingle(ptr,{{Stats::CERTIFIED_BANGER,AType::NONE,-over}});
+            repellency = min(repellency,50.0*200);
+        }));
+
+        afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            AllyUnit *ally = turn->canCastToAllyUnit();
+            if(!ally)return;
+            if(isBuffEnd(ally,"Pearl Innate CB")){
+                buffSingle(ally,{{Stats::CERTIFIED_BANGER,AType::NONE,-ally->getBuffNote("Pearl Innate CB")}});
+                ally->setBuffNote("Pearl Innate CB",0);
+            }
         }));
 
         // Talent: an ally at <= 50% HP takes 30% less DMG -> DMG_REDUCE on that ally, re-checked whenever their HP changes

@@ -53,7 +53,9 @@ namespace SilverWolf999{
 
         function<void(double)> gainMMR = [ptr,updateMMRCritDmg,e2Gain](double value) {
             double before = ptr->getBuffNote("SW999 MMR");
-            double after = max(0.0,min(300.0,before + value));
+            // Aeon Aha Innate Trace: Hidden MMR may overflow to 360 (E2 999) while Faces of Elation is on
+            double cap = ahaAscension ? (ahaAscensionE2 ? 999 : 360) : 300;
+            double after = max(0.0,min(cap,before + value));
             ptr->setBuffNote("SW999 MMR",after);
             updateMMRCritDmg();
             if(after>before)e2Gain(after - before);
@@ -308,6 +310,29 @@ namespace SilverWolf999{
             (shared_ptr<AllyAttackAction> &act,Enemy *target,double damage) {
                 if(act->actionName!="SW999 Loot Sword")return;
                 calDamageNote(act,target,enemyUnit[mainEnemyNum].get(),damage,20,"SW999 Big Flipping Sword");
+        }));
+
+        // Aeon Aha Innate Trace (Faces of Elation on): CD +40% · every Party Trick (CB) gained -> Hidden MMR +20% of it (E2 40%)
+        // CB gained = rise of her CB stat between two CB stat events (last value kept in "SW999 Innate CB Last")
+        ahaAscensionStartList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            buffSingle(ptr,{{Stats::CD,AType::NONE,40}});
+            ptr->setBuffNote("SW999 Innate CB Last",ptr->statsType[Stats::CERTIFIED_BANGER][AType::NONE]);
+        }));
+        // Faces ends -> MMR back under the normal cap 300
+        ahaAscensionEndList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [updateMMRCritDmg](CharUnit *ptr) {
+            buffSingle(ptr,{{Stats::CD,AType::NONE,-40}});
+            if(ptr->getBuffNote("SW999 MMR")>300){
+                ptr->setBuffNote("SW999 MMR",300);
+                updateMMRCritDmg();
+            }
+        }));
+        statsAdjustList.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,gainMMR](AllyUnit* target, Stats statsType) {
+            if(!target->isSameName(ptr)||statsType!=Stats::CERTIFIED_BANGER)return;
+            double now = ptr->statsType[Stats::CERTIFIED_BANGER][AType::NONE];
+            double gained = now - ptr->getBuffNote("SW999 Innate CB Last");
+            ptr->setBuffNote("SW999 Innate CB Last",now);
+            if(!ahaAscension||gained<=0)return;
+            gainMMR(gained*(ahaAscensionE2 ? 0.4 : 0.2));
         }));
 
         resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {

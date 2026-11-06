@@ -137,6 +137,7 @@ void attack(shared_ptr<AllyAttackAction> &act){
             else act->source = act->attacker;
             act->actionTypeList = act->attackSetList[SwitchAtk.changeTo].actionTypeList;
             act->damageTypeList = act->attackSetList[SwitchAtk.changeTo].damageTypeList;
+            if(SwitchAtk.changeElement)act->damageElement = SwitchAtk.damageElement;
             ++dmgIns;
         }
         act->attacker->hitCount += act->damageSplit[i].size();

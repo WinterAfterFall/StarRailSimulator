@@ -103,6 +103,11 @@ namespace YaoGuang{
                     {Stats::MTPR_INC,AType::ELATION_SKILL,-50}
                 });
 
+                // Aeon Aha Innate Trace: after the Ult -> fixed 12 Energy (E2 30) + 10 Punchline
+                if(ahaAscension){
+                    increaseEnergy(ptr,0,ahaAscensionE2 ? 30 : 12);
+                    genPunchLine(ptr,10);
+                }
 
             });
             act->addBuffAllAllies();
@@ -224,7 +229,11 @@ namespace YaoGuang{
             if(ptr->getBuffCheck("YG Talent SP check"))newAct->addDamageIns(DmgSrc(DmgSrcType::ELATION,20));
             if(calculateElationOnStats(ptr)>calculateElationOnStats(act->attacker))act->source = ptr;
             newAct->addAttackType(AType::ADDTIONAL);
+            // Aeon Aha Innate Trace: Great Boon multiplier +20% of the original (E2 +40%) — on the ADDTIONAL axis only while it lands
+            double inc = ahaAscension ? (ahaAscensionE2 ? 40 : 20) : 0;
+            newAct->attacker->statsType[Stats::MTPR_INC][AType::ADDTIONAL] += inc;
             attack(newAct);
+            newAct->attacker->statsType[Stats::MTPR_INC][AType::ADDTIONAL] -= inc;
         }));
 
         statsAdjustList.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](AllyUnit* target, Stats statsType) {

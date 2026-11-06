@@ -41,8 +41,13 @@ namespace AventurineWaveflair{
             ownCB->push_back({name,value});
         };
 
-        function<bool()> solo = []() {
-            return elationCount<=1;
+        // Aeon Aha Innate Trace: Aeon Aha is his only Elation teammate -> the solo A4 effects also work while Faces of Elation is on
+        function<bool()> innateSolo = [ptr]() {
+            return aeonAha&&aeonAha!=ptr&&elationCount==2;
+        };
+
+        function<bool()> solo = [innateSolo]() {
+            return elationCount<=1||(ahaAscension&&innateSolo());
         };
 
         function<bool()> holdCB = [ptr]() {
@@ -222,8 +227,8 @@ namespace AventurineWaveflair{
             flushCheers();
             // Talent: his Aha Certified Banger lasts 1 turn longer
             if(!cbCheck.empty())extendBuffTime(ptr,std::get<0>(cbCheck.back()),cbDuration + 1);
-            // solo A4: the Aha SPD boost lasts until the Aha Instant ends
-            if(solo()&&ahaExtraFlatSpeed!=0){
+            // solo A4: the Aha SPD boost lasts until the Aha Instant ends (checked without solo(): Faces may have ended since)
+            if(ahaExtraFlatSpeed!=0){
                 ahaExtraFlatSpeed = 0;
                 Path path = Path::ELATION;
                 ahaSpeedAdjust(path);
@@ -233,7 +238,8 @@ namespace AventurineWaveflair{
         // Talent: after a teammate attacks -> +1 Fervor, +1 Punchline · solo A4: +2 CB, +1 Punchline, Aha SPD +25
         // whenAttackList fires once per attack action (each Elation Skill inside an Aha Instant too),
         // once per attacker of that action -> count only the first attacker (joint attack = 1)
-        whenAttackList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr,solo,gainCB,addFervor](shared_ptr<AllyAttackAction> &act) {
+        // Aeon Aha Innate Trace (via Aeon Aha only): +1 Fervor and +1 Bliss more (E2 +2)
+        whenAttackList.push_back(TriggerByAllyAttackActionFunc(PRIORITY_IMMEDIATELY, [ptr,solo,innateSolo,gainCB,addFervor](shared_ptr<AllyAttackAction> &act) {
             if(act->attacker!=act->attackSetList[0].attacker)return;
             if(act->getChar()==ptr)return;
             genPunchLine(ptr,1);
@@ -245,6 +251,25 @@ namespace AventurineWaveflair{
                 ahaSpeedAdjust(path);
             }
             addFervor(1);
+            if(ahaAscension&&innateSolo()){
+                int more = ahaAscensionE2 ? 2 : 1;
+                genPunchLine(ptr,more);
+                addFervor(more);
+            }
+        }));
+
+        // Aeon Aha Innate Trace (via Aeon Aha only): all allies SPD +15% (E2 25%) while Faces of Elation is on
+        ahaAscensionStartList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [innateSolo](CharUnit *ptr) {
+            if(!innateSolo())return;
+            double spd = ahaAscensionE2 ? 25 : 15;
+            buffAllAlly({{Stats::SPD_P,AType::NONE,spd}});
+            ptr->setBuffNote("AvWF Innate SPD",spd);
+        }));
+        ahaAscensionEndList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+            double spd = ptr->getBuffNote("AvWF Innate SPD");
+            if(spd==0)return;
+            buffAllAlly({{Stats::SPD_P,AType::NONE,-spd}});
+            ptr->setBuffNote("AvWF Innate SPD",0);
         }));
 
         // parked free Cheers! from inside an elationSkillTrigger bar -> cast once that bar has finished

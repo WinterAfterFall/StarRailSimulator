@@ -49,6 +49,7 @@ public:
     int aoeCharge = 0;
     vector<AllyUnit*> tauntList;
     double toughnessReduceNote = 0;
+    double elationDebt = 0; // Elation Debt (Aeon Aha), % of Max HP · DMG to this enemy x 100/(100 - elationDebt)
     int hitCount = 0;
     Enemy * nextToLeft = nullptr;
     Enemy * nextToRight = nullptr;

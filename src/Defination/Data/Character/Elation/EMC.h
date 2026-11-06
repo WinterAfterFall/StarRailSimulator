@@ -135,7 +135,17 @@ namespace EMC{
             [ptr,target,grantCB](shared_ptr<AllyBuffAction> &act){
                 CharCmd::printUltStart("EMC");
                 genPunchLine(ptr,5);
-                buffSingle(target,{{Stats::CD,AType::NONE,50}},"EMC Ult",3);
+                // Aeon Aha Innate Trace (Faces of Elation on): CD +20% more (E2 +30%) and to all allies
+                double cd = ahaAscension ? (ahaAscensionE2 ? 80 : 70) : 50;
+                vector<AllyUnit*> cdTargets;
+                if(ahaAscension)cdTargets = allyList;
+                else cdTargets.push_back(target);
+                for(AllyUnit *each : cdTargets){
+                    buffSingle(each,{{Stats::CD,AType::NONE,cd - each->getBuffNote("EMC Ult CD")}});
+                    each->setBuffNote("EMC Ult CD",cd);
+                    each->buffCheck["EMC Ult"] = 1;
+                    extendBuffTime(each,"EMC Ult",3);
+                }
                 if(ptr->eidolon>=2)buffSingle(target,{{Stats::ELATION,AType::NONE,12}},"EMC E2",2);
                 genSkillPoint(ptr,1); // A4
 
@@ -145,6 +155,21 @@ namespace EMC{
                 }
                 if(hasElationSkill){
                     grantCB(target,10 + 2*ptr->getBuffNote("EMC E1"));
+                    // Aeon Aha Innate Trace (Faces of Elation on, target = Aeon Aha): first her own Elation Skill,
+                    // multiplier +200% of the original (E2 300%), counting the team's highest Party Trick (CB) as its Punchline
+                    // -> Aeon Aha's Elation Skill True DMG = 20% of that DMG instead of the tally
+                    if(ahaAscension&&target->owner==aeonAha){
+                        double best = 0;
+                        for(auto &each : charList)best = max(best,each->statsType[Stats::CERTIFIED_BANGER][AType::NONE]);
+                        double inc = ahaAscensionE2 ? 300 : 200;
+                        ptr->setBuffNote("EMC Innate Dmg",0);
+                        ptr->setBuffCheck("EMC Innate Record",1);
+                        ptr->statsType[Stats::MTPR_INC][AType::ELATION_SKILL] += inc;
+                        elationSkillTrigger((int)best,{ptr->getName()});
+                        ptr->statsType[Stats::MTPR_INC][AType::ELATION_SKILL] -= inc;
+                        ptr->setBuffCheck("EMC Innate Record",0);
+                        ahaTrueDmgOverride = ptr->getBuffNote("EMC Innate Dmg");
+                    }
                     elationSkillTrigger(20,{target->owner->getName()});
                 }
                 else actionForward(target->atvStats.get(),50);
@@ -196,6 +221,13 @@ namespace EMC{
             }
         }));
 
+        // Aeon Aha Innate Trace: DMG of her boosted Elation Skill (cast from her Ult) -> base of Aeon Aha's True DMG
+        afterDealingDamageList.push_back(TriggerAfterDealDamage(PRIORITY_IMMEDIATELY, [ptr]
+            (shared_ptr<AllyAttackAction> &act,Enemy *target,double damage) {
+                if(!ptr->getBuffCheck("EMC Innate Record")||act->actionName!="EMC Elation Skill")return;
+                ptr->buffNote["EMC Innate Dmg"] += damage;
+        }));
+
         // Technique: all allies Elation +20% for 3 turns at battle start
         startGameList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
             if(!ptr->technique)return;
@@ -209,7 +241,10 @@ namespace EMC{
                 debuffSingle(enemy,{{Stats::VUL,AType::NONE,-10}});
             }
             if(!ally)return;
-            if(isBuffEnd(ally,"EMC Ult"))buffSingle(ally,{{Stats::CD,AType::NONE,-50}});
+            if(isBuffEnd(ally,"EMC Ult")){
+                buffSingle(ally,{{Stats::CD,AType::NONE,-ally->getBuffNote("EMC Ult CD")}});
+                ally->setBuffNote("EMC Ult CD",0);
+            }
             if(isBuffEnd(ally,"EMC E2"))buffSingle(ally,{{Stats::ELATION,AType::NONE,-12}});
             if(isBuffEnd(ally,"EMC Technique"))buffSingle(ally,{{Stats::ELATION,AType::NONE,-20}});
             if(isBuffEnd(ally,"EMC E6"))buffSingle(ally,{{Stats::CD,AType::NONE,-100}});
