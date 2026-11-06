@@ -31,10 +31,12 @@ void runAhaInstantBar(){
     allEventBeforeAllyAction(allyRep);
     if(attackRep)allEventBeforeAttackAction(attackRep);
 
+    // pop before running: an action can trigger a nested Elation Skill run (elationSkillTrigger -> runAhaInstantBar)
+    // that drains this same queue -> running first would replay this action there, then pop an empty queue here
     while(!ahaInstantBar.empty()){
         shared_ptr<AllyActionData> allyActionData = ahaInstantBar.front();
-        allyActionData->elationSkillAction();
         ahaInstantBar.pop();
+        allyActionData->elationSkillAction();
     }
 
     if(attackRep)allEventAfterAttackAction(attackRep);

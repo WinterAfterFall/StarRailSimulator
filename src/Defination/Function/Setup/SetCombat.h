@@ -11,7 +11,10 @@ void setup(){
     sort(beforeTurnList.begin(), beforeTurnList.end(), TriggerFunc::triggerCmp);
     sort(afterTurnList.begin(), afterTurnList.end(), TriggerFunc::triggerCmp);
     sort(ultimateList.begin(), ultimateList.end(), TriggerFunc::triggerCmp);
-    sort(elationSkillList.begin(), elationSkillList.end(), TriggerFunc::triggerCmp);
+    // Elation Skills go by Participant ID, lowest first (not the usual higher-priority-first)
+    sort(elationSkillList.begin(), elationSkillList.end(), [](const TriggerFunc& l, const TriggerFunc& r) {
+        return l.priority < r.priority;
+    });
     sort(beforeAhaInstantList.begin(), beforeAhaInstantList.end(), TriggerFunc::triggerCmp);
     sort(afterAhaInstantList.begin(), afterAhaInstantList.end(), TriggerFunc::triggerCmp);
     sort(whenUseUltList.begin(), whenUseUltList.end(), TriggerFunc::triggerCmp);
@@ -59,6 +62,8 @@ void setup(){
     for(TriggerByYourSelfFunc &e : setupList){
         e.call(e.owner);
     }
+    // Aeon Aha's Global Passive when she is owned but not in the team (in the team -> AeonAha::setup sets it)
+    if(!aeonAha)aha->setBaseSpeed(ownAeonAha ? AEON_AHA_BASE_SPD : 80);
     if(elationCount){
         atvList.push_back(aha.get());
     }

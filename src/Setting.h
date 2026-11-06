@@ -96,6 +96,10 @@ deque<tuple<string,int, double>> cbCheck;
 
 //Aeon Aha
 CharUnit *aeonAha = nullptr; // set by AeonAha::setup when she is in the team
+// Global Passive: owning Aeon Aha (even when she is not in the team) -> Aha Instant base SPD 80 -> her base SPD
+// with her in the team, AeonAha::setup uses her real base SPD instead (incl. the LC's base SPD)
+bool ownAeonAha = false;
+constexpr double AEON_AHA_BASE_SPD = 94;
 bool ahaAscension = false; // Aeon Aha "Faces of Elation" active -> Elation characters' Innate Traces on
 bool ahaAscensionE2 = false; // Aeon Aha E2: Innate Traces use the E2 values
 double ahaTrueDmgOverride = -1; // EMC Innate Trace: base DMG for Aeon Aha's next Elation Skill True DMG (-1 = off, use the Aha Instant tally)

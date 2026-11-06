@@ -17,27 +17,29 @@
 //   Faces of Elation = global ahaAscension (+ ahaAscensionE2) · Party Trick / Bliss = CB / Punchline gained while it is on
 //   the Innate Traces live in each Elation character's own file
 namespace AeonAha{
-    constexpr int PARTICIPANT_ID = 0; // lowest -> always last in the Aha Instant (elationSkillList runs higher first)
+    constexpr int PARTICIPANT_ID = 1000; // highest -> always last in the Aha Instant (elationSkillList runs lowest ID first)
     const string EMANATOR = "AeonAha Emanator";
 
     void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
-        CharUnit *ptr = setCharBasicStats(94,0,0,eidolon,ElementType::QUANTUM,Path::ELATION,"Aeon Aha",UnitType::STANDARD);
+        CharUnit *ptr = setCharBasicStats(AEON_AHA_BASE_SPD,0,0,eidolon,ElementType::QUANTUM,Path::ELATION,"Aeon Aha",UnitType::STANDARD);
         ptr->setAllyBaseStats(1048,679,509);
 
         //substats
+        ptr->setSpeedRequire(150); // A6 top tier: Elation +150%
         ptr->pushSubstats(Stats::CR);
         ptr->pushSubstats(Stats::CD);
         ptr->setTotalSubstats(25);
-        ptr->setRelicMainStats(Stats::CR,Stats::FLAT_SPD,Stats::HP_P,Stats::DEF_P);
+        ptr->setRelicMainStats(Stats::CR,Stats::FLAT_SPD,Stats::DMG,Stats::ATK_P);
 
         elationCount++;
         aeonAha = ptr;
-        aha->setBaseSpeed(94); // Exclusive: Aha base SPD 80 -> Aeon Aha's base SPD
 
         //func
         lc(ptr);
         Relic(ptr);
         Planar(ptr);
+        // Global Passive: Aha Instant base SPD 80 -> Aeon Aha's base SPD (after the LC: her signature adds base SPD)
+        aha->setBaseSpeed(ptr->atvStats->baseSpeed);
 
         #pragma region Helper
 
