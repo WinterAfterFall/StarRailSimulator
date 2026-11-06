@@ -11,8 +11,8 @@
 //   (switchAttacker element change) -> not an extra attack (user 2026-11-03)
 //   A4: heals only (the sim has no shield event)
 //   Elation Debt: the sim does not track enemy HP -> modeled as Enemy::elationDebt (% Max HP), every DMG x 100/(100 - debt)
-//   (calDamageNote) · only the E6 floor 20% is set (x 100/80 from the start); the 25%-of-DMG debt only matters when an
-//   enemy heals or changes phase, neither of which the sim has -> not modeled
+//   (calDamageNote) · set once at battle start as a flat multiplier (user 2026-11-04):
+//   E0-E5 x 200/190 (debt 5%) · E6 x 200/150 (debt 25%)
 //   E3 / E5 not modeled (5★ base levels)
 //   Faces of Elation = global ahaAscension (+ ahaAscensionE2) · Party Trick / Bliss = CB / Punchline gained while it is on
 //   the Innate Traces live in each Elation character's own file
@@ -312,11 +312,10 @@ namespace AeonAha{
         }));
 
         // A6: advance 30% at battle start · E1: Wishpower +5 · Technique: Aha extra turn with a fixed 20 Punchline
-        // E6: enemies always carry at least 20% Max HP of Elation Debt -> DMG to them x 100/80 from the start
+        // Elation Debt: E0-E5 x 200/190 (debt 5%), E6 x 200/150 (debt 25%) on every enemy from the start
         startGameList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [gainWishpower](CharUnit *ptr) {
-            if(ptr->eidolon>=6){
-                for(int i = 1; i <= totalEnemy; i++)enemyUnit[i]->elationDebt = max(enemyUnit[i]->elationDebt,20.0);
-            }
+            double debt = (ptr->eidolon>=6) ? 25 : 5;
+            for(int i = 1; i <= totalEnemy; i++)enemyUnit[i]->elationDebt = max(enemyUnit[i]->elationDebt,debt);
             actionForward(ptr->atvStats.get(),30);
             if(ptr->eidolon>=1)gainWishpower(5);
             if(!ptr->technique)return;

@@ -11,6 +11,7 @@
 #include"Inert.h"
 #include"Tengoku@Livestream.h"
 #include"Punklorde Stage Zero.h"
+#include"God's Moment of Joy.h"
 
 
 //Dot
@@ -19,6 +20,7 @@
 //Break
 #include"Talia.h"
 #include"Kalpagni_Lantern.h"
+#include"Subspace ASC Center.h"
 
 //Heal
 #include"GiantTree.h"

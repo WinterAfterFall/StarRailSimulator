@@ -259,12 +259,16 @@ void lightConeSelector(function<void(CharUnit *ptr)> &lc){
             lightConeFunction = Elation_Lightcone::SilverWolf999_LC;
         else if(name == "AvWF LC" || name == "Summer Rides the Surf")
             lightConeFunction = Elation_Lightcone::AventurineWaveflair_LC;
+        else if(name == "Aha LC" || name == "AeonAha LC" || name == "Upon the First Echo of Aha")
+            lightConeFunction = Elation_Lightcone::AeonAha_LC;
         else if(name == "A Little Getaway")
             lightConeFunction = Elation_Lightcone::ALittleGetaway;
         else if(name == "Tomorrow Together")
             lightConeFunction = Elation_Lightcone::TomorrowTogether;
         else if(name == "Elation Herta Shop" || name == "Elation Brimming With Blessings")
             lightConeFunction = Elation_Lightcone::ElationHertaShop;
+        else if(name == "See You at the World's End" || name == "World's End")
+            lightConeFunction = Elation_Lightcone::SeeYouAtTheWorldsEnd;
 
         // --- Erudition ---
         else if(name == "Anaxa LC")
@@ -472,6 +476,10 @@ void planarSelector(function<void(CharUnit *ptr)> &Planar){
             Planar = Planar::TengokuLivestream;
         else if (name == "Punklorde Stage Zero" || name == "Punklorde")
             Planar = Planar::PunklordeStageZero;
+        else if (name == "God's Moment of Joy" || name == "Moment of Joy")
+            Planar = Planar::GodsMomentOfJoy;
+        else if (name == "Subspace ASC Center" || name == "Subspace")
+            Planar = Planar::SubspaceASCCenter;
         else if (name == "BananAmusement Park")
             Planar = Planar::The_Wondrous_BananAmusement_Park;
             
