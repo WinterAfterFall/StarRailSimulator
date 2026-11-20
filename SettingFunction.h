@@ -161,6 +161,8 @@ void charSelector(function<void(int eidolon, function<void(CharUnit *ptr)> lc, f
             charSetup = Kafka::setup;
         else if (name == "Luka") 
             charSetup = Luka::setup;
+        else if (name == "MortenaxBlade" || name == "MBlade")
+            charSetup = MortenaxBlade::setup;
         else if (name == "Pela") 
             charSetup = Pela::setup;
         else if (name == "SW") 

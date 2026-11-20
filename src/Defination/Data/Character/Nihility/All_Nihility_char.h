@@ -3,6 +3,7 @@
 #include"Cipher.h"
 #include"Fugue.h"
 #include"Dahlia.h"
+#include"MortenaxBlade.h"
 
 //Dot
 #include"Kafka.h"
