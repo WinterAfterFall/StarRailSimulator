@@ -7,6 +7,8 @@
 //   Her own Certified Banger gains are separate instances named "Evanescia CB <n>", lasting as long as an Aha CB (cbDuration, E6 +1)
 //   A2 "lower Participant ID" = Elation teammates whose Elation Skill priority < 146
 namespace Evanescia{
+    // Talent: at most 100 per Energy <-> CB conversion
+    inline double evaCap(double v){ return min(100.0,v); }
     constexpr int PARTICIPANT_ID = 146;
 
     void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
@@ -44,11 +46,19 @@ namespace Evanescia{
             ownCB->push_back({name,value});
             if(!toEnergy)return;
             ptr->setBuffCheck("Evanescia Energy From CB",1);
-            increaseEnergy(ptr,min(100.0,value));
+            increaseEnergy(ptr,evaCap(value));
             ptr->setBuffCheck("Evanescia Energy From CB",0);
         };
 
         #pragma endregion
+
+        // Talent: CB put on her by others (battle-start CB, Pearl extra turn, EMC) -> the same Energy (max 100 per gain)
+        ptr->onGainCB = [ptr](double value) {
+            if(value<=0)return;
+            ptr->setBuffCheck("Evanescia Energy From CB",1);
+            increaseEnergy(ptr,evaCap(value));
+            ptr->setBuffCheck("Evanescia Energy From CB",0);
+        };
 
         #pragma region Ability
 
@@ -127,9 +137,9 @@ namespace Evanescia{
 
         #pragma endregion
 
-        ptr->turnFunc = [ptr,ba,skill]() {
-            if(sp>spSafety)skill();
-            else ba();
+        // Skill every turn, even when the team has no SP left (user 2026-11-12)
+        ptr->turnFunc = [skill]() {
+            skill();
         };
 
         ptr->addUltCondition([ptr]() -> bool {
@@ -228,7 +238,7 @@ namespace Evanescia{
                 double cap = ahaAscensionE2 ? 240 : 60;
                 ptr->setBuffNote("Evanescia Innate Energy",min(cap,ptr->getBuffNote("Evanescia Innate Energy") + over));
             }
-            if(!ptr->getBuffCheck("Evanescia Energy From CB"))gainCB(min(100.0,energy),false);
+            if(!ptr->getBuffCheck("Evanescia Energy From CB"))gainCB(evaCap(energy),false);
             // event fires before Energy is added -> only the part that fits under Max Energy counts
             double gained = max(0.0,min(energy,ptr->maxEnergy - ptr->currentEnergy));
             ptr->buffNote["Evanescia Fox Acc"] += min(240.0,gained);
@@ -246,17 +256,10 @@ namespace Evanescia{
             // Talent: her own Aha CB -> Energy
             if(pl>0){
                 ptr->setBuffCheck("Evanescia Energy From CB",1);
-                increaseEnergy(ptr,min(100.0,pl));
+                increaseEnergy(ptr,evaCap(pl));
                 ptr->setBuffCheck("Evanescia Energy From CB",0);
             }
-            // A2: 50% of each lower-ID Elation teammate's CB gain (E2 +50% of that)
-            vector<CharUnit*> counted;
-            for(TriggerByYourSelfFunc &e : elationSkillList){
-                if(e.owner==ptr||e.priority>=PARTICIPANT_ID)continue;
-                if(find(counted.begin(),counted.end(),e.owner)!=counted.end())continue;
-                counted.push_back(e.owner);
-                gainCB(pl*0.5*((ptr->eidolon>=2) ? 1.5 : 1),true);
-            }
+            // A2 is in the teammate CB listener below (every CB gain of a lower-ID teammate, not only the Aha CB)
         }));
 
         afterTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [ownCB,gainCB](CharUnit *ptr) {
@@ -274,13 +277,39 @@ namespace Evanescia{
                 }
                 return;
             }
-            // A6: an Elation teammate's Aha CB ends this turn -> 50% of it to her (E2 +100% of that)
-            if(ally->owner->path!=Path::ELATION)return;
-            for(auto &each : cbCheck){
-                string name = std::get<0>(each);
-                if(!ally->getBuffCheck(name)||ally->buffEnd[name]!=ally->atvStats->turnCnt)continue;
-                gainCB(std::get<2>(each)*0.5*((ptr->eidolon>=2) ? 2 : 1),true);
+            // A6 is in the teammate CB listener below (every teammate CB that ends, incl. Pearl's extra-turn CB)
+        }));
+
+        // A2 / A6 (user 2026-11-12): watch every teammate's CB stat - rise = gain, fall while cbEndingDepth > 0 = CB ended
+        //   A2: a teammate whose Participant ID is lower than hers gains CB -> 50% of it (E2 +50% of that)
+        //       (IDs compared as numbers: Aeon Aha's 0 counts as lower) - transfers (cbNoGainDepth) are not gains
+        //   A6: any Elation teammate's CB ends -> 50% of it (E2 +100% of that)
+        shared_ptr<map<AllyUnit*,double>> mateCB = make_shared<map<AllyUnit*,double>>();
+        resetList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [mateCB](CharUnit *ptr) {
+            mateCB->clear();
+        }));
+        statsAdjustList.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,mateCB,gainCB](AllyUnit* target, Stats statsType) {
+            if(statsType!=Stats::CERTIFIED_BANGER||!target||target->isSameName(ptr))return;
+            CharUnit *mate = target->owner;
+            if(!mate||static_cast<AllyUnit*>(mate)!=target||mate->path!=Path::ELATION)return;
+            double now = target->statsType[Stats::CERTIFIED_BANGER][AType::NONE];
+            double delta = now - (*mateCB)[target];
+            (*mateCB)[target] = now;
+            if(delta>0&&cbNoGainDepth==0){
+                bool lower = false;
+                for(TriggerByYourSelfFunc &e : elationSkillList){
+                    if(e.owner==mate&&e.priority<PARTICIPANT_ID){ lower = true; break; }
+                }
+                if(lower)gainCB(delta*0.5*((ptr->eidolon>=2) ? 1.5 : 1),true);
+            }else if(delta<0&&cbEndingDepth>0){
+                gainCB(-delta*0.5*((ptr->eidolon>=2) ? 2 : 1),true);
             }
+        }));
+
+        // Talent at battle start (user 2026-11-12): her starting Energy (half of Max = 240) converts once into the same CB
+        //   one conversion only (does not come back as Energy) · not limited by the 100-per-gain cap · in-game start ~300 CB
+        startGameList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [gainCB](CharUnit *ptr) {
+            gainCB(ptr->maxEnergy/2,false); // the starting Energy only (CB -> Energy gains before this do not count)
         }));
 
         // Technique: on entering combat 100% ATK AoE (toughness 20) + 20 CB
@@ -331,7 +360,17 @@ namespace Evanescia{
         // Aeon Aha Innate Trace (Faces of Elation on): DEF ignore 10% (E2 24%)
         //   every 480 Party Trick (CB) gained in total -> next Ult multiplier +75% of the original (E2 150%), does not stack
         //   CB gained = rise of her CB stat between two CB stat events (last value kept in "Evanescia Innate CB Last")
-        ahaAscensionStartList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+        //   CB gained while Faces was off is kept and counted when Faces starts (user 2026-11-12)
+        function<void()> innateCbCheck = [ptr]() {
+            while(ptr->getBuffNote("Evanescia Innate CB Acc")>=480){
+                ptr->buffNote["Evanescia Innate CB Acc"] -= 480;
+                ptr->setBuffNote("Evanescia Innate Ult",ahaAscensionE2 ? 150 : 75);
+            }
+        };
+        ahaAscensionStartList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [innateCbCheck](CharUnit *ptr) {
+            ptr->buffNote["Evanescia Innate CB Acc"] += ptr->getBuffNote("Evanescia Innate CB Pending");
+            ptr->setBuffNote("Evanescia Innate CB Pending",0);
+            innateCbCheck();
             double shred = ahaAscensionE2 ? 24 : 10;
             buffSingle(ptr,{{Stats::DEF_SHRED,AType::NONE,shred}});
             ptr->setBuffNote("Evanescia Innate Shred",shred);
@@ -341,17 +380,19 @@ namespace Evanescia{
             buffSingle(ptr,{{Stats::DEF_SHRED,AType::NONE,-ptr->getBuffNote("Evanescia Innate Shred")}});
             ptr->setBuffNote("Evanescia Innate Shred",0);
         }));
-        statsAdjustList.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr](AllyUnit* target, Stats statsType) {
+        statsAdjustList.push_back(TriggerByStats(PRIORITY_IMMEDIATELY, [ptr,innateCbCheck](AllyUnit* target, Stats statsType) {
             if(!target->isSameName(ptr)||statsType!=Stats::CERTIFIED_BANGER)return;
             double now = ptr->statsType[Stats::CERTIFIED_BANGER][AType::NONE];
             double gained = now - ptr->getBuffNote("Evanescia Innate CB Last");
             ptr->setBuffNote("Evanescia Innate CB Last",now);
-            if(!ahaAscension||gained<=0)return;
-            ptr->buffNote["Evanescia Innate CB Acc"] += gained;
-            while(ptr->getBuffNote("Evanescia Innate CB Acc")>=480){
-                ptr->buffNote["Evanescia Innate CB Acc"] -= 480;
-                ptr->setBuffNote("Evanescia Innate Ult",ahaAscensionE2 ? 150 : 75);
+            if(gained<=0)return;
+            if(!ahaAscension){
+                // Faces off: keep it for the next Faces start (only when Aeon Aha is in the team)
+                if(aeonAha)ptr->buffNote["Evanescia Innate CB Pending"] += gained;
+                return;
             }
+            ptr->buffNote["Evanescia Innate CB Acc"] += gained;
+            innateCbCheck();
         }));
 
         // Talent: Elation = 20% of CRIT DMG

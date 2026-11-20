@@ -42,6 +42,8 @@ public:
     // set by a character whose Certified Banger follows its own rules (e.g. Pearl: permanent pool, cap 50);
     // other characters that grant CB to this unit call it instead of adding a timed CB buff
     function<void(double)> receiveCB = nullptr;
+    // called after another source puts CB straight onto this character (battle-start CB, Pearl extra turn, EMC grant) · Evanescia Talent: CB -> Energy
+    function<void(double)> onGainCB = nullptr;
     #pragma endregion
     #pragma region Build
     FuncClass charSetup;

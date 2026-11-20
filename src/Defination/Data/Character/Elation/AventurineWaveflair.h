@@ -320,7 +320,9 @@ namespace AventurineWaveflair{
             if(isBuffEnd(ptr,"AvWF Ult"))buffSingle(ptr,{{Stats::SPD_P,AType::NONE,-30}});
             for(auto itr = ownCB->begin(); itr != ownCB->end(); ){
                 if(!isBuffEnd(ptr,itr->first)){ itr++; continue; }
+                cbEndingDepth++;
                 buffSingle(ptr,{{Stats::CERTIFIED_BANGER,AType::NONE,-itr->second}});
+                cbEndingDepth--;
                 itr = ownCB->erase(itr);
             }
         }));

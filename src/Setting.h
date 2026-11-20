@@ -93,6 +93,9 @@ int cbDuration = 2; // Certified Banger duration (turns) · Yao Guang A6 +1
 double repellency = 0; // team Repellency pool · decreaseBlock() spends it on hits against allies with Stats::BLOCK (Pearl Talent)
 double ahaExtraFlatSpeed = 0; // flat SPD added to Aha on top of the Elation-SPD formula · Aventurine Waveflair A4 (solo)
 deque<tuple<string,int, double>> cbCheck;
+// Certified Banger change context for Evanescia A2 / A6 (user 2026-11-12) - read in statsAdjust on CERTIFIED_BANGER
+int cbEndingDepth = 0;  // > 0: the CB being removed now has ended (expired / extra turn over) -> A6
+int cbNoGainDepth = 0;  // > 0: the CB being added now is a transfer, not a new gain (Pearl pool move, Pearl Innate keep) -> not A2
 
 //Aeon Aha
 CharUnit *aeonAha = nullptr; // set by AeonAha::setup when she is in the team
@@ -102,6 +105,11 @@ bool ownAeonAha = false;
 constexpr double AEON_AHA_BASE_SPD = 94;
 bool ahaAscension = false; // Aeon Aha "Faces of Elation" active -> Elation characters' Innate Traces on
 bool ahaAscensionE2 = false; // Aeon Aha E2: Innate Traces use the E2 values
+// temporary Punchline (Pearl's extra-turn grant): Aeon Aha's Talent (reach 40) does not count it (user 2026-11-11)
+int tempPunchline = 0;          // temporary Punchline still in the pool
+int tempPunchlineIncoming = 0;  // set while a temporary grant is being added
+function<void(int)> ahaRealPunchlineGain = nullptr; // Talent check for Punchline that turns real later (Pearl Innate keep)
+// Aeon Aha True DMG: each ally's part of the tally is credited to that ally's damage record (user 2026-11-12) · team total is the same
 double ahaTrueDmgOverride = -1; // EMC Innate Trace: base DMG for Aeon Aha's next Elation Skill True DMG (-1 = off, use the Aha Instant tally)
 vector<TriggerByYourSelfFunc> ahaAscensionStartList; // called when Faces of Elation starts (not on refresh)
 vector<TriggerByYourSelfFunc> ahaAscensionEndList; // called when Faces of Elation ends

@@ -18,6 +18,21 @@ void calDamageNote(act, Enemy* src, Enemy* recv, double damage, double ratio, st
 - ไม่ลด toughness · ไม่สร้าง energy · ไม่ยิง `afterDealingDamageList` ซ้ำ (ไม่ recursion) ✔
 - ทั้งหมดนี้สรุปได้ด้วยประโยคเดียวของ wiki: True DMG **"ไม่ถือเป็นการโจมตี" (not considered an attack)**
 
+### กฎ: True DMG นับเป็นบัฟประเภทหนึ่ง → เครดิตให้เจ้าของดาเมจที่ถูกอ้างอิง (user 2026-11-12)
+
+True DMG ที่คิดจากดาเมจของคนอื่น **ไม่ใช่ดาเมจของตัวที่ให้ True DMG** — ให้มองเป็นบัฟที่เพิ่มดาเมจให้คนนั้น ดังนั้นยอดต้องบันทึกเข้าสมุดของ **ตัวละครที่ดาเมจถูกนำมาคิด** (`act->getChar()` ของ `act` ที่ส่งเข้า `calDamageNote`)
+
+| ตัวละคร | ส่ง `act` ของใคร | ยอดไปอยู่กับ |
+|---|---|---|
+| Cipher (`Cipher.h:195-213`) | `act` ของการโจมตีที่ถูกนับ | คนที่ทำดาเมจนั้น |
+| RMC Mem's Support (`RMC.h:152`) | `act` ของการโจมตีที่ถูกนับ | คนที่ทำดาเมจนั้น |
+| Tribbie E1 (`Tribbie.h:203`) | `act` ของการโจมตีที่ถูกนับ | คนที่ทำดาเมจนั้น |
+| Aeon Aha (Nihilux) Elation Skill (`AeonAha.h` `tallyBy`) | แยก tally ตาม `act->attacker` แล้วสร้าง `AllyAttackAction` ชื่อ `"AeonAha True DMG"` ของแต่ละคน | แต่ละคนตามสัดส่วนดาเมจที่ตัวเองทำในช่วงเวลา Aha · ส่วนที่มาจากดาเมจของ Nihilux เองอยู่กับ Nihilux |
+
+- ตัวละครใหม่ที่ทำ True DMG จาก tally ของหลายคน ต้องแยก tally ตามผู้โจมตีแบบ Aeon Aha · ห้ามรวมยอดแล้วลงชื่อตัวเอง
+- ยอดรวมทีมไม่เปลี่ยน แต่ค่า DMG/ATV ที่รายงานอาจขยับเล็กน้อย เพราะจุดเก็บค่าเฉลี่ย (`calAverageDamage`) เป็นของแต่ละคน
+- ข้อยกเว้น: ฐานดาเมจที่ไม่ได้มาจากดาเมจของใคร (เช่น `ahaTrueDmgOverride` ของ EMC Innate) ยังลงชื่อตัวที่ให้ True DMG
+
 > ⚠️ True DMG งอกได้จากดาเมจ **ทุกชนิด** — non-crit, crit, **DoT, Break, Super Break** (Game8) · note ก้อนนั้นตกลงสมุดเล่มไหนก็ตาม `act->toughnessAvgCalculate` ของการโจมตีแม่ → ดูในไฟล์นี้ และ [🐞 #16](../../BUGS.md)
 
 **แหล่งอ้างอิงนอก:** [Fandom — True DMG](https://honkai-star-rail.fandom.com/wiki/True_DMG) · [Game8 — Remembrance Trailblazer](https://game8.co/games/Honkai-Star-Rail/archives/486082)

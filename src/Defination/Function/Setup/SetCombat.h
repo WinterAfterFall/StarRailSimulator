@@ -12,8 +12,10 @@ void setup(){
     sort(afterTurnList.begin(), afterTurnList.end(), TriggerFunc::triggerCmp);
     sort(ultimateList.begin(), ultimateList.end(), TriggerFunc::triggerCmp);
     // Elation Skills go by Participant ID, lowest first (not the usual higher-priority-first)
+    // ID 0 (ignores Participant ID, e.g. Aeon Aha) always goes last (user 2026-11-12)
     sort(elationSkillList.begin(), elationSkillList.end(), [](const TriggerFunc& l, const TriggerFunc& r) {
-        return l.priority < r.priority;
+        auto key = [](int p) { return (p==0) ? INT_MAX : p; };
+        return key(l.priority) < key(r.priority);
     });
     sort(beforeAhaInstantList.begin(), beforeAhaInstantList.end(), TriggerFunc::triggerCmp);
     sort(afterAhaInstantList.begin(), afterAhaInstantList.end(), TriggerFunc::triggerCmp);
@@ -118,7 +120,10 @@ void reset(){
         Path temp = Path::ELATION;
         ahaSpeedAdjust(temp);
         for(auto &each : charList){
-            if(each->path == Path::ELATION)buffSingle(each,{{Stats::CERTIFIED_BANGER,AType::NONE,20}},"CB Buff",2);
+            if(each->path == Path::ELATION){
+                buffSingle(each,{{Stats::CERTIFIED_BANGER,AType::NONE,20}},"CB Buff",2);
+                if(each->onGainCB)each->onGainCB(20);
+            }
         }
     }
 }

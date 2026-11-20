@@ -17,7 +17,7 @@
 //   Faces of Elation = global ahaAscension (+ ahaAscensionE2) · Party Trick / Bliss = CB / Punchline gained while it is on
 //   the Innate Traces live in each Elation character's own file
 namespace AeonAha{
-    constexpr int PARTICIPANT_ID = 1000; // highest -> always last in the Aha Instant (elationSkillList runs lowest ID first)
+    constexpr int PARTICIPANT_ID = 0; // in-game ID 0: ignores Participant ID, always last in the Aha Instant (SetCombat sorts ID 0 after every other ID)
     const string EMANATOR = "AeonAha Emanator";
 
     void setup(int eidolon,function<void(CharUnit *ptr)> lc,function<void(CharUnit *ptr)> Relic,function<void(CharUnit *ptr)> Planar){
@@ -51,9 +51,10 @@ namespace AeonAha{
         function<void(CharUnit*)> setEmanator = [ptr](CharUnit *target) {
             AllyUnit *old = ptr->getBuffSubUnitTarget(EMANATOR);
             if(old==target)return;
-            if(old)buffSingle(old,{{Stats::ELATION,AType::NONE,-20}});
+            double ela = 20;
+            if(old)buffSingle(old,{{Stats::ELATION,AType::NONE,-ela}});
             ptr->setBuffSubUnitTarget(EMANATOR,target);
-            if(target)buffSingle(target,{{Stats::ELATION,AType::NONE,20}});
+            if(target)buffSingle(target,{{Stats::ELATION,AType::NONE,ela}});
         };
 
         // E4: her Elation DMG also counts 100% of the teammates' total CB -> CB on her ELATION_DMG axis while her hit lands
@@ -73,11 +74,11 @@ namespace AeonAha{
 
         // Faces of Elation: 3 turns (counted down at the start of her turn) · self CR +12% / DEF ignore 30% (E2 20% / 60%)
         // starting it again only refreshes the duration
+        // "AeonAha Faces On" = her own side of Faces · ahaAscension = the team side
         function<void()> startFaces = [ptr]() {
             ptr->setBuffNote("AeonAha Faces Turns",3);
-            if(ahaAscension)return;
-            ahaAscension = true;
-            ahaAscensionE2 = ptr->eidolon>=2;
+            if(ptr->getBuffCheck("AeonAha Faces On"))return;
+            ptr->setBuffCheck("AeonAha Faces On",1);
             double cr = (ptr->eidolon>=2) ? 20 : 12;
             double shred = (ptr->eidolon>=2) ? 60 : 30;
             buffSingle(ptr,{
@@ -86,20 +87,25 @@ namespace AeonAha{
             });
             ptr->setBuffNote("AeonAha Faces CR",cr);
             ptr->setBuffNote("AeonAha Faces Shred",shred);
+            ahaAscension = true;
+            ahaAscensionE2 = ptr->eidolon>=2;
             for(TriggerByYourSelfFunc &e : ahaAscensionStartList)e.call(e.owner);
         };
 
         function<void()> endFaces = [ptr]() {
-            if(!ahaAscension)return;
-            ahaAscension = false;
+            if(!ptr->getBuffCheck("AeonAha Faces On"))return;
+            ptr->setBuffCheck("AeonAha Faces On",0);
             buffSingle(ptr,{
                 {Stats::CR,AType::NONE,-ptr->getBuffNote("AeonAha Faces CR")},
                 {Stats::DEF_SHRED,AType::NONE,-ptr->getBuffNote("AeonAha Faces Shred")}
             });
             ptr->setBuffNote("AeonAha Faces CR",0);
             ptr->setBuffNote("AeonAha Faces Shred",0);
-            for(TriggerByYourSelfFunc &e : ahaAscensionEndList)e.call(e.owner);
-            ahaAscensionE2 = false; // after the end hooks, they may still read it
+            if(ahaAscension){
+                ahaAscension = false;
+                for(TriggerByYourSelfFunc &e : ahaAscensionEndList)e.call(e.owner);
+                ahaAscensionE2 = false; // after the end hooks, they may still read it
+            }
             CharCmd::printUltEnd("Aeon Aha");
         };
 
@@ -217,20 +223,25 @@ namespace AeonAha{
         //   + True DMG = 20% (E4 25%) of all non-True DMG allies dealt in this Aha Instant, split equally among enemies
         //   cast outside an Aha Instant (e.g. EMC Ult) -> only this cast's own DMG is counted
         //   EMC Innate Trace: ahaTrueDmgOverride replaces the tally once
-        elationSkillList.push_back(TriggerByYourSelfFunc(PARTICIPANT_ID, ptr, [gainWishpower](CharUnit *ptr) {
+        // per-attacker part of the tally (True DMG credited to whoever dealt that part)
+        shared_ptr<map<AllyUnit*,double>> tallyBy = make_shared<map<AllyUnit*,double>>();
+        elationSkillList.push_back(TriggerByYourSelfFunc(PARTICIPANT_ID, ptr, [gainWishpower,tallyBy](CharUnit *ptr) {
             bool outside = !ptr->getBuffCheck("AeonAha In Aha");
             if(outside){
                 ptr->setBuffNote("AeonAha Tally",0);
+                tallyBy->clear();
                 ptr->setBuffCheck("AeonAha Tally On",1);
             }
             shared_ptr<AllyAttackAction> act =
             make_shared<AllyAttackAction>(AType::ELATION_SKILL,ptr,TraceType::AOE,"AeonAha Elation Skill",
-            [ptr,outside,gainWishpower](shared_ptr<AllyAttackAction> &act){
+            [ptr,outside,gainWishpower,tallyBy](shared_ptr<AllyAttackAction> &act){
                 attack(act);
                 gainWishpower(1);
 
                 double base = ptr->getBuffNote("AeonAha Tally");
+                bool split = base>0;
                 if(ahaTrueDmgOverride>=0){
+                    split = false;
                     base = ahaTrueDmgOverride;
                     ahaTrueDmgOverride = -1;
                 }
@@ -241,9 +252,25 @@ namespace AeonAha{
                 for(int i = 1; i <= totalEnemy; i++){
                     if(enemyUnit[i]->isTargetable())targets.push_back(enemyUnit[i].get());
                 }
-                for(Enemy *each : targets){
-                    calDamageNote(act,each,each,base,ratio/targets.size(),"AeonAha True DMG");
+                if(!split){
+                    for(Enemy *each : targets){
+                        calDamageNote(act,each,each,base,ratio/targets.size(),"AeonAha True DMG");
+                    }
+                }else{
+                    // each ally's part of the tally -> that ally's own damage record (same total)
+                    for(auto &part : *tallyBy){
+                        if(part.second<=0)continue;
+                        shared_ptr<AllyAttackAction> share = act;
+                        if(part.first!=act->attacker){
+                            share = make_shared<AllyAttackAction>(AType::ELATION_SKILL,part.first,TraceType::AOE,"AeonAha True DMG");
+                            share->toughnessAvgCalculate = act->toughnessAvgCalculate;
+                        }
+                        for(Enemy *each : targets){
+                            calDamageNote(share,each,each,part.second,ratio/targets.size(),"AeonAha True DMG");
+                        }
+                    }
                 }
+                tallyBy->clear();
             });
             act->addDamageIns(
                 DmgSrc(DmgSrcType::ELATION,60,10),
@@ -254,15 +281,17 @@ namespace AeonAha{
         }));
 
         // True DMG tally: every DMG an ally deals while recording (True DMG goes through calDamageNote only -> never counted)
-        afterDealingDamageList.push_back(TriggerAfterDealDamage(PRIORITY_IMMEDIATELY, [ptr]
+        afterDealingDamageList.push_back(TriggerAfterDealDamage(PRIORITY_IMMEDIATELY, [ptr,tallyBy]
             (shared_ptr<AllyAttackAction> &act,Enemy *target,double damage) {
                 if(!ptr->getBuffCheck("AeonAha Tally On"))return;
                 ptr->buffNote["AeonAha Tally"] += damage;
+                (*tallyBy)[act->attacker] += damage;
         }));
 
-        beforeAhaInstantList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [](CharUnit *ptr) {
+        beforeAhaInstantList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [tallyBy](CharUnit *ptr) {
             ptr->setBuffCheck("AeonAha In Aha",1);
             ptr->setBuffNote("AeonAha Tally",0);
+            tallyBy->clear();
             ptr->setBuffCheck("AeonAha Tally On",1);
         }));
 
@@ -279,13 +308,21 @@ namespace AeonAha{
         }));
 
         // Talent: first time Punchline reaches 40 -> Wishpower +1 · all allies CD +40% 3 turns (again after Aha's turn)
-        punchLineList.push_back(TriggerSkillPointFunc(PRIORITY_IMMEDIATELY, [ptr,gainWishpower](AllyUnit *spMaker, int spChange) {
-            if(spChange<=0||ptr->getBuffCheck("AeonAha Talent Used"))return;
-            if(punchline + spChange<40)return; // the event fires before Punchline changes
+        //   temporary Punchline (Pearl's extra-turn grant) does not count · the part Pearl's Innate Trace keeps does
+        function<void(int,int)> talentCheck = [ptr,gainWishpower](int realBefore,int realGain) {
+            if(realGain<=0||ptr->getBuffCheck("AeonAha Talent Used"))return;
+            if(max(0,realBefore) + realGain<40)return;
             ptr->setBuffCheck("AeonAha Talent Used",1);
             gainWishpower(1);
             buffAllAlly({{Stats::CD,AType::NONE,40}},"AeonAha Talent",3);
+        };
+        punchLineList.push_back(TriggerSkillPointFunc(PRIORITY_IMMEDIATELY, [talentCheck](AllyUnit *spMaker, int spChange) {
+            // the event fires before Punchline changes
+            talentCheck(punchline - tempPunchline, spChange - tempPunchlineIncoming);
         }));
+        ahaRealPunchlineGain = [talentCheck](int gain) {
+            talentCheck(punchline - tempPunchline - gain, gain); // the kept part is already in the pool
+        };
 
         // Skill: Emanator's turn starts -> Wishpower +1 · her own turn starts -> Faces counts down
         beforeTurnList.push_back(TriggerByYourSelfFunc(PRIORITY_IMMEDIATELY, ptr, [gainWishpower,endFaces](CharUnit *ptr) {
@@ -293,7 +330,7 @@ namespace AeonAha{
             if(!ally)return;
             AllyUnit *em = ptr->getBuffSubUnitTarget(EMANATOR);
             if(em&&ally==em)gainWishpower(1);
-            if(ally==ptr&&ahaAscension){
+            if(ally==ptr&&ptr->getBuffCheck("AeonAha Faces On")){
                 ptr->buffNote["AeonAha Faces Turns"] -= 1;
                 if(ptr->getBuffNote("AeonAha Faces Turns")<=0)endFaces();
             }
@@ -336,6 +373,9 @@ namespace AeonAha{
             ahaAscension = false;
             ahaAscensionE2 = false;
             ahaTrueDmgOverride = -1;
+            ptr->setBuffCheck("AeonAha Faces On",0);
+            tempPunchline = 0;
+            tempPunchlineIncoming = 0;
             ptr->atvStats->flatSpeed += 5;
             ptr->statsType[Stats::CR][AType::NONE] += 12;
             ptr->statsType[Stats::CD][AType::NONE] += 37.3;

@@ -87,7 +87,9 @@ void allEventAfterTurn(){
         for (auto &each : cbCheck) {
             if (isBuffEnd(ally, std::get<0>(each))) {
                 std::get<1>(each)--;
+                cbEndingDepth++;
                 buffSingle(ally, {{Stats::CERTIFIED_BANGER, AType::NONE, -1.0 * std::get<2>(each)}});
+                cbEndingDepth--;
             }
         }
 

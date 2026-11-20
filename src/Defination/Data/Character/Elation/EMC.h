@@ -47,6 +47,7 @@ namespace EMC{
             string name = "EMC CB " + to_string((int)ptr->getBuffNote("EMC CB Id"));
             buffSingle(holder,{{Stats::CERTIFIED_BANGER,AType::NONE,value}},name,cbDuration);
             grantedCB->push_back({holder,name,value});
+            if(holder->owner&&holder->owner->onGainCB)holder->owner->onGainCB(value);
         };
 
         // Talent: after an attack -> fixed 10 Energy + 3 Punchline
@@ -250,7 +251,9 @@ namespace EMC{
             if(isBuffEnd(ally,"EMC E6"))buffSingle(ally,{{Stats::CD,AType::NONE,-100}});
             for(auto itr = grantedCB->begin(); itr != grantedCB->end(); ){
                 if(itr->holder!=ally||!isBuffEnd(ally,itr->name)){ itr++; continue; }
+                cbEndingDepth++;
                 buffSingle(ally,{{Stats::CERTIFIED_BANGER,AType::NONE,-itr->value}});
+                cbEndingDepth--;
                 itr = grantedCB->erase(itr);
             }
         }));

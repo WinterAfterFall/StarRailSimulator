@@ -206,19 +206,29 @@ namespace Pearl{
             double cb = ptr->getBuffNote("Pearl Extra CB");
             int pl = (int)ptr->getBuffNote("Pearl Extra PL");
             if(owner){
-                buffSingle(owner,{{Stats::CERTIFIED_BANGER,AType::NONE,-cb}});
                 double kept = cb*keep;
+                // the part that is not kept ends (Evanescia A6) · the kept part is removed and re-added as "Pearl Innate CB" (not an end, not a gain)
+                cbEndingDepth++;
+                buffSingle(owner,{{Stats::CERTIFIED_BANGER,AType::NONE,-(cb - kept)}});
+                cbEndingDepth--;
+                if(kept>0)buffSingle(owner,{{Stats::CERTIFIED_BANGER,AType::NONE,-kept}});
                 if(kept>0){
                     if(owner->getBuffCheck("Pearl Innate CB")){
+                        cbEndingDepth++;
                         buffSingle(owner,{{Stats::CERTIFIED_BANGER,AType::NONE,-owner->getBuffNote("Pearl Innate CB")}});
+                        cbEndingDepth--;
                         owner->buffCheck["Pearl Innate CB"] = 0;
                     }
+                    cbNoGainDepth++;
                     buffSingle(owner,{{Stats::CERTIFIED_BANGER,AType::NONE,kept}},"Pearl Innate CB",cbDuration);
+                    cbNoGainDepth--;
                     owner->setBuffNote("Pearl Innate CB",kept);
                 }
             }
             int removePL = pl - (int)floor(pl*keep);
             genPunchLine(nullptr,-min(removePL,punchline));
+            tempPunchline = max(0,tempPunchline - pl);
+            if(pl - removePL>0&&ahaRealPunchlineGain)ahaRealPunchlineGain(pl - removePL); // the kept part now counts as real
         };
 
         ultimateList.push_back(TriggerByYourSelfFunc(PRIORITY_BUFF, ptr, [gainCB,startDeepLearning,extraLast,removeExtra](CharUnit *ptr) {
@@ -246,7 +256,11 @@ namespace Pearl{
                 double cb = (ptr->eidolon>=2) ? 60 : 30;
                 int pl = (ptr->eidolon>=2) ? 120 : 60;
                 buffSingle(target,{{Stats::CERTIFIED_BANGER,AType::NONE,cb}});
+                if(target->onGainCB)target->onGainCB(cb);
+                tempPunchlineIncoming = pl;
                 genPunchLine(target,pl);
+                tempPunchlineIncoming = 0;
+                tempPunchline += pl;
                 ptr->setBuffNote("Pearl Extra CB",cb);
                 ptr->setBuffNote("Pearl Extra PL",pl);
 
@@ -293,7 +307,9 @@ namespace Pearl{
             AllyUnit *ally = turn->canCastToAllyUnit();
             if(!ally)return;
             if(isBuffEnd(ally,"Pearl Innate CB")){
+                cbEndingDepth++;
                 buffSingle(ally,{{Stats::CERTIFIED_BANGER,AType::NONE,-ally->getBuffNote("Pearl Innate CB")}});
+                cbEndingDepth--;
                 ally->setBuffNote("Pearl Innate CB",0);
             }
         }));
@@ -357,11 +373,13 @@ namespace Pearl{
             string name = std::get<0>(entry);
             if(!ptr->getBuffCheck(name))return;
             double pl = std::get<2>(entry);
+            cbNoGainDepth++; // moving the Aha CB into the pool: not a new gain (it was counted when the Aha CB came)
             buffSingle(ptr,{{Stats::CERTIFIED_BANGER,AType::NONE,-pl}});
             ptr->buffCheck[name] = 0;
             ptr->buffEnd[name] = 0;
             std::get<1>(entry)--;
             gainCB(pl);
+            cbNoGainDepth--;
         }));
 
         // A4: at the start of each ally's turn +5 CB (at most 50 per Pearl-turn cycle, resets at Pearl's turn)
