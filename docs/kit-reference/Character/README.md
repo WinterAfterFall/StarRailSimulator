@@ -16,6 +16,7 @@ ground-truth เวลาเทียบกับโค้ด implementation ใ
 - prydwen.gg/star-rail/characters/&lt;name&gt; (kit tab) — patch อ้างอิงส่วนใหญ่ ~3.x–4.x (review/calc date ระบุในแต่ละไฟล์)
 - ทุกไฟล์ระบุ URL + patch ที่ prydwen review/calc ล่าสุดไว้ท้ายไฟล์
 - **ยกเว้นโฟลเดอร์ `Elation/`** — ทั้ง 7 ไฟล์ (sparxie, yao-guang, pearl, evanescia, silver-wolf-lv-999, aventurine-waveflair, trailblazer-elation) เขียนใหม่จาก **hsr.nanoka.cc (game data 4.5.54, snapshot 2026-09-28)** ในรูปแบบย่อ: ตาราง ability + ตารางตัวเลขทุกเลเวล + traces + eidolons ส่วน `pearl.md` เป็นตัวใหม่ (ยังไม่มีโค้ด) — และ `Remembrance/robin-summeretto.md` ก็เขียนใหม่ในรูปแบบเดียวกัน
+- **`Nihility/blade-mortenax.md`** — เขียนจากหน้า beta ของ **hsr.gachabase.net (ID 1507)** ที่ user วางให้ 2026-11-20 รูปแบบเดียวกับ `Elation/` แต่มีแค่ตัวเลขที่เลเวล sim (ไม่มีตารางทุกเลเวล)
 
 ## Codename / เวอร์ชัน — สรุป
 | ไฟล์โค้ด | ตัวจริงในเกม |
@@ -31,7 +32,7 @@ ground-truth เวลาเทียบกับโค้ด implementation ใ
 | `Destruction/Saber.h` / `The Hunt/Archer.h` | **Saber (Artoria) / Archer (EMIYA)** — Fate/stay night collab |
 | `Harmony/HanabiV1.h`, `Nihility/Black SwanV1.h` | เวอร์ชัน implement เก่า — **ข้าม** (ใช้ไฟล์ตัวจริงแทน) |
 
-## สถานะ — ✅ ครบ 40/40
+## สถานะ — ✅ ครบ 41/41
 
 | ไฟล์โค้ด | ตัวละคร (เกม) | ธาตุ / Path | README |
 |---|---|---|---|
@@ -65,6 +66,7 @@ ground-truth เวลาเทียบกับโค้ด implementation ใ
 | `Nihility/Fugue.h` | Tingyun • Fugue | Fire / Nihility | ✅ |
 | `Nihility/Guinaifen.h` | Guinaifen | Fire / Nihility | ✅ |
 | `Nihility/Hysilens.h` | Hysilens (Helektra) | Physical / Nihility | ✅ |
+| `Nihility/MortenaxBlade.h` | Mortenax Blade (beta) | Fire / Nihility | ✅ |
 | `Nihility/Kafka.h` | Kafka | Lightning / Nihility | ✅ |
 | `Nihility/Luka.h` | Luka | Physical / Nihility | ✅ |
 | `Nihility/Pela.h` | Pela | Ice / Nihility | ✅ |

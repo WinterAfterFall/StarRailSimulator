@@ -22,7 +22,7 @@
 | 14 | **Rin Tohsaka** | **ไม่มี** | **ไม่มี** | collab (ชุดเดียวกับ Saber) ต้อง research |
 | 15 | **Gilgamesh** | **ไม่มี** | **ไม่มี** | collab ต้อง research |
 | 16 | **Blade** | **ไม่มี** | **ไม่มี** | ต้อง research |
-| 17 | **Mortenax Blade** | **ไม่มี** | **ไม่มี** | เวอร์ชัน rework/alt ของ Blade ต้อง research |
+| 17 | **Mortenax Blade** | มี (`Nihility/MortenaxBlade.h`) | มี (`Nihility/blade-mortenax.md`, beta) | ทำแล้ว 2026-11-20 จากข้อมูล beta gachabase ID 1507 |
 | 18 | **Feixiao** | **ไม่มี** | **ไม่มี** | ต้อง research |
 | 19 | **Fu Xuan** | **ไม่มี** | **ไม่มี** | Preservation ต้อง research |
 | 20 | **Jingliu** | **ไม่มี** | **ไม่มี** | Destruction ต้อง research |
